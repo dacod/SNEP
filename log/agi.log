@@ -1,0 +1,1058 @@
+2009-06-09T15:06:24-03:00 - 1000 -> 8040 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-09T15:06:24-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(50): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(129): PBX_Rule_Action_DiscarRamal->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(156): PBX_Rules::get('1')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi2/snep.php(151): PBX_Dialplan->parse()
+#5 {main}
+2009-06-09T15:06:25-03:00 - 1000 -> 8040 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-09T15:06:25-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(50): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(129): PBX_Rule_Action_DiscarRamal->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(156): PBX_Rules::get('1')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi2/snep.php(151): PBX_Dialplan->parse()
+#5 {main}
+2009-06-09T16:20:24-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 0-PBX_Rule_Action_DiscarRamal da regra 1-
+2009-06-09T16:20:24-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Db_Statement_Exception' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'snep25.usuarios' doesn't exist' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement/Pdo.php:238
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement.php(283): Zend_Db_Statement_Pdo->_execute(Array)
+#1 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Abstract.php(464): Zend_Db_Statement->execute(Array)
+#2 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Pdo/Abstract.php(232): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Usuarios.php(37): Zend_Db_Adapter_Pdo_Abstract->query(Object(Zend_Db_Select))
+#4 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(181): PBX_Usuarios::get('8040')
+#5 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(280): PBX_Rule_Action_DiscarRamal->execute(Object(PhpAgi_Simulation), Object(Asterisk_AGI_Request))
+#6 /home/guaxinim/OpenS/snep2.5/agi2/snep.php(171): PBX_Rule->execute()
+#7 {main}
+2009-06-09T17:22:51-03:00 - 8040 -> 1001 CRIT (2):Problema ao processar acao 0-PBX_Rule_Action_DiscarRamal da regra 1-
+2009-06-09T17:22:51-03:00 - 8040 -> 1001 CRIT (2):exception 'Exception' with message 'Tipo errado Snep_Ramal::__construct() espera uma instancia da classe abstrata PBX_Asterisk_Interface' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Ramal.php:48
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Usuarios.php(58): Snep_Ramal->__construct('1001', '1001', 'ramal khomp <10...', NULL)
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(181): PBX_Usuarios::get('1001')
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(273): PBX_Rule_Action_DiscarRamal->execute(Object(PhpAgi_Simulation), Object(Asterisk_AGI_Request))
+#3 /home/guaxinim/OpenS/snep2.5/agi2/snep.php(171): PBX_Rule->execute()
+#4 {main}
+2009-06-10T15:04:14-03:00 - 1000 -> 8040 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:04:14-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(25): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(130): PBX_Rule_Action_DiscarTronco->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(157): PBX_Rules::get('2')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#5 {main}
+2009-06-10T15:04:26-03:00 - 1000 -> 8040 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:04:26-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(25): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(130): PBX_Rule_Action_DiscarTronco->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(157): PBX_Rules::get('2')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#5 {main}
+2009-06-10T15:04:48-03:00 - 1000 -> 1001 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:04:48-03:00 - 1000 -> 1001 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(25): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(130): PBX_Rule_Action_DiscarTronco->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(157): PBX_Rules::get('2')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#5 {main}
+2009-06-10T15:05:59-03:00 - 1000 -> 8040 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:05:59-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(25): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(130): PBX_Rule_Action_DiscarTronco->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(157): PBX_Rules::get('2')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#5 {main}
+2009-06-10T15:06:04-03:00 - 1000 -> 1001 CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:06:04-03:00 - 1000 -> 1001 CRIT (2):exception 'Zend_Exception' with message 'No entry is registered for key 'path'' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Registry.php:147
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(25): Zend_Registry::get('path')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(130): PBX_Rule_Action_DiscarTronco->__construct()
+#2 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(157): PBX_Rules::get('2')
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#4 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#5 {main}
+2009-06-10T15:07:02-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 0-PBX_Rule_Action_DiscarTronco da regra 2-
+2009-06-10T15:07:02-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Db_Statement_Exception' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement/Pdo.php:238
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement.php(283): Zend_Db_Statement_Pdo->_execute(Array)
+#1 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Abstract.php(464): Zend_Db_Statement->execute(Array)
+#2 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Pdo/Abstract.php(232): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php(57): Zend_Db_Adapter_Pdo_Abstract->query(Object(Zend_Db_Select))
+#4 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(114): PBX_Trunks::get(NULL)
+#5 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(273): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#6 /home/guaxinim/OpenS/snep2.5/agi/snep.php(170): PBX_Rule->execute()
+#7 {main}
+2009-06-10T15:07:42-03:00 - 1000 -> 1001 WARN (4):CHANUNAVAIL ao discar para o ramal 1001
+2009-06-10T15:09:29-03:00 - 1000 -> 1000 WARN (4):CHANUNAVAIL ao discar para o ramal 1000
+2009-06-10T15:09:39-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 0-PBX_Rule_Action_DiscarTronco da regra 2-
+2009-06-10T15:09:39-03:00 - 1000 -> 8040 CRIT (2):exception 'Zend_Db_Statement_Exception' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement/Pdo.php:238
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement.php(283): Zend_Db_Statement_Pdo->_execute(Array)
+#1 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Abstract.php(464): Zend_Db_Statement->execute(Array)
+#2 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Pdo/Abstract.php(232): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php(57): Zend_Db_Adapter_Pdo_Abstract->query(Object(Zend_Db_Select))
+#4 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(114): PBX_Trunks::get(NULL)
+#5 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(273): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#6 /home/guaxinim/OpenS/snep2.5/agi/snep.php(170): PBX_Rule->execute()
+#7 {main}
+2009-06-10T15:16:13-03:00 - 1000 -> 1001 WARN (4):CHANUNAVAIL ao discar para o ramal 1001
+2009-06-10T15:19:41-03:00 - 8037 -> s CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-10T15:19:41-03:00 - 8037 -> s CRIT (2):exception 'PBX_Exception_BadArg' with message 'Tipo de expressao invalido 's' para checagem de origem/destino, cheque a regra de negocio ' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php:212
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(399): PBX_Rule->checkExpr('s', '', 's')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(59): PBX_Rule->isValidDst('s')
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#3 {main}
+2009-06-15T10:19:05-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:42:50-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:43:32-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:44:18-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:44:33-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:44:56-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:45:14-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco 8037
+2009-06-15T15:47:01-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 0-PBX_Rule_Action_DiscarTronco da regra 2-
+2009-06-15T15:47:01-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 3 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(134): PBX_Trunks::get('3')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(273): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(170): PBX_Rule->execute()
+#3 {main}
+2009-06-16T11:48:00-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6901f30) para s
+2009-06-16T11:48:00-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:48:00-03:00 - 8037 -> s INFO (6):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:48:00-03:00 - 8037 -> s DEBUG (7):Definindo centro de custos para 1.
+2009-06-16T11:48:00-03:00 - 8037 -> s INFO (6):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:48:03-03:00 - 8037 -> s DEBUG (7):Resultado: Array
+2009-06-16T11:48:03-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:49:20-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6901e10) para s
+2009-06-16T11:49:20-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:49:20-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:49:20-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:49:20-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:49:22-03:00 - 8037 -> s DEBUG (7):Resultado: Array
+2009-06-16T11:49:22-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:49:36-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6903930) para s
+2009-06-16T11:49:36-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:49:36-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:49:36-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:49:36-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:49:38-03:00 - 8037 -> s DEBUG (7):Resultado: 200
+2009-06-16T11:49:38-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:49:47-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6900478) para s
+2009-06-16T11:49:47-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:49:47-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:49:47-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:49:47-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:49:48-03:00 - 8037 -> s DEBUG (7):Resultado: -1
+2009-06-16T11:49:48-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:50:56-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6900478) para s
+2009-06-16T11:50:56-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:50:56-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:50:56-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:50:56-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:06-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:51:17-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b69318f0) para s
+2009-06-16T11:51:17-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:51:17-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:51:17-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:51:17-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:18-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:18-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:51:22-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b69318f0) para s
+2009-06-16T11:51:22-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:51:22-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:51:22-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:51:22-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:26-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:26-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T11:51:34-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b69318f0) para s
+2009-06-16T11:51:34-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T11:51:34-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T11:51:34-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T11:51:34-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:37-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_Queue
+2009-06-16T11:51:37-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T13:48:32-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6904be0) para s
+2009-06-16T13:48:32-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T13:48:32-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T13:48:32-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T13:48:32-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T13:48:43-03:00 - 8037 -> s DEBUG (7):Executando acao 2-PBX_Rule_Action_GoContext
+2009-06-16T13:48:43-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-16T13:57:55-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6900478) para s
+2009-06-16T13:57:55-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T13:57:55-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T13:57:55-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T13:57:55-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T13:58:17-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6901d70) para s
+2009-06-16T13:58:17-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T13:58:17-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T13:58:17-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T13:58:17-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T13:58:46-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6900478) para s
+2009-06-16T13:58:46-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-16T13:58:46-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-16T13:58:46-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-16T13:58:46-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-16T13:58:50-03:00 - 8037 -> s DEBUG (7):Resultado do queue -1, Ligacao atendida ou cancelada.
+2009-06-16T13:58:50-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_Queue
+2009-06-16T13:58:50-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-17T15:05:22-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822acb8) para s
+2009-06-17T15:05:22-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:05:22-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:05:22-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:05:22-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_Queue
+2009-06-17T15:05:26-03:00 - 8037 -> s DEBUG (7):Resultado do queue -1, Ligacao atendida ou cancelada.
+2009-06-17T15:05:27-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_Queue
+2009-06-17T15:05:27-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-17T15:07:34-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822acb8) para s
+2009-06-17T15:07:34-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:07:34-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:07:34-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:07:34-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:07:43-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-081fc8c0) para s
+2009-06-17T15:07:43-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:07:43-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:07:43-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:07:43-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:07:53-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822f060) para s
+2009-06-17T15:07:53-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:07:53-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:07:53-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:07:53-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:09:29-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822acb8) para s
+2009-06-17T15:09:29-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:09:29-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:09:29-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:09:29-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:09:29-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-17T15:09:33-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-17T15:09:33-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:09:33-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-17T15:16:53-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822acb8) para s
+2009-06-17T15:16:53-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T15:16:53-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T15:16:53-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T15:16:53-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:16:53-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-17T15:16:56-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-17T15:16:56-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T15:16:56-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-17T16:40:07-03:00 - 1000 -> 8030 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6704750) para 8030
+2009-06-17T16:40:08-03:00 - 1000 -> 8030 INFO (6):Executando regra 1:Saidas
+2009-06-17T16:40:08-03:00 - 1000 -> 8030 INFO (6):Usuario 1000 esta com cadeado habilitado
+2009-06-17T16:40:11-03:00 - 1000 -> 8030 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-17T16:40:53-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6701ac8) para s
+2009-06-17T16:40:53-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-17T16:40:53-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T16:40:53-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-17T16:40:53-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T16:40:53-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-17T16:40:56-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-17T16:40:57-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-17T16:40:57-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-17T16:40:58-03:00 - 1000 -> 4654 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6707f48) para 4654
+2009-06-17T16:40:58-03:00 - 1000 -> 4654 INFO (6):Nenhuma regra valida para essa requisicao: No rule found for this request
+2009-06-17T16:41:02-03:00 - 1000 -> 8030 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6707bd8) para 8030
+2009-06-17T16:41:02-03:00 - 1000 -> 8030 INFO (6):Executando regra 1:Saidas
+2009-06-17T16:41:02-03:00 - 1000 -> 8030 INFO (6):Usuario 1000 esta com cadeado habilitado
+2009-06-17T16:41:03-03:00 - 1000 -> 8030 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-17T16:43:13-03:00 - 1000 -> 8030 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b67030e8) para 8030
+2009-06-17T16:43:13-03:00 - 1000 -> 8030 INFO (6):Executando regra 1:Saidas
+2009-06-17T16:43:13-03:00 - 1000 -> 8030 INFO (6):Usuario 1000 esta com cadeado habilitado
+2009-06-17T16:43:14-03:00 - 1000 -> 8030 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6701ac8) para 8030
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 INFO (6):Executando regra 1:Saidas
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 INFO (6):Definindo centro de custos para 2.
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 INFO (6):Discando para 8030 atraves do tronco 8037(SIP/8037)
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 DEBUG (7):DIALSTATUS: BUSY
+2009-06-17T16:58:27-03:00 - 1000 -> 8030 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b67030e8) para 8040
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-17T16:58:33-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037)
+2009-06-17T16:58:35-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CANCEL
+2009-06-17T16:58:35-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-18T13:37:04-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6702f98) para s
+2009-06-18T13:37:04-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T13:37:04-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T13:37:04-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T13:37:04-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:37:45-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6701718) para s
+2009-06-18T13:37:45-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T13:37:45-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T13:37:45-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T13:37:45-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:37:45-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T13:37:53-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-18T13:37:53-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:37:53-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T13:38:19-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6701718) para s
+2009-06-18T13:38:19-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T13:38:19-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T13:38:19-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T13:38:19-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:38:19-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T13:38:21-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-18T13:38:21-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:38:21-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T13:38:27-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6701718) para s
+2009-06-18T13:38:27-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T13:38:27-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T13:38:27-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T13:38:27-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:38:27-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T13:38:29-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-18T13:38:29-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T13:38:29-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T16:29:35-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b67016b8) para s
+2009-06-18T16:29:36-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T16:29:36-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T16:29:36-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T16:29:36-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:29:36-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T16:29:44-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: ANSWER
+2009-06-18T16:29:44-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:29:44-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T16:32:32-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b67016b8) para s
+2009-06-18T16:32:32-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T16:32:32-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T16:32:32-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T16:32:32-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:32:32-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T16:32:38-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: ANSWER
+2009-06-18T16:32:38-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:32:38-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T16:33:06-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b6702cd8) para s
+2009-06-18T16:33:06-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T16:33:06-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T16:33:06-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T16:33:06-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:33:06-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T16:33:16-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: ANSWER
+2009-06-18T16:33:16-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:33:16-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-18T16:34:31-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-b67016b8) para s
+2009-06-18T16:34:31-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-18T16:34:31-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-18T16:34:31-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-18T16:34:31-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:34:31-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-18T16:34:44-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: ANSWER
+2009-06-18T16:34:44-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-18T16:34:44-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:50:36-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ad00) para s
+2009-06-19T16:50:36-03:00 - 8037 -> s CRIT (2):Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico
+2009-06-19T16:50:36-03:00 - 8037 -> s CRIT (2):exception 'Zend_Db_Statement_Exception' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND peer_type='R')' at line 1' in /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement/Pdo.php:238
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Statement.php(283): Zend_Db_Statement_Pdo->_execute(Array)
+#1 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Abstract.php(464): Zend_Db_Statement->execute(Array)
+#2 /home/guaxinim/OpenS/snep2.5/lib/Zend/Db/Adapter/Pdo/Abstract.php(232): Zend_Db_Adapter_Abstract->query(Object(Zend_Db_Select), Array)
+#3 /home/guaxinim/OpenS/snep2.5/lib/Snep/Usuarios.php(37): Zend_Db_Adapter_Pdo_Abstract->query(Object(Zend_Db_Select))
+#4 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(79): PBX_Usuarios::get(NULL)
+#5 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(131): PBX_Rule_Action_DiscarRamal->setConfig(Array)
+#6 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regras.php(161): PBX_Rules::get('2')
+#7 /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php(55): PBX_Rules::getAll()
+#8 /home/guaxinim/OpenS/snep2.5/agi/snep.php(150): PBX_Dialplan->parse()
+#9 {main}
+2009-06-19T16:52:13-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ad00) para s
+2009-06-19T16:52:13-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:52:13-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:52:13-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:52:13-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:52:23-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0825ade0) para s
+2009-06-19T16:52:23-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:52:23-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:52:23-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:52:23-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:52:56-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822f3a8) para s
+2009-06-19T16:52:56-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:52:56-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:52:56-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:52:56-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:52:56-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-19T16:52:58-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-19T16:52:58-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:52:58-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:53:23-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ad00) para s
+2009-06-19T16:53:23-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:53:23-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:53:23-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:53:23-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:53:23-03:00 - 8037 -> s CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarRamal da regra 2-
+2009-06-19T16:53:23-03:00 - 8037 -> s CRIT (2):exception 'PBX_Exception_NotFound' with message 'No rule found for this request' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php:65
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(236): PBX_Dialplan->parse()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarRamal->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-06-19T16:53:23-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:53:55-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ed08) para s
+2009-06-19T16:53:55-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:53:55-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:53:55-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:53:55-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:53:55-03:00 - 8037 -> s CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarRamal da regra 2-
+2009-06-19T16:53:55-03:00 - 8037 -> s CRIT (2):exception 'PBX_Exception_NotFound' with message 'No rule found for this request' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php:65
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(236): PBX_Dialplan->parse()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarRamal->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-06-19T16:53:55-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:56:03-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822d940) para s
+2009-06-19T16:56:03-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:56:03-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:56:03-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:56:03-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:56:03-03:00 - 8037 -> s CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarRamal da regra 2-
+2009-06-19T16:56:03-03:00 - 8037 -> s CRIT (2):exception 'PBX_Exception_NotFound' with message 'No rule found for this request' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Dialplan.php:65
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarRamal.php(236): PBX_Dialplan->parse()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarRamal->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-06-19T16:56:03-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:56:21-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ad00) para s
+2009-06-19T16:56:21-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:56:21-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:56:21-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:56:21-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:56:21-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:56:21-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-19T16:56:21-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-19T16:56:21-03:00 - 8037 -> s INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037)
+2009-06-19T16:56:22-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: BUSY
+2009-06-19T16:56:22-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:56:48-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822c320) para s
+2009-06-19T16:56:48-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:56:48-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:56:48-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:56:48-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:56:48-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:56:48-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-19T16:56:48-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-19T16:56:48-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-19T16:56:52-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-19T16:56:52-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-19T16:58:35-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0822ad00) para s
+2009-06-19T16:58:35-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-19T16:58:35-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:58:35-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-19T16:58:35-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-19T16:58:35-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-19T16:58:35-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-19T16:58:35-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-19T16:58:35-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-19T16:58:47-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: ANSWER
+2009-06-19T16:58:47-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarTronco
+2009-06-19T16:58:47-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T14:30:16-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821e2b8) para s
+2009-06-22T14:30:16-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T14:30:16-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T14:30:16-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T14:30:16-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T14:30:16-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T14:30:16-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-22T14:30:16-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-22T14:30:16-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-22T14:30:19-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T14:30:19-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T14:30:19-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T14:30:19-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T14:31:40-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821a030) para s
+2009-06-22T14:31:40-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T14:31:40-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T14:31:40-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T14:31:40-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T14:31:40-03:00 - 8037 -> s INFO (6):Siga-me, tentando encontrar: 8038
+2009-06-22T14:31:40-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T14:31:40-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-22T14:31:40-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-22T14:31:41-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-22T14:31:44-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T14:31:44-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T14:31:44-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T14:31:44-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T15:16:19-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821a030) para s
+2009-06-22T15:16:19-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T15:16:19-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:16:19-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T15:16:19-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:16:19-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-22T15:16:22-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T15:16:22-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:16:22-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T15:16:34-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-082230d8) para s
+2009-06-22T15:16:42-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821ca18) para s
+2009-06-22T15:17:02-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0824e018) para s
+2009-06-22T15:17:02-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T15:17:02-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:17:02-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T15:17:02-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:17:02-03:00 - 8037 -> s INFO (6):Ramal 1000 esta com nao perturbe habilitado.
+2009-06-22T15:17:02-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T15:17:12-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-082230d8) para s
+2009-06-22T15:17:13-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T15:17:13-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:17:13-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T15:17:13-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:17:13-03:00 - 8037 -> s INFO (6):Ramal 1000 esta com nao perturbe habilitado.
+2009-06-22T15:17:13-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T15:17:28-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821ca18) para s
+2009-06-22T15:17:28-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T15:17:28-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:17:28-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T15:17:28-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:17:28-03:00 - 8037 -> s INFO (6):Discando para ramal 1000 no canal SIP/1000.
+2009-06-22T15:17:29-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T15:17:29-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:17:29-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821a030) para s
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T15:18:01-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T15:18:01-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Siga-me, tentando encontrar: 8038
+2009-06-22T15:18:01-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-22T15:18:01-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-22T15:18:01-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-22T15:18:04-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T15:18:04-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T15:18:04-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T15:18:04-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Tentativa de conexao de 8037 (SIP/8037-0821a030) para s
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Executando regra 2:Entradas
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 1.
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Siga-me, tentando encontrar: 8038
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Definindo centro de custos para 2.
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T16:23:28-03:00 - 8037 -> s DEBUG (7):DIALSTATUS: CANCEL
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarRamal
+2009-06-22T16:23:28-03:00 - 8037 -> s INFO (6):Fim de execucao da regra 2:Entradas
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803d50) para 8038
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 INFO (6):Executando regra 1:Saidas
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 INFO (6):Definindo centro de custos para 2.
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 DEBUG (7):DIALSTATUS: CANCEL
+2009-06-23T11:43:17-03:00 - 1000 -> 8038 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6800e80) para 8040
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T11:43:25-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037)
+2009-06-23T11:43:31-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: ANSWER
+2009-06-23T11:43:31-03:00 - 1000 -> 8040 INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T11:43:31-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68073b8) para 8038
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 INFO (6):Executando regra 1:Saidas
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 INFO (6):Definindo centro de custos para 2.
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T14:06:46-03:00 - 1000 -> 8038 INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-23T14:06:51-03:00 - 1000 -> 8038 DEBUG (7):DIALSTATUS: CANCEL
+2009-06-23T14:06:51-03:00 - 1000 -> 8038 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6800e80) para 8038
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 INFO (6):Executando regra 1:Saidas
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 INFO (6):Definindo centro de custos para 2.
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T14:07:03-03:00 - 1000 -> 8038 INFO (6):Discando para 8038 atraves do tronco 8037(SIP/8037)
+2009-06-23T14:07:09-03:00 - 1000 -> 8038 DEBUG (7):DIALSTATUS: CANCEL
+2009-06-23T14:07:09-03:00 - 1000 -> 8038 INFO (6):Fim de execucao da regra 1:Saidas
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6800e80) para 8046
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 INFO (6):Executando regra 1:Saidas
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 INFO (6):Definindo centro de custos para 2.
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-06-23T14:07:17-03:00 - 1000 -> 8046 INFO (6):Discando para 8046 atraves do tronco 8037(SIP/8037)
+2009-06-23T14:07:19-03:00 - 1000 -> 8046 DEBUG (7):DIALSTATUS: CANCEL
+2009-06-23T14:07:19-03:00 - 1000 -> 8046 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 2 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('2')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T10:32:39-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:33:12-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703100) para 8040
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:33:23-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:34:25-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6708be0) para 8040
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:34:51-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:34:52-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:34:52-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670b820) para 8040
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:35:43-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670a200) para 8040
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:36:15-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:36:16-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CANCEL
+2009-07-03T10:36:16-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6708be0) para 8040
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CHANUNAVAIL
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco Teste
+2009-07-03T10:40:27-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CHANUNAVAIL
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco Teste
+2009-07-03T10:42:23-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703100) para 8040
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CHANUNAVAIL
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 ERR (3):CHANUNAVAIL ao discar para 8040 pelo tronco Teste
+2009-07-03T10:42:39-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6708be0) para 8040
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:44:25-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670cbe8) para 8040
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco Teste(SIP/8017)
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:44:37-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6708be0) para 8040
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 29 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('29')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T10:45:46-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670ec80) para 8040
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 29 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('29')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T10:46:51-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6709400) para 8040
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:47:04-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703100) para 8040
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T10:57:28-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T10:57:48-03:00 - 1000 -> 7040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b673b5b8) para 7040
+2009-07-03T10:57:48-03:00 - 1000 -> 7040 INFO (6):Nenhuma regra valida para essa requisicao: No rule found for this request
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670c040) para 8040
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:03:54-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6709400) para 8040
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:04:01-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:04:43-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T11:04:43-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:04:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:04:43-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:04:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:04:44-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:04:44-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:04:44-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703100) para 8040
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:05:43-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8040
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:17:28-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670d408) para 8040
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:17:42-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703100) para 8040
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco teste(SIP/8017)
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T11:20:11-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6709400) para 8040
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 30 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('30')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T11:22:23-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6700488) para 8035
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 30 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('30')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T11:23:04-03:00 - 1000 -> 8035 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670bde8) para 8040
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 CRIT (2):exception 'PBX_Exception_NotFound' with message 'Tronco 30 nao encontrado' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Troncos.php:60
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(140): PBX_Trunks::get('30')
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-03T11:23:24-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6709c20) para 8040
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T11:34:41-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037)
+2009-07-03T11:34:42-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CANCEL
+2009-07-03T11:34:42-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b673a0d8) para 04933234155
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 INFO (6):Executando regra 1:Saidas
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 INFO (6):Definindo centro de custos para 2.
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 INFO (6):Discando para 04933234155 atraves do tronco Vono(SIP/opens)
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-03T15:50:35-03:00 - 1000 -> 04933234155 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b670c180) para 04933234155
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 INFO (6):Executando regra 1:Saidas
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 INFO (6):Definindo centro de custos para 2.
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T15:52:00-03:00 - 1000 -> 04933234155 INFO (6):Discando para 04933234155 atraves do tronco Vono(SIP/opens)
+2009-07-03T15:52:29-03:00 - 1000 -> 04933234155 DEBUG (7):DIALSTATUS: CANCEL
+2009-07-03T15:52:29-03:00 - 1000 -> 04933234155 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6703920) para 04988086551
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 INFO (6):Executando regra 1:Saidas
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 INFO (6):Definindo centro de custos para 2.
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T15:59:50-03:00 - 1000 -> 04988086551 INFO (6):Discando para 04988086551 atraves do tronco Vono(SIP/opens)
+2009-07-03T16:01:54-03:00 - 1000 -> 04988086551 DEBUG (7):DIALSTATUS: ANSWER
+2009-07-03T16:01:54-03:00 - 1000 -> 04988086551 INFO (6):Parando execucao das acoes a pedido de: 1-PBX_Rule_Action_DiscarTronco
+2009-07-03T16:01:54-03:00 - 1000 -> 04988086551 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T10:15:50-03:00 - 1000 -> 8038 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68047a8) para 8038
+2009-07-06T10:15:50-03:00 - 1000 -> 8038 INFO (6):Nenhuma regra valida para essa requisicao: No rule found for this request
+2009-07-06T15:11:01-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6804e98) para 8040
+2009-07-06T15:11:01-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:11:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:11:01-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:11:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:11:52-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:11:52-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:11:52-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:11:52-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:11:52-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037)
+2009-07-06T15:12:36-03:00 - 1000 -> 8040 DEBUG (7):Dial(SIP/8037/8040, 60, TWK)
+2009-07-06T15:12:37-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CANCEL
+2009-07-06T15:12:37-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:13:23-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6806e18) para 8040
+2009-07-06T15:13:23-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:13:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:13:23-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:13:23-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:13:37-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:13:37-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:13:37-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:13:37-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:13:37-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:14:10-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:14:10-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:14:10-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:14:10-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:14:10-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:18:01-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68057f8) para 8040
+2009-07-06T15:18:01-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:18:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:18:01-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:18:01-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:18:21-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6806e18) para 8040
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(154): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:18:22-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-Saidas
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(154): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:19:46-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68094d0) para 8040
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-Saidas
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(154): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:19:55-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-Saidas
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(154): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:20:44-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-Saidas
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(157): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:24:44-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68057f8) para 8040
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 DEBUG (7):Snep_Trunk
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 CRIT (2):Problema ao processar acao 1-PBX_Rule_Action_DiscarTronco da regra 1-Saidas
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 CRIT (2):exception 'Exception' with message 'PBX_Asterisk_Interface_SIP_NoAuth dont support channel returning, use $obj->getTech()/$your_exten@$obj->getHost() to dial' in /home/guaxinim/OpenS/snep2.5/lib/Snep/Asterisk/Interface/SIP/NoAuth.php:28
+Stack trace:
+#0 /home/guaxinim/OpenS/snep2.5/lib/Snep/Action/DiscarTronco.php(158): PBX_Asterisk_Interface_SIP_NoAuth->getCanal()
+#1 /home/guaxinim/OpenS/snep2.5/lib/Snep/Regra.php(267): PBX_Rule_Action_DiscarTronco->execute(Object(Asterisk_AGI), Object(Asterisk_AGI_Request))
+#2 /home/guaxinim/OpenS/snep2.5/agi/snep.php(176): PBX_Rule->execute()
+#3 {main}
+2009-07-06T15:25:28-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:25:51-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68094d0) para 8040
+2009-07-06T15:25:51-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:25:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:25:51-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:25:51-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:25:57-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6806e18) para 8040
+2009-07-06T15:25:57-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:25:57-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:25:57-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:25:57-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:26:20-03:00 - 1000 -> 80740 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 80740
+2009-07-06T15:26:20-03:00 - 1000 -> 80740 INFO (6):Nenhuma regra valida para essa requisicao: No rule found for this request
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6803878) para 8040
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8040@192.168.10.252)
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 DEBUG (7):Dial(SIP/8040@192.168.10.252, 60, TWK)
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-06T15:26:24-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68057f8) para 8040
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8040@192.168.10.252)
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 DEBUG (7):Dial(SIP/8040@192.168.10.252, 60, TWK)
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-06T15:26:35-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b6806e18) para 8040
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8040@192.168.10.252)
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 DEBUG (7):Dial(SIP/8040@192.168.10.252, 60, TWK)
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CONGESTION
+2009-07-06T15:26:45-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 INFO (6):Tentativa de conexao de 1000 (SIP/1000-b68094d0) para 8040
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 INFO (6):Executando regra 1:Saidas
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 0-PBX_Rule_Action_CCustos
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 INFO (6):Definindo centro de custos para 2.
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 DEBUG (7):Executando acao 1-PBX_Rule_Action_DiscarTronco
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 INFO (6):Discando para 8040 atraves do tronco 8037(SIP/8037/8040)
+2009-07-06T15:29:14-03:00 - 1000 -> 8040 DEBUG (7):Dial(SIP/8037/8040, 60, TWK)
+2009-07-06T15:29:16-03:00 - 1000 -> 8040 DEBUG (7):DIALSTATUS: CANCEL
+2009-07-06T15:29:16-03:00 - 1000 -> 8040 INFO (6):Fim de execucao da regra 1:Saidas
+2009-11-18T14:37:26-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-18T14:44:07-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-18T14:46:47-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-18T15:18:32-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:49:34-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:49:55-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:50:08-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:50:13-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:52:16-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:53:04-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:53:15-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T11:53:20-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:21:35-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:21:45-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:21:58-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:22:07-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:36:42-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:36:55-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:37:02-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:46:31-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T14:46:38-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)
+2009-11-23T15:01:20-02:00 DEBUG (7): Econtrado objeto para originador: 1000 (Snep_Ramal)

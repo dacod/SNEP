@@ -1,0 +1,60 @@
+2.5.4:
+    Adicionado suporte a ramal com interface virtual. Possível mapear ramais de
+outras centrais a partir de troncos do SNEP.
+    Adicionada opção no cadastro de troncos sobre autenticação reversa em troncos
+SIP. Resolve problemas com GVT VOX IP.
+    Readicionada funcionalidade de agenda pelo *12 e *13
+
+2.5.2:
+    Adicionado opção para escolha de validade da regra, agora é possível
+escolher em que dias da semana ela será válida.
+
+2.5 RC2:
+    Bugfixes:
+        Terminado suporte a gravação de ligações. Usado template para nome de
+arquivo com mais informações.
+
+2.5 RC1:
+    Novos Recursos:
+        Suporte a Alerta em uso de troncos redundantes
+        Suporte a edição de requisição (origem/destino) em regras.
+        Adicionado funcionalidade de Loop em ações de regras de negócio.
+
+    Bugfixes:
+        Alteração/exclusão de ramais e regras não mais afetam as regras de
+negócio sem o devido alerta ao usuário.
+
+2.5 Beta:
+    Novos Recursos:
+        - Suporte a Entroncamentos Snep-Snep
+        - Suporte a Regras de Entrada e Redundancia em N troncos.
+        - Suporte a multiplas validades em regras de negócio.
+    
+    Bugfixes:
+        - Corrigido posição quanto ao call-limit em ramais.
+
+2.5 Alpha:
+    Novos Recursos:
+        - Tela para cadastro de grupos de ramais.
+        - Tela de troncos reformulada
+            - Seleção facilitada de troncos Khomp.
+            - Suporte a Troncos IP que não usam autenticação.
+
+    Snep AGI:
+        - Nova Ação: Direcionar para Contexto
+        - Nova Ação: Direcionar para Fila
+
+    Estrutura:
+        - Movido arquivos de banco de dados de doc/ para install/.
+        - Criado diretório install/etc/ para manter arquivos de dialplan
+referentes a essa versão.
+        - Movida documentação de instalação para install/. Diretório doc/ agora
+mantém as informações relativas a documentação que será distribuída via interface
+(manual), ou de referencia para o usuário.
+        - Adicionadas bibliotecas PhpAgi, Snep e Zend ao sistema. Todas elas
+encontram-se no diretório lib/ e possuem a mesma padronização de nomeclatura.
+        - Agi principal foi removido e substituido pelo sistema escrito para a
+versão 3 do snep.
+
+    Bugfixes:
+        - Cadeado agora funciona como deveria e utiliza a mesma senha do ramal.

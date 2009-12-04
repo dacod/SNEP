@@ -1,0 +1,7 @@
+[snep]
+secret = snep123
+deny=0.0.0.0/0.0.0.0
+permit=127.0.0.1/255.255.255.255
+permit=192.168.10.130/255.255.255.255
+read = system,call,log,verbose,command,agent,user
+write = system,call,log,verbose,command,agent,user

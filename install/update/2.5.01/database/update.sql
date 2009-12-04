@@ -1,0 +1,1 @@
+alter table regras_negocio add diasDaSemana varchar(30) NOT NULL DEFAULT "sun,mon,tue,wed,thu,fri,sat";

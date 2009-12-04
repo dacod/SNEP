@@ -1,0 +1,24 @@
+#!/bin/bash   
+# * Programa: num-arquivos - COnta arquivos de voz no diretorio
+# * Copyright (c) 2007 - Opens Tecnologia - Projeto SNEP
+# * Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt
+# * Autor: Flavio Henrique Somensi <flavio@opens.com.br>
+#  
+
+DIR="$1"
+# Caso não seja digitado nenhum diretório,
+# é usado o diretório corrente por padrão.
+if ! [ $DIR ]
+    then
+    DIR='.'
+fi
+cd $DIR
+NUMARQ=0
+for ARQ in *
+  do
+    if [ -f $ARQ ]
+       then   
+       NUMARQ=$(($NUMARQ+1))
+    fi
+done
+echo $NUMARQ

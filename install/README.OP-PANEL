@@ -1,0 +1,28 @@
+Instalando o modulo PANEL:
+==========================
+
+Para ativar as funcionalidades do PANEL, sao necessarios os seguintes procedimentos:
+
+a) Alterar a variavel "enable_panel" para True em includes/setup.conf
+
+b) Criar o sub-diretorio "op-panel" abaixo do diretorio de instalacao e colocar os 
+   scripts/sub-diretorios necessarios nele ;
+
+c) Ajustar as variaveis correspondentes na rotina de configuracao de parametros dentro do
+   sistema (Configuracoes >> Parametros - Sub-sistema PANEL).
+      *--> Pode ser feito dentro do sistema ou no arquivo inc/parametros-sistema.php
+
+d) O PANEL é aberto em uma janela POP-UP, portanto esta funcionalidade deve estar habilitada no
+   browser do cliente ;
+
+e) O Tamanho da janela POP-UP e determinado automaticamente pelo sistema que identifica a Largura e
+   Altura (width e height) do browser ;
+
+f) O PANEL divide-se em 3 partes distintas:
+   1) O daemon op-panel  que deve ser inicializado com o sistema (/etc/init.d) ;
+   2) Os arquivos index* e help* que ficam em ./op-panel. Neste caso, cada arquivo index ira
+      corresponder a uma ABA na Janela (Ex. index1.php, index2.php,...). O que irá determinar qual tipo
+      de painel a ser carregado sao os parametros passados pela variavel "context" na chamada do 
+      arquivo flash. (Ex: operator_panel.swf?context=SECUNDARIO)
+   3) Os arquivos de configuracao em ./op-panel/flash. Estes arquivos .cfg e que determinarao o
+      comportamento e a apresentacao do PANEL para o usuario.

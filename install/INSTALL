@@ -1,0 +1,60 @@
+Procedimentos de instalação do SNEP Livre
+
+Para que o SNEP funcione integrado ao seu Asterisk é necessário algumas
+mudanças na configuração da sua central.
+
+0. Pré-requisitos
+
+
+1. Instalação da Interface Web
+
+    A interface web pode ser instalada em qualquer diretório que você escolher.
+Todos os arquivos necessários para o funcionamento do SNEP estão nesse diretório
+mas alguns arquivos como você vai ver estarão sendo executados de outros
+diretórios e por tanto é necessário que o arquivo de configuração (snep.conf)
+seja colocado em /etc/$ mysql -uusuario -psenha < snep.sqlsnep.conf.
+
+    Uma vez escolhido o diretório de instação é necessário que ele seja visível
+pelo servidor Apache para que se possa ter o real acesso a interface.
+
+    Também é necessário instalar o banco de dados no servidor MySQL. Para isso
+        $ mysql -uusuario -psenha < snep.sql
+        $ mysql -uusuario -psenha snep < cnl.sql
+
+    Dica: geralmente as instações são feitas em /var/www/snep. Em distribuições
+que não alteram o httpd (apache) o diretório estará disponível por padrão em
+http://end_servidor/snep. Outras (debian por exemplo) pode ser necessário a
+configuração de um virtual host.
+
+
+2. Criação de Links para AGI e Gravação
+
+    O diretório padrão para scripts AGI no asterisk é /var/lib/asterisk/agi-bin
+para facilitar a configuração do dialplan geralmente criamos um link nesse
+diretório apontando para snep/agi/.
+
+    O mesmo vale para o diretório de gravações. Para que estas estejam
+disponíveis para download na interface elas precisam ser vistas pelo apache.
+Para isso geralmente é criado um link de /var/spool/asterisk/monitor para
+diretório snep/arquivos/.
+
+3. Configuração do Asterisk
+
+    Para que o SNEP possa processar as ligações de acordo com as regras de
+roteamento definidas na interface é necessário a configuração do Dialplan.
+
+    O SNEP oferece mudança em quase todos os aspectos de uma central normal.
+Para ter a melhor configuração veja o etc/asterisk padrão que vem no diretório
+snep/install/.
+
+
+4. Ajustando permissões
+
+    Para que a interface consiga ajustar as configurações é necessário que
+alguns diretórios possuam permissão de escrita pelo usuário do servidor http.
+No caso do slackware grupo apache, do debian grupo www-data. Os diretórios são:
+        * /etc/asterisk/snep/
+        * snep/templates_c/
+        * e o arquivo: snep/includes/setup.conf
+
+5. Have fun!
