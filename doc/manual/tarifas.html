@@ -1,0 +1,68 @@
+<!--
+* ========================================================================
+* Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP
+* Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt
+* Autor: Flavio henrique Somensi <flavio@opens.com.br>
+* ========================================================================
+-->
+<h2>Tarifas - Incluir / Alterar</h2>
+
+<p>Esta rotina permite que uma Tarifa seja Cadastrada ou tenha seu Valor 
+ Alterado no Sistema.</p>
+<ul>  
+  <li><strong>Operadora: </strong>Define o nome da Operadora.</li>
+  <li><strong>Pais: </strong>Define o nome do pa&iacute;s.</li>
+  <li><strong>Estado: </strong>Define a Sigla do Estado.</li>
+  <li><strong>Cidade: </strong>Define o nome do cidade , baseado no estado 
+  escolhido.</li>
+  <li><strong>C&oacute;digo DDI: </strong>Define o c&oacute;digo DDI do pa&iacute;s informado.</li>
+  <li><strong>C&oacute;digo DDD: </strong>Define o c&oacute;digo DDD da cidade escolhida.</li>
+  <li><strong>Prefixo: </strong>Define o prefixo de telefones , da cidade escolhida
+  sobre o qual incidir&aacute; a tarifa a ser informada. Caso a tarifa seja a mesma para
+  todos os prefixos, informe o valor "0000" neste campo.</li>
+  <li><strong>Tarifa Base para Fixo: </strong>Define o valor da Tarifa padr&atilde;o
+  para chamadas  a telefones Fixos.</li>
+  <li><strong>Valor de partida Fixo: </strong>Define um valor para o Primeiro minuto de Liga&ccedil;&atilde;o Fixa.</li>
+  <li><strong>Tarifa Base para Celular: </strong>Define o valor da Tarifa padr&atilde;o
+  para chamadas  a telefones Celulares.</li>
+  <li><strong>Valor de partida Celular:</strong>Define um valor para o Primeiro minuto de Liga&ccedil;&atilde;o de Celular.</li>
+</ul>
+<h3>Regras Gerais</h3>
+<ul>
+   <li><strong>Uma tarifa, ap&oacute;s cadastrada , pode ter seus valores alterados. Por&eacute;m esta 
+   pr&aacute;tica deve ser aplicada somente se houver erro na informa&ccedil;&atilde;o.</li>
+   <li><span style="color: #FF0000; ">Para reajuste de valores de tarifas cadastradas, escolha a op&ccedil;&atilde;o "ALTERAR" relativa
+   a Tarifa e cadastre um novo valor para ela</span>.</strong></li>
+   <li>Os valores PADR&Atilde;O (fixo e celular) para cada Operadora &eacute; informado no cadastro 
+   da Operadora ;</li>
+   <li>O cadastro de uma Tarifa obedece 3 regras:
+      <ul>
+          <li><strong>1&ordf;)</strong> Se determinadas cidades tem valor de tarifa diferenciado, independente do
+           PREFIXO de destino, uma Tarifa Individual dever&aacute; ser cadastrada, atentando para 
+           informar corretametne o DDD da cidade e o PREFIXO = '0000' ;</li>
+          <li><strong>2&ordf;)</strong> Se a Operadora tiver valor diferenciado para determinados 
+          PREFIXOS de uma mesma CIDADE, uma Tarifa Individual dever&aacute; ser cadastrada
+           para cada PREFIXO;</li>
+          <li><strong>3&ordf;)</strong> Para Tarifas INTERNACIONAIS, uma Tarifa Individual dever&aacute; ser cadastrada 
+          para cada PAIS, atentando para os seguintes detalhes: 
+             <ol>
+                <li>Informar o C&oacute;digo DDI corretamente;</li>
+                <li>Informar o C&oacute;digo DDD = 000</li> 
+                <li>Informar o PREFIXO = 0000</li>
+             </ol>
+          </li>
+      </ul>
+   </li>
+</ul>
+<ul>
+  <li> Para reajuste de uma tarifa existente, mantenha os campos da seguinte forma:</li>  
+  <ul><li><strong> Estado: </strong><i> --- </i>.</ul></li>
+  <ul><li><strong> Cidade: </strong><i> Selecionar</i>.</ul></li>
+  <ul><li><strong> DDD: </strong><i> 0 </i>.</ul></li>
+  <ul><li><strong> Prefixo: </strong><i> 0000 </i>.</ul></li>
+</ul>
+<p>Links Relacionados:</p>
+<ul>
+   <li><a href="ajuda.php?script=rel_operadoras">Operadoras</a></li>              
+   <li><a href="ajuda.php?script=rel_tarifas">Tarifas</a></li>
+</ul>

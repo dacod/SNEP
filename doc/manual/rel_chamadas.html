@@ -1,0 +1,90 @@
+<!-- 
+* ========================================================================
+* Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP            
+* Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt 
+* Autor: Flavio Henrique Somensi <flavio@opens.com.br>
+* ========================================================================
+-->
+<h2>Relat&oacute;rio de Chamadas</h2>
+<p>
+   Este Relatório permite que sejam visualizadas as chamadas registradas no sistema, mediante varios critérios de filtros.
+   <br />
+   Também pode ser visualizado a tarifas calculadas para cada ligação de saída e ouvir-se a gravação de cada ligação, desde que estas existam e estejam disponíveis .
+</p>
+ <ul>
+  <li>
+      <strong>Per&iacute;odo: </strong>Define o intervalo de datas/hora do qual se deseja extrair as informa&ccedil;&otilde;es;
+  </li>
+
+  <li>
+      <strong>Origem/Destino: </strong>Define um filtro de n&uacute;mero(s) ou parte dele(s) para chamadores.
+  </li>
+
+  <li>
+      <strong>Centro de Custos: </strong>Define de qual ou quais Centros de Custo se deseja ver as chamadas.
+  </li>
+
+  <li>
+      <strong>Status da Liga&ccedil;&atilde;o: </strong>Define qual Status as Liga&ccedil;&otilde;es que devem
+  ser exibidas no relat&oacute;rio devem ter.
+  </li>
+
+  <li>
+      <strong>Dura&ccedil;&atilde;o: </strong>Tempo em SEGUNDOS que as liga&ccedil;&otilde;es devem ter.
+  </li>
+
+  <li>
+      <strong>Tipo de Chamada: </strong>Que tipos de liga&ccedil;&atilde;o devem ser exibidas
+  no relat&oacute;rio. O crit&eacute;rio de Originadas/Recebidas &eacute; baseado no conceito de Tamanho
+  M&aacute;ximo do Campo "src" e Tamanho M&iacute;nimo do Campo "dst" encontrado em
+  <a href="ajuda.php?script=parametros">Configura&ccedil;&otilde;es >> Par&acirc;metros</a>.
+  </li>
+
+  <li>
+      <strong>Ver Tarifa&ccedil;&atilde;o: </strong>Define se liga&ccedil;&otilde;es devem exibir os valores
+     tarifados, baseado nas tarifas definidas no sistema (<a href="ajuda.php?script=tarifas">
+     v+: Tarifas >> Tarifas</a>).
+  </li>
+
+  <li>
+      <strong>Mostra opção de selecionar e compactar gravações:</strong> Esta opção permite que você selecione
+  as ligações que possuam arquivo de gravação da chamada e compacte-as. Após a compactação um arquivo fica disponível
+  em <a href="ajuda.php?script=parametros">Configura&ccedil;&otilde;es >> Par&acirc;metros</a>.
+  </li>
+
+  <li>
+      <strong>Tipo Gr&aacute;fico: </strong>Se optar por exibir um gr&aacute;fico ao inv&eacute;s de
+  um relat&oacute;rio, define o tipo de gr&aacute;fico a ser exibido.
+  </li>
+
+  <li>
+      <strong>Tipo de Relatório: </strong> Permite que você escolha o tipo de relatório a ser exibido
+      <ul>
+          <li><strong>Analítico:</strong> É o relatório normal, onde todos os dados são disponibilizados para uma analise mais minuciosa.</li>
+          <li><strong>Sintético:</strong> Disponiliza um panorama geral sobre os dados selecionados, com as totalizações. É utilizado para relatórios restritos a um ou mais ramais ou grupo de ramal.
+         </li>
+      </ul>
+  </li>
+
+  <strong>Resultados:</strong>
+
+  Cada linha do relatório representa um registro de ligação, sendo possível verificar a rastreabilidade da ligação, ou seja,
+  as ligações que foram tranferidas ou sofreram transbordo de filas ou agentes da fila possuem um botão para que este comportamento seja
+  observado.
+
+  <br />
+  <img src="../imagens/include.png" /> <strong> Detalhes: </strong>Expande a lista de registros da ligação. <br />
+  <br />
+  <img src="../imagens/menos.png" /> <strong> Detalhes: </strong> Retrai a lista de registros da ligação <br />
+  <br />
+  <li>
+      <strong>Exportar CSV:</strong> Gera relat&oacute;rio no formato CSV (Valores separados por v&iacute;rgula) afim
+  de tais informa&ccedil;&otilde;es sejam utilizadas em Planilhas Eletr&ocirc;nicas e outros Softwares estat&iacute;sticos.</li>
+ </ul>
+<strong> Observações Importantes</strong>:
+<br />
+<ul>
+<li>Os <strong>Sub-totais</strong> compreendem todas as ocorr&ecirc;ncias da sele&ccedil;&atilde;o informada, mesmo que a ocorr&ecirc;ncia seja parte de um contexto maior. Exemplo: - Se um relatorio de todas as chamadas recebidas pelo ramal 8033 foi solicitado, as ocorr&ecirc;ncias de transfer&ecirc;ncia para este ramal tamb&eacute;m s&atilde;o contabilizadas, mas n&atilde;o necessariamente ser&aacute; exibida na lista principal.</li>
+<li>Ao solicitar um relat&oacute;rio onde &eacute; especificada uma origem ou destino, toda e qualquer  ocorr&ecirc;ncia ser&aacute; contabilizada, mesmo que esta seja apenas parte de uma chamada.</li>
+</ul>
+<br />

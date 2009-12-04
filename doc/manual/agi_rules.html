@@ -1,0 +1,121 @@
+<!--
+* ========================================================================
+* Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP
+* Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt
+* Autor: Flavio henrique Somensi <flavio@opens.com.br>
+* ========================================================================
+-->
+<h2>Regras de Negócios - Incluir/Alterar</h2>
+
+<p>Esta rotina permite que uma Regra de Negócios seja Cadastrada ou Alterada.</p>
+<p>Uma regra de Negócios executa ações dentro do Asterisk.Para que estas ações sejam
+executadas algumas condições devem ser satisfeitas, como:</p>
+<ul>
+<li>Uma condição de "encaixe" deve ser satisfeita - a Origem e o Destino da
+chamada devem se enquadrar em uma regra cadastrada</li>
+<li>A regra deve "Autorizar" a execução das ações</li>
+<li>O horário da chamada deve ser compatível com o Horário de Incidência da Regra</li>
+</ul>
+<p>Os campos para definição das regras são:</p>
+<ul>
+   <li>
+       <strong>Descrição </strong> :
+       Define uma descrição sobre a regra.
+   </li>
+   
+   <li>
+       <strong>Origem </strong> :
+       Expressão no padrão "Dialplan do Asterisk" que irá
+       verificar se o número de origem da chamada "casa". Ex: 0800. -> Vale para todas
+       as chamadas cjuno número de origem comece com o número "0800". Também éa
+       possível discriminar por grupos.
+   </li>
+
+   <li>
+       <strong>Destino </strong> :
+       Expressão no padrão "Dialplan do Asterisk" que irá
+       verificar se o número de destino da chamada "casa". Ex: [2-6]XXXX -> Vale para todas
+       as chamadas cujo número de destino comece com 2,3,4,5 ou 6 ([2-6]) e tenha mais 4
+        números quaisquer (XXXX). Também éa possível discriminar por grupos.
+   </li>
+
+   <li>
+       <strong>Horário de Incidência </strong> :
+       Horários e dias da semana em que a regra é válida. Caso ela não esteja
+       dentro de seu horário de validade na hora da ligação ela será ignorada.
+   </li>
+
+   <li>
+       <strong>Autorizado </strong> :
+       Autoriza a ligação de acontecer ou não. Essa opção sobreescreve qualquer
+       ação de regra de negócio que você tenha definido negando a ligação na hora.
+   </li>
+
+   <li>
+       <strong>Gravar Ligações </strong> :
+       Gravar ou não a ligação. O arquivo de gravação pode ser recuperado pelo
+       relatório de chamadas efetuadas.
+   </li>
+
+</ul>
+
+<h2>Ações de uma regra</h2>
+<p>O roteamento e destino das ligações no SNEP são definidos pelas ações de
+uma regra de negócio. Essas ações vão trabalhar a requisição original e
+encaminhar a ligação para um ramal, tronco, fila, entre outros.</p>
+
+<p>As ações presentes no SNEP e seus comportamentos são:</p>
+<ul>
+    <li><h3>Direcionar</h3>
+        <ul>
+            <li><strong>para Ramal</strong>: Encaminha a ligação para um ramal
+            cadastrado no SNEP. Caso nenhum ramal seja especificado a ação
+            tentará usar um ramal com mesmo número do numero de destino da ligação.</li>
+            <li><strong>para Tronco</strong>: A ligação será direcionada para
+            um tronco tentando alcançar o destino da ligação.</li>
+            <li><strong>para Fila</strong>: Coloca a ligação em uma fila de
+            chamadas.</li>
+            <li><strong>para Contexto</strong>: Envia a ligação para um contexto
+            do dialplan do Asterisk. Essa opção é usada para a customização de
+            algum comportamento em um nível mais baixo. Também é usada para a
+            criação de URA/IVR.</li>
+        </ul>
+    </li>
+    <li><h3>Origem/Destino</h3>
+        <p>Ações que editam a requisição orginal da ligação.</p>
+        <ul>
+            <li><strong>Editar</strong>: Edita uma requisição sendo possível
+            modificar a origem ou o destino da ligação. É possível "cortar" o
+            número de origem/destino usando o "|" (pipe) para definir até que ponto
+            o número será cortado. ex: 0XX|XX. será cortado o 0XX ficando somente
+            os numeros a partir do terceiro caracter. Essa ação também permite
+            adicionar um prefixo e sufixo ao numero original.</li>
+            <li><strong>Definir</strong>: Define uma nova origem ou um novo
+            destino para a ligação. Qualquer ação que seja adicionada após essa
+            usará esses novos números para operar. Caso queira modificar somente
+            uma das requisições mantenha o outro campo em branco.</li>
+            <li><strong>Restaurar</strong>: Restaura a requisição aos seus
+            valores inciais. Reverte as modificiações das outras ações desse grupo.</li>
+        </ul>
+    </li>
+    <li><h3>Ações</h3>
+        <p>Ações diversas.</p>
+        <ul>
+            <li><strong>Cadeado</strong>: Essa ação atende a ligação e pede uma
+            senha para o originador. Essa senha se não for definida na própria
+            ação será obtida do cadastro do originador se ele for um ramal do
+            SNEP.</li>
+            <li><strong>Loop</strong>: Gera um loop nas ações. Toda vez que essa
+            ação for chamada ela direciona o fluxo da execução das ações para
+            o indice da ação definido em sua configuração. Ela também pede que
+            seja definido o número de vezes em que o loop será executado.</li>
+        </ul>
+    </li>
+</ul>
+
+
+
+<p>Links Relacionados:</p>
+<ul>
+   <li><a href="ajuda.php?script=rel_agi_rules">Cadastro</a></li>              
+</ul>

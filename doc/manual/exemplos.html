@@ -1,0 +1,48 @@
+<pre>
+<h3>Liga&ccedil;&otilde;es de Entrada</h3>
+<span style="color : #3300ff;">[default]</span>
+exten => 8000,1,Noop(Ligacao de Entrada: DE[${CALLERID(number)}] PARA[${EXTEN}] no CANAL[${CHANNEL}] no CONTEXTO[${CONTEXT}])
+exten => 8000,n,Set(CDR(accountcode)=Entrada-BRT)
+exten => 8000,n,Gosub(monitor,grava,1)
+exten => 8000,n,Answer
+exten => 8000,n,Set(TIMEOUT(digit)=5)
+exten => 8000,n,Set(TIMEOUT(response)=8)
+exten => 8000,n,Set(CHANNEL(language)=pt_BR)
+exten => 8000,n,GotoIfTime(8:00-18:00|mon-fri|*|*?100)
+exten => 8000,n(fora),Background(fora_horario|m)
+exten => 8000,n,WaitExten(4)
+exten => 8000,n,Playback(vm-goodbye)
+exten => 8000,n,Hangup
+
+include => filas
+
+; FAX - Ramal especifico para uso de FAX
+exten => 9949,1,Goto(fax,s,1)
+exten => 9949,n,Hangup
+
+
+<h3>Liga&ccedil;&otilde;es para URA</h3>
+<span style="color : #3300ff;">[filas]</span>
+;HelpDesk
+exten => 1,1,Set(CDR(accountcode)=1.11)
+exten => 1,n,Gosub(monitor,grava,1)
+exten => 1,n,MixMonitor(${CALLFILENAME}.wav|b)
+exten => 1,n,Set(FILA=helpdesk)
+exten => 1,n,Set(CONTEXTO=filas)
+exten => 1,n,Queue(helpdesk,t,,,120)
+exten => 1,n,Playback(tt-allbusy)
+exten => 1,n,Goto(2,4)
+exten => 1,n,Hangup
+
+;Recepcao
+exten => 2,1,Set(CDR(accountcode)=1.12)
+exten => 2,n,Gosub(monitor,grava,1)
+exten => 2,n,MixMonitor(${CALLFILENAME}.wav|b)
+exten => 2,n,Set(__FILA=telefonista)
+exten => 2,n,Set(__CONTEXTO=filas)
+exten => 2,n,Queue(telefonista,t,,,45)
+exten => 2,n,Playback(tt-allbusy)
+exten => 2,n,Goto(3,4)
+exten => 2,n,Hangup
+
+</pre>

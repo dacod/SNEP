@@ -1,0 +1,68 @@
+<!-- 
+* ========================================================================
+* Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP            
+* Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt 
+* Autor: Flavio Henrique Somensi <flavio@opens.com.br>
+* ========================================================================
+-->
+<h2>Ramais - Incluir Vários</h2>
+<p>Essa funcionalidade permite que sejam cadastrados mais de um ramal ao mesmo
+    tempo no SNEP. Para usar essa funcionalidade basta preencher corretamente o
+    formulário selecionando qual será a interface dos novos ramais. Note que só é
+    possível adicionar os ramais de um tipo de interface e grupos de cada vez.</p>
+
+<ul>
+    <li>
+        <strong>Ramais:</strong> Range de ramais para inclusão, a notação desse
+        campo segue o seguinte padrão: Ex: 1000-1050;1060;1063;1070-1100.
+        Nesse caso será feito a adição de 50 ramais do 1000 até o 1050. Mais os
+        ramais 1060 e 1063. Por fim mais 30 ramais do 1070 até o 1100.
+    </li>
+    <li>
+        <strong>Grupo de Ramais:</strong> Grupo em que serão incluídos os novos
+        ramais.
+    </li>
+    <li>
+        <strong>Grupo de Captura:</strong> Grupo de captura para os ramais.
+    </li>
+    <li>
+        <strong>Canal:</strong> Tipo de canal dos novos usuários.
+        <ul>
+            <li>
+                <strong>SIP e IAX2:</strong> Para ramais do tipo SIP ou IAX2 é
+                necessário preencher algumas informações sobre o protocolo:
+                <ul>
+                    <li><strong>Atravessar NAT: </strong>Define se a conexão do Ramal irá ou
+                        não através um NAT.</li>
+                    <li><strong>Controle de Qualidade: </strong>Define se haverá ou não controle
+                        de qualidade nas ligações do Ramal.</li>
+                    <li><strong>Modo de DTMF: </strong>Define o modo de DTMF do Ramal (Dual-Tone
+                        Multi-Frequency = Tons de multi frequências.</li>
+                    <li><strong>CODECS Permitidos: </strong>Define quais os CODECS permitidos e
+                        preferidos para o Ramal, na ordem que for escolhido.</li>
+                </ul>
+            </li>
+            <li><strong>Virtual: </strong>ramais com interfaces virtuais são mapeados em um tronco.
+                Ao selecionar um tronco para a interface virtual do ramal, a ligação para ele será feita discando através do tronco para o numero do ramal.</li>
+            <li>
+                <strong>KHOMP: </strong> Para fazer a inclusão de vários ramais
+                em placas FXS da KHOMP basta que, com as placas já instaladas,
+                você selecione em quais placas os ramais serão distribuidos.
+                A distribuição ocorre de forma sequencial nos canais livres das
+                placas selecionadas.
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<strong>Obs:</strong> Por definição, a Senha será o número do ramal, repetido dua vezes. Exemplo: Numero Ramal=123,
+logo a Senha = 123123.
+<p>Links Relacionados</p>
+<ul>
+    <li><a href="ajuda.php?script=ramais">Cadastro</a></li>
+    <li><a href="ajuda.php?script=rel_ramais">Ramais</a></li>
+    <li><a href="ajuda.php?script=permissoes">Permissões de Acesso</a></li>
+    <li><a href="ajuda.php?script=parametros">Parâmetros</a></li>
+    <li><a href="ajuda.php?script=queues">Status das Filas</a></li>
+    <li><a href="ajuda.php?script=grupos">Grupos de Captura</a></li>
+</ul>

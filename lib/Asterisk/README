@@ -1,0 +1,7 @@
+O nome original da biblioteca contida nesse diretório é phpagi. O nome e padrão
+de nomenclatura das classes foi mudada para seguir o mesmo padrão usado no
+framework Zend.
+
+A licença dessa biblioteca é GNU LGPL e o código aqui contido segue a mesma
+licensa. Esta não é necessariamente a licença do software que estiver fora
+desse diretório.
