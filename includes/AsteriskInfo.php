@@ -38,7 +38,12 @@ class AsteriskInfo {
         // Verificando se já existe alguma conex�o
         if(!isset(self::$asterisk)) {
             // Criando a primeira instancia da conexão
-            self::$asterisk = PBX_Asterisk_AMI::getInstance();
+            try {
+                self::$asterisk = PBX_Asterisk_AMI::getInstance();
+            }
+            catch( Asterisk_Exception_CantConnect $ex ) {
+                display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, 0);
+            }
         }
     }
 

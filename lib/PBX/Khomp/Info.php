@@ -28,14 +28,19 @@
  * @author    Henrique Grolli Bassotto
  */
 class PBX_Khomp_Info {
+    
+    private $asterisk;
+
+    public function __construct() {
+        $this->asterisk = PBX_Asterisk_AMI::getInstance();
+    }
 
     /**
      * Método que descobre se o sistema tem ou não placas da khomp instaladas.
      * @return boolean
      */
     public function hasWorkingBoards() {
-        $asterisk = PBX_Asterisk_AMI::getInstance();
-        $response = $asterisk->Command("khomp summary concise");
+        $response = $this->asterisk->Command("khomp summary concise");
         
         if(ereg("No such command", $response['data'])) {
             return false;
@@ -63,8 +68,7 @@ class PBX_Khomp_Info {
             throw new PBX_Khomp_Exception_NoKhomp();
         }
         else {
-            $asterisk = PBX_Asterisk_AMI::getInstance();
-            $response = $asterisk->Command("khomp summary concise");
+            $response = $this->asterisk->Command("khomp summary concise");
 
             $lines = explode("\n", $response['data']);
             array_pop($lines); // Removendo a linha vazia

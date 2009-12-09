@@ -271,7 +271,7 @@
       if($this->socket == false)
       {
         $this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
-        throw new PBX_Asterisk_Exception_CantConnect("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
+        throw new Asterisk_Exception_CantConnect("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
       }
 
       // read the header
@@ -280,7 +280,7 @@
       {
         // a problem.
         $this->log("Asterisk Manager header not received.");
-        throw new PBX_Asterisk_Exception_CantConnect("Asterisk Manager header not received.");
+        throw new Asterisk_Exception_CantConnect("Asterisk Manager header not received.");
       }
       else
       {

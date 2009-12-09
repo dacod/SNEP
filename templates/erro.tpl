@@ -34,7 +34,7 @@
           {if $RET < 0}
              <input type="button" class="button" value="Ok" onClick="history.go({$RET});"  />
           {else}
-             <input type="button" class="button" value="Ok" />
+             <input type="button" class="button" value="Ok" onClick="location.reload(true);" />
           {/if}
           <div class="buttonEnding"></div>
           </form>

@@ -72,7 +72,13 @@ if (!isset($grupos) || count($grupos) == 0) {
 
 // Monta informações para placas khomp
 $khomp_boards_list = array();
-$khompInfo = new PBX_Khomp_Info();
+try {
+    $khompInfo = new PBX_Khomp_Info();
+}
+catch( Asterisk_Exception_CantConnect $ex ) {
+    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, 0);
+}
+
 if( $khompInfo->hasWorkingBoards() ) {
     foreach( $khompInfo->boardInfo() as $board ) {
         if( ereg("KFXS", $board['model']) ) {

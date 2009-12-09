@@ -28,5 +28,5 @@
  * @package phpAGI
  * @author Henrique Grolli Bassotto
  */
-class PBX_Asterisk_Exception_CantConnect extends Exception {}
+class Asterisk_Exception_CantConnect extends Exception {}
 
