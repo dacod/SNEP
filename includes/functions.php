@@ -593,7 +593,7 @@ function grava_conf() {
            $header .= ";------------------------------------------------------------------------------------\n";
 
            /* Pega informações de ramais no banco */
-           $sql = "SELECT * FROM peers WHERE canal like '%" . strtoupper($tech) . "%'";
+           $sql = "SELECT * FROM peers WHERE name != 'admin' AND canal like '%" . strtoupper($tech) . "%'";
            try {
                   $stmt = $db->prepare($sql);
                   $stmt->execute();

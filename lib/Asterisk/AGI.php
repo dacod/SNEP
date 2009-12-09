@@ -788,8 +788,6 @@
     * Dial returns ${CAUSECODE}: If the dial failed, this is the errormessage.
     * Dial returns ${DIALSTATUS}: Text code returning status of last dial attempt.
     *
-    * Modificado por: Henrique Grolli Bassotto (OpenS Tecnologia)
-    *
     * @link http://www.voip-info.org/wiki-Asterisk+cmd+Dial
     * @param string $channel
     * @param integer $timeout

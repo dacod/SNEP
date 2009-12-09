@@ -49,6 +49,7 @@ class PBX_Usuarios {
     public static function get($userid) {
         $db = Zend_Registry::get('db');
 
+        $userid = str_replace("'", "\'", $userid);
         $select = $db->select()->from('peers')->where("name = '$userid' AND peer_type='R'");
         $stmt = $db->query($select);
         $usuario = $stmt->fetchObject();
