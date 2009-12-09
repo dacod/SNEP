@@ -1,15 +1,31 @@
 <?php
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
- * Classe para coleta de informa��es sobre o asterisk.
+ * Classe para coleta de informações sobre o asterisk.
  * Essa classe tem a inten��o de ser uma classe de compactibilidade para o
  * snep ou seja, ainda precisa ser reescrito algum c�digo de outras classes
- * para uma melhor utiliza��o do c�digo, isso inclui a classe
+ * para uma melhor utiliza��o do código, isso inclui a classe
  * AGI_AsteriskManager que precisa ser adaptada para Singleton
  */
 class AsteriskInfo {
     /**
-     * Objeto para coleta de informa��es via AMI. (Singleton)
+     * Objeto para coleta de informações via AMI. (Singleton)
      * @var AGI_AsteriskManager $asterisk
      */
     private static $asterisk;
@@ -19,23 +35,23 @@ class AsteriskInfo {
      */
     public function AsteriskInfo() {
         global $SETUP, $LANG;
-        // Verificando se j� existe alguma conex�o
+        // Verificando se já existe alguma conex�o
         if(!isset(self::$asterisk)) {
-            // Criando a primeira instancia da conex�o
+            // Criando a primeira instancia da conexão
             self::$asterisk = PBX_Asterisk_AMI::getInstance();
         }
     }
 
     /**
-     * M�todo para compactibilidade com c�digo do snep, aqui h� uma melhoria
-     * nas consultas simples reutilizando socket onde � poss�vel.
+     * Método para compactibilidade com código do snep, aqui há uma melhoria
+     * nas consultas simples reutilizando socket onde é possível.
      *
      * @param string $comando - Comando a ser executado
      *
      * @param string $quebra - Para retornar somente as linhas que contenham
-     * o conteudo dessa vari�vel
+     * o conteudo dessa variável
      *
-     * @param boolean $tudo - Esse parametro n�o � usado (?!)
+     * @param boolean $tudo - Esse parametro não é usado (?!)
      *
      * @return Dados da consulta
      */
@@ -60,7 +76,7 @@ class AsteriskInfo {
             }
         }
         else {
-            // Enviando requisi��o de status
+            // Enviando requisição de status
             self::$asterisk->send_request($comando, array());
             // Enviando esse objeto para cuidar dos responses
             self::$asterisk->wait_event($this);
@@ -76,11 +92,12 @@ class AsteriskInfo {
     private $return;
 
     /**
-     * Metodo que faz o tratamento dos eventos Agent, n�o deveria existir
-     * j� que essas informa��es deveriam vir em respostas e n�o em events.
-     * Mas como isso n�o est� nas minhas m�os essa "gambiarra"(minha opini�o)
-     * teve que ser implementada.
-     * @param $event evento que esta sendo processado
+     * Metodo que faz o tratamento dos eventos Agent, não deveria existir
+     * já que essas informações deveriam vir em respostas e não em events.
+     * Mas como isso não está nas minhas mãos essa "gambiarra"(minha opinião)
+     * teve que ser implementada. Isso depende da implementação do AMI no
+     * Asterisk.
+     * @param $event evento que está sendo processado
      * @param $param parametros que vieram com o evento
      * @return boolean - true se o processamento de eventos deve parar.
      */

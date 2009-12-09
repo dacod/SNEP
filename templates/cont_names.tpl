@@ -1,10 +1,19 @@
-{* Smarty *}
-{* ---------------------------------------------------------------------------- 
- * Template: cont_names.tpl - Formulario para Cadastro de Nomes de contatos
- * Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP            
- * Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt 
- * Autor: Flavio Henrique Somensi <flavio@opens.com.br>            
- * ---------------------------------------------------------------------------- *}   
+{*
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
+ *}
 {include file="cabecalho.tpl"}
 <table cellspacing="0" align="center" class="contorno">
    <form name="formulario"  method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">   

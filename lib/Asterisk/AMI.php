@@ -1,7 +1,7 @@
 <?php
  /**
   * Modified in 2009 by Henrique Grolli Bassotto (OpenS Tecnologia) for
-  * inclusion of this lib in Snep library.
+  * inclusion of this lib in Snep.
   *
   * The latest released version of phpagi was in 2005, the original notes fallows.
   * You can consider this a fork since the modifications are large.

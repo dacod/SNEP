@@ -1,3 +1,13 @@
+1.0.1:
+    Estrutura:
+        Corrigido cabeçalho de licenciamento nos arquivos do Snep.
+
+    Bugfixes:
+        Corrigido "Uknown column 'dtmf'" na adição de vários ramais.
+
+1.0.0:
+    Release SNEP Livre, versões agora seguem a partir do 1.0.0
+
 2.5.4:
     Adicionado suporte a ramal com interface virtual. Possível mapear ramais de
 outras centrais a partir de troncos do SNEP.
