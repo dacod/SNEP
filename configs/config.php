@@ -58,6 +58,9 @@ Zend_Registry::set('config', $config);
 // Versão do SNEP
 Zend_Registry::set('snep_version', file_get_contents($config->system->path->base . "/configs/snep_version"));
 
+// Inclusão da classe SNEPOP
+//require_once('../includes/snepos.php');
+
 // Iniciando sistema de logs
 $log = new Zend_Log();
 Zend_Registry::set('log', $log);
@@ -283,13 +286,16 @@ $khomp_signal = array(  "kesOk (sync)" => $LANG['ok'],
                               "Reservado" => "#ff9c00",
                               "Ocupado" => "#ED1C24" );
 // Status sintetico    
-$status_sintetico_khomp = array("unused"  => $LANG['unused'],
-                                "ongoing" => $LANG['ongoing'],
-                                "ringing" => $LANG['ringing'],
-                                "dialing" => $LANG['dialing'],
+$status_sintetico_khomp = array("unused"   => $LANG['unused'],
+                                "ongoing"  => $LANG['ongoing'],
+                                "ringing"  => $LANG['ringing'],
+                                "dialing"  => $LANG['dialing'],
                                 "reserved" => $LANG['reserved'],
-                                "offhook" => $LANG['offhook'],
-                                "ring" => $LANG['ringing']);
+                                "offhook"  => $LANG['offhook'],
+                                "ring"     => $LANG['ringing'],
+                                "prering"  => $LANG['prering'],
+                                "none"     => $LANG['stnone'],
+                                "down"     => $LANG['stdown']);
  // Tipos de insecure para troncos
  $tipos_insecure = array(""       => $LANG['default'],
                          "norm" => $LANG['normal'],
