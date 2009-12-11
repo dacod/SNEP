@@ -41,27 +41,27 @@
   <tr>
     <td class="formlabel">{$LANG.vlrbase_fix}:</td>
     <td class="subtable" >
-      <input name="tbf" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.tbf}" /> {$LANG.dottodec}
+      <input name="tbf" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.tbf|default:0}" /> {$LANG.dottodec}
     </td>
   </tr>
 
   <tr>
     <td class="formlabel">{$LANG.vlrpartida_fix}:</td>
     <td class="subtable" >
-      <input name="vpf" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.vpf}" /> {$LANG.dottodec}
+      <input name="vpf" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.vpf|default:0}" /> {$LANG.dottodec}
     </td>
   </tr>
   <tr>
     <td class="formlabel">{$LANG.vlrbase_cel}:</td>
     <td class="subtable" >
-      <input name="tbc" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.tbc}" /> {$LANG.dottodec}
+      <input name="tbc" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.tbc|default:0}" /> {$LANG.dottodec}
     </td>
   </tr>
 
   <tr>
     <td class="formlabel">{$LANG.vlrpartida_cel}:</td>
     <td class="subtable" >
-      <input name="vpc" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.vpc}" /> {$LANG.dottodec}
+      <input name="vpc" type="text" size="5" maxlength="6" class="campos" value="{$dt_operadoras.vpc|default:0}" /> {$LANG.dottodec}
     </td>
   </tr>
 
