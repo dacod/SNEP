@@ -599,7 +599,7 @@ function excluir()  {
       /* Gera arquivo de configura??o */ 
       grava_conf();
       
-      //echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;
       
    } catch (PDOException $e) {
       display_error($LANG['error'].$e->getMessage(),true) ;
