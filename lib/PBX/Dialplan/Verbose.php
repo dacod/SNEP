@@ -95,27 +95,26 @@ class PBX_Dialplan_Verbose extends PBX_Dialplan {
      */
     public function parse() {
         
-        if(!isset($this->execution_time))
+        if(!isset($this->execution_time)) {
             $this->execution_time = date("H:i");
+        }
 
         $this->foundRule = null;
         $this->matches = array();
-
-        $log = Zend_Registry::get('log');
 
         $rules = PBX_Rules::getAll();
         if(count($rules) > 0) {
             foreach ($rules as $rule) {
                 $rule->setRequest($this->request);
-                
-                if( $rule->isValidDst($this->request->destino) && $rule->isValidSrc($this->request->origem)) {
 
+                if( $rule->isValidDst($this->request->destino) && $rule->isValidSrc($this->request->origem) && $rule->isActive()) {
                     // Armazenando a regra válida (parcialmente)
                     $this->matches[] = $rule;
 
                     // Caso seja a primeira regra válida (e com tempo válido), ela é a que queremos executar
-                    if(is_null($this->foundRule) && $rule->isValidTime($this->execution_time))
+                    if(is_null($this->foundRule) && $rule->isValidTime($this->execution_time)) {
                         $this->foundRule = $rule;
+                    }
                     
                 }
             }

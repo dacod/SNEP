@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
 /**
  * @file
  * Dialplan Debugger.
@@ -26,51 +27,79 @@ require_once("../configs/config.php");
 ver_permissao(49);
 
 // Vendo se foi passado os parametros para teste
-$dst    = isset($_GET['dst']) && $_GET['dst'] != "" ? $_GET['dst'] : 's';
-$caller = isset($_GET['caller']) ? $_GET['caller'] : NULL;
-$time   = isset($_GET['time']) ? $_GET['time'] : NULL;
-$acao   = isset($_GET['acao']) ? $_GET['acao'] : NULL;
+$extension = isset($_GET['dst']) && $_GET['dst'] != "" ? $_GET['dst'] : 's';
+$srcType   = isset($_GET['srcType']) ? $_GET['srcType'] : NULL;
+$trunk     = isset($_GET['trunk']) ? $_GET['trunk'] : NULL;
+$caller    = isset($_GET['caller']) && $_GET['caller'] != "" ? $_GET['caller'] : "unknown";
+$time      = isset($_GET['time']) ? $_GET['time'] : NULL;
+$acao      = isset($_GET['acao']) ? $_GET['acao'] : NULL;
+
 // Controle de Conflitos
-$view   = isset($_GET['view']) ? $_GET['view'] : NULL;
-$hini   = isset($_GET['hini']) ? $_GET['hini'] : NULL;
-$hfim   = isset($_GET['hfim']) ? $_GET['hfim'] : NULL;
+$view = isset($_GET['view']) ? $_GET['view'] : NULL;
+$hini = isset($_GET['hini']) ? $_GET['hini'] : NULL;
+$hfim = isset($_GET['hfim']) ? $_GET['hfim'] : NULL;
+
+$trunks = array();
+foreach (PBX_Trunks::getAll() as $tronco) {
+    $trunks[$tronco->getId()] = $tronco->getId() . " - " . $tronco->getName();
+}
+$smarty->assign('TRUNKS', $trunks);
 
 // Parse básico
-if($acao == "simulate" && !$caller) {
-  display_error($LANG['msg_requiredinfo'], true);
-}
-else if($acao == "simulate") {
+if($acao == "simulate") {
     // Criando o debugger
-    $debugger = new PBX_Dialplan_Verbose();
+    $dialplan = new PBX_Dialplan_Verbose();
 
-    $request = new Asterisk_AGI_Request(
+    if($srcType == "exten") {
+        try {
+            $srcObj = PBX_Usuarios::get($caller);
+        }
+        catch( PBX_Exception_NotFound $ex ) {
+            display_error($ex->getMessage(), true);
+            exit();
+        }
+        $channel = $srcObj->getInterface()->getCanal();
+    }
+    else if($srcType == "trunk") {
+        $srcObj = PBX_Trunks::get($trunk);
+        $channel = $srcObj->getInterface()->getCanal();
+    }
+    else {
+        $srcObj = null;
+        $channel = "unknown";
+    }
+
+    $request = new PBX_Asterisk_AGI_Request(
         array(
             "agi_callerid"  => $caller,
-            "agi_extension" => $dst
+            "agi_extension" => $extension,
+            "agi_channel"   => $channel
         )
     );
 
-    $debugger->setRequest($request);
+    $request->setSrcObj($srcObj);
+
+    $dialplan->setRequest($request);
 
     if($time){
       if(ereg("^[0-9]:([0-9]{2})$", $time)) {
         $time = "0" . $time;
       }
-      $debugger->setTime($time);
+      $dialplan->setTime($time);
     }
 
     try {
-        $debugger->parse(); // O debug =)
+        $dialplan->parse(); // O debug =)
     }
     catch(PBX_Exception_NotFound $ex) {
         $smarty->assign('deb_ERROR', 'norule');
     }
 
     // Se foi encontrada alguma regra para mostrar
-    if(count($debugger->getMatches()) > 0){
+    if(count($dialplan->getMatches()) > 0){
         $found = false; // Flag se encontramos uma regra que será executada
-        foreach ($debugger->getMatches() as $index => $rule) {
-            if($rule->getId() == $debugger->getLastRule()->getId()) {
+        foreach ($dialplan->getMatches() as $index => $rule) {
+            if($rule->getId() == $dialplan->getLastRule()->getId()) {
                 $state = "torun";
                 $found = true;
             }
@@ -82,6 +111,7 @@ else if($acao == "simulate") {
             }
 
             $acoes = array();
+            
             foreach ($rule->getAcoes() as $action) {
                 $config = $action->getConfigArray();
                 if($action instanceof PBX_Rule_Action_CCustos) {
@@ -92,11 +122,26 @@ else if($acao == "simulate") {
                     $acoes[] = "Discar para Tronco " . $tronco->getName();
                 }
                 else if($action instanceof PBX_Rule_Action_DiscarRamal) {
-                    $ramal = PBX_Usuarios::get($config['ramal']);
-                    $acoes[] = "Discar para Ramal " . $ramal->getCallerid();
+                    if(isset($config['ramal']) && $config['ramal'] != "") {
+                        $peer = $config['ramal'];
+                    }
+                    else {
+                        $peer = $extension;
+                    }
+
+                    try {
+                        $ramal = PBX_Usuarios::get($peer);
+                        $acoes[] = "Discar para Ramal " . $ramal->getCallerid();
+                    }
+                    catch(PBX_Exception_NotFound $ex ){
+                        $acoes[] = "<strong style='color:red'>Tentativa com falha para ramal $extension (ramal inexistente)</strong>";
+                    }
                 }
                 else if($action instanceof PBX_Rule_Action_Queue) {
                     $acoes[] = "Direcionar para fila " . $config['queue'];
+                }
+                else if($action instanceof PBX_Rule_Action_Cadeado) {
+                    $acoes[] = "Requisitar senha";
                 }
                 else if($action instanceof PBX_Rule_Action_Context) {
                     $acoes[] = "Direcionar para contexto " . $config['context'];
@@ -115,6 +160,7 @@ else if($acao == "simulate") {
             $dsts = implode(",", $dsts);
 
             $result[$index] = array(
+                "id"      => $rule->getId(),
                 "state"   => $state,
                 "caller"  => $srcs,
                 "dst"     => $dsts,
@@ -125,7 +171,7 @@ else if($acao == "simulate") {
         }
 
       // Enviando os parametros recebidos
-      $input = array("caller" => $caller, "dst" => $dst, "time" => $debugger->getLastExecutionTime());
+      $input = array("caller" => $caller, "dst" => $extension, "time" => $dialplan->getLastExecutionTime());
 
       // Enviando para o template algumas variáveis
       $smarty->assign('deb_input', $input);
@@ -134,12 +180,16 @@ else if($acao == "simulate") {
     }
 }
 
+$smarty->assign('PROTOTYPE', true);
 $titulo = $LANG['menu_rules']." -> ".$LANG['menu_exit']." -> ".$LANG['debugger'];
 $smarty->assign('debugger', true);
-if ($view == "conflict")
+
+if ($view == "conflict") {
    display_template("debugger_col.tpl",$smarty,$titulo);
-else
+}
+else {
    display_template("debugger.tpl",$smarty,$titulo);
+}
 
 // Conver hora no formato hh:mm:ss para timestamp
 function ts_hora ($hora) {
