@@ -48,7 +48,7 @@
          <td valign="middle" align="center">
          {if $DADOS[ramais].name != 'admin'}
             <acronym title="{$LANG.exclude}">
-               <img src="../imagens/delete.png" alt="{$LANG.exclude}" onclick="remove_ramal('{$DADOS[ramais].id}','{$DADOS[ramais].canal}');"/>
+                <a href="ramais.php?acao=excluir&id={$DADOS[ramais].name}" onclick="return confirm('{$LANG.confirm_remocao_ramal}')"><img src="../imagens/delete.png" alt="{$LANG.exclude}"/></a>
             </acronym>
          {/if}
          </td>

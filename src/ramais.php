@@ -563,18 +563,18 @@ function grava_alterar()  {
  *                  Excluir registro correspondente da tabela vinculos
 ------------------------------------------------------------------------------*/
 function excluir()  {
-   global $LANG, $db, $name, $canal, $id;
+   global $LANG, $db, $canal;
 
    //display_confirme($LANG['msg_excluded'],true) ;
 
-   $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
+   $id = isset($_GET['id']) ? $_GET['id'] : false;
    if (!$id) {
       display_error($LANG['msg_notselect'],true) ;
       exit ;
    }
    try {
        // Fazendo procura por referencia a esse ramal em regras de negócio.
-        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$name%' OR destino LIKE '%R:$name%'";
+        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
         $regras = $db->query($rules_query)->fetchAll();
         if(count($regras) > 0) {
             $msg = $LANG['extension_conflict_in_rules'].":<br />\n";
@@ -584,14 +584,14 @@ function excluir()  {
             display_error($msg,true);
             exit(1);
         }
-      $sql = "DELETE FROM peers WHERE id='".$id."'";
+      $sql = "DELETE FROM peers WHERE name='".$id."'";
       $db->beginTransaction() ;
       $stmt = $db->prepare($sql);
       $stmt->execute() ;
-      $sql = "delete from voicemail_users where customer_id='$name'";
+      $sql = "delete from voicemail_users where customer_id='$id'";
       $stmt = $db->prepare($sql);
       $stmt->execute() ;
-      $sql = "delete from vinculos where cod_usuario='$name'";
+      $sql = "delete from vinculos where cod_usuario='$id'";
       $stmt = $db->prepare($sql);
       $stmt->execute() ;
       $db->commit();

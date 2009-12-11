@@ -71,10 +71,12 @@
                <td class="campos"><strong>{$LANG.ramais}&nbsp;IAX2</strong></td>
                <td class="campos">{$SIS.iax2_peers}</td>
             </tr>
+            <!--
             <tr>
                <td class="campos"><strong>{$LANG.agents}</strong></td>
                <td class="campos">{$SIS.agents}</td>
             </tr>
+            -->
          </table>
          <br />
          <table class="subtable2">
