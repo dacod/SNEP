@@ -88,6 +88,36 @@ CREATE TABLE regras_negocio_actions_config (
   FOREIGN KEY (regra_id, prio) REFERENCES regras_negocio_actions (regra_id, prio) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+--
+-- Dumping data for table `regras_negocio`
+--
+
+LOCK TABLES `regras_negocio` WRITE;
+/*!40000 ALTER TABLE `regras_negocio` DISABLE KEYS */;
+INSERT INTO `regras_negocio` VALUES (1,0,'Ligações Internas','G:all','G:all','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(2,5,'Ligações de Emergência','X','RX:18X,RX:19X','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(3,0,'Ligações 0800 Gratuitas','X','X','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(4,0,'Ligações de saída locais','X','RX:[2-6]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(5,0,'Ligações Celular Local','X','RX:[7-9]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(6,0,'Ligações Interurbanas para Fixo','X','RX:0XX[2-6]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(7,0,'Interurbanos Celular','X','RX:0XX[7-9]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1);
+/*!40000 ALTER TABLE `regras_negocio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `regras_negocio_actions`
+--
+
+LOCK TABLES `regras_negocio_actions` WRITE;
+/*!40000 ALTER TABLE `regras_negocio_actions` DISABLE KEYS */;
+INSERT INTO `regras_negocio_actions` VALUES (1,0,'PBX_Rule_Action_CCustos'),(1,1,'PBX_Rule_Action_DiscarRamal'),(2,0,'PBX_Rule_Action_CCustos'),(2,1,'PBX_Rule_Action_DiscarTronco'),(3,0,'PBX_Rule_Action_CCustos'),(3,1,'PBX_Rule_Action_DiscarTronco'),(4,0,'PBX_Rule_Action_CCustos'),(4,1,'PBX_Rule_Action_DiscarTronco'),(5,0,'PBX_Rule_Action_CCustos'),(5,1,'PBX_Rule_Action_DiscarTronco'),(6,0,'PBX_Rule_Action_CCustos'),(6,1,'PBX_Rule_Action_DiscarTronco'),(7,0,'PBX_Rule_Action_CCustos'),(7,1,'PBX_Rule_Action_DiscarTronco');
+/*!40000 ALTER TABLE `regras_negocio_actions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `regras_negocio_actions_config`
+--
+
+LOCK TABLES `regras_negocio_actions_config` WRITE;
+/*!40000 ALTER TABLE `regras_negocio_actions_config` DISABLE KEYS */;
+INSERT INTO `regras_negocio_actions_config` VALUES (1,0,'ccustos','9'),(1,1,'allow_voicemail','false'),(1,1,'dial_flags','twk'),(1,1,'dial_limit','0'),(1,1,'dial_limit_warn','0'),(1,1,'dial_timeout','60'),(1,1,'diff_ring','false'),(1,1,'dont_overflow','false'),(2,0,'ccustos','5.10'),(2,1,'alertEmail',''),(2,1,'dial_flags','TWK'),(2,1,'dial_limit',''),(2,1,'dial_timeout','60'),(2,1,'omit_kgsm','0'),(2,1,'tronco','- -'),(3,0,'ccustos','2'),(3,1,'alertEmail',''),(3,1,'dial_flags','TWK'),(3,1,'dial_limit',''),(3,1,'dial_timeout','60'),(3,1,'omit_kgsm','0'),(3,1,'tronco','- -'),(4,0,'ccustos','2'),(4,1,'alertEmail',''),(4,1,'dial_flags','TWK'),(4,1,'dial_limit',''),(4,1,'dial_timeout','60'),(4,1,'omit_kgsm','0'),(4,1,'tronco','- -'),(5,0,'ccustos','2'),(5,1,'alertEmail',''),(5,1,'dial_flags','TWK'),(5,1,'dial_limit',''),(5,1,'dial_timeout','60'),(5,1,'omit_kgsm','0'),(5,1,'tronco','- -'),(6,0,'ccustos','2'),(6,1,'alertEmail',''),(6,1,'dial_flags','TWK'),(6,1,'dial_limit',''),(6,1,'dial_timeout','60'),(6,1,'omit_kgsm','0'),(6,1,'tronco','- -'),(7,0,'ccustos','2'),(7,1,'alertEmail',''),(7,1,'dial_flags','TWK'),(7,1,'dial_limit',''),(7,1,'dial_timeout','60'),(7,1,'omit_kgsm','0'),(7,1,'tronco','- -');
+/*!40000 ALTER TABLE `regras_negocio_actions_config` ENABLE KEYS */;
+UNLOCK TABLES;
 --
 -- Table structure for table `ccustos`
 --
