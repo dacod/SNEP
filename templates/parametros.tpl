@@ -204,15 +204,6 @@
        </td>
     </tr>
     <tr>
-       <td class="esq">{$LANG.extensions_on}</td>
-       <td class="esq">
-          <input class="campos" type="text" size="60" name="new_extensions_on" value="{#extensions_on#}" onchange="this.form.elements['alterar[29]'].checked=true;" />
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[29]" value="extensions_on" />
-       </td>
-    </tr> 
-    <tr>
         <td colspan="3" class="tb_tit2"><strong>{$LANG.queues}</strong></td>
     </tr>
     <tr>

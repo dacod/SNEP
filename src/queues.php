@@ -54,14 +54,6 @@
    }
    $sounds[$value] = $value;
  }
- // Monta lista de Contextos
- $ext_list = explode(";",$SETUP['ambiente']['extensions_on']);
- $extensions_list = array() ;
- $extensions_list[''] = '' ;
- 
- foreach ($ext_list as $val)
-    $extensions_list["$val"] = $val ;
- asort($extensions_list);
  
  // Variaveis de ambiente do form
  $tipos_holdtime = array("yes" => $LANG['yes'], 
@@ -87,7 +79,6 @@
  $smarty->assign ('OPCOES_SECAO', $secoes);
  $smarty->assign ('OPCOES_SONS',$sounds) ;
  $smarty->assign ('SOUNDS_PATH',SNEP_PATH_SOUNDS);
- $smarty->assign('EXTEN_LIST',$extensions_list);   
   
  if ($acao == "cadastrar") {
     cadastrar();

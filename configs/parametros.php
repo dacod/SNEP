@@ -60,4 +60,3 @@ function gravar()  {
    } // Fim do If
   //echo "<meta http-equiv='refresh' content='0;url=../configs/parametros.php'>\n" ;
 }
-?>

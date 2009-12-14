@@ -48,9 +48,7 @@
     <tr>
        <td class="formlabel">{$LANG.q_context}:</td>
        <td class="subtable">
-          <select name="context" class="campos">
-             {html_options options=$EXTEN_LIST selected=$dt_queues.context}
-          </select>
+          <input type="text" name="context" class="campos" value="{$dt_queues.context}" />
        </td>
     </tr>
     <tr>

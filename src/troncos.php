@@ -19,14 +19,6 @@
  require_once("../configs/config.php");
  ver_permissao(31);
 
-  // Monta lista de Contextos
- // ------------------------
- $ext_list = explode(";",$SETUP['ambiente']['extensions_on']);
- $extensions_list = array(""=>"") ;
- foreach ($ext_list as $val)
-    $extensions_list["$val"] = $val ;
- asort($extensions_list);
-  
  // Monta lista de Troncos existentes - para Redundancia
  // ----------------------------------------------------
  $sql = "SELECT id,name,callerid FROM trunks " ;

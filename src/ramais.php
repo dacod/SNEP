@@ -22,14 +22,7 @@ require_once("../configs/config.php");
 ver_permissao(16) ;
 
 global $acao ;
-unset($_SESSION['filas_selec']) ;
-// Monta lista de Contextos
-$ext_list = explode(";",$SETUP['ambiente']['extensions_on']);
-$extensions_list = array() ;
-$extensions_list[''] = '' ;
-foreach ($ext_list as $val)
-$extensions_list["$val"] = $val ;
-asort($extensions_list);
+unset($_SESSION['filas_selec']);
 
 // Monta Lista de Grupos de Ramais
 $user_groups = array() ;
@@ -99,8 +92,7 @@ foreach (PBX_Trunks::getAll() as $tronco) {
 $smarty->assign('TRUNKS', $trunks);
  
 // Variaveis de ambiente do form
-$smarty->assign('ACAO',$acao) ; 
-$smarty->assign('EXTEN_LIST',$extensions_list);   
+$smarty->assign('ACAO',$acao) ;  
 $smarty->assign('OPCOES_YN',$tipos_yn) ;
 $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
 $smarty->assign('OPCOES_CODECS',$tipos_codecs) ;
