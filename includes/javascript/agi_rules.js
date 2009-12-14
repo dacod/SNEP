@@ -177,14 +177,14 @@ var Acoes = Class.create({
             fg = "TWK";
         }
 
-        var html = "<li style=\'height: 60px;\' name='"+sn+"' id='"+sn+"'>  <img style=\"float:right;\" title=\"Apagar ação\"  src=\"../imagens/delete.png\" onclick=\"removenode('"+sn+"'); return false;\" /> " +
+        var html = "<li style=\'height: 80px;\' name='"+sn+"' id='"+sn+"'>  <img style=\"float:right;\" title=\"Apagar ação\"  src=\"../imagens/delete.png\" onclick=\"removenode('"+sn+"'); return false;\" /> " +
         "<strong>Direcionar para Tronco</strong><br /> " +
         "Centro de Custo: <select id="+sn+"cc name="+sn+"cc class=\"minisel\"> "+ cc +"   </select> " +
         "Tronco: <select id="+sn+"tnk name="+sn+"tnk class=\"minisel\"> "+ tk +" </select>  " +
         "<input type=\"checkbox\" "+okgsm+" name="+sn+"omo > Omitir Origem (Somente KGSM)<br />\n" +
-        "Time Out: <input style='width:30px;' class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"> " +
-        "Tempo Limite: <input class=\"minibox required validate-number\"  name="+sn+"tl type=\"text\" value="+tl+" > " +
-        "Parametros: <input class=\"minibox\" required name="+sn+"fg type=\"text\" value="+fg+" > " +
+        "Timeout Completamento: <input style='width:30px;' class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"> " +
+        "Limitar Tempo Ligação: <input class=\"minibox required validate-number\"  name="+sn+"tl type=\"text\" value="+tl+" > " +
+        "Parametros: <input class=\"minibox\" required name="+sn+"fg type=\"text\" value="+fg+" ><br />" +
         "Emails para alerta: <input class=\"miniemail\" type='text' size='30' name='"+sn+"em' value='"+em+"' /> </li>";
 
         $('myList').insert(html);
@@ -330,9 +330,9 @@ var Acoes = Class.create({
         "<strong>Direcionar para Ramal</strong><br /> " +
         "Centro de Custo: <select id="+sn+"cc name="+sn+"cc class=\"campos\"> "+cc+" </select> " +
         "Ramal: <input class=\"minibox validate-number\" name="+sn+"rm  id="+sn+"rm type=\"text\" onblur=\"verificaRamal('"+sn+"rm'); return false;\" value="+valor+"  > " +
-        "Time Out: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"> " +
+        "Timeout Completamento: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"><br />" +
         "Parametros: <input class=\"minibox\" required name="+sn+"tl type=\"text\" value="+tl+" >" +
-        '<br /><input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar';
+        '<input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar';
         $('myList').insert(html);
         $('indice').value = ++num
 
