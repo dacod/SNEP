@@ -15,8 +15,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  *}
 {include file="cabecalho.tpl"}
+<form  action="{$smarty.server.SCRIPT_NAME}" METHOD="post">
 <table  cellpadding="0" cellspacing="0" border="0" align="center">
-   <FORM  action="{$smarty.server.SCRIPT_NAME}" METHOD="post">
    <tr>
       <td class="subtable" colspan="3" height="100" valign="top">
          <br />
@@ -47,36 +47,14 @@
       </td>
       <td class="subtable">&nbsp;</td>
    </tr>
-   </FORM>
    <tr>
      <td colspan="3" class="subtable" align="center">
      <br /><br /><br /><br /><br />
-        <a href="http://www.php.net" class="links_disable" target="blank" >
-        <img src="../imagens/php-power-white.png" width="88" height="31" style="border: none" />&nbsp;
-        </a>
-        <a href="http://www.smarty.net" class="links_disable" target="blank" >
-        <img src="../imagens/smarty_icon.gif" width="88" height="31"  style="border: none" />&nbsp;
-        </a>
-        <a href="http://www.asternic.org" class="links_disable" target="blank" >
-        <img src="../imagens/fop_logo.gif" width="183" height="31" style="border: none" />&nbsp;
-        </a>
-        <a href="http://www.aditus.nu/jpgraph/index.php" class="links_disable" target="blank" >        
-        <img src="../imagens/JpGraph_Logo.png" width="44" height="31" style="border: none" />&nbsp;
-        </a>
-        <a href="http://www.mysql.com" class="links_disable" target="blank" >
-        <img src="../imagens/powered-by-mysql-88x31.png" width="88" height="31" style="border: none" />&nbsp;
-        </a>
-        <a href="http://mozilla.com/firefox" class="links_disable" target="blank" >
-        <img src="../imagens/firefox_logo.png" width="88" height="34" style="border: none" />&nbsp;
-        </a>        
      </td>
-     
    </tr>
 </table>
+</form>
 { include file="rodape.tpl }
-</div>
-</body>
-</html>
 <script>
  // <![CDATA[
  document.getElementById('user_login').focus();

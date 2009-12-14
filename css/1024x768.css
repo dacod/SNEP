@@ -588,6 +588,10 @@ td.formlabel  {
    padding-right: 5px;
 }
 
+form {
+    margin: 0px;
+    padding: 0px;
+}
 
 table thead {
    font-weight: bold ;
