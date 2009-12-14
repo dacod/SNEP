@@ -182,7 +182,6 @@ function cadastrar()  {
    $fromuser = $name; 
    $username = $name ;
    $callerid = addslashes($callerid) ;
-   $context  = addslashes($context) ;
    $mailbox  = addslashes($mailbox) ; 
    $fullcontact = "" ; 
    $call_limit = $calllimit ;
@@ -425,7 +424,6 @@ function grava_alterar()  {
    $fromuser = $name; 
    $username = $name ;
    $callerid = addslashes($callerid) ;
-   $context  = addslashes($context) ;
    $mailbox  = addslashes($mailbox) ; 
    $fullcontact = "" ;
    $call_limit = $calllimit ;

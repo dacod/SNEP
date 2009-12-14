@@ -208,4 +208,4 @@ function excluir()  {
  } catch (PDOException $e) {
     display_error($LANG['error'].$e->getMessage(),true) ;
  }  
-}?>
+}

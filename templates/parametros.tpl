@@ -208,18 +208,6 @@
     </tr>
     <tr>
        <td class="esq">
-          &nbsp;&nbsp;<img src="../imagens/corner.gif" alt="" border="0" />{$LANG.typefilequeue}
-       </td>
-       <td class="esq">
-          <input type="radio" name="new_queue_type" value="A" {if #queue_type# == "A"} checked {/if} onchange="this.form.elements['alterar[21]'].checked=true;" />{$LANG.file} 
-          <input type="radio" name="new_queue_type" value="T" {if #queue_type# == "T"} checked {/if} onchange="this.form.elements['alterar[21]'].checked=true;" />{$LANG.table}
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[21]" value="queue_type" />
-       </td>
-    </tr>
-    <tr>
-       <td class="esq">
           &nbsp;&nbsp;<img src="../imagens/corner.gif" alt="" border="0" />{$LANG.timerefresh}
        </td>
        <td class="esq">
