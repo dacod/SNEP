@@ -16,9 +16,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-CREATE USER 'snep'@'localhost' IDENTIFIED BY 'sneppass';
+CREATE USER 'snep'@'localhost' IDENTIFIED BY 'atk010';
 
-GRANT ALL PRIVILEGES ON * . * TO 'snep'@'localhost' IDENTIFIED BY 'sneppass' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
+GRANT ALL PRIVILEGES ON * . * TO 'snep'@'localhost' IDENTIFIED BY 'atk010' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
 
 CREATE DATABASE IF NOT EXISTS `snep25` ; 
 
@@ -29,6 +29,31 @@ FLUSH PRIVILEGES ;
 CREATE DATABASE IF NOT EXISTS `snep25` ; 
 GRANT ALL PRIVILEGES ON `snep25` . * TO 'snep'@'localhost'; 
 USE snep25;
+
+--
+-- Table structure for table `registry`
+--
+DROP TABLE IF EXISTS `registry`;
+CREATE TABLE `registry` (
+	    `context` VARCHAR(50),
+	    `key` VARCHAR(30),
+	    `value` VARCHAR(250),
+	    PRIMARY KEY (`context`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `match_db_log`
+--
+DROP TABLE IF EXISTS `match_db_log`;
+CREATE TABLE `match_db_log` (
+	    `date` DATETIME,
+	    `src` VARCHAR(50),
+	    `key` VARCHAR(30),
+	    `return` VARCHAR(250),
+	    `valid` BOOLEAN,
+	    PRIMARY KEY (`date`, `src`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Table structure for table `agentes`
@@ -59,6 +84,7 @@ CREATE TABLE `registry` (
 -- Table structure for table `regras_negocio`
 --
 
+DROP TABLE IF EXISTS `regras_negocio`;
 CREATE TABLE regras_negocio (
   id integer PRIMARY KEY auto_increment,
   prio integer NOT NULL default 0,
@@ -71,6 +97,7 @@ CREATE TABLE regras_negocio (
   ativa boolean NOT NULL default true
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `regras_negocio_actions`;
 CREATE TABLE regras_negocio_actions (
   regra_id integer NOT NULL,
   prio integer NOT NULL,
@@ -79,6 +106,7 @@ CREATE TABLE regras_negocio_actions (
   FOREIGN KEY (regra_id) REFERENCES regras_negocio(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `regras_negocio_actions_config`;
 CREATE TABLE regras_negocio_actions_config (
   regra_id integer NOT NULL,
   prio integer NOT NULL,
@@ -88,36 +116,6 @@ CREATE TABLE regras_negocio_actions_config (
   FOREIGN KEY (regra_id, prio) REFERENCES regras_negocio_actions (regra_id, prio) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
---
--- Dumping data for table `regras_negocio`
---
-
-LOCK TABLES `regras_negocio` WRITE;
-/*!40000 ALTER TABLE `regras_negocio` DISABLE KEYS */;
-INSERT INTO `regras_negocio` VALUES (1,0,'Ligações Internas','G:all','G:all','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(2,5,'Ligações de Emergência','X','RX:18X,RX:19X','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(3,0,'Ligações 0800 Gratuitas','X','X','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(4,0,'Ligações de saída locais','X','RX:[2-6]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(5,0,'Ligações Celular Local','X','RX:[7-9]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(6,0,'Ligações Interurbanas para Fixo','X','RX:0XX[2-6]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1),(7,0,'Interurbanos Celular','X','RX:0XX[7-9]XXXXXXX','00:00-23:59','sun,mon,tue,wed,thu,fri,sat',0,1);
-/*!40000 ALTER TABLE `regras_negocio` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `regras_negocio_actions`
---
-
-LOCK TABLES `regras_negocio_actions` WRITE;
-/*!40000 ALTER TABLE `regras_negocio_actions` DISABLE KEYS */;
-INSERT INTO `regras_negocio_actions` VALUES (1,0,'PBX_Rule_Action_CCustos'),(1,1,'PBX_Rule_Action_DiscarRamal'),(2,0,'PBX_Rule_Action_CCustos'),(2,1,'PBX_Rule_Action_DiscarTronco'),(3,0,'PBX_Rule_Action_CCustos'),(3,1,'PBX_Rule_Action_DiscarTronco'),(4,0,'PBX_Rule_Action_CCustos'),(4,1,'PBX_Rule_Action_DiscarTronco'),(5,0,'PBX_Rule_Action_CCustos'),(5,1,'PBX_Rule_Action_DiscarTronco'),(6,0,'PBX_Rule_Action_CCustos'),(6,1,'PBX_Rule_Action_DiscarTronco'),(7,0,'PBX_Rule_Action_CCustos'),(7,1,'PBX_Rule_Action_DiscarTronco');
-/*!40000 ALTER TABLE `regras_negocio_actions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `regras_negocio_actions_config`
---
-
-LOCK TABLES `regras_negocio_actions_config` WRITE;
-/*!40000 ALTER TABLE `regras_negocio_actions_config` DISABLE KEYS */;
-INSERT INTO `regras_negocio_actions_config` VALUES (1,0,'ccustos','9'),(1,1,'allow_voicemail','false'),(1,1,'dial_flags','twk'),(1,1,'dial_limit','0'),(1,1,'dial_limit_warn','0'),(1,1,'dial_timeout','60'),(1,1,'diff_ring','false'),(1,1,'dont_overflow','false'),(2,0,'ccustos','5.10'),(2,1,'alertEmail',''),(2,1,'dial_flags','TWK'),(2,1,'dial_limit',''),(2,1,'dial_timeout','60'),(2,1,'omit_kgsm','0'),(2,1,'tronco','- -'),(3,0,'ccustos','2'),(3,1,'alertEmail',''),(3,1,'dial_flags','TWK'),(3,1,'dial_limit',''),(3,1,'dial_timeout','60'),(3,1,'omit_kgsm','0'),(3,1,'tronco','- -'),(4,0,'ccustos','2'),(4,1,'alertEmail',''),(4,1,'dial_flags','TWK'),(4,1,'dial_limit',''),(4,1,'dial_timeout','60'),(4,1,'omit_kgsm','0'),(4,1,'tronco','- -'),(5,0,'ccustos','2'),(5,1,'alertEmail',''),(5,1,'dial_flags','TWK'),(5,1,'dial_limit',''),(5,1,'dial_timeout','60'),(5,1,'omit_kgsm','0'),(5,1,'tronco','- -'),(6,0,'ccustos','2'),(6,1,'alertEmail',''),(6,1,'dial_flags','TWK'),(6,1,'dial_limit',''),(6,1,'dial_timeout','60'),(6,1,'omit_kgsm','0'),(6,1,'tronco','- -'),(7,0,'ccustos','2'),(7,1,'alertEmail',''),(7,1,'dial_flags','TWK'),(7,1,'dial_limit',''),(7,1,'dial_timeout','60'),(7,1,'omit_kgsm','0'),(7,1,'tronco','- -');
-/*!40000 ALTER TABLE `regras_negocio_actions_config` ENABLE KEYS */;
-UNLOCK TABLES;
 --
 -- Table structure for table `ccustos`
 --
@@ -381,9 +379,11 @@ CREATE TABLE `permissoes` (
 
 LOCK TABLES `permissoes` WRITE;
 /*!40000 ALTER TABLE `permissoes` DISABLE KEYS */;
-INSERT INTO `permissoes` VALUES (1,1,'S'),(10,1,'S'),(11,1,'S'),(12,1,'S'),(13,1,'S'),(14,1,'S'),(15,1,'S'),(16,1,'S'),(20,1,'S'),(21,1,'S'),(22,1,'S'),(23,1,'S'),(24,1,'S'),(40,1,'S'),(41,1,'S'),(42,1,'S'),(43,1,'S'),(60,1,'S'),(61,1,'S'),(62,1,'S'),(63,1,'S'),(99,1,'S'),(81,1,'S'),(25,1,'S'),(26,1,'S'),(17,1,'S'),(27,1,'S'),(28,1,'S'),(18,1,'S'),(19,1,'S'),(30,1,'S'),(31,1,'S'),(33,1,'S'),(34,1,'S'),(32,1,'S'),(35,1,'S'),(37,1,'S'),(38,1,'S'),(45,1,'S'),(46,1,'S'),(70,1,'S'),(47,1,'S'),(29,1,'S'),(48,1,'S'),(49,1,'S'),(50,1,'S'),(51,1,'S'),(53,1,'S'),(66,1,'S'),(65,1,'S'),(64,1,'S'),(57,1,'S'),(59,1,'S'),(52,1,'S'),(101,1,'S'),(102,1,'S'),(100,1,'S'),(103,1,'S'),(104,1,'S');
+INSERT INTO `permissoes` VALUES (1,1,'S'),(10,1,'S'),(11,1,'S'),(12,1,'S'),(13,1,'S'),(14,1,'S'),(15,1,'S'),(16,1,'S'),(20,1,'S'),(21,1,'S'),(22,1,'S'),(23,1,'S'),(24,1,'S'),(40,1,'S'),(41,1,'S'),(42,1,'S'),(43,1,'S'),(60,1,'S'),(61,1,'S'),(62,1,'S'),(63,1,'S'),(99,1,'S'),(81,1,'S'),(25,1,'S'),(26,1,'S'),(17,1,'S'),(27,1,'S'),(28,1,'S'),(18,1,'S'),(19,1,'S'),(30,1,'S'),(31,1,'S'),(33,1,'S'),(34,1,'S'),(32,1,'S'),(35,1,'S'),(37,1,'S'),(38,1,'S'),(45,1,'S'),(46,1,'S'),(70,1,'S'),(47,1,'S'),(29,1,'S'),(48,1,'S'),(49,1,'S'),(50,1,'S'),(51,1,'S'),(53,1,'S'),(66,1,'S'),(65,1,'S'),(64,1,'S'),(57,1,'S'),(59,1,'S'),(52,1,'S'),(101,1,'S'),(102,1,'S'),(100,1,'S'),(103,1,'S'),(104,1,'S'), ('110', '1', 'S'), ('111', '1', 'S'),('112', '1', 'S'),('113', '1', 'S');
 /*!40000 ALTER TABLE `permissoes` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
 
 --
 -- Table structure for table `queue_log`
@@ -501,7 +501,7 @@ CREATE TABLE `rotinas` (
 
 LOCK TABLES `rotinas` WRITE;
 /*!40000 ALTER TABLE `rotinas` DISABLE KEYS */;
-INSERT INTO `rotinas` VALUES (81,'Permitir OUVIR gravacoes das chamadas'),(1,'Ver Painel'),(11,'Grupos: Relacao de Grupos'),(12,'Grupos: Cadastro Usuarios (I/A/E)'),(13,'Contas: Cadastro de Contas (I/A/E)'),(14,'Agentes (I,A,E)'),(15,'Ramais: Relacao de Ramais'),(16,'Ramais: Cadastro de Ramais (I/A/E)'),(10,'Cadastros'),(20,'RelatÃ³rios'),(40,'Graficos'),(60,'Configuracoes'),(21,'Relatorio: Registro de Chamadas'),(22,'Relatorio: Registro de Login/Logout de Agentes'),(23,'Relatorio: Faxes Transmitidos'),(24,'Relatorio: Faxes Recebidos'),(41,'Grafico: Registro de Chamadas'),(42,'Grafico: EstatiÂ­sticas de Tempo'),(43,'Grafico: Taxas de Ocupacao'),(61,'Configuracoes: Parametros do Sistema'),(62,'Configuracoes: Manutencao do Sistema'),(63,'Configuracoes: URA'),(99,'Usuarios: Permissao de Acesso'),(25,'Relatorio: Estatisticas do Operador'),(26,'Filas e Agentes'),(27,'Contas: Relacao de Contas'),(28,'Relatorio: Usuarios'),(17,'Ramais: Cadastro de Varios Ramais'),(19,'Filas: Cadastro de Filas (I/A/E)'),(18,'Filas: Relacao de Filas'),(31,'Troncos: Cadastro de Troncos (I/A/E)'),(30,'Troncos: Relacao de Troncos'),(33,'Agentes: Cadastro (I/A/E)'),(32,'Conferencias: Cadastro (I/A/E)'),(35,'Status dos Links'),(37,'Operadoras: Cadastrar Operadoras (I/A/E)'),(38,'Operadoras: Relacao de Operadoras '),(45,'Tarifas: Cadastrod e Tarifas (I/A/C)'),(46,'Tarifas: Relacao de Tarifas'),(70,'Tarifas'),(47,'Tarifas: Gerar Tarifacao'),(29,'Relatorios: Ranking das Ligacoes'),(48,'Regras de Dialplan: Relacao de Regras'),(49,'Regras de Dialplan: Cadastrar Regras (I/A/C)'),(50,'Sons - Relacao de Sons'),(51,'Sons - Cadastro de Sons (I/A/E)'),(53,'Musicas em Espera'),(64,'Configuracoes: Aliases de Troncos'),(65,'Configuracoes: Relacao de Aliases de Troncos'),(59, 'Contatos: Relacao de contatos'),(57, 'Contatos: (A/I/E)'),(82, 'Permitir EXCLUIR gravacoes das chamadas'),(100, 'Relatório Filas de Atendimento'),(101, 'Relatório Loguin Logoff em Filas'),(102, 'Relatório Serviços Utilizados'),(103, 'Logs do Sistema'), (104, 'Relatório de Fax');
+INSERT INTO `rotinas` VALUES (81,'Permitir OUVIR gravacoes das chamadas'),(1,'Ver Painel'),(11,'Grupos: Relacao de Grupos'),(12,'Grupos: Cadastro Usuarios (I/A/E)'),(13,'Contas: Cadastro de Contas (I/A/E)'),(14,'Agentes (I,A,E)'),(15,'Ramais: Relacao de Ramais'),(16,'Ramais: Cadastro de Ramais (I/A/E)'),(10,'Cadastros'),(20,'RelatÃ³rios'),(40,'Graficos'),(60,'Configuracoes'),(21,'Relatorio: Registro de Chamadas'),(22,'Relatorio: Registro de Login/Logout de Agentes'),(23,'Relatorio: Faxes Transmitidos'),(24,'Relatorio: Faxes Recebidos'),(41,'Grafico: Registro de Chamadas'),(42,'Grafico: EstatiÂ­sticas de Tempo'),(43,'Grafico: Taxas de Ocupacao'),(61,'Configuracoes: Parametros do Sistema'),(62,'Configuracoes: Manutencao do Sistema'),(63,'Configuracoes: URA'),(99,'Usuarios: Permissao de Acesso'),(25,'Relatorio: Estatisticas do Operador'),(26,'Filas e Agentes'),(27,'Contas: Relacao de Contas'),(28,'Relatorio: Usuarios'),(17,'Ramais: Cadastro de Varios Ramais'),(19,'Filas: Cadastro de Filas (I/A/E)'),(18,'Filas: Relacao de Filas'),(31,'Troncos: Cadastro de Troncos (I/A/E)'),(30,'Troncos: Relacao de Troncos'),(33,'Agentes: Cadastro (I/A/E)'),(32,'Conferencias: Cadastro (I/A/E)'),(35,'Status dos Links'),(37,'Operadoras: Cadastrar Operadoras (I/A/E)'),(38,'Operadoras: Relacao de Operadoras '),(45,'Tarifas: Cadastrod e Tarifas (I/A/C)'),(46,'Tarifas: Relacao de Tarifas'),(70,'Tarifas'),(47,'Tarifas: Gerar Tarifacao'),(29,'Relatorios: Ranking das Ligacoes'),(48,'Regras de Dialplan: Relacao de Regras'),(49,'Regras de Dialplan: Cadastrar Regras (I/A/C)'),(50,'Sons - Relacao de Sons'),(51,'Sons - Cadastro de Sons (I/A/E)'),(53,'Musicas em Espera'),(64,'Configuracoes: Aliases de Troncos'),(65,'Configuracoes: Relacao de Aliases de Troncos'),(59, 'Contatos: Relacao de contatos'),(57, 'Contatos: (A/I/E)'),(82, 'Permitir EXCLUIR gravacoes das chamadas'),(100, 'Relatório Filas de Atendimento'),(101, 'Relatório Loguin Logoff em Filas'),(102, 'Relatório Serviços Utilizados'),(103, 'Logs do Sistema'), (104, 'Relatório de Fax'),('110', 'Modulo de Registros'),('111', 'Limpa Registros'),('112', 'Importador de Registros'),('113', 'Relatório do Módulo de Registros');
 /*!40000 ALTER TABLE `rotinas` ENABLE KEYS */;
 UNLOCK TABLES;
 
