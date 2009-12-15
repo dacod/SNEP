@@ -32,7 +32,7 @@
       <tr>
          <td class="cen">{$LANG.backup}</td>
          <td class="cen">{$LANG.actual}</td>
-      <tr>
+      </tr>
    </thead>   
    {section name=sounds loop=$DADOS max=#linelimit# start=$INI}
    <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
