@@ -22,7 +22,7 @@
             <td style="border-bottom:none; padding: 5px;">
                 <input type="hidden" name="acao" value="simulate" />
                 <label for="srcType">{$LANG.deb_caller}:</label>
-                <select id="srcType" name="srcType" onchange="if(this.value == 'trunk') $('trunk').show(); else $('trunk').hide();">
+                <select id="srcType" class="campos" name="srcType" onchange="if(this.value == 'trunk') $('trunk').show(); else $('trunk').hide();">
                     <option {php}echo isset($_GET['srcType']) && $_GET['srcType'] == 'exten' ? "selected" : ""{/php} value="exten">Ramal</option>
                     <option {php}echo isset($_GET['srcType']) && $_GET['srcType'] == 'trunk' ? "selected" : ""{/php} value="trunk">Tronco</option>
                     <option {php}echo isset($_GET['srcType']) && $_GET['srcType'] == 'undefined' ? "selected" : ""{/php} value="undefined">Indefinido</option>
