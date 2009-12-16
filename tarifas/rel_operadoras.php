@@ -19,7 +19,7 @@
  require_once("../includes/verifica.php");   
  require_once("../configs/config.php");
  ver_permissao(38) ;
- $titulo = $LANG['menu_register']." -> ".$LANG['menu_operadoras'] ;
+ $titulo = $LANG['menu_tarifas']." -> ".$LANG['menu_operadoras'] ;
  // SQL padrao
  $sql = "SELECT * FROM operadoras " ;
  // Opcoes de Filtrros
