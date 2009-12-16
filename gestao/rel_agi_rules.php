@@ -19,7 +19,7 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php"); 
 ver_permissao(48);
 
-$titulo = $LANG['menu_rules']." -> ".$LANG['menu_exit'];
+$titulo = $LANG['menu_rules']." -> ".$LANG['menu_rules_in_out'];
 
 // Opcoes de Filtros
 $opcoes = array( "src" => $LANG['origin'],
