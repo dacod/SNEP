@@ -45,7 +45,7 @@
  $src = $_SESSION['sneplog']['src'];
  $dst = $_SESSION['sneplog']['dst'];
 
- $titulo =  $LANG['tit_logger'];
+ $titulo =  $LANG['menu_status']." -> ".$LANG['tit_logger'];
  $smarty->assign('status', $status);
  $smarty->assign('dados', $dados_iniciais);
  $smarty->assign('src', $src);
@@ -91,7 +91,7 @@
      if(count($result) <= 0) {
         display_error($LANG['error_lognoresult'],true) ;
      }
-     $titulo = $LANG['tit_logger'] ." -> ". $LANG['tit_logger_find'];
+     $titulo = $LANG['menu_status']." -> ".$LANG['tit_logger'] ." -> ". $LANG['tit_logger_find'];
 
      $smarty->assign('type', 'log');
      $smarty->assign('resultado', $result);
@@ -108,7 +108,7 @@
 
     // Esta função exibe um template e as ações de busca no arquivo são feitos em ajax, chamando
     // o script sneplogtail.php.
-    $titulo = $LANG['tit_logger'] ." -> ". $LANG['tit_logger_tail'];
+    $titulo = $LANG['menu_status']." -> ".$LANG['tit_logger'] ." -> ". $LANG['tit_logger_tail'];
     $smarty->assign('type', 'tail');    
     $smarty->assign('PROTOTYPE', True);
 
