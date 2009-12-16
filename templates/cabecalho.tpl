@@ -106,7 +106,6 @@
          <li><a href="#">{$LANG.menu_config} +</a>
             <ul>
                <li onclick="javascript:window.location.href='../configs/parametros.php'"><a href="#">{$LANG.menu_params}</a></li>
-               <li onclick="javascript:window.location.href='../gestao/sneplog.php'"><a href="#"> {$LANG.tit_logger}</a></li>
 
                <li onclick="javascript:window.location.href='../src/rel_sounds.php'"><a href="#">{$LANG.menu_sounds}</a></li>
                <li onclick="javascript:window.location.href='../gestao/rel_musiconhold.php'"><a href="#">{$LANG.menu_musiconhold}</a></li>
@@ -171,6 +170,7 @@
                {/if}
                <li><a href="#"  type="text/html" onclick="javascript:window.location.href='../src/database_load.php'">{$LANG.menu_databaseshow}</a></li>
                <li><a href="#"  type="text/html" onclick="javascript:window.location.href='../gestao/links_errors_load.php'">{$LANG.menu_links_erros}</a></li>
+               <li onclick="javascript:window.location.href='../gestao/sneplog.php'"><a href="#"> {$LANG.tit_logger}</a></li>
              </ul>
         </li>
       </ul>
