@@ -139,11 +139,19 @@
            </td>
         </tr>
         <tr>
+           <td class="formlabel">{$LANG.qualify}:</td>
+           <td class="subtable">
+               <input type="radio" name="qualify" id="qualify" value="yes" {if $dt_troncos.qualify == 'yes'}checked {/if} > {$LANG.yes}
+               <input type="radio" name="qualify" id="qualify" value="no"  {if $dt_troncos.qualify == 'no'}checked {/if} > {$LANG.no}
+           </td>
+        </tr>
+        <tr>
            <td class="formlabel"><strong>{$LANG.advancedoptions}:</strong></td>
            <td class="subtable">
                <input type="checkbox" name="reverseAuth" id="reverseAuth" {if $dt_troncos.reverseAuth}checked="checked"{/if} /> <label for="reverseAuth">{$LANG.force_reverse_auth}</label>
            </td>
         </tr>
+
     </table>
 </div>
 <table id="khomp" cellspacing="0" align="center" style="border-top: none; border-bottom:none; {if $dt_troncos.trunktype != 'KHOMP'} display:none; {/if}" >
