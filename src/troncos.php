@@ -122,7 +122,7 @@ if($khomp_info->hasWorkingBoards()) {
 function cadastrar()  {
    global $LANG, $db, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth;
+   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify;
 
    if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
        $cod1 = $snep_cod1;
@@ -260,10 +260,10 @@ function cadastrar()  {
       if ($trunktype == "I") {
          $sql = "INSERT INTO peers (" ;
          $sql.= "name,callerid,context,secret,type,allow,username,";
-         $sql.= "dtmfmode,canal,host,peer_type, trunk".$sql_fields_default ;
+         $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify ".$sql_fields_default ;
          $sql.= ") values (";
          $sql.=  "'$name','$callerid','$context','$secret','peer','$allow',";
-         $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes'";
+         $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes', '$qualify' ";
          $sql.= $sql_values_default.")" ;
          $db->exec($sql) ;
       }
@@ -328,6 +328,8 @@ function alterar()  {
        $trunk['khomp_board'] = substr($trunk['channel'],strrpos($trunk['channel'],"/")+1);
    }
    
+   $trunk['qualify'] = $peer['qualify'];
+
    // Retira o tronco atual da lista de troncos para redundancia
    unset($trunks_disp[$id]) ;
 
@@ -343,7 +345,8 @@ function alterar()  {
 ------------------------------------------------------------------------------*/
 function grava_alterar()  {
    global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth;
+   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify;
+
 
    if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
        $cod1 = $snep_cod1;
@@ -467,7 +470,7 @@ function grava_alterar()  {
          $sql = "UPDATE peers ";
          $sql.=" SET fromdomain='$fromdomain', fromuser='$fromuser' ,callerid='$callerid', context='$context',secret='$secret',";
          $sql.= "type='peer', allow='$allow',host='$host_trunk'," ;
-         $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel'" ;
+         $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel',qualify='$qualify'" ;
          $sql.= " WHERE name='$name'" ;
          $db->exec($sql) ;
       }
