@@ -58,9 +58,6 @@ Zend_Registry::set('config', $config);
 // Versão do SNEP
 Zend_Registry::set('snep_version', file_get_contents($config->system->path->base . "/configs/snep_version"));
 
-// Inclusão da classe SNEPOP
-//require_once('../includes/snepos.php');
-
 // Iniciando sistema de logs
 $log = new Zend_Log();
 Zend_Registry::set('log', $log);
@@ -338,7 +335,7 @@ $status_sintetico_khomp = array("unused"   => $LANG['unused'],
 //---------------------------------------------------------------------
  $def_campos_ramais = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "host" => "'dynamic'", "insecure" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "canreinvite" => "'no'")  ;
 
- $def_campos_troncos = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "mailbox" => "''", "email" => "''", "vinculo" => "''", "incominglimit" => 0, "outgoinglimit" => 0, "usa_vc"=>"'no'","nat"=>"'no'","canreinvite" => "'no'","qualify"=>"'yes'", "mailbox"=>"''","fullcontact"=>"''","authenticate"=>"''", "subscribecontext"=>"''","incominglimit"=>0,"outgoinglimit"=>0, "usa_vc"=>"'no'", "email"=>"''", "vinculo"=>"''","`call-limit`"=>"'0'");
+ $def_campos_troncos = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "mailbox" => "''", "email" => "''", "vinculo" => "''", "incominglimit" => 0, "outgoinglimit" => 0, "usa_vc"=>"'no'","nat"=>"'no'","canreinvite" => "'no'", "mailbox"=>"''","fullcontact"=>"''","authenticate"=>"''", "subscribecontext"=>"''","incominglimit"=>0,"outgoinglimit"=>0, "usa_vc"=>"'no'", "email"=>"''", "vinculo"=>"''","`call-limit`"=>"'0'");
  
  
  // Define Template CSS a ser usado
