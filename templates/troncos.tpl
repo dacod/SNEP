@@ -144,7 +144,7 @@
                <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="yes" {if $qualify == 's'}{if $dt_troncos.qualify == 'yes'} checked {/if}{/if} > {$LANG.yes}
                <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="no"  {if $qualify == 's'}{if $dt_troncos.qualify == 'no'} checked {/if}{/if} > {$LANG.no}
                <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="specify" {if $qualify == 'e'} checked {/if} > {$LANG.specify}
-               <input type="text" name="qualify_time" id="qualify_time" style="width:30px;margin-left: 10px;" class="campos" value="{if $qualify == 'e'} {$dt_troncos.qualify} {/if}" /> millisegundos
+               <input type="text" name="qualify_time" id="qualify_time" style="width:30px;margin-left: 10px;" class="campos" value="{if $qualify == 'e'} {$dt_troncos.qualify} {else}{if $dt_troncos.qualify == 'yes'}2000 {/if} {/if}" /> millisegundos
            </td>
         </tr>
         <tr>
