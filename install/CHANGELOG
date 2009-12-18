@@ -4,6 +4,10 @@
         Correção de possível falha de segurança nas regras de negócio.
         Corrigido script para resolução de serviços do ramal. (Corrige
 transferências)
+        Corrigido verificação na remoção de ramal para regras de negócio que
+fazem uso de determinado ramal. Evita falha nas regras de negócio.
+        Corrigido verificação na remoção de tronco em mesma situação do bug
+acima.
 
 1.0.1:
     Estrutura:

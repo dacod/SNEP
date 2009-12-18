@@ -72,28 +72,3 @@
    </tr>
 </table>
 { include file="rodape.tpl }
-<script type="text/javascript">
-{literal}
-
-    /* Confirmacao e remocao de regras de negocio */
-    function remove_ramal(id,canal) {
-        var url = '../src/ramais.php';
-        var params = 'acao=excluir&id='+id+'&canal=';
-
-        if(confirm("{/literal} {$LANG.confirm_remocao_ramal} {literal}")) {
-            var retorno = new Ajax.Request (
-                url, {
-                      method: 'post',
-                      parameters: params,
-                      onComplete: resposta_ramal
-                     }
-            );
-        }
-    }
-
-    function resposta_ramal(resp) {
-         window.location.href="../src/rel_ramais.php";
-    }
-
-{/literal}
-</script>

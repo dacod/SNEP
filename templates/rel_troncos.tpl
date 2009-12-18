@@ -46,7 +46,7 @@
          </td>
          <td valign="middle" align="center" width="30px;">
             <acronym title="{$LANG.exclude}">
-               <img src="../imagens/delete.png" alt="{$LANG.exclude}" onclick="remove_tronco('{$DADOS[troncos].id}','{$DADOS[troncos].name}','{$DADOS[troncos].trunktype}')"/>
+                <a href="./troncos.php?acao=excluir&id={$DADOS[troncos].id}&name={$DADOS[troncos].name}" onclick="return confirm('{$LANG.confirm_remocao_tronco}')" ><img src="../imagens/delete.png" alt="{$LANG.exclude}" /></a>
             </acronym>          
          </td>
       </tr>
@@ -59,29 +59,3 @@
 
 </table>
 { include file="rodape.tpl }
-
-<script type="text/javascript">
-{literal}
-
-    /* Confirmacao e remocao de regras de negocio */
-    function remove_tronco(id,nm,tt) {
-        var url = '../src/troncos.php';
-        var params = 'acao=excluir&id='+id+'&nm='+nm+'&tt='+tt;
-
-        if(confirm("{/literal} {$LANG.confirm_remocao_tronco} {literal}")) {
-            var retorno = new Ajax.Request (
-                url, {
-                      method: 'GET',
-                      parameters: params,
-                      onComplete: resposta_tronco
-                     }
-            );
-        }
-    }
-
-    function resposta_tronco(resp) {
-         window.location.href="../src/rel_troncos.php";
-    }
-
-{/literal}
-</script>
