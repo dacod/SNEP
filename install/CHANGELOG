@@ -8,6 +8,7 @@ transferências)
 fazem uso de determinado ramal. Evita falha nas regras de negócio.
         Corrigido verificação na remoção de tronco em mesma situação do bug
 acima.
+        Eliminada falha ao editar uma regra de negócio com ação de fila.
 
 1.0.1:
     Estrutura:

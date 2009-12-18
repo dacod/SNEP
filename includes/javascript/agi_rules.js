@@ -457,7 +457,7 @@ function remontaFilas(select) {
     var html = '';
     html += '<option> - - </option>';
     for(i=0; i < filas_list.length; i++) {
-        if(filas_list[i][0] == fil) {
+        if(filas_list[i][1] == fil) {
             html += '<option selected="selected" value="' + filas_list[i][1] + '">';
         }
         else {
