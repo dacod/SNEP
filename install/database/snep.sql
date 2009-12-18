@@ -262,7 +262,7 @@ CREATE TABLE `peers` (
   `mask` varchar(95) default NULL,
   `pickupgroup` integer default NULL,
   `port` varchar(5) NOT NULL default '',
-  `qualify` char(3) default NULL,
+  `qualify` char(5) default NULL,
   `restrictcid` char(1) default NULL,
   `rtptimeout` char(3) default NULL,
   `rtpholdtimeout` char(3) default NULL,
