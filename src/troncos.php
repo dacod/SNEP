@@ -114,6 +114,7 @@ if($khomp_info->hasWorkingBoards()) {
    
    $smarty->assign('dt_troncos_tempos',$time) ;
    $smarty->assign('ACAO',"cadastrar") ;
+   $smarty->assign('PROTOTYPE',true) ;
    display_template("troncos.tpl",$smarty,$titulo) ;
 } 
 /*------------------------------------------------------------------------------
@@ -122,7 +123,7 @@ if($khomp_info->hasWorkingBoards()) {
 function cadastrar()  {
    global $LANG, $db, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify;
+   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
 
    if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
        $cod1 = $snep_cod1;
@@ -130,6 +131,11 @@ function cadastrar()  {
        $cod3 = $snep_cod3;
        $cod4 = $snep_cod4;
        $cod5 = $snep_cod5;
+   }
+
+   // verifica tipo de Qualify, (yes|no|specify)
+   if($qualify == 'specify') {
+       $qualify = trim($qualify_time);
    }
 
    // monta a cadeia de codecs permitidos
@@ -328,7 +334,13 @@ function alterar()  {
        $trunk['khomp_board'] = substr($trunk['channel'],strrpos($trunk['channel'],"/")+1);
    }
    
-   $trunk['qualify'] = $peer['qualify'];
+   // Faz uma verificação e instancia uma variavel de controle do Smarty
+   if($peer['qualify'] == "no" ||$peer['qualify'] == "yes") {
+        $smarty->assign('qualify', 's');
+   }else{
+        $smarty->assign('qualify', 'e');
+   }
+   $trunk['qualify'] = $peer['qualify'];   
 
    // Retira o tronco atual da lista de troncos para redundancia
    unset($trunks_disp[$id]) ;
@@ -345,7 +357,7 @@ function alterar()  {
 ------------------------------------------------------------------------------*/
 function grava_alterar()  {
    global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify;
+   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
 
 
    if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
@@ -359,6 +371,11 @@ function grava_alterar()  {
    if (!$_POST['id']) {
       display_error($LANG['msg_notselect'],true) ;
       exit ;
+   }
+
+   // verifica tipo de Qualify, (yes|no|specify)
+   if($qualify == 'specify') {
+       $qualify = $qualify_time;
    }
          
    // monta a cadeia de codecs permitidos
