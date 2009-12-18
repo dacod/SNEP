@@ -1,20 +1,4 @@
 <?php
-/**
- *  This file is part of SNEP.
- *
- *  SNEP is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  SNEP is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
- */
 $LANGUAGE = "pt_BR";
 $LANGUAGE_NAME = "Portugu&ecirc;s Brasileiro";
 $LANG = array ();
@@ -435,13 +419,10 @@ $LANG['periodgenerated'] = "Per&iacute;odo j&aacute; Gerado" ;
 $LANG['new_periodgenerate'] = "Per&iacute;odo a ser Gerado" ;
 $LANG['generatedata'] = "Gerar Dados" ;
 $LANG['viewtariff'] = "Ver Tarifa&ccedil;&atilde;o" ;
-$LANG['billsec'] = "Bilhetagem";
-$LANG['tottariff'] = "Total Tarifado";
-$LANG['value'] = "Valor";
-$LANG['ringing'] = "Chamando";
-$LANG['stnone'] = "Nenhum";
-$LANG['stdown'] = "Offline";
-$LANG['prering'] = "Preparando para Chamar";
+$LANG['billsec'] = "Bilhetagem" ;
+$LANG['tottariff'] = "Total Tarifado" ;
+$LANG['value'] = "Valor" ;
+$LANG['ringing'] = "Chamando" ;
 $LANG['identify'] = "Identifica&ccedil;&atilde;o" ;
 $LANG['ident'] = "Identif." ;
 $LANG['unavailable'] = "Indisponivel" ;
@@ -624,7 +605,7 @@ $LANG['deb_dialing_to'] = "Discando para ";
 $LANG['deb_caller'] = "Origem";
 $LANG['deb_dst'] = "Destino";
 $LANG['deb_time'] = "Hor&aacute;rio";
-$LANG['deb_submit'] = "Simular";
+$LANG['deb_submit'] = "Iniciar Simula&ccedil;&atilde;o";
 $LANG['deb_valid'] = "Validade";
 $LANG['deb_actions_torun'] = "A&ccedil;&otilde;es a executar";
 $LANG['deb_norule'] = "Nenhuma regra para esse usu&aacute;rio ou destino";
@@ -871,6 +852,9 @@ $LANG['ringing'] = "Chamando" ;
 $LANG['ongoing'] = "Em Curso";
 $LANG['unused'] = "Sem Uso";
 $LANG['dialing'] = "Discando";
+$LANG['prering'] = "Chamando";
+$LANG['stnone'] = "Nenhum";
+$LANG['stdown'] = "Desligando";
 $LANG['kcsFree'] = "Canal Livre";
 $LANG['kcsFail'] = "Falha Canal";
 $LANG['kcsIncoming'] = "Liga&ccedil;&atilde;o de Entrada";
@@ -973,3 +957,14 @@ $LANG['confirm_remocao_grupo'] = "Você deseja realmente remover este grupo ? ";
 $LANG['confirm_remocao_ramal'] = "Você deseja realmente remover este ramal ? ";
 $LANG['confirm_remocao_tronco'] = "Você deseja realmente remover este tronco ? ";
 $LANG['force_reverse_auth'] = "Forçar Autenticação Reversa";
+$LANG['registry'] = "Registros";
+$LANG['reg_add_reg'] = "Adicionar Registro";
+$LANG['reg_importer'] = "Importador";
+$LANG['reg_report'] = "Relatório";
+$LANG['key'] = "Chave";
+$LANG['reg_erase_data'] = "Limpar Dados";
+$LANG['confirm_remocao_registro'] = "Você deseja realmente remover este registro? ";
+$LANG['key_registry'] = "Registro de Chave";
+$LANG['company'] = "Empresa";
+$LANG['gateway_model'] = "Modulo";
+$LANG['specify'] = "Especificar";
