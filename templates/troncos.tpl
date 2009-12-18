@@ -141,8 +141,10 @@
         <tr>
            <td class="formlabel">{$LANG.qualify}:</td>
            <td class="subtable">
-               <input type="radio" name="qualify" id="qualify" value="yes" {if $dt_troncos.qualify == 'yes'}checked {/if} > {$LANG.yes}
-               <input type="radio" name="qualify" id="qualify" value="no"  {if $dt_troncos.qualify == 'no'}checked {/if} > {$LANG.no}
+               <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="yes" {if $qualify == 's'}{if $dt_troncos.qualify == 'yes'} checked {/if}{/if} > {$LANG.yes}
+               <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="no"  {if $qualify == 's'}{if $dt_troncos.qualify == 'no'} checked {/if}{/if} > {$LANG.no}
+               <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="specify" {if $qualify == 'e'} checked {/if} > {$LANG.specify}
+               <input type="text" name="qualify_time" id="qualify_time" style="width:30px;margin-left: 10px;" class="campos" value="{if $qualify == 'e'} {$dt_troncos.qualify} {/if}" /> millisegundos
            </td>
         </tr>
         <tr>
@@ -347,5 +349,24 @@
         $('withauth').show();
    {rdelim}
    { include file="../includes/javascript/functions_smarty.js" }
+
+   {literal}
+   function quality(obj) {
+       if(obj.value == 'specify') {
+           $('qualify_time').readOnly = false;
+           $('qualify_time').removeClassName('campos_disable');
+           $('qualify_time').value = 500;
+       }else{
+           if(obj.value == 'yes') {
+               $('qualify_time').value = 2000;
+           }
+           if(obj.value == 'no') {
+               $('qualify_time').value = '';
+           }
+           $('qualify_time').readOnly = true;
+           $('qualify_time').addClassName('campos_disable');
+       }
+   }
+   {/literal}
  </script>
  <script type="text/javascript" src="../includes/javascript/fselects.js"></script>
