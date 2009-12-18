@@ -1,3 +1,10 @@
+1.0.2:
+    Bugfixes:
+        Adição de opção para qualify em cadastro de troncos
+        Correção de possível falha de segurança nas regras de negócio.
+        Corrigido script para resolução de serviços do ramal. (Corrige
+transferências)
+
 1.0.1:
     Estrutura:
         Corrigido cabeçalho de licenciamento nos arquivos do Snep.

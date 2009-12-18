@@ -87,7 +87,7 @@ class Snep_Ramal extends Snep_Usuario {
 
         $this->setInterface($interface);
         $this->unlock();
-        $this->setFalowMe(null);
+        $this->setFollowMe(null);
     }
 
     /**
@@ -125,10 +125,10 @@ class Snep_Ramal extends Snep_Usuario {
     /**
      * Retorna o ramal para siga-me, se habilitado.
      *
-     * @return string falowme
+     * @return string followme
      */
-    public function getFalowMe() {
-        return $this->falowme;
+    public function getFollowMe() {
+        return $this->followme;
     }
 
     /**
@@ -208,8 +208,8 @@ class Snep_Ramal extends Snep_Usuario {
      *
      * @param string $ramal siga-me
      */
-    public function setFalowMe($ramal) {
-        $this->falowme = $ramal;
+    public function setFollowMe($ramal) {
+        $this->followme = $ramal;
     }
 
 

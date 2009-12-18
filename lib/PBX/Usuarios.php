@@ -92,7 +92,7 @@ class PBX_Usuarios {
         }
 
         if($usuario->sigame != "") {
-            $user->setFalowMe($usuario->sigame);
+            $user->setFollowMe($usuario->sigame);
         }
 
         if(is_numeric($usuario->pickupgroup)) {

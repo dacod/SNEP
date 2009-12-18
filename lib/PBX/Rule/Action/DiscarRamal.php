@@ -261,11 +261,11 @@ XML;
         if($ramal->isDNDActive()) {
             $log->info("Ramal $ramal esta com nao perturbe habilitado.");
         }
-        else if($ramal->getFalowMe() != null) {
-            $log->info("Siga-me, tentando encontrar: " . $ramal->getFalowMe());
+        else if($ramal->getFollowMe() != null) {
+            $log->info("Siga-me, tentando encontrar: " . $ramal->getFollowMe());
             $fake_request = $asterisk->request;
             $fake_request['agi_callerid'] = $ramal->getNumero();
-            $fake_request['agi_extension'] = $ramal->getFalowMe();
+            $fake_request['agi_extension'] = $ramal->getFollowMe();
 
             $request = new Asterisk_AGI_Request($fake_request);
 
