@@ -508,7 +508,7 @@ function grava_alterar()  {
 function excluir() {
     global $LANG, $db;
     $id = $_GET['id'];
-    $name = $_GET['nm'];
+    $name = $_GET['name'];
 
     if (!$id) {
         display_error($LANG['msg_notselect'],true) ;
@@ -540,7 +540,8 @@ function excluir() {
         grava_conf();
 
         echo "<meta http-equiv='refresh' content='0;url=../src/rel_troncos.php'>\n" ;
-    } catch (PDOException $e) {
-        display_error($LANG['error'].$e->getMessage(),true) ;
+    } catch (PDOException $ex) {
+        $db->rollBack();
+        display_error($LANG['error'].$ex->getMessage(),true) ;
     }
 }
