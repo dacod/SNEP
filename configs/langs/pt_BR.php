@@ -968,3 +968,4 @@ $LANG['key_registry'] = "Registro de Chave";
 $LANG['company'] = "Empresa";
 $LANG['gateway_model'] = "Modulo";
 $LANG['specify'] = "Especificar";
+$LANG['trunks_cq_value'] = "Valor padrão para controle de qualidade";
