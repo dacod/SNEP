@@ -15,6 +15,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  *}
  {include file="cabecalho.tpl"}
+ {config_load file="../includes/setup.conf" section="troncos"}
+ 
  <form name="formulario" id="formulario" method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
  <table cellspacing="0" align="center" style="border-bottom: none;">
     <tr>
@@ -355,7 +357,7 @@
        if(obj.value == 'specify') {
            $('qualify_time').readOnly = false;
            $('qualify_time').removeClassName('campos_disable');
-           $('qualify_time').value = 500;
+           $('qualify_time').value ={/literal} {#valor_controle_qualidade#} {literal};
        }else{
            if(obj.value == 'yes') {
                $('qualify_time').value = 2000;

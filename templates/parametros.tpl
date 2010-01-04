@@ -241,6 +241,22 @@
           <input class="campos" type="checkbox" name="alterar[35]" value="max_time_call" />
        </td>
     </tr>
+
+    <tr>
+        <td colspan="3" class="tb_tit2"><strong>{$LANG.menu_troncos}</strong></td>
+    </tr>
+    <tr>
+       <td class="esq">
+          &nbsp;&nbsp;<img src="../imagens/corner.gif" alt="" border="0" />{$LANG.trunks_cq_value}
+       </td>
+       <td class="esq">
+          <input class="campos" type="text" size="4" name="new_valor_controle_qualidade" value="{#valor_controle_qualidade#}" onchange="this.form.elements['alterar[55]'].checked=true;" />
+       </td>
+       <td class="cen">
+          <input class="campos" type="checkbox" name="alterar[55]" value="valor_controle_qualidade" />
+       </td>
+    </tr>
+    
     <tr>
        <td colspan="3" class="tb_tit2"><strong>{$LANG.dial_configs}</strong></td>
     </tr>
@@ -268,7 +284,7 @@
     <tr>
        <td class="esq">{$LANG.abapainel}&nbsp;1&nbsp;{$LANG.depende}index1.php)</td>
        <td class="esq">
-          <input class="campos" type="text" size="20"               name="new_menu_status_1" value="{#menu_status_1#}"               onchange="this.form.elements['alterar[30]'].checked=true;" />
+          <input class="campos" type="text" size="20" name="new_menu_status_1" value="{#menu_status_1#}"               onchange="this.form.elements['alterar[30]'].checked=true;" />
        </td>
        <td class="cen">
           <input class="campos" type="checkbox" name="alterar[30]" value="menu_status_1" />
