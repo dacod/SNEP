@@ -680,6 +680,7 @@ function grava_conf() {
                              }
                              $peers .= "\n";
                          }
+                         $trunk .= ($tronco->dialmethod != "NOAUTH" && !ereg("SNEP",$tronco->type) ? "register => " . $peer['username'] . ":" . $peer['secret'] . "@" . $peer['host'] . "\n" : "");
                      }
                      else {
                          /* Monta entrada do ramal */
@@ -722,8 +723,6 @@ function grava_conf() {
 
                          $peers .= "\n";
                      }
-
-                     $trunk .= ($peer['peer_type'] == "T" && !ereg("SNEP",$tronco->type) ? "register => " . $peer['username'] . ":" . $peer['secret'] . "@" . $peer['host'] . "\n" : "");
                   }
                   unset($database);
             }
