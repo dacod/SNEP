@@ -357,7 +357,7 @@
        if(obj.value == 'specify') {
            $('qualify_time').readOnly = false;
            $('qualify_time').removeClassName('campos_disable');
-           $('qualify_time').value ={/literal} {#valor_controle_qualidade#} {literal};
+           $('qualify_time').value = '{/literal} {#valor_controle_qualidade#} {literal}';
        }else{
            if(obj.value == 'yes') {
                $('qualify_time').value = 2000;
