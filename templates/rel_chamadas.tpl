@@ -18,6 +18,29 @@
 
  <table>
     <form method="post"  name="relatorio">
+        
+    <input type="hidden" name="vinculos" id="vinculos" value="{$VINCULOS}"/>
+    <tr style="background-color: #f1f1f1;">
+       <td class="esq" width="30%">
+           {if $NIVEL == 1}
+               {$LANG.access_level} :
+           {elseif $NIVEL == 2}
+               {$LANG.access_level} :
+           {elseif $NIVEL == 3}
+               {$LANG.access_level} :
+           {/if}
+       </td>
+       <td class="esq">
+           {if $NIVEL == 1}
+               {$LANG.vinculos_todos}
+           {elseif $NIVEL == 2}
+               {$LANG.vinculos_self}
+           {elseif $NIVEL == 3}
+               {$LANG.vinculos_ramais} : {$VINCULOS}
+           {/if}
+       </td>
+    </tr>
+
     <tr>
        <td class="esq" width="30%">
           {$LANG.periodo}
@@ -49,42 +72,49 @@
     </tr>
     <tr>
        <td class="esq">
-          {if $VINCULOS}
-            <input type="radio" name="orides" value="origem" onClick="javascript:permitedados('dst','{$VINCULOS}')" checked="true">
-          {/if}
-          {$LANG.origin}(s)&nbsp;{$LANG.morethatone}
+           <!--
+              {if $VINCULOS}
+                <input type="radio" name="orides" value="origem" onClick="javascript:permitedados('dst','{$VINCULOS}')" checked="true">
+              {/if}
+           -->
+              {$LANG.origin}(s)&nbsp;{$LANG.morethatone}
+           
        </td>
        <td class="esq">
-          {if !$VINCULOS}
-        {$LANG.group} :
+          
+          {$LANG.group} :
             <select name="groupsrc" class="campos" onChange="javascript:grupos('src', this.value)">
                  {html_options options=$OPCOES_USERGROUPS selected=$groupsrc}
             </select>
           &nbsp;&nbsp;
-          {/if}
-          <input type="text" name="src" id="src" class="campos" value="{$src}"  >
+          
+          <input type="text" name="src" id="src" class="campos" />
           &nbsp;&nbsp;          
-          {html_radios name="srctype" options=$OPCOES_PROCURA selected=1 }          
+          {html_radios name="srctype" options=$OPCOES_PROCURA selected=1 }
        </td>
     </tr>
     <tr>
        <td class="esq">
+           <!--
           {if $VINCULOS}
             <input type="radio" name="orides" value="destino"  onClick="javascript:permitedados('src','{$VINCULOS}')">
           {/if}
+           -->
           {$LANG.destination}(s)&nbsp;{$LANG.morethatone}
+           
        </td>
        <td class="esq">
-           {if !$VINCULOS}
+           
            {$LANG.group} :
             <select name="groupdst" class="campos" onClick="javascript:grupos('dst', this.value)">
-                 {html_options options=$OPCOES_USERGROUPS selected=$groupdst}
+                 {html_options options=$OPCOES_USERGROUPS selected=$groupdst} 
             </select>
           &nbsp;&nbsp;
-           {/if}
-          <input type="text" name="dst"  id="dst" value="{$dst}"  {if $VINCULOS} class="campos_disable" readonly="yes" {/if} class="campos"  >
+           
+          <input type="text" name="dst"  id="dst"  class="campos"  >
           &nbsp;&nbsp;
           {html_radios name="dsttype" options=$OPCOES_PROCURA selected=1}
+
        </td>
     </tr>
     <tr>
@@ -198,11 +228,8 @@
  { include file="rodape.tpl }
  <script type="text/javascript">
    document.forms[0].elements[0].focus() ;
+
+   //permitedados('dst','{$VINCULOS}')
+   
  </script>
- <script  language="JavaScript" type="text/javascript" scr="../includes/javascript/functions.js"></script>
-     
- {if $VINCULOS}
-     <script type="text/javascript">
-         permitedados('dst','{$VINCULOS}');
-     </script>
- {/if}
+ <script  language="JavaScript" type="text/javascript" scr="../includes/javascript/functions.js"></script>    
