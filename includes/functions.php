@@ -69,7 +69,172 @@ require_once("classes.php") ;
     display_template("erro.tpl",$smarty,"") ;
     exit;
  }
+/*sql_link - Função para criar strings sql para busca de ramais
+ * @author Rafael Bozzetti <rafael@opens.com.br>
+ * @param string - identifica o tipo de comparação (1,2,3,4)
+ * @param string - que identifique o numero do ramal
+ * @param string - especifica se é 'dst', 'src' ou ambos '' (vazio)
+ */
+ function sql_like($type, $data, $id) {
+     $retorno = '';
+    
+     switch ($type) {
+         case 1:
+            $retorno .= ($id == 'src' ? " or src = '$data' " : " or dst = '$data' ");
+            break;
+         case 2:
+            $retorno .= ($id == 'src' ? " or src LIKE '$data%' " : " or LIKE '$data%' ");
+            break;
+         case 3:
+            $retorno .= ($id == 'src' ? " or src LIKE '%$data' " : " or LIKE '%$data' ");
+            break;
+         case 4:
+            $retorno .= ($id == 'src' ? " or src LIKE '%$data%' " : " or LIKE '%$data%' ");
+            break;
+     }
+     return $retorno;
+ }
+ /*sql_vinc - Reformulação da função de sql_vinculos()
+ * @author Rafael Bozzetti <rafael@opens.com.br>
+ * @param string - identifica o tipo de comparação (1,2,3,4)
+ * @param string - que identifique o numero do ramal
+ * @param string - especifica se é 'dst' ou 'src'.
+ * @param string - 'src', 'dst', '' = ambos
+ */
+ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
 
+
+     // Quando o ramal não possue vinculos (Acesso geral) //
+     if ( trim( $_SESSION['vinculos_user'] ) == "" ) {
+
+          // Tratamento das origens especificadas
+          if( strlen($src) > 0 && ($base == 'src' || $base == "")) {
+              $array_src = explode(",", trim($src));
+
+                  if( count( $array_src ) > 0 ) {
+
+                     foreach ($array_src as $valor) {
+                        $TMP_COND .= sql_like($srctype, $valor, 'src') ;
+                     }
+                     
+                     if (strlen($TMP_COND) > 0) {
+                        $retorno =  " AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                     }
+                  }
+          }
+
+          unset($TMP_COND);
+
+          // Tratamento dos destinos especificados 
+          if( strlen($dst) > 0 && ($base == 'dst' || $base == "")) {
+              $array_dst = explode(",", trim($dst));
+
+                  if( count( $array_dst ) > 0 ) {
+
+                     foreach ($array_dst as $valor) {
+                        $TMP_COND .= sql_like($dsttype, $valor, 'dst') ;
+                     }
+
+                     if (strlen($TMP_COND) > 0) {
+                        $retorno .= " AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                     }
+                  }
+          }
+
+     }
+     // Quando possuem vinculos, seja ele mesmo ou de outros ramais //
+     else {
+
+         // Verifica se ramal e vinculo são iguais, sendo assim, restrito aos seus dados.
+         if($_SESSION['vinculos_user'] == $_SESSION['name_user']) {
+             if($base == "") {
+                 $retorno = " AND ( src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' ) " ;
+             }
+             if($base == 'src') {
+                 $retorno = " AND ( src='{$_SESSION['name_user']}' ) " ;
+             }
+             if($base == 'dst') {
+                 $retorno = " AND ( dst='{$_SESSION['name_user']}' ) " ;
+             }             
+         }
+
+         // Caso os vínculos sejam mais de 1 ou diferentes do ramal
+         else {
+
+            // Cria um array com os vinculos do usuário, para comparação
+            $vinculados = explode(",", $_SESSION['vinculos_user']);
+
+            $control = false;
+            unset($TMP_COND);
+
+            // Percorre origens especificadas e verifica se pertence aos indices
+            if( strlen($src) >= 1 && ($base == 'src' || $base == "")) {
+                $array_src = explode(",", trim($src));
+
+                    if( count( $array_src ) > 0 ) {
+
+                        foreach ($array_src as $valor) {
+
+                            if (in_array($valor, $vinculados)) {
+                                 $TMP_COND .= sql_like($srctype, $valor, 'src');
+                            }
+
+                        }
+                        if (strlen($TMP_COND) > 0) {
+                            $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        }
+                    }
+                    
+                    
+            }else{                
+                        foreach ($vinculados as $valor) {
+                                 $TMP_COND .= sql_like($srctype, $valor, 'src') ;
+                        }
+                        if (strlen($TMP_COND) > 0) {
+                            $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        }
+                        $controle = true;
+
+            }
+
+            unset($TMP_COND);
+
+            // Percorre origens especificadas e verica se pertence aos indices
+            if( strlen($dst) >= 1 && ($base == 'dst' || $base == "" )) {
+                $array_dst = explode(",", trim($dst));
+
+                    if( count( $array_dst ) > 0 ) {
+
+                        foreach ($array_dst as $valor) {
+
+                            if (in_array($valor, $vinculados)) {
+                                 $TMP_COND .= sql_like($dsttype, $valor, 'dst') ;
+                            }
+
+                        }
+                        if (strlen($TMP_COND) > 0) {
+                            $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        }
+                    }
+                    //$controle = true;
+            }else{
+                    if($controle) {
+                        foreach ($vinculados as $valor) {
+                                 $TMP_COND .= sql_like($srctype, $valor, 'dst') ;
+                        }
+                        if (strlen($TMP_COND) > 0) {
+                            $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                            $retorno .= $TMP_COND;
+                        }
+                    }
+
+            }
+         }
+     }
+     $retorno = ( $retorno != "" ? "AND ( ". substr( $retorno, 4 ) ." )" : "");
+
+     return $retorno;
+}
 
  /*-----------------------------------------------------------------------------
  * Funcao  : monta_vinculo - Cria array  de vinculos  
@@ -116,6 +281,8 @@ require_once("classes.php") ;
         return $retorno ;
     }
  }
+
+
  /*----------------------------------------------------------------------------
  * Funcao para montar parte da clausula where no SQL, com relacao as origens e 
  * destinos informados pelo usuario,verificando se estes dados conferem com lista 
@@ -131,85 +298,116 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
   unset($retorno) ;
   global $valor ;
 
-  if ($_SESSION['vinculos_user'] == "" ) {   // Nao tem vinculos
-     // Monta clausula WHERE para campo src (origem)
+  /* Não tendo vínculo */
+  if (trim($_SESSION['vinculos_user']) == "" ) {
+
+     /* Monta clausula WHERE para campo src (origem) */
      unset($TMP_COND);
-     $array_orides = explode(",",$src) ;
-     foreach ($array_orides as $valor) {
-        $TMP_COND = do_field($TMP_COND,'valor','srctype','src','OR');
-     }
-     if (strlen($TMP_COND) > 0) {
-        $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+
+     if( count( $array_orides = explode( ",",trim( $src ) ) ) > 0 ) {
+         foreach ($array_orides as $valor) {
+            $TMP_COND = do_field($TMP_COND,'valor','srctype','src','OR') ;
+         }         
+         if (strlen($TMP_COND) > 0) {
+            $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+         }
      }
 
-     // Monta clausula WHERE para campo dst (destino)
+     /* Monta clausula WHERE para campo dst (destino) */
      unset($TMP_COND);
-     $array_orides = explode(",",$dst) ;
-     foreach ($array_orides as $valor) {
-        $TMP_COND = do_field($TMP_COND,'valor','dsttype','dst','OR');
-     }
-     if (strlen($TMP_COND) > 0)
-        $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
 
-  } else {   // Tem vinculos, fica limitado à relacao de ramais vinculados
-
-     unset($vinculo, $TMP_COND);
-     $vinculo = monta_vinculo($_SESSION["vinculos"],'A');   // Monta array dos vinculos
-
-     if ($orides == "origem") {               // Se selecionou origem, o campo src é livre
-         $array_vin  = explode(",",$dst) ;      //   entao verifico o que esta em DST x vinculo
-         $array_out = explode(",",$src) ;
-         $campo_vin = 'dst' ;
-         $campo_out= 'src' ;
-     }
-     if ($orides == "origem") {                                 // Senao, selecionou destino, o campo dst é livre
-         $array_vin  = explode(",",$src) ;      //   entao verifico o que esta em DST x vinculo
-         $array_out = explode(",",$dst) ;
-         $campo_vin = 'src' ;
-         $campo_out = 'dst' ;
-     }
-     // Cria variavel com valor determinado = 1 para comparacao com valores vinculados
-     global $type_in, $valor ;
-     $type_in = "1" ;   // 1 = comparacao direta com sinal de = (igual) no SQL
-     // Varre o campo que o usuario NAO escolheu, deve ter somente numeros que
-     // estao na relacao dos vinculos para montar o SQL
-     foreach ($array_vin as $valor) {
-        // Verifica se existe algum VINCULO  para montar o SQL
-        if (in_array($valor,$vinculo))
-           $TMP_COND = do_field($TMP_COND,'valor','type_in',$campo_vin,'OR');
-     }
-     
-     if (strlen($TMP_COND)>0) {
-        $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+     if( count( $array_orides = explode( ",",trim( $dst ) ) ) > 0 ) {
+         foreach ($array_orides as $valor) {
+                $TMP_COND = do_field($TMP_COND,'valor','dsttype','dst','OR');
+         }
+         if (strlen($TMP_COND) > 0) {
+            $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+         }
      }
 
-     // Varre o campo que o usuario informou livremente
-     unset($TMP_COND) ;
-     foreach ($array_out as $valor) {
-        $TMP_COND = do_field($TMP_COND,'valor',$campo_out."type" ,$campo_out,'OR');
-     }
-     
-     if (strlen($TMP_COND)>0)
-         $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
-     }
+  /* Tendo vínculo - fica limitado à relacao de ramais vinculados */
+  } else {
 
-     if($orides == '' && $src == '' && $dst == '' && $_SESSION['vinculos'] != "") {
-         $vinculos = monta_vinculo($_SESSION['vinculos_user'],"L");
-         $retorno = " AND src IN (". $vinculos .") OR dst IN (". $vinculos .") ";
+         // Verifica se ramal e vinculo são iguais, sendo assim, restrito aos seus dados.
+         if($_SESSION['vinculos_user'] == $_SESSION['name_user']) {
+             return " src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' " ;
+             exit;
+         }
+
+         unset($vinculo, $TMP_COND);
+
+         //$vinculo = monta_vinculo($_SESSION["vinculos"],'A');   // Monta array dos vinculos
+         $vinculo = explode(',', $_SESSION["vinculos_user"]);
+
+         // Cria variavel com valor determinado = 1 para comparacao com valores vinculados
+         global $type_in, $valor ;
+         $type_in = "1" ;   // 1 = comparacao direta com sinal de = (igual) no SQL
+
+         /* Se origem ou destino forem especificados verifica se pertencem aos vinculos  */
+         if($src != "" || $dst != "") {
+             $array_vin  = explode(",",$dst) ;      //   entao verifico o que esta em DST x vinculo
+             $array_out = explode(",",$src) ;
+             $campo_vin = 'dst' ;
+             $campo_out= 'src' ;
+
+             foreach ($array_vin as $valor) {
+                // Verifica se existe algum VINCULO  para montar o SQL
+                if (in_array($valor, $vinculo)) {
+                   $TMP_COND = do_field($TMP_COND,'valor','type_in',$campo_vin,'OR');
+                }
+             }
+
+             foreach($array_out as $valor ) {
+                // Verifica se existe algum VINCULO  para montar o SQL
+                if (in_array($valor, $vinculo)) {
+                   $TMP_COND = do_field($TMP_COND,'valor','type_in',$campo_vin,'OR');
+                }
+             }
+
+         /* Se origem e destino não forem especificados, cria condicoes para os vinculos existentes. */
+         }else{
+             foreach ($vinculo as $valor) {
+                 $TMP_COND = do_field($TMP_COND, 'valor','type_in',$campo_vin,'OR');
+             }
+         }
+
+         // Varre o campo que o usuario NAO escolheu, deve ter somente numeros que
+         // estao na relacao dos vinculos para montar o SQL
+         if (strlen($TMP_COND)>0) {
+            $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+         }
+
+             // Varre o campo que o usuario informou livremente
+         unset($TMP_COND) ;
+         foreach ($array_out as $valor) {
+             if(in_array($valor, $vinculo)) {
+                $TMP_COND = do_field($TMP_COND,'valor',$campo_out."type" ,$campo_out,'OR');
+             }
+         }
+
+         if (strlen($TMP_COND)>0) {
+             $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+         }
+     }
+/*
+     if($orides == '' && $src == '' && $dst == '' && $_SESSION['vinculos_user'] != "") {
+         $vinculos = explode(",",monta_vinculo($_SESSION['vinculos_user'],"L"));
+         foreach($vinculos as $i => $v) {
+             $retorno .= " AND src='$v' OR dst='$v' ";
+         }
      }
 
      if($src == '' && $dst == '') {
-         $vinc = monta_vinculo($_SESSION['vinculos_user'],"L");
-             if($vinc != '') {
-                 $retorno = " AND src IN($vinc) || dst IN($vinc)  ";
-             }else {
-                 $retorno = '';
-             }
+         $vinculos = explode(",",monta_vinculo($_SESSION['vinculos_user'],"L"));
+         foreach($vinculos as $i => $v) {
+             $retorno .= " AND src='$v' OR dst='$v' ";
+         }
      }
 
-
+*/
     return $retorno ;
  }
+
 /*-----------------------------------------------------------------------------
  * Funcao para montar clausula where dos outros campos - by Arezqui Bela&iuml;d 
  * Recebe:  $sql - variavel que contem o comando sql que esta sendo montado
@@ -748,3 +946,27 @@ function utime (){
    $sec = (double)$time[1];
    return $sec + $usec;
 }
+
+/*-----------------------------------------------------------------------------
+ * Funcao monta_nivel - Esta função é responsável por verificar e retornar o
+ * nível de acesso que o usuários terá no sistema.
+ *
+ * $author Rafael Bozzetti <rafael@opens.com.br>
+ *
+ * @param string - vinculos armazenados na session vinculos_user.
+ * $param string - usuário autenticado.
+ *
+ * $return integer
+ * ----------------------------------------------------------------------------*/
+function monta_nivel($vinculos, $user) {
+
+     if(trim($vinculos) == "" || $user == "admin") {
+         $retorno = 1;
+     }
+     elseif($vinculos == $user ) {
+         $retorno = 2;
+     }else{
+         $retorno = 3;
+     }
+     return $retorno;
+ }
