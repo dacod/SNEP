@@ -53,6 +53,8 @@
  }
  $_SESSION['ccusto'] = $ccustos;
 
+ // Monta nivel de acesso aos relatórios.
+ $nivel = monta_nivel($_SESSION['vinculos_user'], $_SESSION['name_user']);
 
  /* Grupos de Ramais */
 $sql = "SELECT * FROM groups" ;
@@ -115,7 +117,11 @@ $sql = "SELECT * FROM groups" ;
  $smarty->assign ('OPCOES_PROCURA',$tipos_procura);
  $smarty->assign ('OPCOES_CHAMADAS',$tipos_chamadas_rel);
  $smarty->assign ('OPCOES_GRAFICOS',$tipos_graficos);
- $smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
+ //$smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
+ 
+ $smarty->assign ('VINCULOS', $_SESSION['vinculos_user']) ;
+ $smarty->assign ('NIVEL', $nivel) ;
+
  $smarty->assign ('OPCOES_USERGROUPS',$g);
  $smarty->assign ('CCUSTOS',$ccustos) ;
  display_template("rel_chamadas.tpl",$smarty,$titulo) ;
@@ -124,7 +130,8 @@ $sql = "SELECT * FROM groups" ;
  Funcao monta_relatorio - Monta o relatsorio
 ------------------------------------------------------------------------------*/
 function monta_relatorio($acao)  {
-  global  $LANG, $db, $smarty, $rel_type, $dia_ini,$dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides,$dst_exceptions,$prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif,$my_object, $srctype, $dsttype, $acao;
+  global  $srctype, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini,$dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides,$dst_exceptions,$prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif,$my_object, $acao;
+
 
   /* Salvando dados do formulario.                                              */
   $_SESSION['relchamadas']['dia_ini'] = $dia_ini;
@@ -189,7 +196,8 @@ function monta_relatorio($acao)  {
   $CONDICAO = " WHERE $date_clause" ;
 
   /* Clausula do where: Origens e Destinos                                      */
-  $CONDICAO .= sql_vinculos($src,$dst,$orides,$srctype,$dsttype) ;
+  $CONDICAO .=  sql_vinc($src, $dst, $srctype, $dsttype, "") ;
+
 
   /* Compara campos src e dst                                                   */
   $CONDICAO = do_field($CONDICAO,$src,$srctype,'src') ;
