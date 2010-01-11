@@ -16,6 +16,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
  
+
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php");
  
