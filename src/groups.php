@@ -278,4 +278,3 @@ function excluir_def()  {
         display_error($LANG['error'].$e->getMessage(),true) ;
     }
 }
-?>

@@ -40,6 +40,16 @@ abstract class PBX_Rule_Action {
     protected $config;
 
     /**
+     * Configuração padrão das ações dessa classe
+     * 
+     * Deve ser a mesma para todas as ações
+     *
+     *
+     * @var array Configuração padrão das ações dessa classe
+     */
+    protected $defaultConfig;
+
+    /**
      * Regra de negócio dona da ação.
      *
      * Atributo opcional. Somente as ações que fazem uso de regra devem reclamar
@@ -55,6 +65,7 @@ abstract class PBX_Rule_Action {
      */
     public function __construct() {
         $this->config = array();
+        $this->setDefaultConfig( PBX_Registry::getAll(get_class(self)) );
     }
 
     /**
@@ -62,8 +73,8 @@ abstract class PBX_Rule_Action {
      *
      * @param Asterisk_AGI $asterisk
      * @param int $rule - A regra que chamou essa ação. É passado pra que
-     * a ação possa restaurar as configurações dela para essa regra. Esse parametro
-     * é opcional.
+     * a ação possa restaurar as configurações dela para essa regra. Esse
+     * parametro é opcional.
      */
     abstract public function execute($asterisk, $request);
 
@@ -85,6 +96,20 @@ abstract class PBX_Rule_Action {
      */
     public function getConfigArray() {
         return $this->config;
+    }
+
+    /**
+     * Configurações padrão para todas as ações dessa classe. Essas possuem uma
+     * tela de configuração separada.
+     *
+     * Os campos descritos aqui podem ser usados para controle de timout,
+     * valores padrão e informações que não pertencem exclusivamente a uma
+     * instancia da ação em uma regra de negócio.
+     *
+     * @return string XML com as configurações default para as classes
+     */
+    public function getDefaultConfigXML() {
+        return "";
     }
 
     /**
@@ -124,6 +149,15 @@ abstract class PBX_Rule_Action {
      */
     public function setConfig($config) {
         $this->config = $config;
+    }
+
+    /**
+     * Seta a configuração padrão para essa regra.
+     *
+     * @param array $config
+     */
+    public function setDefaultConfig( $config ) {
+        $this->defaultConfig = $config;
     }
 
     /**

@@ -51,7 +51,7 @@ class PBX_Rule_ActionConfig {
      */
     public function __construct($xml) {
         if($xml == "") {
-            $i18n = Zend_Registry::get('Zend_Translate');
+            $i18n = Zend_Registry::get('i18n');
             $this->form = new Zend_Form();
             $this->form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar')));
         }
@@ -66,7 +66,7 @@ class PBX_Rule_ActionConfig {
      */
     private function parseForm() {
         $form = new Zend_Form();
-        $i18n = Zend_Registry::get('Zend_Translate');
+        $i18n = Zend_Registry::get('i18n');
         // Para cada elemento do XML
         foreach( $this->xml as $element ) {
             switch( $element->getName() ) {
@@ -127,7 +127,7 @@ class PBX_Rule_ActionConfig {
      * @param SimpleXMLElement $element
      */
     private function parseRamal($element) {
-        $i18n = Zend_Registry::get('Zend_Translate');
+        $i18n = Zend_Registry::get('i18n');
         $element->addChild('label', $i18n->translate("Ramal"));
         $element->addChild('size', '4');
         return $this->parseString($element);
@@ -138,7 +138,7 @@ class PBX_Rule_ActionConfig {
      * @param SimpleXMLElement $element
      */
     private function parseTronco($element) {
-        $i18n = Zend_Registry::get('Zend_Translate');
+        $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
         $form_element->setLabel( (string)$i18n->translate("Tronco") );
@@ -157,7 +157,7 @@ class PBX_Rule_ActionConfig {
      * @param SimpleXMLElement $element
      */
     private function parseCCustos($element) {
-        $i18n = Zend_Registry::get('Zend_Translate');
+        $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
         $form_element->setLabel( (string)$i18n->translate("Centro de Custos") );

@@ -93,9 +93,12 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
      */
     public function setConfig($config) {
         parent::setConfig($config);
+
+        $default_dial_timeout = isset($this->defaultConfig['dial_timeout']) ? $this->defaultConfig['dial_timeout'] : 60;
+
         // inicializando parametros opcionais
         $this->dial_flags      = ( isset($config['dial_flags']) )   ? $config['dial_flags'] : "";
-        $this->dial_timeout    = ( isset($config['dial_timeout']) ) ? $config['dial_timeout'] : "0";
+        $this->dial_timeout    = ( isset($config['dial_timeout']) ) ? $config['dial_timeout'] : $default_dial_timeout;
         $this->dial_limit      = ( isset($config['dial_limit']) )   ? $config['dial_limit'] : "0";
         $this->dial_limit_warn = ( isset($config['dial_limit_warn']) ) ? $config['dial_limit_warn'] : "0";
         $this->diff_ring       = ( isset($config['diff_ring']) && $config['diff_ring'] == 'true') ? true:false;
@@ -171,6 +174,9 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         $dial_limit_warn = (isset($this->config['dial_limit_warn']))?"<value>{$this->config['dial_limit_warn']}</value>":"";
         $allow_voicemail = (isset($this->config['allow_voicemail']))?"<value>{$this->config['allow_voicemail']}</value>":"";
         $dont_overflow   = (isset($this->config['dont_overflow']))?"<value>{$this->config['dont_overflow']}</value>":"";
+
+        $default_dial_timeout = isset($this->defaultConfig['dial_timeout']) ? $this->defaultConfig['dial_timeout'] : 60;
+
         return <<<XML
 <params>
     <ramal>
@@ -180,7 +186,7 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
 
     <int>
         <id>dial_timeout</id>
-        <default>60</default>
+        <default>$default_dial_timeout</default>
         <label>{$i18n->translate("Dial Timeout")}</label>
         <unit>{$i18n->translate("segundos")}</unit>
         <size>2</size>
@@ -233,6 +239,34 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         <label>{$i18n->translate("Não Transbordar (ocupado e não atende)")}</label>
         $skip_busy
     </boolean>
+</params>
+XML;
+    }
+
+    /**
+     * Configurações padrão para todas as ações dessa classe. Essas possuem uma
+     * tela de configuração separada.
+     *
+     * Os campos descritos aqui podem ser usados para controle de timout,
+     * valores padrão e informações que não pertencem exclusivamente a uma
+     * instancia da ação em uma regra de negócio.
+     *
+     * @return string XML com as configurações default para as classes
+     */
+    public function getDefaultConfigXML() {
+        $i18n = $this->i18n;
+
+        $dial_timeout = isset($this->defaultConfig['dial_timeout']) ? $this->defaultConfig['dial_timeout'] : 60;
+
+        return <<<XML
+<params>
+    <int>
+        <id>dial_timeout</id>
+        <default>$dial_timeout</default>
+        <label>{$i18n->translate("Dial Timeout")}</label>
+        <unit>{$i18n->translate("segundos")}</unit>
+        <size>2</size>
+    </int>
 </params>
 XML;
     }

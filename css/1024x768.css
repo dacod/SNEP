@@ -46,7 +46,7 @@ lu li {
 }
 a, a:visited, li a:link, li a:visited {
   text-decoration: none ;
-   color: #696969;
+  color: #696969;
 }
 .mais {
     height: 15px;
@@ -67,8 +67,6 @@ a, a:visited, li a:link, li a:visited {
 a:hover, li a:hover {
    color: #F4A100 ;
    text-decoration: underline;
-   font-weight: bold;
-   cursor:pointer;
 }
 .bgfiltro {background: url("../imagens/bg_filtro.png") repeat-x left top;}
 
@@ -92,6 +90,12 @@ a:hover, li a:hover {
 a img {
     border: none;
 }
+
+.success {
+    text-align: center;
+    background-color: #CBFFCB;
+}
+
 .links_debug {
    float:right;
    background: url("../imagens/debug.png") no-repeat left top;
@@ -449,14 +453,14 @@ thead.mensagem {
 
 }
 
-
-#titulo {  
-   background-color: #FFFFFF;
-   font-size: 14px;
-   font-variant: small-caps ;   
-   color: #808080 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;   
+#titulo {
+    padding: 5px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    font-variant: small-caps ;
+    color: #808080 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
 }
 .tit {border-bottom: 2px solid #FFE400; display:block;}
 body, td, th, li,  lu {

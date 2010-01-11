@@ -80,6 +80,18 @@ CREATE TABLE regras_negocio_actions_config (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `registry`
+--
+
+DROP TABLE IF EXISTS `registry`;
+CREATE TABLE `registry` (
+    `context` VARCHAR(50),
+    `key` VARCHAR(30),
+    `value` VARCHAR(250),
+    PRIMARY KEY (`context`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `ccustos`
 --
 

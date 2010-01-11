@@ -122,9 +122,13 @@
              </ul>
          </li>
          {/if}
-         <!-- Menu de Regras de Neg�cios -->
+         <!-- Menu de Regras de Negócios -->
          {if $PERM_MENURULES}
          <li><a href="../gestao/rel_agi_rules.php">{$LANG.menu_rules}</a>
+             <ul>
+                 <li><a href="../gestao/rel_agi_rules.php">{$LANG.routes}</a></li>
+                 <li><a href="../gestao/default_actions_configs.php">{$LANG.default_configs}</a></li>
+             </ul>
          </li>
          {/if}
          <!--  Menu Tarifas -->

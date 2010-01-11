@@ -91,7 +91,7 @@ class PBX_Rule_Action_GoContext extends PBX_Rule_Action {
         return <<<XML
 <params>
     <string>
-        <id>queue</id>
+        <id>context</id>
         <default>default</default>
         $context
     </string>

@@ -58,6 +58,10 @@ Zend_Registry::set('config', $config);
 // Versão do SNEP
 Zend_Registry::set('snep_version', file_get_contents($config->system->path->base . "/configs/snep_version"));
 
+// Tradução
+$i18n = new Zend_Translate('gettext', $config->system->path->base . '/lang/pt_BR.mo', 'pt_BR');
+Zend_Registry::set('i18n', $i18n);
+
 // Iniciando sistema de logs
 $log = new Zend_Log();
 Zend_Registry::set('log', $log);
