@@ -975,6 +975,7 @@ $LANG['configure'] = "Configurar";
 $LANG['invalid_action'] = "Ação inválida";
 $LANG['no_configurable_action'] = "Ação não configuravel";
 $LANG['update_success'] = "Atualizado com sucesso";
+$LANG['contacts_group'] = "Grupo de Contatos";
 $LANG['access_level'] = "Nível de acesso";
 $LANG['vinculos_ramais'] = "Visualiza ramais";
 $LANG['vinculos_todos'] = "Visualiza qualquer informação";

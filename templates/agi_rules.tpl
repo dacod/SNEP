@@ -153,6 +153,7 @@
     var group_list = new Array({foreach from=$OPCOES_GRUPOS key=key item=grupo name=grupos}new Array("{$key}","{$grupo}"){if !$smarty.foreach.grupos.last},{/if}{/foreach});
     var trunk_list = new Array({foreach from=$OPCOES_TRONCOS key=key item=tronco name=troncos}new Array("{$tronco.id}","{$tronco.name}"){if !$smarty.foreach.troncos.last},{/if}{/foreach});
     var filas_list = new Array({foreach from=$OPCOES_FILAS key=key item=fila name=fila}new Array("{$key}","{$fila}"){if !$smarty.foreach.fila.last},{/if}{/foreach});
+    var contacts_group_list = new Array({foreach from=$OPCOES_CONTACTS_GROUPS key=key item=grupo name=grupo}new Array("{$key}","{$grupo}"){if !$smarty.foreach.grupo.last},{/if}{/foreach});
     
     var orig = new Array();
     var dst = new Array();
@@ -160,6 +161,7 @@
     var str_any = "{$LANG.any}";
     var str_regex = "{$LANG.regex}";
     var str_group = "{$LANG.group}";
+    var str_contacts_group = "{$LANG.contacts_group}";
 
     var str_ramal = "{$LANG.ramal}";
     var str_trunk = "{$LANG.trunk}";

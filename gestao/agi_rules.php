@@ -51,6 +51,16 @@
 
  $smarty->assign('OPCOES_GRUPOS', $grupos);
 
+$select = "SELECT id, name FROM contacts_group";
+$raw_groups = $db->query($select)->fetchAll();
+
+$groups = array();
+foreach ($raw_groups as $row) {
+    $groups[$row["id"]] = $row["name"];
+}
+
+$smarty->assign('OPCOES_CONTACTS_GROUPS', $groups);
+
 /* Monta lista de Centro de Custos */
 /* ----------------------------------------------------------------- */
 try {
@@ -929,4 +939,3 @@ function excluir()  {
 
    echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_agi_rules.php'>\n" ;
 }
-?>

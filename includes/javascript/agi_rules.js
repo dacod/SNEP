@@ -77,6 +77,20 @@ function Field(id) {
             }
             html += "</select>";
         } // fim campo grupo
+        else if(this.type == "CG") { // Campo grupo de contatos
+            html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
+            html += '<option> - - </option>';
+            for(i=0; i < contacts_group_list.length; i++) {
+                if(contacts_group_list[i][0] == this.value) {
+                    html += '<option selected="selected" value="' + contacts_group_list[i][0] + '">';
+                }
+                else {
+                    html += '<option value="' + contacts_group_list[i][0] + '">';
+                }
+                html += contacts_group_list[i][1] + '</option>';
+            }
+            html += "</select>";
+        } // fim campo grupo de contatos
         else if(showfield) {
             html += ' <input class="campos box required" onchange="' + objReference + '.value = this.value;" value="' + this.value + '" type="text" />';
         }
@@ -98,6 +112,7 @@ function SrcField(id) {
 
     this.typeList[this.typeList.push()]  = new Array('T',str_trunk, true);
     this.typeList[this.typeList.push()]  = new Array('G',str_group, true);
+    this.typeList[this.typeList.push()]  = new Array('CG',str_contacts_group, true);
     this.typeList[this.typeList.push()]  = new Array('R',str_ramal, true);
 }
 // Definindo herança entre SrcField e Field;

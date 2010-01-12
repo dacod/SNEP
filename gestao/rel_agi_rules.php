@@ -31,6 +31,14 @@ if (array_key_exists ('filtrar', $_POST))
 else
     $where = null;
 
+$select = "SELECT id, name FROM contacts_group";
+$raw_groups = $db->query($select)->fetchAll();
+
+$groups = array();
+foreach ($raw_groups as $row) {
+    $groups[$row["id"]] = $row["name"];
+}
+
 // Executa acesso ao banco de Dados
 $regras = PBX_Rules::getAll($where);
 
@@ -52,6 +60,9 @@ foreach ($regras as $regra) {
             case "T" :
                 $trunk = PBX_Trunks::get($src['value']);
                 $list_src .= "{$LANG['trunk']} {$trunk->getName()}<br />";
+                break;
+            case "CG" :
+                $list_src .= "{$LANG['contacts_group']}: {$groups[$src['value']]}<br />";
                 break;
             case "G" :
                 switch ($src['value']) {

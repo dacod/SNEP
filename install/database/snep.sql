@@ -16,7 +16,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+/* Linha não necessária devido a forma do GRANT abaixo
 CREATE USER 'snep'@'localhost' IDENTIFIED BY 'sneppass';
+*/
 
 GRANT ALL PRIVILEGES ON * . * TO 'snep'@'localhost' IDENTIFIED BY 'sneppass' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
 
@@ -665,6 +667,19 @@ CREATE TABLE `voicemail_users` (
   KEY `mailbox_context` (`mailbox`,`context`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Estrutura da tabela `contacts_group`
+--
+
+CREATE TABLE IF NOT EXISTS `contacts_group` (
+  `id` integer NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- Grupo incial dos contatos
+
+INSERT INTO `contacts_group` VALUES (1, 'Default');
 
 --
 -- Estrutura da tabela `contacts_names`
@@ -679,6 +694,7 @@ CREATE TABLE IF NOT EXISTS `contacts_names` (
   `cep` varchar(8) NOT NULL,
   `phone_1` varchar(15) NOT NULL,
   `cell_1` varchar(15) NOT NULL,
+  `group` integer NOT NULL REFERENCES contacts_group(id),
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

@@ -18,24 +18,37 @@
 require_once("../includes/verifica.php");   
 require_once("../configs/config.php"); 
 
-ver_permissao(59) ;
+ver_permissao(59);
 
-$titulo = $LANG['menu_contato']." -> ".$LANG['menu_contacts'] ;
+$titulo = $LANG['menu_contato']." -> ".$LANG['menu_contacts'];
+
+$filter = "";
+// Se aplicar Filtro
+if (array_key_exists ('filtrar', $_POST)) {
+    $filter = " AND " . $_POST['field_filter'] . " like '%" . $_POST['text_filter'] . "%'";
+    $order  = " ORDER BY " . $_POST['field_filter'];
+}
+else {
+    $order  = " ORDER BY CAST( c.id as decimal) ";
+}
 
 // SQL padrao
-$sql = "SELECT * FROM contacts_names " ;
+$sql = <<<SQL
+SELECT
+    c.id as id,
+    c.name as name,
+    g.name as `group`,
+    c.city as city,
+    c.state as state,
+    c.phone_1 as phone_1,
+    c.cell_1 as cell_1
+FROM contacts_names as c, contacts_group as g
+WHERE (c.group = g.id $filter) $order
+SQL;
 
 // Opcoes de Filtros de Busca  
-$opcoes = array( "name" => $LANG['name'], "id" => $LANG['id'],
-              "city" => $LANG['city'], "state" => $LANG['state']) ;
-// Se aplicar Filtro 
-if (array_key_exists ('filtrar', $_POST)) {
-   $sql .= " WHERE ".$_POST['field_filter']." like '%".$_POST['text_filter']."%'" ;
-   $sql .= " ORDER BY ".$_POST['field_filter'] ;
-} 
-else {
-   $sql .= " ORDER BY CAST( id as decimal) " ;
-}
+$opcoes = array( "c.name" => $LANG['name'], "c.id" => $LANG['id'],
+              "c.city" => $LANG['city'], "c.state" => $LANG['state'], "g.name" => $LANG['group']) ;
  
 // Executa acesso ao banco de Dados
 try 

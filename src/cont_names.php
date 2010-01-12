@@ -21,8 +21,17 @@
  
  ver_permissao(57) ;
  
- /* Variáveis de ambiente do Form */
-    
+/* Variáveis de ambiente do Form */
+$select = "SELECT id, name FROM contacts_group";
+$raw_groups = $db->query($select)->fetchAll();
+
+$groups = array();
+foreach ($raw_groups as $row) {
+    $groups[$row["id"]] = $row["name"];
+}
+
+$smarty->assign('GROUPS', $groups);
+
 $smarty->assign('ACAO',$acao) ;
 
 if ($acao == "cadastrar") {
@@ -69,27 +78,25 @@ function principal()
 ------------------------------------------------------------------------------*/
 
 function cadastrar() {
-   global $LANG, $db, $name, $address, $city, $state, $cep, $phone_1, $cell_1, $lastid, $smarty;
-        
-   try 
+   global $LANG, $db, $name, $group, $address, $city, $state, $cep, $phone_1, $cell_1, $smarty, $lastid;
+   try
    {
-      $db->beginTransaction() ;
+      $db->beginTransaction();
       // Atualiza tabela operadoras
-        
-      $sql  = "INSERT INTO contacts_names (id, name, address, city, state, cep, " ;
-      $sql .= "phone_1, cell_1)" ;
-      $sql .= " VALUES ('$lastid', '$name', '$address', '$city', '$state', '$cep', " ;
-      $sql .= " '$phone_1', '$cell_1') " ;  
-      $stmt = $db->prepare($sql) ;
+      $sql  = "INSERT INTO contacts_names (id, name, `group`, address, city, state, cep, ";
+      $sql .= "phone_1, cell_1)";
+      $sql .= " VALUES ('$lastid', '$name', '$group', '$address', '$city', '$state', '$cep', ";
+      $sql .= " '$phone_1', '$cell_1') ";
+      $stmt = $db->prepare($sql);
       $stmt->execute();
       $db->commit();
       
-      echo "<meta http-equiv='refresh' content='0; url=rel_cont_names.php'>\n" ; 
+      echo "<meta http-equiv='refresh' content='0; url=rel_cont_names.php'>\n"; 
    } 
    catch (Exception $e) 
    {
       $db->rollBack();
-      display_error($LANG['error'].$e->getMessage(),True) ;
+      display_error($LANG['error'].$e->getMessage(),True);
    }    
  }
 
@@ -115,7 +122,7 @@ function alterar()  {
        display_error($LANG['error'].$e->getMessage(),True) ;
        exit ;
    }
-   $smarty->assign('LASTID', $_POST['id']);
+   $smarty->assign('LASTID', $_GET['id']);
    
    $smarty->assign('ACAO',"grava_alterar") ;
    $smarty->assign ('dt_contatos',$row) ;
@@ -127,13 +134,13 @@ function alterar()  {
 ------------------------------------------------------------------------------*/
 
 function grava_alterar()  {
-   global $LANG, $db, $id, $name, $address, $city, $state, $cep, $phone_1, $cell_1;
+   global $LANG, $db, $id, $name, $group, $address, $city, $state, $cep, $phone_1, $cell_1;
    try 
    {
      $db->beginTransaction() ;
      // Atualiza tabela oepradoras
      $sql = "UPDATE contacts_names set name='$name', address='$address', ";
-     $sql.= " city='$city', state='$state', cep='$cep', phone_1='$phone_1', ";
+     $sql.= " city='$city', state='$state', cep='$cep', phone_1='$phone_1', `group`='$group', ";
      $sql.= " cell_1='$cell_1' ";
      $sql.= " where id ='$id'" ;
      $stmt = $db->prepare($sql) ;
@@ -153,28 +160,27 @@ function grava_alterar()  {
 ------------------------------------------------------------------------------*/
 
 function excluir()  {
-   global $LANG, $db;
-   
-   $id = $_GET['id'];
-   
-   if (!$id) {
-      display_error($LANG['msg_notselect'],True) ;
-      exit ;
-   }
-   try 
-   {
-      $db->beginTransaction() ;
-      // Atualiza tabela contacts_names
+    global $LANG, $db;
 
-      $sql = "DELETE FROM contacts_names WHERE id='$id' " ;
-      $stmt = $db->prepare($sql) ;
-      $stmt->execute() ;
-      display_error($LANG['msg_excluded'],true) ;
-     echo "<meta http-equiv='refresh' content='0;url=rel_cont_names.php'>\n" ;
-   } 
-   catch (PDOException $e) 
-   {
-      display_error($LANG['error'].$e->getMessage(),True) ;
-   }  
+    $id = $_GET['id'];
+
+    if (!$id) {
+        display_error($LANG['msg_notselect'],True);
+        exit;
+    }
+    try {
+        $db->beginTransaction() ;
+        // Atualiza tabela contacts_names
+
+        $sql = "DELETE FROM contacts_names WHERE id='$id';";
+        $pdoResource = $db->prepare($sql);
+        $pdoResource->execute();
+        $db->commit();
+        display_error($LANG['msg_excluded'],true);
+        echo "<meta http-equiv='refresh' content='0;url=rel_cont_names.php'>\n";
+    }
+    catch (PDOException $e) {
+        $pdoResource->rollBack();
+        display_error($LANG['error'].$e->getMessage(),True) ;
+    }
 }
-?>

@@ -23,6 +23,7 @@
       <tr>
          <td class="cen" width="10px">{$LANG.id}</td>
          <td class="cen" width="15%">{$LANG.name}</td>
+         <td class="cen">{$LANG.group}</td>
          <td class="cen">{$LANG.city}</td>
          <td class="cent">{$LANG.state}</td>
          <td class="cen">{$LANG.phone}</td>
@@ -36,6 +37,7 @@
    <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
          <td class="cen">{$DADOS[contatos].id}</td>
          <td>{$DADOS[contatos].name}</td>
+         <td>{$DADOS[contatos].group}</td>
          <td class="cen">{$DADOS[contatos].city}</td>
          <td class="cen">{$DADOS[contatos].state}</td>
          <td class="dir">{formata->fmt_telefone a=$DADOS[contatos].phone_1} </td>

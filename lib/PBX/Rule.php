@@ -190,6 +190,7 @@ class PBX_Rule {
      *  T  - Tronco, id do tronco
      *  RX - Expressão Regular Asterisk
      *  X  - Qualquer Numero
+     *  CG - Grupo de contatos
      *
      * @param array $item array com o tipo e valor da origem
      */
@@ -306,6 +307,21 @@ class PBX_Rule {
                 break;
             case 'X': // Qualquer origem/destino
                 return true;
+                break;
+            case 'CG':
+                $db = Zend_Registry::get('db');
+                $select = $db->select()
+                             ->from('contacts_names')
+                             ->where("`group` = '$expr' AND (phone_1 = '$value' OR cell_1 = '$value')");
+
+                $stmt = $db->query($select);
+                $groups = $stmt->fetchAll();
+                if( count($groups) > 0 ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
                 break;
             default:
                 throw new PBX_Exception_BadArg("Tipo de expressao invalido '$type' para checagem de origem/destino, cheque a regra de negocio {$this->parsingRuleId}");
