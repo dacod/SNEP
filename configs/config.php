@@ -103,8 +103,8 @@ unset($db);
  define('VERSAO',Zend_Registry::get('snep_version'));
  
  // Ambiente de Desenvolvimento = True, senao, usar False
- $smarty->compile_check = True ;
- $smarty->debugging = False  ;
+ $smarty->compile_check = True;
+ $smarty->debugging = False;
  $sis_nome = "SNEP" ;
 
  // Caminhos dos Arquivos de Som - Link para /var/lib/asterisk/sounds/br
