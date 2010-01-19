@@ -301,7 +301,7 @@ XML;
             $fake_request['agi_callerid'] = $ramal->getNumero();
             $fake_request['agi_extension'] = $ramal->getFollowMe();
 
-            $request = new Asterisk_AGI_Request($fake_request);
+            $request = new PBX_Asterisk_AGI_Request($fake_request);
 
             $dialplan = new PBX_Dialplan();
             $dialplan->setRequest($request);
