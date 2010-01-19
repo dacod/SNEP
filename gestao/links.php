@@ -27,7 +27,23 @@
  
  /*$statusk = $_SESSION['statusk'];*/
  $placas = explode(";", $_GET['placas']);
-     
+
+ /* Procura por ocorrencias de KGSM entre placas khomp. */
+ if (!$sumary = ast_status("khomp summary concise","",True ) ) {
+    display_error($LANG['msg_nosocket']) ;
+    exit;
+ }
+
+ $sumary = explode("\n", $sumary);
+ $gsm = array();
+ foreach( $sumary as $id => $iface ) {
+     if( strpos( $iface, "KGSM" ) ) {
+         $gsms = explode( ";", $iface );
+         $id = substr( $gsms[0], 4, 2 );
+         $gsm[$id] = "yes";
+     }
+ }
+
  // Informacoes dos Links
  //----------------------
  
@@ -49,6 +65,7 @@
            $lnk   = substr($val,3,3) ;
            $status= trim(substr($val,strpos($val,":")+1)) ;
            $links[$board][$lnk] = $khomp_signal[$status] ;
+           
        }
     }
  }
@@ -76,26 +93,36 @@
           display_error($LANG['msg_nosocket']) ;
           exit;
        }    
-    } 
+    }
     else 
     {
        continue ;
     }
            
-    $lines = explode("\n",$data);       
-   
+    $lines = explode("\n",$data);
+  
     while (list($chave, $valor) = each($lines)) {
             
        if (substr($valor,0,1) === "B" &&  substr($valor,3,1) === "C") {
               /* Tradução dos status */
               $linha = explode(":", $valor) ;
               $st_ast = $khomp_signal[$linha[1]] ;
-              $st_placa = $khomp_signal[$linha[2]] ;
+              $st_placa = $khomp_signal[$linha[2]] ;              
               $st_canal = $khomp_signal[$linha[3]] ;
+
               /* Relatório Sintético */
               $sintetic[substr($valor,0,3)][$linha[1]] += 1 ;
               $l = "$linha[0]:$st_ast:$st_placa:$st_canal";
-               
+
+              /* Pega status de sinal/operadora GSM */
+              if(strpos( $valor, "kgsm" )) {
+                    $st_sinal = $linha[4];
+                    $st_opera = $linha[5];
+                    $st_gsm = true;
+              }else{
+                    $st_gsm = false;
+              }
+                  
               $board = substr($l,0,3) ;
               $channel = substr($l,3,3) ;
               $status = explode(":", $l);
@@ -104,20 +131,25 @@
               $channels[$key][$channel]['asterisk']  =  $status[1] ;
               $channels[$key][$channel]['k_call']    =  $status[2] ;
               $channels[$key][$channel]['k_channel'] =  $status[3] ;
+              $channels[$key][$channel]['k_signal']  =  $st_sinal ;
+              $channels[$key][$channel]['k_opera']   =  $st_opera ;
+              $channels[$key][$channel]['k_gsm']   =  $st_gsm ;
            }
 
 
        }
     }
  }
- $smarty->assign('DADOS',$links) ;
- $smarty->assign('CANAIS',$channels) ;
- $smarty->assign('STATUS_CANAIS',$status_canais_khomp);
+
+ $smarty->assign('GSM', $gsm);
+ $smarty->assign('DADOS', $links);
+ $smarty->assign('CANAIS', $channels);
+ $smarty->assign('STATUS_CANAIS', $status_canais_khomp);
  $smarty->assign('STATUS_SINTETIC', $status_sintetico_khomp);
- $smarty->assign('COLS',(100/count($links))) ;
- $smarty->assign ('STATUS', $statusk);
- $smarty->assign ('TIPOREL', $tiporel);
- $smarty->assign ('SINTETIC', $sintetic);
+ $smarty->assign('COLS', (100/count( $links ) )) ;
+ $smarty->assign('STATUS', $statusk);
+ $smarty->assign('TIPOREL', $tiporel);
+ $smarty->assign('SINTETIC', $sintetic);
  $titulo = $LANG['menu_links'] ;
- display_template("links.tpl",$smarty,$titulo) ;
+ display_template("links.tpl", $smarty,$titulo) ;
  
