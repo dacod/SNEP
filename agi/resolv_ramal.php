@@ -37,4 +37,4 @@ try {
     exit(1);
 }
 
-$asterisk->set_variable($argv[2], $peer->getName());
+$asterisk->set_variable($argv[2], $peer->getNumero());
