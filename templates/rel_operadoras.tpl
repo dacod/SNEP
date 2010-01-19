@@ -38,7 +38,7 @@
          <td class="cen">{$DADOS[operadoras].tpm}</td>
          <td class="cen">{$DADOS[operadoras].tdm}</td>
          <td class="dir">{$DADOS[operadoras].tbf|string_format:"%.2f"}</td>
-         <td class="dir">{$DADOS[operadoras].vpf}</td>
+         <td class="dir">{$DADOS[operadoras].vpf|string_format:"%.2f"}</td>
          <td class="dir">{$DADOS[operadoras].tbc|string_format:"%.2f"}</td>
          <td class="dir">{$DADOS[operadoras].vpc}</td>
          <td align="center" valign="middle" width="30px">
