@@ -164,14 +164,18 @@ class PBX_Usuarios {
      * @return boolean resultado do teste
      */
     public static function hasGroupInheritance($parent, $node) {
-        $db = Zend_Registry::get('db');
+                $db = Zend_Registry::get('db');
         $select = $db->select()
-             ->from('groups');
+             ->from('groups')
+             ->where("name != 'admin' AND name != 'users' AND name != 'all'");
 
         $stmt = $db->query($select);
         $groups = $stmt->fetchAll();
 
         $acl = new Zend_Acl();
+        $acl->addRole(new Zend_Acl_Role('all'),null);
+        $acl->addRole(new Zend_Acl_Role('users'), 'all');
+        $acl->addRole(new Zend_Acl_Role('admin'), 'all');
         foreach ($groups as $group) {
             $inherit = ($group['inherit']) ? $group['inherit'] : null;
             $acl->addRole(new Zend_Acl_Role($group['name']), $inherit);
