@@ -18,13 +18,15 @@
  <form name="view" method="post" id="view">
  <table align="center">
    <tr>
-   {foreach name=boards from=$DADOS key=board_key item=board_item}            
+   {foreach name=boards from=$DADOS key=board_key item=board_item}
+   {assign var="tit" value=$board_key|replace:'B':''}
+
       <td width="{$COLS}%" valign="top">
          <input type="hidden"  size="2" class="campos" id="status[{$board_key}]" name="{$board_key}" value="no" />
          <table>
             <tr>
                <td colspan="2" class="boards_khomp">
-                  {$LANG.board}: {$board_key}
+                  {$LANG.board}: {$board_key} {if $GSM.$tit == "yes"} {$LANG.gsm_string} {/if}
                </td>
             </tr>
             <tr>
@@ -63,10 +65,20 @@
                   <tr>
                       <td><strong>{$LANG.chann}</strong></td>
                       <td><strong>{$LANG.status_ast}</strong></td>
-                      <td><strong>{$LANG.status_call}</strong></td>   
-                      {if $STATUS === "yes"}
-                      <td><strong>{$LANG.status_chann}</strong></td>      
+                      <td><strong>{$LANG.status_call}</strong></td>
+             
+
+                      {if $GSM.$tit == "yes"}
+
+                      <td><strong>{$LANG.gsm_signal}</strong></td>
+                      <td><strong>{$LANG.gsm_operadora}  </strong></td>
+                      
                       {/if}
+
+                      {if $STATUS === "yes"}
+                        <td><strong>{$LANG.status_chann}</strong></td>
+                      {/if}
+
                   </tr>
 
                      {foreach from=$CANAIS[$board_key] key=canal_key item=canal_item} 
@@ -81,12 +93,28 @@
                          <td style="width:120px;color:#fff;background: {$STATUS_CANAIS.$cor_status};">
                            {$canal_item.k_call}
                          </td>
+
+                         {if $canal_item.k_gsm == "k_gsm"}
+
+                         <td style="width:120px;color:#fff;background: {$STATUS_CANAIS.$cor_status};">
+                           {$canal_item.k_signal}
+                         </td>
+                         
+                         <td style="width:120px;color:#fff;background: {$STATUS_CANAIS.$cor_status};">
+                           {$canal_item.k_opera}
+                         </td>
+
+                         {/if}
+
                          {if $STATUS === "yes"}
                          <td style="color:#fff;background: {$STATUS_CANAIS.$cor_status};">
                            {$canal_item.k_channel}
                          </td>
                          {/if}
+                         
+
                      </tr>
+                     
                      {/foreach}
                   </table>
                     {/if}
@@ -95,7 +123,9 @@
             </tr>
          </table>
        </td>
+       
    {/foreach}
+   
    </tr>
    <tr>
       <td colspan="3" align="center">
