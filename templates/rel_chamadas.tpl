@@ -70,6 +70,16 @@
           </table>
        </td>
     </tr>
+
+    <tr>
+        <td class="esq">{$LANG.order_report}</td>
+        <td class="esq">
+            <input type="radio" name="ordernar" value="data" /> {$LANG.order_data}
+            <input type="radio" name="ordernar" value="src" /> {$LANG.order_src}
+            <input type="radio" name="ordernar" value="dst" /> {$LANG.order_dst}
+        </td>
+    </tr>
+
     <tr>
        <td class="esq">
            <!--
@@ -80,6 +90,7 @@
               {$LANG.origin}(s)&nbsp;{$LANG.morethatone}
            
        </td>
+
        <td class="esq">
           
           {$LANG.group} :
@@ -93,6 +104,7 @@
           {html_radios name="srctype" options=$OPCOES_PROCURA selected=1 }
        </td>
     </tr>
+
     <tr>
        <td class="esq">
            <!--
