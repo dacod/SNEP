@@ -983,3 +983,7 @@ $LANG['vinculos_self'] = "Visualiza somente a si mesmo";
 $LANG['gsm_signal'] = "Intensidade do Sinal";
 $LANG['gsm_operadora'] = "Chip / Operadora";
 $LANG['gsm_string'] = "(GSM)";
+$LANG['order_report'] = "Ordenar Resultados";
+$LANG['order_data'] = "Ordenar por Data";
+$LANG['order_src'] = "Ordenar por Origem";
+$LANG['order_dst'] = "Ordenar por Destino";
