@@ -108,6 +108,7 @@ $sql = "SELECT * FROM groups" ;
  $smarty->assign ('call_type', ( $_SESSION['relchamadas']['call_type'] ? $_SESSION['relchamadas']['call_type'] : "T")) ;
  $smarty->assign ('groupsrc', $_SESSION['relchamadas']['groupsrc'] ? $_SESSION['relchamadas']['groupsrc'] : "") ;
  $smarty->assign ('groupdst', $_SESSION['relchamadas']['groupdst'] ? $_SESSION['relchamadas']['groupdst'] : "") ;
+ $smarty->assign ('ordenar', $_SESSION['relchamadas']['ordenar'] ? $_SESSION['relchamadas']['ordenar'] : "");
  $smarty->assign ('PROTOTYPE', True) ;
  $smarty->assign ('dt_relchamadas',$dados_iniciais) ;
  $smarty->assign ('FILTERS',$dst_exceptions) ;
@@ -139,6 +140,7 @@ function monta_relatorio($acao)  {
   $_SESSION['relchamadas']['hora_fim'] = $hora_fim;
   $_SESSION['relchamadas']['src'] = $src;
   $_SESSION['relchamadas']['dst'] = $dst;
+  $_SESSION['relchamadas']['ordenar'] = $ordernar;
   $_SESSION['relchamadas']['ccustos'] = $contas;
   $_SESSION['relchamadas']['groupsrc'] = $groupsrc;
   $_SESSION['relchamadas']['groupdst'] = $groupdst;
