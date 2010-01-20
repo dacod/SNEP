@@ -83,13 +83,13 @@ require_once("classes.php") ;
             $retorno .= ($id == 'src' ? " or src = '$data' " : " or dst = '$data' ");
             break;
          case 2:
-            $retorno .= ($id == 'src' ? " or src LIKE '$data%' " : " or LIKE '$data%' ");
+            $retorno .= ($id == 'src' ? " or src LIKE '$data%' " : " or dst LIKE '$data%' ");
             break;
          case 3:
-            $retorno .= ($id == 'src' ? " or src LIKE '%$data' " : " or LIKE '%$data' ");
+            $retorno .= ($id == 'src' ? " or src LIKE '%$data' " : " or dst LIKE '%$data' ");
             break;
          case 4:
-            $retorno .= ($id == 'src' ? " or src LIKE '%$data%' " : " or LIKE '%$data%' ");
+            $retorno .= ($id == 'src' ? " or src LIKE '%$data%' " : " or dst LIKE '%$data%' ");
             break;
      }
      return $retorno;
@@ -118,7 +118,7 @@ require_once("classes.php") ;
                      }
                      
                      if (strlen($TMP_COND) > 0) {
-                        $retorno =  " AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        $retorno =  " AND  ". substr( $TMP_COND, 4 ) ." " ;
                      }
                   }
           }
@@ -136,7 +136,7 @@ require_once("classes.php") ;
                      }
 
                      if (strlen($TMP_COND) > 0) {
-                        $retorno .= " AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        $retorno .= " AND  ". substr( $TMP_COND, 4 ) ." " ;
                      }
                   }
           }
