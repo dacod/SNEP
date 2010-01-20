@@ -130,8 +130,7 @@ $sql = "SELECT * FROM groups" ;
  Funcao monta_relatorio - Monta o relatsorio
 ------------------------------------------------------------------------------*/
 function monta_relatorio($acao)  {
-  global  $srctype, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini,$dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides,$dst_exceptions,$prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif,$my_object, $acao;
-
+  global  $srctype, $ordernar, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini,$dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides,$dst_exceptions,$prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif,$my_object, $acao;
 
   /* Salvando dados do formulario.                                              */
   $_SESSION['relchamadas']['dia_ini'] = $dia_ini;
@@ -486,7 +485,23 @@ function monta_relatorio($acao)  {
   $sql_chamadas .= " LEFT JOIN ccustos on cdr.accountcode = ccustos.codigo " ;
   $sql_chamadas .=  $CONDICAO ;
   $sql_chamadas .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
-  $sql_chamadas .= " GROUP BY userfield ORDER BY calldate" ;
+
+
+  
+  switch($ordernar) {
+      case "data":
+          $ordernar = " calldate ";
+          break;
+      case "src":
+          $ordernar = " src, calldate ";
+          break;
+      case "dst":
+          $ordernar = "  dst, calldate ";
+          break;
+  }
+
+  $sql_chamadas .= " GROUP BY userfield ORDER BY $ordernar " ;
+
 
   $_SESSION['view_compact'] = $_POST['view_compact'];
   $_SESSION['sql_chamadas'] = $sql_chamadas ;
