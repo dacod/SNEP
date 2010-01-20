@@ -73,10 +73,10 @@
 
     <tr>
         <td class="esq">{$LANG.order_report}</td>
-        <td class="esq">
-            <input type="radio" name="ordernar" value="data" /> {$LANG.order_data}
-            <input type="radio" name="ordernar" value="src" /> {$LANG.order_src}
-            <input type="radio" name="ordernar" value="dst" /> {$LANG.order_dst}
+        <td class="esq">            
+            <input {if $ordenar == "data"} checked="checked" {else} checked="checked" {/if} type="radio" name="ordernar" value="data" /> {$LANG.order_data}
+            <input {if $ordenar == "src"} checked="checked" {/if} type="radio" name="ordernar" value="src" /> {$LANG.order_src}
+            <input {if $ordenar == "dst"} checked="checked" {/if} type="radio" name="ordernar" value="dst" /> {$LANG.order_dst}
         </td>
     </tr>
 
