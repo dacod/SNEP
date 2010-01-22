@@ -95,21 +95,23 @@
                 <b>{$LANG.calls}:</b>
              </td>
              <td>
-                {$LANG.answered}:&nbsp;<b>{$TOTAIS.answered}</b>
+                {$LANG.answered}:&nbsp;<b>
+                {$TOTAIS.answered}</b>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {$LANG.notanswereds}:&nbsp;<b>{$TOTAIS.notanswer}</b>
+                {$LANG.notanswereds}:&nbsp;
+                <b>{$TOTAIS.notanswer}</b>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {$LANG.busys}:&nbsp;<b>{$TOTAIS.busy}</b>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {$LANG.duration}:&nbsp;<b>{$TOTAIS.fail}</b>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {$LANG.busys}:&nbsp;
+                <b>{$TOTAIS.busy}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {$LANG.duration}:&nbsp;
+                <b>{$TOTAIS.fail}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 {$LANG.others}:&nbsp;<b>{$TOTAIS.oth}</b>
 
              </td>
           </tr>
           <tr>
              <td>
-                <strong>{$LANG.times}:</strong>
+                <strong>{$LANG.times}: (H:m:s)</strong>
              </td>
              <td>
                 {$LANG.calls}:&nbsp;
