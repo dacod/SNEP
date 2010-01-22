@@ -15,95 +15,80 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
- require_once("../includes/verifica.php");
- require_once("../configs/config.php");    
- // Tempo do SIS
- $SIS=array() ;
- $up = explode(",",exec("uptime")) ;
- $uptime = substr($up[0],strpos($up[0],"up")+2) ;
- if (strpos($uptime,"min") > 0) {
+require_once("../includes/verifica.php");
+require_once("../configs/config.php");    
+// Tempo do SIS
+$SIS=array() ;
+$up = explode(",",exec("uptime")) ;
+$uptime = substr($up[0],strpos($up[0],"up")+2) ;
+if (strpos($uptime,"min") > 0) {
     $SIS['uptime'] = substr($uptime,0,strpos($uptime,"min")+3);
- } elseif (strpos($uptime,":") > 0) {
-   $up_tmp=explode(":",$uptime) ;
-   $SIS['uptime']=$up_tmp[0]."&nbsp;".$LANG['hour'].",&nbsp;".$up_tmp[1]."&nbsp;".$LANG['minutes'] ;
- } else {
-   $SIS['uptime'] = substr($uptime,0,strpos($uptime,"day"))."&nbsp;".$LANG['days'].",&nbsp;";
-   $up_tmp=explode(":",$up[1]) ;
-   $SIS['uptime'].= $up_tmp[0]."&nbsp;".$LANG['hour'].",&nbsp;".$up_tmp[1]."&nbsp;".$LANG['minutes'] ;
- }
- // Status asterisk
- $SIS['ast_vers'] = exec("/usr/sbin/asterisk -V") ;
+} elseif (strpos($uptime,":") > 0) {
+    $up_tmp=explode(":",$uptime) ;
+    $SIS['uptime']=$up_tmp[0]."&nbsp;".$LANG['hour'].",&nbsp;".$up_tmp[1]."&nbsp;".$LANG['minutes'] ;
+} else {
+    $SIS['uptime'] = substr($uptime,0,strpos($uptime,"day"))."&nbsp;".$LANG['days'].",&nbsp;";
+    $up_tmp=explode(":",$up[1]) ;
+    $SIS['uptime'].= $up_tmp[0]."&nbsp;".$LANG['hour'].",&nbsp;".$up_tmp[1]."&nbsp;".$LANG['minutes'] ;
+}
+// Status asterisk
+$SIS['ast_vers'] = exec("/usr/sbin/asterisk -V") ;
 
- // Mysql Version
- $SIS['mysql_vers'] = exec("mysql -V | awk -F, '{ print $1 }' | awk -F'mysql' '{ print $2 }'");
+// Mysql Version
+$SIS['mysql_vers'] = exec("mysql -V | awk -F, '{ print $1 }' | awk -F'mysql' '{ print $2 }'");
 
- // Linux Version
- if(file_exists("/etc/slackware-version")){
-  exec("cat /etc/slackware-version",$linux_vers) ;
-  $SIS['linux_vers'] = $linux_vers[0];
- }
- else {
-  exec("cat /etc/issue",$linux_vers) ;
-  $SIS['linux_vers'] = substr($linux_vers[0],0,strpos($linux_vers[0],"\\")) ;
- }
- // Kernel
- $SIS['linux_kernel'] = exec("uname -rv") ;
- 
- // Machine
- $hard_1 = exec("cat /proc/cpuinfo | grep name |  awk -F: '{print $2}'") ;
- $hard_2 = exec("cat /proc/cpuinfo | grep MHz |  awk -F: '{print $2}'") ;
- $SIS['hardware'] = $hard_1." , ".$hard_2." Mhz" ; 
- // Memoria
- $SIS['memory'] = sys_meminfo() ;
- // Espaco em Disco
- $SIS['space'] = sys_fsinfo() ;
- 
- // Status diversos do asterisk
- $SIS['sip_peers'] = ast_status("sip show  peers","sip peers"  ) ;
- 
- $SIS['sip_channels'] = ast_status("sip show channels","SIP channel" ) ;
- $SIS['iax2_peers'] = ast_status("iax2 show peers","iax2 peers" ) ;
- $SIS['agents'] = ast_status("show agents", "agents configured" ) ;
+// Linux Version
+if(file_exists("/etc/slackware-version")) {
+    exec("cat /etc/slackware-version",$linux_vers) ;
+    $SIS['linux_vers'] = $linux_vers[0];
+}
+else {
+    exec("cat /etc/issue",$linux_vers) ;
+    $SIS['linux_vers'] = substr($linux_vers[0],0,strpos($linux_vers[0],"\\")) ;
+}
+// Kernel
+$SIS['linux_kernel'] = exec("uname -rv") ;
 
- // Status do SIS
- $path_voz = $SETUP['ambiente']['path_voz'];
- $SIS['num_arqvoz'] = exec("scripts/num_arquivos ../". $path_voz) ;
- //$SIS['spc_arqvoz'] = exec("du -sch $path_voz | cut -f1") ;
- $SIS['spc_arqvoz'] = "" ;
- 
- $SIS['tarifas_mod'] = $SIS['tarifas_inst'] = False;
- $SIS['tarifas_vers'] = VERSAO ;
- 
- $SIS['gestao_mod'] = $SIS['gestao_inst'] = False;
- $SIS['gestao_vers'] = VERSAO ;
+// Machine
+$hard_1 = exec("cat /proc/cpuinfo | grep name |  awk -F: '{print $2}'") ;
+$hard_2 = exec("cat /proc/cpuinfo | grep MHz |  awk -F: '{print $2}'") ;
+$SIS['hardware'] = $hard_1." , ".$hard_2." Mhz" ; 
+// Memoria
+$SIS['memory'] = sys_meminfo() ;
+// Espaco em Disco
+$SIS['space'] = sys_fsinfo() ;
 
- $SIS['panel_mod'] = $SIS['panel_inst'] = False;
- $SIS['panel_vers'] = VERSAO ;
- 
- $enable_gestao = $SETUP['ambiente']['enable_gestao'];
- $enable_tarifas = $SETUP['ambiente']['enable_tarifas'];
- $enable_panel = $SETUP['ambiente']['enable_panel'];
- 
- if (file_exists("../tarifas")) {
-    $SIS['tarifas_mod'] = True ;
-    $SIS['tarifas_inst'] = $enable_tarifas ;
- }
- if (file_exists("../gestao")) {
-    $SIS['gestao_mod'] = True ;
-    $SIS['gestao_inst'] = $enable_gestao ;
- }
- if (file_exists("../op-panel")) {
-    $SIS['panel_mod'] = True ;
-    $SIS['panel_inst'] = $enable_gestao ;
- }
- // Cria Objeto bargraph
- $my_bargraph = new Bar_Graph ;
- $smarty->register_object("bargraph",$my_bargraph) ; 
+// Status diversos do asterisk
+$SIS['sip_peers'] = ast_status("sip show  peers","sip peers"  ) ;
 
- $smarty->assign ('SIS',$SIS) ; 
- $titulo = $LANG['menu_status'];
- display_template("sistema.tpl",$smarty,$titulo) ;
- 
+$SIS['sip_channels'] = ast_status("sip show channels","SIP channel" ) ;
+$SIS['iax2_peers'] = ast_status("iax2 show peers","iax2 peers" ) ;
+$SIS['agents'] = ast_status("show agents", "agents configured" ) ;
+
+// Status do SIS
+$path_voz = $SETUP['ambiente']['path_voz'];
+$SIS['num_arqvoz'] = exec("scripts/num_arquivos ../". $path_voz) ;
+//$SIS['spc_arqvoz'] = exec("du -sch $path_voz | cut -f1") ;
+$SIS['spc_arqvoz'] = "" ;
+
+$SIS['modules'] = array();
+$modules = Snep_Modules::getInstance()->getRegisteredModules();
+foreach ($modules as $module) {
+    $SIS['modules'][] = array(
+        "name"        => $module->getName(),
+        "version"     => $module->getVersion(),
+        "description" => $module->getDescription()
+    );
+}
+
+// Cria Objeto bargraph
+$my_bargraph = new Bar_Graph ;
+$smarty->register_object("bargraph",$my_bargraph) ; 
+
+$smarty->assign ('SIS',$SIS) ; 
+$titulo = $LANG['menu_status'];
+display_template("sistema.tpl",$smarty,$titulo) ;
+
 /*-----------------------------------------------------------------------------
  * Funcao:  sys_meminfo - Cria array com status da memoria do servidor
  * Retorna: Array associativo de 2 arrays associativos, contendo estatisticas
@@ -112,56 +97,56 @@
  *              http://phpsysinfo.sourceforge.net
  *-----------------------------------------------------------------------------*/  
 function sys_meminfo () {
-   $results['ram'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
-   $results['swap'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
-   $results['devswap'] = array();
+    $results['ram'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
+    $results['swap'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
+    $results['devswap'] = array();
 
-   $bufr = rfts( '/proc/meminfo' );
+    $bufr = rfts( '/proc/meminfo' );
 
-   if ( $bufr != "ERROR" ) {
-      $bufe = explode("\n", $bufr);
-      foreach( $bufe as $buf ) {
-         if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-            $results['ram']['total'] = $ar_buf[1];
-         } else if (preg_match('/^MemFree:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-            $results['ram']['free'] = $ar_buf[1];
-         } else if (preg_match('/^Cached:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-            $results['ram']['cached'] = $ar_buf[1];
-         } else if (preg_match('/^Buffers:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-            $results['ram']['buffers'] = $ar_buf[1];
-         }
-      }
-      $results['ram']['used'] = $results['ram']['total'] - $results['ram']['free'];
-      $results['ram']['percent'] = round(($results['ram']['used'] * 100) / $results['ram']['total']);
-      // values for splitting memory usage
-      if (isset($results['ram']['cached']) && isset($results['ram']['buffers'])) {
-         $results['ram']['app'] = $results['ram']['used'] - $results['ram']['cached'] - $results['ram']['buffers'];
-         $results['ram']['app_percent'] = round(($results['ram']['app'] * 100) / $results['ram']['total']);
-         $results['ram']['buffers_percent'] = round(($results['ram']['buffers'] * 100) / $results['ram']['total']);
-         $results['ram']['cached_percent'] = round(($results['ram']['cached'] * 100) / $results['ram']['total']);
-      }
-
-      $bufr = rfts( '/proc/swaps' );
-      if ( $bufr != "ERROR" ) {
-         $swaps = explode("\n", $bufr);
-         for ($i = 1; $i < (sizeof($swaps)); $i++) {
-            if ( trim( $swaps[$i] ) != "" ) {
-               $ar_buf = preg_split('/\s+/', $swaps[$i], 6);
-               $results['devswap'][$i - 1] = array();
-               $results['devswap'][$i - 1]['dev'] = $ar_buf[0];
-               $results['devswap'][$i - 1]['total'] = $ar_buf[2];
-               $results['devswap'][$i - 1]['used'] = $ar_buf[3];
-               $results['devswap'][$i - 1]['free'] = ($results['devswap'][$i - 1]['total'] - $results['devswap'][$i - 1]['used']);
-               $results['devswap'][$i - 1]['percent'] = round(($ar_buf[3] * 100) / $ar_buf[2]);
-               $results['swap']['total'] += $ar_buf[2];
-               $results['swap']['used'] += $ar_buf[3];
-               $results['swap']['free'] = $results['swap']['total'] - $results['swap']['used'];
-               $results['swap']['percent'] = round(($results['swap']['used'] * 100) / $results['swap']['total']);
+    if ( $bufr != "ERROR" ) {
+        $bufe = explode("\n", $bufr);
+        foreach( $bufe as $buf ) {
+            if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                $results['ram']['total'] = $ar_buf[1];
+            } else if (preg_match('/^MemFree:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                $results['ram']['free'] = $ar_buf[1];
+            } else if (preg_match('/^Cached:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                $results['ram']['cached'] = $ar_buf[1];
+            } else if (preg_match('/^Buffers:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                $results['ram']['buffers'] = $ar_buf[1];
             }
-         } 
-      }
-   }
-   return $results;
+        }
+        $results['ram']['used'] = $results['ram']['total'] - $results['ram']['free'];
+        $results['ram']['percent'] = round(($results['ram']['used'] * 100) / $results['ram']['total']);
+        // values for splitting memory usage
+        if (isset($results['ram']['cached']) && isset($results['ram']['buffers'])) {
+            $results['ram']['app'] = $results['ram']['used'] - $results['ram']['cached'] - $results['ram']['buffers'];
+            $results['ram']['app_percent'] = round(($results['ram']['app'] * 100) / $results['ram']['total']);
+            $results['ram']['buffers_percent'] = round(($results['ram']['buffers'] * 100) / $results['ram']['total']);
+            $results['ram']['cached_percent'] = round(($results['ram']['cached'] * 100) / $results['ram']['total']);
+        }
+
+        $bufr = rfts( '/proc/swaps' );
+        if ( $bufr != "ERROR" ) {
+            $swaps = explode("\n", $bufr);
+            for ($i = 1; $i < (sizeof($swaps)); $i++) {
+                if ( trim( $swaps[$i] ) != "" ) {
+                    $ar_buf = preg_split('/\s+/', $swaps[$i], 6);
+                    $results['devswap'][$i - 1] = array();
+                    $results['devswap'][$i - 1]['dev'] = $ar_buf[0];
+                    $results['devswap'][$i - 1]['total'] = $ar_buf[2];
+                    $results['devswap'][$i - 1]['used'] = $ar_buf[3];
+                    $results['devswap'][$i - 1]['free'] = ($results['devswap'][$i - 1]['total'] - $results['devswap'][$i - 1]['used']);
+                    $results['devswap'][$i - 1]['percent'] = round(($ar_buf[3] * 100) / $ar_buf[2]);
+                    $results['swap']['total'] += $ar_buf[2];
+                    $results['swap']['used'] += $ar_buf[3];
+                    $results['swap']['free'] = $results['swap']['total'] - $results['swap']['used'];
+                    $results['swap']['percent'] = round(($results['swap']['used'] * 100) / $results['swap']['total']);
+                }
+            }
+        }
+    }
+    return $results;
 }
 /*-----------------------------------------------------------------------------
  * Funcao:  sys_fsinfo - Cria array com status das particoes montadas
@@ -188,7 +173,7 @@ function sys_fsinfo () {
         if  ($fstype[$ar_buf[5]] == "tmpfs")
             continue;
         $results[$i - 1] = array();
-        
+
         $results[$i - 1]['disk'] = $ar_buf[0];
         $results[$i - 1]['size'] = $ar_buf[1];
         $results[$i - 1]['used'] = $ar_buf[2];
@@ -200,4 +185,3 @@ function sys_fsinfo () {
 
     return $results;
 }
-?>

@@ -231,7 +231,12 @@ XML;
         $dialstatus = $asterisk->get_variable("DIALSTATUS");
         $lastdialstatus = $dialstatus['data'];
 
+        if( Zend_Registry::get('outgoingNumber') !== "" ) {
+            $asterisk->set_variable("CALLERID(num)", Zend_Registry::get('outgoingNumber') );
+        }
+
         $log->debug("Dial($destiny, {$this->config['dial_timeout']}, $flags)");
+        // ==== DIAL ====
         $asterisk->exec_dial($destiny, $this->config['dial_timeout'], $flags);
 
         $dialstatus = $asterisk->get_variable("DIALSTATUS");

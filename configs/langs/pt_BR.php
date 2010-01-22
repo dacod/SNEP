@@ -980,6 +980,7 @@ $LANG['access_level'] = "Nível de acesso";
 $LANG['vinculos_ramais'] = "Visualiza ramais";
 $LANG['vinculos_todos'] = "Visualiza qualquer informação";
 $LANG['vinculos_self'] = "Visualiza somente a si mesmo";
+$LANG['modules'] = "Modulos";
 $LANG['gsm_signal'] = "Intensidade do Sinal";
 $LANG['gsm_operadora'] = "Chip / Operadora";
 $LANG['gsm_string'] = "(GSM)";

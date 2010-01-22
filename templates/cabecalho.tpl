@@ -50,7 +50,7 @@
       {/if}
       {if $REFRESH.mostrar}
          <script src="../includes/javascript/prototype.js"></script>
-         <script >
+         <script>
              window.onload = function() {ldelim}
                var MyAjax = new Ajax.PeriodicalUpdater('mostrar','{$REFRESH.url}',
                    {ldelim}method: 'get',

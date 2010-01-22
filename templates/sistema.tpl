@@ -49,6 +49,14 @@
                <td class="campos"><strong>MySQL</strong></td>
                <td class="campos">{$SIS.mysql_vers}</td>
             </tr>
+            <tr>
+               <td class="campos"><strong>{$LANG.arqvoz}</strong></td>
+               <td class="campos">
+                  {$LANG.numfiles}: <strong>{$SIS.num_arqvoz|default:"0"}</strong>
+                  &nbsp;&nbsp;
+                  {$LANG.spaceused}: <strong>{$SIS.spc_arqvoz|default:"0"}</strong>
+               </td>
+            </tr>
          </table>
          <br />
          <table class="subtable2">
@@ -82,68 +90,18 @@
          <table class="subtable2">
             <thead>
                <tr>
-                  <td colspan="2">
-                     {$LANG.statussnep}
+                  <td colspan="3">
+                     {$LANG.modules}
                   </td>
                </tr>
             </thead>
+            {foreach from=$SIS.modules item=module name=module}
             <tr>
-               <td class="campos"><strong>{$LANG.tarifas_mod}</strong></td>
-               <td class="campos">
-                  {if $SIS.tarifas_mod }
-                     {$LANG.install} ( {$SIS.tarifas_vers} )
-                  {else}
-                     {$LANG.notinstall}
-                  {/if}
-                  &nbsp;&nbsp;//&nbsp;&nbsp;
-                  {if $SIS.tarifas_inst} 
-                     {$LANG.enabled}
-                  {else}
-                     {$LANG.notenabled}
-                  {/if}
-               </td>
-            </tr>    
-                  <tr>
-               <td class="campos"><strong>{$LANG.gestao_mod}</strong></td>
-               <td class="campos">
-                  {if $SIS.gestao_mod }
-                     {$LANG.install} ( {$SIS.gestao_vers} )
-                  {else}
-                     {$LANG.notinstall}
-                  {/if}
-                  &nbsp;&nbsp;//&nbsp;&nbsp;
-                  {if $SIS.gestao_inst} 
-                     {$LANG.enabled}
-                  {else}
-                     {$LANG.notenabled}
-                  {/if}
-               </td>
-            </tr>                   
-            <tr>
-               <td class="campos"><strong>{$LANG.panel_mod}</strong></td>
-               <td class="campos">
-                  {if $SIS.panel_mod }
-                     {$LANG.install} ( {$SIS.panel_vers} )
-                  {else}
-                     {$LANG.notinstall}
-                  {/if}
-                  &nbsp;&nbsp;//&nbsp;&nbsp;
-                  {if $SIS.panel_inst} 
-                     {$LANG.enabled}
-                  {else}
-                     {$LANG.notenabled}
-                  {/if}
-               </td>
+               <td class="campos"><strong>{$module.name}</strong></td>
+               <td class="campos">{$module.version}</td>
+               <td class="campos">{$module.description}</td>
             </tr>
-
-            <tr>
-               <td class="campos"><strong>{$LANG.arqvoz}</strong></td>
-               <td class="campos">
-                  {$LANG.numfiles}: <strong>{$SIS.num_arqvoz|default:"0"}</strong>
-                  &nbsp;&nbsp;
-                  {$LANG.spaceused}: <strong>{$SIS.spc_arqvoz|default:"0"}</strong>
-               </td>
-            </tr>
+            {/foreach}
          </table>
       </td>
       <td  style="width:50%" valign="top" class="subtable">

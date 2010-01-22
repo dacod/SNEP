@@ -30,26 +30,32 @@ class PBX_Rule_Actions {
 
     private $actions = array();
 
+    private static $instance;
+
+    /**
+     * Retorna instancia dessa classe
+     *
+     * @return PBX_Rule_Actions
+     */
+    public static function getInstance() {
+        if( self::$instance === null ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     /**
      * Construtor
-     *
-     * Aqui é feita a leitura do diretório para determinar quais ações estão
-     * instaladas.
      */
-    public function __construct() {
-        $config = Zend_Registry::get('config');
+    private function __construct() {}
+    private function  __clone() {}
 
-        $actions_dir = $config->system->path->base . "/lib/PBX/Rule/Action";
-
-        foreach( scandir($actions_dir) as $filename ) {
-            // Todos os arquivos .php devem ser classes de Ações
-            if( ereg(".*\.php$", $filename) ) {
-                // Tentar instanciar e Adicionar no array
-                $classname = 'PBX_Rule_Action_' . basename($filename, '.php');
-                if(class_exists($classname)) {
-                    $this->actions[] = $classname;
-                }
-            }
+    public function registerAction( $action ) {
+        if( in_array($action, $this->actions) ) {
+            throw new Exception("Action already registered");
+        }
+        else {
+            $this->actions[] = $action;
         }
     }
 

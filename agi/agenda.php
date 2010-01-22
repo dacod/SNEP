@@ -19,10 +19,10 @@
 
 require_once("./agi_base.php");
 
-$requestid = $asterisk->request['agi_callerid'] . " -> " . $asterisk->request['agi_extension'] . " | " . $asterisk->request['agi_uniqueid'];
 $action = substr($asterisk->request['agi_extension'],0,3);
 $entryid = substr($asterisk->request['agi_extension'],3);
-$asterisk->verbose("[$requestid] Connection request from " . $asterisk->request['agi_callerid'] . " to agenda entry " . $entryid . ".", 1);
+$log = Zend_Registry::get('log');
+$log->info("Connection request from " . $asterisk->request['agi_callerid'] . " to agenda entry " . $entryid . ".");
 
 try {
     $sql = "SELECT phone_1, cell_1 FROM contacts_names WHERE id='$entryid'";

@@ -20,7 +20,7 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 ver_permissao(48);
 
-$acoes = new PBX_Rule_Actions();
+$acoes = PBX_Rule_Actions::getInstance();
 $info_acoes = array();
 foreach ($acoes->getInstalledActions() as $acao) {
     $acao = new $acao;

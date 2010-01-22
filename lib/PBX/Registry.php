@@ -153,11 +153,8 @@ final class PBX_Registry {
      * @param string $key
      */
     public static function delete( $context, $key ) {
-        $registry = self::getInstance();
-
-        if($registry->getContext() != $context ) {
-            $registry->setContext($context);
-        }
+        $registry = self::getInstance( $context );
+        $registry->setContext($context);
 
         unset($registry->{$key});
     }
@@ -170,11 +167,8 @@ final class PBX_Registry {
      * @return mixed valor do registro
      */
     public static function get( $context, $key ) {
-        $registry = self::getInstance();
-        
-        if($registry->getContext() != $context ) {
-            $registry->setContext($context);
-        }
+        $registry = self::getInstance( $context );
+        $registry->setContext($context);
         
         return $registry->{$key};
     }
@@ -186,11 +180,8 @@ final class PBX_Registry {
      * @return array valores que foram encontrados no contexto
      */
     public static function getAll( $context ) {
-        $registry = self::getInstance();
-
-        if($registry->getContext() != $context ) {
-            $registry->setContext($context);
-        }
+        $registry = self::getInstance( $context );
+        $registry->setContext($context);
 
         return $registry->getAllValues();
     }
@@ -235,11 +226,7 @@ final class PBX_Registry {
      */
     public static function set( $context, $key, $value) {
         $registry = self::getInstance();
-
-        if($registry->getContext() != $context ) {
-            $registry->setContext($context);
-        }
-
+        $registry->setContext($context);
         $registry->{$key} = $value;
     }
 
@@ -250,15 +237,8 @@ final class PBX_Registry {
      */
     public function setContext( $context ) {
         if($this->getContext() != $context) {
-            $old_context = $this->getContext();
             $this->context = $context;
-            try {
-                $this->update();
-            }
-            catch( PBX_Registry_Exception_ContextNotFound $ex ) {
-                $this->context = $old_context;
-                throw $ex;
-            }
+            $this->update();
         }
     }
 
@@ -271,10 +251,6 @@ final class PBX_Registry {
                 ->where("context = '$this->context'");
 
         $raw_data = $this->db->query($select)->fetchAll();
-
-        if( count($raw_data) == 0 ) {
-            throw new PBX_Registry_Exception_ContextNotFound("'{$this->getContext()}': No such context");
-        }
 
         $this->registryData = array();
         foreach ($raw_data as $entry) {

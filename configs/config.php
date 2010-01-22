@@ -15,77 +15,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
-// ==================================================
-// Inicializando ambiente Zend Framework
-// ==================================================
-
-// Controle da exibição de erros
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_startup_errors', 0);
-ini_set('display_errors', 0);
-
-// silenciando strict até arrumar zend_locale
-date_default_timezone_set("America/Sao_Paulo");
-
-$config_file = "../includes/setup.conf";
-
-//encontrado diretórios do sistema
-if(!file_exists($config_file)) {
-    die("FATAL ERROR: arquivo $config_file nao encontrado");
-}
-$config = parse_ini_file($config_file,true);
 
 // Adicionando caminho de libs ao include path para autoloader trabalhar:
-set_include_path($config['system']['path.base'] . "/lib" . PATH_SEPARATOR  . get_include_path());
-$logdir = $config['system']['path.log'];
-unset($config);
-// iniciando auto loader
-require_once "Zend/Loader/Autoloader.php";
-$autoloader = Zend_Loader_Autoloader::getInstance();
+set_include_path("../lib" . PATH_SEPARATOR  . get_include_path());
 
-// Registrando namespaces para as outras bibliotecas
-$autoloader->registerNamespace('Snep_');
-$autoloader->registerNamespace('PBX_');
-$autoloader->registerNamespace('Asterisk_');
+$config_file = "../includes/setup.conf";
+require_once "Snep/Bootstrap/Web.php";
+$bootstrap = new Snep_Bootstrap_Web($config_file);
+$bootstrap->boot();
 
-// Carregando arquivo de configuração do snep e alocando as informações
-// no registro do Zend.
-$config = new Zend_Config_Ini($config_file);
-$debug = (boolean)$config->system->debug;
-Zend_Registry::set('configFile', $config_file);
-Zend_Registry::set('config', $config);
+// Atualizando config
+$config = Zend_Registry::get('config');
 
-// Versão do SNEP
-Zend_Registry::set('snep_version', file_get_contents($config->system->path->base . "/configs/snep_version"));
-
-// Tradução
-$i18n = new Zend_Translate('gettext', $config->system->path->base . '/lang/pt_BR.mo', 'pt_BR');
-Zend_Registry::set('i18n', $i18n);
-
-// Iniciando sistema de logs
-$log = new Zend_Log();
-Zend_Registry::set('log', $log);
-
-// Definindo aonde serão escritos os logs
-$writer = new Zend_Log_Writer_Stream($logdir . '/ui.log');
-// Filtramos a 'sujeira' dos logs se não estamos em debug mode.
-if(!$debug) {
-    $filter = new Zend_Log_Filter_Priority(Zend_Log::WARN);
-    $writer->addFilter($filter);
+if($config->system->debug){
+    error_reporting(E_ALL);
+    ini_set('display_startup_errors', 1);
+    ini_set('display_errors', 1);
 }
 else {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
+    ini_set('display_startup_errors', 0);
+    ini_set('display_errors', 0);
 }
-$log->addWriter($writer);
 
-// Iniciando banco de dados
-$db = Zend_Db::factory('Pdo_Mysql', $config->ambiente->db->toArray());
-Zend_Db_Table::setDefaultAdapter($db);
-Zend_Registry::set('db', $db);
-unset($db);
 // ==================================================
-//  FIM da Inicialização do ambiente Zend Framework
+//  FIM da Inicialização do ambiente Snep
 // ==================================================
 
  /*  Inicia Smarty */
@@ -97,7 +50,7 @@ unset($db);
  $smarty->config_dir = '../configs/' ;
  $smarty->cache_dir = '../cache/' ;
  $smarty->plugin_dir = '../includes/smarty/plugins';
- $smarty->agi_log = $logdir ;
+ $smarty->agi_log = $config->system->path->log ;
 
  // Versao do Sistema
  define('VERSAO',Zend_Registry::get('snep_version'));
@@ -351,9 +304,7 @@ $status_sintetico_khomp = array("unused"   => $LANG['unused'],
  if (!defined('SIS_NOME'))
      define('SIS_NOME',"SNEP") ;
  // Conexao do banco de Dados
- if (!isset($db)) {
-     require_once "../includes/conecta.php" ;
- }
+ $db = Zend_Registry::get('db');
 
  // Verifica se variavel acao esta definida e/ou foi passada
  if (!isset($acao)) {

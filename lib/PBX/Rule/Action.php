@@ -65,7 +65,13 @@ abstract class PBX_Rule_Action {
      */
     public function __construct() {
         $this->config = array();
-        $this->setDefaultConfig( PBX_Registry::getAll(get_class(self)) );
+        try {
+            $config = PBX_Registry::getAll(get_class($this));
+        }
+        catch(PBX_Registry_Exception_ContextNotFound $ex) {
+            $config = array();
+        }
+        $this->setDefaultConfig( $config );
     }
 
     /**
