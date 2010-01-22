@@ -23,7 +23,6 @@
  */
 
 require_once("../configs/config.php");
-require_once("conecta.php");
 
 $ramal = $_POST['ramal'];
 
@@ -40,4 +39,3 @@ if(isset($row[0])) {
 } else {
     echo 0;
 } 
-?>

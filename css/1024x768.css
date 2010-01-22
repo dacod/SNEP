@@ -155,6 +155,30 @@ div#acoes table,div#acoes td,div#acoes tr  {
     background-color: transparent;
     border: 0px;
 }
+
+/* Configuração dos formulários feitos com listas de definição */
+dt {
+    width: 50%;
+    margin-top: 3px;
+    text-align: right;
+    float: left;
+    margin-right: 10px;
+}
+
+dd input {
+    color:  #000000;
+    background-color: #fbfbfb;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab;
+}
+/* FIM Configuração dos formulários feitos com listas de definição */
+
 .seta {
     background: url("../imagens/go-previous.png") no-repeat left top;
     border-left: 1px solid #d2d2d2;
@@ -242,18 +266,18 @@ div#acoes table,div#acoes td,div#acoes tr  {
 }
 
 .campos {
-   color:  #000000 ;
-   background-color: #fbfbfb ;
+   color:  #000000;
+   background-color: #fbfbfb;
    font-family: Verdana, Arial, Helvetica, sans-serif;
    font-size: 11px;
-   border-style: solid; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
+   border-style: solid;
+   border-top-width: 1px;
+   border-right-width: 1px;
+   border-bottom-width: 1px;
    border-left-width: 1px;
-   border-color: #a4a7ab ;
-   
+   border-color: #a4a7ab;
 }
+
 .campos_disable {
    color:  #000000 ;
    background-color: #BBC1C6 ;

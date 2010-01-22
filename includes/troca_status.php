@@ -16,7 +16,6 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("conecta.php");
 require_once("../configs/config.php");
 
 $regras = PBX_Rules::get($_POST['id']);

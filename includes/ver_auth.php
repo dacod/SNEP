@@ -17,7 +17,6 @@
  */
 
  require_once("../configs/config.php");
- require_once("conecta.php"); 
  $auth = md5($_POST['authenticate']);
  $name = $_POST['user'];
  
@@ -39,4 +38,3 @@
            exit ;
       }
   }
-?>
