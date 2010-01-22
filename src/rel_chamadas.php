@@ -118,7 +118,6 @@ $sql = "SELECT * FROM groups" ;
  $smarty->assign ('OPCOES_PROCURA',$tipos_procura);
  $smarty->assign ('OPCOES_CHAMADAS',$tipos_chamadas_rel);
  $smarty->assign ('OPCOES_GRAFICOS',$tipos_graficos);
- //$smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
  
  $smarty->assign ('VINCULOS', $_SESSION['vinculos_user']) ;
  $smarty->assign ('NIVEL', $nivel) ;
@@ -199,7 +198,6 @@ function monta_relatorio($acao)  {
   /* Clausula do where: Origens e Destinos                                      */
   $CONDICAO .=  sql_vinc($src, $dst, $srctype, $dsttype, "") ;
 
-
   /* Compara campos src e dst                                                   */
   $CONDICAO = do_field($CONDICAO,$src,$srctype,'src') ;
   $CONDICAO = do_field($CONDICAO,$dst,$dsttype,'dst') ;
@@ -213,6 +211,7 @@ function monta_relatorio($acao)  {
   if ($duration2) {
      $CONDICAO .= " AND duration <= $duration2 " ;
   }
+
 
   /* Clausula do where:  Filtro de desccarte                                    */
     $TMP_COND = "" ;
@@ -461,10 +460,14 @@ function monta_relatorio($acao)  {
         exit ;
      }
      $tot_wait = $tot_dur - $tot_bil ;
-     $totais = array("answered"    =>   $tot_ans,  "notanswer" => $tot_noa,
-                     "busy"        =>   $tot_bus,  "fail"      => $tot_fai,
-                     "billsec"     =>   $tot_bil,  "duration"  => $tot_dur,
-                     "espera"      =>   $tot_wait, "oth"       => $tot_oth,
+     $totais = array("answered"    =>   number_format($tot_ans, thousands_sep, ",", "."),
+                     "notanswer"   =>   number_format($tot_noa, thousands_sep, ",", "."),
+                     "busy"        =>   number_format($tot_bus, thousands_sep, ",", "."),
+                     "fail"        =>   number_format($tot_fai, thousands_sep, ",", "."),
+                     "billsec"     =>   $tot_bil,  
+                     "duration"    =>   $tot_dur,
+                     "espera"      =>   $tot_wait,
+                     "oth"         => $tot_oth,
                      "tot_tarifado"=>   $tot_tarifado );
                      //"tot_tarifado"=>number_format($tot_tarifado,2,",","."));
   }else {
