@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS `registry` (
+    `context` VARCHAR(50),
+    `key` VARCHAR(30),
+    `value` VARCHAR(250),
+    PRIMARY KEY (`context`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE IF NOT EXISTS `contacts_group` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
