@@ -248,6 +248,7 @@ function excluir()  {
         }
         $grupos[$group['name']] = $name;
     }
+    $smarty->assign('back_button', '../src/rel_groups.php');
     $smarty->assign('ACAO',"grava_alterar");
     $smarty->assign ('name',$codigo);
     $smarty->assign ('dt_grupos',$grupos);

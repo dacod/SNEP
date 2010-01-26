@@ -59,4 +59,4 @@
  $smarty->assign ('array_include_buttom',array("url" => "../src/groups.php", "display"  => $LANG['include']." ".$LANG['menu_grupos_ramais']));
  // Exibe template
  display_template("rel_groups.tpl",$smarty,$titulo);
- ?>
+ 

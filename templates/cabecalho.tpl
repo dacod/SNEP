@@ -124,7 +124,7 @@
          {/if}
          <!-- Menu de Regras de Negócios -->
          {if $PERM_MENURULES}
-         <li><a href="../gestao/rel_agi_rules.php">{$LANG.menu_rules}</a>
+         <li><a href="../gestao/rel_agi_rules.php">{$LANG.menu_rules} +</a>
              <ul>
                  <li><a href="../gestao/rel_agi_rules.php">{$LANG.routes}</a></li>
                  <li><a href="../gestao/default_actions_configs.php">{$LANG.default_configs}</a></li>
@@ -154,14 +154,15 @@
          {if $PERM_MENUCAD}
          <li><a href="#">{$LANG.menu_register} +</a>
             <ul>
-               <li onclick="javascript:window.location.href='../src/rel_ccustos.php'"><a href="#">{$LANG.menu_ccustos}</a></li>
-               <li onclick="javascript:window.location.href='../src/rel_cont_names.php'"><a href="#">{$LANG.menu_contacts}</a></li>               
-               <li onclick="javascript:window.location.href='../src/rel_queues.php'"><a href="#">{$LANG.menu_queues}</a></li>
-               <li onclick="javascript:window.location.href='../src/rel_groups.php'"><a href="#">{$LANG.menu_grupos_ramais}</a></li>
-               <li onclick="javascript:window.location.href='../src/rel_grupos.php'"><a href="#">{$LANG.menu_grupos}</a></li>
-               <li onclick="javascript:window.location.href='../src/rel_ramais.php'"><a href="#">{$LANG.menu_ramais}</a></li>
-               <li onclick="javascript:window.location.href='../gestao/conferencias.php'"><a href="#">{$LANG.menu_conference}</a></li>
-               <li onclick="javascript:window.location.href='../src/rel_troncos.php'"><a href="#">{$LANG.menu_troncos}</a></li> 
+               <li><a href="../src/rel_ccustos.php">{$LANG.menu_ccustos}</a></li>
+               <li><a href="../src/rel_cont_names.php">{$LANG.menu_contacts}</a></li>
+               <li><a href="../src/rel_contacts_groups.php">{$LANG.menu_contacts_groups}</a></li>
+               <li><a href="../src/rel_queues.php">{$LANG.menu_queues}</a></li>
+               <li><a href="../src/rel_groups.php">{$LANG.menu_grupos_ramais}</a></li>
+               <li><a href="../src/rel_grupos.php">{$LANG.menu_grupos}</a></li>
+               <li><a href="../src/rel_ramais.php">{$LANG.menu_ramais}</a></li>
+               <li><a href="../gestao/conferencias.php">{$LANG.menu_conference}</a></li>
+               <li><a href="../src/rel_troncos.php">{$LANG.menu_troncos}</a></li>
            </ul>
         </li>
         {/if}

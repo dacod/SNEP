@@ -36,7 +36,7 @@
         <input class="button" type="submit" id="gravar" value="{$LANG.save}">
         <div class="buttonEnding"></div>
         &nbsp;&nbsp;&nbsp;
-        <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_groups.php'" />
+        <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='{$back_button}'" />
         <div class="buttonEnding"></div>
      </td>
   </tr>

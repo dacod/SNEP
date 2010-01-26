@@ -42,7 +42,7 @@
    </tr>
    <tr>
       <td class="formlabel" >{$LANG.directory}:</td>
-      <td class="subtable" ><strong>/var/lib/asterisk/moh/</strong>
+      <td class="subtable" ><strong>{$MOH_DIRECTORY}</strong>
         {if $dt_secoes.name != "default"}
         <input name="directory" type="text" size="10" maxlength="20"  class="campos" value="{$dt_secoes.directory}" >
         {/if}

@@ -694,7 +694,8 @@ CREATE TABLE IF NOT EXISTS `contacts_names` (
   `cep` varchar(8) NOT NULL,
   `phone_1` varchar(15) NOT NULL,
   `cell_1` varchar(15) NOT NULL,
-  `group` integer NOT NULL REFERENCES contacts_group(id),
+  `group` integer NOT NULL,
+  CONSTRAINT contacts_group_fk FOREIGN KEY (`group`) REFERENCES contacts_group(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

@@ -27,6 +27,11 @@ require_once("../includes/verifica.php");
     $mode = $row['modo'] ;
     $application = $row['application'] ;
  }
+
+ $config = Zend_Registry::get('config');
+
+ $smarty->assign("MOH_DIRECTORY", $config->system->path->asterisk->moh);
+
  $smarty->assign('ACAO',$acao) ;
  $smarty->assign ('MUSIC_MODES',$musiconhold_modes);
  if ($acao == "cadastrar") {
@@ -87,7 +92,10 @@ function alterar()  {
       exit ;
    }
 
-   $filename = "/etc/asterisk/snep/snep-musiconhold.conf" ;
+   $config = Zend_Registry::get('config');
+   $asterisk_dir = $config->system->path->asterisk->conf;
+
+   $filename = "$asterisk_dir/snep/snep-musiconhold.conf" ;
    $linhas = file($filename,FILE_IGNORE_NEW_LINES) ;
    // Varre o array do  arquivo e verifica se existe entradas para a secao
    $flag = False ;
@@ -167,7 +175,10 @@ function excluir()  {
  *        PARTIR de Comentario padrao: ;SNEP(secao): ...
  * ----------------------------------------------------------------------------*/
 function configura_musiconhold($action,$name,$desc="",$mode="",$dir="",$app="") {
-   $filename = "/etc/asterisk/snep/snep-musiconhold.conf" ;
+   $config = Zend_Registry::get('config');
+   $asterisk_dir = $config->system->path->asterisk->conf;
+
+   $filename = "$asterisk_dir/snep/snep-musiconhold.conf" ;
    // Se acao = Incluir ou Alterar, obriga a ter todos os parametros
    if ($action != "E" && ($name=="" || $desc=="" || $mode=="")) {
       return False ;
@@ -230,7 +241,9 @@ function listar_musicas() {
  global $db, $smarty, $LANG, $SETUP, $directory, $name, $mode, $application ;
  unset($_SESSION['secao']) ;
  $secao = $name ;
- $dir_sounds = str_replace("/var/lib/asterisk/moh",SNEP_PATH_MOH,$directory) ;
+ $config = Zend_Registry::get('config');
+ $moh_dir = $config->system->path->asterisk->moh;
+ $dir_sounds = str_replace($moh_dir,SNEP_PATH_MOH,$directory) ;
  if (trim($secao) == "" || trim($dir_sounds) == "") {
     display_error($LANG['msg_errsectionmusiconhold'],true) ;
     exit ;
@@ -288,4 +301,3 @@ function listar_musicas() {
  // Exibe template
  display_template("rel_sounds_musiconhold.tpl",$smarty,$titulo);
 }
-?>
