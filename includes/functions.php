@@ -39,6 +39,7 @@ function display_template ($template, $smarty, $titulo="") {
         $smarty->assign ('PERM_MENUTARIF',ver_permissao(70,"",True));
         $smarty->assign ('PERM_RAMAL_ADVC',ver_permissao(17,"",True));
         $smarty->assign ('PERM_MENURULES',ver_permissao(48,"",True));
+        $smarty->assign ('PERM_MENUREGISTRY',ver_permissao(49,"",True));
         $smarty->assign ('PERM_MENUCONTACTS',ver_permissao(55,"",True));
         $smarty->assign ('PERM_CONTACTS_VIEW', ver_permissao(59,"",True));
     }
