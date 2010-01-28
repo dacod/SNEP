@@ -200,15 +200,16 @@ class Bar_Graph {
 
       $dbg = 0; // Debug =- 1 retorna string com dados encontrados ;
       // Aceita somente destino de 8,11 ou 13 digitos
+
       $tn = strlen($destino) ;
       $duracao = (int) $duracao ;
-      if ($duracao == 0)
+      if ($duracao == 0){
          return 0 ;
+      }
       if ( $tn < 8  || !is_numeric($destino) || $tipoccusto == "E" ) {
          return "N.A." ;
          return $param;
       }
-
       if(substr(trim($destino),0,4) == "0800") {
           return "N.A." ;
       }
@@ -231,8 +232,10 @@ class Bar_Graph {
       // Pesquisa cidades no CNL - Anatel
       $array_cidade = $this->fmt_cidade(array("a"=>$destino),"A") ;
       $cidade = $array_cidade['cidade'] ;
+
       if ($array_cidade['flag'] == "S") {
          $nome_cidade = substr($cidade,0,strlen($cidade)-3) ;
+         
       }else {
          $nome_cidade = "" ;
       }
@@ -243,22 +246,26 @@ class Bar_Graph {
       // Conecta no BD e pega dados da operadora, baseado no "accountcode"
       try {
          // Pega dados da Operadora
-         $sql = "SELECT * FROM operadoras WHERE codigo = " ;
-         $sql.= " (SELECT operadora FROM oper_ccustos  ";
-         $sql.= " LEFT JOIN ccustos ON ccustos.codigo = oper_ccustos.ccustos " ;
-         $sql.= " WHERE ccustos.codigo = '$ccusto')" ;
-         $row = $db->query($sql)->fetch();
+          $sql = "SELECT * FROM operadoras WHERE codigo = " ;
+          $sql.= " (SELECT operadora FROM oper_ccustos  ";
+          $sql.= " LEFT JOIN ccustos ON ccustos.codigo = oper_ccustos.ccustos " ;
+          $sql.= " WHERE ccustos.codigo = '$ccusto')" ;
+          $row = $db->query($sql)->fetch();
+         
       } catch (Exception $e) {
-         echo "1)".$LANG['error'].$e->getMessage() ;
+          echo "1)".$LANG['error'].$e->getMessage() ;
       }
+     
+
       $operadora = $row['codigo'];
       $tpm       = $row['tpm'];   // Tempo do 1o. minuto da operadora - em seg
       $tdm       = $row['tdm'];   // Tempo em segundos dos intervalos subsequentes
       $tbf       = $row['tbf'];   // Valor Padrao para Fixo
       $tbc       = $row['tbc'];   // Valor Padrao para Celular
-      // Parametros Novos
       $vpf       = $row['vpf'];   // Valor de partida para Fixo
       $vpc       = $row['vpc'];   // Valor de partida para Celular.
+
+
 
       if ($dbg == 1) {
          $ret .= " // OPERADORA=$operadora , TPM=$tpm , TDM=$tdm , TBF=$tbf , TBC=$tbc, VPC=$vpc, VPF=$vpf" ;
@@ -278,8 +285,10 @@ class Bar_Graph {
          $sql =  "SELECT * FROM tarifas WHERE (operadora = $operadora) " ;         
          // Pega tarifa GENERICA para a operadora - condicoes:
          // cidade=Selecionar, estado=--, ddd=0, prefixo=0000,ddi=55, pais=BRASIL
-         $sqlg = $sql." AND cidade='Selecionar' AND estado='--' AND ddd=0 ";
+
+         $sqlg = $sql." AND cidade='$nome_cidade' AND estado!='--' AND ddd='$ddd_dst' ";
          $sqlg .= " AND prefixo='0000' AND ddi=55 AND pais='BRASIL'" ;
+
          $rowg = $db->query($sqlg)->fetch();
          $cod_tarifa = $rowg['codigo'] ;
            
