@@ -284,7 +284,7 @@ $status_sintetico_khomp = array("unused"   => $LANG['unused'],
  
  $tipos_codecs = array(" "=>" ", "all"=>"all", "g729"=>"g729", "ilbc"=>"ilbc", "gsm"=>"gsm", "ulaw"=>"ulaw", "alaw"=>"alaw", "h264"=>"h264", "h263"=>"h263", "h263p"=>"h263p") ;
  
- $codecs_default = array("cod1"=>"ulaw", "cod2"=>"alaw", "cod3"=>"gsm", "cod4"=>"g729", "cod5"=>"");
+ $codecs_default = array("cod1"=>"alaw", "cod2"=>"ulaw", "cod3"=>"gsm", "cod4"=>"g729", "cod5"=>"");
 
  
  
