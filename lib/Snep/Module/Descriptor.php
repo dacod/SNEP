@@ -58,7 +58,8 @@ abstract class Snep_Module_Descriptor {
     protected $menuTree = array();
 
     /**
-     * Diretório onde ficam os arquivos do módulo.
+     * Diretório onde ficam os arquivos do módulo. Importante para encontrar as
+     * ações de regras de negócio do modulo.
      *
      * @var string
      */
@@ -109,24 +110,40 @@ abstract class Snep_Module_Descriptor {
     /**
      * Define uma árvore de menu para o módulo
      *
-     * Formato de ex:
-     * array(
-     *     "ModuleName" => array(
-     *         "Opt1" => "caminho/para/o/opt1",
-     *         "Opt2" => "caminho/para/o/opt2",
-     *     )
-     * );
+     * ex:
+     *    $menuTree = array(
+     *        "register" => new Snep_Menu_Item('myModule', 'Telefones', '../mymdule/telefones.php')
+     *    );
+     * Adiciona no menu Registro do snep o item Telefones que direciona para
+     * ../mymodule/telefones.php
+     *
+     * ex2:
+     *    $menuTree = array(
+     *        new Snep_Menu_Item('myModule', 'Telefones', null, array(
+     *            new Snep_Menu_Item('myModule_cad', 'Cadastro', "../mymodule/1.php"),
+     *            new Snep_Menu_Item('myModule_report', 'Relatório', "../mymodule/2.php")
+     *        ))
+     *    );
+     * Adiciona um menu Telefones na raiz do menu do snep com dois subitens
+     * Cadastro e Relatório.
+     *
      *
      * Algumas chaves especiais podem ser útilizadas para colocar itens de menu
      * dentro dos que já existem no Snep. São elas:
      *     status  = Status
      *     config  = Configurações
      *     reports = Relatórios
-     *     rules   = Regras de Negócio
+     *     routing = Regras de Negócio
+     *     billing = Tarifas
      *
      * @param array() $menuTree
      */
     protected function setMenuTree( $menuTree ) {
-        $this->menuTree = $menuTree;
+        if( is_array($menuTree) ) {
+            $this->menuTree = $menuTree;
+        }
+        else {
+            throw new PBX_Exception_BadArg("Arvore de menus para modulos deve ser um array");
+        }
     }
 }

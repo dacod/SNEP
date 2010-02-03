@@ -30,6 +30,13 @@ require_once "Snep/Bootstrap.php";
  */
 class Snep_Bootstrap_Web extends Snep_Bootstrap {
 
+    private function startI18N() {
+        $config = Zend_Registry::get('config');
+        $locale = $config->ambiente->language;
+        require_once $config->system->path->base . "/configs/langs/$locale.php";
+        Zend_Registry::set("lang", $LANG);
+    }
+
     private function startLogger() {
         $log = Zend_Registry::get('log');
         
@@ -42,13 +49,46 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
         $log->addWriter($writer);
     }
 
+    protected function startMenu() {
+        Zend_Registry::set("menu", new Snep_Menu("../configs/menu.xml"));
+    }
+
+    protected function startModules() {
+        parent::startModules();
+        $modules = Snep_Modules::getInstance();
+        $registered_modules = $modules->getRegisteredModules();
+        $menu = Zend_Registry::get('menu');
+
+        /**
+         * Adiciona os menus dos modulos no menu do Snep
+         */
+        foreach ($registered_modules as $module) {
+            foreach ($module->getMenuTree() as $key => $menuItem) {
+                switch((string) $key) {
+                    case 'status':
+                    case 'register':
+                    case 'reports':
+                    case 'configs':
+                    case 'routing':
+                    case 'billing':
+                        $menu->getItemById($key)->addSubmenuItem($menuItem);
+                        break;
+                    default:
+                        $menu->addItem($menuItem);
+                }
+            }
+        }
+    }
+
     public function boot() {
         $this->startAutoLoader();
         $this->startLocale();
+        $this->startI18N(); // Inicia o antigo $LANG do Snep para compactibilidade
         $this->startLogger();
         $this->startDatabase();
-        $this->startModules();
-        $this->startActions();
+        $this->startMenu(); // Carrega o menu padrão do Snep
+        $this->startModules(); // Inicia os modulos instalados
+        $this->startActions(); // Registra as ações do sistema e as ações dos Módulos
     }
 
 }

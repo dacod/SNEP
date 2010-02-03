@@ -23,50 +23,50 @@
  *-----------------------------------------------------------------------------*/ 
 
 // Inclue Classes do Sistema 
-require_once("classes.php") ;  
+require_once("classes.php");
 
 
 function display_template ($template, $smarty, $titulo="") {
     global $LANG, $SETUP, $logo_cliente, $logo_snep, $enable_panel, $enable_khomp;
-    if (strpos($_SERVER['PHP_SELF'],"login.php") > 0 )
-        $smarty->assign ('MOSTRA_MENU',False) ;
-    else {
-        $smarty->assign ('MOSTRA_MENU',True) ;
-        $smarty->assign ('PERM_PANEL',ver_permissao(1,"",True)) ;
-        $smarty->assign ('PERM_MENUCAD',ver_permissao(10,"",True));
-        $smarty->assign ('PERM_MENUREL',ver_permissao(20,"",True));
-        $smarty->assign ('PERM_MENUCONF',ver_permissao(60,"",True));
-        $smarty->assign ('PERM_MENUTARIF',ver_permissao(70,"",True));
-        $smarty->assign ('PERM_RAMAL_ADVC',ver_permissao(17,"",True));
-        $smarty->assign ('PERM_MENURULES',ver_permissao(48,"",True));
-        $smarty->assign ('PERM_MENUREGISTRY',ver_permissao(49,"",True));
-        $smarty->assign ('PERM_MENUCONTACTS',ver_permissao(55,"",True));
-        $smarty->assign ('PERM_CONTACTS_VIEW', ver_permissao(59,"",True));
+    
+    if (strpos($_SERVER['PHP_SELF'],"login.php") > 0 ) {
+        $smarty->assign('MOSTRA_MENU',False);
     }
-    $smarty->assign ('CSS_TEMPL', CSS_TEMPL) ;
-    $smarty->assign ('LOGO_CLIENTE', $logo_cliente) ;
-    $smarty->assign ('LOGO_SNEP', $logo_snep) ;
-    $smarty->assign ('EMP_NOME', EMP_NOME) ;
-    $smarty->assign ('SIS_NOME', SIS_NOME) ;
-    $smarty->assign ('VERSAO', VERSAO) ;
-    $smarty->assign ('LANG', $LANG) ;
-    $smarty->assign ('KHOMP',$SETUP['khomp']['enable_khomp']) ;
-    $smarty->assign ('PANEL',$SETUP['ambiente']['enable_panel']) ;
-    $smarty->assign ('TITULO', $titulo) ;
+    else {
+        $smarty->assign('MENU',Zend_Registry::get('menu'));
+        $smarty->assign('MOSTRA_MENU',True);
+
+        $smarty->assign('PERM_MENUCONTACTS',ver_permissao(55,"",True));
+        $smarty->assign('PERM_PANEL',ver_permissao(1,"",True));
+        $smarty->assign('PERM_MENUREGISTRY',ver_permissao(49,"",True));
+        $smarty->assign('PERM_RAMAL_ADVC',ver_permissao(17,"",True));
+        $smarty->assign('PERM_CONTACTS_VIEW', ver_permissao(59,"",True));
+    }
+    
+    $smarty->assign('CSS_TEMPL', CSS_TEMPL);
+    $smarty->assign('LOGO_CLIENTE', $logo_cliente);
+    $smarty->assign('LOGO_SNEP', $logo_snep);
+    $smarty->assign('EMP_NOME', EMP_NOME);
+    $smarty->assign('SIS_NOME', SIS_NOME);
+    $smarty->assign('VERSAO', VERSAO);
+    $smarty->assign('LANG', $LANG);
+    $smarty->assign('KHOMP',$SETUP['khomp']['enable_khomp']);
+    $smarty->assign('PANEL',$SETUP['ambiente']['enable_panel']);
+    $smarty->assign('TITULO', $titulo);
     $smarty->display ($template);
 }
 /*-----------------------------------------------------------------------------
  * Funcao  : display_error - Exibe mensagem de erro 
  * Recebe  : mensagem - Mensage de erro a ser exibida
- *           henader - true = exibe cabecalho ;  false = nao exibe
+ *           henader - true = exibe cabecalho;  false = nao exibe
  *           ret - parametro para  javascript history.go(x) 
  * ----------------------------------------------------------------------------*/
 function display_error($mensagem, $header=false, $ret=-1) {
-    global $smarty ;
+    global $smarty;
     $smarty->assign('ERROR', $mensagem);
     $smarty->assign('HEADER', $header);
     $smarty->assign('RET', $ret);
-    display_template("erro.tpl",$smarty,"") ;
+    display_template("erro.tpl",$smarty,"");
     exit;
 }
 /*sql_link - Função para criar strings sql para busca de ramais
@@ -114,11 +114,11 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
             if( count( $array_src ) > 0 ) {
 
                 foreach ($array_src as $valor) {
-                    $TMP_COND .= sql_like($srctype, $valor, 'src') ;
+                    $TMP_COND .= sql_like($srctype, $valor, 'src');
                 }
 
                 if (strlen($TMP_COND) > 0) {
-                    $retorno =  " AND  ". substr( $TMP_COND, 4 ) ." " ;
+                    $retorno =  " AND  ". substr( $TMP_COND, 4 ) ." ";
                 }
             }
         }
@@ -132,11 +132,11 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
             if( count( $array_dst ) > 0 ) {
 
                 foreach ($array_dst as $valor) {
-                    $TMP_COND .= sql_like($dsttype, $valor, 'dst') ;
+                    $TMP_COND .= sql_like($dsttype, $valor, 'dst');
                 }
 
                 if (strlen($TMP_COND) > 0) {
-                    $retorno .= " AND  ". substr( $TMP_COND, 4 ) ." " ;
+                    $retorno .= " AND  ". substr( $TMP_COND, 4 ) ." ";
                 }
             }
         }
@@ -148,13 +148,13 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
         // Verifica se ramal e vinculo são iguais, sendo assim, restrito aos seus dados.
         if($_SESSION['vinculos_user'] == $_SESSION['name_user']) {
             if($base == "") {
-                $retorno = " AND ( src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' ) " ;
+                $retorno = " AND ( src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' ) ";
             }
             if($base == 'src') {
-                $retorno = " AND ( src='{$_SESSION['name_user']}' ) " ;
+                $retorno = " AND ( src='{$_SESSION['name_user']}' ) ";
             }
             if($base == 'dst') {
-                $retorno = " AND ( dst='{$_SESSION['name_user']}' ) " ;
+                $retorno = " AND ( dst='{$_SESSION['name_user']}' ) ";
             }
         }
 
@@ -181,17 +181,17 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
 
                     }
                     if (strlen($TMP_COND) > 0) {
-                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )";
                     }
                 }
 
 
             }else {
                 foreach ($vinculados as $valor) {
-                    $TMP_COND .= sql_like($srctype, $valor, 'src') ;
+                    $TMP_COND .= sql_like($srctype, $valor, 'src');
                 }
                 if (strlen($TMP_COND) > 0) {
-                    $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                    $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )";
                 }
                 $controle = true;
 
@@ -208,22 +208,22 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
                     foreach ($array_dst as $valor) {
 
                         if (in_array($valor, $vinculados)) {
-                            $TMP_COND .= sql_like($dsttype, $valor, 'dst') ;
+                            $TMP_COND .= sql_like($dsttype, $valor, 'dst');
                         }
 
                     }
                     if (strlen($TMP_COND) > 0) {
-                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )";
                     }
                 }
                 //$controle = true;
             }else {
                 if($controle) {
                     foreach ($vinculados as $valor) {
-                        $TMP_COND .= sql_like($srctype, $valor, 'dst') ;
+                        $TMP_COND .= sql_like($srctype, $valor, 'dst');
                     }
                     if (strlen($TMP_COND) > 0) {
-                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )" ;
+                        $retorno .=  $TMP_COND; //" AND ( ". substr( $TMP_COND, 4 ) ." )";
                         $retorno .= $TMP_COND;
                     }
                 }
@@ -243,28 +243,27 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
  * Retorna : array da lista
  * ----------------------------------------------------------------------------*/
 function monta_vinculo($vinculo,$tipo="A") {
-
-    $retorno = array() ;
+    $retorno = array();
 
     if($vinculos == "" && $vinculo == "A") {
         return false;
     }else {
 
-        $vinculos = explode(",", $vinculo) ;
+        $vinculos = explode(",", $vinculo);
 
         foreach($vinculos as $value) {
 
             if (strpos($value,"-") > 0) {
-                $ini = substr($value,0,strpos($value,"-")) ;
-                $fim = substr($value,strpos($value,"-") + 1) ;
-                $value = "" ;
+                $ini = substr($value,0,strpos($value,"-"));
+                $fim = substr($value,strpos($value,"-") + 1);
+                $value = "";
 
                 for ($i=$ini; $i <= $fim; $i++) {
-                    $retorno[] = $i ;
+                    $retorno[] = $i;
                 }
-                continue ;
+                continue;
             }
-            $retorno[] = $value ;
+            $retorno[] = $value;
         }
 
         if ($tipo == "L") {
@@ -278,7 +277,7 @@ function monta_vinculo($vinculo,$tipo="A") {
                 return false;
             }
         }
-        return $retorno ;
+        return $retorno;
     }
 }
 
@@ -295,8 +294,8 @@ function monta_vinculo($vinculo,$tipo="A") {
  * ----------------------------------------------------------------------------*/
 function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
 
-    unset($retorno) ;
-    global $valor ;
+    unset($retorno);
+    global $valor;
 
     /* Não tendo vínculo */
     if (trim($_SESSION['vinculos_user']) == "" ) {
@@ -306,10 +305,10 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
 
         if( count( $array_orides = explode( ",",trim( $src ) ) ) > 0 ) {
             foreach ($array_orides as $valor) {
-                $TMP_COND = do_field($TMP_COND,'valor','srctype','src','OR') ;
+                $TMP_COND = do_field($TMP_COND,'valor','srctype','src','OR');
             }
             if (strlen($TMP_COND) > 0) {
-                $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+                $retorno .= " AND ( ".substr($TMP_COND,6)." )";
             }
         }
 
@@ -321,7 +320,7 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
                 $TMP_COND = do_field($TMP_COND,'valor','dsttype','dst','OR');
             }
             if (strlen($TMP_COND) > 0) {
-                $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+                $retorno .= " AND ( ".substr($TMP_COND,6)." )";
             }
         }
 
@@ -330,7 +329,7 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
 
         // Verifica se ramal e vinculo são iguais, sendo assim, restrito aos seus dados.
         if($_SESSION['vinculos_user'] == $_SESSION['name_user']) {
-            return " src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' " ;
+            return " src='{$_SESSION['name_user']}' || dst='{$_SESSION['name_user']}' ";
             exit;
         }
 
@@ -340,15 +339,15 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
         $vinculo = explode(',', $_SESSION["vinculos_user"]);
 
         // Cria variavel com valor determinado = 1 para comparacao com valores vinculados
-        global $type_in, $valor ;
-        $type_in = "1" ;   // 1 = comparacao direta com sinal de = (igual) no SQL
+        global $type_in, $valor;
+        $type_in = "1";   // 1 = comparacao direta com sinal de = (igual) no SQL
 
         /* Se origem ou destino forem especificados verifica se pertencem aos vinculos  */
         if($src != "" || $dst != "") {
-            $array_vin  = explode(",",$dst) ;      //   entao verifico o que esta em DST x vinculo
-            $array_out = explode(",",$src) ;
-            $campo_vin = 'dst' ;
-            $campo_out= 'src' ;
+            $array_vin  = explode(",",$dst);      //   entao verifico o que esta em DST x vinculo
+            $array_out = explode(",",$src);
+            $campo_vin = 'dst';
+            $campo_out= 'src';
 
             foreach ($array_vin as $valor) {
                 // Verifica se existe algum VINCULO  para montar o SQL
@@ -374,11 +373,11 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
         // Varre o campo que o usuario NAO escolheu, deve ter somente numeros que
         // estao na relacao dos vinculos para montar o SQL
         if (strlen($TMP_COND)>0) {
-            $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+            $retorno .= " AND ( ".substr($TMP_COND,6)." )";
         }
 
         // Varre o campo que o usuario informou livremente
-        unset($TMP_COND) ;
+        unset($TMP_COND);
         foreach ($array_out as $valor) {
             if(in_array($valor, $vinculo)) {
                 $TMP_COND = do_field($TMP_COND,'valor',$campo_out."type" ,$campo_out,'OR');
@@ -386,7 +385,7 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
         }
 
         if (strlen($TMP_COND)>0) {
-            $retorno .= " AND ( ".substr($TMP_COND,6)." )" ;
+            $retorno .= " AND ( ".substr($TMP_COND,6)." )";
         }
     }
     /*
@@ -405,7 +404,7 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
      }
 
     */
-    return $retorno ;
+    return $retorno;
 }
 
 /*-----------------------------------------------------------------------------
@@ -491,16 +490,16 @@ function execute_program ($program, $params) {
  Funcao executacmd - Executa comandos do S.O. Linux
 ------------------------------------------------------------------------------*/
 function executacmd($cmd,$msg,$ret=False) {
-    $result = exec("$cmd 2>&1",$out,$err) ;
+    $result = exec("$cmd 2>&1",$out,$err);
     if ($err) {
         if ($msg != "")
-            display_error($msg." => ".$err,true) ;
-        return FALSE ;
+            display_error($msg." => ".$err,true);
+        return FALSE;
     } else
     if ($ret)
-        return $out ;
+        return $out;
     else
-        return TRUE ;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------------------
@@ -543,32 +542,39 @@ function rfts( $strFileName, $intLines = 0, $intBytes = 4096) {
  *          retornar - se a funcao vai retornar True/False SEM exibir mensagem 
  * ----------------------------------------------------------------------------*/
 function ver_permissao($cod_rotina,$situacao="",$retornar=False) {
-    global $id_user, $db, $LANG ;
+    global $id_user, $LANG;
+    
     if ($id_user == 1) {
-        return True ;
+        return True;
     }
 
-    $sql_ver = "SELECT permissao FROM permissoes " ;
-    $sql_ver.= " WHERE cod_usuario = ".$id_user ;
-    $sql_ver.= " AND cod_rotina = ".$cod_rotina ;
+    $db = Zend_Registry::get('db');
+
+    $sql_ver = "SELECT permissao FROM permissoes ";
+    $sql_ver.= " WHERE cod_usuario = ".$id_user;
+    $sql_ver.= " AND cod_rotina = ".$cod_rotina;
+    
     try {
         $row = $db->query($sql_ver)->fetch();
     } catch (Exception $e) {
-        display_error($LANG['error'].$e->getMessage(),true) ;
+        display_error($LANG['error'].$e->getMessage(),true);
     }
+
     if ($retornar) {
-        return ( $row['permissao'] == "S" )  ? True : False ;
+        return ( $row['permissao'] == "S" )  ? True : False;
     } else {
         if ($row['permissao'] != "S" ) {
-            if ($situacao != "0")
-                display_error($LANG['msg_notauthorized'],true) ;
-            else
-                display_error($LANG['msg_notauthorized'],true) ;
-            echo "<SCRIPT>self.close();</SCRIPT>" ;
-            exit ;
+            if ($situacao != "0") {
+                display_error($LANG['msg_notauthorized'],true);
+            }
+            else {
+                display_error($LANG['msg_notauthorized'],true);
+            }
+            echo "<SCRIPT>self.close();</SCRIPT>";
+            exit;
         }
     }
-} // Fim da Funcao
+}
 
 /* ----------------------------------------------------------------------------
  * Funcao  : monta_csv - Função de geração do arquivo CSV baseados nos relatórios.
@@ -576,7 +582,6 @@ function ver_permissao($cod_rotina,$situacao="",$retornar=False) {
  * Recebe  : Recebe dois arrays: O array de resultado da query $row. E o array de
  * criação do CSV, que determina os indices que deverão ser colocados no CSV.
  * ----------------------------------------------------------------------------*/
-
 function monta_csv($arr_titulo, $arr_dados) {
 
     /* Recebe os indices que foram declarados no array $titulo  */
@@ -592,31 +597,31 @@ function monta_csv($arr_titulo, $arr_dados) {
         /* Foreach que percorre o array principal ( $row )
          * e formata cada campo presente dele.
         */
-        $dados = $dados_ori ;
+        $dados = $dados_ori;
 
         if (isset($dados['duration'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['duration'] = $my_object->fmt_segundos(array("a"=>$dados_ori['duration'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['src'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['src'] = $my_object->fmt_telefone(array("a"=>$dados_ori['src']));
             $my_object = null;
         }
         if (isset($dados['dst'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['dst'] = $my_object->fmt_telefone(array("a"=>$dados_ori['dst']));
             $my_object = null;
         }
         if (isset($dados['par2'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['dst'] = $my_object->fmt_telefone(array("a"=>$dados_ori['dst']));
             $my_object = null;
         }
         if (array_key_exists("tarifacao", $arr_titulo)) {
-            $my_object = new Formata ;
-            $dados['tarifacao'] = $my_object->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']),"A") ;
+            $my_object = new Formata;
+            $dados['tarifacao'] = $my_object->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']),"A");
             $my_object = null;
         }
         if($dados['disposition']) {
@@ -631,7 +636,7 @@ function monta_csv($arr_titulo, $arr_dados) {
             }
         }
         if(isset($dados['dst'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['origem'] = $my_object->fmt_cidade(array("a"=>$dados_ori['dst']));
             $my_object = null;
         }
@@ -639,87 +644,87 @@ function monta_csv($arr_titulo, $arr_dados) {
         /* Tratamento das Estatísticas do Operador */
 
         if (isset($dados['otp_cha'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['otp_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_cha'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['otp_ate'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['otp_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_ate'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['otp_esp'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['otp_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_esp'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['omd_cha'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['omd_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_cha'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['omd_ate'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['omd_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_ate'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['omd_esp'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['omd_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_esp'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rtp_cha'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rtp_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_cha'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rtp_ate'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rtp_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_ate'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rtp_esp'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rtp_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_esp'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rmd_cha'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rmd_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_cha'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rmd_ate'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rmd_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_ate'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['rmd_esp'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['rmd_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_esp'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['tml'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['tml'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tml'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['tma'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['tma'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tma'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['tmef'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['tmef'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tmef'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['TA'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['TA'] = $my_object->fmt_segundos(array("a"=>$dados_ori['TA'],"b"=>'hms', "A"));
             $my_object = null;
         }
         if (isset($dados['TN'])) {
-            $my_object = new Formata ;
+            $my_object = new Formata;
             $dados['TN'] = $my_object->fmt_segundos(array("a"=>$dados_ori['TN'],"b"=>'hms', "A"));
             $my_object = null;
         }
@@ -759,22 +764,22 @@ function monta_csv($arr_titulo, $arr_dados) {
  * ela gera um novo .conf com as informacoes do banco.
  * ----------------------------------------------------------------------------*/
 function grava_conf() {
-    global $db, $LANG, $salas, $conf_app, $ccustos ;
+    global $db, $LANG, $salas, $conf_app, $ccustos;
 
     foreach(array("sip", "iax2") as $tech) {
         $config = Zend_Registry::get('config');
-        $asterisk_directory = $config->system->path->asterisk->config;
+        $asterisk_directory = $config->system->path->asterisk->conf;
 
-        $file_conf = "$asterisk_directory/snep/snep-$tech.conf" ;
-        $trunk_file_conf = "$asterisk_directory/snep/snep-$tech-trunks.conf" ;
+        $file_conf = "$asterisk_directory/snep/snep-$tech.conf";
+        $trunk_file_conf = "$asterisk_directory/snep/snep-$tech-trunks.conf";
 
         if (!is_writable($file_conf)) {
             display_error($LANG['msg_incoming_file_error'] . $file_conf,true);
-            return False ;
+            return False;
         }
         if (!is_writable($trunk_file_conf)) {
             display_error($LANG['msg_incoming_file_error'] . $trunk_file_conf,true);
-            return False ;
+            return False;
         }
         /* Apaga arquivo snep-sip.conf */
         file_put_contents($file_conf, '');
@@ -797,10 +802,10 @@ function grava_conf() {
         try {
             $stmt = $db->prepare($sql);
             $stmt->execute();
-            $atual = $stmt->rowCount() ;
+            $atual = $stmt->rowCount();
 
         } catch (Exception $e) {
-            display_error($LANG['error'].$e->getMessage(),true) ;
+            display_error($LANG['error'].$e->getMessage(),true);
         }
         /* Percorre retorno e */
         $peers = "\n";
@@ -939,10 +944,11 @@ function grava_conf() {
     ast_status("sip reload","");
     ast_status("iax2 reload","");
 }
+
 // ---------------------------------------------------------------------------
 // Funcao para pegar a hora para DEBUG
 // ---------------------------------------------------------------------------
-function utime () {
+function utime() {
     $time = explode( " ", microtime());
     $usec = (double)$time[0];
     $sec = (double)$time[1];
