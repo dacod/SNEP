@@ -104,7 +104,7 @@ class PBX_Interfaces {
 
         $id = -1;
         foreach ($interfaces as $interface) {
-            if(eregi($interface['id_regex'], $channel)) {
+            if(eregi("^{$interface['id_regex']}$", $channel)) {
                 $id = $interface['id'];
                 $type = 'trunk';
                 $ownerid = $interface['id'];
@@ -120,7 +120,7 @@ class PBX_Interfaces {
             $interfaces = $db->query($select)->fetchAll();
 
             foreach ($interfaces as $interface) {
-                if(eregi($interface['canal'], $channel)) {
+                if(eregi("^{$interface['canal']}$", $channel)) {
                     $id = $interface['name'];
                     $type = 'user';
                     $ownerid = $interface['name'];
