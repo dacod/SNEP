@@ -3,6 +3,7 @@ $LANGUAGE = "pt_BR";
 $LANGUAGE_NAME = "Portugu&ecirc;s Brasileiro";
 $LANG = array ();
 $LANG['iso'] = "charset=utf-8";
+$LANG['maintenance'] = "Manutenção";
 $LANG['nodelete'] = "Excluir arquivo de grava&ccedil;&atilde;o.";
 $LANG['nodeletedisable'] = "N&atilde;o existe arquivo de grava&ccedil;&atilde;o.";
 $LANG['ouvirarquivo'] = "Ouvir arquivo de grava&ccedil;&atilde;o.";

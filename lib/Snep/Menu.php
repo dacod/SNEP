@@ -158,16 +158,13 @@ class Snep_Menu {
     }
 
     private function parseXMLMenuItem( $xml_item ) {
+        $id         = $xml_item['id'] ? (string) $xml_item['id'] : null;
+        $label      = $xml_item['label'] ? (string) $xml_item['label'] : null;
+        $uri        = $xml_item['uri'] ? (string) $xml_item['uri'] : null;
         $resourceId = $xml_item['resourceid'] ? (string) $xml_item['resourceid'] : null;
-        if( $resourceId !== null && !$this->isAllowed($resourceId) ) {
-            return null;
-        }
-
-        $id    = $xml_item['id'] ? (string) $xml_item['id'] : null;
-        $label = $xml_item['label'] ? (string) $xml_item['label'] : null;
-        $uri   = $xml_item['uri'] ? (string) $xml_item['uri'] : null;
         
         $item = new Snep_Menu_Item($id, $label, $uri);
+        $item->setResourceId($resourceId);
 
         if( count($xml_item->item) > 0 ) {
             foreach ($xml_item->item as $xml_subitem) {
@@ -189,6 +186,9 @@ class Snep_Menu {
         
         if ($id_user == 1) {
             return True;
+        }
+        else if($id_user === null) {
+            return False;
         }
 
         $db = Zend_Registry::get('db');
@@ -217,11 +217,11 @@ class Snep_Menu {
         $items = "";
 
         foreach ($this->getItems() as $item) {
-            if($item->getId() != "logout") {
-                $items = $item->render() . $items;
-            }
-            else {
+            if( $item->getId() == "logout" ) {
                 $logout = $item;
+            }
+            else if( $this->isAllowed($item->getResourceId()) ) {
+                $items = $item->render() . $items;
             }
         }
         $items = $logout->render() . $items;

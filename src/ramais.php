@@ -345,8 +345,8 @@ function alterar() {
         $row['trunk'] = substr($row['canal'], strpos($row['canal'], '/')+1);
     }
 
-    $smarty->assign ('khomp_board',$khomp_board);
-    $smarty->assign ('khomp_channel',$khomp_channel);
+    $smarty->assign ('khomp_board',(int)$khomp_board);
+    $smarty->assign ('khomp_channel',(int)$khomp_channel+1);
 
     // Para Verificar se mudou o nome - causa: tabela voicemail_users
     $row['old_name'] = $row['name'];

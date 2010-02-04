@@ -22,7 +22,7 @@ require_once('./agi_base.php');
 $ramal = PBX_Usuarios::get($request->callerid);
 
 if(!$ramal->isLocked()) {
-    $db->update('peers', array("authenticate" => true));
+    $db->update('peers', array("authenticate" => true), "name='{$ramal->getNumero()}'");
     $asterisk->answer();
     $asterisk->stream_file('activated');
 }
@@ -32,7 +32,7 @@ else if($ramal->isLocked()){
         $log->info("Senha errada para desativar ramal $ramal");
     }
     else {
-        $db->update('peers', array("authenticate" => false));
+        $db->update('peers', array("authenticate" => false), "name='{$ramal->getNumero()}'");
         $asterisk->answer();
         $asterisk->stream_file('de-activated');
     }

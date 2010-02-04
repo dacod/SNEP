@@ -45,14 +45,22 @@ class Snep_Menu_Item {
      *
      * @var string
      */
-    private $uri = null;
+    private $uri;
 
     /**
      * Array de itens de menú para que seja feito um submenu
      *
      * @var Snep_Menu_Item[]
      */
-    private $submenu = null;
+    private $submenu;
+
+    /**
+     * Id do recurso do sistema a que se refere o item para controle via ACL ou
+     * permissões.
+     *
+     * @var string
+     */
+    private $resourceId;
 
     /**
      * Construi o item de menu
@@ -91,6 +99,24 @@ class Snep_Menu_Item {
         else {
             $this->id = $id;
         }
+    }
+
+    /**
+     * Retorna o id do recurso.
+     *
+     * @return string $resourceId
+     */
+    public function getResourceId() {
+        return $this->resourceId;
+    }
+
+    /**
+     * Define um id de recurso
+     *
+     * @param string $resourceId
+     */
+    public function setResourceId($resourceId) {
+        $this->resourceId = (string) $resourceId;
     }
 
     /**

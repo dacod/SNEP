@@ -47,7 +47,7 @@
         <item uri="../gestao/default_actions_configs.php" label="default_configs"></item>
     </item>
 
-    <item id="config" label="menu_config" resourceid="60">
+    <item id="configs" label="menu_config" resourceid="60">
         <item uri="../configs/parametros.php" label="menu_params"></item>
         <item uri="../src/rel_sounds.php" label="menu_sounds"></item>
         <item uri="../gestao/rel_musiconhold.php" label="menu_musiconhold"></item>

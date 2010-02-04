@@ -71,7 +71,14 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
                     case 'configs':
                     case 'routing':
                     case 'billing':
-                        $menu->getItemById($key)->addSubmenuItem($menuItem);
+                        if( is_array($menuItem) ) {
+                            foreach ($menuItem as $realItem) {
+                                $menu->getItemById($key)->addSubmenuItem($realItem);
+                            }
+                        }
+                        else {
+                            $menu->getItemById($key)->addSubmenuItem($menuItem);
+                        }
                         break;
                     default:
                         $menu->addItem($menuItem);

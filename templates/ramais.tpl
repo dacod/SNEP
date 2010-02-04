@@ -208,7 +208,7 @@
                         <select class="campos" onchange="update_channel_list()" id="khomp_boards" name="khomp_boards">
                             <option></option>
                             {foreach from=$khomp_boards key=placa item=foo}
-                                <option value="{$placa}" {if $khomp_board==$placa}selected="true"{/if}>{$placa}</option>
+                                <option value="{$placa}" {if $khomp_board===$placa}selected="true"{/if}>{$placa}</option>
                             {/foreach}
                         </select>
 
