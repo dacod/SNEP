@@ -164,6 +164,7 @@ function principal() {
 
     $count = 20;//count($row);
 
+    $smarty->assign("khomp_channel", False);
     $smarty->assign('FILAS_DISP',$filas_disp);
     $smarty->assign('dt_ramais',$row) ;
     $smarty->assign('COUNT',$count) ;
@@ -346,7 +347,7 @@ function alterar() {
     }
 
     $smarty->assign ('khomp_board',(int)$khomp_board);
-    $smarty->assign ('khomp_channel',(int)$khomp_channel+1);
+    $smarty->assign ('khomp_channel',(int)$khomp_channel);
 
     // Para Verificar se mudou o nome - causa: tabela voicemail_users
     $row['old_name'] = $row['name'];

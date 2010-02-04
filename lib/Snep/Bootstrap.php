@@ -65,9 +65,29 @@ abstract class Snep_Bootstrap {
     protected function setConfigFile($configFile) {
         if( file_exists($configFile) ) {
             $this->configFile = $configFile;
-            $config = new Zend_Config_Ini($configFile);
+            $config = new Zend_Config_Ini($configFile, null, true);
             Zend_Registry::set('configFile', $configFile);
             Zend_Registry::set('config', $config);
+
+            // Verificando a existencia dos caminhos do sistema
+            if( !isset($config->system->path->asterisk) ) {
+                $config->system->path->asterisk = new Zend_Config(array(), true);
+            }
+            if( !isset($config->system->path->asterisk->conf) ) {
+                $config->system->path->asterisk->conf = "/etc/asterisk";
+            }
+            if( !isset($config->system->path->asterisk->sounds) ) {
+                $config->system->path->asterisk->sounds = "/var/lib/asterisk/sounds";
+            }
+            if( !isset($config->system->path->asterisk->moh) ) {
+                $config->system->path->asterisk->moh = "/var/lib/asterisk/moh";
+            }
+            if( !isset($config->system->path->hylafax) ) {
+                $config->system->path->hylafax = "/var/spool/hylafax";
+            }
+
+            $config->setReadOnly();
+
             $this->config = $config;
         }
         else {

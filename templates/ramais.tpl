@@ -225,17 +225,6 @@
                             {html_options options=$TRUNKS selected=$dt_ramais.trunk}
                          </select>
                     </div>
-                     {*
-                     <select name="canal_sip" size="1" class="campos" onChange="verifica_peers(this.value,'R','{$LANG.ramal}')" >
-                        {html_options options=$OPCOES_SIP selected=$dt_ramais.canal_sip}
-                     </select>
-                     <select name="canal_iax2" size="1" class="campos" onChange="verifica_peers(this.value,'R','{$LANG.ramal}')">
-                        {html_options options=$OPCOES_IAX2 selected=$dt_ramais.canal_iax2}
-                     </select>
-                     <select name="canal_khomp" size="1" class="campos" onChange="verifica_peers(this.value,'R','{$LANG.ramal}')">
-                        {html_options options=$OPCOES_KHOMP selected=$dt_ramais.canal_khomp}
-                     </select>
-                     *}
                   </td>
                </tr>
                <tr>

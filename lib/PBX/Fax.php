@@ -30,9 +30,9 @@
 class PBX_Fax {
 
     private $rec_list;
-    private $rec_path = '/var/log/hylafax/recvq';
+    private $rec_path;
     private $env_list;
-    private $env_path = '/var/log/hylafax/sendq';
+    private $env_path;
     private $enviado;
     private $recebido;
     private $totrec;
@@ -40,6 +40,10 @@ class PBX_Fax {
 
     // Contrutor da classe. Relaciona arquivos com datas para futura pesquisa.
     public function __construct($sended, $received) {
+        $config = Zend_Registry::get('config');
+        $this->rec_path = $config->system->path->hylafax . "/recvq";
+        $this->env_path = $config->system->path->hylafax . "/sendq";
+
         $rec = exec("ls -lah --time-style=long-iso $this->rec_path > /tmp/recvq");
         $arrRec = explode("\n",ereg_replace( ' +', ' ', file_get_contents("/tmp/recvq")));
 
@@ -149,4 +153,3 @@ class PBX_Fax {
         return $result;
     }
 }
-?>
