@@ -4,6 +4,8 @@ $LANGUAGE_NAME = "Portugu&ecirc;s Brasileiro";
 $LANG = array ();
 $LANG['iso'] = "charset=utf-8";
 $LANG['maintenance'] = "Manutenção";
+$LANG['no_khomp'] = "Não há placas Khomp configuradas em seu sistema.";
+$LANG['khomp_exten_error'] = "Esse ramal está configurado para usar uma interface FXS Khomp. Porém essa interface parece não existir mais no Snep, por favor reconfigure a interface do ramal. Caso a placa não tenha sido removida ou esteja apresetando problemas <strong>NÃO ALTERE</strong> esse ramal até solucionar o problema.";
 $LANG['nodelete'] = "Excluir arquivo de grava&ccedil;&atilde;o.";
 $LANG['nodeletedisable'] = "N&atilde;o existe arquivo de grava&ccedil;&atilde;o.";
 $LANG['ouvirarquivo'] = "Ouvir arquivo de grava&ccedil;&atilde;o.";

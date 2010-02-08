@@ -72,6 +72,7 @@ catch( Asterisk_Exception_CantConnect $ex ) {
     display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, 0);
 }
 
+$no_khomp = false;
 if( $khompInfo->hasWorkingBoards() ) {
     foreach( $khompInfo->boardInfo() as $board ) {
         if( ereg("KFXS", $board['model']) ) {
@@ -81,6 +82,10 @@ if( $khompInfo->hasWorkingBoards() ) {
         }
     }
 }
+else {
+    $no_khomp = true;
+}
+$smarty->assign('no_khomp',$no_khomp);
 
 /* ----------------------------------------------------------------- */
 /* Lista de troncos */
@@ -334,20 +339,40 @@ function alterar() {
 
     $khomp_board = false;
     $khomp_channel = false;
+    $khomp_fail = false;
 
     $row['channel_tech'] = substr($row['canal'], 0, strpos($row['canal'], '/'));
+
+    $khomp_error = false;
     if($row['channel_tech'] == "KHOMP") {
         $interface = substr($row['canal'], strpos($row['canal'], '/')+1);
         $khomp_board = substr($interface,1,1);
         $khomp_channel = substr($interface,3);
+        $khompInfo = new PBX_Khomp_Info();
+        try {
+            $boardInfo = $khompInfo->boardInfo($khomp_board);
+            $khomp_channels = range(0,$boardInfo['channels']-1);
+        }
+        catch( PBX_Khomp_Exception_NoSuchBoard $ex ) {
+            $khomp_error = true;
+            $khomp_board = false;
+            $khomp_channel = true;
+        }
+        catch( PBX_Khomp_Exception_NoKhomp $ex ) {
+            $khomp_error = true;
+            $khomp_board = false;
+            $khomp_channel = true;
+        }
     }
-
-    if($row['channel_tech'] == "VIRTUAL") {
+    else if($row['channel_tech'] == "VIRTUAL") {
         $row['trunk'] = substr($row['canal'], strpos($row['canal'], '/')+1);
     }
 
+    $smarty->assign ('khomp_error',$khomp_error);
+
     $smarty->assign ('khomp_board',(int)$khomp_board);
     $smarty->assign ('khomp_channel',(int)$khomp_channel);
+    $smarty->assign ('khomp_channels',$khomp_channels);
 
     // Para Verificar se mudou o nome - causa: tabela voicemail_users
     $row['old_name'] = $row['name'];
@@ -355,10 +380,12 @@ function alterar() {
     // Para Verificar se mudou a senha do cadeado
     $row['old_authenticate'] = $row['authenticate'];
 
-    if ($row['authenticate'])
+    if ($row['authenticate']) {
         $row['usa_auth'] = "yes";
-    else
+    }
+    else {
         $row['usa_auth'] = "no";
+    }
 
     // Para Verificar se mudou vinculos - causa: tabela vinculos
     $row['old_vinculo'] = $row['vinculo'];

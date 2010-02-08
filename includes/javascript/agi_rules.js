@@ -328,7 +328,7 @@ var Acoes = Class.create({
     },
 
     /* Função responsável pro criar uma nova ação de Ramal. */
-    newexten : function(valor,cc,to,tl,omo) {
+    newexten : function(valor,cc,to,tl,omo, fg) {
         cc = remontaCc(cc);
         var num = $('indice').value;
         var sn = 'e'+num;
@@ -341,13 +341,18 @@ var Acoes = Class.create({
             omo = "checked";
         }
 
+        if(fg == "true") {
+            fg = "checked";
+        }
+
         var html = "<li style=\'height: 60px;\' name='"+sn+"' id='"+sn+"'><img style=\"float:right;\" title=\"Apagar ação\" src=\"../imagens/delete.png\" onclick=\"removenode('"+sn+"'); return false;\"  />" +
         "<strong>Direcionar para Ramal</strong><br /> " +
         "Centro de Custo: <select id="+sn+"cc name="+sn+"cc class=\"campos\"> "+cc+" </select> " +
         "Ramal: <input class=\"minibox validate-number\" name="+sn+"rm  id="+sn+"rm type=\"text\" onblur=\"verificaRamal('"+sn+"rm'); return false;\" value="+valor+"  > " +
         "Timeout Completamento: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"><br />" +
         "Parametros: <input class=\"minibox\" required name="+sn+"tl type=\"text\" value="+tl+" >" +
-        '<input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar';
+        '<input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar &nbsp;' +
+        '<input type="checkbox" name="'+sn+'fg" '+fg+' /> Diferenciar toque';
         $('myList').insert(html);
         $('indice').value = ++num
 
@@ -375,7 +380,7 @@ var Acoes = Class.create({
             }
             if(tipo == 'exten') {
                 t = 'e';
-                x.newexten(valor,cc,to,tl,omo);
+                x.newexten(valor,cc,to,tl,omo, fg);
             }
             if(tipo == 'define') {
                 t = 'd';

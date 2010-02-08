@@ -188,11 +188,13 @@ function cadastrar()  {
                     $to  = $acoes.'to';
                     $tl  = $acoes.'tl';
                     $omo = $acoes.'omo';
+                    $fg  = $acoes.'fg';
                     $action[$ordem.'e']['cc']  = $_POST[$cc];
                     $action[$ordem.'e']['rm']  = $_POST[$rm];
                     $action[$ordem.'e']['to']  = $_POST[$to];
                     $action[$ordem.'e']['tl']  = $_POST[$tl];
                     $action[$ordem.'e']['omo'] = $_POST[$omo];
+                    $action[$ordem.'e']['fg'] = $_POST[$fg];
                     break;
                 case 'c':
                     $ct = $acoes.'ct';
@@ -378,7 +380,12 @@ function cadastrar()  {
                 $cc->setConfig(array('ccustos' => $acao['cc']));
                 $regra->addAcao($cc);
                 $reg = new PBX_Rule_Action_DiscarRamal();
-                $conf = array('dial_timeout' => $acao['to'], 'dial_flags' => $acao['tl'], 'dont_overflow' => $acao['omo']);
+                $conf = array(
+                    'dial_timeout' => $acao['to'],
+                    'dial_flags' => $acao['tl'],
+                    'dont_overflow' => ($acao['omo']?"true":"false"),
+                    'diff_ring' => ($acao['fg']?"true":"false")
+                );
                 if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
                 $reg->setConfig($conf);
                 $regra->addAcao($reg);
@@ -497,7 +504,8 @@ function alterar()  {
                 'to'    => $swp['dial_timeout'],
                 'ramal' => $swp['ramal'],
                 'tl'    => $swp['dial_flags'],
-                'omo'   => $swp['dont_overflow']
+                'omo'   => $swp['dont_overflow'],
+                'fg'    => $swp['diff_ring']
             );
             unset($swp);
         }
@@ -629,7 +637,7 @@ function alterar()  {
                 break;
             case 'e':
                 //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('exten','".$action[$id]['cc']."','".$action[$id]['ramal']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','');";
+                $js .= "x.newnode('exten','".$action[$id]['cc']."','".$action[$id]['ramal']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','" . $action[$id]['fg'] . "');";
                 break;
             case 'q':
                 //echo "<script type=\"text/javascript\">   </script> ";
@@ -753,11 +761,13 @@ function grava_alterar()  {
                 $to  = $acoes.'to';
                 $tl  = $acoes.'tl';
                 $omo = $acoes.'omo';
+                $fg  = $acoes.'fg';
                 $action[$ordem.'e']['cc']  = $_POST[$cc];
                 $action[$ordem.'e']['rm']  = $_POST[$rm];
                 $action[$ordem.'e']['to']  = $_POST[$to];
                 $action[$ordem.'e']['tl']  = $_POST[$tl];
                 $action[$ordem.'e']['omo'] = $_POST[$omo];
+                $action[$ordem.'e']['fg'] = $_POST[$fg];
                 break;
             case 'd':
                 $cc = $acoes.'cc';
@@ -885,7 +895,12 @@ function grava_alterar()  {
                 $cc->setConfig(array('ccustos' => $acao['cc']));
                 $regra->addAcao($cc);
                 $reg = new PBX_Rule_Action_DiscarRamal();
-                $conf = array('dial_timeout' => $acao['to'], 'dial_flags' => $acao['tl'], 'dont_overflow' => ($acao['omo']?"true":"false"));
+                $conf = array(
+                    'dial_timeout' => $acao['to'],
+                    'dial_flags' => $acao['tl'],
+                    'dont_overflow' => ($acao['omo']?"true":"false"),
+                    'diff_ring' => ($acao['fg']?"true":"false")
+                );
                 if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
                 $reg->setConfig($conf);
                 $regra->addAcao($reg);

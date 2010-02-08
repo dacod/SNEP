@@ -96,6 +96,14 @@ a img {
     background-color: #CBFFCB;
 }
 
+.error {
+    text-align: center;
+    background-color: #FFC5C5;
+    border: 1px solid red;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
 .links_debug {
    float:right;
    background: url("../imagens/debug.png") no-repeat left top;

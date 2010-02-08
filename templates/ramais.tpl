@@ -15,6 +15,9 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  *}
  {include file="cabecalho.tpl"}
+ {if $khomp_error}
+    <div class="error">{$LANG.khomp_exten_error}</div>
+ {/if}
  <table cellspacing="0" align="center" class="contorno">
     <form name="formulario" id="formulario" method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
     <tr>
@@ -204,20 +207,26 @@
                     <input {if $dt_ramais.channel_tech == "KHOMP"}checked="true"{/if} type="radio" name="canal" value="KHOMP" id="canal_khomp" onchange="show_tab('khomp')" /><label for="canal_khomp">KHOMP</label>
                     <input {if $dt_ramais.channel_tech == "VIRTUAL"}checked="true"{/if} type="radio" name="canal" value="VIRTUAL" id="canal_virtual" onchange="show_tab('virtual')" /><label for="canal_virtual">Virtual</label>
                     <div id="khomp" style="display:{if $khomp_channel}block{else}none{/if};">
-                        {$LANG.board}:
-                        <select class="campos" onchange="update_channel_list()" id="khomp_boards" name="khomp_boards">
-                            <option></option>
-                            {foreach from=$khomp_boards key=placa item=foo}
-                                <option value="{$placa}" {if $khomp_board===$placa}selected="true"{/if}>{$placa}</option>
-                            {/foreach}
-                        </select>
+                        {if $no_khomp}
+                            <p>{$LANG.no_khomp}</p>
+                        {else}
+                            {$LANG.board}:
+                            <select class="campos" onchange="update_channel_list()" id="khomp_boards" name="khomp_boards">
+                                <option></option>
+                                {foreach from=$khomp_boards key=placa item=foo}
+                                    <option value="{$placa}" {if $khomp_board===$placa}selected="true"{/if}>{$placa}</option>
+                                {/foreach}
+                            </select>
 
-                        {$LANG.channel}:
-                        <select class="campos" id="khomp_channels" name="khomp_channels">
-                            {if $khomp_channel}
-                                <option value="{$khomp_channel}">{$khomp_channel}</option>
-                            {/if}
-                        </select>
+                            {$LANG.channel}:
+                            <select class="campos" id="khomp_channels" name="khomp_channels">
+                                {if $khomp_channel}
+                                    {foreach from=$khomp_channels key=channel item=foo}
+                                        <option value="{$channel}" {if $khomp_channel===$channel}selected="true"{/if}>{$channel+1}</option>
+                                    {/foreach}
+                                {/if}
+                            </select>
+                        {/if}
                     </div>
                     <div id="virtual" style="display:{if $dt_ramais.channel_tech == "VIRTUAL"}block{else}none{/if};">
                          {$LANG.trunk}:

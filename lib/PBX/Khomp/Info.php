@@ -94,12 +94,15 @@ class PBX_Khomp_Info {
                 }
             }
 
-            if($board_id != -1 && isset($boards[$board_id]))
+            if($board_id != -1 && isset($boards[$board_id])) {
                 return $boards[$board_id];
-            else if($board_id == -1)
+            }
+            else if($board_id == -1) {
                 return $boards;
-            else
-                throw new PBX_Khomp_NoSuchBoard("No board found in system with id $board_id");
+            }
+            else {
+                throw new PBX_Khomp_Exception_NoSuchBoard("No board found in system with id $board_id");
+            }
         }
     }
     
