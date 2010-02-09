@@ -11,6 +11,7 @@ $LANG['nodeletedisable'] = "N&atilde;o existe arquivo de grava&ccedil;&atilde;o.
 $LANG['ouvirarquivo'] = "Ouvir arquivo de grava&ccedil;&atilde;o.";
 $LANG['from_domain'] = "Dominio de Origem";
 $LANG['from_user'] = "Especificar Usuário de Origem";
+$LANG['peer_type'] = "Tipo do peer (SIP)";
 $LANG['noauth'] = "Sem autenticação";
 $LANG['ok'] = "Ativado" ;
 $LANG['detail'] = "Detalhes" ;

@@ -99,6 +99,7 @@ $smarty->assign('TRUNKS', $trunks);
 // Variaveis de ambiente do form
 $smarty->assign('ACAO',$acao) ;  
 $smarty->assign('OPCOES_YN',$tipos_yn) ;
+$smarty->assign('PEER_TYPES',array('peer' => "Peer",'friend' => 'Friend'));
 $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
 $smarty->assign('OPCOES_CODECS',$tipos_codecs) ;
 $smarty->assign('OPCOES_GRUPOS',$grupos);
@@ -165,6 +166,7 @@ function principal() {
         }
     }
     $row['group'] = "users";
+    $row['peer_type'] = "peer";
     // Variavies do Template
 
     $count = 20;//count($row);
@@ -180,7 +182,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $db, $trunk, $name, $group, $vinc, $callerid, $mailbox, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $senha_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $peer_type, $db, $trunk, $name, $group, $vinc, $callerid, $mailbox, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $senha_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -194,8 +196,7 @@ function cadastrar() {
     $callgroup  = $pickupgroup ;
     $peer_type = "R" ; // Ramais
 
-    $type = "peer"; // Default para todos, caso alterado pode causar problemas em
-    // registro de troncos sip.
+    $type = $peer_type;
 
     // monta a cadeia de codecs permitidos
     $allow="" ;
@@ -318,8 +319,8 @@ function alterar() {
         exit ;
     }
     try {
-        $sql = "SELECT id,name,callerid,context,mailbox,qualify,secret,";
-        $sql.= " allow,dtmfmode, vinculo, email, `call-limit`,incominglimit,";
+        $sql = "SELECT id, type, name, callerid, context, mailbox, qualify, secret,";
+        $sql.= " allow, dtmfmode, vinculo, email, `call-limit`, incominglimit,";
         $sql.= " outgoinglimit, usa_vc, pickupgroup, nat, canal, authenticate, " ;
         $sql.= " `group`, time_total, time_chargeby FROM peers WHERE id=".$id;
         $row = $db->query($sql)->fetch();
@@ -340,6 +341,8 @@ function alterar() {
     $khomp_board = false;
     $khomp_channel = false;
     $khomp_fail = false;
+
+    $row['peer_type'] = $row['type'];
 
     $row['channel_tech'] = substr($row['canal'], 0, strpos($row['canal'], '/'));
 
@@ -444,7 +447,7 @@ function alterar() {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
-    global $LANG, $db, $id, $trunk, $name, $callerid, $mailbox, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $senha_vc, $no_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
+    global $LANG, $db, $peer_type, $id, $trunk, $name, $callerid, $mailbox, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $senha_vc, $no_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
 
@@ -458,7 +461,7 @@ function grava_alterar() {
     $callgroup  = $pickupgroup ;
     $pickupgroup = $pickupgroup == "" ? 'null' : "'$pickupgroup'";
 
-    $type = "peer"; // Default para ramais
+    $type = $peer_type;
 
     if ($tempo == "n") {
         $time_chargeby = "NULL";

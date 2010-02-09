@@ -144,6 +144,12 @@
                   </td>
                </tr>
                <tr>
+                  <td class="formlabel">{$LANG.peer_type}:</td>
+                  <td class="subtable">
+                     {html_radios name="peer_type" checked=$dt_ramais.peer_type options=$PEER_TYPES}
+                  </td>
+               </tr>
+               <tr>
                   <td colspan="2" class="subtable"><hr /></td>
                </tr>
                {* CONTROLE DE MINUTOS - Adicionado por Henrique *}
