@@ -46,7 +46,12 @@ function gravar()  {
          $option_sed = $option == "record_app"? "record\.application" : $option;
 
          // Pesquisa e faz a troca do valor da variavel - salva em arquivo temporario
-         $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"'.'", < "'.$config_file.'" > "'.$config_tmp.'"';
+         if($option == "debug") {
+            $comando = "sed \"s,^$option_sed.*=.*,$option_sed = $value\", < \"$config_file\" > \"$config_tmp\"";
+         }
+         else {
+            $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"'.'", < "'.$config_file.'" > "'.$config_tmp.'"';
+         }
          if (executacmd($comando,$LANG['msg_err_sed'])) {
             // Ajusta permissoes do arquivo temporario
             $comando = 'mv '.$config_tmp.' '.$config_file ;

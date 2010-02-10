@@ -360,9 +360,12 @@ XML;
             $dialstatus = $asterisk->get_variable("DIALSTATUS");
             $log->debug("DIALSTATUS: " . $dialstatus['data']);
 
-            if($this->allow_voicemail && $ramal->hasVoiceMail()) {
+            if($dialstatus['data'] != "ANSWER" && $dialstatus['data'] != "CANCEL" && $this->allow_voicemail && $ramal->hasVoiceMail()) {
                 $log->info("Executando voicemail para ramal $ramal devido a {$dialstatus['data']}");
-                $vm_params = array("$ramal@default","u");
+                $vm_params = array(
+                    $ramal->getMailBox(),
+                    "u"
+                );
                 $asterisk->exec('voicemail', $vm_params);
                 // Nada mais deve ser executado depois do voicemail
                 throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");

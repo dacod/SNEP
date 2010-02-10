@@ -19,6 +19,7 @@
  {config_load file="../includes/setup.conf" section="canais"}
  {config_load file="../includes/setup.conf" section="troncos"}
  {config_load file="../includes/setup.conf" section="usuarios"}
+ {config_load file="../includes/setup.conf" section="system"}
  <table align="center">
     <form name="ura" action="{$smarty.server.SCRIPT_NAME}" method="post" enctype="multipart/form-data" >
     <thead>
@@ -121,6 +122,15 @@
        </td>
        <td class="cen">
           <input class="campos" type="checkbox" name="alterar[99]"  value="record_app" />
+       </td>
+    </tr>
+       <td class="esq">{$LANG.params_debug}</td>
+       <td class="esq">
+          <input type="radio" id="debug_yes" name="new_debug" value="yes" {if #debug# == true} checked {/if} onchange="this.form.elements['alterar[110]'].checked=true;" /><label for="debug_yes">{$LANG.yes}</debug>
+          <input type="radio" id="debug_no" name="new_debug" value="no" {if #debug# == false} checked {/if} onchange="this.form.elements['alterar[110]'].checked=true;" /><label for="debug_no">{$LANG.no}</label>
+       </td>
+       <td class="cen">
+          <input class="campos" type="checkbox" name="alterar[110]"  value="debug" />
        </td>
     </tr>
 

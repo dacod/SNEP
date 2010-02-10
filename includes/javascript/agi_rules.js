@@ -334,7 +334,7 @@ var Acoes = Class.create({
     },
 
     /* Função responsável pro criar uma nova ação de Ramal. */
-    newexten : function(valor,cc,to,tl,omo, fg) {
+    newexten : function(valor,cc,to,tl,omo, fg, em) {
         cc = remontaCc(cc);
         var num = $('indice').value;
         var sn = 'e'+num;
@@ -351,6 +351,10 @@ var Acoes = Class.create({
             fg = "checked";
         }
 
+        if(em == "true") {
+            em = "checked";
+        }
+
         var html = "<li style=\'height: 60px;\' name='"+sn+"' id='"+sn+"'><img style=\"float:right;\" title=\"Apagar ação\" src=\"../imagens/delete.png\" onclick=\"removenode('"+sn+"'); return false;\"  />" +
         "<strong>Direcionar para Ramal</strong><br /> " +
         "Centro de Custo: <select id="+sn+"cc name="+sn+"cc class=\"campos\"> "+cc+" </select> " +
@@ -358,7 +362,8 @@ var Acoes = Class.create({
         "Timeout Completamento: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"><br />" +
         "Parametros: <input class=\"minibox\" required name="+sn+"tl type=\"text\" value="+tl+" >" +
         '<input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar &nbsp;' +
-        '<input type="checkbox" name="'+sn+'fg" '+fg+' /> Diferenciar toque';
+        '<input type="checkbox" name="'+sn+'fg" '+fg+' /> Diferenciar toque' +
+        '<input type="checkbox" name="'+sn+'em" '+em+' /> Permitir Voicemail';
         $('myList').insert(html);
         $('indice').value = ++num
 
@@ -386,7 +391,7 @@ var Acoes = Class.create({
             }
             if(tipo == 'exten') {
                 t = 'e';
-                x.newexten(valor,cc,to,tl,omo, fg);
+                x.newexten(valor,cc,to,tl,omo, fg, em);
             }
             if(tipo == 'define') {
                 t = 'd';

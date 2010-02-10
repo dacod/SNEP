@@ -189,12 +189,14 @@ function cadastrar()  {
                     $tl  = $acoes.'tl';
                     $omo = $acoes.'omo';
                     $fg  = $acoes.'fg';
+                    $em  = $acoes.'em';
                     $action[$ordem.'e']['cc']  = $_POST[$cc];
                     $action[$ordem.'e']['rm']  = $_POST[$rm];
                     $action[$ordem.'e']['to']  = $_POST[$to];
                     $action[$ordem.'e']['tl']  = $_POST[$tl];
                     $action[$ordem.'e']['omo'] = $_POST[$omo];
                     $action[$ordem.'e']['fg'] = $_POST[$fg];
+                    $action[$ordem.'e']['em']  = $_POST[$em];
                     break;
                 case 'c':
                     $ct = $acoes.'ct';
@@ -389,7 +391,8 @@ function cadastrar()  {
                     'dial_timeout' => $acao['to'],
                     'dial_flags' => $acao['tl'],
                     'dont_overflow' => ($acao['omo']?"true":"false"),
-                    'diff_ring' => ($acao['fg']?"true":"false")
+                    'diff_ring' => ($acao['fg']?"true":"false"),
+                    'allow_voicemail' => ($acao['em']?"true":"false")
                 );
                 if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
                 $reg->setConfig($conf);
@@ -510,7 +513,8 @@ function alterar()  {
                 'ramal' => $swp['ramal'],
                 'tl'    => $swp['dial_flags'],
                 'omo'   => $swp['dont_overflow'],
-                'fg'    => $swp['diff_ring']
+                'fg'    => $swp['diff_ring'],
+                'em'    => $swp['allow_voicemail']
             );
             unset($swp);
         }
@@ -643,7 +647,7 @@ function alterar()  {
                 break;
             case 'e':
                 //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('exten','".$action[$id]['cc']."','".$action[$id]['ramal']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','" . $action[$id]['fg'] . "');";
+                $js .= "x.newnode('exten','".$action[$id]['cc']."','".$action[$id]['ramal']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','" . $action[$id]['fg'] . "','{$action[$id]['em']}');";
                 break;
             case 'q':
                 //echo "<script type=\"text/javascript\">   </script> ";
@@ -768,11 +772,13 @@ function grava_alterar()  {
                 $tl  = $acoes.'tl';
                 $omo = $acoes.'omo';
                 $fg  = $acoes.'fg';
+                $em  = $acoes.'em';
                 $action[$ordem.'e']['cc']  = $_POST[$cc];
                 $action[$ordem.'e']['rm']  = $_POST[$rm];
                 $action[$ordem.'e']['to']  = $_POST[$to];
                 $action[$ordem.'e']['tl']  = $_POST[$tl];
                 $action[$ordem.'e']['omo'] = $_POST[$omo];
+                $action[$ordem.'e']['em']  = $_POST[$em];
                 $action[$ordem.'e']['fg'] = $_POST[$fg];
                 break;
             case 'd':
@@ -910,7 +916,8 @@ function grava_alterar()  {
                     'dial_timeout' => $acao['to'],
                     'dial_flags' => $acao['tl'],
                     'dont_overflow' => ($acao['omo']?"true":"false"),
-                    'diff_ring' => ($acao['fg']?"true":"false")
+                    'diff_ring' => ($acao['fg']?"true":"false"),
+                    'allow_voicemail' => ($acao['em']?"true":"false")
                 );
                 if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
                 $reg->setConfig($conf);
