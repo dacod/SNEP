@@ -52,8 +52,11 @@ class PBX_Rule_Action_Cadeado extends PBX_Rule_Action {
      * @param array $config
      */
     public function setConfig($config) {
-        if(isset($config['tipo']) && $config['tipo'] == "ramal")
+        if(isset($config['tipo']) && $config['tipo'] == "ramal") {
             unset($config['senha']);
+        }
+
+        $this->ask_peer = ( isset($config['ask_peer']) && $config['ask_peer'] == 'true') ? true:false;
 
         parent::setConfig($config);
     }
@@ -90,12 +93,20 @@ class PBX_Rule_Action_Cadeado extends PBX_Rule_Action {
         $i18n  = $this->i18n;
         $tipo  = (isset($this->config['tipo']))?"<value>{$this->config['tipo']}</value>":"";
         $senha = (isset($this->config['senha']))?"<value>{$this->config['senha']}</value>":"";
+        $ask_peer = (isset($this->config['ask_peer']) && $this->config['ask_peer'] === true)?"<value>true</value>":"<value>false</value>";
 
         $lbl_radio = $i18n->translate("Usar:");
         $lbl_ramal = $i18n->translate("Senha do Ramal");
-        $lbl_static = $i18n->translate("Senha Estática (digite abaixo):");
+        $lbl_static = $i18n->translate("Senha Estática (digite a seguir):");
+        $lbl_ask_peer = $i18n->translate("Requisitar e substituir ramal de origem");
         return <<<XML
 <params>
+    <boolean>
+        <id>ask_peer</id>
+        <default>false</id>
+        <label>$lbl_ask_peer</label>
+        $ask_peer
+    </boolean>
     <radio>
         <label>$lbl_radio</label>
         <id>tipo</id>
@@ -122,14 +133,30 @@ XML;
     /**
      * Executa a ação.
      * @param Asterisk_AGI $asterisk
-     * @param Asterisk_AGI_Request $request
+     * @param PBX_Asterisk_AGI_Request $request
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
+        if(isset($this->ask_peer) && $this->ask_peer === true) {
+            $asterisk->answer();
+            $asterisk->exec("READ","RAMAL|agent-user|10|||4");
+            $ramal = $asterisk->get_variable("RAMAL");
+            try {
+                $ramal = PBX_Usuarios::get($ramal['data']);
+            }
+            catch( PBX_Exception_NotFound $ex ) {
+                throw new PBX_Exception_AuthFail("Ramal invalido");
+            }
+
+            $request->setSrcObj($ramal);
+            $request->origem = $ramal->getNumero();
+            $asterisk->set_variable("CALLERID(all)", $ramal->getNumero());
+        }
+
         $senha = "";
         if((!isset($this->config['senha']) || isset($this->config['senha']) && $this->config['senha'] == "") && $request->getSrcObj() instanceof Snep_Usuario) {
-            $senha = $request->getSrcObj()->senha;
+            $senha = $request->getSrcObj()->getPassword();
         }
         else if(isset($this->config['senha']) && $this->config['senha'] != ""){
             $senha = $this->config['senha'];
@@ -140,7 +167,8 @@ XML;
         }
 
         $auth = $asterisk->exec('AUTHENTICATE', array($senha,'',strlen((string)$senha)));
-        if($auth['result'] == -1)
+        if($auth['result'] == -1) {
             throw new PBX_Exception_AuthFail();
+        }
     }
 }

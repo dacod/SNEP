@@ -315,12 +315,18 @@ var Acoes = Class.create({
     },
 
     /* Função responsável pro criar uma nova ação de cadeado. */
-    newpadlock : function(valor) {
+    newpadlock : function(valor,cc) {
         var num = $('indice').value;
         var sn = 'p'+num;
+        
+        if(cc == "true") {
+            cc = "checked";
+        }
+
         var html = "<li style=\'height: 60px;\' name='"+sn+"' id='"+sn+"'><img style=\"float:right;\" title=\"Apagar ação\" src=\"../imagens/delete.png\" onclick=\"removenode('"+sn+"'); return false;\"  /> " +
         "<strong>Cadeado</strong><br /> " +
-        "Senha: <input class=\"miniboxct required\" name="+sn+"ct type=\"text\" value="+valor+"> " ;
+        "Senha: <input class=\"miniboxct required\" name="+sn+"ct type=\"text\" value="+valor+"> <br />"+
+        '<input type="checkbox" name="'+sn+'cc" '+cc+' /> Requisitar e substituir ramal de origem';
         $('myList').insert(html);
         $('indice').value = ++num;
         var ids = $('ids').value;
@@ -396,7 +402,7 @@ var Acoes = Class.create({
             }
             if(tipo == 'padlock') {
                 t = 'p';
-                x.newpadlock(valor);
+                x.newpadlock(valor,cc);
             }
             if(tipo == 'loop') {
                 t = 'l';

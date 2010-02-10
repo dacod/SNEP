@@ -417,7 +417,7 @@ class PBX_Rule {
                         $acao->execute($asterisk, $this->request);
                     }
                     catch(PBX_Exception_AuthFail $ex) {
-                        $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao));
+                        $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
                         break;
                     }
                     catch(PBX_Rule_Action_Exception_StopExecution $ex) {

@@ -202,7 +202,9 @@ function cadastrar()  {
                     break;
                 case 'p':
                     $ct = $acoes.'ct';
+                    $cc = $acoes.'cc';
                     $action[$ordem.'p']['ct'] = $_POST[$ct];
+                    $action[$ordem.'p']['cc'] = $_POST[$cc];
                     break;
                 case 'd':
                     $cc = $acoes.'cc';
@@ -363,7 +365,10 @@ function cadastrar()  {
             // cadeado, instancia ação, adiciona configuracao e adiciona acao a regra
             case 'p':
                 $reg = new PBX_Rule_Action_Cadeado();
-                $conf = array('senha' => $acao['ct']);
+                $conf = array(
+                    'senha' => $acao['ct'],
+                    'ask_peer' => ($acao['cc']?"true":"false")
+                );
                 $reg->setConfig($conf);
                 $regra->addAcao($reg);
                 break;
@@ -534,7 +539,8 @@ function alterar()  {
             $swp = $acao->getConfigArray();
             $action[] = array(
                 'tipo'  => 'p',
-                'ct'    => $swp['senha']
+                'ct'    => $swp['senha'],
+                'cc'    => $swp['ask_peer']
             );
             unset($swp);
         }
@@ -649,7 +655,7 @@ function alterar()  {
                 break;
             case 'p':
                 //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('padlock','','".$action[$id]['ct']."','','','','');";
+                $js .= "x.newnode('padlock','{$action[$id]['cc']}','{$action[$id]['ct']}','','','','');";
                 break;
             case 'l':
                 //echo "<script type=\"text/javascript\">   </script> ";
@@ -787,7 +793,9 @@ function grava_alterar()  {
                 break;
             case 'p':
                 $ct = $acoes.'ct';
+                $cc = $acoes.'cc';
                 $action[$ordem.'p']['ct'] = $_POST[$ct];
+                $action[$ordem.'p']['cc'] = $_POST[$cc];
                 break;
             case 'l':
                 $cc = $acoes.'cc';
@@ -878,7 +886,10 @@ function grava_alterar()  {
             // cadeado, instancia ação, adiciona configuracao e adiciona acao a regra
             case 'p':
                 $reg = new PBX_Rule_Action_Cadeado();
-                $conf = array('senha' => $acao['ct']);
+                $conf = array(
+                    'senha' => $acao['ct'],
+                    'ask_peer' => ($acao['cc']?"true":"false")
+                );
                 $reg->setConfig($conf);
                 $regra->addAcao($reg);
                 break;
