@@ -145,7 +145,13 @@ function principal() {
     $row = $row + $codecs_default ;
 
     // Authenticate
-    $row['usa_auth'] = "No" ;
+    $row['usa_auth'] = "no";
+    $row['usa_vc'] = "no";
+    $row['qualify'] = "no";
+    $row['nat'] = "no";
+    $row['dtmfmode'] = "rfc2833";
+    $row['channel_tech'] = "SIP";
+    $row['time'] = "n";
 
     // Monta Lista de Filas Disponiveis
     if (!isset($filas_disp) || count($filas_disp) == 0) {
@@ -182,7 +188,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $peer_type, $db, $trunk, $name, $group, $vinc, $callerid, $mailbox, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $senha_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $peer_type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -190,7 +196,6 @@ function cadastrar() {
     $fromuser = $name;
     $username = $name ;
     $callerid = addslashes($callerid) ;
-    $mailbox  = addslashes($mailbox) ;
     $fullcontact = "" ;
     $call_limit = $calllimit ;
     $callgroup  = $pickupgroup ;
@@ -254,7 +259,7 @@ function cadastrar() {
         $sql.= "trunk, `group`, callgroup, time_total, " ;
         $sql.= "time_chargeby ".$sql_fields_default ;
         $sql.= ") values (";
-        $sql.=  "'$name','$callerid','$context','$mailbox','$qualify',";
+        $sql.=  "'$name','$callerid','$context','$name','$qualify',";
         $sql.= "'$secret','$type','$allow','$fromuser','$username','$fullcontact',";
         $sql.= "'$dtmfmode','$vinculo','$email','$call_limit','1',";
         $sql.= "'1', '$usa_vc', $pickupgroup ,'$canal','$nat', '$peer_type',";
@@ -270,8 +275,8 @@ function cadastrar() {
 
         if ($usa_vc) {
             $sql = "INSERT INTO voicemail_users ";
-            $sql.= " (fullname, email, mailbox, password, customer_id) VALUES ";
-            $sql.= " ('$callerid', '$email','$mailbox','$senha_vc','$name')";
+            $sql.= " (fullname, email, mailbox, password, customer_id, `delete`) VALUES ";
+            $sql.= " ('$callerid', '$email','$name','$secret','$name', 'yes')";
             $stmt = $db->prepare($sql) ;
             $stmt->execute() ;
         }
@@ -313,16 +318,19 @@ function cadastrar() {
 ------------------------------------------------------------------------------*/
 function alterar() {
     global $LANG,$db,$smarty,$titulo, $acao, $user_groups ;
+
     $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
     if (!$id) {
         display_error($LANG['msg_notselect'],true) ;
         exit ;
     }
+    
+    $sql = "SELECT id, type, name, callerid, context, mailbox, qualify, secret,";
+    $sql.= " allow, dtmfmode, vinculo, email, `call-limit`, incominglimit,";
+    $sql.= " outgoinglimit, usa_vc, pickupgroup, nat, canal, authenticate, " ;
+    $sql.= " `group`, time_total, time_chargeby FROM peers WHERE id=".$id;
+
     try {
-        $sql = "SELECT id, type, name, callerid, context, mailbox, qualify, secret,";
-        $sql.= " allow, dtmfmode, vinculo, email, `call-limit`, incominglimit,";
-        $sql.= " outgoinglimit, usa_vc, pickupgroup, nat, canal, authenticate, " ;
-        $sql.= " `group`, time_total, time_chargeby FROM peers WHERE id=".$id;
         $row = $db->query($sql)->fetch();
     } catch (PDOException $e) {
         display_error($LANG['error'].$e->getMessage().$sql,true) ;
@@ -447,7 +455,7 @@ function alterar() {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
-    global $LANG, $db, $peer_type, $id, $trunk, $name, $callerid, $mailbox, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $senha_vc, $no_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
+    global $LANG, $db, $peer_type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
 
@@ -455,7 +463,6 @@ function grava_alterar() {
     $fromuser = $name;
     $username = $name ;
     $callerid = addslashes($callerid) ;
-    $mailbox  = addslashes($mailbox) ;
     $fullcontact = "" ;
     $call_limit = $calllimit ;
     $callgroup  = $pickupgroup ;
@@ -498,7 +505,7 @@ function grava_alterar() {
 
     $sql = "UPDATE peers ";
     $sql.=" SET name='$name',callerid='$callerid', ";
-    $sql.= "context='$context',mailbox='$mailbox',qualify='$qualify',";
+    $sql.= "context='$context',mailbox='$name',qualify='$qualify',";
     $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$fromuser'," ;
     $sql.= "username='$username',fullcontact='$fullcontact',dtmfmode='$dtmfmode'," ;
     $sql.= "vinculo='$vinculo', email='$email', `call-limit`='$call_limit',";
@@ -508,74 +515,62 @@ function grava_alterar() {
     $sql.= "`group`='$group', ";
     $sql.= "time_total=$time_total, time_chargeby='$time_chargeby'  WHERE id=$id" ;
 
+    $db->beginTransaction() ;
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
+    // Alteracao da tabela voicemail_users
+    $db->delete("voicemail_users"," mailbox='$name' ");
+    if ($usa_vc == "yes") {
+        $sql = "insert into voicemail_users ";
+        $sql.= " (fullname, email, mailbox, password, customer_id, `delete`) values ";
+        $sql.= " ('$callerid', '$email','$name','$secret','$name', 'yes')";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+    }
+
+    if ( count($vinc) > 0 ) {
+        $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
+        $stmt->execute() ;
+        $stmt = $db->prepare("INSERT into vinculos (cod_usuario,ramal) VALUES (:codigo, :ramal)") ;
+        $stmt->bindParam('codigo',$tmp_cod) ;
+        $stmt->bindParam('ramal',$tmp_ramal) ;
+        $tmp_cod = $id ;
+        foreach ($vinc as $val) {
+            $tmp_ramal = $val ;
+            $stmt->execute() ;
+        }
+    } else {
+        $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
+        $stmt->execute() ;
+    }
+    // Filas Relacionadas
+    if (count($filas_selec)>0) {
+        $stmt = $db->prepare("DELETE from queue_peers where ramal=$id");
+        $stmt->execute() ;
+        $stmt = $db->prepare("INSERT into queue_peers (ramal,fila) VALUES (:id, :fila)") ;
+        $stmt->bindParam('id',$id) ;
+        $stmt->bindParam('fila',$tmp_fila) ;
+        foreach ($filas_selec as $val) {
+            $tmp_fila = $val ;
+            $stmt->execute() ;
+        }
+    } else {
+        $stmt = $db->prepare("DELETE from queue_peers where ramal=$id");
+        $stmt->execute() ;
+    }
+
     try {
-        $db->beginTransaction() ;
-        $stmt = $db->prepare($sql);
-        $stmt->execute() ;
-        // Alteracao da tabela voicemail_users
-        // Alteracao da tabela voicemail_users
-        if ($usa_vc == "yes") {
-            if ($no_vc == "yes") {   // Se Nao tem cadastro no voicemail, insere-o
-                $sql = "insert into voicemail_users ";
-                $sql.= " (fullname, email, mailbox, password, customer_id) values ";
-                $sql.= " ('$callerid', '$email','$mailbox','$senha_vc','$name')";
-            } else {  // Senao, somente altera os dados necessarios
-                $sql = "UPDATE voicemail_users SET password='$senha_vc', email='$email',";
-                $sql .= "customer_id='$name', fullname='$callerid', mailbox='$mailbox' ";
-                $sql.= " WHERE customer_id = '$old_name'";
-            }
-        } else {
-            if ($no_vc == "no") {   // Nao vai mais usar Voicemail mas tem cadastrado
-                $sql = "delete from voicemail_users " ;
-                $sql.= " WHERE customer_id = '$old_name'";
-            }
-        }
-        $stmt = $db->prepare($sql);
-        $stmt->execute() ;
-        // Vinculos
-        if (count($vinc)>0) {
-            $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
-            $stmt->execute() ;
-            $stmt = $db->prepare("INSERT into vinculos (cod_usuario,ramal) VALUES (:codigo, :ramal)") ;
-            $stmt->bindParam('codigo',$tmp_cod) ;
-            $stmt->bindParam('ramal',$tmp_ramal) ;
-            $tmp_cod = $id ;
-            foreach ($vinc as $val) {
-                $tmp_ramal = $val ;
-                $stmt->execute() ;
-            }
-        } else {
-            $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
-            $stmt->execute() ;
-        }
-        // Filas Relacionadas
-        if (count($filas_selec)>0) {
-            $stmt = $db->prepare("DELETE from queue_peers where ramal=$id");
-            $stmt->execute() ;
-            $stmt = $db->prepare("INSERT into queue_peers (ramal,fila) VALUES (:id, :fila)") ;
-            $stmt->bindParam('id',$id) ;
-            $stmt->bindParam('fila',$tmp_fila) ;
-            foreach ($filas_selec as $val) {
-                $tmp_fila = $val ;
-                $stmt->execute() ;
-            }
-        } else {
-            $stmt = $db->prepare("DELETE from queue_peers where ramal=$id");
-            $stmt->execute() ;
-        }
         $db->commit();
 
-       /* Gera arquivo de configuração */
+        /* Gera arquivo de configuração */
         grava_conf();
-
-        $pag =  ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
-
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php?pag=$pag'>\n" ;
     } catch (Exception $ex ) {
         $db->rollBack();
         display_error($LANG['error'].$ex->getMessage(),true) ;
     }
-    grava_conf();
+    $pag =  ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
+    echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php?pag=$pag'>\n" ;
 }
 
 /*------------------------------------------------------------------------------
@@ -593,23 +588,25 @@ function excluir() {
         display_error($LANG['msg_notselect'],true) ;
         exit ;
     }
-    try {
-        // Fazendo procura por referencia a esse ramal em regras de negócio.
-        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
-        $regras = $db->query($rules_query)->fetchAll();
 
-        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value like '%$id%')";
-        $regras = array_merge($regras, $db->query($rules_query)->fetchAll());
+    // Fazendo procura por referencia a esse ramal em regras de negócio.
+    $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
+    $regras = $db->query($rules_query)->fetchAll();
 
-        if(count($regras) > 0) {
-            $msg = $LANG['extension_conflict_in_rules'].":<br />\n";
-            foreach ($regras as $regra) {
-                $msg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
-            }
-            display_error($msg,true);
-            exit(1);
+    $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value like '%$id%')";
+    $regras = array_merge($regras, $db->query($rules_query)->fetchAll());
+
+    if(count($regras) > 0) {
+        $msg = $LANG['extension_conflict_in_rules'].":<br />\n";
+        foreach ($regras as $regra) {
+            $msg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
         }
-        $sql = "DELETE FROM peers WHERE name='".$id."'";
+        display_error($msg,true);
+        exit(1);
+    }
+    $sql = "DELETE FROM peers WHERE name='".$id."'";
+
+    try {
         $db->beginTransaction() ;
         $stmt = $db->prepare($sql);
         $stmt->execute() ;
@@ -627,9 +624,8 @@ function excluir() {
         echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;
 
     } catch (PDOException $e) {
+        $db->rollBack();
         display_error($LANG['error'].$e->getMessage(),true) ;
     }
 
 }
-?>
-<script src="../includes/javascript/prototype.js" type="text/javascript"></script>

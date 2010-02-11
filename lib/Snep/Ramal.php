@@ -165,7 +165,7 @@ class Snep_Ramal extends Snep_Usuario {
      * @return boolean hasVoicemail
      */
     public function hasVoiceMail() {
-        return ($this->mailbox == null) ? false : true;
+        return ($this->mailbox === null) ? false : true;
     }
 
     /**

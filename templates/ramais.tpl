@@ -35,7 +35,7 @@
     <tr>
          <td class="formlabel">{$LANG.secret}:</td>
          <td class="subtable">
-            <input name="secret" type="password" size="25" maxlength="50" class="campos" value="{$dt_ramais.secret}">
+            <input name="secret" type="password" size="25" maxlength="50" class="campos" value="{$dt_ramais.secret}">{$LANG.onlynumbers}
          </td>
     </tr>
     <tr>
@@ -66,8 +66,8 @@
           {elseif $dt_ramais.usa_vc == "no"}
                 {assign var="vc_no" value="checked"}
           {/if}
-          <input type="radio" name="usa_vc" value="yes" {$vc_yes} onclick="enable_senha(document.formulario.senha_vc)" /> {$LANG.yes}
-          <input type="radio" name="usa_vc" value="no" {$vc_no} onclick="disable_senha(document.formulario.senha_vc)" /> {$LANG.no}
+          <label for="voicemail_yes"><input id="voicemail_yes" type="radio" name="usa_vc" value="yes" {$vc_yes} /> {$LANG.yes}</label>
+          <label for="voicemail_no"><input id="voicemail_no" type="radio" name="usa_vc" value="no" {$vc_no} /> {$LANG.no}</label>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {if $ACAO == 'grava_alterar' && $dt_ramais.usa_vc == 'yes'}
              {assign var="vc_class" value="campos"}
@@ -76,10 +76,6 @@
              {assign var="vc_class" value="campos_disable"}
              {assign var="vc_disable" value="disable"}
           {/if}
-          {$LANG.voicemail_passwd}:
-          <input maxlength="8" size="6" type="password" name="senha_vc" value="{$dt_ramais.senha_vc}" class={$vc_class} {$vc_disable} />
-          &nbsp;&nbsp;
-          {$LANG.onlynumbers}
        </td>
     </tr>
      <tr>
@@ -132,12 +128,6 @@
                   </td>
                </tr>
                <tr>
-                  <td class="formlabel">{$LANG.mailbox}:</td>
-                  <td class="subtable">
-                     <input name="mailbox" type="text" size="25" maxlength="50" class="campos" value="{$dt_ramais.mailbox}">
-                  </td>  
-               </tr>
-               <tr>
                   <td class="formlabel">{$LANG.qualify}:</td>
                   <td class="subtable">
                      {html_radios name="qualify" checked=$dt_ramais.qualify options=$OPCOES_YN}
@@ -152,7 +142,7 @@
                <tr>
                   <td colspan="2" class="subtable"><hr /></td>
                </tr>
-               {* CONTROLE DE MINUTOS - Adicionado por Henrique *}
+               {* CONTROLE DE MINUTOS *}
                <tr>
                   <td class="formlabel"><strong>{$LANG.minute_control}:</strong></td>
                   <td class="subtable">
@@ -301,14 +291,6 @@
  
  <script language="javascript" type="text/javascript">
    document.forms[0].elements[0].focus() ;
-   function enable_senha(campo) {ldelim}
-     campo.className = 'campos' ;
-     campo.disabled =  false;
-   {rdelim}
-   function disable_senha(campo) {ldelim}
-      campo.className = 'campos_disable' ;
-      campo.disabled =  true;
-   {rdelim}
 
    var tabs = new Array(
         $('khomp'),
