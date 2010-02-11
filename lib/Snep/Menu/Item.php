@@ -161,7 +161,7 @@ class Snep_Menu_Item {
 
         $html = "";
         if( $this->getUri() !== null ) {
-            $html .= "<a href='{$this->getUri()}'>$label</a>";
+            $html .= "<a href=\"{$this->getUri()}\">$label</a>";
         }
         else {
             $html .= "<a href='#'>$label</a>";
