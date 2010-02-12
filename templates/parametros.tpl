@@ -47,16 +47,6 @@
           <input class="campos" type="checkbox" name="alterar[2]" value="linelimit" />
        </td>
     </tr>
-  <!--  <tr>
-       <td class="esq">{$LANG.viewlogged}</td>
-       <td class="esq">
-          <input type="radio" name="new_view_logged" value="True" {if #view_logged#} checked {/if} onchange="this.form.elements['alterar[3]'].checked=true;" />{$LANG.yes}
-          <input type="radio" name="new_view_logged" value="False" {if !#view_logged#} checked {/if} onchange="this.form.elements['alterar[3]'].checked=true;" />{$LANG.no}
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[3]" value="view_logged" />
-       </td>
-    </tr>-->
     <tr>
        <td class="esq">{$LANG.ip_sock}</td>
        <td class="esq">
@@ -114,16 +104,6 @@
        </td>
     </tr>
     <tr>
-       <td class="esq">{$LANG.record_app}</td>
-       <td class="esq">
-          <input type="radio" name="new_record_app" value="monitor" {if $record_app == "monitor"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />Monitor
-          <input type="radio" name="new_record_app" value="mixmonitor" {if $record_app == "mixmonitor"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />MixMonitor
-          <input type="radio" name="new_record_app" value="krecord" {if $record_app == "krecord"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />KRecord
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[99]"  value="record_app" />
-       </td>
-    </tr>
        <td class="esq">{$LANG.params_debug}</td>
        <td class="esq">
           <input type="radio" id="debug_yes" name="new_debug" value="yes" {if #debug# == true} checked {/if} onchange="this.form.elements['alterar[110]'].checked=true;" /><label for="debug_yes">{$LANG.yes}</debug>
@@ -136,6 +116,26 @@
 
     <tr>
         <td colspan="3" class="tb_tit2"><strong>{$LANG.subsis_record}</strong></td>
+    </tr>
+    <tr>
+       <td class="esq">{$LANG.record_app}</td>
+       <td class="esq">
+          <input type="radio" name="new_record_app" value="monitor" {if $record_app == "monitor"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />Monitor
+          <input type="radio" name="new_record_app" value="mixmonitor" {if $record_app == "mixmonitor"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />MixMonitor
+          <input type="radio" name="new_record_app" value="krecord" {if $record_app == "krecord"} checked {/if} onchange="this.form.elements['alterar[99]'].checked=true;" />KRecord
+       </td>
+       <td class="cen">
+          <input class="campos" type="checkbox" name="alterar[99]"  value="record_app" />
+       </td>
+    </tr>
+    <tr>
+       <td class="esq">{$LANG.voz_flags}</td>
+       <td class="esq">
+          <input class="campos" type="text" size="30" name="new_record_flags" value="{$record_flags}" onchange="this.form.elements['alterar[10]'].checked=true;" />
+       </td>
+       <td class="cen">
+          <input class="campos" type="checkbox" name="alterar[10]" value="record_flags" />
+       </td>
     </tr>
     <tr>
        <td class="esq">{$LANG.path_voz}</td>
@@ -155,16 +155,7 @@
           <input class="campos" type="checkbox" name="alterar[9]" value="path_voz_bkp" />
        </td>
     </tr>
-    <tr>
-       <td class="esq">{$LANG.voz_flags}</td>
-       <td class="esq">
-          <input class="campos" type="text" size="30" name="new_record_flags" value="{$record_flags}" onchange="this.form.elements['alterar[10]'].checked=true;" />
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[10]" value="record_flags" />
-       </td>
-    </tr>
-
+    
     <tr>
         <td colspan="3" class="tb_tit2"><strong>{$LANG.config_ramais}</strong></td>
     </tr>
@@ -195,15 +186,6 @@
       </td>
     </tr>  
     
-    <tr>
-       <td class="esq">{$LANG.prefixinout}</td>
-       <td class="esq">
-          <input class="campos" type="text" size="30" name="new_prefix_inout" value="{#prefix_inout#}" onchange="this.form.elements['alterar[36]'].checked=true;" />
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[36]" value="prefix_inout" />
-       </td>
-    </tr>
     <tr>
        <td class="esq">{$LANG.agents_range}</td>
        <td class="esq">

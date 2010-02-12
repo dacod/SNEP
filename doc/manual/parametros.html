@@ -5,67 +5,87 @@
 * Autor: Flavio henrique Somensi <flavio@opens.com.br>
 * ========================================================================
 -->
-<h2>Configura&ccedil;&otilde;es - Par&acirc;metros</h2>
+<h2>Configurações - Parâmetros</h2>
 
-<p>Esta rotina permite que algumas configura&ccedil;&otilde;es de usabilidade do SNEP sejam
- definidas ou ajustadas pelo usu&aacute;rio.</p>
+<p>Esta rotina permite que algumas configurações de usabilidade do SNEP sejam
+    definidas ou ajustadas pelo usuário.</p>
 <ul>
-   <li><strong>Nome da Empresa: </strong>Define o nome da Empresa onde o 
-   sistema est&aacute; instaldo</li>
-   <li><strong>N&uacute;mero de linhas ... : </strong>Define o n&uacute;mero de linha que 
-   dever&aacute; ser exibida em cada p&aacute;gina dos relat&oacute;rios.</li>
-   <li><strong>IP para Conex&atilde;o (*) ... : </strong>Define um n&uacute;mero IP ou Hostname do
-   servidor onde o Asterisk est&aacute; instalado.</li>
-   <li><strong>Nome do Usu&aacute;rio (*) ... : </strong>Define o nome do usu&aacute;rio que ser&aacute;
-   usado para conectar-se com o Asterisk.</li>   
-   <li><strong>Senha do usu&aacute;rio (*) ... : </strong>Define a senha do usu&aacute;rio que ser&aacute;
-   usada para conectar-se com o Asterisk.</li>
-      <ul><li>(*) A liga&ccedil;&atilde;o do SNEP, atrav&eacute;s destes campos se d&aacute; com o Asterisk 
-      atrav&eacute;s do arquivo /etc/asterisk/manager.conf </li></ul>
-   <li><strong>Sufixo para arquivo ... : </strong>Define a extens&atilde;o que foi usada pelo
-   Asterisk para gravar chamadas no sistema.</li>
-   <li><strong>Local dos arquivios ... :</strong>Define o Local onde est&atilde;o os arquivos 
-   de grava&ccedil;&atilde;o das chamadas.</li>
-   <li><strong>Local do backup compactado ... : </strong>Define o Local onde est&atilde;o os arquivos 
-   de backup ,compactados ,de grava&ccedil;&atilde;o das chamadas.</li>
-   <li><strong>Unidade de medida ... : </strong>Define o tipo de TEMPO (minutos ou
-   segundos) que ser&aacute; usado nos relat&oacute;rios.</li>
-   <li><strong>Lista de Excess&otilde;es ... : </strong>Define uma lista de ocorrencias a serem descartadas
-    quando estas aparecerem no campo "dst" em um registro de chamada.</li>
-    <li><strong>Aplica&ccedil;&atilde;o para Sala de ... : </strong>Define que tipo de aplica&ccedil;&atilde;o o Asterisk devera usar para gerenciar as Salas de Conferencias. Ao Alterar esta op&ccedil;&atilde;o , acesse a rotina Cadastros >> Sala de Conferencias  e clique no bot&atilde;o Gravar. </li>
-    <li><strong>Configura&ccedil;&otilde;es de Ramais</strong>
-	<ul>
-	    <li><strong>Grupo de Ramais:</strong> Define nomes dos grupos de Ramais.</li>
-	    <li><strong>Range de Ramais: </strong>Define limites para os numeros usados nos ramais.</li>
-	    <li><strong>Configura&ccedil;&atilde;o de Placas Khomp: </strong>Define a configura��o de canais dispon&iacute;veis nas placas da khomp.</li>
-	</ul>
+    <li><strong>Nome da Empresa: </strong>Define o nome da Empresa onde o
+        sistema está instaldo</li>
+    <li><strong>Número de linhas ... : </strong>Define o número de linha que
+        deverá ser exibida em cada página dos relatórios.</li>
+    <li><strong>IP para Conexão (*) ... : </strong>Define um número IP ou Hostname do
+        servidor onde o Asterisk está instalado.</li>
+    <li><strong>Nome do Usuário (*) ... : </strong>Define o nome do usuário que será
+        usado para conectar-se com o Asterisk.</li>
+    <li><strong>Senha do usuário (*) ... : </strong>Define a senha do usuário que será
+        usada para conectar-se com o Asterisk.
+        <ul><li>(*) A ligação do SNEP, através destes campos se dá com o Asterisk
+                através do arquivo /etc/asterisk/manager.conf </li></ul>
     </li>
-   
-   <li><strong>Converter arquivos de som... : </strong>Define se um arquivo de som
-   a ser usado no Asterisk dever&aacute; ser convertido para o formato GSM quando do seu
-   Download para o Sistema. Este valor &eacute; apenas sugestivo, podendo ser alterado
-   na rotina espec&iacute;fica para importar arquivos de sons.</li>
-   <li><strong>Prefixos de Login ... : </strong>Informa os prefixos que s&atilde;o usados
-   pelos Agentes para efetuar Login/Logou nas Filas de Atendimento. Este par&acirc;metro
-    &eacute; usado para descartar os registros com estes valores dos relat&oacute;rios, j&aacute; que 
-    o Asterisk grava um registro para cada a&ccedil;&atilde;o de Login/Logou do Agente.</li>
-   <li><strong>Range de C&oacute;digos para Agentes : </strong>Define o Intervalo (Inicio->Fim)
-   de n&uacute;meros que ser&atilde;o usados para nomear os Agentes do Sistema.</li>
-   <li><strong>Lista de Contextos ... : </strong>Define a lista de Contextos V&Aacute;LIDOS 
-   que ser&aacute; usada como filtro nos relat&oacute;rios e como parte do cadastro do Ramal.</li>
-   <li><strong>Filas</strong>
-      <ul>
-         <li><strong>Tempo de atualiza&ccedil;&atilde;o ... : </strong>Define o intervalor em
-         SEGUNDOS que o sistema ir&aacute; reler os dados do servidor Asterisk para 
-         exibir informa&ccedil;&otilde;es atualizadas do Status das Filas.</li>
-         <li><strong>N&uacute;mero de Liga&ccedil;&otilde;es ... :</strong>Define o n&uacute;mero de liga&ccedil;&otilde;e que dever&atilde;o 
-         estar em espera para que o sistema emite o alerta visual/sonoro.</li>
-         <li><strong>Tempo M&aacute;ximode espera ... : </strong>Tempo em SEGUNDOS que uma 
-         liga&ccedil;&atilde;o em espera pode atingir para que o sistema emite o alerta visual/sonoro.</li>
-      </ul>
-   </li>
-   <li><strong>Aba do painel 1,2,3 :</strong>Define o nome que cada ABA do Painel - 
-   Flash Operator Panel. O Painel mostra todos as op&ccedil;&otilde;es (ramais, troncos,agentes,...) configuradas
-   no Asterisk e prov&ecirc; ao usu&aacute;rio, funcionalidades e a&ccedil;&otilde;es sobre as chamadas , como:
-   monitorar, encaminhar,  transferir, atender, etc ... </li>
+    <li><strong>Unidade de medida ... : </strong>Define o tipo de TEMPO (minutos ou
+        segundos) que será usado nos relatórios.</li>
+    <li><strong>Lista de Excessões ... : </strong>Define uma lista de ocorrencias a serem descartadas
+        quando estas aparecerem no campo "dst" em um registro de chamada.</li>
+    <li><strong>Aplicação para Sala de ... : </strong>Define que tipo de aplicação o Asterisk devera usar para gerenciar as Salas de Conferencias. Ao Alterar esta opção , acesse a rotina Cadastros >> Sala de Conferencias  e clique no botão Gravar. </li>
+    <li><strong>Modo de Debug:</strong> Ativa o debug para erros do php e aumenta o numero de mensagens na cli do asterisk feitas pelo agi do snep.</li>
+</ul>
+
+<h3>Configuração de gravação</h3>
+<ul>
+    <li><strong>Aplicação para Gravação das ... : </strong>Define que tipo de aplicação o Asterisk devera usar para efetuar as gravações das ligações. </li>
+    <li><strong>Opções da aplicação de gravação : </strong>Define a extensão que foi usada pelo Asterisk para gravar chamadas no sistema.</li>
+    <li><strong>Local dos arquivios ... :</strong>Define o Local onde estão os arquivos
+        de gravação das chamadas.</li>
+    <li><strong>Local do backup compactado ... : </strong>Define o Local onde estão os arquivos
+        de backup ,compactados ,de gravação das chamadas.</li>
+</ul>
+
+<h3>Configurações de Ramais</h3>
+<ul>
+    <li><strong>Range de Ramais: </strong>Define limites para os numeros usados nos ramais.</li>
+</ul>
+
+<h3>Módulo de Gestão</h3>
+<ul>
+    <li><strong>Converter arquivos de som... : </strong>Define se um arquivo de som
+        a ser usado no Asterisk deverá ser convertido para o formato GSM quando do seu
+        Download para o Sistema. Este valor é apenas sugestivo, podendo ser alterado
+        na rotina específica para importar arquivos de sons.</li>
+    <li><strong>Range de Códigos para Agentes : </strong>Define o Intervalo (Inicio->Fim)
+        de números que serão usados para nomear os Agentes do Sistema.</li>
+</ul>
+
+<h3>Filas</h3>
+
+<ul>
+    <li><strong>Tempo de atualização ... : </strong>Define o intervalor em
+        SEGUNDOS que o sistema irá reler os dados do servidor Asterisk para
+        exibir informações atualizadas do Status das Filas.</li>
+    <li><strong>Número de Ligações ... :</strong>Define o número de ligaçõe que deverão
+        estar em espera para que o sistema emite o alerta visual/sonoro.</li>
+    <li><strong>Tempo Máximode espera ... : </strong>Tempo em SEGUNDOS que uma
+        ligação em espera pode atingir para que o sistema emite o alerta visual/sonoro.</li>
+</ul>
+
+<h3>Troncos</h3>
+<ul>
+    <li><strong>Valor padrão para controle de qualidade:</strong> Valor padrão para o parâmetro qualify
+    da configuração de troncos SIP.</li>
+</ul>
+
+<h3>Configurações de Discagem</h3>
+<ul>
+    <li><strong>Intervalo de repetição do alerta:</strong> Ao ativar controle de tempo define o intervalo
+    em que o alerta sonoro será repetido ao atendente.</li>
+    <li><strong>Arquivo de som para o alerta:</strong> Define o arquivo de som para o alerta de limite de
+    tempo na ligação.</li>
+</ul>
+
+<h3>Módulo Painel</h3>
+<ul>
+    <li><strong>Aba do painel 1,2,3 :</strong>Define o nome que cada ABA do Painel -
+        Flash Operator Panel. O Painel mostra todos as opções (ramais, troncos,agentes,...) configuradas
+        no Asterisk e provê ao usuário, funcionalidades e ações sobre as chamadas , como:
+        monitorar, encaminhar,  transferir, atender, etc ... </li>
 </ul>
