@@ -1,3 +1,15 @@
+1.1.0:
+    Correção no voicemail com interface simplificada, remoção de campos não
+utilizados na tela de cadastro do ramal.
+    Correção de bug na edição de ramais khomp.
+    Suporte a ramais sip do tipo friend.
+    Nova estrutura de menu com suporte a itens de módulos plugaveis.
+    Cadeado com suporte a substituição do ramal de origem.
+
+1.1.0 Alpha:
+    Suporte a grupo de contatos.
+    Primeira fase do suporte a módulos/plugins externos.
+
 1.0.2:
     Bugfixes:
         Adição de opção para qualify em cadastro de troncos
