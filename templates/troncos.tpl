@@ -150,9 +150,9 @@
            </td>
         </tr>
         <tr>
-           <td class="formlabel"><strong>{$LANG.advancedoptions}:</strong></td>
+           <td class="formlabel">{$LANG.force_reverse_auth}:</td>
            <td class="subtable">
-               <input type="checkbox" name="reverseAuth" id="reverseAuth" {if $dt_troncos.reverseAuth}checked="checked"{/if} /> <label for="reverseAuth">{$LANG.force_reverse_auth}</label>
+               <input type="checkbox" name="reverseAuth" id="reverseAuth" {if $dt_troncos.reverseAuth}checked="checked"{/if} /> <label for="reverseAuth">{$LANG.enable}</label>
            </td>
         </tr>
 

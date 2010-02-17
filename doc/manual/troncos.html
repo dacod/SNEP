@@ -11,6 +11,13 @@
 <ul>
     <li><strong>Nome:</strong> Nome do tronco, usado para identificação.</li>
     <li><strong>Tipo de Tronco:</strong> Tecnologia usada pelo tronco. IP (sip, iax2) ou Analógica/Digital Khomp, Digium, etc.</li>
+    <li><strong>Opções Avançadas:</strong>
+        <ul>
+            <li><strong>Habilitar mapeamento de ramais:</strong> Faz com que se uma ligação
+            de entrada vinda deste tronco tenha o mesmo callerid de um ramal cadastrado no snep
+            esta ligação seja processada como vinda do ramal e não do tronco em questão.</li>
+        </ul>
+    </li>
 </ul>
 
 <h2>Troncos SIP/IAX2</h2>
@@ -20,38 +27,41 @@
         <ul>
             <li><strong>Normal:</strong> Discagem padrão usando identificação digital.</li>
             <li><strong>Modo de DTMF:</strong> Faz-se a discagem de forma tradicional em métodos
-            analógicos, primeiro abre-se o canal de comunicação e então envia-se
-            os tons referentes aos dígitos que se deseja alcançar.</li>
+                analógicos, primeiro abre-se o canal de comunicação e então envia-se
+                os tons referentes aos dígitos que se deseja alcançar.</li>
             <li><strong>Sem Autenticação:</strong> Esse modo cria um tronco extremamente simples
-            para ligações que não aceitem usuário ou senha. A ligação é passada
-            para um Host Remoto específicado. Usado especialmente em roteadores
-            CISCO.</li>
+                para ligações que não aceitem usuário ou senha. A ligação é passada
+                para um Host Remoto específicado. Usado especialmente em roteadores
+                CISCO.</li>
         </ul>
     </li>
     <li><strong>Usuário:</strong> que será usado para se autenticar ao provedor VoIP ou Servidor SIP/IAX2.</li>
     <li><strong>Senha:</strong> senha de autenticação referente ao usuário.</li>
     <li><strong>Host Remoto:</strong> servidor no qual será feita a autenticação do tronco.</li>
     <li><strong>Domínio de Origem:</strong> dominio do servidor que faz a requisição.
-    <small>Nota: algumas operadoras voip podem requerer o dominio delas nesse campo (mesma informação fornecida em: Host Remoto).</small></li>
+        <small>Nota: algumas operadoras voip podem requerer o dominio delas nesse campo (mesma informação fornecida em: Host Remoto).</small></li>
     <li><strong>Especificar usuário de origem:</strong> forçar um nome de usuário para as ligações do tronco
-    <small>Nota: algumas operadoras voip podem requerer essa opção para controle interno (mesma informação fornecida em: usuario).</small></li>
+        <small>Nota: algumas operadoras voip podem requerer essa opção para controle interno (mesma informação fornecida em: usuario).</small></li>
     <li><strong>Codecs:</strong> codecs de compressão/descompressão de audio que serão usados na comunicação.</li>
     <li><strong>Modo de DTMF:</strong> sistema de DTMF que será usádo para enviar os dígitos em uma ligação.</li>
     <li><strong>Controle de Qualidade:</strong> Define o tempo em que o SNEP se baseará para considerar um ramal como ativo ou inativo no sistema, valores expressados em Millisegundos.
-    <ul>
-        <li><strong>Sim:</strong>É utilizado controle de qualidade e o tempo por padrão é de 2000 millisegundos.</li>
-        <li><strong>Não:</strong>Não utiliza controle de qualidade.</li>
-        <li><strong>Valor Específico:</strong>É possível especificar um valor em Millisegundos. O aconselhável é 500 ms </li>
-    </ul>
-
+        <ul>
+            <li><strong>Sim:</strong>É utilizado controle de qualidade e o tempo por padrão é de 2000 millisegundos.</li>
+            <li><strong>Não:</strong>Não utiliza controle de qualidade.</li>
+            <li><strong>Valor Específico:</strong>É possível especificar um valor em Millisegundos. O aconselhável é 500 ms </li>
+        </ul>
     </li>
+
+    <li><strong>Forçar autenticação reversa:</strong> força no uso do protocolo que a outra ponta envie
+    devolta os dados de autenticação do tronco para garantir a autenticidade da conexão. Algumas operadoras
+    IP não suportam essa opção o que causa uma negação da requisição de ligações de entrada.</li>
 </ul>
 
 <h2>Troncos Khomp</h2>
 <p>Troncos que usam placas da khomp podem ser facilmente configurados nessa tela.</p>
 <ul>
     <li><strong>Placa:</strong> Lista de canais e links das placas khomp disponíveis para serem usadas
-    como tronco pelo SNEP.</li>
+        como tronco pelo SNEP.</li>
 </ul>
 
 <h2>Tronco TDM/Virtual</h2>
@@ -59,26 +69,26 @@
 <ul>
     <li><strong>Tecnologia de Canais:</strong> tecnologia usada pelo tronco para interface com o Asterisk. ex: DAHDI/g1, ZAP/g2, etc.</li>
     <li><strong>Expressão de Identificação:</strong> opção opcional, ela é usada para definir uma expressão regular de identificação do tronco.
-    Quando se usa troncos khomp por exemplo pode-se usar Khomp/b0l1 para fazer a discagem para o link 1 da placa E1, mas quando uma ligação de
-    entrada ocorre ela virá com a interface real de cada canal (ex:Khomp/b0c25) para isso o snep precisa de uma expressão que identifique todos
-    os canais pertencentes a essa placa, exemplo para khomp/b0l1 é khomp/b0c[2-5]?[0-9].<small>Nota: placas khomp já possuem sistema que automatiza
-    o uso de expressões de identificação, selecione placas de tecnologia KHOMP</small>.<br />
-    <strong>Caso em branco a string de identificação será a propria Tecnologia de Canais usada para discagem.</strong>
+        Quando se usa troncos khomp por exemplo pode-se usar Khomp/b0l1 para fazer a discagem para o link 1 da placa E1, mas quando uma ligação de
+        entrada ocorre ela virá com a interface real de cada canal (ex:Khomp/b0c25) para isso o snep precisa de uma expressão que identifique todos
+        os canais pertencentes a essa placa, exemplo para khomp/b0l1 é khomp/b0c[2-5]?[0-9].<small>Nota: placas khomp já possuem sistema que automatiza
+            o uso de expressões de identificação, selecione placas de tecnologia KHOMP</small>.<br />
+        <strong>Caso em branco a string de identificação será a propria Tecnologia de Canais usada para discagem.</strong>
     </li>
 </ul>
 
 <h2>Controle de Minutos</h2>
 <p>Institui um controle de minutos sobre o tronco. Caso as ligações usadas por esse tronco excedam esse tempo
-limite ele deixará de funcionar.</p>
+    limite ele deixará de funcionar.</p>
 <ul>
     <li><strong>Tempo total:</strong> Tempo total permitido ao tronco em minutos.</li>
-    <li><strong>Tipo de tarifação:</strong> Tipo de controle que será feito com os minutos
-    em cima do tronco. A cada periodo definido aqui será restituido o tempo de limite do tronco.</li>
+    <li><strong>Tipo de controle</strong> Tipo de controle que será feito com os minutos
+        em cima do tronco. A cada periodo definido aqui será restituido o tempo de limite do tronco.</li>
 </ul>
 
 <p>Links Relacionados</p>
 <ul>
-   <li><a href="ajuda.php?script=rel_troncos">Troncos</a></li>
-   <li><a href="ajuda.php?script=parametros">Par&acirc;metros</a></li>
-   <li><a href="ajuda.php?script=grupos">Grupos de Captura</a></li>  
+    <li><a href="ajuda.php?script=rel_troncos">Troncos</a></li>
+    <li><a href="ajuda.php?script=parametros">Par&acirc;metros</a></li>
+    <li><a href="ajuda.php?script=grupos">Grupos de Captura</a></li>
 </ul>
