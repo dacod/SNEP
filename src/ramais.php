@@ -529,13 +529,12 @@ function grava_alterar() {
         $stmt->execute();
     }
 
+    $db->exec("DELETE from vinculos where cod_usuario='$name'");
     if ( count($vinc) > 0 ) {
-        $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
-        $stmt->execute() ;
         $stmt = $db->prepare("INSERT into vinculos (cod_usuario,ramal) VALUES (:codigo, :ramal)") ;
         $stmt->bindParam('codigo',$tmp_cod) ;
         $stmt->bindParam('ramal',$tmp_ramal) ;
-        $tmp_cod = $id ;
+        $tmp_cod = $name ;
         foreach ($vinc as $val) {
             $tmp_ramal = $val ;
             $stmt->execute() ;

@@ -525,7 +525,7 @@ function alterar()  {
                 'tipo'  => 'q',
                 'cc'    => $ult_cc,
                 'queue' => $swp['queue'],
-                'to'    => $swp['dial_timeout']
+                'to'    => $swp['timeout']
             );
             unset($swp);
         }
