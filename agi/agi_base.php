@@ -47,3 +47,4 @@ $bootstrap->boot();
 $asterisk = Zend_Registry::get('asterisk');
 $config = Zend_Registry::get('config');
 $db = Zend_Registry::get('db');
+$request = $asterisk->requestObj;
