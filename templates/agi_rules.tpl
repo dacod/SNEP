@@ -90,24 +90,24 @@
 
                         <span id="titulo" class="tit">{$LANG.redirect_to} :</span>
                         
-                        <a href="#" class="links_include_left" onclick="x.newnode('exten','','','','','','');">{$LANG.ramal} </a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('trunk','','','','','','','');">{$LANG.tronco} </a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('context','','','','','','');">{$LANG.context}</a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('queue','','','','','','');">{$LANG.row}</a>
+                        <span class="links_include_left" onclick="x.newnode('exten','','','','','','');">{$LANG.ramal} </span>
+                        <span class="links_include_left" onclick="x.newnode('trunk','','','','','','','');">{$LANG.tronco} </span>
+                        <span class="links_include_left" onclick="x.newnode('context','','','','','','');">{$LANG.context}</span>
+                        <span class="links_include_left" onclick="x.newnode('queue','','','','','','');">{$LANG.row}</span>
                         <br /><br /><br />
 
                         <span id="titulo" class="tit">{$LANG.src_dst} :</span>
                         
 
-                        <a href="#" class="links_include_left" onclick="x.newnode('alterar','','','','','','');">{$LANG.edit} </a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('define','','');">{$LANG.define} </a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('restore','','');">{$LANG.restore}</a>
+                        <span class="links_include_left" onclick="x.newnode('alterar','','','','','','');">{$LANG.edit} </span>
+                        <span class="links_include_left" onclick="x.newnode('define','','');">{$LANG.define} </span>
+                        <span class="links_include_left" onclick="x.newnode('restore','','');">{$LANG.restore}</span>
                         <br /><br /><br />
 
                         <span id="titulo" class="tit">{$LANG.actions} :</span>
                         
-                        <a href="#" class="links_include_left" onclick="x.newnode('padlock','','','','','','');">{$LANG.padlock}</a>
-                        <a href="#" class="links_include_left" onclick="x.newnode('loop','','','','','','');">{$LANG.loop}</a>
+                        <span class="links_include_left" onclick="x.newnode('padlock','','','','','','');">{$LANG.padlock}</span>
+                        <span class="links_include_left" onclick="x.newnode('loop','','','','','','');">{$LANG.loop}</span>
                     </div>
                     <div style="width:650px;">
                         <input type="hidden" id="indice" name="indice" value="">
