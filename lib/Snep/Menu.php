@@ -220,7 +220,7 @@ class Snep_Menu {
             if( $item->getId() == "logout" ) {
                 $logout = $item;
             }
-            else if( $this->isAllowed($item->getResourceId()) ) {
+            else if( $item->getResourceId() == "" || $this->isAllowed($item->getResourceId()) ) {
                 $items = $item->render() . $items;
             }
         }
