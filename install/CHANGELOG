@@ -1,3 +1,8 @@
+1.1.2:
+    Mudança na forma como são executadas as instruções ao banco de dados na
+inclusão de ramais nas filas.
+    Correção de análise de permissões no menu do sistema.
+
 1.1.1:
     Correção no Cadeado
     Correção nos Vinculos do relatório de chamadas.
