@@ -359,7 +359,7 @@ var Acoes = Class.create({
         "<strong>Direcionar para Ramal</strong><br /> " +
         "Centro de Custo: <select id="+sn+"cc name="+sn+"cc class=\"campos\"> "+cc+" </select> " +
         "Ramal: <input class=\"minibox validate-number\" name="+sn+"rm  id="+sn+"rm type=\"text\" onblur=\"verificaRamal('"+sn+"rm'); return false;\" value="+valor+"  > " +
-        "Timeout Completamento: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"><br />" +
+        "Timeout Completamento: <input class=\"minibox required validate-number\" name="+sn+"to type=\"text\" value="+to+"> " +
         "Parametros: <input class=\"minibox\" required name="+sn+"tl type=\"text\" value="+tl+" >" +
         '<input type="checkbox" name="'+sn+'omo" '+omo+' /> Não Transbordar &nbsp;' +
         '<input type="checkbox" name="'+sn+'fg" '+fg+' /> Diferenciar toque' +
