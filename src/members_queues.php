@@ -73,26 +73,26 @@
  * ----------------------------------------------------------------------------*/
  function grava_members() {
     global $db, $lista2, $name ;
-    try {
-      $db->beginTransaction() ;
-      $sql = "DELETE FROM queue_members WHERE queue_name = '$name'";
-      $stmt = $db->prepare($sql) ;
-      $stmt->execute() ;
-      $sql = "INSERT INTO queue_members (interface,membername,queue_name) VALUES (:interface, :member, :fila)" ;
-      $stmt = $db->prepare($sql) ;
-      $stmt->bindParam('interface',$tmp_iface) ;
-      $stmt->bindParam('member',$tmp_member) ;
-      $stmt->bindParam('fila',$tmp_fila) ;
-      $tmp_fila = $name ;
-      foreach ($lista2 as $val) {
-         $tmp_member = $val ;
-         $tmp_iface = $val ;
-         $stmt->execute() ;
-      }
-      $db->commit();
-       echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
-   } catch (Exception $e) {
-      $db->rollBack();
-     display_error($LANG['error'].$e->getMessage(),true) ;
-   }
+
+
+    $db->beginTransaction() ;
+    $sql = "DELETE FROM queue_members WHERE queue_name = '$name'";
+    $stmt = $db->prepare($sql) ;
+    $stmt->execute() ;
+
+    foreach ($lista2 as $val) {
+        $sql = "INSERT INTO queue_members (interface,membername,queue_name) VALUES ('$val', '$val', '$name') ";
+        $db->exec($sql); 
+    }
+
+    try{
+        $db->commit();
+        echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+
+    } catch(Exception $e) {
+        $db->rollBack();
+        display_error($LANG['error'].$e->getMessage(),true) ;
+    }
+     
  }
+ 
