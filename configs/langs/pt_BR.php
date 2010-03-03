@@ -993,3 +993,5 @@ $LANG['order_report'] = "Ordenar Resultados";
 $LANG['order_data'] = "Ordenar por Data";
 $LANG['order_src'] = "Ordenar por Origem";
 $LANG['order_dst'] = "Ordenar por Destino";
+
+$LANG['view_panel_groups'] = "Visualizar Grupos de Monitoramento <br /> (Snep-Panel)";
