@@ -136,7 +136,7 @@
                <tr>
                   <td class="formlabel">{$LANG.peer_type}:</td>
                   <td class="subtable">
-                     {html_radios name="peer_type" checked=$dt_ramais.peer_type options=$PEER_TYPES}
+                     {html_radios name="type" checked=$dt_ramais.type options=$TYPES}
                   </td>
                </tr>
                <tr>

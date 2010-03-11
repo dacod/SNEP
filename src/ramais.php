@@ -99,7 +99,7 @@ $smarty->assign('TRUNKS', $trunks);
 // Variaveis de ambiente do form
 $smarty->assign('ACAO',$acao) ;  
 $smarty->assign('OPCOES_YN',$tipos_yn) ;
-$smarty->assign('PEER_TYPES',array('peer' => "Peer",'friend' => 'Friend'));
+$smarty->assign('TYPES',array('peer' => "Peer",'friend' => 'Friend'));
 $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
 $smarty->assign('OPCOES_CODECS',$tipos_codecs) ;
 $smarty->assign('OPCOES_GRUPOS',$grupos);
@@ -172,7 +172,7 @@ function principal() {
         }
     }
     $row['group'] = "users";
-    $row['peer_type'] = "peer";
+    $row['type'] = "peer";
     // Variavies do Template
 
     $count = 20;//count($row);
@@ -188,7 +188,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $peer_type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -200,8 +200,6 @@ function cadastrar() {
     $call_limit = $calllimit ;
     $callgroup  = $pickupgroup ;
     $peer_type = "R" ; // Ramais
-
-    $type = $peer_type;
 
     // monta a cadeia de codecs permitidos
     $allow="" ;
@@ -455,7 +453,7 @@ function alterar() {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
-    global $LANG, $db, $peer_type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
+    global $LANG, $db, $type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
 
@@ -467,8 +465,7 @@ function grava_alterar() {
     $call_limit = $calllimit ;
     $callgroup  = $pickupgroup ;
     $pickupgroup = $pickupgroup == "" ? 'null' : "'$pickupgroup'";
-
-    $type = $peer_type;
+    $peer_type = 'R';
 
     if ($tempo == "n") {
         $time_chargeby = "NULL";
