@@ -55,7 +55,7 @@ if($khomp_info->hasWorkingBoards()) {
 
 // Tecnologias para Troncos IP
 // ---------------------------
-$technos_ip = array("IAX2"=>"IAX2", "SIP"=>"SIP") ;
+$technos_ip = array("IAX2"=>"IAX2", "SIP"=>"SIP");
 
 // Variaveis de ambiente do form
 // -----------------------------
@@ -64,8 +64,6 @@ $smarty->assign('ACAO',$acao) ;
 $smarty->assign('PROTOTYPE',true);
 $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
 $smarty->assign('OPCOES_CODECS',$tipos_codecs) ;
-$smarty->assign('OPCOES_INSECURE',$tipos_insecure);
-$smarty->assign('EXTEN_LIST',$extensions_list);
 $smarty->assign('TRUNKS_DISP',$trunks_disp) ;
 $smarty->assign('TECHNOS',$technos_ip);
 
@@ -101,21 +99,22 @@ function principal() {
     }
     $row['name'] = trim($row['name'] + 1) ;
     $row['trunktype'] = 'SIP';
+    $row['nat'] = true;
     $row['reverseAuth'] = true;
 
-   $time['time'] =  "n";
-   // Codecs Default
-   // --------------
-   $row = $row + $codecs_default ;
+    $time['time'] =  "n";
+    // Codecs Default
+    // --------------
+    $row = $row + $codecs_default ;
 
-   // Variavies do Template
-   // ---------------------
-   $smarty->assign('dt_troncos',$row) ;
-   
-   $smarty->assign('dt_troncos_tempos',$time) ;
-   $smarty->assign('ACAO',"cadastrar") ;
-   $smarty->assign('PROTOTYPE',true) ;
-   display_template("troncos.tpl",$smarty,$titulo) ;
+    // Variavies do Template
+    // ---------------------
+    $smarty->assign('dt_troncos',$row) ;
+
+    $smarty->assign('dt_troncos_tempos',$time) ;
+    $smarty->assign('ACAO',"cadastrar") ;
+    $smarty->assign('PROTOTYPE',true) ;
+    display_template("troncos.tpl",$smarty,$titulo) ;
 } 
 /*------------------------------------------------------------------------------
  Funcao CADASTRAR - Inclui um novo registro
@@ -123,7 +122,7 @@ function principal() {
 function cadastrar() {
     global $LANG, $db, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
+    global $nat, $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -133,18 +132,18 @@ function cadastrar() {
         $cod5 = $snep_cod5;
     }
 
-   // verifica tipo de Qualify, (yes|no|specify)
-   if($qualify == 'specify') {
-       $qualify = trim($qualify_time);
-   }
+    // verifica tipo de Qualify, (yes|no|specify)
+    if($qualify == 'specify') {
+        $qualify = trim($qualify_time);
+    }
 
-   // monta a cadeia de codecs permitidos
-   $allow="" ;
-   $allow .= (strlen(trim($cod1))>0) ? $cod1 : "" ;
-   $allow .= (strlen(trim($cod2))>0) ? ";$cod2" : ";" ;
-   $allow .= (strlen(trim($cod3))>0) ? ";$cod3" : ";" ;
-   $allow .= (strlen(trim($cod4))>0) ? ";$cod4" : ";" ;
-   $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;  
+    // monta a cadeia de codecs permitidos
+    $allow="" ;
+    $allow .= (strlen(trim($cod1))>0) ? $cod1 : "" ;
+    $allow .= (strlen(trim($cod2))>0) ? ";$cod2" : ";" ;
+    $allow .= (strlen(trim($cod3))>0) ? ";$cod3" : ";" ;
+    $allow .= (strlen(trim($cod4))>0) ? ";$cod4" : ";" ;
+    $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;
 
     if ($tempo == "s") {
         $time_chargeby = $time_total > 0? "'$time_chargeby'": "NULL";
@@ -159,8 +158,8 @@ function cadastrar() {
         $sql = "SELECT name FROM trunks " ;
         $sql.= " ORDER BY CAST(name as DECIMAL) DESC LIMIT 1" ;
         $row = $db->query($sql)->fetch();
-   } catch (PDOException $e) {
-      display_error($LANG['error'].$e->getMessage(),true) ;
+    } catch (PDOException $e) {
+        display_error($LANG['error'].$e->getMessage(),true) ;
     }
     $name = trim($row['name'] + 1) ;
 
@@ -189,6 +188,14 @@ function cadastrar() {
             $sql_fields_default = ",fromuser";
             $sql_values_default = ",'$fromuser'";
         }
+
+        if($nat) {
+            $nat = 'yes';
+        }
+        else {
+            $nat = 'no';
+        }
+        
         // Monta lista campos Default
         foreach( $def_campos_troncos as $key => $value ) {
             $sql_fields_default .= ",$key";
@@ -197,55 +204,55 @@ function cadastrar() {
         $trunktype = "I";
     }
     else if( $trunktype == "SNEPSIP" ) {
-            $trunktype  = 'SIP';
-            $username   = $snep_host;
-            $host_trunk = $snep_host;
-            $channel    = $trunktype . "/" . $snep_host;
-            $id_regex   = $trunktype . "/" . $snep_host;
+        $trunktype  = 'SIP';
+        $username   = $snep_host;
+        $host_trunk = $snep_host;
+        $channel    = $trunktype . "/" . $snep_host;
+        $id_regex   = $trunktype . "/" . $snep_host;
 
-            $dtmfmode = $snep_dtmf;
+        $dtmfmode = $snep_dtmf;
 
-            $trunktype  = "I";
+        $trunktype  = "I";
+    }
+    else if( $trunktype == "SNEPIAX2" ) {
+        $trunktype  = 'IAX2';
+        $username   = $snep_username;
+        $host_trunk = $snep_host;
+        $channel    = $trunktype . "/" . $snep_username;
+        $id_regex   = $trunktype . "/" . $snep_username;
+
+        $dtmfmode = $snep_dtmf;
+
+        $trunktype  = "I";
+    }
+    else if($trunktype == "KHOMP") {
+        $channel= 'KHOMP/' . $khomp_board;
+        $b = substr($khomp_board, 1, 1);
+        if(substr($khomp_board, 2, 1) == 'c') {
+            $config = array(
+                    "board" => $b,
+                    "channel" => substr($khomp_board, 3)
+            );
         }
-        else if( $trunktype == "SNEPIAX2" ) {
-                $trunktype  = 'IAX2';
-                $username   = $snep_username;
-                $host_trunk = $snep_host;
-                $channel    = $trunktype . "/" . $snep_username;
-                $id_regex   = $trunktype . "/" . $snep_username;
-
-                $dtmfmode = $snep_dtmf;
-
-                $trunktype  = "I";
-            }
-            else if($trunktype == "KHOMP") {
-                    $channel= 'KHOMP/' . $khomp_board;
-                    $b = substr($khomp_board, 1, 1);
-                    if(substr($khomp_board, 2, 1) == 'c') {
-                        $config = array(
-                            "board" => $b,
-                            "channel" => substr($khomp_board, 3)
-                        );
-                    }
-                    else if( substr($khomp_board, 2, 1) == 'l' ) {
-                            $config = array(
-                                "board" => $b,
-                                "link" => substr($khomp_board, 3)
-                            );
-                        }
-                        else {
-                            $config = array(
-                                "board" => $b
-                            );
-                        }
-                    $trunk = new PBX_Asterisk_Interface_KHOMP($config);
-                    $id_regex = $trunk->getIncomingChannel();
-                    $trunktype = "T";
-                }
-                else { // VIRTUAL
-                    $trunktype = "T";
-                    $id_regex = $id_regex == "" ? $channel : $id_regex;
-                }
+        else if( substr($khomp_board, 2, 1) == 'l' ) {
+            $config = array(
+                    "board" => $b,
+                    "link" => substr($khomp_board, 3)
+            );
+        }
+        else {
+            $config = array(
+                    "board" => $b
+            );
+        }
+        $trunk = new PBX_Asterisk_Interface_KHOMP($config);
+        $id_regex = $trunk->getIncomingChannel();
+        $trunktype = "T";
+    }
+    else { // VIRTUAL
+        $trunktype = "T";
+        $id_regex = $id_regex == "" ? $channel : $id_regex;
+    }
 
     $context = "default";
 
@@ -266,10 +273,10 @@ function cadastrar() {
         if ($trunktype == "I") {
             $sql = "INSERT INTO peers (" ;
             $sql.= "name,callerid,context,secret,type,allow,username,";
-            $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify ".$sql_fields_default ;
+            $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify, nat ".$sql_fields_default ;
             $sql.= ") values (";
             $sql.=  "'$name','$callerid','$context','$secret','peer','$allow',";
-            $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes', '$qualify' ";
+            $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes', '$qualify', '$nat' ";
             $sql.= $sql_values_default.")" ;
             $db->exec($sql) ;
         }
@@ -285,7 +292,7 @@ function cadastrar() {
 /*------------------------------------------------------------------------------
   Funcao ALTERAR - Altera um registro
 ------------------------------------------------------------------------------*/
-function alterar()  {
+function alterar() {
     global $LANG,$db,$smarty,$titulo, $acao, $canais_disp, $trunks_disp ;
     $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
     if (!$id) {
@@ -313,9 +320,9 @@ function alterar()  {
     // Variavel host
     $trunk['host_trunk'] = $trunk['host'] ;
 
-   $trunk['time'] = isset($trunk['time_total'])? "s" : "n";
-   $trunk['time_total'] = round($trunk['time_total']/60);
-   
+    $trunk['time'] = isset($trunk['time_total'])? "s" : "n";
+    $trunk['time_total'] = round($trunk['time_total']/60);
+
     // Desmembra campo allow
     $cd = explode(";",$trunk['allow']);
     $trunk['cod1']=$cd[0] ;
@@ -334,13 +341,15 @@ function alterar()  {
         $trunk['khomp_board'] = substr($trunk['channel'],strrpos($trunk['channel'],"/")+1);
     }
 
-   // Faz uma verificação e instancia uma variavel de controle do Smarty
-   if($peer['qualify'] == "no" ||$peer['qualify'] == "yes") {
+    // Faz uma verificação e instancia uma variavel de controle do Smarty
+    if($peer['qualify'] == "no" ||$peer['qualify'] == "yes") {
         $smarty->assign('qualify', 's');
-   }else{
+    } else {
         $smarty->assign('qualify', 'e');
-   }
+    }
     $trunk['qualify'] = $peer['qualify'];
+
+    $trunk['nat'] = $peer['nat'] == "yes" ? true : false;
 
     // Retira o tronco atual da lista de troncos para redundancia
     unset($trunks_disp[$id]) ;
@@ -355,36 +364,36 @@ function alterar()  {
 /*------------------------------------------------------------------------------
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
-function grava_alterar()  {
-   global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-   global $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
+function grava_alterar() {
+    global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
+    global $nat, $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
 
 
-   if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
-       $cod1 = $snep_cod1;
-       $cod2 = $snep_cod2;
-       $cod3 = $snep_cod3;
-       $cod4 = $snep_cod4;
-       $cod5 = $snep_cod5;
-   }
-   
-   if (!$_POST['id']) {
-      display_error($LANG['msg_notselect'],true) ;
-      exit ;
-   }
+    if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
+        $cod1 = $snep_cod1;
+        $cod2 = $snep_cod2;
+        $cod3 = $snep_cod3;
+        $cod4 = $snep_cod4;
+        $cod5 = $snep_cod5;
+    }
 
-   // verifica tipo de Qualify, (yes|no|specify)
-   if($qualify == 'specify') {
-       $qualify = $qualify_time;
-   }
-         
-   // monta a cadeia de codecs permitidos
-   $allow="" ;
-   $allow .= (strlen(trim($cod1))>0) ? $cod1 : "" ;
-   $allow .= (strlen(trim($cod2))>0) ? ";$cod2" : ";" ;
-   $allow .= (strlen(trim($cod3))>0) ? ";$cod3" : ";" ;
-   $allow .= (strlen(trim($cod4))>0) ? ";$cod4" : ";" ;
-   $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;  
+    if (!$_POST['id']) {
+        display_error($LANG['msg_notselect'],true) ;
+        exit ;
+    }
+
+    // verifica tipo de Qualify, (yes|no|specify)
+    if($qualify == 'specify') {
+        $qualify = $qualify_time;
+    }
+
+    // monta a cadeia de codecs permitidos
+    $allow="" ;
+    $allow .= (strlen(trim($cod1))>0) ? $cod1 : "" ;
+    $allow .= (strlen(trim($cod2))>0) ? ";$cod2" : ";" ;
+    $allow .= (strlen(trim($cod3))>0) ? ";$cod3" : ";" ;
+    $allow .= (strlen(trim($cod4))>0) ? ";$cod4" : ";" ;
+    $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;
 
     $trunk_redund = $trunk_redund == "" ? 'NULL': $trunk_redund;
     $type = $trunktype;
@@ -401,6 +410,14 @@ function grava_alterar()  {
         $id_regex = $trunktype . "/" . $username;
         $sql_fields_default = ",qualify, type";
         $sql_values_default = ",'yes', 'peer'";
+        
+        if($nat) {
+            $nat = 'yes';
+        }
+        else {
+            $nat = 'no';
+        }
+
         // Monta lista campos Default
         $def_campos_troncos = isset($def_campos_troncos) ? $def_campos_troncos : array();
         foreach( $def_campos_troncos as $key => $value ) {
@@ -410,55 +427,55 @@ function grava_alterar()  {
         $trunktype = "I";
     }
     else if( $trunktype == "SNEPSIP" ) {
-            $trunktype  = 'SIP';
-            $username   = $snep_host;
-            $host_trunk = $snep_host;
-            $channel    = $trunktype . "/" . $snep_host;
-            $id_regex   = $trunktype . "/" . $snep_host;
+        $trunktype  = 'SIP';
+        $username   = $snep_host;
+        $host_trunk = $snep_host;
+        $channel    = $trunktype . "/" . $snep_host;
+        $id_regex   = $trunktype . "/" . $snep_host;
 
-            $dtmfmode = $snep_dtmf;
+        $dtmfmode = $snep_dtmf;
 
-            $trunktype  = "I";
+        $trunktype  = "I";
+    }
+    else if( $trunktype == "SNEPIAX2" ) {
+        $trunktype  = 'IAX2';
+        $username   = $snep_username;
+        $host_trunk = $snep_host;
+        $channel    = $trunktype . "/" . $snep_username;
+        $id_regex   = $trunktype . "/" . $snep_username;
+
+        $dtmfmode = $snep_dtmf;
+
+        $trunktype  = "I";
+    }
+    else if($trunktype == "KHOMP") {
+        $channel= 'KHOMP/' . $khomp_board;
+        $b = substr($khomp_board, 1, 1);
+        if(substr($khomp_board, 2, 1) == 'c') {
+            $config = array(
+                    "board" => $b,
+                    "channel" => substr($khomp_board, 3)
+            );
         }
-        else if( $trunktype == "SNEPIAX2" ) {
-                $trunktype  = 'IAX2';
-                $username   = $snep_username;
-                $host_trunk = $snep_host;
-                $channel    = $trunktype . "/" . $snep_username;
-                $id_regex   = $trunktype . "/" . $snep_username;
-
-                $dtmfmode = $snep_dtmf;
-
-                $trunktype  = "I";
-            }
-            else if($trunktype == "KHOMP") {
-                    $channel= 'KHOMP/' . $khomp_board;
-                    $b = substr($khomp_board, 1, 1);
-                    if(substr($khomp_board, 2, 1) == 'c') {
-                        $config = array(
-                            "board" => $b,
-                            "channel" => substr($khomp_board, 3)
-                        );
-                    }
-                    else if( substr($khomp_board, 2, 1) == 'l' ) {
-                            $config = array(
-                                "board" => $b,
-                                "link" => substr($khomp_board, 3)
-                            );
-                        }
-                        else {
-                            $config = array(
-                                "board" => $b
-                            );
-                        }
-                    $trunk = new PBX_Asterisk_Interface_KHOMP($config);
-                    $id_regex = $trunk->getIncomingChannel();
-                    $trunktype = "T";
-                }
-                else { // VIRTUAL
-                    $trunktype = "T";
-                    $id_regex = $id_regex == "" ? $channel : $id_regex;
-                }
+        else if( substr($khomp_board, 2, 1) == 'l' ) {
+            $config = array(
+                    "board" => $b,
+                    "link" => substr($khomp_board, 3)
+            );
+        }
+        else {
+            $config = array(
+                    "board" => $b
+            );
+        }
+        $trunk = new PBX_Asterisk_Interface_KHOMP($config);
+        $id_regex = $trunk->getIncomingChannel();
+        $trunktype = "T";
+    }
+    else { // VIRTUAL
+        $trunktype = "T";
+        $id_regex = $id_regex == "" ? $channel : $id_regex;
+    }
 
     if ($tempo === "n") {
         $time_chargeby = "NULL";
@@ -486,7 +503,7 @@ function grava_alterar()  {
         if ($trunktype == "I") {
             $sql = "UPDATE peers ";
             $sql.=" SET fromdomain='$fromdomain', fromuser='$fromuser' ,callerid='$callerid', context='$context',secret='$secret',";
-            $sql.= "type='peer', allow='$allow',host='$host_trunk'," ;
+            $sql.= "type='peer', nat='$nat', allow='$allow',host='$host_trunk'," ;
             $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel',qualify='$qualify'" ;
             $sql.= " WHERE name='$name'" ;
             $db->exec($sql) ;
