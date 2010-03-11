@@ -185,6 +185,10 @@ dd input {
     border-left-width: 1px;
     border-color: #a4a7ab;
 }
+
+form .description {
+    display: inline;
+}
 /* FIM Configuração dos formulários feitos com listas de definição */
 
 .seta {

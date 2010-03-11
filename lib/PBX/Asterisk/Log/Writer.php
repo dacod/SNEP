@@ -43,6 +43,16 @@ class PBX_Asterisk_Log_Writer extends Zend_Log_Writer_Abstract {
     }
 
     /**
+     * Construct a Zend_Log driver
+     *
+     * @param  array|Zen_Config $config
+     * @return Zend_Log_FactoryInterface
+     */
+    public static function factory($config) {
+        throw new Exception("NOT SUPPORTED");
+    }
+
+    /**
      * Escreve uma mensagem no CLI do asterisk
      *
      * @param  array  $event  log data event

@@ -121,7 +121,7 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Disca para um tronco cadastrado no banco de dados do SNEP");
+        return $this->i18n->translate("Disca para um tronco");
     }
 
     /**
@@ -135,7 +135,6 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
         $dial_timeout    = (isset($this->config['dial_timeout']))?"<value>{$this->config['dial_timeout']}</value>":"";
         $dial_flags      = (isset($this->config['dial_flags']))?"<value>{$this->config['dial_flags']}</value>":"";
         $dial_limit      = (isset($this->config['dial_limit']))?"<value>{$this->config['dial_limit']}</value>":"";
-        $dial_limit_warn = (isset($this->config['dial_limit_warn']))?"<value>{$this->config['dial_limit_warn']}</value>":"";
         $omit_kgsm       = (isset($this->config['omit_kgsm']))?"<value>{$this->config['omit_kgsm']}</value>":"";
         $alertEmail      = (isset($this->config['alertEmail']))?"<value>{$this->config['alertEmail']}</value>":"";
 
@@ -160,17 +159,8 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
         <default>0</default>
         <label>{$i18n->translate("Limite da chamada")}</label>
         <size>4</size>
-        <unit>{$i18n->translate("segundos")}</unit>
+        <unit>{$i18n->translate("milisegundos")}</unit>
         $dial_limit
-    </int>
-
-    <int>
-        <id>dial_limit_warn</id>
-        <default>0</default>
-        <label>{$i18n->translate("Iniciar alerta faltando")}</label>
-        <size>4</size>
-        <unit>{$i18n->translate("segundos")}</unit>
-        $dial_limit_warn
     </int>
 
     <string>
@@ -199,6 +189,49 @@ XML;
     }
 
     /**
+     * Configurações padrão para todas as ações dessa classe. Essas possuem uma
+     * tela de configuração separada.
+     *
+     * Os campos descritos aqui podem ser usados para controle de timout,
+     * valores padrão e informações que não pertencem exclusivamente a uma
+     * instancia da ação em uma regra de negócio.
+     *
+     * @return string XML com as configurações default para as classes
+     */
+    public function getDefaultConfigXML() {
+        $i18n = $this->i18n;
+
+        $play_warning_value = isset($this->defaultConfig['play_warning']) ? "<value>{$this->defaultConfig['play_warning']}</value>" : "";
+        $warning_freq_value = isset($this->defaultConfig['warning_freq']) ? "<value>{$this->defaultConfig['warning_freq']}</value>" : "";
+        $warning_sound_value = isset($this->defaultConfig['warning_sound']) ? "<value>{$this->defaultConfig['warning_sound']}</value>" : "";
+
+        return <<<XML
+<params>
+    <int>
+        <id>play_warning</id>
+        <label>{$i18n->translate("Tempo restante para alerta")}</label>
+        <unit>{$i18n->translate("milisegundos")}</unit>
+        <size>5</size>
+        $play_warning_value
+    </int>
+    <int>
+        <id>warning_freq</id>
+        <label>{$i18n->translate("Frequencia de repetição do alerta")}</label>
+        <unit>{$i18n->translate("milisegundos")}</unit>
+        <size>5</size>
+        $warning_freq_value
+    </int>
+    <string>
+        <id>warning_sound</id>
+        <default>beep</default>
+        <label>{$i18n->translate("Som do Alerta")}</label>
+        $warning_sound_value
+    </string>
+</params>
+XML;
+    }
+
+    /**
      * Executa a ação. É chamado dentro de uma instancia usando AGI.
      *
      * @param AGI $asterisk
@@ -213,18 +246,30 @@ XML;
         $flags = $this->config['dial_flags'];
         if(isset($this->config['dial_limit']) && $this->config['dial_limit'] > 0) {
             $flags .= "L(" . $this->config['dial_limit'];
-            if( isset($this->config['dial_limit_warn']) && $this->config['dial_limit_warn'] > 0) {
-                $flags .= ":" . $this->config['dial_limit_warn'];
+            // play_warning_value
+            if( isset($this->defaultConfig['play_warning']) && $this->defaultConfig['play_warning'] > 0) {
+                $flags .= ":" . $this->defaultConfig['play_warning'];
+                // warning_freq
+                if( isset($this->defaultConfig['warning_freq']) && $this->defaultConfig['warning_freq'] > 0) {
+                    $flags .= ":" . $this->defaultConfig['warning_freq'];
+                }
             }
             $flags .= ")";
+
+            if( isset($this->defaultConfig['warning_sound']) ) {
+                $warning_sound = $this->defaultConfig['warning_sound'] != $this->defaultConfig['warning_sound'] ? : "beep";
+                $asterisk->set_variable("LIMIT_WARNING_FILE", $warning_sound);
+            }
         }
 
         $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true" ) ? "/orig=restricted" : "";
 
-        if($tronco->getInterface() instanceof PBX_Asterisk_Interface_SIP_NoAuth || $tronco->getInterface() instanceof PBX_Asterisk_Interface_IAX2_NoAuth)
+        if($tronco->getInterface() instanceof PBX_Asterisk_Interface_SIP_NoAuth || $tronco->getInterface() instanceof PBX_Asterisk_Interface_IAX2_NoAuth) {
             $destiny = $tronco->getInterface()->getTech() . "/" . $request->destino . "@" . $tronco->getInterface()->getHost();
-        else
+        }
+        else {
             $destiny = $tronco->getInterface()->getCanal() . "/" . $request->destino . $postfix;
+        }
 
         $log->info("Discando para $request->destino atraves do tronco {$tronco->getName()}($destiny)");
 

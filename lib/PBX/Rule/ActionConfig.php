@@ -88,6 +88,9 @@ class PBX_Rule_ActionConfig {
                 case 'ccustos':
                     $form->addElement( $this->parseCCustos($element) );
                     break;
+                case 'boolean':
+                    $form->addElement( $this->parseBoolean($element) );
+                    break;
                 default:
                     $form->addElement( $this->parseString($element) );
             }
@@ -114,12 +117,33 @@ class PBX_Rule_ActionConfig {
      */
     public function parseConfig($post) {
         $config = array();
-        
         foreach ($this->xml as $element) {
-            $config["{$element->id}"] = $post["{$element->id}"];
+            if($element->getName() == "boolean") {
+                $config["{$element->id}"] = $post["{$element->id}"] == 1 ? 'true' : 'false';
+            }
+            else {
+                $config["{$element->id}"] = $post["{$element->id}"];
+            }
         }
 
         return $config;
+    }
+
+    /**
+     * Faz o parse de um campo <boolean>
+     * @param SimpleXMLElement $element
+     */
+    private function parseBoolean($element) {
+        $form_element = new Zend_Form_Element_Checkbox( (string)$element->id );
+        $form_element->setLabel( (string)$element->label );
+        if(isset($element->value) && $element->value == "true") {
+            $form_element->setAttrib('checked', 'checked');
+        }
+        else if(isset($element->default) && $element->default == "true") {
+            $form_element->setAttrib('checked', 'checked');
+        }
+
+        return $form_element;
     }
 
     /**
@@ -197,6 +221,11 @@ class PBX_Rule_ActionConfig {
         $form_element = new Zend_Form_Element_Text( (string)$element->id );
         $form_element->setLabel( (string)$element->label );
         $form_element->setAttrib('size', $element->size);
+
+        if(isset($element->unit)) {
+            $form_element->setDescription($element->unit);
+        }
+
         if(isset($element->value)) {
             $form_element->setValue($element->value);
         }
@@ -213,10 +242,15 @@ class PBX_Rule_ActionConfig {
      */
     private function parseRadio($element) {
         $form_element = new Zend_Form_Element_Radio((string)$element->id);
+        $form_element->setLabel( (string)$element->label );
         foreach( $element->option as $option ) {
             $form_element->addMultiOption((string)$option->value, $option->label);
-            if(isset($element->value) && $option->value == $element->value)
-                $form_element->setValue($element->value);
+        }
+        if(isset($element->value)) {
+            $form_element->setValue($element->value);
+        }
+        else if(isset($element->default)) {
+            $form_element->setValue($element->default);
         }
 
         return $form_element;

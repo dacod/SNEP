@@ -155,6 +155,7 @@ class PBX_Rules {
                     $config = isset($configs[$acao_raw['prio']]) ? $configs[$acao_raw['prio']] : array();
                     $acao_object = new $acao();
                     $acao_object->setConfig($config);
+                    $acao_object->setDefaultConfig(PBX_Registry::getAll($acao));
                     $regra->addAcao($acao_object);
                 }
             }

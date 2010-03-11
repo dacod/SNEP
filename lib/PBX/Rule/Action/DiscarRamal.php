@@ -140,8 +140,6 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
     public function getConfigArray() {
         $config = array(
             "dial_flags"      => $this->dial_flags == null ? 'twk' : $this->dial_flags,
-            "dial_limit"      => $this->dial_limit == null ? '0' : $this->dial_limit,
-            "dial_limit_warn" => $this->dial_limit_warn == null ? '0' : $this->dial_limit_warn,
             "dial_timeout"    => $this->dial_timeout == null ? '60' : $this->dial_timeout,
             "diff_ring"       => $this->diff_ring ? 'true' : 'false',
             "dont_overflow"   => $this->dont_overflow ? 'true' : 'false',
@@ -170,8 +168,6 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         $dial_timeout    = (isset($this->config['dial_timeout']))?"<value>{$this->config['dial_timeout']}</value>":"";
         $dial_flags      = (isset($this->config['dial_flags']))?"<value>{$this->config['dial_flags']}</value>":"";
         $diff_ring       = (isset($this->config['diff_ring']))?"<value>{$this->config['diff_ring']}</value>":"";
-        $dial_limit      = (isset($this->config['dial_limit']))?"<value>{$this->config['dial_limit']}</value>":"";
-        $dial_limit_warn = (isset($this->config['dial_limit_warn']))?"<value>{$this->config['dial_limit_warn']}</value>":"";
         $allow_voicemail = (isset($this->config['allow_voicemail']))?"<value>{$this->config['allow_voicemail']}</value>":"";
         $dont_overflow   = (isset($this->config['dont_overflow']))?"<value>{$this->config['dont_overflow']}</value>":"";
 
@@ -183,7 +179,6 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         <id>ramal</id>
         $ramal
     </ramal>
-
     <int>
         <id>dial_timeout</id>
         <default>$default_dial_timeout</default>
@@ -192,7 +187,6 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         <size>2</size>
         $dial_timeout
     </int>
-
     <string>
         <id>dial_flags</id>
         <default>twk</default>
@@ -200,44 +194,23 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
         <size>10</size>
         $dial_flags
     </string>
-
-    <int>
-        <id>dial_limit</id>
-        <default>0</default>
-        <label>{$i18n->translate("Limite da chamada")}</label>
-        <size>4</size>
-        <unit>{$i18n->translate("segundos")}</unit>
-        $dial_limit
-    </int>
-
-    <int>
-        <id>dial_limit_warn</id>
-        <default>0</default>
-        <label>{$i18n->translate("Iniciar alerta faltando")}</label>
-        <size>4</size>
-        <unit>{$i18n->translate("segundos")}</unit>
-        $dial_limit_warn
-    </int>
-
     <boolean>
         <id>diff_ring</id>
         <default>false</default>
         <label>{$i18n->translate("Diferenciar toque")}</label>
         $diff_ring
     </boolean>
-
     <boolean>
         <id>allow_voicemail</id>
         <default>false</default>
         <label>{$i18n->translate("Permitir Voicemail")}</label>
         $allow_voicemail
     </boolean>
-
     <boolean>
         <id>dont_overflow</id>
         <default>false</default>
         <label>{$i18n->translate("Não Transbordar (ocupado e não atende)")}</label>
-        $skip_busy
+        $dont_overflow
     </boolean>
 </params>
 XML;
@@ -341,17 +314,8 @@ XML;
                 }
             }
 
-            if($ramal->getPickupGroup() != null)
+            if($ramal->getPickupGroup() != null) {
                 $asterisk->set_variable('__PICKUPMARK', $ramal->getPickupGroup());
-
-            // Montando as Flags para o Dial()
-            $flags = $this->dial_flags;
-            if($this->dial_limit > 0) {
-                $flags .= "L(" . $this->dial_limit;
-                if($this->dial_limit_warn > 0) {
-                    $flags .= ":" . $this->dial_limit_warn;
-                }
-                $flags .= ")";
             }
 
             $log->info("Discando para ramal $ramal no canal $canal.");
