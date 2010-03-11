@@ -257,7 +257,7 @@ XML;
             $flags .= ")";
 
             if( isset($this->defaultConfig['warning_sound']) ) {
-                $warning_sound = $this->defaultConfig['warning_sound'] != $this->defaultConfig['warning_sound'] ? : "beep";
+                $warning_sound = $this->defaultConfig['warning_sound'] != "" ? $this->defaultConfig['warning_sound'] : "beep";
                 $asterisk->set_variable("LIMIT_WARNING_FILE", $warning_sound);
             }
         }
