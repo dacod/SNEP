@@ -843,8 +843,6 @@ function grava_conf() {
                         $peers .= 'host=' . $peer['host'] . "\n";
                         $peers .= 'qualify=' . ($peer['qualify'] == "no" ? "no" : "yes") . "\n";
                         $peers .= 'nat=' . $peer['nat'] . "\n";
-                        $peers .= ($peer['peer_type'] == "R") ? 'pickupgroup='.$peer['pickupgroup']."\n" : '';
-                        $peers .= ($peer['peer_type'] == "R") ? 'callgroup='.$peer['callgroup']."\n" : '';
                         $peers .= 'disallow=' . $peer['disallow'] . "\n";
                         $peers .= 'allow=' . $allow . "\n";
                         $peers .= "\n";
@@ -897,8 +895,6 @@ function grava_conf() {
                     $peers .= 'callerid='.$peer['callerid']."\n";
                     $peers .= 'canreinvite='.$peer['canreinvite']."\n";
                     $peers .= 'dtmfmode='.($peer['dtmfmode'] ? $peer['dtmfmode'] : "rfc2833")."\n";
-                    $peers .= ($peer['peer_type'] == "R") ? 'pickupgroup='.$peer['pickupgroup']."\n" : '';
-                    $peers .= ($peer['peer_type'] == "R") ? 'callgroup='.$peer['callgroup']."\n" : '';
                     $peers .= 'nat='.$peer['nat']."\n";
                     $peers .= 'qualify='.$peer['qualify']."\n";
                     $peers .= 'disallow='.$peer['disallow']."\n";

@@ -248,28 +248,7 @@
           <input class="campos" type="checkbox" name="alterar[55]" value="valor_controle_qualidade" />
        </td>
     </tr>
-    
-    <tr>
-       <td colspan="3" class="tb_tit2"><strong>{$LANG.dial_configs}</strong></td>
-    </tr>
-    <tr>
-       <td class="esq">{$LANG.dial_repeat_warning}</td>
-       <td class="esq">
-          <input class="campos" type="text" size="20" name="new_dial_repeat_warning" value="{#dial_repeat_warning#}" onchange="this.form.elements['alterar[82]'].checked=true;" />
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[82]" value="dial_repeat_warning" />
-       </td>
-    </tr>
-    <tr>
-       <td class="esq">{$LANG.dial_warning_audio}</td>
-       <td class="esq">
-          <input class="campos" type="text" size="20" name="new_dial_warning_audio" value="{#dial_warning_audio#}" onchange="this.form.elements['alterar[82]'].checked=true;" />
-       </td>
-       <td class="cen">
-          <input class="campos" type="checkbox" name="alterar[82]" value="dial_warning_audio" />
-       </td>
-    </tr>
+
     <tr>
        <td colspan="3" class="tb_tit2"><strong>{$LANG.subsis_oppanel}</strong></td>
     </tr>
