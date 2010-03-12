@@ -268,6 +268,16 @@ function cadastrar()  {
             if(!is_array($info) OR count($info) != 2) {
                 throw new PBX_Exception_BadArg("Valor errado para origem da regra de negocio.");
             }
+
+            if( $info[0] == "T" ) {
+                try {
+                    PBX_Trunks::get( $info[1] );
+                }
+                catch( Exception $ex ) {
+                    display_error("Tronco inválido para origem da regra", true);
+                }
+            }
+
             $regra->addSrc(array("type" => $info[0], "value" => $info[1]));
         }
     }
@@ -282,6 +292,16 @@ function cadastrar()  {
             if(!is_array($info) OR count($info) != 2) {
                 throw new PBX_Exception_BadArg("Valor errado para destino da regra de negocio.");
             }
+
+            if( $info[0] == "T" ) {
+                try {
+                    PBX_Trunks::get( $info[1] );
+                }
+                catch( Exception $ex ) {
+                    display_error("Tronco inválido para destino da regra", true);
+                }
+            }
+
             $regra->addDst(array("type" => $info[0], "value" => $info[1]));
         }
     }
@@ -707,6 +727,16 @@ function grava_alterar()  {
             if(!is_array($info) OR count($info) != 2) {
                 throw new PBX_Exception_BadArg("Valor errado para origem da regra de negocio.");
             }
+
+            if( $info[0] == "T" ) {
+                try {
+                    PBX_Trunks::get( $info[1] );
+                }
+                catch( Exception $ex ) {
+                    display_error("Tronco inválido para origem da regra", true);
+                }
+            }
+
             $regra->addSrc(array("type" => $info[0], "value" => $info[1]));
         }
     }
@@ -721,6 +751,16 @@ function grava_alterar()  {
             if(!is_array($info) OR count($info) != 2) {
                 throw new PBX_Exception_BadArg("Valor errado para destino da regra de negocio.");
             }
+
+            if( $info[0] == "T" ) {
+                try {
+                    PBX_Trunks::get( $info[1] );
+                }
+                catch( Exception $ex ) {
+                    display_error("Tronco inválido para origem da regra", true);
+                }
+            }
+
             $regra->addDst(array("type" => $info[0], "value" => $info[1]));
         }
     }
