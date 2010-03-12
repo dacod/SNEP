@@ -373,9 +373,9 @@ var Acoes = Class.create({
 
     /* Função de criacao de cada node. receber o tipo de acao como parametro e contabiliza os itens. */
     newnode : function(tipo,cc,valor,to,tl,omo,fg, em) {
-        $('semacao').hide();
 
-        if(conta_nodes()) {
+            $('semacao').hide();
+
             var t;
             if(tipo == 'trunk') {
                 t = 't';
@@ -415,9 +415,7 @@ var Acoes = Class.create({
             }
             // Mantendo controle dinamico dos indices.
             indexes[indexes.push()] = t + ($('indice').value-1) + '';
-        }else{
-            alert("Existe o limite de 9 acoes para uma regra.");
-        }
+
     }
 });
 
@@ -427,9 +425,20 @@ x = new Acoes();
 
 /* Função à parte para remover objetos da lista */
 function removenode(id) {
-    $(id).remove();
-    indexes.splice(indexes.indexOf(id), 1); // Removendo do Array de controle
 
+    $(id).remove();
+
+    temp = new Array();    
+    couter = 0;
+    for(var i=0; i < indexes.length ; i++) {
+
+        if(indexes[i] != id) {
+            temp[couter] = indexes[i];
+            couter =+ 1;
+        }
+    }
+    indexes = temp;
+    
     var empty = $('myList').childElements();
     if(empty == 0 ) {
         $('semacao').show();
@@ -439,17 +448,6 @@ function removenode(id) {
     var inicio = str.indexOf(id);
     var fim = inicio + 3;
     $('ids').value = str.substring(0,inicio) + str.substring(fim);
-}
-
-/* Função que conta */
-function conta_nodes() {
-    var count = $('myList').childElements();
-    if(count.length >= 9) {
-        return false;
-    }
-    else {
-        return true;
-    }
 }
 
 /* Função para validação de horario de inicio e fim da regra */
