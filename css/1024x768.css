@@ -46,7 +46,7 @@ lu li {
 }
 a, a:visited, li a:link, li a:visited {
   text-decoration: none ;
-  color: #696969;
+   color: #696969;
 }
 .mais {
     height: 15px;
@@ -70,6 +70,11 @@ a:hover, li a:hover {
 }
 .bgfiltro {background: url("../imagens/bg_filtro.png") repeat-x left top;}
 
+.success {
+    text-align: center;
+    background-color: #CBFFCB;
+}
+
 .boxadd { border: 0px;width: 20px;background: url("../imagens/dot_add.png") no-repeat left top;}
 .boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
 .regra0 {
@@ -90,20 +95,6 @@ a:hover, li a:hover {
 a img {
     border: none;
 }
-
-.success {
-    text-align: center;
-    background-color: #CBFFCB;
-}
-
-.error {
-    text-align: center;
-    background-color: #FFC5C5;
-    border: 1px solid red;
-    padding: 5px;
-    margin-bottom: 5px;
-}
-
 .links_debug {
    float:right;
    background: url("../imagens/debug.png") no-repeat left top;
@@ -131,6 +122,19 @@ a img {
    font-weight: bold;
    text-decoration: none ;
 }
+.links_exclude {
+   float:right;
+   background: url("../imagens/menos.png") no-repeat left top;
+   margin: 0;
+   padding-left: 18px;
+   height: 16px;
+   padding-right: 10px;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   color: #696969;
+   font-weight: bold;
+   text-decoration: none ;
+}
 .links_include_left {
    float:left;
    background: url("../imagens/include.png") no-repeat left top;
@@ -143,7 +147,12 @@ a img {
    color: #696969;
    font-weight: bold;
    text-decoration: none ;
+   cursor:pointer;
 }
+.links_include_left:hover {
+    color: #FFE400 !important;
+}
+
 .decisao {background-color: #d2d2d2;}
 div#acoes ol {
     
@@ -163,34 +172,6 @@ div#acoes table,div#acoes td,div#acoes tr  {
     background-color: transparent;
     border: 0px;
 }
-
-/* Configuração dos formulários feitos com listas de definição */
-dt {
-    width: 50%;
-    margin-top: 3px;
-    text-align: right;
-    float: left;
-    margin-right: 10px;
-}
-
-dd input {
-    color:  #000000;
-    background-color: #fbfbfb;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    border-style: solid;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-color: #a4a7ab;
-}
-
-form .description {
-    display: inline;
-}
-/* FIM Configuração dos formulários feitos com listas de definição */
-
 .seta {
     background: url("../imagens/go-previous.png") no-repeat left top;
     border-left: 1px solid #d2d2d2;
@@ -278,18 +259,18 @@ form .description {
 }
 
 .campos {
-   color:  #000000;
-   background-color: #fbfbfb;
+   color:  #000000 ;
+   background-color: #fbfbfb ;
    font-family: Verdana, Arial, Helvetica, sans-serif;
    font-size: 11px;
-   border-style: solid;
-   border-top-width: 1px;
-   border-right-width: 1px;
-   border-bottom-width: 1px;
+   border-style: solid; 
+   border-top-width: 1px; 
+   border-right-width: 1px; 
+   border-bottom-width: 1px; 
    border-left-width: 1px;
-   border-color: #a4a7ab;
+   border-color: #a4a7ab ;
+   
 }
-
 .campos_disable {
    color:  #000000 ;
    background-color: #BBC1C6 ;
@@ -489,14 +470,14 @@ thead.mensagem {
 
 }
 
-#titulo {
-    padding: 5px;
-    background-color: #FFFFFF;
-    font-size: 14px;
-    font-variant: small-caps ;
-    color: #808080 ;
-    font-weight: bolder ;
-    font-family: Verdana, Arial, Helvetica,sans-serif;
+
+#titulo {  
+   background-color: #FFFFFF;
+   font-size: 14px;
+   font-variant: small-caps ;   
+   color: #808080 ;
+   font-weight: bolder ;
+   font-family: Verdana, Arial, Helvetica,sans-serif;   
 }
 .tit {border-bottom: 2px solid #FFE400; display:block;}
 body, td, th, li,  lu {
@@ -1065,5 +1046,17 @@ ul#navmenu li.iehover ul,
 ul#navmenu ul li.iehover ul,
 ul#navmenu ul ul li.iehover ul {
   display: block;
+}
+.band_on {
+    width: 22px;
+    height: 21px;
+    float:left;
+    background-image: url('../imagens/band_on.png');
+}
+.band_off {
+    width: 22px;
+    height: 21px;
+    float:left;
+    background-image: url('../imagens/band_off.png');
 }
 
