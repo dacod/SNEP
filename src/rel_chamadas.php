@@ -182,7 +182,7 @@ function monta_relatorio($acao) {
             foreach ($destinos as $ramal) {
                 $ramaldst .= $ramal->getNumero() . ',';
             }
-            $ramaisdst = " AND dst in (" . trim($ramalsrc, ',') . ") ";
+            $ramaisdst = " AND dst in (" . trim($ramaldst, ',') . ") ";
         }
     }
 
