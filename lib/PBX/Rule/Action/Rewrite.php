@@ -85,7 +85,7 @@ class PBX_Rule_Action_Rewrite extends PBX_Rule_Action {
         $type    = (isset($this->config['type']))?"<value>{$this->config['type']}</value>":"";
         $replace = (isset($this->config['replace']))?"<value>{$this->config['replace']}</value>":"";
         $prefix  = (isset($this->config['prefix']))?"<value>{$this->config['prefix']}</value>":"";
-        $sufix   = (isset($this->config['sufix']))?"<value>{$this->config['sufix']}</value>":"";
+        $suffix   = (isset($this->config['suffix']))?"<value>{$this->config['suffix']}</value>":"";
         return <<<XML
 <params>
     <radio>
@@ -129,10 +129,10 @@ class PBX_Rule_Action_Rewrite extends PBX_Rule_Action {
         $prefix
     </string>
     <string>
-        <id>sufix</id>
-        <label>{$i18n->translate("Sufixo")}</label>
+        <id>suffix</id>
+        <label>{$i18n->translate("suffixo")}</label>
         <size>10</size>
-        $sufix
+        $suffix
     </string>
 </params>
 XML;
@@ -176,9 +176,9 @@ XML;
             $num = $this->config['prefix'] . $num;
         }
 
-        // Adicionando sufixo
-        if(isset($this->config['sufix'])) {
-            $num .= $this->config['sufix'];
+        // Adicionando suffixo
+        if(isset($this->config['suffix'])) {
+            $num .= $this->config['suffix'];
         }
 
         // Reescrevendo numero

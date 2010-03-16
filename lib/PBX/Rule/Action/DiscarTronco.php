@@ -262,13 +262,20 @@ XML;
             }
         }
 
-        $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true" ) ? "/orig=restricted" : "";
-
-        if($tronco->getInterface() instanceof PBX_Asterisk_Interface_SIP_NoAuth || $tronco->getInterface() instanceof PBX_Asterisk_Interface_IAX2_NoAuth) {
-            $destiny = $tronco->getInterface()->getTech() . "/" . $request->destino . "@" . $tronco->getInterface()->getHost();
+        if($tronco->getDtmfDialMode()) {
+            $dst_number = $tronco->getDtmfDialNumber();
+            $flags .= "D($request->destino)";
         }
         else {
-            $destiny = $tronco->getInterface()->getCanal() . "/" . $request->destino . $postfix;
+            $dst_number = $request->destino;
+        }
+
+        if($tronco->getInterface() instanceof PBX_Asterisk_Interface_SIP_NoAuth || $tronco->getInterface() instanceof PBX_Asterisk_Interface_IAX2_NoAuth) {
+            $destiny = $tronco->getInterface()->getTech() . "/" . $dst_number . "@" . $tronco->getInterface()->getHost();
+        }
+        else {
+            $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true" ) ? "/orig=restricted" : "";
+            $destiny = $tronco->getInterface()->getCanal() . "/" . $dst_number . $postfix;
         }
 
         $log->info("Discando para $request->destino atraves do tronco {$tronco->getName()}($destiny)");

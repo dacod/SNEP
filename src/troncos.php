@@ -120,9 +120,9 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $db, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
+    global $LANG, $db, $dtmf_dial, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
+    global $nat, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -254,6 +254,8 @@ function cadastrar() {
         $id_regex = $id_regex == "" ? $channel : $id_regex;
     }
 
+    $dtmf_dial = $dtmf_dial ? 'TRUE' : 'FALSE';
+
     $context = "default";
 
     $extensionMapping = $extensionMapping ? 'True': 'False';
@@ -263,11 +265,12 @@ function cadastrar() {
         $db->beginTransaction() ;
         $sql = "INSERT INTO trunks (" ;
         $sql.= "name, type, callerid, context, dtmfmode, insecure, secret,id_regex,";
-        $sql.= "username, allow, channel, trunktype, host, trunk_redund, time_total, time_chargeby, dialmethod, map_extensions, reverse_auth) values (";
+        $sql.= "username, allow, channel, trunktype, host, trunk_redund, time_total,";
+        $sql.= "time_chargeby, dialmethod, map_extensions, reverse_auth, dtmf_dial, dtmf_dial_number) values (";
         $sql.= "'$name','$type','$callerid','$context','$dtmfmode','$insecure',";
         $sql.= "'$secret','$id_regex','$username','$allow','$channel','$trunktype'," ;
         $sql.= "'$host_trunk',$trunk_redund, $time_total, $time_chargeby, '$dialmethod',";
-        $sql.= "$extensionMapping, $reverseAuth)" ;
+        $sql.= "$extensionMapping, $reverseAuth, $dtmf_dial, '$dtmf_dial_number')" ;
         $db->exec($sql) ;
         // Se for tronco IP, Cadastra tabela peers
         if ($trunktype == "I") {
@@ -366,7 +369,7 @@ function alterar() {
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
     global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $snep_cod1, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
+    global $nat, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
 
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
@@ -485,6 +488,8 @@ function grava_alterar() {
         $time_total = $time_total*60;
     }
 
+    $dtmf_dial = $dtmf_dial ? 'TRUE' : 'FALSE';
+
     $context = "default";
 
     $extensionMapping = $extensionMapping ? "True" : "False";
@@ -495,9 +500,9 @@ function grava_alterar() {
         $sql = "UPDATE trunks SET ";
         $sql.= "callerid='$callerid',secret='$secret',type='$type',";
         $sql.= "host='$host_trunk',context='$context',insecure='$insecure',";
-        $sql.= "allow='$allow',dtmfmode='$dtmfmode',channel='$channel',";
+        $sql.= "allow='$allow',dtmfmode='$dtmfmode',channel='$channel', dtmf_dial = $dtmf_dial,";
         $sql.= "username='$username',trunk_redund=$trunk_redund,map_extensions=$extensionMapping,reverse_auth=$reverseAuth,";
-        $sql.= "time_total=$time_total, time_chargeby='$time_chargeby', dialmethod='$dialmethod', id_regex='$id_regex'";
+        $sql.= "time_total=$time_total, dtmf_dial_number='$dtmf_dial_number', time_chargeby='$time_chargeby', dialmethod='$dialmethod', id_regex='$id_regex'";
         $sql.= "  WHERE name=$name" ;
         $db->exec($sql) ;
         if ($trunktype == "I") {

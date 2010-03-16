@@ -126,6 +126,9 @@ class PBX_Trunks {
         
         $trunk->setId($id);
 
+        $trunk->setDtmfDialMode($rawTrunk->dtmf_dial ? true : false);
+        $trunk->setDtmfDialNumber($rawTrunk->dtmf_dial_number);
+
         return $trunk;
     }
 }

@@ -66,7 +66,6 @@
             <td class="formlabel">{$LANG.dialmethod}</td>
             <td class="subtable">
                 <input type="radio" name="dialmethod" value="NORMAL" {if $dt_troncos.dialmethod != 'DTMF' && $dt_troncos.dialmethod != 'NOAUTH' } checked="true" {/if} onclick="withauth()" />{$LANG.normal}
-                <input type="radio" name="dialmethod" value="DTMF" {if $dt_troncos.dialmethod == 'DTMF'} checked="true" {/if} onclick="withauth()" />{$LANG.dtmf}
                 <input type="radio" name="dialmethod" value="NOAUTH" {if $dt_troncos.dialmethod == 'NOAUTH'} checked="true" {/if} onclick="noauth()" />{$LANG.noauth}
             </td>
         </tr>
@@ -238,9 +237,11 @@
        <td class="subtable" colspan="2" ><hr /></td>
     </tr>
     <tr>
-       <td class="formlabel"><strong>{$LANG.advancedoptions}:</strong></td>
+       <td class="formlabel" style="vertical-align: top;"><strong>{$LANG.advancedoptions}:</strong></td>
        <td class="subtable">
-           <input type="checkbox" name="extensionMapping" id="extensionMapping" {if $dt_troncos.extensionMapping}checked="checked"{/if} /> <label for="extensionMapping">{$LANG.allow_extension_mapping}</label>
+           <input type="checkbox" name="extensionMapping" id="extensionMapping" {if $dt_troncos.extensionMapping}checked="checked"{/if} /> <label for="extensionMapping">{$LANG.allow_extension_mapping}</label><br />
+           <input type="checkbox" name="dtmf_dial" id="dtmf_dial" onchange="this.checked ? $('dtmf_dial_number').enable() : $('dtmf_dial_number').disable()" {if $dt_troncos.dtmf_dial}checked="checked"{/if} /> <label for="dtmf_dial">{$LANG.dtmf}</label> -
+           <label for="dtmf_dial_number">Numero:</label><input type="text" class="campos" {if !$dt_troncos.dtmf_dial}disabled="disabled"{/if} id="dtmf_dial_number" name="dtmf_dial_number" value="{$dt_troncos.dtmf_dial_number}" /><small>(opcional)</small>
        </td>
     </tr>
     {* CONTROLE DE MINUTOS *}

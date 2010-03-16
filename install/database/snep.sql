@@ -568,6 +568,8 @@ CREATE TABLE `trunks` (
   `id_regex` VARCHAR(255) NULL,
   `map_extensions` BOOLEAN DEFAULT FALSE,
   `reverse_auth` BOOLEAN DEFAULT TRUE,
+  `dtmf_dial` BOOLEAN NOT NULL DEFAULT FALSE,
+  `dtmf_dial_number` VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

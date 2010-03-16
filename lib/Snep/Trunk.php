@@ -27,8 +27,26 @@
 class Snep_Trunk {
 
     /**
+     * DTMF Dial Mode
+     *
+     * Define que a forma de enviar digitos pelo tronco deve ser de forma
+     * "analógica". Abre-se o canal primeiro depois faz-se o envio de dtmf.
+     *
+     * @var boolean
+     */
+    private $dtmfDialMode = false;
+
+    /**
+     * Numero a se discar de forma "digital". Util para automatizar discagens
+     * para DISA's
+     *
+     * @var string
+     */
+    private $dtmfDialNumber = "";
+
+    /**
      * Id do tronco no banco de dados.
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -102,6 +120,22 @@ class Snep_Trunk {
     
     public function setInterface($interface) {
         $this->interface = $interface;
+    }
+
+    public function getDtmfDialMode() {
+        return $this->dtmfDialMode;
+    }
+
+    public function setDtmfDialMode($dtmfDialMode) {
+        $this->dtmfDialMode = $dtmfDialMode;
+    }
+
+    public function getDtmfDialNumber() {
+        return $this->dtmfDialNumber;
+    }
+
+    public function setDtmfDialNumber($dtmfDialNumber) {
+        $this->dtmfDialNumber = $dtmfDialNumber;
     }
 
     /**

@@ -307,7 +307,7 @@ form .description {
     border-color: #a4a7ab ;
 
 }
-.campos_disable {
+.campos_disable, input[disabled] {
     color:  #000000 ;
     background-color: #BBC1C6 ;
     font-family: Verdana, Arial, Helvetica, sans-serif;

@@ -351,7 +351,7 @@ function cadastrar()  {
                 }
                 
                 if($acao['tl'] != "") {
-                    $conf['tl'] = $acao['tl'];
+                    $conf['suffix'] = $acao['tl'];
                 }
 
                 $reg->setConfig($conf);
@@ -606,7 +606,7 @@ function alterar()  {
                     'cc'    => $swp['type'],
                     'ct'    => $swp['cut'],
                     'to'    => isset($swp['prefix']) ? $swp['prefix'] : '',
-                    'tl'    => isset($swp['sufix']) ? $swp['sufix'] : ''
+                    'tl'    => isset($swp['suffix']) ? $swp['suffix'] : ''
                 );
                 $index = count($action)-1;
             }
@@ -896,7 +896,7 @@ function grava_alterar()  {
                 }
 
                 if($acao['tl'] != "") {
-                    $conf['tl'] = $acao['tl'];
+                    $conf['suffix'] = $acao['tl'];
                 }
 
                 $reg->setConfig($conf);
