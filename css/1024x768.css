@@ -7,8 +7,8 @@
  *-----------------------------------------------------------------------------*/
 /* Links */
 lu li {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 9px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
 }
 .validation-failed {
     border: 1px solid #f20000 !important;
@@ -45,8 +45,8 @@ lu li {
     margin-right: 10px;
 }
 a, a:visited, li a:link, li a:visited {
-  text-decoration: none ;
-   color: #696969;
+    text-decoration: none ;
+    color: #696969;
 }
 .mais {
     height: 15px;
@@ -60,19 +60,27 @@ a, a:visited, li a:link, li a:visited {
     height: 15px;
     float:left;
     background: url("../imagens/menos.png") no-repeat left top;
-     font-weight: bolder ;
+    font-weight: bolder ;
     font-size: 1.2em ;
     padding-left: 20px ;
 }
 a:hover, li a:hover {
-   color: #F4A100 ;
-   text-decoration: underline;
+    color: #F4A100 ;
+    text-decoration: underline;
 }
 .bgfiltro {background: url("../imagens/bg_filtro.png") repeat-x left top;}
 
 .success {
     text-align: center;
     background-color: #CBFFCB;
+}
+
+.error {
+    text-align: center;
+    background-color: #FFC5C5;
+    border: 1px solid red;
+    padding: 5px;
+    margin-bottom: 5px;
 }
 
 .boxadd { border: 0px;width: 20px;background: url("../imagens/dot_add.png") no-repeat left top;}
@@ -96,58 +104,58 @@ a img {
     border: none;
 }
 .links_debug {
-   float:right;
-   background: url("../imagens/debug.png") no-repeat left top;
-   margin: 0;
-   padding-left: 18px;
-   height: 16px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #696969;
-   font-weight: bold;
-   text-decoration: none ;
+    float:right;
+    background: url("../imagens/debug.png") no-repeat left top;
+    margin: 0;
+    padding-left: 18px;
+    height: 16px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none ;
 
 }
 .links_include {
-   float:right;
-   background: url("../imagens/include.png") no-repeat left top;
-   margin: 0;
-   padding-left: 18px;
-   height: 16px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #696969;
-   font-weight: bold;
-   text-decoration: none ;
+    float:right;
+    background: url("../imagens/include.png") no-repeat left top;
+    margin: 0;
+    padding-left: 18px;
+    height: 16px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none ;
 }
 .links_exclude {
-   float:right;
-   background: url("../imagens/menos.png") no-repeat left top;
-   margin: 0;
-   padding-left: 18px;
-   height: 16px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #696969;
-   font-weight: bold;
-   text-decoration: none ;
+    float:right;
+    background: url("../imagens/menos.png") no-repeat left top;
+    margin: 0;
+    padding-left: 18px;
+    height: 16px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none ;
 }
 .links_include_left {
-   float:left;
-   background: url("../imagens/include.png") no-repeat left top;
-   margin: 0;
-   padding-left: 18px;
-   height: 16px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #696969;
-   font-weight: bold;
-   text-decoration: none ;
-   cursor:pointer;
+    float:left;
+    background: url("../imagens/include.png") no-repeat left top;
+    margin: 0;
+    padding-left: 18px;
+    height: 16px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none ;
+    cursor:pointer;
 }
 .links_include_left:hover {
     color: #FFE400 !important;
@@ -155,18 +163,18 @@ a img {
 
 .decisao {background-color: #d2d2d2;}
 div#acoes ol {
-    
+
 }
 div#acoes ol li {
-   height: 50px;
-   width: 640px;
-   padding: 3px;
-   line-height: 1.8em;
-   background: url("../imagens/fundo_acao.gif") repeat-x left bottom;
-   border:1px solid #696969;
-   background-color: #f8f8f8;
-   list-style-position:inside;
-   margin: 2px 0 2px -39px;
+    height: 50px;
+    width: 640px;
+    padding: 3px;
+    line-height: 1.8em;
+    background: url("../imagens/fundo_acao.gif") repeat-x left bottom;
+    border:1px solid #696969;
+    background-color: #f8f8f8;
+    list-style-position:inside;
+    margin: 2px 0 2px -39px;
 }
 div#acoes table,div#acoes td,div#acoes tr  {
     background-color: transparent;
@@ -181,215 +189,243 @@ div#acoes table,div#acoes td,div#acoes tr  {
 }
 
 .links_include_various {
-   float:right;
-   background: url("../imagens/include_all.png") no-repeat left top;
-   margin: 0;
-   height: 16px;
-   padding-left: 18px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #696969;
-   font-weight: bold;
-   text-decoration: none ;
+    float:right;
+    background: url("../imagens/include_all.png") no-repeat left top;
+    margin: 0;
+    height: 16px;
+    padding-left: 18px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none ;
 
 }
 .links_disable { 
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   color: #a0410d; 
-   font-weight: bold;
-   text-decoration: none ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #a0410d;
+    font-weight: bold;
+    text-decoration: none ;
 }
 .links_selected {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #000;
-   margin: 0 3px 0 3px;
-   font-weight: bold;
-   text-decoration: underline ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000;
+    margin: 0 3px 0 3px;
+    font-weight: bold;
+    text-decoration: underline ;
 }
 
 .links a:link {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   font-weight: bolder;
-   color: #696969;
-   text-decoration:none ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bolder;
+    color: #696969;
+    text-decoration:none ;
 }
 .links a:visited {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   font-weight: bolder;
-   color: #696969;
-   text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bolder;
+    color: #696969;
+    text-decoration: none;
 }
 .links a:hover {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   color: #F4A100 ;
-   font-weight: bolder;
-   text-decoration: underline;
-   
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #F4A100 ;
+    font-weight: bolder;
+    text-decoration: underline;
+
 }
 .links a:active {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   color: #a0410d ;
-   font-weight: bolder;
-   font-size: 12px;
-   text-decoration: none;   
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #a0410d ;
+    font-weight: bolder;
+    font-size: 12px;
+    text-decoration: none;
 }
 #action {border:0px;background: transparent;}
 
+
+/* Configuração dos formulários feitos com listas de definição */
+dt {
+    width: 50%;
+    margin-top: 3px;
+    text-align: right;
+    float: left;
+    margin-right: 10px;
+}
+
+dd input {
+    color:  #000000;
+    background-color: #fbfbfb;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab;
+}
+
+form .description {
+    display: inline;
+}
+/* FIM Configuração dos formulários feitos com listas de definição */
+
 /* Campos de Formularios */
 .textocampos {
-   color: #000000 ;
-   font-size: 11px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #000000 ;
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 .campos_login {
-   color:  #000000 ;
-   background-color: #FFFFFF ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   border-style: none; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
-   border-left-width: 1px;
+    color:  #000000 ;
+    background-color: #FFFFFF ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: none;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
 }
 
 .campos {
-   color:  #000000 ;
-   background-color: #fbfbfb ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   border-style: solid; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
-   border-left-width: 1px;
-   border-color: #a4a7ab ;
-   
+    color:  #000000 ;
+    background-color: #fbfbfb ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab ;
+
 }
 .campos_disable {
-   color:  #000000 ;
-   background-color: #BBC1C6 ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   border-style: solid; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
-   border-left-width: 1px;
-   border-color: #a4a7ab ; 
+    color:  #000000 ;
+    background-color: #BBC1C6 ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab ;
 }
 .campos_error {
-   color:  #FFFFFF ;
-   font-weight: bold ;
-   background-color: #FF5367 ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   border-style: solid; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
-   border-left-width: 1px;
-   border-color: #a4a7ab ; 
+    color:  #FFFFFF ;
+    font-weight: bold ;
+    background-color: #FF5367 ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab ;
 }
 
 
 
 .tit_tab {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   color: #000000;
-   font-weight: bold ;
-   border-style: solid; 
-   border-top-width: 1px; 
-   border-right-width: 1px; 
-   border-bottom-width: 1px; 
-   border-left-width: 1px;
-   border-color: #a4a7ab  ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000000;
+    font-weight: bold ;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab  ;
 }
 #mensagem {
-   width: 979px ;
-   background-color: #FFFFFF;
-   position: absolute ;
-   left: 50% ;
-   margin-left: -490px; 
-   text-align: left ;
-   padding-right: -1px ;  
+    width: 979px ;
+    background-color: #FFFFFF;
+    position: absolute ;
+    left: 50% ;
+    margin-left: -490px;
+    text-align: left ;
+    padding-right: -1px ;
 }
 #wrapper table {
     width: 200px;
 }
 table.mensagem{
-border: 1px solid #a4a7ab;
-   table-layout: auto ;
-   border-collapse: collapse ;
-   background: #FFFFFF ;
-   width: 400px ;
-   position: static; 
-   color: #000000;
-   text-align: center;
-   margin-top: 100px;
+    border: 1px solid #a4a7ab;
+    table-layout: auto ;
+    border-collapse: collapse ;
+    background: #FFFFFF ;
+    width: 400px ;
+    position: static;
+    color: #000000;
+    text-align: center;
+    margin-top: 100px;
 }
 td.mensagem {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   border: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border: none;
 }
 thead.mensagem {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 18px;
-   font-weight: bold ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold ;
 }
 .celula {
-   border: 1px solid #a4a7ab ;
-   color: #000000 ;
-   font-size: 11px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    border: 1px solid #a4a7ab ;
+    color: #000000 ;
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 /*  Exibicao*/
 .usuario {
-   float:right;
-   background: url("../imagens/usuario.png") no-repeat left top;
-   margin: 0;
-   border: 0 ;
-   padding-left: 28px;
-   padding-right: 10px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   color: #a0410d; 
-   font-weight: bold;
-   text-decoration: none ;
-   line-height: 20px ;
+    float:right;
+    background: url("../imagens/usuario.png") no-repeat left top;
+    margin: 0;
+    border: 0 ;
+    padding-left: 28px;
+    padding-right: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #a0410d;
+    font-weight: bold;
+    text-decoration: none ;
+    line-height: 20px ;
 }
 
 .titulo {
-   font-size: 16px;
-   color: #808080 ;   
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   float: left ;
+    font-size: 16px;
+    color: #808080 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    float: left ;
 }
 
 
 .rodape {
-   border-left: 1px solid #a4a7ab;
-   border-right: 1px solid #a4a7ab;
-   border-top: none;
-   border-bottom:1px solid #a4a7ab;
-   position: static ;
-   padding-top: 0px;
-   font-size: 10px;
-   background-color: #EEE ;
-   background-image: url('../imagens/menu.png');
-   color: #808080 ;
-   width: 100% ; 
-   font-weight: bold  ;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   
+    border-left: 1px solid #a4a7ab;
+    border-right: 1px solid #a4a7ab;
+    border-top: none;
+    border-bottom:1px solid #a4a7ab;
+    position: static ;
+    padding-top: 0px;
+    font-size: 10px;
+    background-color: #EEE ;
+    background-image: url('../imagens/menu.png');
+    color: #808080 ;
+    width: 100% ;
+    font-weight: bold  ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+
 }
 
 .rodape td {
@@ -398,111 +434,112 @@ thead.mensagem {
 
 /* Placas Khomp */
 .boards_khomp {
-   font-size: 18px;
-   font-variant: small-caps ;
-   text-align: left;
-   color: #000000 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;
-   border: 1px solid #a4a7ab;
-   background-color : #FFD202;
-   padding-left: 20px;
+    font-size: 18px;
+    font-variant: small-caps ;
+    text-align: left;
+    color: #000000 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
+    border: 1px solid #a4a7ab;
+    background-color : #FFD202;
+    padding-left: 20px;
 }
 .links_khomp {
-   font-size: 12px;
-   font-variant: small-caps ;
-   color: #000000 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;
-   border: 1px solid #a4a7ab;
-   text-align: center ;
-   background-color : #FFFFFF;
-   line-height: 20px;
+    font-size: 12px;
+    font-variant: small-caps ;
+    color: #000000 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
+    border: 1px solid #a4a7ab;
+    text-align: center ;
+    background-color : #FFFFFF;
+    line-height: 20px;
 
 }
 .links_sint {
-   font-size: 11px;
-   font-variant: small-caps ;
-   color: #000 ;
-   font-weight: lighter ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;
-   border: 1px solid #a4a7ab;
-   text-align: center ;
-   background-color: #fff9c4 !important;
-   line-height: 20px;
+    font-size: 11px;
+    font-variant: small-caps ;
+    color: #000 ;
+    font-weight: lighter ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
+    border: 1px solid #a4a7ab;
+    text-align: center ;
+    background-color: #fff9c4 !important;
+    line-height: 20px;
 }
 
 
 /* Textos  */
 .texto {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 12px;
-   color: #000000;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000000;
 }
 .pgdiv {
-         width: 980px;
-         height: 118px;
-         background: #E9EFF4;
-         border: none;
-         padding: 10px;
-         font-family: arial;
-         position: absolute; 
+    width: 980px;
+    height: 118px;
+    background: #E9EFF4;
+    border: none;
+    padding: 10px;
+    font-family: arial;
+    position: absolute;
 }
 #container {
-   width: 979px ;
-   background-color: #FFFFFF;
-   position: absolute ;
-   left: 50% ;
-   margin-left: -490px; 
-   text-align: left ;
-   padding-right: 1px ;   
+    width: 979px ;
+    background-color: #FFFFFF;
+    position: absolute ;
+    left: 50% ;
+    margin-left: -490px;
+    text-align: left ;
+    padding-right: 1px ;
 }
 #compactar {
-   width: 390px ;
-   background-color: #FFFFFF;
-   position: relative ;
-   float:left ;
-   text-align: left ;
-   padding-right: 1px ;
-   text-align: left;
-   left: 6%;
-   margin-top: 10px;
+    width: 390px ;
+    background-color: #FFFFFF;
+    position: relative ;
+    float:left ;
+    text-align: left ;
+    padding-right: 1px ;
+    text-align: left;
+    left: 6%;
+    margin-top: 10px;
 
 }
 
 
-#titulo {  
-   background-color: #FFFFFF;
-   font-size: 14px;
-   font-variant: small-caps ;   
-   color: #808080 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;   
+#titulo {
+    padding: 5px;
+    background-color: #FFFFFF;
+    font-size: 14px;
+    font-variant: small-caps ;
+    color: #808080 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
 }
 .tit {border-bottom: 2px solid #FFE400; display:block;}
 body, td, th, li,  lu {
-   font-size: 11px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 html, body, #container{
-   height: 99% ;
+    height: 99% ;
 }
 body {
-   padding: 0 ;
-   margin: 0; 
-   background-color: #FFFFFF;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
+    padding: 0 ;
+    margin: 0;
+    background-color: #FFFFFF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
 }
 
 table  {
-   border: 1px solid #a4a7ab;
-   table-layout: auto ;
-   border-collapse: collapse ;
-   background: #FFFFFF ; 
-   width: 100% ;
-   position: static;
-   /* margin: 1px 1px 1px 1px ; */ 
+    border: 1px solid #a4a7ab;
+    table-layout: auto ;
+    border-collapse: collapse ;
+    background: #FFFFFF ;
+    width: 100% ;
+    position: static;
+    /* margin: 1px 1px 1px 1px ; */
 }
 table tr{
     height: 25px;
@@ -513,100 +550,100 @@ table tr{
 }
 
 table.contorno{ 
-   border: 1px solid #a4a7ab;
-   table-layout: auto ;
-   border-collapse: collapse ;
-   background: #FFFFFF ;
-   width: 980px ;
-   position: static;
+    border: 1px solid #a4a7ab;
+    table-layout: auto ;
+    border-collapse: collapse ;
+    background: #FFFFFF ;
+    width: 980px ;
+    position: static;
 
 }
 table.subtable  {
-   border-left: none;
-   border-right: none;
-   border-top: none;
-   border-bottom: none;
-   width: 100%;
-   margin: 1px 1px 1px 1px ;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    width: 100%;
+    margin: 1px 1px 1px 1px ;
 }
 
 table.subtable2  {
-   border:  1px solid #a4a7ab;
-   table-layout: auto ;
-   border-collapse: collapse ;
-   background: #FFFFFF ;
-   width: 100%;
-   position: static;
+    border:  1px solid #a4a7ab;
+    table-layout: auto ;
+    border-collapse: collapse ;
+    background: #FFFFFF ;
+    width: 100%;
+    position: static;
 }
 
 table td, table th, table tf {
-   border: 1px solid #a4a7ab;
-   padding-top: 2px ;
-   padding-right: 4px ; 
-   padding-bottom: 2px  ;
-   padding-left: 4px ;  
+    border: 1px solid #a4a7ab;
+    padding-top: 2px ;
+    padding-right: 4px ;
+    padding-bottom: 2px  ;
+    padding-left: 4px ;
 } 
 
 table.subtitulo {
-   border: none ;
-   width: 50% ;
+    border: none ;
+    width: 50% ;
 }
 
 td.subtit_img {
-   border-bottom: 1px solid #a4a7ab;
-   border-left: none ;
-   border-right: none;
-   border-top: none;
-   background-color: #FFFFFF;
-   text-align: right ;
-   width: 241px ;
+    border-bottom: 1px solid #a4a7ab;
+    border-left: none ;
+    border-right: none;
+    border-top: none;
+    background-color: #FFFFFF;
+    text-align: right ;
+    width: 241px ;
 }
 td.subtit_text {
-   border-left: 1px solid #a4a7ab ;
-   border-right: none;
-   border-top: none;
-   border-bottom: 1px solid #a4a7ab;
-   background-color: #FFFFFF;
-   font-size: 16px;
-   font-variant: small-caps ;
-   color: #808080 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;   
+    border-left: 1px solid #a4a7ab ;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid #a4a7ab;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-variant: small-caps ;
+    color: #808080 ;
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica,sans-serif;
 }
 
 td.norightcenter {
-   border-right: none ;
-   text-align: center ;
+    border-right: none ;
+    text-align: center ;
 }
 
 td.noleftrightcenter {
-   border-left: none ;
-   border-right: none ;
-   text-align: center ;
-   
+    border-left: none ;
+    border-right: none ;
+    text-align: center ;
+
 }
 
 td.subtable {
-   border-left: none;
-   border-right: none;
-   border-top: none;
-   border-bottom: none;
-   padding-top: 2px ;
-   padding-right: 1px ; 
-   padding-bottom: 1px  ;
-   padding-left: 5px ;  
-     
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    padding-top: 2px ;
+    padding-right: 1px ;
+    padding-bottom: 1px  ;
+    padding-left: 5px ;
+
 } 
 td.formlabel  {
-   border-left: none;
-   border-right: none ;
-   border-top: none;
-   border-bottom: none;
-   width: 100%;
-   margin: 1px 1px 1px 1px ;
-   text-align: right ;
-   width: 385px;
-   padding-right: 5px;
+    border-left: none;
+    border-right: none ;
+    border-top: none;
+    border-bottom: none;
+    width: 100%;
+    margin: 1px 1px 1px 1px ;
+    text-align: right ;
+    width: 385px;
+    padding-right: 5px;
 }
 
 form {
@@ -615,103 +652,103 @@ form {
 }
 
 table thead {
-   font-weight: bold ;
-   position: static ;
-   background: #ffe400;
-   
-   text-align : center; 
+    font-weight: bold ;
+    position: static ;
+    background: #ffe400;
+
+    text-align : center;
 }
 
 .tb_tit1 {
-   border: 1px solid #a4a7ab;
-   font-weight: bold ;
-   position: static ;
-   background-color : #FFD202;
-   text-align : center; 
+    border: 1px solid #a4a7ab;
+    font-weight: bold ;
+    position: static ;
+    background-color : #FFD202;
+    text-align : center;
 }
 
 .tb_tit2 {
-   border: 1px solid #a4a7ab;
-   font-weight: bold ;
-   position: static ;
-   background-color : #fffa7c ;
-   text-align : center;
+    border: 1px solid #a4a7ab;
+    font-weight: bold ;
+    position: static ;
+    background-color : #fffa7c ;
+    text-align : center;
 }
 
 .col_vazia {
-   width: 1px;
-   margin: 0px ;
-   padding: 0px;
-   background-color: #a4a7ab ;
+    width: 1px;
+    margin: 0px ;
+    padding: 0px;
+    background-color: #a4a7ab ;
 }
 
 table tfoot {
-   font-weight: bold ;
-   position: static ;
+    font-weight: bold ;
+    position: static ;
 }
 
 
 .item_graph {
-   background: #BFBFBF ;
-   font-size: 11px;
-   color: #000000;
-   text-decoration: none;
-   font-family: Verdana, Arial, Helvetica, sans-serif; 
+    background: #BFBFBF ;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .item_graph_sel{
-   background: #FFFFFF ;
-   font-size: 11px;
-   color: #e22424;
-   text-decoration: none; 
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF ;
+    font-size: 11px;
+    color: #e22424;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .item_rel_par {
-   background: #EEEEEE ;
-   font-size: 11px;
-   color: #000000;
-   text-decoration: none;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #EEEEEE ;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .item_rel_par_sel{
-   background: #E0E0E0 ;
-   font-size: 11px;
-   color: #000;
-   text-decoration: none;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #E0E0E0 ;
+    font-size: 11px;
+    color: #000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .item_rel_impar{
-   background: #FFFFFF ;
-   font-size: 11px;
-   color: #000000;
-   text-decoration: none;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF ;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .item_rel_impar_sel{
-   background: #E0E0E0 ;
-   font-size: 11px;
-   color: #000;
-   text-decoration: none;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #E0E0E0 ;
+    font-size: 11px;
+    color: #000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .italic {
-   font-style:italic;
+    font-style:italic;
 }
 .cen  { 
-   text-align: center ;
+    text-align: center ;
 }
 
 .esq { 
-   text-align: left ;
+    text-align: left ;
 }
 
 .dir { 
-   text-align: right ;
+    text-align: right ;
 }
 .dir .links {
     color: #696969;
@@ -720,89 +757,89 @@ table tfoot {
 acronym {border: 0px;cursor:pointer;}
 
 .link_esp_1 {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   color: #0000FF; 
-   font-weight: bold;
-   text-decoration: none ;
-   text-align: center ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #0000FF;
+    font-weight: bold;
+    text-decoration: none ;
+    text-align: center ;
 }
 
 
 /* Menus do OP-Panel */
 #menu_op {
-   position: relative;
-   text-align: left ;
-   width: 100% ;
-   top: 23px ;
+    position: relative;
+    text-align: left ;
+    width: 100% ;
+    top: 23px ;
 }
 
 #menu_rel_op {
-   position: static;
-   float:left;
-   width:100%;
-   font-size: 93%;
-   line-height:normal;
-   list-style: none;
-   background-color: #FFFFFF ;
-   border-bottom: 1px solid #765;
+    position: static;
+    float:left;
+    width:100%;
+    font-size: 93%;
+    line-height:normal;
+    list-style: none;
+    background-color: #FFFFFF ;
+    border-bottom: 1px solid #765;
 }
 #menu_rel_op ul {
-   margin:0;
-   padding: 0;
-   list-style:none;
+    margin:0;
+    padding: 0;
+    list-style:none;
 }
 #menu_rel_op li {
-   float:left;
-   background: url("../imagens/esq.gif") no-repeat left top;
-   margin:0;
-   padding: 0 0 0 9px;
+    float:left;
+    background: url("../imagens/esq.gif") no-repeat left top;
+    margin:0;
+    padding: 0 0 0 9px;
 }
 #menu_rel_op a {
-   display:block;
-   background:url("../imagens/dir.gif") no-repeat right top;
-   padding: 5px 15px 4px 6px;
-   text-decoration:none;
-   font-weight:bold;
-   color:#000;
+    display:block;
+    background:url("../imagens/dir.gif") no-repeat right top;
+    padding: 5px 15px 4px 6px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#000;
 }
 #menu_rel_op a:hover {
-   color: #f7931e ;
+    color: #f7931e ;
 }
 #menu_rel_op #current_op a {
-   background:url("../imagens/dir-sel.gif") no-repeat right top ;
-   color: #FFFFFF ;
+    background:url("../imagens/dir-sel.gif") no-repeat right top ;
+    color: #FFFFFF ;
 }
 #menu_rel_op #current_op{
-   background:url("../imagens/esq-sel.gif")  no-repeat left top;
+    background:url("../imagens/esq-sel.gif")  no-repeat left top;
 }
 
 #container_op {
-width: 1024px ;
-background-color: #FFFFFF;
-position: absolute ;
-text-align: left ;
-padding: 0 ;
+    width: 1024px ;
+    background-color: #FFFFFF;
+    position: absolute ;
+    text-align: left ;
+    padding: 0 ;
 }
 
 table.op  {
-border-top: 1px solid #a4a7ab ;
-border-right: 1px solid #a4a7ab ;
-table-layout: auto ;
-border-collapse: collapse ;
-background: #FFFFFF ;
-width: 1020px ;
-height: 700px; 
-position: static;
-margin: 1px 1px 1px 1px ;
+    border-top: 1px solid #a4a7ab ;
+    border-right: 1px solid #a4a7ab ;
+    table-layout: auto ;
+    border-collapse: collapse ;
+    background: #FFFFFF ;
+    width: 1020px ;
+    height: 700px;
+    position: static;
+    margin: 1px 1px 1px 1px ;
 }
 
 input.pagina {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  color: #FFd202; 
-  border: none ;
-  background: #FFFFFF ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #FFd202;
+    border: none ;
+    background: #FFFFFF ;
 }
 
 input.button { 
@@ -852,135 +889,135 @@ input.button:hover {
     background: url("../imagens/buttom_off_right.png") no-repeat;
 }
 .contador {
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   border: none ;
-   text-align: center ;
-   color: #0000FF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border: none ;
+    text-align: center ;
+    color: #0000FF;
 }
 .popup {
-   width: 400px;
+    width: 400px;
 }
 #ajuda {
-   height: 24px ;
-   border-top: 1px solid #FFF;
-   /*background-color: #EEE;*/
-   width: 68px ;
-   float:left;
-   position: absolute;
+    height: 24px ;
+    border-top: 1px solid #FFF;
+    /*background-color: #EEE;*/
+    width: 68px ;
+    float:left;
+    position: absolute;
 }
 #ajuda a:link, #ajuda a:visited, #ajuda a:hover {
-  font-weight: bolder ;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  text-align: left;
-  /*background: #EEE;*/
-  text-decoration: none;
-  padding: 0 10px;
-  color: #666;
-  font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif;
-  
+    font-weight: bolder ;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: left;
+    /*background: #EEE;*/
+    text-decoration: none;
+    padding: 0 10px;
+    color: #666;
+    font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif;
+
 }
 /*-----------------------------------------------------------------------------*/
 /*  Menus do Sistema                                                           */
 /*-----------------------------------------------------------------------------*/
 #menu {
-   position: relative;
-   text-align: left ;
-   width: 978px ;
-   height: 24px ;
-   border: 1px solid #FFF;
-   border-left: none;
-   background-color: #EEE;
-   background-image: url('../imagens/menu.png');
-   z-index: 20 ; /*Mantem os Menus acima de outros objetos da Pagina */
+    position: relative;
+    text-align: left ;
+    width: 978px ;
+    height: 24px ;
+    border: 1px solid #FFF;
+    border-left: none;
+    background-color: #EEE;
+    background-image: url('../imagens/menu.png');
+    z-index: 20 ; /*Mantem os Menus acima de outros objetos da Pagina */
 }
 
 
 /* Root = Horizontal, Secondary = Vertical */
 ul#navmenu {
-  margin: 0;
-  border: 0 none;
-  padding: 0;
-  width: 100%; /*For KHTML */
-  list-style: none;
-  height: 24px;
+    margin: 0;
+    border: 0 none;
+    padding: 0;
+    width: 100%; /*For KHTML */
+    list-style: none;
+    height: 24px;
 }
 
 ul#navmenu li {
-  margin: 0;
-  border: 0 none;
-  padding: 0;
-  float: right; /*For Gecko*/ 
-  display: inline;
-  list-style: none;
-  position: relative;
-  height: 24px;
+    margin: 0;
+    border: 0 none;
+    padding: 0;
+    float: right; /*For Gecko*/
+    display: inline;
+    list-style: none;
+    position: relative;
+    height: 24px;
 }
 
 ul#navmenu ul { 
-  margin: 0;
-  border: 0 none;
-  padding: 0;
-  width: 190px; 
-  list-style: none;
-  display: none;
-  position: absolute;
-  top: 24px;
-  left: 0;
+    margin: 0;
+    border: 0 none;
+    padding: 0;
+    width: 190px;
+    list-style: none;
+    display: none;
+    position: absolute;
+    top: 24px;
+    left: 0;
 }
- 
+
 ul#navmenu ul:after /*From IE 7 lack of compliance*/{
-  clear: both;
-  display: block;
-  font: 1px/0px serif;
-  content: ".";
-  height: 0;
-  visibility: hidden;
+    clear: both;
+    display: block;
+    font: 1px/0px serif;
+    content: ".";
+    height: 0;
+    visibility: hidden;
 }
- 
+
 ul#navmenu ul li {
-  width: 160px;
-  float: left; /*For IE 7 lack of compliance*/
-  display: block !important;
-  display: inline; /*For IE*/
-  
+    width: 160px;
+    float: left; /*For IE 7 lack of compliance*/
+    display: block !important;
+    display: inline; /*For IE*/
+
 }
- 
+
 /* Root Menu */
 ul#navmenu a {
-  border-left: 1px solid #CCC;
-  /*border-bottom-color: #CCC;*/
-  padding: 0 6px;
-  float: none !important; /*For Opera*/
-  float: left; /*For IE*/
-  display: block; 
-  /*background: #EEE;*/
-  color: #666;
-  font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif;
-  text-decoration: none;
-  height: auto !important;
-  height: 1%; /*For IE*/
-  
+    border-left: 1px solid #CCC;
+    /*border-bottom-color: #CCC;*/
+    padding: 0 6px;
+    float: none !important; /*For Opera*/
+    float: left; /*For IE*/
+    display: block;
+    /*background: #EEE;*/
+    color: #666;
+    font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    height: auto !important;
+    height: 1%; /*For IE*/
+
 } 
 
 /* Root Menu Hover Persistence */
 ul#navmenu a:hover,
 ul#navmenu li:hover a,
 ul#navmenu li.iehover a {
-  background: #CCC;
-  color: #FFF; 
-  z-index: 2;
+    background: #CCC;
+    color: #FFF;
+    z-index: 2;
 }
- 
+
 /* 2nd Menu */
 ul#navmenu li:hover li a,
 ul#navmenu li.iehover li a {
-  float: none; 
-  background: #EEE;
-  color: #666;
-  border: 1px solid #FFF;
-  border-left: 1px solid #ccc;
-  z-index: 2;
+    float: none;
+    background: #EEE;
+    color: #666;
+    border: 1px solid #FFF;
+    border-left: 1px solid #ccc;
+    z-index: 2;
 } 
 
 /* 2nd Menu Hover Persistence */
@@ -988,16 +1025,16 @@ ul#navmenu li:hover li a:hover,
 ul#navmenu li:hover li:hover a,
 ul#navmenu li.iehover li a:hover,
 ul#navmenu li.iehover li.iehover a {
-  background: #CCC;
-  color: #FFF;
-   
+    background: #CCC;
+    color: #FFF;
+
 }
 
 /* 3rd Menu */
 ul#navmenu li:hover li:hover li a,
 ul#navmenu li.iehover li.iehover li a {
-  background: #EEE;
-  color: #666;
+    background: #EEE;
+    color: #666;
 }
 
 /* 3rd Menu Hover Persistence */
@@ -1005,30 +1042,30 @@ ul#navmenu li:hover li:hover li a:hover,
 ul#navmenu li:hover li:hover li:hover a,
 ul#navmenu li.iehover li.iehover li a:hover,
 ul#navmenu li.iehover li.iehover li.iehover a {
-  background: #CCC;
-  color: #FFF;
+    background: #CCC;
+    color: #FFF;
 }
 
 /* 4th Menu */
 ul#navmenu li:hover li:hover li:hover li a,
 ul#navmenu li.iehover li.iehover li.iehover li a {
-  background: #EEE;
-  color: #666;
+    background: #EEE;
+    color: #666;
 }
 
 /* 4th Menu Hover */
 ul#navmenu li:hover li:hover li:hover li a:hover,
 ul#navmenu li.iehover li.iehover li.iehover li a:hover {
-  background: #CCC;
-  color: #FFF;
+    background: #CCC;
+    color: #FFF;
 }
 
 ul#navmenu ul ul,
 ul#navmenu ul ul ul {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 160px;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 160px;
 }
 
 /* Do Not Move - Must Come Before display:block for Gecko */
@@ -1036,7 +1073,7 @@ ul#navmenu li:hover ul ul,
 ul#navmenu li:hover ul ul ul,
 ul#navmenu li.iehover ul ul,
 ul#navmenu li.iehover ul ul ul {
-  display: none;
+    display: none;
 }
 
 ul#navmenu li:hover ul,
@@ -1045,7 +1082,7 @@ ul#navmenu ul ul li:hover ul,
 ul#navmenu li.iehover ul,
 ul#navmenu ul li.iehover ul,
 ul#navmenu ul ul li.iehover ul {
-  display: block;
+    display: block;
 }
 .band_on {
     width: 22px;
