@@ -87,7 +87,7 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
         $mail->setSubject('[snep] Alerta de uso de Tronco Redundante');
 
         $tronco = PBX_Trunks::get($this->config['tronco']);
-        $msg = "Sr. Administrador,\n\tEste é um alerta de que o SNEP identificou o uso de um tronco redudante para uma chamada.\n";
+        $msg = "Sr. Administrador,\n\tEste é um alerta de que o SNEP identificou o uso de um tronco marcado para enviar email caso utilizado.\n";
         $msg .= "Alerta para tronco $tronco, as seguintes informações foram registradas pelo sistema:\n";
 
         foreach ($informations as $info => $message) {
@@ -315,7 +315,7 @@ XML;
                     }
                     $cfg = $action->getConfigArray();
                     if($action instanceof PBX_Rule_Action_DiscarTronco) {
-                        $lastdialaction = Snep_Troncos::get($cfg['tronco']);
+                        $lastdialaction = PBX_Trunks::get($cfg['tronco']);
                     }
                     else if($action instanceof PBX_Rule_Action_DiscarRamal) {
                         $lastdialaction = $cfg['ramal'];

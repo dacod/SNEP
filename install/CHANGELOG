@@ -8,6 +8,7 @@ não seja especificado.
     Adicionado modo de discagem via DTMF para todos os tipos de tronco.
     Corrigido bug em relatório de chamadas para consulta por grupos de ramais em
 destino.
+    Corrigido bug no envio de emails após uso de tronco redundante.
 
 1.1.2:
     Mudança na forma como são executadas as instruções ao banco de dados na
