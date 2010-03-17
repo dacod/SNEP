@@ -184,10 +184,10 @@ function configura_musiconhold($action,$name,$desc="",$mode="",$dir="",$app="") 
       return False ;
    }
    // Monta nova Entrada para a secao no Arquivo
-   $novo_conteudo  = "\n;SNEP($name) = $desc\n" ;
+   $novo_conteudo  = "\n;SNEP($name) =$desc\n" ;
    $novo_conteudo .= "[$name]\n" ;
    $novo_conteudo .= "mode=$mode\n" ;
-   $novo_conteudo .= "directory=".SNEP_PATH_MOH."$dir\n" ;
+   $novo_conteudo .= "directory=".$config->system->path->asterisk->moh."/$dir\n" ;
    if (strlen($app) > 0) {
       $novo_conteudo .= "application=$app\n" ;
    }
