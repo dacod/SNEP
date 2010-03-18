@@ -27,7 +27,7 @@ require_once "Zend/Config/Ini.php";
  *
  * @category  Snep
  * @package   Snep_Bootstrap
- * @copyright Copyright (c) 2009 OpenS Tecnologia
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
 abstract class Snep_Bootstrap {

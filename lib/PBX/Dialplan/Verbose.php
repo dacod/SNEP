@@ -30,7 +30,7 @@
  *
  * @category  Snep
  * @package   Snep
- * @copyright Copyright (c) 2009 OpenS Tecnologia
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
 class PBX_Dialplan_Verbose extends PBX_Dialplan {

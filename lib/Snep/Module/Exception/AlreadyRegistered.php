@@ -21,7 +21,7 @@
  *
  * @category  Snep
  * @package   Snep_Module
- * @copyright Copyright (c) 2009 OpenS Tecnologia
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
 class Snep_Module_Exception_AlreadyRegistered extends Exception {}

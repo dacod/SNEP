@@ -21,7 +21,7 @@
  *
  * @category  Snep
  * @package   PBX_Asterisk
- * @copyright Copyright (c) 2009 OpenS Tecnologia
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
 class PBX_Asterisk_Log_Writer extends Zend_Log_Writer_Abstract {
