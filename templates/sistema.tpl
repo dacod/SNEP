@@ -95,13 +95,21 @@
                   </td>
                </tr>
             </thead>
-            {foreach from=$SIS.modules item=module name=module}
+            {if count($SIS.modules) > 0}
+                {foreach from=$SIS.modules item=module name=module}
+                <tr>
+                   <td class="campos"><strong>{$module.name}</strong></td>
+                   <td class="campos">{$module.version}</td>
+                   <td class="campos">{$module.description}</td>
+                </tr>
+                {/foreach}
+            {else}
             <tr>
-               <td class="campos"><strong>{$module.name}</strong></td>
-               <td class="campos">{$module.version}</td>
-               <td class="campos">{$module.description}</td>
+                <td>
+                    <p style="text-align: center;"><img style="vertical-align: bottom" src="../imagens/ico_info.png" />Nenhum módulo instalado</p>
+                </td>
             </tr>
-            {/foreach}
+            {/if}
          </table>
       </td>
       <td  style="width:50%" valign="top" class="subtable">
