@@ -155,11 +155,23 @@ XML;
             if(!is_null($this->getRule())) {
                 $expr = $this->config['type'] == 'src' ? $this->getRule()->getValidSrcExpr($num) : $this->getRule()->getValidDstExpr($num);
                 if($expr['type'] == 'RX') {
-                    // Removendo da contagem as expressoes como [13-6] e removendo a contagem do _
-                    $cut_inst = strpos(ereg_replace("\[[0-9\-]*\]", "#", $expr['value']), "|");
-                    if($cut_inst > 0) { // caso haja algo para cortar
+                    // Removendo da contagem caracteres de controle e instrução
+                    $normalized_string = str_replace("_", "", $expr['value']);
+
+                    // Normalizando [123-8] e similares para um unico caractere
+                    $normalized_string = ereg_replace("\[[0-9\-]*\]", "#", $normalized_string);
+
+                    /* Nesse ponto uma expressão:
+                     * _0XX|[2-9]XX[23].
+                     * Deve ser:
+                     * 0XX|#XX#.
+                     */
+
+                    $cut_point = strpos($normalized_string, "|");
+
+                    if($cut_point > 0) { // caso haja algo para cortar
                         // Cortando
-                        $num = substr($num, $cut_inst);
+                        $num = substr($num, $cut_point);
                     }
                 }
                 else {
