@@ -154,7 +154,7 @@ function alterar()  {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar()  {
-    global $LANG, $db, $cod_grupo, $nome, $type, $lista1, $lista2;
+    global $LANG, $db, $cod_grupo, $nome, $type, $lista2;
 
     // Fazendo procura por referencia a esse grupo em regras de negócio.
     $rules_query = "SELECT id FROM regras_negocio WHERE origem LIKE '%G:$cod_grupo%' OR destino LIKE '%G:$cod_grupo%'";
@@ -194,6 +194,17 @@ function grava_alterar()  {
     } catch (Exception $e) {
         $db->rollBack();
         display_error($LANG['error'].$e->getMessage(),true);
+    }
+
+    $query = "SELECT name from peers where peers.group='$nome'";
+    $atuais = $db->query($query)->fetchAll();
+
+    foreach($atuais as $id => $ramal) {
+
+        $sql_reset = "UPDATE peers SET peers.group='users' where name='{$ramal['name']}' ";
+        $db->beginTransaction();
+        $db->exec($sql_reset);
+        $db->commit();
     }
 
     foreach ($lista2 as $id => $wal) {
