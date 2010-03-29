@@ -82,7 +82,7 @@ if($acao == "simulate") {
     $dialplan->setRequest($request);
 
     if($time){
-      if(ereg("^[0-9]:([0-9]{2})$", $time)) {
+      if(preg_match("/^[0-9]:([0-9]{2})$/", $time)) {
         $time = "0" . $time;
       }
       $dialplan->setTime($time);

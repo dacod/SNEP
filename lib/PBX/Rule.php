@@ -280,7 +280,7 @@ class PBX_Rule {
     private function checkExpr($type, $expr, $value) {
         switch($type) {
             case 'RX': // Expressão Regular
-                return ereg($this->astrule2regex($expr), $value);
+                return preg_match("/{$this->astrule2regex($expr)}/", $value);
                 break;
             case 'G':
                 if($this->request->getSrcObj() instanceof Snep_Usuario) {

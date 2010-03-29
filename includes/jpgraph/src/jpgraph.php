@@ -5981,7 +5981,7 @@ class Image {
 	    }
 	}
 	else {
-	    if( ereg("\n",$txt) ) { 
+	    if( preg_match("/\n/",$txt) ) {
 		$tmp = split("\n",$txt);
 		for($i=0; $i < count($tmp); ++$i) {
 		    $w1 = $this->GetTextWidth($tmp[$i]);
@@ -6113,7 +6113,7 @@ class Image {
 	    $oy=$y;
 	}
 
-	if( !ereg("\n",$txt) || ($dir>0 && ereg("\n",$txt)) ) {
+	if( !preg_match("/\n/",$txt) || ($dir>0 && preg_match("/\n/",$txt)) ) {
 	    // Format a single line
 
 	    $txt = $this->AddTxtCR($txt);

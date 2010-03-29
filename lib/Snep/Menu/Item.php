@@ -93,7 +93,7 @@ class Snep_Menu_Item {
      * @param string $id
      */
     public function setId($id) {
-        if( ereg("[^a-zA-Z0-9_]", $id) ) {
+        if( preg_match("/[^a-zA-Z0-9_]/", $id) ) {
             throw new PBX_Exception_BadArg("Id de menus só podem conter letras, numeros e _ (underline).");
         }
         else {

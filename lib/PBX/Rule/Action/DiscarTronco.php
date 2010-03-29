@@ -234,7 +234,7 @@ XML;
     /**
      * Executa a ação. É chamado dentro de uma instancia usando AGI.
      *
-     * @param AGI $asterisk
+     * @param Asterisk_AGI $asterisk
      * @param Asterisk_AGI_Request $request
      */
     public function execute($asterisk, $request) {

@@ -42,7 +42,7 @@ class PBX_Khomp_Info {
     public function hasWorkingBoards() {
         $response = $this->asterisk->Command("khomp summary concise");
         
-        if(ereg("No such command", $response['data'])) {
+        if(preg_match("/No such command/", $response['data'])) {
             return false;
         }
         else {
@@ -83,9 +83,9 @@ class PBX_Khomp_Info {
                     "serial"   => $raw_info[2],
                     "channels" => (int) $raw_info[3]
                 );
-                if(!isset($raw_info[4]) || !ereg('E1', $raw_info[1])){
+                if(!isset($raw_info[4]) || !preg_match('/E1/', $raw_info[1])){
                     $boards[$bid]['links'] = 0;
-                    if(ereg('KFXVoIP', $raw_info[1])) {
+                    if(preg_match('/KFXVoIP/', $raw_info[1])) {
                         $boards[$bid]['channels'] = 8;
                     }
                 }

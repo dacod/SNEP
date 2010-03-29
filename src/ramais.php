@@ -75,7 +75,7 @@ catch( Asterisk_Exception_CantConnect $ex ) {
 $no_khomp = false;
 if( $khompInfo->hasWorkingBoards() ) {
     foreach( $khompInfo->boardInfo() as $board ) {
-        if( ereg("KFXS", $board['model']) ) {
+        if( preg_match("/KFXS/", $board['model']) ) {
             $channels = range(0, $board['channels']);
 
             $khomp_boards_list[$board['id']] = $channels;

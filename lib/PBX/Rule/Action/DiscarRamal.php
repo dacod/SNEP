@@ -319,7 +319,7 @@ XML;
             }
 
             $log->info("Discando para ramal $ramal no canal $canal.");
-            $asterisk->exec_dial($canal,$this->dial_timeout,$flags);
+            $asterisk->exec_dial($canal,$this->dial_timeout,$this->dial_flags);
 
             $dialstatus = $asterisk->get_variable("DIALSTATUS");
             $log->debug("DIALSTATUS: " . $dialstatus['data']);

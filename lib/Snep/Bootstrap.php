@@ -115,7 +115,7 @@ abstract class Snep_Bootstrap {
 
         foreach( scandir($modules_dir) as $filename ) {
             // Todos os arquivos .php devem ser classes de descrição de modulos
-            if( ereg(".*\.php$", $filename) ) {
+            if( preg_match("/.*\.php$/", $filename) ) {
                 require_once $modules_dir . "/" . $filename;
                 $classname = basename($filename, '.php');
                 if(class_exists($classname)) {
@@ -135,7 +135,7 @@ abstract class Snep_Bootstrap {
 
         foreach( scandir($actions_dir) as $filename ) {
             // Todos os arquivos .php devem ser classes de Ações
-            if( ereg(".*\.php$", $filename) ) {
+            if( preg_match("/.*\.php$/", $filename) ) {
                 // Tentar instanciar e Adicionar no array
                 $classname = 'PBX_Rule_Action_' . basename($filename, '.php');
                 if(class_exists($classname)) {
@@ -149,7 +149,7 @@ abstract class Snep_Bootstrap {
             if( file_exists($actions_dir) ) {
                 foreach( scandir($actions_dir) as $filename ) {
                     // Todos os arquivos .php devem ser classes de Ações
-                    if( ereg(".*\.php$", $filename) ) {
+                    if( preg_match("/.*\.php$/", $filename) ) {
                         // Tentar instanciar e Adicionar no array
                         require_once $actions_dir . "/" . $filename;
                         $classname = basename($filename, '.php');

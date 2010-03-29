@@ -245,7 +245,7 @@ class System_Daemon_Options
                         case "email":
                             $exp  = "^[a-z0-9]+([._-][a-z0-9]+)*@([a-z0-9]+";
                             $exp .= "([._-][a-z0-9]+))+$";
-                            if (eregi($exp, $value)) {
+                            if (preg_match("/$exp/i", $value)) {
                                 $type_valid = true;
                             }
                             break;

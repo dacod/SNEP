@@ -159,7 +159,7 @@ XML;
                     $normalized_string = str_replace("_", "", $expr['value']);
 
                     // Normalizando [123-8] e similares para um unico caractere
-                    $normalized_string = ereg_replace("\[[0-9\-]*\]", "#", $normalized_string);
+                    $normalized_string = preg_replace("/\[[0-9\-]*\]/", "#", $normalized_string);
 
                     /* Nesse ponto uma expressão:
                      * _0XX|[2-9]XX[23].

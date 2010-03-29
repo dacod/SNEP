@@ -84,7 +84,7 @@ $fxs_list = array();
 if( $khompInfo->hasWorkingBoards() ) {
     $khomp_boards = $khompInfo->boardInfo();
     foreach ($khomp_boards as $board) {
-        if( ereg("FXS", $board['model']) ) {
+        if( preg_match("/FXS/", $board['model']) ) {
             $fxs_list[] = $board;
         }
     }

@@ -38,10 +38,10 @@ $khomp_info = new PBX_Khomp_Info();
 $khomp_boards = array();
 if($khomp_info->hasWorkingBoards()) {
     foreach ($khomp_info->boardInfo() as $board) {
-        if(!ereg("FXS", $board['model'])) {
+        if(!preg_match("/FXS/", $board['model'])) {
             $khomp_boards["b" . $board['id']] = "{$board['id']} - Placa {$board['model']}";
             $id = "b" . $board['id'];
-            if(ereg("E1", $board['model'])) {
+            if(preg_match("/E1/", $board['model'])) {
                 for($i = 0; $i < $board['links']; $i++)
                     $khomp_boards["b" . $board['id'] . "l$i"] = $board['model']. " - Link $i";
             }

@@ -116,7 +116,14 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
         // de TECH/ID-HASH para TECH/ID
         $channel = strpos($channel,'-') ? substr($channel, 0, strpos($channel,'-')) : $channel;
 
-        $object = PBX_Interfaces::getChannelOwner($channel);
+        $ramal = null;
+        try {
+            $ramal = PBX_Usuarios::get($this->request['callerid']);
+            $object = $ramal;
+        }
+        catch( Exception $ex ) {
+            $object = PBX_Interfaces::getChannelOwner($channel);
+        }
 
         if( $object instanceof Snep_Trunk && $object->allowExtensionMapping()) {
             try {

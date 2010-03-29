@@ -69,7 +69,7 @@ class AsteriskInfo {
                 $ret_quebrado = " ";
 
                 foreach(explode("\n", $cmd['data']) as $line) {
-                    if (ereg($quebra, $line)) {
+                    if (preg_match("/$quebra/", $line)) {
                         $ret_quebrado .= $line;
                         break;
                     }

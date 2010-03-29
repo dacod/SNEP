@@ -45,10 +45,10 @@ class PBX_Fax {
         $this->env_path = $config->system->path->hylafax . "/sendq";
 
         $rec = exec("ls -lah --time-style=long-iso $this->rec_path > /tmp/recvq");
-        $arrRec = explode("\n",ereg_replace( ' +', ' ', file_get_contents("/tmp/recvq")));
+        $arrRec = explode("\n",preg_replace( '/ +/', ' ', file_get_contents("/tmp/recvq")));
 
         $env = exec("ls -lah --time-style=long-iso $this->env_path > /tmp/sendq");
-        $arrEnv = explode("\n",ereg_replace( ' +', ' ', file_get_contents("/tmp/sendq")));
+        $arrEnv = explode("\n",preg_replace( '/ +/', ' ', file_get_contents("/tmp/sendq")));
 
         // Percorre resultados da listagem da pasta enviados
         if($sended) {

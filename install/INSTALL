@@ -19,7 +19,7 @@ pelo servidor Apache para que se possa ter o real acesso a interface.
 
     Também é necessário instalar o banco de dados no servidor MySQL. Para isso
         $ mysql -uusuario -psenha < snep.sql
-        $ mysql -uusuario -psenha snep < cnl.sql
+        $ mysql -uusuario -psenha snep25 < cnl.sql
 
     Dica: geralmente as instações são feitas em /var/www/snep. Em distribuições
 que não alteram o httpd (apache) o diretório estará disponível por padrão em
