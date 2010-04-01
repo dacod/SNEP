@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -17,10 +17,10 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('./agi_base.php');
+require_once('agi_base.php');
 
 if(!isset($argv[1]) || !is_numeric($argv[1])) {
-    $log->crit("Argumento invalido para primeiro argumento , $argv[1]. Espera-se um ramal");
+   $log->crit("Argumento invalido para primeiro argumento , $argv[1]. Espera-se um ramal");
 }
 
 if(isset($argv[2])) {

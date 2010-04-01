@@ -33,22 +33,6 @@ GRANT ALL PRIVILEGES ON `snep25` . * TO 'snep'@'localhost';
 USE snep25;
 
 --
---Table structure for table `snepcdr`
---
-DROP TABLE IF EXISTS `snepcdr`;
-CREATE TABLE `snepcdr` (
-    `callid` integer NOT NULL,
-    `date` datetime NOT NULL,
-    `source` varchar(60),
-    `destiny` varchar(60),
-    `status` varchar(30),
-    `duration` integer,
-    `billsec` integer,
-    `context` varchar(200),
-    `contextid` varchar(200)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
 -- Table structure for table `agentes`
 --
 
@@ -689,6 +673,7 @@ CREATE TABLE `voicemail_users` (
 -- Estrutura da tabela `contacts_group`
 --
 
+DROP TABLE IF EXISTS `contacts_group`;
 CREATE TABLE IF NOT EXISTS `contacts_group` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
@@ -702,7 +687,7 @@ INSERT INTO `contacts_group` VALUES (1, 'Default');
 --
 -- Estrutura da tabela `contacts_names`
 --
-
+DROP TABLE IF EXISTS `contacts_names`;
 CREATE TABLE IF NOT EXISTS `contacts_names` (
   `id` char(11) NOT NULL,
   `name` varchar(80) NOT NULL,

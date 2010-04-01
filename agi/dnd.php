@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -22,7 +22,7 @@
  */
 
 // Importando as configurações para AGI's
-require_once("./agi_base.php");
+require_once("agi_base.php");
 
 if($argc < 2 && ($argv[1] != "enable" OR $argv[1] != "disable")) {
     $asterisk->verbose("ERRO: Esse script espera um parametro: enable/disable");

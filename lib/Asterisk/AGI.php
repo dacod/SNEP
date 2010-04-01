@@ -321,7 +321,7 @@
     function exec($application, $options)
     {
       if(is_array($options)) $options = join('|', $options);
-      return $this->evaluate("EXEC $application $options");
+      return $this->evaluate("EXEC $application \"$options\"");
     }
 
    /**
@@ -1168,20 +1168,6 @@
         }
       }
       return $choice;
-    }
-
-   /**
-    * Goto - Set context, extension and priority.
-    *
-    * @param string $context
-    * @param string $extension
-    * @param string $priority
-    */
-    function goto($context, $extension='s', $priority=1)
-    {
-      $this->set_context($context);
-      $this->set_extension($extension);
-      $this->set_priority($priority);
     }
 
    /**

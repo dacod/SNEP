@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -20,7 +20,7 @@
 /**
  * Gerencia a entrada e remoção de agentes nas filas a que faz parte.
  */
-require_once("./agi_base.php");
+require_once('agi_base.php');
 
 // Parsing args
 if($argc > 3 || $argc < 2)

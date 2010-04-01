@@ -73,7 +73,7 @@
                  <td class="esq">{$LANG.decode}</td>
               </tr>
            </thead>
-           {if $CODECS.1 != 'No'}
+           {if $CODECS.1}
               <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
                  <td class="esq" style="vertical-align: top;">{$CODECS.0}</td>
                  <td class="esq">{$CODECS.1}</td>

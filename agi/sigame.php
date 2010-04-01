@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -22,7 +22,7 @@
  */
 
 // Importando as configura��es para AGI's
-require_once("./agi_base.php");
+require_once("agi_base.php");
 
 
 if(isset($argv[1]) && is_numeric($argv[1])) {

@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -17,7 +17,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("./agi_base.php");
+require_once('agi_base.php');
 
 $action = substr($asterisk->request['agi_extension'],0,3);
 $entryid = substr($asterisk->request['agi_extension'],3);

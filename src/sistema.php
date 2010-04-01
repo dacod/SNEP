@@ -157,7 +157,7 @@ function sys_meminfo () {
  *-----------------------------------------------------------------------------*/  
 function sys_fsinfo () {
     $df = execute_program('df', '-kP');
-    $mounts = split("\n", $df);
+    $mounts = explode("\n", $df);
     $fstype = array();
     if ($fd = fopen('/proc/mounts', 'r')) {
         while ($buf = fgets($fd, 4096)) {

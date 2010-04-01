@@ -49,6 +49,7 @@ $lista = array();
 
 
             $info = explode("\n", $info);
+            $return = null;
             if($info['3'] != '' && $info['39']) {
 
                 $return = array();
@@ -57,6 +58,11 @@ $lista = array();
                 $return['ip'] = ( strpos($info['38'], 'Unspecified') > 0 ? 'Indeterminado' : substr($info['38'], 17, strpos(substr($info['38'],17)," ") ) ) ;
                 $return['delay'] = substr($info['45'], strpos($info['45'],'('), strpos($info['45'],')'))  ;
                 $return['cds'] = str_replace("|",", ", substr($info['43'], strpos($info['43'],'(')+1, strpos($info['43'],')'))) ;
+                /* Para asterisk 1.6
+                 * $return['ip'] = ( strpos($info['38'], 'Unspecified') > 0 ? 'Indeterminado' : substr($info['44'], 17, strpos(substr($info['44'],17)," ") ) ) ;
+                 * $return['delay'] = substr($info['54'], strpos($info['54'],'('), strpos($info['54'],')'))  ;
+                 * $return['cds'] = str_replace("|",", ", substr($info['51'], strpos($info['51'],'(')+1, strpos($info['51'],')'))) ;
+                 */
                 $return['codec'] = str_replace(")"," ", $return['cds']);
                 unset($return['cds']);
             }
@@ -75,7 +81,7 @@ $lista = array();
 
 // ---------------------------------------------------------------------
     
-    if (!$filas = ast_status("show queues","",True )) {
+    if (!$filas = ast_status("queue show","",True )) {
        display_error($LANG['msg_nosocket'],true) ;
        exit;
     }
@@ -123,10 +129,8 @@ if (!$codecs = ast_status("show g729","",True )) {
 
 $arrCodecs = explode("\n", $codecs);
 
-if(strpos($arrCodecs['1'], "No such command") > 0) {
-
-
-}else{  
+$codec = null;
+if(!preg_match("/No such command/", $arrCodecs['1'])) {
     $arrValores = explode(" ", $arrCodecs['1']);
     $exp = explode("/", $arrValores['0']);
     $codec = array('0' => $arrValores['3'],
@@ -136,12 +140,8 @@ if(strpos($arrCodecs['1'], "No such command") > 0) {
 }
 
 
-
-
 $titulo = $LANG['menu_status']." -> ".$LANG['menu_databaseshow'];
-$smarty->assign ('AGENTES', $agentes) ;
 $smarty->assign ('FILAS',$queues) ;
 $smarty->assign ('RAMAIS',$ramais) ;
 $smarty->assign ('CODECS',$codec) ;
 display_template("database_show.tpl",$smarty,$titulo) ;
-?>

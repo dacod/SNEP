@@ -32,4 +32,3 @@
   display_template("cabecalho.tpl",$smarty,$titulo) ;
   exit ;
  
-?>

@@ -1,4 +1,4 @@
-#!/usr/bin/php-cgi -q
+#!/usr/bin/php -q
 <?php
 /**
  *  This file is part of SNEP.
@@ -22,7 +22,7 @@
  */
 
 // Importando as configura��es para AGI's
-require_once("./agi_base.php");
+require_once("agi_base.php");
 
 if($argc != 3) {
     $asterisk->verbose("Este scripts espera dois parametro, ramal e variavel");

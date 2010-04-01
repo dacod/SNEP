@@ -114,6 +114,7 @@ XML;
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
+        $asterisk->answer();
         $result = $asterisk->exec('Queue', array($this->config['queue'],'t','','',$this->config['timeout']));
         if($result['result'] == -1) {
             $log->debug("Resultado do queue -1, Ligacao atendida ou cancelada.");
