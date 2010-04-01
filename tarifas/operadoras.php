@@ -27,11 +27,11 @@
      $r = $db->query($sqlcc)->fetchAll();
 
      if(count($r) > 0) {
-     $ind = '';
-         foreach($r as $k => $v) {
-            $ind .= "'".$v['ccustos']."',";
-         }
-     $ind = " WHERE codigo NOT IN(".substr($ind, 0, -1).") ";
+         $ind = '';
+             foreach($r as $k => $v) {
+                $ind .= "'".$v['ccustos']."',";
+             }
+         $ind = " WHERE codigo NOT IN(".substr($ind, 0, -1).") ";
      }
 
     } catch(Exception $e) {
@@ -57,185 +57,159 @@
     }
  }
 
- $smarty->assign('CCUSTOS',$ccustos);
- // Variaveis de ambiente do form
- $smarty->assign('ACAO',$acao) ;
+ $smarty->assign('CCUSTOS', $ccustos);
+ $smarty->assign('ACAO', $acao) ;
+
  if ($acao == "cadastrar") {
     cadastrar();
+
  } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_tarifas']." -> ".$LANG['menu_operadoras']." -> ".$LANG['change'];
-    alterar() ;
+    $titulo = $LANG['menu_tarifas']." » ".$LANG['menu_operadoras']." » ".$LANG['change'];
+    alterar();
+
  } elseif ($acao ==  "grava_alterar") {
-    grava_alterar() ;
+    grava_alterar();
+
  } elseif ($acao ==  "excluir") {
-    excluir() ;
+    excluir();
+
  } else {
-   $titulo = $LANG['menu_tarifas']." -> ".$LANG['menu_operadoras']." -> ".$LANG['include'];
-   principal() ;
+   $titulo = $LANG['menu_tarifas']." » ".$LANG['menu_operadoras']." » ".$LANG['include'];
+   principal();
+   
  }
 /*------------------------------------------------------------------------------
  Funcao PRINCIPAL - Monta a tela principal da rotina
 ------------------------------------------------------------------------------*/
 function principal()  {
    global $smarty,$titulo ;   
-   $smarty->assign('ACAO',"cadastrar");
-   $smarty->assign('OPER_CCUSTOS',array());
-   display_template("operadoras.tpl",$smarty,$titulo) ;
+   $smarty->assign( 'ACAO', "cadastrar" );
+   $smarty->assign( 'OPER_CCUSTOS', array() );
+   display_template("operadoras.tpl", $smarty, $titulo );
 }
 
 /*------------------------------------------------------------------------------
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar()  {
-   global $LANG, $db, $nome, $tpm, $tdm, $tbf, $tbc, $vpc, $vpf, $oper_ccustos;
-   try {
-      $db->beginTransaction() ;
-      // Atualiza tabela operadoras
-      $sql  = "INSERT INTO operadoras (nome, tpm, tdm, tbf, tbc, vpf, vpc)" ;
-      $sql .= " VALUES ('$nome', $tpm, $tdm, $tbf, $tbc, $vpf, $vpc)" ;
-      $stmt = $db->prepare($sql) ;
-      $stmt->execute() ;
-      // Pega Codigo da Operadora que esta sendo cadastrada
-      $sql = "SELECT codigo FROM operadoras ORDER BY codigo DESC LIMIT 1" ;
-      $tmp_oper = $db->query($sql)->fetch();
-      $tmp_oper = $tmp_oper['codigo'] ;
-      // Atualiza tabela oper_ccustos
-      $sql = "INSERT INTO oper_ccustos (operadora,ccustos) ";
-      $sql.= " VALUES (:operadora, :ccusto)" ;
-      $stmt = $db->prepare($sql) ;
-      $stmt->bindParam('operadora',$tmp_oper) ;
-      $stmt->bindParam('ccusto',$tmp_ccusto) ;
-      foreach ($oper_ccustos as $val) {
-         $tmp_ccusto = $val ;
-         $stmt->execute() ;
-      }
-      $db->commit();
-      echo "<meta http-equiv='refresh' content='0;url=../tarifas/operadoras.php'>\n" ;
-   } catch (Exception $e) {
-      $db->rollBack();
-      display_error($LANG['error'].$e->getMessage(),true) ;
-   }
+
+    global $LANG, $db, $oper_ccustos;
+
+    // Cria objeto Snep_Operadoras e seta valores
+    $operadora = new Snep_Operadoras();    
+    $operadora->nome = $_POST['nome'];
+    $operadora->tpm  = $_POST['tpm'];
+    $operadora->tdm  = $_POST['tdm'];
+    $operadora->tbf  = $_POST['tbf'];
+    $operadora->tbc  = $_POST['tbc'];
+    $operadora->vpf  = $_POST['vpf'] ;
+    $operadora->vpc  = $_POST['vpc'];
+
+    // Registra objeto, o mesmo retorna id de cadastro no banco
+    $id = Snep_Operadoras::register($operadora);
+
+    // Registra Centro de Custos da Operadora
+    Snep_Operadoras::setCcustoOperadora($id, $oper_ccustos);
+
+    // Redireciona para cadastro de Operadoras
+    echo "<meta http-equiv='refresh' content='0;url=../tarifas/operadoras.php'>\n" ;
  }
 
 /*------------------------------------------------------------------------------
   Funcao ALTERAR - Alterar um registro
 ------------------------------------------------------------------------------*/
 function alterar()  {
-   global $LANG,$db,$smarty,$titulo, $acao, $ind ;
-   $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
-   if (!$id) {
-      display_error($LANG['msg_notselect'],true) ;
-      exit ;
-   }
-   // Monta lista de ccustos Disponiveis
-   try {
-      $sql = "SELECT ccustos.* FROM ccustos ". ($ind ? $ind : '') ." ORDER by ccustos.codigo"  ;
-      $row = $db->query($sql)->fetchAll();
-      $ccustos = array() ;
-      if (count($row) > 0) {
-         foreach ($row as $val)
-             $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-         asort($ccustos) ;
-      }
-   } catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
-       exit ;
-   }
 
-   // Monta lista de ccustos usadas pela operadora
-   try {
-      $sql = "SELECT oper_ccustos.*, ccustos.* FROM oper_ccustos ";
-      $sql.= " INNER JOIN ccustos ON ccustos.codigo = oper_ccustos.ccustos ";
-      $sql.= " WHERE operadora = ".$id;
-      $row = $db->query($sql)->fetchAll();
-      $oper_ccustos = array() ;
-      if (count($row) > 0) {
-         foreach ($row as $val)
-             $oper_ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-         asort($oper_ccustos) ;
-      }
+    global $LANG, $db, $smarty, $titulo, $acao;
 
-    } catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
-       exit ;
+    $id = ( isset($_POST['id'] ) ? $_POST['id'] : $_GET['id'] );
+
+    if (!$id) {
+        display_error($LANG['msg_notselect'],true) ;
+        exit ;
     }
 
-    
+    // Deprecated - Providenciar Classe que abstraia centros de custo.
+    try {
+       $sql = "SELECT ccustos.* FROM ccustos ORDER by ccustos.codigo"  ;
+       $row = $db->query($sql)->fetchAll();
+       $ccustos = array() ;
+       if (count($row) > 0) {
+          foreach ($row as $val)
+              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
+          asort($ccustos) ;
+       }
+    } catch (Exception $e) {
+        display_error($LANG['error'].$e->getMessage(),true) ;
+        exit ;
+    }
+    unset($row);
 
-   // Dados da Operadora
-   try {
-      $sql = "SELECT * FROM operadoras WHERE codigo=".$id;
-      $row = $db->query($sql)->fetch();
-   } catch (PDOException $e) {
-      display_error($LANG['error'].$e->getMessage(),true) ;
-   }
-   $smarty->assign('OPER_CCUSTOS',$oper_ccustos);
-   $smarty->assign('CCUSTOS',$ccustos);
-   $smarty->assign('ACAO',"grava_alterar") ;
-   $smarty->assign ('dt_operadoras',$row);
-   display_template("operadoras.tpl",$smarty,$titulo);
+    // Relaciona Centros de Custo desta Operadora
+    $row = Snep_Operadoras::getCcustoOperadora($id);
+
+    // Organiza Array de Centro de Custos.
+    $oper_ccustos = array() ;
+    if (count($row) > 0) {
+         foreach ($row as $val) {
+             $oper_ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
+         }
+     asort($oper_ccustos) ;
+    }
+
+    // Dados da Operadora
+    $row = Snep_Operadoras::get($id);
+
+    $smarty->assign('OPER_CCUSTOS', $oper_ccustos);
+    $smarty->assign('CCUSTOS', $ccustos);
+    $smarty->assign('ACAO',"grava_alterar") ;
+    $smarty->assign ('dt_operadoras', $row[0]);
+
+    display_template("operadoras.tpl",$smarty,$titulo);
 }
 
 /*------------------------------------------------------------------------------
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar()  {
-   global $LANG, $db, $codigo,$nome, $tpm, $tdm, $tbf, $tbc, $vpc, $vpf, $oper_ccustos;   
-   try {
-     $sql = "update operadoras set nome='$nome',tpm=$tpm,tdm=$tdm,tbf=$tbf," ;
-     $sql.= "tbc=$tbc,vpf=$vpf,vpc=$vpc  where codigo='$codigo'" ;   
-     $db->beginTransaction() ;
-     // Atualiza tabela operadoras
-     $sql = "update operadoras set nome='$nome',tpm=$tpm,tdm=$tdm,tbf=$tbf," ;
-     $sql .= " tbc=$tbc,vpf=$vpf,vpc=$vpc where codigo='$codigo'" ;
-     $stmt = $db->prepare($sql) ;
-     $stmt->execute() ;
-     // Atualiza tabela oper_ccustos - remove tudo
-     $sql = "DELETE FROM oper_ccustos WHERE operadora = $codigo";
-     $stmt = $db->prepare($sql) ;
-     $stmt->execute() ;
-     // Atualiza tabela oper_ccustos - Insere novos
-     $sql = "INSERT INTO oper_ccustos (operadora,ccustos) ";
-     $sql.= " VALUES (:operadora, :ccusto)" ;
-     $stmt = $db->prepare($sql) ;
-     $stmt->bindParam('operadora',$codigo) ;
-     $stmt->bindParam('ccusto',$tmp_ccusto) ;
-     foreach ($oper_ccustos as $val) {
-        $tmp_ccusto = $val ;
-        $stmt->execute() ;
-     }     
-     $db->commit();
-     echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_operadoras.php'>\n" ;
-   } catch (Exception $e) {
-     $db->rollBack();
-     display_error($LANG['error'].$e->getMessage(),true) ;
-   }    
+
+    global $LANG, $db, $codigo, $oper_ccustos;
+
+    // Cria objeto Snep_Operadoras e seta valores
+    $operadora = new Snep_Operadoras();
+    $operadora->codigo = $codigo;
+    $operadora->nome   = $_POST['nome'];
+    $operadora->tpm    = $_POST['tpm'];
+    $operadora->tdm    = $_POST['tdm'];
+    $operadora->tbf    = $_POST['tbf'];
+    $operadora->tbc    = $_POST['tbc'];
+    $operadora->vpf    = $_POST['vpf'] ;
+    $operadora->vpc    = $_POST['vpc'];
+
+    // Atualiza banco com novas informações
+    Snep_Operadoras::update($operadora);
+
+    // Atualiza Centro de Custos desta Operadora
+    Snep_Operadoras::setCcustoOperadora($codigo, $oper_ccustos);
+
+    // Redireciona para relação de Operadoras
+    echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_operadoras.php'>\n" ;
  }
 
 /*------------------------------------------------------------------------------
   Funcao EXCLUIR - Excluir registro selecionado
 ------------------------------------------------------------------------------*/
 function excluir()  {
-   global $LANG, $db;
-   $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
+   global $LANG;
+
+   $id = ( isset($_POST['id']) ? $_POST['id'] : $_GET['id'] );
+
    if (!$id) {
-      display_error($LANG['msg_notselect'],true) ;
-      exit ;
+        display_error($LANG['msg_notselect'],true) ;
+        exit ;
    }
-   try {
-      $db->beginTransaction() ;
-      // Atualiza tabela operadoras
-      $sql = "DELETE FROM operadoras WHERE codigo=".$id;
-      $stmt = $db->prepare($sql) ;
-      $stmt->execute() ;
-      // Atualiza tabela oper_ccustos
-      $sql = "DELETE FROM oper_ccustos WHERE operadora=".$id;
-      $stmt = $db->prepare($sql) ;
-      $stmt->execute() ;      
-      $db->commit();
-      display_error($LANG['msg_excluded'],true) ;
-     echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_operadoras.php'>\n" ;
- } catch (PDOException $e) {
-    display_error($LANG['error'].$e->getMessage(),true) ;
- }  
+
+   Snep_Operadoras::remove($id);
+   echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_operadoras.php'>\n" ;
+
 }?>

@@ -15,33 +15,27 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
-
  require_once("../includes/verifica.php");   
  require_once("../configs/config.php");
- ver_permissao(38) ;
- $titulo = $LANG['menu_tarifas']." -> ".$LANG['menu_operadoras'] ;
- // SQL padrao
- $sql = "SELECT * FROM operadoras " ;
- // Opcoes de Filtrros
- $opcoes = array( "nome" => $LANG['name'], "codigo" => $LANG['id']) ;
- // Se aplicar Filtro ....
- if (array_key_exists ('filtrar', $_POST)) 
-    $sql .= " WHERE ".$_POST['field_filter']." like '%".$_POST['text_filter']."%'" ;
- $sql .= " ORDER BY codigo" ;
- // Executa acesso ao banco de Dados
- try {
-    $row = $db->query($sql)->fetchAll();
- } catch (Exception $e) {
-    display_error($LANG['error'].$e->getMessage(),true) ;
- }           
- // Define variaveis do template          
- $smarty->assign ('DADOS',$row);
- // Variaveis Relativas a Barra de Filtro/Botao Incluir
- $smarty->assign ('view_filter',True) ;
- $smarty->assign ('view_include_buttom',True) ;
- $smarty->assign ('OPCOES', $opcoes) ;
- $smarty->assign ('array_include_buttom',array("url" => "../tarifas/operadoras.php", "display"  => $LANG['include']." ".$LANG['menu_operadoras']));
  
- // Exibe template
- display_template("rel_operadoras.tpl",$smarty,$titulo);
+ ver_permissao(38) ;
+
+ $titulo = $LANG['menu_tarifas']." » ".$LANG['menu_operadoras'] ;
+ $opcoes = array( "nome" => $LANG['name'], "codigo" => $LANG['id']) ;
+
+ if ($_POST['text_filter'] != "") {
+    $row = Snep_Operadoras::getFiltrado($_POST['field_filter'], $_POST['text_filter']);
+
+ }else{
+    $row = Snep_Operadoras::getFiltrado(null, null);
+
+ }
+
+ $smarty->assign ('DADOS',                $row );
+ $smarty->assign ('view_filter',          True );
+ $smarty->assign ('view_include_buttom',  True );
+ $smarty->assign ('OPCOES',               $opcoes );
+ $smarty->assign ('array_include_buttom', array("url"      => "../tarifas/operadoras.php",
+                                                "display"  => $LANG['include']." ".$LANG['menu_operadoras'] ) );
+ display_template("rel_operadoras.tpl",   $smarty, $titulo );
  ?>

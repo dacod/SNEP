@@ -18,24 +18,18 @@
 
 require_once("../includes/verifica.php");
 require_once("../configs/config.php");
-$estado = isset($_GET['uf']) && $_GET['uf']!= "" ? $_GET['uf'] : display_error($LANG['msg_nostate'],true);
 
-global $LANG,$db,$smarty,$titulo, $acao,  $codigo;
+$estado = isset($_POST['uf']) && $_POST['uf']!= "" ? $_POST['uf'] : display_error($LANG['msg_nostate'],true);
+$municipios = Snep_Cnl::get($estado);
 
-$sql = "SELECT DISTINCT municipio FROM cnl WHERE uf='$estado' ORDER BY municipio";
-try {
-   $row = $db->query($sql)->fetchAll();
-}
-catch (PDOException $e) {
-   display_error($LANG['error'].$e->getMessage(),true);
-   exit ;
+$options = '';
+if(count($municipios > 0)) {
+    foreach($municipios as $cidades) {
+        $options .= "<option  value='{$cidades['municipio']}' > {$cidades['municipio']} </option> " ;
+    }    
+}else{
+        $options = "<option> {$LANG['select']} </option>";
 }
 
-if(count($row) == 0)
-   echo "<option>" . $LANG['select'] . "</option>";
-else {
-   for( $i = 0; $i < count($row); $i++) {
-      echo "<option value=".$row[$i]['municipio'].">" . $row[$i]['municipio'] . "</option>\n";
-   }
-}
+echo $options;
 ?>
