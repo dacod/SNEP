@@ -191,88 +191,97 @@ class Bar_Graph {
    * Retorna: array (valor, cidade, estado, tp_fone, dst_fmtd)
    * ----------------------------------------------------------------------------*/
    function fmt_tarifa($param,$smarty) {
+
       global $db ;
+
       $destino = $param['a'] ;
       $duracao = $param['b'] ;
       $ccusto = $param['c'] ;
       $dt_chamada = $param['d'] ;
       $tipoccusto = ( $param['e'] ? $param['e'] : NULL );
 
-      $dbg = 0; // Debug =- 1 retorna string com dados encontrados ;
-      // Aceita somente destino de 8,11 ou 13 digitos
+      // DEBUG de Tarifação, retorna string com informações da tarifação
+      $dbg = 0;
 
-      $tn = strlen($destino) ;
-      $duracao = (int) $duracao ;
-      if ($duracao == 0){
-         return 0 ;
+      // Aceita somente destino de 8,11 ou 13 digitos
+      $tn = strlen($destino) ;      
+      $duracao = (int)$duracao ;
+
+      // Chamada não efetuada, tempo igual a zero.
+      if ($duracao == 1) {
+         return 0;
+         exit;
       }
-      if ( $tn < 8  || !is_numeric($destino) || $tipoccusto == "E" ) {
+
+      // Descarta ligação de entrada, não tarifáveis.
+      if ( $tn < 8  || !is_numeric($destino) || $tipoccusto == "E" || $ccusto == "" ) {
          return "N.A." ;
-         return $param;
+         exit;
       }
+
+      // Descarta 0800, não tarifáveis
       if(substr(trim($destino),0,4) == "0800") {
-          return "N.A." ;
+          return "N.A.";
+          exit;
       }
 
       // Separa o numero do telefone em 3 partes: telefone , ddd, e ddi
-      $num_dst = substr($destino,-4) ;
-      $prefixo = substr($destino,-8,4) ;
-      $ddd_dst = substr($destino,-10,2) ;
-      if ( $tn == 11 ) {
-         $ddi_dst = "" ;
-      } elseif  ($tn > 13 ) {
+      $num_dst = substr( $destino, -4 );
+      $prefixo = substr( $destino, -8, 4 );
+
+      if(strlen($destino) >= 10) {
+          $ddd_dst = substr( $destino, -10, 2 );
+      }      
+
+      if( $tn == 11 ) {
          $ddi_dst = "" ;
       }
-      $dst_fmtd = "$ddi ($ddd_dst) $prefixo-$num_dst";
+      elseif( $tn > 13 ) {
+         $ddi_dst = "" ;
+      }
+      
+      $dst_fmtd = "(". $ddd_dst .") ". $prefixo ."-". $num_dst;
 
       if ($dbg==1) {
          $ret = "<hr>CCUSTOS=$ccusto == DATA=$dt_chamada == TEMPO=$duracao <br>DST = $dst_fmtd" ;
       }
 
       // Pesquisa cidades no CNL - Anatel
-      $array_cidade = $this->fmt_cidade(array("a"=>$destino),"A") ;
-      $cidade = $array_cidade['cidade'] ;
+      $array_cidade = $this->fmt_cidade( array("a" => $destino),"A" );
 
-      if ($array_cidade['flag'] == "S") {
-         $nome_cidade = substr($cidade,0,strlen($cidade)-3) ;
-         
+      $cidade = $array_cidade['cidade'];
+
+      if ( $array_cidade['flag'] == "S" ) {
+         $nome_cidade = substr( $cidade, 0, strlen( $cidade ) -3 );         
       }else {
-         $nome_cidade = "" ;
+         $nome_cidade = "";
       }
+
       if ($dbg==1) {
-         $ret .= " // CIDADE = $cidade($nome_cidade)" ;
+         $ret .= " // CIDADE = $cidade( $nome_cidade )" ;
       }
 
-      // Conecta no BD e pega dados da operadora, baseado no "accountcode"
-      try {
-         // Pega dados da Operadora
-          $sql = "SELECT * FROM operadoras WHERE codigo = " ;
-          $sql.= " (SELECT operadora FROM oper_ccustos  ";
-          $sql.= " LEFT JOIN ccustos ON ccustos.codigo = oper_ccustos.ccustos " ;
-          $sql.= " WHERE ccustos.codigo = '$ccusto')" ;
-          $row = $db->query($sql)->fetch();
-         
-      } catch (Exception $e) {
-          echo "1)".$LANG['error'].$e->getMessage() ;
-      }
-     
+      // Verifica se existe operadora vinculada ao Ccusto da ligação.
+      $t = Snep_Operadoras::getOperadoraCcusto( $ccusto );
 
-      $operadora = $row['codigo'];
-      $tpm       = $row['tpm'];   // Tempo do 1o. minuto da operadora - em seg
-      $tdm       = $row['tdm'];   // Tempo em segundos dos intervalos subsequentes
-      $tbf       = $row['tbf'];   // Valor Padrao para Fixo
-      $tbc       = $row['tbc'];   // Valor Padrao para Celular
-      $vpf       = $row['vpf'];   // Valor de partida para Fixo
-      $vpc       = $row['vpc'];   // Valor de partida para Celular.
-
-
-
+      $op = ( count( $t ) > 0 ? true : false );
+/*
+      $t['codigo'];
+      $t['tpm']   // Tempo do 1o. minuto da operadora - em seg
+      $t['tdm']   // Tempo em segundos dos intervalos subsequentes
+      $t['tbf']   // Valor Padrao para Fixo
+      $t['tbc']   // Valor Padrao para Celular
+      $t['vpf']   // Valor de partida para Fixo
+      $t['vpc']   // Valor de partida para Celular.
+*/
       if ($dbg == 1) {
-         $ret .= " // OPERADORA=$operadora , TPM=$tpm , TDM=$tdm , TBF=$tbf , TBC=$tbc, VPC=$vpc, VPF=$vpf" ;
+         $ret .= " // OPERADORA={$t['codigo']} , TPM={$t['tpm']} , TDM={$t['tdm']} , TBF={$t['tbf']} , TBC={$r['tbc']}, VPC={$t['vpc']}, VPF={$t['vpf']}" ;
       }
-      if (trim($operadora) === "") {
+      
+      if ( trim( $t['codigo'] ) === "" ) {
          return "N.O.D" ;
       }
+
       /* Pega dados das tarifas conforme requisitos da operadora, ddi , ddd e prefixo)
          Condicoes do cadastro de tarifas - ATENCAO: Diferentes cidades tem o mesmo DDD
          1) ddd valido + prefixo valido - Tarifa especial para o prefixo
@@ -280,108 +289,60 @@ class Bar_Graph {
          3) ddi valido + ddd=valido + prefixo=0000 - Tarifa para determinada regiao do pais
          4) ddi valido + ddd=0 + prefixo=0000 - Tarifa generica para o pais
       */
-      try {
-         $cod_tarifa = "" ;
-         $sql =  "SELECT * FROM tarifas WHERE (operadora = $operadora) " ;         
-         // Pega tarifa GENERICA para a operadora - condicoes:
-         // cidade=Selecionar, estado=--, ddd=0, prefixo=0000,ddi=55, pais=BRASIL
 
-         $sqlg = $sql." AND cidade='$nome_cidade' AND estado!='--' AND ddd='$ddd_dst' ";
-         $sqlg .= " AND prefixo='0000' AND ddi=55 AND pais='BRASIL'" ;
+      // Verifica a existência de tarifas definidas para operadora
+      if($ddd_dst) {
+          $td = Snep_Tarifas::getTarifaDisp($t['operadora'], $ddd_dst, strtoupper($nome_cidade));
+      }
 
-         $rowg = $db->query($sqlg)->fetch();
-         $cod_tarifa = $rowg['codigo'] ;
-           
-         // Se uma cidade foi encontrada na tabela CNL ...         
-         if ($nome_cidade != "") {
-            $sql .= " AND (cidade = \"$cidade\")" ;
-         }
-         
-         if ($ddi_dst != "" && $ddi_dst != 55) {  // se nao for BRASIL, considera DDI 
-             $sql .= " AND (ddi = $ddi_dst) " ;
-             $sql .= " AND (prefixo = '$prefixo' OR prefixo = '0000') ";
-             $sql .= " ORDER BY ddi,ddd,prefixo" ;
-             $cod_tarifa = "" ;
-             
-             foreach ($db->query($sql) as $row){
-                $cod_tarifa = $row['codigo'] ;
-                // Varre registros encontrados e para na primeira condicao satisfeita
-                if ($prefixo == $row['prefixo']) {  // um prefixo equivalente ...
-                   break ;
-                } elseif ($row['prefixo'] == "0000") {  // um prefixo GENERICO
-                   break ;
-                }
-             }
-         }
+      // Caso exista, verifica tarifas conforme data da ligação
+      if( $td ) {
 
-         if ($dbg==1) {
-            $ret .= " // COD_TARIFA=$cod_tarifa" ;
-         }
-         
-         // Se encontrou TARIFA equivalente, pega valores compativeis com CALLDATE      
-         if ($cod_tarifa != "") {
-            $sql = "SELECT * FROM tarifas_valores where codigo = $cod_tarifa" ;
-            $sql.= " AND data >= '".substr($dt_chamada,0,10)."'";
-            $sql.= " order by data" ;
-            //echo $sql ;
-                foreach ($db->query($sql) as $row){
-                   $tbf = $row['vfix'] ;
-                   $tbc = $row['vcel'] ;
-                   $vpf = $row['vpf'] ;   // Valor de partida para Fixo
-                   $vpc = $row['vpc'] ;   // Valor de partida para Celular.
-                }
-            
-            if ($dbg==1) {
-               $ret .= "<br> Tarifa Atualizada: TBF=$tbf , TBC=$tbc , VPF=$vpf , VPC=$vpc " ;
-            }
-         }
-      } catch (Exception $e) {
-         echo "2".$LANG['error'].$e->getMessage() ;
-      }    
+          array_push( $td, substr($dt_chamada, 0, 10) );
+          $tr = Snep_Tarifas::getTarifaReaj($td);
+
+          if( $tr ) {
+              $t['tbf'] = $tr['vfix'];
+              $t['tbc'] = $tr['vcel'];
+              $t['vpf'] = $tr['vpf'];
+              $t['vpc'] = $tr['vpc'];
+          }          
+      }
+
+      if($dbg == 1) {
+          $ret .= " # REAJUSTE #  TBF: {$t['tbf']}  TBC: {$t['tbc']} VPF: {$t['vpf']} VPC: {$t['vpc']} ";
+      }
+
+      if($dbg == 1) {
+          $ret .= " // COD_TARIFA=$cod_tarifa" ;
+      }
 
       // Calcula o tempo do primeiro minuto e desconta o tempo restante
-      $tp_fone = (strlen($destino) >= 8 && substr($prefixo,-4,1) > 6) ? "C" : "F" ;
-      $tpo_resta = $duracao - $tpm ;
+      $tp_fone = ( ( strlen( $destino ) >= 8 && substr( $prefixo, -4, 1) > 6 ) ? "C" : "F" );
+      ///$tpo_resta = $duracao - $t['tpm'];
       
       if ($tp_fone == 'C') {
-         $tarifa_vp = $vpc ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
-         $tarifa = $tbc ;      // Tarifa para o restante dos tempo
+          $vp = $t['vpc'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
+          $tb = $t['tbc'] ;      // Tarifa para o restante dos tempo
       } else {
-         $tarifa_vp = $vpf ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
-         $tarifa = $tbf;       // Tarifa para o restante dos tempo
-      }
-      // Calcula o valor dos demais minutos 
-      $valor_prop = 0 ;
-      
-      if ($tpo_resta > 0) { 
-         // Calcula o valor de cada fatia de tempo do minuto baseado na variavel
-         // tdm = tempo dos demais minutos
-         $tarifa_prop = ( $tarifa / (60/$tdm) ) ;  
-         if ($dbg == 1) {
-             echo "<br>Tarifa=$tarifa // Calc (1) = $tarifa_prop" ;
-         }         
-         // qualcula quantas fatias existem no tempo restante da ligacao
-         $qtd_de_prop = ( (int)( $tpo_resta / $tdm ) +1 ) ;
-         if ($dbg == 1) {
-             echo " // Calc (2) = $qtd_de_prop" ;
-         }
-         // Calcula o valor do tempo restante da ligacao
-         $valor_prop = ($qtd_de_prop * $tarifa_prop);
-         if ($dbg == 1) {
-             echo " // Calc (3) = $valor_prop" ;
-         }
-      } 
-      $tarifa = $tarifa_vp + $valor_prop ;      
-      if ($dbg == 1) {
-         $ret .= " // TIPOFONE=$tp_fone // TARIFA_PARTIDA = $tarifa_vp // VALOR_PROP=$valor_prop ";
-         $ret .= " ///// TARIFA FINAL ==== $tarifa";
-         echo $ret."<br>" ;
-         return number_format($tarifa,2,",",".") ;
+          $vp = $t['vpf'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
+          $tb = $t['tbf'];       // Tarifa para o restante dos tempo
       }
 
+      if($dbg == 1) {
+          $ret .= "<br /> [Dur] {$duracao}  [P.Minuto] {$t['tpm']} [T.Minuto] {$t['tdm']} [T.Basica] {$tb} [V.Partida] {$vp} ";
+      }
+
+      $tarifa = Snep_Tarifas::calcula($duracao, $t['tpm'], $t['tdm'], $tb, $vp);
+
+      if($dbg == 1) {
+          echo $ret;
+      }
+   
       if ($smarty == "A")
          return $tarifa;
       else
          return number_format($tarifa,2,",",".") ;
-   }  
+   }
+
 } // Fim da Classe formata
