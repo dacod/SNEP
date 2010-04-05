@@ -102,7 +102,9 @@ abstract class Snep_Bootstrap {
     }
 
     protected function startDatabase() {
-        $db = Zend_Db::factory('Pdo_Mysql', $this->config->ambiente->db->toArray());
+        $config = $this->config->ambiente->db->toArray();
+        $config["driver_options"] = array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true);
+        $db = Zend_Db::factory('Pdo_Mysql', $config);
         Zend_Db_Table::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
     }
