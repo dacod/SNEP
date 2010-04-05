@@ -88,27 +88,27 @@ $titulo = $LANG['menu_reports']." -> ".$LANG['menu_rel_callers'];
 
 
 // Variaveis do formulario.
-$dados_iniciais = array("dia_ini" => ( $_SESSION['relchamadas']['dia_ini'] ? $_SESSION['relchamadas']['dia_ini'] : "01/".date('m/Y') ),
-        "dia_fim"=> ( $_SESSION['relchamadas']['dia_fim'] ? $_SESSION['relchamadas']['dia_fim'] : date('d/m/Y') ),
-        "hora_ini" => ( $_SESSION['relchamadas']['hora_ini'] ? $_SESSION['relchamadas']['hora_ini'] : "00:00"),
-        "hora_fim"=> ( $_SESSION['relchamadas']['hora_fim'] ? $_SESSION['relchamadas']['hora_fim'] : "23:59")) ;
-$smarty->assign ('ccusto', ( $_SESSION['relchamadas']['ccustos'] ? $_SESSION['relchamadas']['ccustos'] : "x"));
-$smarty->assign ('src', ( $_SESSION['relchamadas']['src'] ? $_SESSION['relchamadas']['src'] : "") );
-$smarty->assign ('dst', ( $_SESSION['relchamadas']['dst'] ? $_SESSION['relchamadas']['dst'] : "") );
-$smarty->assign ('duration1', ( $_SESSION['relchamadas']['duration1'] ? $_SESSION['relchamadas']['duration1'] : "") );
-$smarty->assign ('duration2', ( $_SESSION['relchamadas']['duration2'] ? $_SESSION['relchamadas']['duration2'] : "") );
-$smarty->assign ('status_all', ( $_SESSION['relchamadas']['status_all'] ?  "checked=\"checked\"" : "checked=\"checked\"") );
-$smarty->assign ('status_ans', ( $_SESSION['relchamadas']['status_ans'] ?  "checked=\"checked\"" : "") );
-$smarty->assign ('status_noa', ( $_SESSION['relchamadas']['status_noa'] ?  "checked=\"checked\"" : "") );
-$smarty->assign ('status_bus', ( $_SESSION['relchamadas']['status_bus'] ?  "checked=\"checked\"" : "") );
-$smarty->assign ('status_fai', ( $_SESSION['relchamadas']['status_fai'] ?  "checked=\"checked\"" : "") );
-$smarty->assign ('view_tarif', ( $_SESSION['relchamadas']['view_tarif'] ?  $_SESSION['relchamadas']['view_tarif'] : "no") );
-$smarty->assign ('view_compact', ( $_SESSION['relchamadas']['view_compact'] ?  $_SESSION['relchamadas']['view_compact'] : "no") ) ;
-$smarty->assign ('graph_type', ( $_SESSION['relchamadas']['graph_type'] ? $_SESSION['relchamadas']['graph_type'] : "B")) ;
-$smarty->assign ('call_type', ( $_SESSION['relchamadas']['call_type'] ? $_SESSION['relchamadas']['call_type'] : "T")) ;
-$smarty->assign ('groupsrc', $_SESSION['relchamadas']['groupsrc'] ? $_SESSION['relchamadas']['groupsrc'] : "") ;
-$smarty->assign ('groupdst', $_SESSION['relchamadas']['groupdst'] ? $_SESSION['relchamadas']['groupdst'] : "") ;
-$smarty->assign ('ordenar', $_SESSION['relchamadas']['ordenar'] ? $_SESSION['relchamadas']['ordenar'] : "");
+$dados_iniciais = array("dia_ini" => ( isset( $_SESSION['relchamadas']['dia_ini'] ) ? $_SESSION['relchamadas']['dia_ini'] : "01/".date('m/Y') ),
+        "dia_fim"  => ( isset( $_SESSION['relchamadas']['dia_fim'] ) ? $_SESSION['relchamadas']['dia_fim'] : date('d/m/Y') ),
+        "hora_ini" => ( isset($_SESSION['relchamadas']['hora_ini'] ) ? $_SESSION['relchamadas']['hora_ini'] : "00:00"),
+        "hora_fim" => ( isset($_SESSION['relchamadas']['hora_fim'] ) ? $_SESSION['relchamadas']['hora_fim'] : "23:59")) ;
+$smarty->assign ('ccusto', ( isset($_SESSION['relchamadas']['ccustos'] ) ? $_SESSION['relchamadas']['ccustos'] : "x"));
+$smarty->assign ('src', ( isset( $_SESSION['relchamadas']['src'] ) ? $_SESSION['relchamadas']['src'] : "") );
+$smarty->assign ('dst', ( isset( $_SESSION['relchamadas']['dst'] ) ? $_SESSION['relchamadas']['dst'] : "") );
+$smarty->assign ('duration1', ( isset( $_SESSION['relchamadas']['duration1'] ) ? $_SESSION['relchamadas']['duration1'] : "") );
+$smarty->assign ('duration2', ( isset( $_SESSION['relchamadas']['duration2'] ) ? $_SESSION['relchamadas']['duration2'] : "") );
+$smarty->assign ('status_all', ( isset( $_SESSION['relchamadas']['status_all'] ) ?  "checked=\"checked\"" : "checked=\"checked\"") );
+$smarty->assign ('status_ans', ( isset( $_SESSION['relchamadas']['status_ans'] )  ?  "checked=\"checked\"" : "") );
+$smarty->assign ('status_noa', ( isset( $_SESSION['relchamadas']['status_noa'] )  ?  "checked=\"checked\"" : "") );
+$smarty->assign ('status_bus', ( isset( $_SESSION['relchamadas']['status_bus'] )  ?  "checked=\"checked\"" : "") );
+$smarty->assign ('status_fai', ( isset( $_SESSION['relchamadas']['status_fai'] )  ?  "checked=\"checked\"" : "") );
+$smarty->assign ('view_tarif', ( isset( $_SESSION['relchamadas']['view_tarif'] )  ?  $_SESSION['relchamadas']['view_tarif'] : "no") );
+$smarty->assign ('view_compact', ( isset( $_SESSION['relchamadas']['view_compact'] )  ?  $_SESSION['relchamadas']['view_compact'] : "no") ) ;
+$smarty->assign ('graph_type', ( isset( $_SESSION['relchamadas']['graph_type'] ) ? $_SESSION['relchamadas']['graph_type'] : "B")) ;
+$smarty->assign ('call_type', ( isset( $_SESSION['relchamadas']['call_type'] ) ? $_SESSION['relchamadas']['call_type'] : "T")) ;
+$smarty->assign ('groupsrc', isset( $_SESSION['relchamadas']['groupsrc'] )  ? $_SESSION['relchamadas']['groupsrc'] : "") ;
+$smarty->assign ('groupdst', isset( $_SESSION['relchamadas']['groupdst'] )  ? $_SESSION['relchamadas']['groupdst'] : "") ;
+$smarty->assign ('ordenar', isset( $_SESSION['relchamadas']['ordenar'] ) ? $_SESSION['relchamadas']['ordenar'] : "");
 $smarty->assign ('PROTOTYPE', True) ;
 $smarty->assign ('dt_relchamadas',$dados_iniciais) ;
 $smarty->assign ('FILTERS',$dst_exceptions) ;
@@ -182,7 +182,7 @@ function monta_relatorio($acao) {
             foreach ($destinos as $ramal) {
                 $ramaldst .= $ramal->getNumero() . ',';
             }
-            $ramaisdst = " AND dst in (" . trim($ramaldst, ',') . ") ";
+            $ramaisdst = " AND dst in (" . trim($ramalsrc, ',') . ") ";
         }
     }
 
@@ -206,15 +206,52 @@ function monta_relatorio($acao) {
     $date_clause .=" AND DATE_FORMAT(calldate,'%T') <= '$hora_fim:59') ";
     $CONDICAO = $date_clause;
 
+    $ORIGENS = '';
+
     /* Clausula do where: Origens e Destinos                                      */
     if($src !== "") {
-        $CONDICAO.= str_replace("or", "AND", sql_like($srctype, $src, 'src'));
+        if(strpos($src, ",")) {
+            $SRC = '';
+            $arrSrc = explode(",", $src);
+            foreach($arrSrc as $srcs) {
+                $SRC .= sql_like($srctype, $srcs, 'src');
+            }
+            $SRC = " AND (". substr($SRC, 3) .")";
+        } else {
+            $ORIGENS.= str_replace("or", "AND", sql_like($srctype, $src, 'src'));
+        }
     }
     
     if($dst !== "") {
-        $CONDICAO.= str_replace("or", "AND", sql_like($dsttype, $dst, 'dst'));
+        if(strpos($dst, ",")) {
+            $DST = '';
+            $arrDst = explode(",", $dst);
+            foreach($arrDst as $dsts) {
+
+                $DST .= sql_like($dsttype, $dsts, 'dst');
+            }
+            $DST = " AND (". substr($DST, 3) .")";
+
+        }else{
+            $ORIGENS .= str_replace("or", "AND", sql_like($dsttype, $dst, 'dst'));
+        }
     }
 
+    if(isset($ORIGENS)) {
+        $CONDICAO .= $ORIGENS;
+    }
+    if(isset($DST)) {
+        $CONDICAO .= $DST;
+    }
+    if(isset($SRC)) {
+        if(isset($DST)) {
+            $CONDICAO .= " OR " . $SRC = substr($SRC, 4);
+        }else{
+            $CONDICAO .= $SRC;
+        }
+        
+    }
+    
     /* Compara campos src e dst                                                   */
     $CONDICAO = do_field($CONDICAO,$src,$srctype,'src') ;
     $CONDICAO = do_field($CONDICAO,$dst,$dsttype,'dst') ;
@@ -721,7 +758,7 @@ function exibe_relatorio() {
     $smarty->assign ('JUMP', $jump) ;
     $smarty->assign ('INI',1);
     $smarty->assign ('PROTOTYPE', True);
-    $smarty->assign ('ARQCVS', $csv_rel_chamadas);
+    $smarty->assign ('ARQCVS', isset( $csv_rel_chamadas ));
     $smarty->assign ('TOT', $tot_pages);
     $smarty->assign ('TIPOS_DISP', $tipos_disp) ;
     $smarty->assign ('TOTAIS', $totais) ;
