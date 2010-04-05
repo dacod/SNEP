@@ -291,7 +291,7 @@ CREATE TABLE `peers` (
   `regexten` varchar(80) NOT NULL default '',
   `cancallforward` char(3) default 'yes',
   `setvar` varchar(100) NOT NULL default '',
-  `vinculo` varchar(100) NOT NULL default '',
+  `vinculo` varchar(255) NOT NULL default '',
   `email` varchar(255) default NULL,
   `canal` varchar(255) default NULL,
   `call-limit` varchar(4) default NULL,
