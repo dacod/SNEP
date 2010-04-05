@@ -1,5 +1,6 @@
 1.1.4:
     Correção de bug na criação dos vinculos dos ramais.
+    Adicionado modo de DTMF para discagem de qualquer tipo de tronco.
 
 1.1.3:
     Corrigido ação Editar origem/destino nas regras de negócio onde sufixo não
