@@ -39,16 +39,18 @@ function janela_otimizada(URL) {
         LEFT = ((window.screen.width - LARG ) /2);
      }
      if (ALT == 0 ) {
-        ALT  = window.screen.height ;
+        ALT  = window.screen.height  ;
         TOP = 0 ;
      } else {
        TOP = ((window.screen.height - ALT ) /2);
      }
      if (URL.indexOf( "?" ) > 0 )  {
-        URL  = URL+"&L=" + (LARG-20) + "&A=" + (ALT-100) ;
+        URL  = URL+"&L=" + (LARG-(LARG*0.035)) + "&A=" + (ALT-(ALT*0.26)) ;
      } else {
-        URL  = URL+"?L=" + (LARG-20) + "&A=" + (ALT-100) ;
+        URL  = URL+"?L=" + (LARG-(LARG*0.035)) + "&A=" + (ALT-(ALT*0.26)) ;
      }
+     /* Ajuste de Altura da Janela */
+     ALT=(ALT-(ALT*0.19)) ;
      PARAM="width="+LARG+",height="+ALT+",top="+TOP+",left="+LEFT+",scrollbars=yes,directories=no,status=no,toolbar=no,menubar=no,location=no,resizable=no";
      window.open(URL,NOME,PARAM)
 }
