@@ -108,6 +108,6 @@ XML;
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
-        $asterisk->goto($this->config['context'],$request->destino);
+        $asterisk->exec_goto($this->config['context'],$request->destino,1);
     }
 }
