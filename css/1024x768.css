@@ -82,6 +82,33 @@ a:hover, li a:hover {
     background-color: #CBFFCB;
 }
 
+/* Configuração dos formulários feitos com listas de definição */
+dt {
+    width: 50%;
+    margin-top: 3px;
+    text-align: right;
+    float: left;
+    margin-right: 10px;
+}
+
+dd input {
+    color:  #000000;
+    background-color: #fbfbfb;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-color: #a4a7ab;
+}
+
+form .description {
+    display: inline;
+}
+/* FIM Configuração dos formulários feitos com listas de definição */
+
 .boxadd { border: 0px;width: 20px;background: url("../imagens/dot_add.png") no-repeat left top;}
 .boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
 .regra0 {
