@@ -63,24 +63,31 @@ class Snep_Menu {
     /**
      * Adiciona um item ao menu
      *
-     * @param Snep_Menu_Item $item
+     * @param Snep_Menu_Item $new_item
      */
-    public function addItem( Snep_Menu_Item $item ) {
-        $this->items[] = $item;
+    public function addItem( Snep_Menu_Item $new_item ) {
+        $item = $this->getItemById($new_item->getId());
+        if($item) {
+            $item->setSubmenu(array_merge($item->getSubmenu(), $new_item->getSubmenu()));
+        }
+        else {
+            $this->items[] = $new_item;
+        }
     }
 
     /**
      * Retorna um item do menu a partir do seu id.
      *
      * @param string $id
-     * @return Snep_Menu_Item item
+     * @return Snep_Menu_Item|null
      */
     public function getItemById( $id ) {
         foreach ($this->getItems() as $item) {
-            if( $item->getId() == $id ) {
+            if( $item->getId() === $id ) {
                 return $item;
             }
         }
+        return null;
     }
 
     /**

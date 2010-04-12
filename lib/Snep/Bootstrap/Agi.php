@@ -30,6 +30,12 @@ require_once "Snep/Bootstrap.php";
  */
 class Snep_Bootstrap_Agi extends Snep_Bootstrap {
 
+    private $rulePlugins;
+
+    public function getRulePlugins() {
+        return $this->rulePlugins->getPlugins();
+    }
+
     private function startAsterisk() {
         $agiconfig['debug'] = false;
         $agiconfig['error_handler'] = false;
@@ -68,6 +74,34 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         }
     }
 
+    protected function startRulePlugins() {
+        $config = Zend_Registry::get('config');
+        $log = Zend_Registry::get('log');
+        $this->rulePlugins = new PBX_Rule_Plugin_Broker();
+
+        $plugins_dir = $config->system->path->base . "/lib/PBX/Rule/Action";
+
+        foreach (Snep_Modules::getInstance()->getRegisteredModules() as $module) {
+            $plugins_dir = $config->system->path->base . "/" . $module->getModuleDir() . "/rule_plugins";
+            if( file_exists($plugins_dir) ) {
+                $plugins = "";
+                foreach( scandir($plugins_dir) as $filename ) {
+                    // Todos os arquivos .php devem ser classes de Plugins
+                    if( preg_match("/.*\.php$/", $filename) ) {
+                        // Tentar instanciar e Adicionar no array
+                        require_once $plugins_dir . "/" . $filename;
+                        $classname = basename($filename, '.php');
+                        $plugins .= " " . $classname;
+                        if(class_exists($classname)) {
+                            $this->rulePlugins->registerPlugin(new $classname);
+                        }
+                    }
+                }
+                $log->debug("Plugins de regras: " . trim($plugins));
+            }
+        }
+    }
+
     public function boot() {
         // Iniciando ambiente para ideal funcionamento da Lib
         $this->startAutoLoader();
@@ -88,6 +122,9 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         // Iniciando modulos e Ações das regras de negócio
         $this->startModules();
         $this->startActions();
+
+        // Coletando plugins para regras de negócio
+        $this->startRulePlugins();
     }
 
 }

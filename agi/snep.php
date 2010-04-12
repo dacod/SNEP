@@ -160,6 +160,11 @@ if($opts->xfer) {
     //$regra->dontRecord();
 }
 
+// colocando os plugins do gerenciador de modulos para a regra
+foreach ($bootstrap->getRulePlugins() as $plugin) {
+    $regra->registerPlugin($plugin);
+}
+
 try {
     $log->info("Executando regra {$regra->getId()}:$regra");
     $regra->execute();

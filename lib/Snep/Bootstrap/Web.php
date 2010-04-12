@@ -64,24 +64,21 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
          */
         foreach ($registered_modules as $module) {
             foreach ($module->getMenuTree() as $key => $menuItem) {
-                switch((string) $key) {
-                    case 'status':
-                    case 'register':
-                    case 'reports':
-                    case 'configs':
-                    case 'routing':
-                    case 'billing':
-                        if( is_array($menuItem) ) {
-                            foreach ($menuItem as $realItem) {
-                                $menu->getItemById($key)->addSubmenuItem($realItem);
-                            }
+                if($menu->getItemById($key)) {
+                    if( is_array($menuItem) ) {
+                        foreach ($menuItem as $realItem) {
+                            $menu->getItemById($key)->addSubmenuItem($realItem);
                         }
-                        else {
-                            $menu->getItemById($key)->addSubmenuItem($menuItem);
-                        }
-                        break;
-                    default:
-                        $menu->addItem($menuItem);
+                    }
+                    else {
+                        $menu->getItemById($key)->addSubmenuItem($menuItem);
+                    }
+                }
+                else if($menuItem instanceof Snep_Menu_Item) {
+                    $menu->addItem($menuItem);
+                }
+                else {
+                    throw new Exception("Item de menu so pode ser array se a chave coincidir com algum item de menu previamente criado.");
                 }
             }
         }

@@ -30,7 +30,7 @@
  * arquivo.
  *
  * @category  Snep
- * @package   Snep
+ * @package   Snep_Rule
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
@@ -143,6 +143,12 @@ class PBX_Rule {
     private $validWeekDays = array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
 
     /**
+     * Instance of PBX_Rule_Plugin_Broker
+     * @var PBX_Rule_Plugin_Broker
+     */
+    protected $plugins = null;
+
+    /**
      * Construtor do objeto.
      *
      * Inicia alguns atributos mais complexos.
@@ -150,6 +156,65 @@ class PBX_Rule {
     public function __construct() {
         $recordFilename = "/tmp/" . time() . ".wav";
         $this->setRecordApp('MixMonitor', array($recordFilename, "b"));
+        $this->plugins = new PBX_Rule_Plugin_Broker();
+        $this->plugins->setRule($this);
+    }
+
+    /**
+     * Register a plugin.
+     *
+     * @param  PBX_Rule_Plugin $plugin
+     * @param  int $stackIndex Optional; stack index for plugin
+     * @return PBX_Rule
+     */
+    public function registerPlugin(PBX_Rule_Plugin $plugin, $stackIndex = null)
+    {
+        $this->plugins->registerPlugin($plugin, $stackIndex);
+        return $this;
+    }
+
+    /**
+     * Unregister a plugin.
+     *
+     * @param  string|PBX_Rule_Plugin $plugin Plugin class or object to unregister
+     * @return PBX_Rule
+     */
+    public function unregisterPlugin($plugin)
+    {
+        $this->plugins->unregisterPlugin($plugin);
+        return $this;
+    }
+
+    /**
+     * Is a particular plugin registered?
+     *
+     * @param  string $class
+     * @return bool
+     */
+    public function hasPlugin($class)
+    {
+        return $this->plugins->hasPlugin($class);
+    }
+
+    /**
+     * Retrieve a plugin or plugins by class
+     *
+     * @param  string $class
+     * @return false|PBX_Rule_Plugin|array
+     */
+    public function getPlugin($class)
+    {
+        return $this->plugins->getPlugin($class);
+    }
+
+    /**
+     * Retrieve all plugins
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->plugins->getPlugins();
     }
 
     /**
@@ -386,8 +451,10 @@ class PBX_Rule {
         $asterisk = $this->asterisk; // facilitando o trabalho
         $log = Zend_Registry::get('log');
 
+        $this->plugins->startup();
+
         if(count($this->acoes) == 0) {
-            $log->warn("Tentativa de executar regra sem nenhuma acao");
+            $log->warn("A regra nao possui nenhuma acao");
         }
         else {
             $requester = $this->request->getSrcObj();
@@ -399,30 +466,29 @@ class PBX_Rule {
             else {
                 if( $this->isRecording() ) {
                     $recordApp = $this->getRecordApp();
+                    $log->info("Executando aplicacao de gravacao '{$recordApp['application']}'");
                     $this->asterisk->exec($recordApp['application'], $recordApp['options']);
                     // Usando função que corrige gravação em transferências quando não feitas pelo originador da ligação
                     // $this->asterisk->set_variable("AUDIOHOOK_INHERIT({$recordApp['application']})", "yes");
                 }
 
-                for($priority=0; $priority < count($this->acoes); $priority++) {
-
-                    if(!isset($this->acoes[$priority])) {
-                        throw new PBX_Exception_DatabaseIntegrity("Inconsistencia em prioridades nas acoes da regra $this: Prioridade nao sequencial.");
-                    }
-
+                $to_execute = true;
+                // A foreach don't do it because of PBX_Rule_Action_Exception_GoTo
+                for($priority=0; $priority < count($this->acoes) && $to_execute; $priority++) {
                     $acao = $this->acoes[$priority];
-                    
+
+                    $this->plugins->preExecute($priority);
                     $log->debug("Executando acao $priority-" . get_class($acao));
                     try {
                         $acao->execute($asterisk, $this->request);
                     }
                     catch(PBX_Exception_AuthFail $ex) {
                         $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
-                        break;
+                        $to_execute = false;
                     }
                     catch(PBX_Rule_Action_Exception_StopExecution $ex) {
                         $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
-                        break;
+                        $to_execute = false;
                     }
                     catch(PBX_Rule_Action_Exception_GoTo $goto) {
                         $priority = $goto->getIndex() -1;
@@ -432,8 +498,25 @@ class PBX_Rule {
                         $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
                         $log->crit($ex);
                     }
+                    $this->plugins->postExecute($priority);
                 }
             }
+        }
+        $this->plugins->shutdown();
+    }
+
+    /**
+     * Retorna a ação da regra pelo seu índice
+     *
+     * @param int $index
+     * @return PBX_Rule_Action
+     */
+    public function getAcao($index) {
+        if(isset($this->acoes[$index])) {
+            return $this->acoes[$index];
+        }
+        else {
+            throw new PBX_Exception_NotFound("Nenhuma acao de indice $index na regra.");
         }
     }
 
@@ -652,22 +735,26 @@ class PBX_Rule {
 
     /**
      * Remove a ação da lista pelo índice dela.
+     *
+     * Remove ação do índice específicado e reordena os índices.
+     *
      * @param int $indice
-     * @return Snep_Acao | null Regra removida.
+     * @return PBX_Rule_Action|null Regra removida.
      */
     public function removerAcao($indice) {
         $nova_ordem = array();
         $removed = null;
         // Loop necessário para manter a estrutura linear organizada das ações
         foreach ($this->acoes as $i => $acao) {
-            if($i != $indice)
+            if($i != $indice) {
                 $nova_ordem[] = $acao;
-            else
+            }
+            else {
                 $removed = $acao;
+                $removed->setRegra(null);
+            }
         }
         $this->acoes = $nova_ordem;
-
-        $removed->setRegra(null);
         
         return $removed;
     }
@@ -692,6 +779,7 @@ class PBX_Rule {
      */
     public function setAsteriskInterface($asterisk) {
         $this->asterisk = $asterisk;
+        $this->plugins->setAsteriskInterface($asterisk);
         if(!isset($this->request)) $this->request = $asterisk->requestObj;
     }
 

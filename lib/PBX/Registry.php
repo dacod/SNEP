@@ -92,7 +92,7 @@ final class PBX_Registry {
      */
     public function __get( $key ) {
         if(isset($this->registryData[$key])) {
-            return $this->registryData['$key'];
+            return $this->registryData[$key];
         }
         else {
             throw new PBX_Exception_NotFound("Chave não existe neste contexto");
@@ -168,7 +168,6 @@ final class PBX_Registry {
      */
     public static function get( $context, $key ) {
         $registry = self::getInstance( $context );
-        $registry->setContext($context);
         
         return $registry->{$key};
     }
@@ -214,6 +213,7 @@ final class PBX_Registry {
         if( !isset( self::$instance ) ) {
             self::$instance = new self($context);
         }
+        self::$instance->setContext($context);
         return self::$instance;
     }
 
@@ -225,8 +225,7 @@ final class PBX_Registry {
      * @param mixed $value valor a ser guardado
      */
     public static function set( $context, $key, $value) {
-        $registry = self::getInstance();
-        $registry->setContext($context);
+        $registry = self::getInstance($context);
         $registry->{$key} = $value;
     }
 

@@ -1477,7 +1477,9 @@
       $broken = array('code'=>500, 'result'=>-1, 'data'=>'');
 
       // write command
-      if(!@fwrite($this->out, trim($command) . "\n")) return $broken;
+      if(!@fwrite($this->out, trim($command) . "\n")) {
+              return $broken;
+      }
       fflush($this->out);
 
       // Read result.  Occasionally, a command return a string followed by an extra new line.
@@ -1491,9 +1493,7 @@
         $str = trim(fgets($this->in, 4096));
       } while($str == '' && $count++ < 5);
 
-      if($count >= 5)
-      {
-//        $this->conlog("evaluate error on read for $command");
+      if($count >= 5) {
         return $broken;
       }
 
@@ -1514,7 +1514,6 @@
         }
         if($count >= 5)
         {
-//          $this->conlog("evaluate error on multiline read for $command");
           return $broken;
         }
       }
