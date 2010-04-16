@@ -26,7 +26,7 @@ require_once('agi_base.php');
 if($argc > 3 || $argc < 2)
     fatal_error("Wrong parameter count should be login/logoff and a numeric agentid.", $asterisk);
 
-// Are the write args?
+// Are the right args?
 if($argv[1] != "login" && $argv[1] != "logoff" || !is_numeric($argv[2]))
     fatal_error("Wrong parameter should be login/logoff and a numeric agentid.", $asterisk);
 

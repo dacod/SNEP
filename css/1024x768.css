@@ -82,16 +82,33 @@ a:hover, li a:hover {
     background-color: #CBFFCB;
 }
 
-/* Configuração dos formulários feitos com listas de definição */
+/* Listas de definição */
+dl {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 dt {
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+/* Configuração dos formulários feitos com listas de definição */
+form dl {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+form dt {
     width: 50%;
     margin-top: 3px;
     text-align: right;
     float: left;
+    font-weight: normal !important;
     margin-right: 10px;
 }
 
-dd input {
+form dd input {
     color:  #000000;
     background-color: #fbfbfb;
     font-family: Verdana, Arial, Helvetica, sans-serif;

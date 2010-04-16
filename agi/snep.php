@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/php-cgi -q
 <?php
 /**
  *  This file is part of SNEP.

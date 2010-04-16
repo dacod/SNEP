@@ -62,6 +62,7 @@ class PBX_Asterisk_Log_Writer extends Zend_Log_Writer_Abstract {
         $line = $this->_formatter->format($event);
 
         $line = trim($line, "\n"); // Removendo quebras de linha a mais
+        $line = str_replace('"','\"',$line); // Escaping "
 
         $this->asterisk->verbose($line);
     }
