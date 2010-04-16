@@ -192,10 +192,10 @@ class Snep_Menu {
         global $id_user;
         
         if ($id_user == 1) {
-            return True;
+            return true;
         }
         else if($id_user === null) {
-            return False;
+            return false;
         }
 
         $db = Zend_Registry::get('db');
