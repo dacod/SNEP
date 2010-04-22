@@ -38,6 +38,9 @@ disponíveis para download na interface elas precisam ser vistas pelo apache.
 Para isso geralmente é criado um link de /var/spool/asterisk/monitor para
 diretório snep/arquivos/.
 
+    Deve ser criado também o diretório /var/log/snep/ e dado permissão para o
+apache.
+
 3. Configuração do Asterisk
 
     Para que o SNEP possa processar as ligações de acordo com as regras de
