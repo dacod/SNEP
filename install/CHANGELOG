@@ -1,5 +1,8 @@
 1.1.5:
     Adição de um sistema de plugins para as Regras de Negócio.
+    Transferências agora passam pelo AGI do snep.
+        Transferências para números externos.
+        Transferências funcionando com Siga-me para números externos.
 
 1.1.4:
     Correção de bug na criação dos vinculos dos ramais.
