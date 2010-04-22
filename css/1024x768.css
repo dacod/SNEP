@@ -1110,4 +1110,37 @@ ul#navmenu ul ul li.iehover ul {
     float:left;
     background-image: url('../imagens/band_off.png');
 }
+.box {
+    width: 968px;
+    border: 1px solid #A4A7AB;
+    float:left;
+    margin-left: -1px;
+    margin-bottom: 10px;
+}
+.box_titulo {
+    width: 959px;
+    background-color: #FFE400;
+    padding: 4px;
+    font-weight: bolder;
+    border-bottom: 1px solid #A4A7AB;
+}
+.box_grade {
+    margin-bottom: 2px;
+    padding: 2px;
+}
+.box_grade ul{
+    display:inline;
+}
+.box_grade li {
+    float:left;
+    margin: 0 10px 0 4px;
+    list-style:none;
+}
+.box_right {
+    float: right;
+    padding: 4px;
+}
+.mr10 {
+    margin-right: 10px;
+}
 
