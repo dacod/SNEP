@@ -109,7 +109,7 @@ function StringField(id) {
 
     this.getHtml = function(objReference) {
         this.lastReference = objReference;
-        return '<input id="' + this.id + '" type="text" onchange="' + objReference + '.value = this.value;" value="'+this.value+'" class="box required" class="required box" style="width: 150px;height: 18px;"  />';
+        return '<input id="' + this.id + '" type="text" onchange="' + objReference + '.value = this.value;" value="'+this.value+'" class="required" style="width: 150px;height: 18px;"  />';
     }
 
     this.getValue = function() {

@@ -92,7 +92,7 @@ function Field(id) {
             html += "</select>";
         } // fim campo grupo de contatos
         else if(showfield) {
-            html += ' <input class="campos box required" onchange="' + objReference + '.value = this.value;" value="' + this.value + '" type="text" />';
+            html += ' <input class="campos required" onchange="' + objReference + '.value = this.value;" value="' + this.value + '" type="text" />';
         }
 
         html += "</span>";
@@ -147,8 +147,8 @@ function TimeField(id) {
     this.getHtml = function(objReference) {
         this.lastReference = objReference;
         var html = '<span id="' + this.id + '">';
-        html += 'De: <input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos box required" maxlength="5" size="5" onblur="valid_valida(this)"  /> hs\
-                 Até: <input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos box required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
+        html += 'De: <input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos required" maxlength="5" size="5" onblur="valid_valida(this)"  /> hs\
+                 Até: <input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
         html += "</span>";
         return html;
     }
