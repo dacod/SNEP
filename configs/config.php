@@ -44,13 +44,13 @@ else {
 /*  Inicia Smarty */
 define('PATH_SMARTY', '../includes/smarty');
 require PATH_SMARTY.'/Smarty.class.php';
-$smarty = new Smarty ;
-$smarty->template_dir = '../templates/' ;
-$smarty->compile_dir = '../templates_c/' ;
-$smarty->config_dir = '../configs/' ;
-$smarty->cache_dir = '../cache/' ;
+$smarty = new Smarty();
+$smarty->template_dir = '../templates/';
+$smarty->compile_dir = '../templates_c/';
+$smarty->config_dir = '../configs/';
+$smarty->cache_dir = '../cache/';
 $smarty->plugin_dir = '../includes/smarty/plugins';
-$smarty->agi_log = $config->system->path->log ;
+$smarty->agi_log = $config->system->path->log;
 
 // Versao do Sistema
 define('VERSAO',Zend_Registry::get('snep_version'));
@@ -59,6 +59,8 @@ define('VERSAO',Zend_Registry::get('snep_version'));
 $smarty->compile_check = True;
 $smarty->debugging = False;
 $sis_nome = "SNEP" ;
+
+Zend_Registry::set('smarty',$smarty);
 
 // Caminhos dos Arquivos de Som - Link para /var/lib/asterisk/sounds/br
 if (!defined ('SNEP_PATH_SOUNDS'))

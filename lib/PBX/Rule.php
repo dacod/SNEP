@@ -222,9 +222,18 @@ class PBX_Rule {
      *
      * @param PBX_Rule_Action $acao - Ação a ser adicionada a fila de execução
      */
-    public function addAcao($acao) {
-        $acao->setRule($this);
-        $this->acoes[] = $acao;
+    public function addAcao(PBX_Rule_Action $acao) {
+        $this->addAction($acao);
+    }
+
+    /**
+     * Adiciona Ações a fila de execução da regra.
+     *
+     * @param PBX_Rule_Action $action - Ação a ser adicionada a fila de execução
+     */
+    public function addAction(PBX_Rule_Action $action) {
+        $action->setRule($this);
+        $this->acoes[] = $action;
     }
 
     /**
@@ -512,6 +521,16 @@ class PBX_Rule {
      * @return PBX_Rule_Action
      */
     public function getAcao($index) {
+        $this->getAction($index);
+    }
+
+    /**
+     * Retorna a ação da regra pelo seu índice
+     *
+     * @param int $index
+     * @return PBX_Rule_Action
+     */
+    public function getAction($index) {
         if(isset($this->acoes[$index])) {
             return $this->acoes[$index];
         }
@@ -526,6 +545,15 @@ class PBX_Rule {
      * @return array acoes da regra
      */
     public function getAcoes() {
+        return $this->getActions();
+    }
+
+    /**
+     * Retorna as ações que a regra de negócio executa.
+     *
+     * @return array acoes da regra
+     */
+    public function getActions() {
         return $this->acoes;
     }
 

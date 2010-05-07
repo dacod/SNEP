@@ -42,7 +42,7 @@ class Snep_GruposRamais {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('groups' );
+                     ->from('groups');
         
         $stmt = $db->query($select);
         $grupos = $stmt->fetchAll();
@@ -67,5 +67,3 @@ class Snep_GruposRamais {
     }
 
 }
-
-?>

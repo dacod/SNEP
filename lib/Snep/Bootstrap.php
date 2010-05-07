@@ -164,6 +164,36 @@ abstract class Snep_Bootstrap {
         }
     }
 
+    protected function registerCCustos() {
+        $db = Zend_Registry::get("db");
+        $ccustos = Snep_CentroCustos::getInstance();
+
+        $select = $db->select()
+                  ->from('ccustos')
+                  ->order("codigo");
+
+        $stmt = $db->query($select);
+        $result = $stmt->fetchAll();
+
+        foreach($result as $ccusto) {
+            $ccustos->register(array("codigo" => $ccusto['codigo'], "nome" => $ccusto['nome']));
+        }
+    }
+
+    protected function registerQueues() {
+        $db = Zend_Registry::get("db");
+        $queues = Snep_Queues::getInstance();
+
+        $select = $db->select()->from('queues');
+
+        $stmt = $db->query($select);
+        $result = $stmt->fetchAll();
+
+        foreach($result as $queue) {
+            $queues->register($queue['name']);
+        }
+    }
+
     /**
      * Registra no autoloader os namespaces necessários para o ambiente Snep
      */

@@ -16,999 +16,575 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- require_once("../includes/verifica.php");  
- require_once("../configs/config.php");
- 
- ver_permissao(49) ;
+require_once("../includes/verifica.php");  
+require_once("../configs/config.php");
 
- // Variaveis de ambiente do form
- $smarty->assign('ACAO',$acao);
- $smarty->assign('OPCOES_SN',$tipos_sn);
- $smarty->assign('OPCOES_TF',$tipos_tf);
- 
- /* Monta lista de  Grupos de  Usuarios */
- try {
-    $sql = "SELECT name FROM groups ";
-    $groups = $db->query($sql)->fetchAll();
- }
- catch (PDOException $e) {
-    display_error($LANG['error'].$e->getMessage(),true) ;
- }
+ver_permissao(49);
 
- foreach($groups as $id => $val) {     
-    if($val['name'] == 'all') {
-        $grupos[$val['name']] = 'Todos';
-    }
-    elseif($val['name'] == 'admin') {
-        $grupos[$val['name']] = 'Administrador';
-    }
-    elseif($val['name'] == 'users') {
-        $grupos[$val['name']] = 'Usuarios';
-    }else{    
-        $grupos[$val['name']] = $val['name'];
-    }
- }
+/**
+ * Controlador para rotas de ligações.
+ */
+final class RouteController {
 
- $smarty->assign('OPCOES_GRUPOS', $grupos);
+    /**
+     * Formulários com as informações preenchidas para reimpressão em caso de
+     * erro de validação.
+     *
+     * @var array
+     */
+    private $forms = null;
 
-$select = "SELECT id, name FROM contacts_group";
-$raw_groups = $db->query($select)->fetchAll();
+    /**
+     * Define no smarty os valores padrões de alguns campos e preenche as
+     * comboboxes.
+     */
+    private function populateCommomFields() {
+        $db     = Zend_Registry::get("db");
+        $smarty = Zend_Registry::get("smarty");
 
-$groups = array();
-foreach ($raw_groups as $row) {
-    $groups[$row["id"]] = $row["name"];
-}
+        $extra_headers = <<<HEAD
+<link rel="stylesheet" href="../css/agi_rules.css" type="text/css" />
+<script src="../includes/javascript/scriptaculous/lib/prototype.js" type="text/javascript"></script>
+<script src="../includes/javascript/scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+<script src="../includes/javascript/snep.js"></script>
+<script src="../includes/javascript/agi_rules.js" type="text/javascript"></script>
+HEAD;
+        $smarty->assign('EXTRA_HEADERS',$extra_headers);
 
-$smarty->assign('OPCOES_CONTACTS_GROUPS', $groups);
+        /* Monta lista de  Grupos de  Usuarios */
+        $groups = new Snep_GruposRamais();
+        $groups = $groups->getAll();
 
-/* Monta lista de Centro de Custos */
-/* ----------------------------------------------------------------- */
-try {
-       $sql = "SELECT * FROM ccustos ORDER BY codigo" ;
-       $rowcc = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-}
-catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
-}
-
-$ccustos = array();
-foreach ($rowcc as $id => $val) {
-    $ccustos[$val['codigo']] = $val['codigo'] ." - ".$val['nome'];
-}
-$smarty->assign('OPCOES_CC', $ccustos);
-/* ----------------------------------------------------------------- */
-/* Monta lista de Filas */
-/* ----------------------------------------------------------------- */
-try {
-       $sql = "SELECT name FROM queues" ;
-       $rowq = $db->query($sql)->fetchAll();
-
-} catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
-
-}
-$filas = array();
-foreach ($rowq as $id => $val) {
-    $filas[$id] = $val['name'];
-}
-$smarty->assign('OPCOES_FILAS', $filas);
-
-/* ----------------------------------------------------------------- */
-/* Listam de troncos */
-/* ----------------------------------------------------------------- */
-$trunks = array();
-foreach (PBX_Trunks::getAll() as $tronco) {
-    $trunks[] = array(
-        'id'   =>$tronco->getId(),
-        'name' => $tronco->getName()
-    );
-    
-}
-$smarty->assign('OPCOES_TRONCOS', $trunks);
-
-
- // ordens de Execucao
- for ($i=0;$i<=5;$i++)
-     $ordem_list[$i] = $i ;
- $smarty->assign('OPCOES_ORDER',$ordem_list);
- 
- if ($acao == "cadastrar") {
-    cadastrar();
- } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_rules']." -> ".$LANG['menu_exit']." -> ".$LANG['change'];
-    alterar() ;
- } elseif ($acao ==  "grava_alterar") {
-    grava_alterar() ;
- } elseif ($acao ==  "excluir") {
-    excluir() ;
- } else {
-   $titulo = $LANG['menu_rules']." -> ".$LANG['menu_rules_in_out']." -> ".$LANG['include'];
-    $smarty->assign('weekDays',array(
-    "sun" => true,
-    "mon" => true,
-    "tue" => true,
-    "wed" => true,
-    "thu" => true,
-    "fri" => true,
-    "sat" => true
-));
-   principal() ;
- }
-/*------------------------------------------------------------------------------
- Funcao PRINCIPAL - Monta a tela principal da rotina
-------------------------------------------------------------------------------*/
-function principal()  {
-   global $smarty,$titulo, $LANG, $db ;
-   $smarty->assign('ACAO',"cadastrar");
-
- 
-
-   $smarty->assign('dt_agirules',array("dst"=>"dstObj.addItem();\n",
-                                       "src"=>"origObj.addItem();\n",
-                                       "time"=>"timeObj.addItem();\n",
-                                       "autorizado"=>"S",
-                                       "ordem" => 0));
-   
-   display_template("agi_rules.tpl",$smarty,$titulo) ;
-}
-
-/*------------------------------------------------------------------------------
- Funcao CADASTRAR - Inclui um novo registro
-------------------------------------------------------------------------------*/
-function cadastrar()  {
-   global $LANG, $db, $prioridade, $srcValue, $gravacao, $dstValue, $descricao, $autorizado, $timeValue, $ordem, $grupo_src, $grupo_dst;
-   
-   // Tratamento das ações
-   $indice = $_POST['indice'];
-   $cap = explode(',', substr($_POST['ids'],0,-1));
-
-   $action = array();
-
-   foreach($cap as $ordem => $acoes) {
-             switch (substr($acoes,0,1)) {
-                case 't':
-                    $cc = $acoes.'cc';
-                    $tnk = $acoes.'tnk';
-                    $to = $acoes.'to';
-                    $tl = $acoes.'tl';
-                    $omo = $acoes.'omo';
-                    $fg = $acoes.'fg';
-                    $em = $acoes.'em';
-                    $action[$ordem.'t']['cc']  = $_POST[$cc];
-                    $action[$ordem.'t']['tnk'] = $_POST[$tnk];
-                    $action[$ordem.'t']['to']  = $_POST[$to];
-                    $action[$ordem.'t']['tl']  = $_POST[$tl];
-                    $action[$ordem.'t']['fg']  = $_POST[$fg];
-                    $action[$ordem.'t']['em']  = $_POST[$em];
-                    $action[$ordem.'t']['omo']  = ( $_POST[$omo] ? 1 : 0);
+        foreach($groups as $id => $val) {
+            switch($val['name']) {
+                case 'all':
+                    $grupos[$val['name']] = 'Todos';
                     break;
-                case 'e':
-                    $cc  = $acoes.'cc';
-                    $rm  = $acoes.'rm';
-                    $to  = $acoes.'to';
-                    $tl  = $acoes.'tl';
-                    $omo = $acoes.'omo';
-                    $fg  = $acoes.'fg';
-                    $em  = $acoes.'em';
-                    $action[$ordem.'e']['cc']  = $_POST[$cc];
-                    $action[$ordem.'e']['rm']  = $_POST[$rm];
-                    $action[$ordem.'e']['to']  = $_POST[$to];
-                    $action[$ordem.'e']['tl']  = $_POST[$tl];
-                    $action[$ordem.'e']['omo'] = $_POST[$omo];
-                    $action[$ordem.'e']['fg'] = $_POST[$fg];
-                    $action[$ordem.'e']['em']  = $_POST[$em];
+                case 'admin':
+                    $grupos[$val['name']] = 'Administrador';
                     break;
-                case 'c':
-                    $ct = $acoes.'ct';
-                    $action[$ordem.'c']['ct'] = $_POST[$ct];
+                case 'users':
+                    $grupos[$val['name']] = 'Usuarios';
                     break;
-                case 'p':
-                    $ct = $acoes.'ct';
-                    $cc = $acoes.'cc';
-                    $action[$ordem.'p']['ct'] = $_POST[$ct];
-                    $action[$ordem.'p']['cc'] = $_POST[$cc];
-                    break;
-                case 'd':
-                    $cc = $acoes.'cc';
-                    $ct = $acoes.'ct';
-                    $action[$ordem.'d']['ct'] = $_POST[$ct];
-                    $action[$ordem.'d']['cc'] = $_POST[$cc];
-                    break;
-                case 'r':
-                    $cc = $acoes.'cc';
-                    $ct = $acoes.'ct';
-                    $action[$ordem.'r']['ct'] = $_POST[$ct] == 'on'?true:false;
-                    $action[$ordem.'r']['cc'] = $_POST[$cc] == 'on'?true:false;
-                    break;
-                case 'a':
-                    $ct = $acoes.'ct'; // Tipo de ação Origem ou Destino
-                    $cc = $acoes.'cc'; // Instrução de Corte
-                    $to = $acoes.'to'; // Prefixo
-                    $tl = $acoes.'tl'; // Sufixo
-                    $action[$ordem.'a']['cc']  = $_POST[$cc];
-                    $action[$ordem.'a']['ct']  = $_POST[$ct];
-                    $action[$ordem.'a']['to']  = $_POST[$to];
-                    $action[$ordem.'a']['tl']  = $_POST[$tl];
-                    break;
-                case 'l':
-                    $cc = $acoes.'cc';
-                    $ct = $acoes.'ct';
-                    $action[$ordem.'l']['ct'] = $_POST[$ct];
-                    $action[$ordem.'l']['cc'] = $_POST[$cc]-1;
-                    break;
-                case 'q':
-                    $cc = $acoes.'cc';
-                    $fl = $acoes.'fl';
-                    $to = $acoes.'to';
-                    $action[$ordem.'q']['cc'] = $_POST[$cc];
-                    $action[$ordem.'q']['fl'] = $_POST[$fl];
-                    $action[$ordem.'q']['to'] = $_POST[$to];
-                    break;
+                default:
+                    $grupos[$val['name']] = $val['name'];
             }
-   }
-
-    // Instancia um objeto do tipo regra
-    $regra = new PBX_Rule();
-
-    $diasDaSemana = array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
-    $regra->cleanValidWeekList();
-    foreach ($diasDaSemana as $dia) {
-        if( key_exists($dia, $_POST) ) {
-            $regra->addWeekDay($dia);
         }
+
+        $smarty = Zend_Registry::get('smarty');
+        $smarty->assign('OPCOES_GRUPOS', $grupos);
+
+        $select = "SELECT id, name FROM contacts_group";
+        $raw_groups = $db->query($select)->fetchAll();
+
+        $groups = array();
+        foreach ($raw_groups as $row) {
+            $groups[$row["id"]] = $row["name"];
+        }
+
+        $smarty->assign('OPCOES_CONTACTS_GROUPS', $groups);
+
+        /* ----------------------------------------------------------------- */
+        /* Listam de troncos */
+        /* ----------------------------------------------------------------- */
+        $trunks = array();
+        foreach (PBX_Trunks::getAll() as $tronco) {
+            $trunks[] = array(
+                    'id'   =>$tronco->getId(),
+                    'name' => $tronco->getName()
+            );
+
+        }
+        $smarty->assign('OPCOES_TRONCOS', $trunks);
+
+        $actions = PBX_Rule_Actions::getInstance();
+        $installed_actions = array();
+        foreach ($actions->getInstalledActions() as $action) {
+            $action_instance = new $action();
+            $installed_actions[$action] = $action_instance->getName();
+        }
+        asort($installed_actions);
+        $smarty->assign("ACTIONS", $installed_actions);
+
+        $smarty->assign('OPCOES_ORDER',range(0, 5));
     }
 
-    // Adicionando Origens
-    foreach (explode(',', $srcValue) as $src) {
-        if(!strpos($src, ':')) {
-            $regra->addSrc(array("type" => $src, "value" => ""));
+    /**
+     * Popula os campos do smarty a partir de uma Regra.
+     *
+     * @param PBX_Rule $rule
+     */
+    private function populateFromRule(PBX_Rule $rule) {
+        $smarty = Zend_Registry::get('smarty');
+        $srcList = $rule->getSrcList();
+        $src = "origObj.addItem(" . count($srcList) . ");";
+        foreach ($srcList as $index => $_src) {
+            $src .= "origObj.widgets[$index].type='{$_src['type']}';\n";
+            $src .= "origObj.widgets[$index].value='{$_src['value']}';\n";
+        }
+
+        $dstList = $rule->getDstList();
+        $dst =  "dstObj.addItem(" . count($dstList) . ");";
+        foreach ($dstList as $index => $_dst) {
+            $dst .=  "dstObj.widgets[$index].type='{$_dst['type']}';\n";
+            $dst .=  "dstObj.widgets[$index].value='{$_dst['value']}';\n";
+        }
+
+        $timeList = $rule->getValidTimeList();
+        $time = "timeObj.addItem(" . count($timeList) . ");";
+        foreach ($timeList as $index => $_time) {
+            $_time = explode('-', $_time);
+            $time .=  "timeObj.widgets[$index].startTime='{$_time[0]}';\n";
+            $time .=  "timeObj.widgets[$index].endTime='{$_time[1]}';\n";
+        }
+
+        // Tratamento do horario da regra
+        $horario = $rule->getValidTimeList();
+        $data = explode("-", $horario['0']);
+
+
+        $smarty->assign('id', $rule->getId());
+        $smarty->assign('dt_agirules',array("dst"=> $dst,
+                "src"=> $src,
+                "time"=>$time,
+                "record" => $rule->isRecording(),
+                "descricao" => $rule->getDesc(),
+                "prioridade" => $rule->getPriority(),
+                "ordem => 0"));
+        $listaDiasSemana = $rule->getValidWeekDays();
+        $smarty->assign('weekDays',array(
+                "sun" => in_array("sun", $listaDiasSemana),
+                "mon" => in_array("mon", $listaDiasSemana),
+                "tue" => in_array("tue", $listaDiasSemana),
+                "wed" => in_array("wed", $listaDiasSemana),
+                "thu" => in_array("thu", $listaDiasSemana),
+                "fri" => in_array("fri", $listaDiasSemana),
+                "sat" => in_array("sat", $listaDiasSemana)
+        ));
+    }
+
+    /**
+     * Valida o $_POST para campos obrigatórios das regras de negócio.
+     *
+     * Esse método foi feito para fazer o parse dos campos que não podem ser
+     * validados automaticamente por um Zend_Form como os dados das ações das
+     * regra.
+     *
+     * @param array $post
+     * @return boolean
+     */
+    private function isValidPost( $post=null) {
+        $post = $post === null ? $_POST : $post;
+
+        $assert = isset($post['actions_order']);
+
+        parse_str($post['actions_order'], $actions_order);
+        $forms = array();
+        foreach ($actions_order['actions_list'] as $action) {
+            $real_action = new $post["action_$action"]["action_type"]();
+            $action_config = new Snep_Rule_ActionConfig($real_action->getConfig());
+            $action_config->setActionId("action_$action");
+
+            $form = $action_config->getForm();
+
+            $action_type_element = new Zend_Form_Element_Hidden("action_type");
+            $action_type_element->setValue(get_class($action));
+            $form->addElement($action_type_element);
+
+            if(!$form->isValid($post["action_$action"])) {
+                $assert = false;
+            }
+
+            $form->setView(new Zend_View);
+            $forms["action_$action"] = array(
+                    "type" => $post["action_$action"]["action_type"],
+                    "formData" => $form->render()
+            );
+        }
+
+        if(!$assert) {
+            $this->forms = $forms;
+            return false;
         }
         else {
-            $info = explode(':', $src);
-            if(!is_array($info) OR count($info) != 2) {
-                throw new PBX_Exception_BadArg("Valor errado para origem da regra de negocio.");
+            return true;
+        }
+    }
+
+    /**
+     * Faz o parset de uma regra a partir do POST.
+     *
+     * Assume-se aqui que todos os campos são válidos.
+     *
+     * @param array $postData optional for ovewrite post data
+     * @return PBX_Rule
+     */
+    private function parseRuleFromPost( $post=null ) {
+        $post = $post === null ? $_POST : $post;
+
+        $rule = new PBX_Rule();
+
+        // Adicionando dias da semana
+        $weekDays = array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
+        $rule->cleanValidWeekList();
+        foreach ($weekDays as $day) {
+            if( key_exists($day, $post) ) {
+                $rule->addWeekDay($day);
             }
-
-            if( $info[0] == "T" ) {
-                try {
-                    PBX_Trunks::get( $info[1] );
-                }
-                catch( Exception $ex ) {
-                    display_error("Tronco inválido para origem da regra", true);
-                }
-            }
-
-            $regra->addSrc(array("type" => $info[0], "value" => $info[1]));
-        }
-    }
-
-    // Adicionando Destinos
-    foreach (explode(',', $dstValue) as $dst) {
-        if(!strpos($dst, ':')) {
-            $regra->addDst(array("type" => $dst, "value" => ""));
-        }
-        else {
-            $info = explode(':', $dst);
-            if(!is_array($info) OR count($info) != 2) {
-                throw new PBX_Exception_BadArg("Valor errado para destino da regra de negocio.");
-            }
-
-            if( $info[0] == "T" ) {
-                try {
-                    PBX_Trunks::get( $info[1] );
-                }
-                catch( Exception $ex ) {
-                    display_error("Tronco inválido para destino da regra", true);
-                }
-            }
-
-            $regra->addDst(array("type" => $info[0], "value" => $info[1]));
-        }
-    }
-
-    // Adicionando tempos
-    $regra->cleanValidTimeList();
-    foreach (explode(',', $timeValue) as $validade) {
-        $regra->addValidTime($validade);
-    }
-
-    // Adiciona Descricao
-    $regra->setDesc($descricao);
-    
-    // Percorre origem e destino incluindo-as no objeto da regra
-    
-    foreach($src as $origem) {
-        $regra->addSrc($origem);
-    }
-    foreach($dst as $destino) {
-        $regra->addDst($destino);
-    }
-
-    // Definindo ordem de gravação
-    if($gravacao == 'S') {
-        $regra->record();
-    }
-
-    // Define prioridade
-    $regra->setPriority($prioridade);
-
-    $regra->cleanActionsList();
-    // percorre array de acoes cadastradas e instancia os objetos de Acao e os inclui na regra.
-    foreach($action as $tipo => $acao) {
-    
-        switch (substr($tipo,-1)) {
-            // alterar, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'a':
-                $reg = new PBX_Rule_Action_Rewrite();
-
-                $conf = array(
-                    'type' => $acao['ct'],
-                    'cut'  => $acao['cc']
-                );
-
-                if($acao['to'] != "") {
-                    $conf['prefix'] = $acao['to'];
-                }
-                
-                if($acao['tl'] != "") {
-                    $conf['suffix'] = $acao['tl'];
-                }
-
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // tronco, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 't':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_DiscarTronco();                
-                $conf = array('tronco' => $acao['tnk'], 'dial_timeout' => $acao['to'], 'dial_limit' => $acao['tl'], 'omit_kgsm' => $acao['omo'], 'dial_flags' => $acao['fg'], 'alertEmail' => $acao['em']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);                
-                break;
-            // fila , instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'q':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_Queue();
-                $conf = array('queue' => $acao['fl'], 'timeout' => $acao['to']);                
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);                
-                break;
-            // contexto, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'c':                
-                $reg = new PBX_Rule_Action_GoContext();
-                $conf = array('context' => $acao['ct']);                
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);                
-                break;
-            // cadeado, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'p':
-                $reg = new PBX_Rule_Action_Cadeado();
-                $conf = array(
-                    'senha' => $acao['ct'],
-                    'ask_peer' => ($acao['cc']?"true":"false")
-                );
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // loop, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'l':
-                $reg = new PBX_Rule_Action_ActionLoop();
-                $conf = array('loopcount' => $acao['ct'], 'actionindex' => $acao['cc']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // ramal, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'e':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_DiscarRamal();
-                $conf = array(
-                    'dial_timeout' => $acao['to'],
-                    'dial_flags' => $acao['tl'],
-                    'dont_overflow' => ($acao['omo']?"true":"false"),
-                    'diff_ring' => ($acao['fg']?"true":"false"),
-                    'allow_voicemail' => ($acao['em']?"true":"false")
-                );
-                if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // Definir origem/destino
-            case 'd':
-                // Adicionando reescrita de Origem
-                if(isset($acao['cc'])) {
-                    $reg = new PBX_Rule_Action_Rewrite();
-                    $conf = array('type' => 'src', 'replace' => $acao['cc']);
-                    $reg->setConfig($conf);
-                    $regra->addAcao($reg);
-                }
-                // Adicionando reescrita de Destino
-                if(isset($acao['ct'])) {
-                    $reg = new PBX_Rule_Action_Rewrite();
-                    $conf = array('type' => 'dst', 'replace' => $acao['ct']);
-                    $reg->setConfig($conf);
-                    $regra->addAcao($reg);
-                }
-                break;
-            // Restaurar origem/destino
-            case 'r':
-                $reg = new PBX_Rule_Action_Restore();
-                $conf = array('origem' => $acao['cc'], 'destino' => $acao['ct']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-        }    
-    }
-
-    
-    PBX_Rules::register($regra);
-    
-
-    echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_agi_rules.php'>\n" ;
- }
-
-/*------------------------------------------------------------------------------
-  Funcao ALTERAR - Alterar um registro
-------------------------------------------------------------------------------*/
-function alterar()  {
-    
-   global $LANG, $db, $smarty, $titulo, $acao, $grupos;
-   
-   $codigo = isset($_POST['codigo']) ? $_POST['codigo'] : $_GET['codigo'];
-
-   if (!$codigo) {
-      display_error($LANG['msg_notselect'],true) ;
-      exit ;
-   }
-
-   // Pega regra em si.
-   $regra = PBX_Rules::get($codigo);
-
-   $srcList = $regra->getSrcList();
-    $src = "origObj.addItem(" . count($srcList) . ");";
-    foreach ($srcList as $index => $_src) {
-        $src .= "origObj.widgets[$index].type='{$_src['type']}';\n";
-        $src .= "origObj.widgets[$index].value='{$_src['value']}';\n";
-    }
-
-    $dstList = $regra->getDstList();
-    $dst =  "dstObj.addItem(" . count($dstList) . ");";
-    foreach ($dstList as $index => $_dst) {
-        $dst .=  "dstObj.widgets[$index].type='{$_dst['type']}';\n";
-        $dst .=  "dstObj.widgets[$index].value='{$_dst['value']}';\n";
-    }
-
-    $timeList = $regra->getValidTimeList();
-    $time = "timeObj.addItem(" . count($timeList) . ");";
-    foreach ($timeList as $index => $_time) {
-        $_time = explode('-', $_time);
-        $time .=  "timeObj.widgets[$index].startTime='{$_time[0]}';\n";
-        $time .=  "timeObj.widgets[$index].endTime='{$_time[1]}';\n";
-    }
-
-   // Pega acoes da regra
-   $acoes = $regra->getAcoes();
-
-   $action = array();
-   $ult_cc = '';
-   // Percorre o array de regras e as reconhece pelo tipo de instancia de objeto.
-   // monta array com informacoes especificas a serem repassadas a classe javascript.
-
-   $ult_acao = null;
-   foreach($acoes as $id => $acao) {
-
-        if($acao instanceof PBX_Rule_Action_Ccustos) {
-             $swp= $acao->getConfigArray();
-             $ult_cc = $swp['ccustos'];
         }
 
-        if($acao instanceof PBX_Rule_Action_DiscarTronco ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'   => 't',
-                'nome'   => $acao->getName(),
-                'cc'     => $ult_cc,
-                'tl'     => isset($swp['dial_limit']) ? $swp['dial_limit'] : "",
-                'to'     => $swp['dial_timeout'],
-                'omo'    => isset($swp['omit_kgsm']) ? $swp['omit_kgsm'] : "",
-                'tronco' => $swp['tronco'],
-                'fg'     => $swp['dial_flags'],
-                'em'     => isset($swp['alertEmail']) ? $swp['alertEmail'] : ""
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_DiscarRamal ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'  => 'e',
-                'nome'  => $acao->getName(),
-                'cc'    => $ult_cc,
-                'to'    => $swp['dial_timeout'],
-                'ramal' => $swp['ramal'],
-                'tl'    => $swp['dial_flags'],
-                'omo'   => $swp['dont_overflow'],
-                'fg'    => $swp['diff_ring'],
-                'em'    => $swp['allow_voicemail']
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_Queue ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'  => 'q',
-                'cc'    => $ult_cc,
-                'queue' => $swp['queue'],
-                'to'    => $swp['timeout']
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_GoContext ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo' => 'c',
-                'ct'   => $swp['context']
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_Cadeado ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'  => 'p',
-                'ct'    => $swp['senha'],
-                'cc'    => $swp['ask_peer']
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_ActionLoop ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'  => 'l',
-                'cc'    => $swp['actionindex'] +1,
-                'ct'    => $swp['loopcount']
-            );
-            unset($swp);
-        }
-
-        if($acao instanceof PBX_Rule_Action_Rewrite) {
-            $swp = $acao->getConfigArray();
-            // Caso a regra tenha instruções para substituição
-            if (isset($swp['replace']) && $swp['replace'] != "") {
-                if($ult_acao instanceof PBX_Rule_Action_Rewrite) {
-                    $ult_acao_cfg = $ult_acao->getConfigArray();
-                    $action[$last_rewrite_index] = array(
-                        'tipo'  => 'd',
-                        'cc'    => $swp['type'] == 'src' ? $swp['replace'] : ($ult_acao_cfg['type'] == 'src' ? $ult_acao_cfg['replace'] : ''),
-                        'ct'    => $swp['type'] == 'dst' ? $swp['replace'] : ($ult_acao_cfg['type'] == 'dst' ? $ult_acao_cfg['replace'] : '')
-                    );
-                }
-                else {
-                    $action[] = array(
-                        'tipo'  => 'd',
-                        'cc'    => $swp['type'] == 'src' ? $swp['replace'] : '',
-                        'ct'    => $swp['type'] == 'dst' ? $swp['replace'] : ''
-                    );
-                    $last_rewrite_index = count($action) -1;
-                }
+        // Adicionando Origens
+        foreach (explode(',', $post['srcValue']) as $src) {
+            if(!strpos($src, ':')) {
+                $rule->addSrc(array("type" => $src, "value" => ""));
             }
             else {
-                $action[] = array(
-                    'tipo'  => 'a',
-                    'cc'    => $swp['type'],
-                    'ct'    => $swp['cut'],
-                    'to'    => isset($swp['prefix']) ? $swp['prefix'] : '',
-                    'tl'    => isset($swp['suffix']) ? $swp['suffix'] : ''
-                );
-                $index = count($action)-1;
+                $info = explode(':', $src);
+                if(!is_array($info) OR count($info) != 2) {
+                    throw new PBX_Exception_BadArg("Valor errado para origem da regra de negocio.");
+                }
+
+                if( $info[0] == "T" ) {
+                    try {
+                        PBX_Trunks::get( $info[1] );
+                    }
+                    catch( PBX_Exception_NotFound $ex ) {
+                        display_error("Tronco inválido para origem da regra", true);
+                    }
+                }
+
+                $rule->addSrc(array("type" => $info[0], "value" => $info[1]));
             }
-            unset($swp);
         }
-        
-        if($acao instanceof PBX_Rule_Action_Restore ) {
-            $swp = $acao->getConfigArray();
-            $action[] = array(
-                'tipo'  => 'r',
-                'cc'    => $swp['origem'],
-                'ct'    => $swp['destino']
-            );
-            unset($swp);
+
+        // Adicionando Destinos
+        foreach (explode(',', $post['dstValue']) as $dst) {
+            if(!strpos($dst, ':')) {
+                $rule->addDst(array("type" => $dst, "value" => ""));
+            }
+            else {
+                $info = explode(':', $dst);
+                if(!is_array($info) OR count($info) != 2) {
+                    throw new PBX_Exception_BadArg("Valor errado para destino da regra de negocio.");
+                }
+
+                if( $info[0] == "T" ) {
+                    try {
+                        PBX_Trunks::get( $info[1] );
+                    }
+                    catch( PBX_Exception_NotFound $ex ) {
+                        display_error("Tronco inválido para destino da regra", true);
+                    }
+                }
+
+                $rule->addDst(array("type" => $info[0], "value" => $info[1]));
+            }
         }
-        $ult_acao = $acao;
-   }
-  
 
-   // Tratamento do horario da regra
-   $horario = $regra->getValidTimeList();
-   $data = explode("-", $horario['0']);
-
-
-   $smarty->assign('codigo', $codigo);
-   $smarty->assign('dt_agirules',array("dst"=> $dst,
-                                       "src"=> $src,
-                                       "time"=>$time,
-                                       "gravacao" => $regra->isRecording() ? 'S' : 'N',
-                                       "descricao" => $regra->getDesc(),
-                                       "autorizado"=>"S",
-                                       "prioridade" => $regra->getPriority(),
-                                       "ordem => 0"));
-    $listaDiasSemana = $regra->getValidWeekDays();
-    $smarty->assign('weekDays',array(
-            "sun" => in_array("sun", $listaDiasSemana),
-            "mon" => in_array("mon", $listaDiasSemana),
-            "tue" => in_array("tue", $listaDiasSemana),
-            "wed" => in_array("wed", $listaDiasSemana),
-            "thu" => in_array("thu", $listaDiasSemana),
-            "fri" => in_array("fri", $listaDiasSemana),
-            "sat" => in_array("sat", $listaDiasSemana)
-    ));
-   $smarty->assign('ACAO',"grava_alterar") ;
-  
-   $js = ' <script type=\'text/javascript\'> ';
-   foreach($action as $id => $acao) {
-       
-       switch ($acao['tipo']) {
-
-            case 'a':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= " x.newnode('alterar','".$action[$id]['cc']."','".$action[$id]['ct']."','".$action[$id]['to']."','".$action[$id]['tl']."','',''); ";
-                break;
-            case 't':
-                //echo "<script type=\"text/javascript\">  </script> ";                
-                $js .= " x.newnode('trunk','".$action[$id]['cc']."','".$action[$id]['tronco']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','".$action[$id]['fg']."','".$action[$id]['em']."');";
-                break;
-            case 'e':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('exten','".$action[$id]['cc']."','".$action[$id]['ramal']."','".$action[$id]['to']."','".$action[$id]['tl']."','".$action[$id]['omo']."','" . $action[$id]['fg'] . "','{$action[$id]['em']}');";
-                break;
-            case 'q':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('queue','".$action[$id]['cc']."','".$action[$id]['queue']."','".$action[$id]['to']."','','','');";
-                break;
-            case 'c':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('context','','".$action[$id]['ct']."','','','','');";
-                break;
-            case 'p':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('padlock','{$action[$id]['cc']}','{$action[$id]['ct']}','','','','');";
-                break;
-            case 'l':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .=  "x.newnode('loop','".$action[$id]['cc']."','".$action[$id]['ct']."','','','','');";
-                break;
-            case 'd':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('define','".$action[$id]['cc']."','".$action[$id]['ct']."','','','','');";
-                break;
-            case 'r':
-                //echo "<script type=\"text/javascript\">   </script> ";
-                $js .= "x.newnode('restore','".$action[$id]['cc']."','".$action[$id]['ct']."','','','','');";
-                break;
+        // Adicionando tempos
+        $rule->cleanValidTimeList();
+        foreach (explode(',', $post['timeValue']) as $time_period) {
+            $rule->addValidTime($time_period);
         }
+
+        // Adiciona Descricao
+        $rule->setDesc($post['descricao']);
+
+        // Definindo ordem de gravação
+        if(isset($post['record']) && $post['record']) {
+            $rule->record();
+        }
+
+        // Define prioridade
+        $rule->setPriority($post['prioridade']);
+
+        parse_str($post['actions_order'], $actions_order);
+        foreach ($actions_order['actions_list'] as $action) {
+            $real_action = new $post["action_$action"]["action_type"]();
+            $action_config = new Snep_Rule_ActionConfig($real_action->getConfig());
+            $real_action->setConfig($action_config->parseConfig($post["action_$action"]));
+            $rule->addAction($real_action);
+        }
+
+        return $rule;
     }
-    $js .= "</script>";    
-     $smarty->assign ('JS', $js);
-     display_template("agi_rules.tpl",$smarty,$titulo);
+
+    public function indexAction() {
+        global $LANG;
+        $smarty = Zend_Registry::get('smarty');
+        $db = Zend_Registry::get('db');
+        $titulo = "Regras de Negócio";
+
+        // Opcoes de Filtros
+        $opcoes = array(
+                "desc" => "Descrição",
+                "src"  => $LANG['origin'],
+                "dst"  => $LANG['destination']
+        );
+
+        // Se aplicar Filtro ....
+        if (array_key_exists ('filtrar', $_POST)) {
+            $where = "`".$_POST['field_filter']."` like '%".$_POST['text_filter']."%'";
+        }
+        else {
+            $where = null;
+        }
+
+        $select = "SELECT id, name FROM contacts_group";
+        $raw_groups = $db->query($select)->fetchAll();
+
+        $groups = array();
+        foreach ($raw_groups as $row) {
+            $groups[$row["id"]] = $row["name"];
+        }
+
+        // Executa acesso ao banco de Dados
+        $regras = PBX_Rules::getAll($where);
+
+        $dados = array();
+        foreach ($regras as $rule) {
+
+            $list_src = '';
+            foreach($rule->getSrcList() as $src) {
+                switch($src['type']) {
+                    case "X" :
+                        $list_src .= "{$LANG['any']}<br />";
+                        break;
+                    case "R" :
+                        $list_src .= $src['value'] . "<br />";
+                        break;
+                    case "RX" :
+                        $list_src .= $src['value'] . "<br />";
+                        break;
+                    case "T" :
+                        $trunk = PBX_Trunks::get($src['value']);
+                        $list_src .= "{$LANG['trunk']} {$trunk->getName()}<br />";
+                        break;
+                    case "CG" :
+                        $list_src .= "{$LANG['contacts_group']}: {$groups[$src['value']]}<br />";
+                        break;
+                    case "G" :
+                        switch ($src['value']) {
+                            case 'all':
+                                $groupname = $LANG['all'];
+                                break;
+                            case 'users':
+                                $groupname = $LANG['user'];
+                                break;
+                            case 'admin':
+                                $groupname = $LANG['admin'];
+                                break;
+                            default:
+                                $groupname = $src['value'];
+                                break;
+                        }
+                        $list_src .= "{$LANG['group']} {$groupname}<br />";
+                        break;
+                }
+            }
+
+            $list_dst = '';
+            foreach($rule->getDstList() as $dst) {
+                switch($dst['type']) {
+                    case "X" :
+                        $list_dst .= "{$LANG['any']}<br />";
+                        break;
+                    case "R" :
+                        $list_dst .= $dst['value'] . "<br />";
+                        break;
+                    case "RX" :
+                        $list_dst .= $dst['value'] . "<br />";
+                        break;
+                    case "S" :
+                        $list_dst .= "{$LANG['no_destiny']}<br />";
+                        break;
+                    case "G" :
+                        switch ($dst['value']) {
+                            case 'all':
+                                $groupname = $LANG['all'];
+                                break;
+                            case 'users':
+                                $groupname = $LANG['user'];
+                                break;
+                            case 'admin':
+                                $groupname = $LANG['admin'];
+                                break;
+                            default:
+                                $groupname = $dst['value'];
+                                break;
+                        }
+                        $list_dst .= "{$LANG['group']} {$groupname}<br />";
+                        break;
+                }
+            }
+
+            $dados[] = array(
+                    "codigo"    => $rule->getId(),
+                    "ativa"     => $rule->isActive(),
+                    "src"       => $list_src,
+                    "dst"       => $list_dst,
+                    "descricao" => $rule->getDesc(),
+                    "ordem"     => $rule->getPriority(),
+            );
+        }
+
+
+        // Define variaveis do template
+        $smarty->assign ('DADOS',$dados);
+        // Variaveis Relativas a Barra de Filtro/Botao Incluir
+        $smarty->assign ('view_filter',True);
+        $smarty->assign ('view_include_buttom',True);
+        $smarty->assign ('debugger_btn',True);
+        $smarty->assign ('OPCOES', $opcoes);
+        $smarty->assign ('array_include_buttom',array("url" => "../gestao/agi_rules.php?acao=cadastrar", "display"  => "Nova Regra"));
+        // Exibe template
+        display_template("rel_agi_rules.tpl",$smarty,$titulo);
+    }
+
+    /**
+     * Adição/Cadastro de novas rotas na central.
+     */
+    public function addAction() {
+        global $LANG;
+        $smarty = Zend_Registry::get('smarty');
+
+        $this->populateCommomFields();
+
+        $smarty->assign('ACAO',"cadastrar");
+
+        $titulo = "Regras de Negócio -> Regra -> Adicionar";
+        $smarty->assign('weekDays',array(
+                "sun" => true,
+                "mon" => true,
+                "tue" => true,
+                "wed" => true,
+                "thu" => true,
+                "fri" => true,
+                "sat" => true
+        ));
+
+        $smarty->assign('dt_agirules',array("dst"=>"dstObj.addItem();\n",
+                "src"=>"origObj.addItem();\n",
+                "time"=>"timeObj.addItem();\n",
+                "autorizado"=>"S",
+                "ordem" => 0));
+
+        if($_POST) {
+            if($this->isValidPost()) {
+                $rule = $this->parseRuleFromPost();
+                PBX_Rules::register($rule);
+                header("HTTP/1.1 303 See Other");
+                header("Location: ./agi_rules.php");
+            }
+            else {
+                $actions = "";
+                foreach ($this->forms as $id => $form) {
+                    $actions .= "addAction(" . json_encode(array(
+                            "id"     => $id,
+                            "status" => "success",
+                            "type"   => $form['type'],
+                            "form"   => $form['formData']
+                            )) . ")\n";
+                }
+                $actions .= "setActiveAction($('actions_list').firstChild)\n";
+                $smarty->assign('RULE_ACTIONS', $actions);
+                $rule = $this->parseRuleFromPost();
+                $this->populateFromRule($rule);
+            }
+        }
+
+        display_template("agi_rules.tpl",$smarty,$titulo) ;
+    }
+
+    public function editAction() {
+        global $LANG, $grupos;
+
+        $this->populateCommomFields();
+        $smarty = Zend_Registry::get('smarty');
+
+        $id = isset($post['id']) ? $post['id'] : $_GET['id'];
+        if (!$id) {
+            display_error($LANG['msg_notselect'],true);
+            exit;
+        }
+
+        try {
+            $rule = PBX_Rules::get($id);
+        }
+        catch(PBX_Exception_NotFound $ex) {
+            display_error("Não existe regra com o id '$id'");
+            exit(1);
+        }
+
+        if($_POST) {
+            if($this->isValidPost()) {
+                $rule = $this->parseRuleFromPost();
+                $rule->setId($id);
+                PBX_Rules::update($rule);
+                header("HTTP/1.1 303 See Other");
+                header("Location: ./agi_rules.php");
+            }
+            else {
+                $actions = "";
+                foreach ($this->forms as $form_id => $form) {
+                    $actions .= "addAction(" . json_encode(array(
+                            "id"     => $form_id,
+                            "status" => "success",
+                            "type"   => $form['type'],
+                            "form"   => $form['formData']
+                            )) . ")\n";
+                }
+                $actions .= "setActiveAction($('actions_list').firstChild)\n";
+                $smarty->assign('RULE_ACTIONS', $actions);
+            }
+        }
+
+        $this->populateFromRule($rule);
+        $smarty->assign('ACAO',"alterar&id=$id");
+
+        if(!isset($actions)) {
+            $actions = "getRuleActions({$rule->getId()});\n";
+            $smarty->assign('RULE_ACTIONS',$actions);
+        }
+
+        $titulo = "Regras de Negócio -> Regra $id -> Alterar";
+        display_template("agi_rules.tpl",$smarty,$titulo);
+    }
+
+    public function deleteAction() {
+        if(!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            display_error("ID Inválido para exclusão de regra",true);
+        }
+
+        try {
+            $rule = PBX_Rules::get($_GET['id']);
+        }
+        catch(PBX_Exception_NotFound $ex) {
+            display_error("Não existe regra com o id '$id'");
+            exit(1);
+        }
+
+        PBX_Rules::delete($_GET['id']);
+
+        header("HTTP/1.1 303 See Other");
+        header("Location: ./agi_rules.php");
+    }
+
 }
 
-/*------------------------------------------------------------------------------
-  Funcao GRAVA_ALTERAR - Grava registro Alterado
-------------------------------------------------------------------------------*/
-function grava_alterar()  {
-   global $LANG, $db, $gravacao, $prioridade, $descricao, $autorizado, $timeValue, $codigo, $ccustos,  $canais, $routes_red, $alias, $ordem, $mixmonitor, $mixmonitor_flags, $dial_timeout, $dial_flags, $route, $opercode, $srcValue, $dstValue, $grupo_src, $grupo_dst, $redccustos, $redopercode, $callerid, $redcallerid, $dial_limit, $dial_warn, $kgsm_restricted;
+// Variaveis de ambiente do form
+$smarty->assign('ACAO',$acao);
 
-   $codigo = $_POST['codigo'];
-   $regra = PBX_Rules::get($codigo);
+$routeController = new RouteController();
 
-   $diasDaSemana = array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
-   $regra->cleanValidWeekList();
-   foreach ($diasDaSemana as $dia) {
-       if( key_exists($dia, $_POST) ) {
-           $regra->addWeekDay($dia);
-       }
-   }
-
-    $regra->srcClean();
-    foreach (explode(',', $srcValue) as $src) {
-        if(!strpos($src, ':')) {
-            $regra->addSrc(array("type" => $src, "value" => ""));
-        }
-        else {
-            $info = explode(':', $src);
-            if(!is_array($info) OR count($info) != 2) {
-                throw new PBX_Exception_BadArg("Valor errado para origem da regra de negocio.");
-            }
-
-            if( $info[0] == "T" ) {
-                try {
-                    PBX_Trunks::get( $info[1] );
-                }
-                catch( Exception $ex ) {
-                    display_error("Tronco inválido para origem da regra", true);
-                }
-            }
-
-            $regra->addSrc(array("type" => $info[0], "value" => $info[1]));
-        }
-    }
-    
-    $regra->dstClean();
-    foreach (explode(',', $dstValue) as $dst) {
-        if(!strpos($dst, ':')) {
-            $regra->addDst(array("type" => $dst, "value" => ""));
-        }
-        else {
-            $info = explode(':', $dst);
-            if(!is_array($info) OR count($info) != 2) {
-                throw new PBX_Exception_BadArg("Valor errado para destino da regra de negocio.");
-            }
-
-            if( $info[0] == "T" ) {
-                try {
-                    PBX_Trunks::get( $info[1] );
-                }
-                catch( Exception $ex ) {
-                    display_error("Tronco inválido para origem da regra", true);
-                }
-            }
-
-            $regra->addDst(array("type" => $info[0], "value" => $info[1]));
-        }
-    }
-
-    $regra->cleanValidTimeList();
-    foreach (explode(',', $timeValue) as $validade) {
-        $regra->addValidTime($validade);
-    }
-
-   // Tratamento das ações
-   $indice = $_POST['indice'];
-   $cap = explode(',', trim($_POST['ids'],","));
-
-   $action = array();
-
-   foreach($cap as $ordem => $acoes) {
-
-         switch (substr($acoes,0,1)) {
-            case 'a':
-                $ct = $acoes.'ct'; // Tipo de ação Origem ou Destino
-                $cc = $acoes.'cc'; // Instrução de Corte
-                $to = $acoes.'to'; // Prefixo
-                $tl = $acoes.'tl'; // Sufixo
-                $action[$ordem.'a']['cc']  = $_POST[$cc];
-                $action[$ordem.'a']['ct']  = $_POST[$ct];
-                $action[$ordem.'a']['to']  = $_POST[$to];
-                $action[$ordem.'a']['tl']  = $_POST[$tl];
-                break;
-           case 't':
-                $cc = $acoes.'cc';
-                $tnk = $acoes.'tnk';
-                $to = $acoes.'to';
-                $tl = $acoes.'tl';
-                $omo = $acoes.'omo';
-                $fg = $acoes.'fg';
-                $em = $acoes.'em';
-                $action[$ordem.'t']['cc']  = $_POST[$cc];
-                $action[$ordem.'t']['tnk'] = $_POST[$tnk];
-                $action[$ordem.'t']['to']  = $_POST[$to];
-                $action[$ordem.'t']['tl']  = $_POST[$tl];
-                $action[$ordem.'t']['fg']  = $_POST[$fg];
-                $action[$ordem.'t']['em']  = $_POST[$em];
-                $action[$ordem.'t']['omo']  = ( $_POST[$omo] ? 1 : 0);
-                break;
-            case 'e':
-                $cc  = $acoes.'cc';
-                $rm  = $acoes.'rm';
-                $to  = $acoes.'to';
-                $tl  = $acoes.'tl';
-                $omo = $acoes.'omo';
-                $fg  = $acoes.'fg';
-                $em  = $acoes.'em';
-                $action[$ordem.'e']['cc']  = $_POST[$cc];
-                $action[$ordem.'e']['rm']  = $_POST[$rm];
-                $action[$ordem.'e']['to']  = $_POST[$to];
-                $action[$ordem.'e']['tl']  = $_POST[$tl];
-                $action[$ordem.'e']['omo'] = $_POST[$omo];
-                $action[$ordem.'e']['em']  = $_POST[$em];
-                $action[$ordem.'e']['fg'] = $_POST[$fg];
-                break;
-            case 'd':
-                $cc = $acoes.'cc';
-                $ct = $acoes.'ct';
-                $action[$ordem.'d']['ct'] = $_POST[$ct];
-                $action[$ordem.'d']['cc'] = $_POST[$cc];
-                break;
-            case 'r':
-                $cc = $acoes.'cc';
-                $ct = $acoes.'ct';
-                $action[$ordem.'r']['ct'] = $_POST[$ct] == 'on'?true:false;
-                $action[$ordem.'r']['cc'] = $_POST[$cc] == 'on'?true:false;
-                break;
-            case 'c':
-                $ct = $acoes.'ct';
-                $action[$ordem.'c']['ct'] = $_POST[$ct];
-                break;
-            case 'p':
-                $ct = $acoes.'ct';
-                $cc = $acoes.'cc';
-                $action[$ordem.'p']['ct'] = $_POST[$ct];
-                $action[$ordem.'p']['cc'] = $_POST[$cc];
-                break;
-            case 'l':
-                $cc = $acoes.'cc';
-                $ct = $acoes.'ct';
-                $action[$ordem.'l']['ct'] = $_POST[$ct];
-                $action[$ordem.'l']['cc'] = $_POST[$cc]-1;
-                break;
-            case 'q':
-                $cc = $acoes.'cc';
-                $fl = $acoes.'fl';
-                $to = $acoes.'to';
-                $action[$ordem.'q']['cc'] = $_POST[$cc];
-                $action[$ordem.'q']['fl'] = $_POST[$fl];
-                $action[$ordem.'q']['to'] = $_POST[$to];
-                break;
-        }
-   }
-
-    // Instancia um objeto do tipo regra
-    $regra->setId($codigo);
-
-    // Adiciona Descricao
-    $regra->setDesc($descricao);
-
-    // Define prioridade
-    $regra->setPriority($prioridade);
-
-    // Definindo ordem de gravação
-    if($gravacao == 'S') {
-        $regra->record();
-    }
-    else {
-        $regra->dontRecord();
-    }
-
-    $regra->cleanActionsList();
-    // percorre array de acoes cadastradas e instancia os objetos de Acao e os inclui na regra.
-    foreach($action as $tipo => $acao) {
-
-        switch (substr($tipo,-1)) {
-            // alterar, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'a':
-                $reg = new PBX_Rule_Action_Rewrite();
-
-                $conf = array(
-                    'type' => $acao['ct'],
-                    'cut'  => $acao['cc']
-                );
-
-                if($acao['to'] != "") {
-                    $conf['prefix'] = $acao['to'];
-                }
-
-                if($acao['tl'] != "") {
-                    $conf['suffix'] = $acao['tl'];
-                }
-
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // tronco, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 't':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_DiscarTronco();
-                $conf = array('tronco' => $acao['tnk'], 'dial_timeout' => $acao['to'], 'dial_limit' => $acao['tl'], 'omit_kgsm' => $acao['omo'], 'dial_flags' => $acao['fg'], 'alertEmail' => $acao['em']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // fila , instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'q':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_Queue();
-                $conf = array('queue' => $acao['fl'], 'timeout' => $acao['to']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // contexto, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'c':
-                $reg = new PBX_Rule_Action_GoContext();
-                $conf = array('context' => $acao['ct']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // cadeado, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'p':
-                $reg = new PBX_Rule_Action_Cadeado();
-                $conf = array(
-                    'senha' => $acao['ct'],
-                    'ask_peer' => ($acao['cc']?"true":"false")
-                );
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-                        // loop, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'l':
-                $reg = new PBX_Rule_Action_ActionLoop();
-                $conf = array('loopcount' => $acao['ct'], 'actionindex' => $acao['cc']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // ramal, instancia ação, adiciona configuracao e adiciona acao a regra
-            case 'e':
-                $cc = new PBX_Rule_Action_CCustos();
-                $cc->setConfig(array('ccustos' => $acao['cc']));
-                $regra->addAcao($cc);
-                $reg = new PBX_Rule_Action_DiscarRamal();
-                $conf = array(
-                    'dial_timeout' => $acao['to'],
-                    'dial_flags' => $acao['tl'],
-                    'dont_overflow' => ($acao['omo']?"true":"false"),
-                    'diff_ring' => ($acao['fg']?"true":"false"),
-                    'allow_voicemail' => ($acao['em']?"true":"false")
-                );
-                if(is_numeric($acao['rm'])) $conf['ramal'] = $acao['rm'];
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-            // Definir origem/destino
-            case 'd':
-                // Adicionando reescrita de Origem
-                if($acao['cc'] != "") {
-                    $reg = new PBX_Rule_Action_Rewrite();
-                    $conf = array('type' => 'src', 'replace' => $acao['cc']);
-                    $reg->setConfig($conf);
-                    $regra->addAcao($reg);
-                }
-                // Adicionando reescrita de Destino
-                if($acao['ct'] != "") {
-                    $reg = new PBX_Rule_Action_Rewrite();
-                    $conf = array('type' => 'dst', 'replace' => $acao['ct']);
-                    $reg->setConfig($conf);
-                    $regra->addAcao($reg);
-                }
-                break;
-            // Restaurar origem/destino
-            case 'r':
-                $reg = new PBX_Rule_Action_Restore();
-                $conf = array('origem' => $acao['cc'], 'destino' => $acao['ct']);
-                $reg->setConfig($conf);
-                $regra->addAcao($reg);
-                break;
-        }
-    }
-
-    PBX_Rules::update($regra);
-    echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_agi_rules.php'>\n" ;
-
- }
-
-/*------------------------------------------------------------------------------
-  Funcao EXCLUIR - Excluir registro selecionado
-------------------------------------------------------------------------------*/
-function excluir()  {
-   global $LANG, $db;
-   $codigo = isset($_POST['codigo']) ? $_POST['codigo'] : $_GET['codigo'];
-
-   if (!$codigo OR !is_numeric($codigo)) {
-      display_error($LANG['msg_notselect'],1) ;
-      exit ;
-   }
-
-   //$regra = new PBX_Rule();
-   PBX_Rules::delete($codigo);
-
-   echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_agi_rules.php'>\n" ;
+if ($acao == "cadastrar") {
+    $routeController->addAction();
+} elseif ($acao ==  "alterar") {
+    $routeController->editAction();
+} elseif ($acao ==  "grava_alterar") {
+    $routeController->editAction();
+} elseif ($acao ==  "excluir") {
+    $routeController->deleteAction();
+} else {
+    $routeController->indexAction();
 }

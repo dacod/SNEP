@@ -29,9 +29,9 @@
       <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
       <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" />
       <meta http-equiv="Pragma" content="no-cache" />
-      <!--<script src="../includes/javascript/status_asterisk.js"></script> -->
       <meta name="copyright" content="Opens Tecnologia&reg;" />
-      <link rel="icon" type="image/png" href="../imagens/favicon.ico">
+      <link rel="icon" type="image/png" href="../imagens/favicon.ico" />
+      {$EXTRA_HEADERS}
 
       <script src="../includes/javascript/popup.js"></script>
       {if $debugger}

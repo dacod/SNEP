@@ -5,6 +5,39 @@
  * Autor: Flavio H. Somensi <
  flavio@opens.com.br>
  *-----------------------------------------------------------------------------*/
+
+#main_container {
+    border: 1px solid #ccc;
+}
+
+.new_button {
+    border: 1px solid #FDB712;
+    padding: 4px 10px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    background: url("../imagens/menu.png");
+}
+
+.new_button:disabled {
+    border-color: #ccc;
+    color: #ccc;
+    cursor: default;
+}
+
+.new_button:disabled:hover {
+    color: #ccc;
+}
+
+.new_button:hover {
+    color: #FDB712;
+}
+
 /* Links */
 lu li {
    font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -52,7 +85,7 @@ lu li {
     margin-right: 10px;
 }
 a, a:visited, li a:link, li a:visited {
-  text-decoration: none ;
+   text-decoration: none;
    color: #696969;
 }
 .mais {
@@ -95,24 +128,24 @@ dt {
 
 /* Configuração dos formulários feitos com listas de definição */
 form dl {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 form dt {
-    width: 50%;
-    margin-top: 3px;
-    text-align: right;
-    float: left;
-    font-weight: normal !important;
-    margin-right: 10px;
+    margin-top: 5px;
+    font-weight: bold !important;
+}
+
+form dd {
+    margin-left: 10px;
 }
 
 form dd input {
     color:  #000000;
     background-color: #fbfbfb;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     border-style: solid;
     border-top-width: 1px;
     border-right-width: 1px;
@@ -123,6 +156,17 @@ form dd input {
 
 form .description {
     display: inline;
+    font-size: 12px;
+}
+
+form .errors {
+    background-color: #ffcccc;
+    padding-left: 5px;
+}
+
+form .errors li {
+    list-style-position: inside;
+    padding: 4px;
 }
 /* FIM Configuração dos formulários feitos com listas de definição */
 
@@ -316,7 +360,7 @@ div#acoes table,div#acoes td,div#acoes tr  {
    font-size: 11px;
    border-style: solid; 
    border-top-width: 1px; 
-   border-right-width: 1px; 
+   border-right-width: 1px;
    border-bottom-width: 1px; 
    border-left-width: 1px;
    border-color: #a4a7ab ;
@@ -437,7 +481,8 @@ thead.mensagem {
    background-color: #EEE ;
    background-image: url('../imagens/menu.png');
    color: #808080 ;
-   width: 100% ; 
+   width: 100% ;
+   height: 25px;
    font-weight: bold  ;
    font-family: Verdana, Arial, Helvetica, sans-serif;
    
@@ -553,10 +598,6 @@ table  {
    background: #FFFFFF ; 
    width: 100% ;
    position: static;
-   /* margin: 1px 1px 1px 1px ; */ 
-}
-table tr{
-    height: 25px;
 }
 
 .campos table tr {

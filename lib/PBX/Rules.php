@@ -177,8 +177,9 @@ class PBX_Rules {
                   ->from('regras_negocio')
                   ->order(array("prio DESC", "id"));
 
-        if($where != null)
+        if($where !== null) {
             $select->where($where);
+        }
 
         $stmt = $db->query($select);
         $result = $stmt->fetchAll();
@@ -197,37 +198,37 @@ class PBX_Rules {
      * Para usar esse método, basta pegar o objeto da regra do banco de dados.
      * Alterar seus atributos e passá-lo a esse método.
      * 
-     * @param PBX_Rule $regra
+     * @param PBX_Rule $rule
      */
-    public static function update($regra) {
+    public static function update($rule) {
 
-        if($regra->getId() == -1) {
+        if($rule->getId() == -1) {
             throw new PBX_Exception_BadArg("Regra nao possui um id valido.");
         }
 
         $srcs = "";
-        foreach ($regra->getSrcList() as $src) {
+        foreach ($rule->getSrcList() as $src) {
             $srcs .= "," . trim($src['type'] . ":" . $src['value'], ':');
         }
         $srcs = trim($srcs, ',');
 
         $dsts = "";
-        foreach ($regra->getDstList() as $dst) {
+        foreach ($rule->getDstList() as $dst) {
             $dsts .= "," . trim($dst['type'] . ":" . $dst['value'], ":");
         }
         $dsts = trim($dsts, ',');
 
-        $validade = implode(",", $regra->getValidTimeList());
+        $validade = implode(",", $rule->getValidTimeList());
 
-        $diasDaSemana = implode(",", $regra->getValidWeekDays());
+        $diasDaSemana = implode(",", $rule->getValidWeekDays());
 
         $update_data = array(
-            "prio" => $regra->getPriority(),
-            "desc" => $regra->getDesc(),
-            "ativa" => ($regra->isActive())?'1':'0',
+            "prio" => $rule->getPriority(),
+            "desc" => $rule->getDesc(),
+            "ativa" => ($rule->isActive())?'1':'0',
             "origem"  => $srcs,
             "destino"  => $dsts,
-            "record"   => $regra->isRecording(),
+            "record"   => $rule->isRecording(),
             "diasDaSemana" => $diasDaSemana,
             "validade" => $validade
         );
@@ -237,13 +238,13 @@ class PBX_Rules {
         $db->beginTransaction();
 
         try {
-            $db->update("regras_negocio",$update_data,"id='{$regra->getId()}'");
+            $db->update("regras_negocio",$update_data,"id='{$rule->getId()}'");
 
-            $db->delete("regras_negocio_actions","regra_id='{$regra->getId()}'");
+            $db->delete("regras_negocio_actions","regra_id='{$rule->getId()}'");
             $action_prio = 0;
-            foreach ($regra->getAcoes() as $acao) {
+            foreach ($rule->getAcoes() as $acao) {
                 $action_update_data = array(
-                    "regra_id" => $regra->getId(),
+                    "regra_id" => $rule->getId(),
                     "prio"     => $action_prio,
                     "action"   => get_class($acao)
                 );
@@ -252,7 +253,7 @@ class PBX_Rules {
                 foreach ($acao->getConfigArray() as $chave => $valor) {
                     if(!is_null($valor)) {
                         $action_config_data = array(
-                            "regra_id" => $regra->getId(),
+                            "regra_id" => $rule->getId(),
                             "prio"     => $action_prio,
                             "key"      => $chave,
                             "value"    => $valor
@@ -275,34 +276,34 @@ class PBX_Rules {
     /**
      * Cadastra uma regra de negócio no banco de dados do Snep.
      * 
-     * @param PBX_Rule $regra
+     * @param PBX_Rule $rule
      */
-    public static function register($regra) {
+    public static function register($rule) {
 
         $srcs = "";
-        foreach ($regra->getSrcList() as $src) {
+        foreach ($rule->getSrcList() as $src) {
             $srcs .= "," . trim($src['type'] . ":" . $src['value'], ':');
         }
         $srcs = trim($srcs, ',');
 
         $dsts = "";
-        foreach ($regra->getDstList() as $dst) {
+        foreach ($rule->getDstList() as $dst) {
             $dsts .= "," . trim($dst['type'] . ":" . $dst['value'], ':');
         }
         $dsts = trim($dsts, ',');
 
-        $validade = implode(",", $regra->getValidTimeList());
+        $validade = implode(",", $rule->getValidTimeList());
 
-        $diasDaSemana = implode(",", $regra->getValidWeekDays());
+        $diasDaSemana = implode(",", $rule->getValidWeekDays());
 
         $insert_data = array(
-            "prio"     => $regra->getPriority(),
-            "desc"     => $regra->getDesc(),
+            "prio"     => $rule->getPriority(),
+            "desc"     => $rule->getDesc(),
             "origem"   => $srcs,
             "destino"  => $dsts,
             "validade" => $validade,
             "diasDaSemana" => $diasDaSemana,
-            "record"   => $regra->isRecording()
+            "record"   => $rule->isRecording()
         );
 
         $db = Zend_Registry::get('db');
@@ -312,12 +313,12 @@ class PBX_Rules {
         try {
             $db->insert("regras_negocio",$insert_data);
 
-            $regra->setId((int)$db->lastInsertId('regras_negocio_id'));
+            $rule->setId((int)$db->lastInsertId('regras_negocio_id'));
 
             $action_prio = 0;
-            foreach ($regra->getAcoes() as $acao) {
+            foreach ($rule->getAcoes() as $acao) {
                 $action_insert_data = array(
-                    "regra_id" => $regra->getId(),
+                    "regra_id" => $rule->getId(),
                     "prio"     => $action_prio,
                     "action"   => get_class($acao)
                 );
@@ -325,7 +326,7 @@ class PBX_Rules {
 
                 foreach ($acao->getConfigArray() as $chave => $valor) {
                     $action_config_data = array(
-                        "regra_id" => $regra->getId(),
+                        "regra_id" => $rule->getId(),
                         "prio"     => $action_prio,
                         "key"      => $chave,
                         "value"    => $valor

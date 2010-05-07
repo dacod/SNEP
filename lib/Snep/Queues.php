@@ -17,25 +17,23 @@
  */
 
 /**
- * Ações do Snep
- *
- * Classe que facilita e abstrai o controle das ações instaladas no sistema.
+ * Classe para facilitar o controle de filas no sistema
  *
  * @category  Snep
- * @package   PBX_Rule
+ * @package   Snep
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-class PBX_Rule_Actions {
+class Snep_Queues {
 
-    private $actions = array();
+    private $queues = array();
 
     private static $instance;
 
     /**
      * Retorna instancia dessa classe
      *
-     * @return PBX_Rule_Actions
+     * @return Snep_CentroCustos
      */
     public static function getInstance() {
         if( self::$instance === null ) {
@@ -50,32 +48,32 @@ class PBX_Rule_Actions {
     private function __construct() {}
     private function  __clone() {}
 
-    public function registerAction( $action ) {
-        if( in_array($action, $this->actions) ) {
-            throw new Exception("Action already registered");
+    public function register( $queue ) {
+        if( in_array($queue, $this->queues) ) {
+            throw new Exception("Queue already registered");
         }
         else {
-            $this->actions[] = $action;
+            $this->queues[] = $queue;
         }
     }
 
     /**
-     * Retorna um array com todas as ações instaladas no sistema.
+     * Retorna um array com todas as filas.
      *
-     * @return array $actions ações instaladas no sistema
+     * @return array
      */
-    public function getInstalledActions() {
-        return $this->actions;
+    public function getQueues() {
+        return $this->queues;
     }
 
     /**
-     * Verifica se o nome de uma classe foi registrada no sistema.
+     * Verifica se uma fila está registrada.
      *
-     * @param string $classname
+     * @param string $queue
      * @return boolean
      */
-    public function isRegistered($classname) {
-        if( in_array($classname, $this->getInstalledActions()) ) {
+    public function isRegistered($queue) {
+        if( in_array($queue, $this->getCCustos()) ) {
             return true;
         }
         else {

@@ -44,7 +44,7 @@
                 <input type="submit" value="{$LANG.deb_submit}" class="button">
                 <div class="buttonEnding"></div>
                 &nbsp;&nbsp;
-                <input class="button" type="button" name="voltar" value="{$LANG.back}" onClick="location.href='../gestao/rel_agi_rules.php'" />
+                <input class="button" type="button" name="voltar" value="{$LANG.back}" onClick="location.href='../gestao/agi_rules.php'" />
                 <div class="buttonEnding"></div>
             </td>
         </tr>

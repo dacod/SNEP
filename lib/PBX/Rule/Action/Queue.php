@@ -83,6 +83,7 @@ class PBX_Rule_Action_Queue extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
+        $i18n = $this->i18n;
         $queue = (isset($this->config['queue']))?"<value>{$this->config['queue']}</value>":"";
         $timeout = (isset($this->config['timeout']))?"<value>{$this->config['timeout']}</value>":"";
 
@@ -90,6 +91,7 @@ class PBX_Rule_Action_Queue extends PBX_Rule_Action {
 <params>
     <queue>
         <id>queue</id>
+        <label>{$i18n->translate("Fila")}</label>
         $queue
     </queue>
 

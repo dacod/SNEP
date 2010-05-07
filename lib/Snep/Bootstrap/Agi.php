@@ -116,6 +116,9 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         // Iniciando objeto para comunicação com banco de dados
         $this->startDatabase();
 
+        $this->registerCCustos();
+        $this->registerQueues();
+
         // Atualizando request para facilitar trabalho das ações
         $this->updateRequest();
 

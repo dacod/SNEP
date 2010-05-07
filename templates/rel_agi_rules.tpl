@@ -17,7 +17,7 @@
 {include file="cabecalho.tpl"}
 {include file="filtrar_incluir.tpl"}
 {config_load file="../includes/setup.conf" section="cores"}
- <script type="text/javascript" src="../includes/javascript/prototype.js"></script>
+<script type="text/javascript" src="../includes/javascript/prototype.js"></script>
 
 <table cellspacing="0" cellpadding="0" border="0" align="center" >   
    <thead>
@@ -41,7 +41,7 @@
          <td class="cen"> {$DADOS[agi_rules].ordem}</td>
          <td align="center" valign="middle">
             <acronym title="{$LANG.change}">
-               <a href="agi_rules.php?acao=alterar&amp;codigo={$DADOS[agi_rules].codigo}"><img src="../imagens/edit.png" alt="{$LANG.change}" /></a>
+               <a href="agi_rules.php?acao=alterar&amp;id={$DADOS[agi_rules].codigo}"><img src="../imagens/edit.png" alt="{$LANG.change}" /></a>
             </acronym>
          </td>
          <td valign="middle" align="center">
@@ -56,25 +56,14 @@
 <script type="text/javascript" src="../includes/javascript/regras.js"></script>
 <script type="text/javascript">
 {literal}
-
     /* Confirmacao e remocao de regras de negocio */
     function remove_regra(id) {
         var url = '../gestao/agi_rules.php';
-        var params = 'acao=excluir'+'&codigo='+id;
+        var params = 'acao=excluir'+'&id='+id;
 
         if(confirm("{/literal} {$LANG.confirm_remocao_regras} {literal}")) {
-            var retorno = new Ajax.Request (
-                url, {
-                      method: 'post',
-                      parameters: params,
-                      onComplete: resposta_regra
-                     }
-            );
+            window.location.href= url + "?" + params;
         }
-    }
-    
-    function resposta_regra(resp) {
-         window.location.href="../gestao/rel_agi_rules.php";
     }
 
 {/literal}

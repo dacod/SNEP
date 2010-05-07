@@ -32,14 +32,14 @@ class PBX_Rule_ActionConfig {
      *
      * @var Zend_Form $form
      */
-    private $form;
+    protected $form;
 
     /**
      * Elemento XML com os parametros
      *
      * @var SimpleXMLElement $xml
      */
-    private $xml;
+    protected $xml;
 
     /**
      * Construtor.
@@ -64,7 +64,7 @@ class PBX_Rule_ActionConfig {
     /**
      * Faz o parse do XML e gera o formulário.
      */
-    private function parseForm() {
+    protected function parseForm() {
         $form = new Zend_Form();
         $i18n = Zend_Registry::get('i18n');
         // Para cada elemento do XML
@@ -91,6 +91,9 @@ class PBX_Rule_ActionConfig {
                 case 'boolean':
                     $form->addElement( $this->parseBoolean($element) );
                     break;
+                case 'queue':
+                    $form->addElement( $this->parseQueue($element) );
+                    break;
                 default:
                     $form->addElement( $this->parseString($element) );
             }
@@ -106,6 +109,7 @@ class PBX_Rule_ActionConfig {
      * @return Zend_Form com as configurações
      */
     public function getForm() {
+        $this->parseForm();
         return $this->form;
     }
 
@@ -133,9 +137,10 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um campo <boolean>
      * @param SimpleXMLElement $element
      */
-    private function parseBoolean($element) {
+    protected function parseBoolean($element) {
         $form_element = new Zend_Form_Element_Checkbox( (string)$element->id );
         $form_element->setLabel( (string)$element->label );
+        $form_element->setDescription("Habilitar");
         if(isset($element->value) && $element->value == "true") {
             $form_element->setAttrib('checked', 'checked');
         }
@@ -150,18 +155,20 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um campo <ramal>
      * @param SimpleXMLElement $element
      */
-    private function parseRamal($element) {
+    protected function parseRamal($element) {
         $i18n = Zend_Registry::get('i18n');
         $element->addChild('label', $i18n->translate("Ramal"));
         $element->addChild('size', '4');
-        return $this->parseString($element);
+        $element = $this->parseString($element);
+        $element->addValidator(new PBX_Validate_Extension());
+        return $element;
     }
 
     /**
      * Faz o parse de um campo <tronco>
      * @param SimpleXMLElement $element
      */
-    private function parseTronco($element) {
+    protected function parseTronco($element) {
         $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
@@ -169,8 +176,9 @@ class PBX_Rule_ActionConfig {
 
         foreach(PBX_Trunks::getAll() as $tronco) {
             $form_element->addMultiOption($tronco->getId(), $tronco->getName());
-            if(isset($element->value) && $tronco->getId() == $element->value)
+            if(isset($element->value) && $tronco->getId() == $element->value) {
                 $form_element->setValue($element->value);
+            }
         }
 
         return $form_element;
@@ -180,16 +188,37 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um campo <ccustos>
      * @param SimpleXMLElement $element
      */
-    private function parseCCustos($element) {
+    protected function parseCCustos($element) {
         $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
         $form_element->setLabel( (string)$i18n->translate("Centro de Custos") );
 
-        foreach(Snep_CentroCustos::getAll() as $ccustos) {
-            $form_element->addMultiOption($ccustos['codigo'], $ccustos['codigo'] . " - " . $ccustos['nome']);
-            if(isset($element->value) && $ccustos['codigo'] == $element->value)
+        foreach(Snep_CentroCustos::getInstance()->getCCustos() as $ccusto) {
+            $form_element->addMultiOption($ccusto['codigo'], $ccusto['codigo'] . " - " . $ccusto['nome']);
+            if(isset($element->value) && $ccusto['codigo'] == $element->value) {
                 $form_element->setValue($element->value);
+            }
+        }
+
+        return $form_element;
+    }
+
+    /**
+     * Faz o parse de um campo <queue>
+     * @param SimpleXMLElement $element
+     */
+    protected function parseQueue($element) {
+        $i18n = Zend_Registry::get('i18n');
+
+        $form_element = new Zend_Form_Element_Select((string)$element->id);
+        $form_element->setLabel( (string)$i18n->translate("Fila") );
+
+        foreach(Snep_Queues::getInstance()->getQueues() as $queue) {
+            $form_element->addMultiOption($queue, $queue);
+            if(isset($element->value) && $queue == $element->value) {
+                $form_element->setValue($element->value);
+            }
         }
 
         return $form_element;
@@ -199,15 +228,20 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um elemento <string> para Zend_Form.
      * @param SimpleXMLElement $element
      */
-    private function parseString($element) {
+    protected function parseString($element) {
         $form_element = new Zend_Form_Element_Text( (string)$element->id );
         $form_element->setLabel( (string)$element->label );
         $form_element->setAttrib('size', $element->size);
+
         if(isset($element->value)) {
             $form_element->setValue($element->value);
         }
         else if(isset($element->default)) {
             $form_element->setValue($element->default);
+        }
+
+        if(isset($element->description)) {
+            $form_element->setDescription( (string)$element->description );
         }
 
         return $form_element;
@@ -217,8 +251,11 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um elemento <int> para Zend_Form.
      * @param SimpleXMLElement $element
      */
-    private function parseInt($element) {
+    protected function parseInt($element) {
         $form_element = new Zend_Form_Element_Text( (string)$element->id );
+        $validate_ìnt = new Zend_Validate_Int();
+        $validate_ìnt->setMessage("Somente números inteiros");
+        $form_element->addValidator( $validate_ìnt );
         $form_element->setLabel( (string)$element->label );
         $form_element->setAttrib('size', $element->size);
 
@@ -240,8 +277,9 @@ class PBX_Rule_ActionConfig {
      * Faz o parse de um elemento <radio> para Zend_Form.
      * @param SimpleXMLElement $element
      */
-    private function parseRadio($element) {
+    protected function parseRadio($element) {
         $form_element = new Zend_Form_Element_Radio((string)$element->id);
+        $form_element->setSeparator("");
         $form_element->setLabel( (string)$element->label );
         foreach( $element->option as $option ) {
             $form_element->addMultiOption((string)$option->value, $option->label);

@@ -106,7 +106,6 @@ class PBX_Rule_Action_Rewrite extends PBX_Rule_Action {
         <id>cut</id>
         <label>{$i18n->translate("Corte")}</label>
         <default>nocut</default>
-        $cut
         <option>
             <label>{$i18n->translate("Não cortar")}</label>
             <value>nocut</value>

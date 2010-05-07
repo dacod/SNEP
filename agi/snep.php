@@ -134,10 +134,7 @@ $filename = implode("_", array(
 // Definindo userfield com o nome do arquivo para que se possa encontrar a
 // gravação a partir do registro no CDR.
 $lastuserfield = $asterisk->get_variable('CDR(userfield)');
-if($lastuserfield['data'] != "") {
-    $asterisk->set_variable("CDR(userfield)", $lastuserfield['data']);
-}
-else {
+if($lastuserfield['data'] === "") {
     $asterisk->set_variable("CDR(userfield)", $filename);
 }
 

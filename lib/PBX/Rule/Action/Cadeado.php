@@ -98,34 +98,24 @@ class PBX_Rule_Action_Cadeado extends PBX_Rule_Action {
         $lbl_radio = $i18n->translate("Usar:");
         $lbl_ramal = $i18n->translate("Senha do Ramal");
         $lbl_static = $i18n->translate("Senha Estática (digite a seguir):");
+        $lbl_senha = $i18n->translate("Senha Estática:");
+        $lbl_desc = $i18n->translate("Em branco para usar padrão do ramal.");
         $lbl_ask_peer = $i18n->translate("Requisitar e substituir ramal de origem");
         return <<<XML
 <params>
     <boolean>
         <id>ask_peer</id>
-        <default>false</id>
+        <default>false</default>
         <label>$lbl_ask_peer</label>
         $ask_peer
     </boolean>
-    <radio>
-        <label>$lbl_radio</label>
-        <id>tipo</id>
-        <default>ramal</default>
-        $tipo
-        <option>
-            <label>$lbl_ramal</label>
-            <value>ramal</value>
-        </option>
-        <option>
-            <label>$lbl_static</label>
-            <value>static</value>
-        </option>
-    </radio>
-    <password>
+    <string>
+        <label>$lbl_senha</label>
         <id>senha</id>
-        <depends>tipo.static</depends>
+        <size>10</size>
+        <description>$lbl_desc</description>
         $senha
-    </password>
+    </string>
 </params>
 XML;
     }
