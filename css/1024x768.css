@@ -10,6 +10,14 @@
     border: 1px solid #ccc;
 }
 
+.error_box {
+    padding: 10px 10px 10px 45px;
+    background-color: #ffcccc;
+    background-image: url("../imagens/error_32.png");
+    background-repeat: no-repeat;
+    background-position: 5px center;
+}
+
 .new_button {
     border: 1px solid #FDB712;
     padding: 4px 10px;
@@ -22,6 +30,10 @@
     font-weight: bold;
     font-size: 11px;
     background: url("../imagens/menu.png");
+}
+
+.new_button:active {
+    background: url("../imagens/button_clicked.png");
 }
 
 .new_button:disabled {
@@ -160,13 +172,20 @@ form .description {
 }
 
 form .errors {
-    background-color: #ffcccc;
     padding-left: 5px;
+    margin: 5px 0px;
 }
 
 form .errors li {
-    list-style-position: inside;
-    padding: 4px;
+    list-style: none;
+    background-image: url("../imagens/error_16.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding: 5px 20px;
+}
+
+form .errors, .error {
+    background-color: #ffcccc;
 }
 /* FIM Configuração dos formulários feitos com listas de definição */
 

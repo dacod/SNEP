@@ -39,9 +39,12 @@
     padding: 10px;
 }
 
+#actions, #actions-list-scrollable {
+    height: 400px;
+}
+
 #actions {
     border: 1px solid #ccc;
-    height: 400px;
     width: 100%;
     padding: 0px;
     border-collapse: collapse;
@@ -65,11 +68,7 @@
     height: 20px;
     font-family: sans-serif;
     color: #666;
-    background-image: url(http://localhost/snep/imagens/menu.png);
-}
-
-#actions th td {
-    min-height: 20px;
+    background-image: url(../imagens/menu.png);
 }
 
 #actions td {
@@ -83,7 +82,6 @@
 #actions-list-scrollable {
     position: relative;
     overflow: auto;
-    height: 100%;
     padding-bottom: 10px;
 }
 
@@ -94,6 +92,8 @@
 }
 
 #actions_list li {
+    width: 250px;
+    list-style-position: inside;
     font-family: sans-serif;
     font-size: 10px;
     padding: 4px;
@@ -111,4 +111,20 @@
 
 .active:hover {
     background-color: #FAFFBD !important;
+}
+
+.error_box {
+    margin: 0px auto 10px auto !important;
+    padding: 10px 10px 10px 25px !important;
+    background-image: url("../imagens/error_16.png") !important;
+}
+
+.info_box {
+    margin: 0px auto 10px auto;
+    padding: 5px 5px 5px 24px;
+    background-image: url(../imagens/ico_info.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-color: #eeeeff;
+    border: 1px solid #ccc;
 }

@@ -16,6 +16,17 @@
  *}
 { include file="cabecalho.tpl" }   
 <table >
+   {if $IE_ERROR}
+   <tr>
+       <td colspan="2" class="error_box">
+           Você está usando uma versão incompativel do Internet Explorer. Para
+           obter a melhor compactibilidade com o Snep por favor atualize seu
+           browser para a versão 8.0 ou mais recente do Internet Explorer.
+           Opcionalmente você pode baixar e instalar gratuitamente o Mozilla
+           Firefox ou Google Chrome.
+       </td>
+   </tr>
+   {/if}
    <tr>
       <td style="width:50%" align="left" valign="top" class="subtable">
          <table class="subtable2">

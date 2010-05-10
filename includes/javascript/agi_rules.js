@@ -271,6 +271,9 @@ addAction = function(action_spec) {
     $('cleanActionsButton').enable();
     var newAction = document.createElement('li');
 
+    if(action_spec.status == "error") {
+        Element.addClassName(newAction, "error");
+    }
     
     newAction.setAttribute('id', action_spec.id);
 

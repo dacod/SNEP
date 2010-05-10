@@ -176,7 +176,10 @@ HEAD;
     private function isValidPost( $post=null) {
         $post = $post === null ? $_POST : $post;
 
-        $assert = isset($post['actions_order']);
+        $assert = true;
+        if(!isset($post['actions_order'])) {
+            display_error("Campo 'actions_order' faltando na requisição.",true);
+        }
 
         parse_str($post['actions_order'], $actions_order);
         $forms = array();
@@ -193,12 +196,17 @@ HEAD;
 
             if(!$form->isValid($post["action_$action"])) {
                 $assert = false;
+                $status = "error";
+            }
+            else {
+                $status = "success";
             }
 
             $form->setView(new Zend_View);
             $forms["action_$action"] = array(
                     "type" => $post["action_$action"]["action_type"],
-                    "formData" => $form->render()
+                    "formData" => $form->render(),
+                    "status" => $status
             );
         }
 
@@ -207,6 +215,7 @@ HEAD;
             return false;
         }
         else {
+            $this->forms = null;
             return true;
         }
     }
@@ -298,12 +307,14 @@ HEAD;
         // Define prioridade
         $rule->setPriority($post['prioridade']);
 
-        parse_str($post['actions_order'], $actions_order);
-        foreach ($actions_order['actions_list'] as $action) {
-            $real_action = new $post["action_$action"]["action_type"]();
-            $action_config = new Snep_Rule_ActionConfig($real_action->getConfig());
-            $real_action->setConfig($action_config->parseConfig($post["action_$action"]));
-            $rule->addAction($real_action);
+        if(isset($post['actions_order'])) {
+            parse_str($post['actions_order'], $actions_order);
+            foreach ($actions_order['actions_list'] as $action) {
+                $real_action = new $post["action_$action"]["action_type"]();
+                $action_config = new Snep_Rule_ActionConfig($real_action->getConfig());
+                $real_action->setConfig($action_config->parseConfig($post["action_$action"]));
+                $rule->addAction($real_action);
+            }
         }
 
         return $rule;
@@ -451,23 +462,7 @@ HEAD;
         $this->populateCommomFields();
 
         $smarty->assign('ACAO',"cadastrar");
-
         $titulo = "Regras de Negócio -> Regra -> Adicionar";
-        $smarty->assign('weekDays',array(
-                "sun" => true,
-                "mon" => true,
-                "tue" => true,
-                "wed" => true,
-                "thu" => true,
-                "fri" => true,
-                "sat" => true
-        ));
-
-        $smarty->assign('dt_agirules',array("dst"=>"dstObj.addItem();\n",
-                "src"=>"origObj.addItem();\n",
-                "time"=>"timeObj.addItem();\n",
-                "autorizado"=>"S",
-                "ordem" => 0));
 
         if($_POST) {
             if($this->isValidPost()) {
@@ -481,16 +476,42 @@ HEAD;
                 foreach ($this->forms as $id => $form) {
                     $actions .= "addAction(" . json_encode(array(
                             "id"     => $id,
-                            "status" => "success",
+                            "status" => $form['status'],
                             "type"   => $form['type'],
                             "form"   => $form['formData']
                             )) . ")\n";
                 }
                 $actions .= "setActiveAction($('actions_list').firstChild)\n";
                 $smarty->assign('RULE_ACTIONS', $actions);
-                $rule = $this->parseRuleFromPost();
+                $smarty->assign('ERROR', true);
+
+                /*
+                 * Removendo configurações das acoes para popular somente os
+                 * campos especifico da regra.
+                 */
+                $post = $_POST;
+                unset($post['actions_order']);
+
+                $rule = $this->parseRuleFromPost($post);
                 $this->populateFromRule($rule);
             }
+        }
+        else {
+            $smarty->assign('weekDays',array(
+                    "sun" => true,
+                    "mon" => true,
+                    "tue" => true,
+                    "wed" => true,
+                    "thu" => true,
+                    "fri" => true,
+                    "sat" => true
+            ));
+
+            $smarty->assign('dt_agirules',array("dst"=>"dstObj.addItem();\n",
+                    "src"=>"origObj.addItem();\n",
+                    "time"=>"timeObj.addItem();\n",
+                    "autorizado"=>"S",
+                    "ordem" => 0));
         }
 
         display_template("agi_rules.tpl",$smarty,$titulo) ;
@@ -529,13 +550,14 @@ HEAD;
                 foreach ($this->forms as $form_id => $form) {
                     $actions .= "addAction(" . json_encode(array(
                             "id"     => $form_id,
-                            "status" => "success",
+                            "status" => $form['status'],
                             "type"   => $form['type'],
                             "form"   => $form['formData']
                             )) . ")\n";
                 }
                 $actions .= "setActiveAction($('actions_list').firstChild)\n";
                 $smarty->assign('RULE_ACTIONS', $actions);
+                $smarty->assign('ERROR', true);
             }
         }
 

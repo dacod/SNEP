@@ -16,6 +16,11 @@
  *}
 {include file="cabecalho.tpl"}
 <div id="main_container">
+    {if $ERROR}
+    <p class="error_box">
+        Um ou mais campos não foram preenchidos corretamente. Por favor, verifique os campos indicados.
+    </p>
+    {/if}
     <form name="formulario" method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}" onsubmit="atualizaValues()">
         <table class="tabela_regra_negocio">
             <tr>
@@ -83,6 +88,9 @@
             <input class="new_button" type="button" id="addActionButton" value="Adicionar Ação" />
             <input class="new_button" type="button" id="cleanActionsButton" value="Remover Todas" />
         </p>
+        <p class="info_box">
+            Você pode reordenar as ações arrastando e soltando o item da ação.
+        </p>
 
         <table id="actions">
             <thead>
@@ -105,12 +113,11 @@
         <input name="actions_order" type="hidden" id="actions-order" value="" />
         <p style="text-align: center;">
             <input class="new_button" type="submit" id="acao" value="{$LANG.save}" />
-            <input class="new_button" type="button" id="acao" value="{$LANG.back}" onClick="location.href='../gestao/agi_rules.php'" />
+            <input class="new_button" type="button" id="acao" value="Cancelar" onClick="location.href='../gestao/agi_rules.php'" />
         </p>
     </form>
 </div>
     { include file="rodape.tpl }
-
     <script scr="../includes/javascript/functions.js" type="text/javascript"></script>
     <script scr="../includes/javascript/functions_smarty.js" type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
