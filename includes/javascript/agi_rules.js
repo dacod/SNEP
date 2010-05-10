@@ -231,7 +231,8 @@ addNewAction = function(type) {
         parameters: {
             mode:"new_action",
             id:'action_'+id,
-            type:type
+            type:type,
+            cachebuster: new Date().valueOf()
         },
         onSuccess: function(response) {
             var action = addAction(response.responseJSON);
@@ -243,10 +244,11 @@ addNewAction = function(type) {
     });
 }
 
-getRuleActions = function(rule_id) {
+getRuleActions = function(ruleId) {
     var params = {
         mode:"get_rule_actions",
-        rule_id: rule_id
+        rule_id: ruleId,
+        cachebuster: new Date().valueOf()
     };
 
     new Ajax.Request('/snep/gestao/actionform.php', {
@@ -256,7 +258,7 @@ getRuleActions = function(rule_id) {
             var act = 0;
             while(response.responseJSON["action_" + act] != null) {
                 id = act;
-                var action = addAction(response.responseJSON["action_" + act]);
+                addAction(response.responseJSON["action_" + act]);
                 act++;
             }
             setActiveAction($('actions_list').firstChild);
