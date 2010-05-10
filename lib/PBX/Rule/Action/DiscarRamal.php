@@ -177,6 +177,7 @@ class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
 <params>
     <ramal>
         <id>ramal</id>
+        <description>Deixe em branco para usar o numero vindo do destino.</description>
         $ramal
     </ramal>
     <int>
