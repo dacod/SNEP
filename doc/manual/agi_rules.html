@@ -5,66 +5,46 @@
 * Autor: Flavio henrique Somensi <flavio@opens.com.br>
 * ========================================================================
 -->
-<h2>Regras de Negócios - Incluir/Alterar</h2>
+<h2>Regras de Negócios</h2>
 
-<p>Esta rotina permite que uma Regra de Negócios seja Cadastrada ou Alterada.</p>
-<p>Uma regra de Negócios executa ações dentro do Asterisk.Para que estas ações sejam
+<p>Uma regra de Negócios executa ações na central.Para que estas ações sejam
 executadas algumas condições devem ser satisfeitas, como:</p>
 <ul>
 <li>Uma condição de "encaixe" deve ser satisfeita - a Origem e o Destino da
 chamada devem se enquadrar em uma regra cadastrada</li>
-<li>A regra deve "Autorizar" a execução das ações</li>
 <li>O horário da chamada deve ser compatível com o Horário de Incidência da Regra</li>
 </ul>
 <p>Os campos para definição das regras são:</p>
-<ul>
-   <li>
-       <strong>Descrição </strong> :
-       Define uma descrição sobre a regra.
-   </li>
-   
-   <li>
-       <strong>Origem </strong> :
-       Expressão no padrão "Dialplan do Asterisk" que irá
-       verificar se o número de origem da chamada "casa". Ex: 0800. -> Vale para todas
-       as chamadas cjuno número de origem comece com o número "0800". Também éa
-       possível discriminar por grupos.
-   </li>
+<dl>
+    <dt>Descrição:</dt>
+    <dd>Uma descrição textual para facilitar a visualização da regra na lista
+    de regras de negócio.</dd>
 
-   <li>
-       <strong>Destino </strong> :
-       Expressão no padrão "Dialplan do Asterisk" que irá
-       verificar se o número de destino da chamada "casa". Ex: [2-6]XXXX -> Vale para todas
-       as chamadas cujo número de destino comece com 2,3,4,5 ou 6 ([2-6]) e tenha mais 4
-        números quaisquer (XXXX). Também éa possível discriminar por grupos.
-   </li>
+    <dt>Origem:</dt>
+    <dd>A origem da ligação. É possível selecionar mais de uma origem para a
+    ação usando diferentes critérios como expressão regular no formato Asterisk
+    ou um numero específico, grupo de ramais, etc.</dd>
 
-   <li>
-       <strong>Horário de Incidência </strong> :
-       Horários e dias da semana em que a regra é válida. Caso ela não esteja
+    <dt>Destino:</dt>
+    <dd>Mesmo conceito das origens basta selecionar um critério para casamento
+    do destino da ligação.</dd>
+
+    <dt>Horário de Incidência</dt>
+    <dd>Horários e dias da semana em que a regra é válida. Caso ela não esteja
        dentro de seu horário de validade na hora da ligação ela será ignorada.
-   </li>
+    </dd>
 
-   <li>
-       <strong>Autorizado </strong> :
-       Autoriza a ligação de acontecer ou não. Essa opção sobreescreve qualquer
-       ação de regra de negócio que você tenha definido negando a ligação na hora.
-   </li>
-
-   <li>
-       <strong>Gravar Ligações </strong> :
-       Gravar ou não a ligação. O arquivo de gravação pode ser recuperado pelo
-       relatório de chamadas efetuadas.
-   </li>
-
-</ul>
+    <dt>Gravação:</dt>
+    <dd>Gravar ou não a ligação. O arquivo de gravação pode ser recuperado pelo
+       relatório de chamadas efetuadas.</dd>
+</dl>
 
 <h2>Ações de uma regra</h2>
 <p>O roteamento e destino das ligações no SNEP são definidos pelas ações de
 uma regra de negócio. Essas ações vão trabalhar a requisição original e
 encaminhar a ligação para um ramal, tronco, fila, entre outros.</p>
 
-<p>As ações presentes no SNEP e seus comportamentos são:</p>
+<p>As ações presente por padrão no SNEP e seus comportamentos são:</p>
 <ul>
     <li><h3>Direcionar</h3>
         <ul>

@@ -1,3 +1,10 @@
+1.1.6:
+    Suporte a geração de formulários dinâmicos a partir de XML especificado em
+cada ação das regras de negócio. [modularização]
+    Reestruturação da tela de cadastro/edição de regras permitindo reordenamento
+com "arrastar e soltar".
+
+
 1.1.5:
     Adição de um sistema de plugins para as Regras de Negócio.
     Transferências agora passam pelo AGI do snep.
