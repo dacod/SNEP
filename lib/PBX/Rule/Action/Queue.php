@@ -96,7 +96,7 @@ class PBX_Rule_Action_Queue extends PBX_Rule_Action {
     </queue>
 
     <int>
-        <id>dial_limit_warn</id>
+        <id>timeout</id>
         <default>180</default>
         <label>{$i18n->translate("Timeout na fila")}</label>
         <size>4</size>
