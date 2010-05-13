@@ -59,7 +59,13 @@ class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
      */
     public function getConfig() {
         $application  = (isset($this->config['application']))?"<value>{$this->config['application']}</value>":"";
-        $parameters   = (isset($this->config['parameters']))?"<value>{$this->config['parameters']}</value>":"";
+        if( isset($this->config['parameters']) ) {
+            $parameters = str_replace(array("<",">"), array("&lt;", "&gt;"), $this->config['parameters']);
+            $parameters = "<value>$parameters</value>";
+        }
+        else {
+            $parameters = "";
+        }
 
         return <<<XML
 <params>

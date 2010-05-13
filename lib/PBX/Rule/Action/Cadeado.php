@@ -93,7 +93,7 @@ class PBX_Rule_Action_Cadeado extends PBX_Rule_Action {
         $i18n  = $this->i18n;
         $tipo  = (isset($this->config['tipo']))?"<value>{$this->config['tipo']}</value>":"";
         $senha = (isset($this->config['senha']))?"<value>{$this->config['senha']}</value>":"";
-        $ask_peer = (isset($this->config['ask_peer']) && $this->config['ask_peer'] === true)?"<value>true</value>":"<value>false</value>";
+        $ask_peer = isset($this->config['ask_peer']) ? "<value>{$this->config['ask_peer']}</value>":"";
 
         $lbl_radio = $i18n->translate("Usar:");
         $lbl_ramal = $i18n->translate("Senha do Ramal");

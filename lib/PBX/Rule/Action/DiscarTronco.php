@@ -274,7 +274,7 @@ XML;
             $destiny = $tronco->getInterface()->getTech() . "/" . $dst_number . "@" . $tronco->getInterface()->getHost();
         }
         else {
-            $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] ) ? "/orig=restricted" : "";
+            $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true" ) ? "/orig=restricted" : "";
             $destiny = $tronco->getInterface()->getCanal() . "/" . $dst_number . $postfix;
         }
 
