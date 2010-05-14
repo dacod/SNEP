@@ -29,6 +29,8 @@
      exibe_relatorio() ;     
  }
 
+ $nivel = Snep_Vinculos::getNivelVinculos( $_SESSION['name_user'] );
+ 
  $dados_iniciais = array("dia_ini" => ( $_SESSION['relrank']['dia_ini'] ? $_SESSION['relrank']['dia_ini'] : "01/".date('m/Y') ),
                          "dia_fim"=> ( $_SESSION['relrank']['dia_fim'] ? $_SESSION['relrank']['dia_fim'] : "01/".date('m/Y') ),
                          "hora_ini" => ( $_SESSION['relrank']['hora_ini'] ? $_SESSION['relrank']['hora_ini'] : "00:00"),
@@ -47,6 +49,7 @@
  $smarty->assign ('FILTERS',$dst_exceptions) ;
  $smarty->assign ('dt_ranking',$dados_iniciais) ;
  $smarty->assign ('VIEWTOP',$viewtop) ;
+ $smarty->assign ('NIVEL', $nivel);
  $smarty->assign ('OPCOES_RANK',array("qtdade"=>$LANG['rank_qtdade'],"tempo"=>$LANG['rank_time'])); 
  display_template("rel_ranking.tpl",$smarty,$titulo) ;
  
