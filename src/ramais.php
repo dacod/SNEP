@@ -188,7 +188,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -232,12 +232,6 @@ function cadastrar() {
 
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
 
-    // Monta array para SQL da tabela de vinculos
-    if (strlen($vinculo) > 0) {
-        $vinc=array();
-        $vinc = monta_vinculo($vinculo);
-    }
-
     // Monta lista campos Default
     $sql_fields_default = $sql_values_default = "" ;
     foreach( $def_campos_ramais as $key => $value ) {
@@ -252,14 +246,14 @@ function cadastrar() {
         $sql = "INSERT INTO peers (" ;
         $sql.= "name,callerid,context,mailbox,qualify,";
         $sql.= "secret,type,allow,fromuser,username,fullcontact,";
-        $sql.= "dtmfmode,vinculo,email,`call-limit`,incominglimit,";
+        $sql.= "dtmfmode,email,`call-limit`,incominglimit,";
         $sql.= "outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate," ;
         $sql.= "trunk, `group`, callgroup, time_total, " ;
         $sql.= "time_chargeby ".$sql_fields_default ;
         $sql.= ") values (";
         $sql.=  "'$name','$callerid','$context','$name','$qualify',";
         $sql.= "'$secret','$type','$allow','$fromuser','$username','$fullcontact',";
-        $sql.= "'$dtmfmode','$vinculo','$email','$call_limit','1',";
+        $sql.= "'$dtmfmode','$email','$call_limit','1',";
         $sql.= "'1', '$usa_vc', $pickupgroup ,'$canal','$nat', '$peer_type',";
         $sql.= "$authenticate,'no','$group',";
         $sql.= "'$callgroup', $time_total, '$time_chargeby' ".$sql_values_default;
@@ -278,17 +272,7 @@ function cadastrar() {
             $stmt = $db->prepare($sql) ;
             $stmt->execute() ;
         }
-        // Vinculos
-        if ( count($vinc) > 0 ) {
-            $stmt = $db->prepare("INSERT into vinculos (cod_usuario,ramal) VALUES (:codigo, :ramal)") ;
-            $stmt->bindParam('codigo',$tmp_cod) ;
-            $stmt->bindParam('ramal',$tmp_ramal) ;
-            $tmp_cod = $name ;
-            foreach ($vinc as $val) {
-                $tmp_ramal = $val ;
-                $stmt->execute() ;
-            }
-        }
+
         // Filas Relacionadas
         if ( count($filas_selec) > 0 ) {
             $stmt = $db->prepare("INSERT into queue_peers (ramal,fila) VALUES (:id, :fila)") ;
@@ -299,6 +283,10 @@ function cadastrar() {
                 $stmt->execute() ;
             }
         }
+
+        // Seta proprio ramal como seu vínculo
+        Snep_Vinculos::setVinculos($name, array($name));
+
         $db->commit();
 
       /* Gera arquivo /etc/asterisk/snep/snep-sip.conf */ 
@@ -396,9 +384,6 @@ function alterar() {
         $row['usa_auth'] = "no";
     }
 
-    // Para Verificar se mudou vinculos - causa: tabela vinculos
-    $row['old_vinculo'] = $row['vinculo'];
-
     // Monta Lista de Filas Disponiveis
     if (!isset($filas_disp) || count($filas_disp) == 0) {
         $filas_disp = array() ;
@@ -492,12 +477,6 @@ function grava_alterar() {
             $canal .= "/" . $name;
         }
 
-    // Monta array para SQL da tabela de vinculos
-    $vinc=array();
-    if ($vinculo != $old_vinculo) {
-        $vinc = monta_vinculo($vinculo);
-    }
-
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
 
     $sql = "UPDATE peers ";
@@ -505,7 +484,7 @@ function grava_alterar() {
     $sql.= "context='$context',mailbox='$name',qualify='$qualify',";
     $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$fromuser'," ;
     $sql.= "username='$username',fullcontact='$fullcontact',dtmfmode='$dtmfmode'," ;
-    $sql.= "vinculo='$vinculo', email='$email', `call-limit`='$call_limit',";
+    $sql.= "email='$email', `call-limit`='$call_limit',";
     $sql.= "outgoinglimit='1', incominglimit='1',";
     $sql.= "usa_vc='$usa_vc',pickupgroup=$pickupgroup,callgroup='$callgroup'," ;
     $sql.= "nat='$nat',canal='$canal', authenticate=$authenticate, ";
@@ -526,20 +505,6 @@ function grava_alterar() {
         $stmt->execute();
     }
 
-    $db->exec("DELETE from vinculos where cod_usuario='$name'");
-    if ( count($vinc) > 0 ) {
-        $stmt = $db->prepare("INSERT into vinculos (cod_usuario,ramal) VALUES (:codigo, :ramal)") ;
-        $stmt->bindParam('codigo',$tmp_cod) ;
-        $stmt->bindParam('ramal',$tmp_ramal) ;
-        $tmp_cod = $name ;
-        foreach ($vinc as $val) {
-            $tmp_ramal = $val ;
-            $stmt->execute() ;
-        }
-    } else {
-        $stmt = $db->prepare("DELETE from vinculos where cod_usuario='$name'");
-        $stmt->execute() ;
-    }
     // Filas Relacionadas
     if (count($filas_selec)>0) {
         $stmt = $db->prepare("DELETE from queue_peers where ramal=$id");
@@ -572,7 +537,6 @@ function grava_alterar() {
 /*------------------------------------------------------------------------------
  * Funcao EXCLUIR - Excluir registro selecionado da Tabela RAMAIS
  *                  Excluir registro correspondente da tabela voicemail_users
- *                  Excluir registro correspondente da tabela vinculos
 ------------------------------------------------------------------------------*/
 function excluir() {
     global $LANG, $db, $canal;
@@ -609,9 +573,7 @@ function excluir() {
         $sql = "delete from voicemail_users where customer_id='$id'";
         $stmt = $db->prepare($sql);
         $stmt->execute() ;
-        $sql = "delete from vinculos where cod_usuario='$id'";
-        $stmt = $db->prepare($sql);
-        $stmt->execute() ;
+        
         $db->commit();
 
       /* Gera arquivo de configuração */
