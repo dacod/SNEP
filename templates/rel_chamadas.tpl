@@ -22,21 +22,15 @@
     <input type="hidden" name="vinculos" id="vinculos" value="{$VINCULOS}"/>
     <tr style="background-color: #f1f1f1;">
        <td class="esq" width="30%">
-           {if $NIVEL == 1}
                {$LANG.access_level} :
-           {elseif $NIVEL == 2}
-               {$LANG.access_level} :
-           {elseif $NIVEL == 3}
-               {$LANG.access_level} :
-           {/if}
        </td>
        <td class="esq">
-           {if $NIVEL == 1}
+           {if $NIVEL == ""}
+               {$LANG.stnone}
+           {elseif $NIVEL == 1}
                {$LANG.vinculos_todos}
-           {elseif $NIVEL == 2}
-               {$LANG.vinculos_self}
-           {elseif $NIVEL == 3}
-               {$LANG.vinculos_ramais} : {$VINCULOS}
+           {else}
+               {$NIVEL}
            {/if}
        </td>
     </tr>
