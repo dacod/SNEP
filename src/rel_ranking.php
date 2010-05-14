@@ -75,32 +75,30 @@
     $TIT_DATE  = $LANG['periodo'].": ".$dia_ini." (".$hora_ini.") a ".$dia_fim." (".$hora_fim.")" ;
     $CONDICAO = " WHERE $date_clause" ;
 
-    $CONDICAO .= sql_vinculos($src,$dst,$orides,$srctype,$dsttype) ;
+    //$CONDICAO .= sql_vinculos($src,$dst,$orides,$srctype,$dsttype) ;
 
-  //---->>>> Prefixos de Login/Logout de agentes
-  if (strlen($prefix_inout)>6) {
-     $COND_PIO = "" ;
-     $array_prefixo = explode(";",$prefix_inout) ;
-     foreach ($array_prefixo as $valor) {
-        $par = explode("/", $valor);
-                      
-        $pio_in = $par[0];
-        $pio_out = $par[1];
-        
-        $t_pio_in = strlen($pio_in) ;
-        $t_pio_out = strlen($pio_out) ;
-            
-        $COND_PIO .= " substr(dst,1,$t_pio_in) != '$pio_in' ";
-            if (! $pio_out == '') {
-                $COND_PIO .= " AND substr(dst,1,$t_pio_out) != '$pio_out' ";
-            }
-        $COND_PIO .= " AND " ; 
+    //---->>>> Prefixos de Login/Logout de agentes
+    if ( strlen($prefix_inout) > 6 ) {
+        $COND_PIO = "" ;
+        $array_prefixo = explode(";",$prefix_inout) ;
+        foreach ($array_prefixo as $valor) {
 
-     }
-     if ($COND_PIO != "")
-        $CONDICAO .= " AND ( ".substr($COND_PIO, 0, strlen($COND_PIO) - 4). " ) " ;
-  }
-  //---->>>> Filtro de Descarte
+            $par = explode("/", $valor);
+            $pio_in = $par[0];
+            $pio_out = $par[1];
+            $t_pio_in = strlen($pio_in) ;
+            $t_pio_out = strlen($pio_out) ;
+            $COND_PIO .= " substr(dst,1,$t_pio_in) != '$pio_in' ";
+                if (! $pio_out == '') {
+                    $COND_PIO .= " AND substr(dst,1,$t_pio_out) != '$pio_out' ";
+                }
+            $COND_PIO .= " AND " ;
+        }
+        if ($COND_PIO != "") {
+            $CONDICAO .= " AND ( ".substr($COND_PIO, 0, strlen($COND_PIO) - 4). " ) " ;
+        }
+    }
+     //---->>>> Filtro de Descarte
   
      $TMP_COND = "" ;
      $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
@@ -110,13 +108,26 @@
         $TMP_COND .= " AND " ;
      }
      $CONDICAO .= " AND ( ".substr($TMP_COND, 0, strlen($TMP_COND) - 4). " ) " ;
+
+    /* Verificando existencia de vinculos no ramal */
+    $name = $_SESSION['name_user'];
+    $sql = "SELECT id_peer, id_vinculado FROM permissoes_vinculos WHERE id_peer ='$name'";
+    $result = $db->query($sql)->fetchObject();
+
+    $vinculo_table = "";
+    $vinculo_where = "";
+    if($result) {
+        echo "entrou";
+        $vinculo_table = " ,permissoes_vinculos ";
+        $vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) )  ";
+    }
   
-  $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
-  //---->>>> Pegar somente ramais cadastros na tabela peers
-  //$CONDICAO .= " AND src IN (SELECT name from peers) " ;
-  // Monta SQL da selecao
-  $sql = "SELECT src, dst, disposition, duration, billsec, userfield " ;
-  $sql .= " FROM cdr ".$CONDICAO." ORDER BY calldate,userfield,amaflags";
+    $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
+    //---->>>> Pegar somente ramais cadastros na tabela peers
+    //$CONDICAO .= " AND src IN (SELECT name from peers) " ;
+    // Monta SQL da selecao
+    $sql = "SELECT src, dst, disposition, duration, billsec, userfield " ;
+    $sql .= " FROM cdr $vinculo_table ". $CONDICAO . " AND " . $vinculo_where  ." ORDER BY calldate,userfield,amaflags";
 
   try {
       
@@ -316,7 +327,7 @@
   $smarty->register_object("formata",$my_object) ;
   $smarty->assign('DADOS',$rank_final) ;
   ($rank_type == "qtdade" ? $smarty->assign('TOTAIS',$totais_q) :  $smarty->assign('TOTAIS',$totais_t) );
-  $smarty->assign ('ARQCVS', $csv_rel_ranking);
+  $smarty->assign ('ARQCVS', ( isset( $csv_rel_ranking ) ? $csv_rel_ranking : '') );
   $smarty->assign ('TPREL', $tp_rel);
   $smarty->assign('RANKTYPE',$rank_type) ;
   $titulo = $LANG['menu_reports']." -> ".$LANG['menu_callranking']."<br />" ;

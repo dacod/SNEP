@@ -21,17 +21,17 @@ require_once("../configs/config.php");
 ver_permissao(21);
 
 global $acao,$prefix_inout ;
+
 $prefix_inout = $SETUP['ambiente']['prefix_inout'];
 $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
 
 if ($acao == "relatorio" || $acao == "grafico" || $acao == "csv") {
-
     $my_object = new Formata ;
     monta_relatorio($acao);
 
 } elseif ($acao == "imp") {
-
     exibe_relatorio() ;
+
 }
 
 // Centros de Custos do Sistema
@@ -54,7 +54,7 @@ if (!isset($ccustos) || count($ccustos) == 0) {
 $_SESSION['ccusto'] = $ccustos;
 
 // Monta nivel de acesso aos relatórios.
-$nivel = monta_nivel($_SESSION['vinculos_user'], $_SESSION['name_user']);
+$nivel = Snep_Vinculos::getNivelVinculos( $_SESSION['name_user'] );
 
 /* Grupos de Ramais */
 $sql = "SELECT * FROM groups" ;
@@ -68,7 +68,6 @@ try {
 
 $g = array(''=>'');
 foreach ($row as $key => $group) {
-
     switch($group['name']) {
         case 'admin':
             $g[$group['name']] = 'Administradores';
@@ -84,8 +83,7 @@ foreach ($row as $key => $group) {
     }
 }
 
-$titulo = $LANG['menu_reports']." -> ".$LANG['menu_rel_callers'];
-
+$titulo = $LANG['menu_reports']." » ".$LANG['menu_rel_callers'];
 
 // Variaveis do formulario.
 $dados_iniciais = array("dia_ini" => ( isset( $_SESSION['relchamadas']['dia_ini'] ) ? $_SESSION['relchamadas']['dia_ini'] : "01/".date('m/Y') ),
@@ -110,27 +108,24 @@ $smarty->assign ('groupsrc', isset( $_SESSION['relchamadas']['groupsrc'] )  ? $_
 $smarty->assign ('groupdst', isset( $_SESSION['relchamadas']['groupdst'] )  ? $_SESSION['relchamadas']['groupdst'] : "") ;
 $smarty->assign ('ordenar', isset( $_SESSION['relchamadas']['ordenar'] ) ? $_SESSION['relchamadas']['ordenar'] : "");
 $smarty->assign ('PROTOTYPE', True) ;
-$smarty->assign ('dt_relchamadas',$dados_iniciais) ;
-$smarty->assign ('FILTERS',$dst_exceptions) ;
-$smarty->assign ('OPCOES_YN',$tipos_yn) ;
+$smarty->assign ('dt_relchamadas', $dados_iniciais) ;
+$smarty->assign ('FILTERS', $dst_exceptions) ;
+$smarty->assign ('OPCOES_YN', $tipos_yn) ;
 $smarty->assign ('USER', $id_user);
 $smarty->assign ('tipo_rel', array('1' => $LANG['analitico'], '2' => $LANG['sintetico']));
-$smarty->assign ('OPCOES_PROCURA',$tipos_procura);
-$smarty->assign ('OPCOES_CHAMADAS',$tipos_chamadas_rel);
-$smarty->assign ('OPCOES_GRAFICOS',$tipos_graficos);
-
-$smarty->assign ('VINCULOS', $_SESSION['vinculos_user']) ;
-$smarty->assign ('NIVEL', $nivel) ;
-
-$smarty->assign ('OPCOES_USERGROUPS',$g);
-$smarty->assign ('CCUSTOS',$ccustos) ;
-display_template("rel_chamadas.tpl",$smarty,$titulo) ;
+$smarty->assign ('OPCOES_PROCURA', $tipos_procura);
+$smarty->assign ('OPCOES_CHAMADAS', $tipos_chamadas_rel);
+$smarty->assign ('OPCOES_GRAFICOS', $tipos_graficos);
+$smarty->assign ('NIVEL', $nivel);
+$smarty->assign ('OPCOES_USERGROUPS', $g);
+$smarty->assign ('CCUSTOS', $ccustos);
+display_template("rel_chamadas.tpl", $smarty,$titulo);
 
 /*------------------------------------------------------------------------------
  Funcao monta_relatorio - Monta o relatsorio
 ------------------------------------------------------------------------------*/
 function monta_relatorio($acao) {
-    global  $srctype, $ordernar, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini,$dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides,$dst_exceptions,$prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif,$my_object, $acao;
+    global  $srctype, $ordernar, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini, $dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides, $dst_exceptions, $prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif, $my_object, $acao;
 
     /* Salvando dados do formulario.                                              */
     $_SESSION['relchamadas']['dia_ini'] = $dia_ini;
@@ -171,7 +166,6 @@ function monta_relatorio($acao) {
         }
     }
 
-
     /* Busca os ramais pertencentes ao grupo de ramal de destino selecionado */
     if($groupdst) {
         $destinos = PBX_Usuarios::getByGroup($groupdst);
@@ -185,16 +179,18 @@ function monta_relatorio($acao) {
             $ramaisdst = " AND dst in (" . trim($ramalsrc, ',') . ") ";
         }
     }
-
-    // Verificando existencia de vinculos no ramal
-    $userid = $_SESSION['id_user'];
-    $sql = "SELECT name, vinculo FROM peers WHERE id ='$userid'";
+    
+    /* Verificando existencia de vinculos no ramal */
+    $name = $_SESSION['name_user'];
+    $sql = "SELECT id_peer, id_vinculado FROM permissoes_vinculos WHERE id_peer ='$name'";    
     $result = $db->query($sql)->fetchObject();
+
     $vinculo_table = "";
     $vinculo_where = "";
-    if($result->vinculo !== "") {
-        $vinculo_table = " ,vinculos ";
-        $vinculo_where = " ( vinculos.cod_usuario='{$result->name}' AND (cdr.src = vinculos.ramal OR cdr.dst = vinculos.ramal) ) AND ";
+    if($result) {
+        echo "entrou";
+        $vinculo_table = " ,permissoes_vinculos ";
+        $vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) ) AND ";
     }
 
     /* Clausula do where: periodos inicial e final                                */
@@ -231,7 +227,6 @@ function monta_relatorio($acao) {
                 $DST .= sql_like($dsttype, $dsts, 'dst');
             }
             $DST = " AND (". substr($DST, 3) .")";
-
         }else{
             $ORIGENS .= str_replace("or", "AND", sql_like($dsttype, $dst, 'dst'));
         }
@@ -248,8 +243,7 @@ function monta_relatorio($acao) {
             $CONDICAO .= " OR " . $SRC = substr($SRC, 4);
         }else{
             $CONDICAO .= $SRC;
-        }
-        
+        }        
     }
     
     /* Compara campos src e dst                                                   */
@@ -266,10 +260,9 @@ function monta_relatorio($acao) {
         $CONDICAO .= " AND duration <= $duration2 " ;
     }
 
-
     /* Clausula do where:  Filtro de desccarte                                    */
     $TMP_COND = "" ;
-    $dst_exceptions = explode(";",$dst_exceptions) ;
+    $dst_exceptions = explode(";", $dst_exceptions) ;
     foreach ($dst_exceptions as $valor) {
         $TMP_COND .= " dst != '$valor' " ;
         $TMP_COND .= " AND " ;
@@ -355,7 +348,7 @@ function monta_relatorio($acao) {
     }
     $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
 
-    /* Montagem do SELECT de Consulta                                             */
+    /* Montagem do SELECT de Consulta */
     $SELECT  = "ccustos.codigo,ccustos.tipo, date_format(calldate,\"%d/%m/%Y\") AS key_dia, date_format(calldate,\"%d/%m/%Y %H:%i:%s\") AS dia,  src, dst, disposition, duration, billsec, accountcode, userfield, dcontext, amaflags, uniqueid " ;
     if ($view_tarif === "yes") {
         $SELECT .= ", calldate ";
@@ -369,12 +362,16 @@ function monta_relatorio($acao) {
         $sql_ctds = "SELECT ".$SELECT." FROM cdr, ccustos $vinculo_table ";
         $sql_ctds .= " WHERE (cdr.accountcode = ccustos.codigo) AND $vinculo_where " . $CONDICAO ;
         $sql_ctds .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
-        $sql_ctds .= " ORDER BY userfield" ;
+        $sql_ctds .= " ORDER BY calldate, userfield" ;
+
         if ($acao == "grafico") {
-            $tot_fai = $tot_bus = $tot_ans = $tot_noa = $tot_oth = array() ;
+            $tot_fai = $tot_bus = $tot_ans = $tot_noa = $tot_oth = array();
+
         } else {
-            $tot_fai = $tot_bus = $tot_ans = $tot_noa = $tot_bil = $tot_dur = $tot_oth = 0 ;
+            $tot_fai = $tot_bus = $tot_ans = $tot_noa = $tot_bil = $tot_dur = $tot_oth = 0;
+            
         }
+        
         $flag_ini = True ;                                                        // Flag para controle do 1o. registro lido
         $userfield = "XXXXXXX" ;                                                  // Flag para controle do Userfield
         unset($result);
@@ -513,10 +510,10 @@ function monta_relatorio($acao) {
             exit ;
         }
         $tot_wait = $tot_dur - $tot_bil ;
-        $totais = array("answered"    =>   number_format($tot_ans, 2, ",", "."),
-                "notanswer"   =>   number_format($tot_noa, 2, ",", "."),
-                "busy"        =>   number_format($tot_bus, 2, ",", "."),
-                "fail"        =>   number_format($tot_fai, 2, ",", "."),
+        $totais = array("answered"    =>   number_format($tot_ans, thousands_sep, ",", "."),
+                "notanswer"   =>   number_format($tot_noa, thousands_sep, ",", "."),
+                "busy"        =>   number_format($tot_bus, thousands_sep, ",", "."),
+                "fail"        =>   number_format($tot_fai, thousands_sep, ",", "."),
                 "billsec"     =>   $tot_bil,
                 "duration"    =>   $tot_dur,
                 "espera"      =>   $tot_wait,
@@ -535,15 +532,12 @@ function monta_relatorio($acao) {
                 "bus"  => $tot_bus,  "fai" => $tot_fai,
                 "dias" => $tot_dias, "dur" => $tot_dur,
                 "bil"  => $tot_bil);
-
     }
 
     /* Define um SQL de Exibicao no Template, agrupado e com ctdor de agrupamentos */
     $sql_chamadas = "SELECT count(userfield) as qtdade,".$SELECT." FROM cdr, ccustos $vinculo_table ";
     $sql_chamadas .= " WHERE (cdr.accountcode = ccustos.codigo) AND $vinculo_where " . $CONDICAO;
     $sql_chamadas .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
-
-
 
     switch($ordernar) {
         case "data":
@@ -558,7 +552,6 @@ function monta_relatorio($acao) {
     }
 
     $sql_chamadas .= " GROUP BY userfield ORDER BY $ordernar " ;
-
 
     $_SESSION['view_compact'] = $_POST['view_compact'];
     $_SESSION['sql_chamadas'] = $sql_chamadas ;
@@ -583,9 +576,7 @@ function exibe_relatorio() {
     $tp_rel = $_GET['t'];
 
     if ($tp_rel == "grafico") {
-
         $tot_tmp = $_SESSION['totais'] ;
-
         /* Ajusta o Array para coordenadas do Grafico        */
         foreach ($tot_tmp as $k => $v) {
             $i = 1 ;
@@ -729,13 +720,12 @@ function exibe_relatorio() {
         }
     }
 
-
     // Cria Objeto para formtacao de dados
     $my_object = new Formata ;
     $smarty->register_object("formata",$my_object) ;
 
     // Paginacao
-    $tot_pages = ceil(count($row)/$SETUP['ambiente']['linelimit']) ;
+    $tot_pages = ceil(count($row) / $SETUP['ambiente']['linelimit']) ;
     for ($i = 1 ; $i <= $tot_pages ; $i ++ )
         $paginas[$i] = $i;
 
@@ -758,15 +748,15 @@ function exibe_relatorio() {
     $smarty->assign ('JUMP', $jump) ;
     $smarty->assign ('INI',1);
     $smarty->assign ('PROTOTYPE', True);
-    $smarty->assign ('ARQCVS', isset( $csv_rel_chamadas ));
+    $smarty->assign ('ARQCVS', ( isset($csv_rel_chamadas) ? $csv_rel_chamadas : '') );
     $smarty->assign ('TOT', $tot_pages);
-    $smarty->assign ('TIPOS_DISP', $tipos_disp) ;
-    $smarty->assign ('TOTAIS', $totais) ;
-    $smarty->assign ('TP_GRAPH', $_SESSION['parametros']['tpgraf'] ) ;
-    $smarty->assign ('TPREL', $tp_rel) ;
-    $smarty->assign ('VIEW_COMPACT', $_SESSION['view_compact']) ;
-    $smarty->assign ('VIEW_TARIF', $_SESSION['parametros']['view_tarif']) ;
-    $titulo = $LANG['menu_reports']." -> ". $LANG['menu_rel_callers']."<br />" ;
+    $smarty->assign ('TIPOS_DISP', $tipos_disp);
+    $smarty->assign ('TOTAIS', $totais);
+    $smarty->assign ('TP_GRAPH', $_SESSION['parametros']['tpgraf'] );
+    $smarty->assign ('TPREL', $tp_rel);
+    $smarty->assign ('VIEW_COMPACT', $_SESSION['view_compact']);
+    $smarty->assign ('VIEW_TARIF', $_SESSION['parametros']['view_tarif']);
+    $titulo = $LANG['menu_reports']." » ". $LANG['menu_rel_callers']."<br />" ;
     $titulo.= $_SESSION['titulo_2'];
     display_template("rel_chamadas_view.tpl", $smarty,$titulo) ;
     ?>
