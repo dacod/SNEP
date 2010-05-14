@@ -43,13 +43,7 @@
        <td class="subtable">
           <input name="email" type="text" size="40" maxlength="150" class="campos" value="{$dt_ramais.email}" />
        </td>
-    </tr>
-    <tr>
-       <td class="formlabel">{$LANG.vinculo}:</td>
-       <td class="subtable">
-          <input name="vinculo" type="text" size="30" maxlength="500" class="campos" value="{$dt_ramais.vinculo}" />&nbsp;&nbsp;&nbsp;{$LANG.vinculo_sintaxe}
-       </td>
-    </tr>
+    </tr>    
     <tr>
        <td class="formlabel">{$LANG.calllimit}:</td>
        <td class="subtable">
