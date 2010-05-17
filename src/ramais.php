@@ -128,6 +128,7 @@ if ($acao == "cadastrar") {
  Funcao PRINCIPAL - Monta a tela principal da rotina
  ------------------------------------------------------------------------------*/
 function principal() {
+
     global $db,$smarty,$titulo,$codecs_default,$SETUP ;
     // Sugestao de numero proximo ramal
     try {
@@ -285,7 +286,7 @@ function cadastrar() {
         }
 
         // Seta proprio ramal como seu vínculo
-        Snep_Vinculos::setVinculos($name, array($name));
+        Snep_Vinculos::setVinculos($name, 'R', $name);
 
         $db->commit();
 
@@ -293,6 +294,7 @@ function cadastrar() {
         grava_conf();
 
         echo "<meta http-equiv='refresh' content='0;url=../src/ramais.php'>\n" ;
+        
     } catch (Exception $ex ) {
         $db->rollBack();
         display_error($LANG['error'].$ex->getMessage(),true);
