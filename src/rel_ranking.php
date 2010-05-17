@@ -40,7 +40,7 @@
  for ($i=1;$i<=30;$i++) {
     $viewtop[$i]=$i;
  }                        
- $titulo = $LANG['menu_reports']." -> ".$LANG['menu_callranking'];
+ $titulo = $LANG['menu_reports']." » ".$LANG['menu_callranking'];
 
  $smarty->assign ('rank_num', ( $_SESSION['relrank']['rank_num'] ? $_SESSION['relrank']['rank_num'] : '')) ;
  $smarty->assign ('rank_type',( $_SESSION['relrank']['rank_type'] ? $_SESSION['relrank']['rank_type'] : 'qtdade')) ;
@@ -119,10 +119,9 @@
 
     $vinculo_table = "";
     $vinculo_where = "";
-    if($result) {
-        echo "entrou";
+    if($result) {        
         $vinculo_table = " ,permissoes_vinculos ";
-        $vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) )  ";
+        $vinculo_where = "  AND ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) )  ";
     }
   
     $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
@@ -130,7 +129,7 @@
     //$CONDICAO .= " AND src IN (SELECT name from peers) " ;
     // Monta SQL da selecao
     $sql = "SELECT src, dst, disposition, duration, billsec, userfield " ;
-    $sql .= " FROM cdr $vinculo_table ". $CONDICAO . " AND " . $vinculo_where  ." ORDER BY calldate,userfield,amaflags";
+    $sql .= " FROM cdr $vinculo_table ". $CONDICAO . $vinculo_where  ." ORDER BY calldate,userfield,amaflags";
 
   try {
       
