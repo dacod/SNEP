@@ -55,6 +55,7 @@
          <form name="formulario" method="post"  action="../configs/permissoes.php" enctype="multipart/form-data">
          <input type="hidden" name="id" value="{$DADOS[ramais].id}" />
          <input type="hidden" name="nome" value="{$DADOS[ramais].callerid}" />
+         <input type="hidden" name="name" value="{$DADOS[ramais].name}" />
          <td valign="middle" align="center">
          {if $DADOS[ramais].name != 'admin'}
             <acronym title="{$LANG.permitions}">
