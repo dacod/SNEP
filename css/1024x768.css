@@ -467,17 +467,16 @@ thead.mensagem {
 /*  Exibicao*/
 .usuario {
    float:right;
-   background: url("../imagens/usuario.png") no-repeat left top;
+   background: url("../imagens/usuario.png") no-repeat left;
    margin: 0;
    border: 0 ;
-   padding-left: 28px;
+   padding-left: 18px;
    padding-right: 10px;
+   font-size: 14px;
+   color: #808080 ;
+   font-weight: bolder ;
    font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 11px;
-   color: #a0410d; 
-   font-weight: bold;
-   text-decoration: none ;
-   line-height: 20px ;
+   font-variant: small-caps;
 }
 
 .titulo {
