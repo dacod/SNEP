@@ -17,39 +17,111 @@
  */
 require_once("../includes/verifica.php");  
 require_once("../configs/config.php");
+
 ver_permissao(99);
-$titulo = $LANG['menu_register']." -> ".$LANG['menu_ramais']." -> ".$LANG['permitions']." ".$LANG['of']." ".$LANG['user'] ;
+
 if (array_key_exists ('permissao', $_POST)) {
     gravar() ;
 }
-$id = $_POST['id'];
-$nome = $_POST['nome'] ;
+
+$name = ( isset( $_POST['name'] ) ? $_POST['name'] : null ) ;
+$id = ( isset( $_POST['id'] ) ? $_POST['id'] : null ) ;
+$nome = ( isset(  $_POST['nome']  ) ? $_POST['nome'] : null) ;
+
+$titulo = $LANG['menu_register']." » ".$LANG['menu_ramais']." » ".$LANG['permitions']." ".$LANG['of']." ".$LANG['user'] ;
+
+/* Vinculados ao ramal */
+$vinculados = Snep_Vinculos::getVinculados($name);
+$arrVinculados = array();
+if($vinculados) {
+    foreach($vinculados as $vinculado) {
+        $arrVinculados["r-" . $vinculado['id_vinculado']] = "Ramal: ". $vinculado['id_vinculado'] ;
+    }
+}
+
+/* Agentes Vinculados ao ramal */
+$agentes_vinculados = Snep_Vinculos::getVinculadosAgente($name);
+if($vinculados) {
+    foreach($agentes_vinculados as $id => $agentes_vinculado) {
+        /* Inclui agente, a lista de ramais vinculados */
+        $arrVinculados["a-" . $agentes_vinculado['id_vinculado']] = "Agente: {$agentes_vinculado['id_vinculado']} " ;
+    }
+}
+
+/* Desvinculados ao ramal */
+$desvinculados = Snep_Vinculos::getDesvinculados($name);
+$arrDesvinculados = array();
+if($desvinculados) {
+    foreach($desvinculados as $desvinculado) {
+        $arrDesvinculados["r-" . $desvinculado['name']] = "Ramal: ". $desvinculado['name'] ;
+    }
+}
+
+/* Agentes Desvinculados ao ramal */
+$agentes_desvinculados = Snep_Vinculos::getDesvinculadosAgente($name);
+if($agentes_desvinculados) {
+    foreach($agentes_desvinculados as $id => $agentes_desvinculado) {
+        //$arrAgentesDesvinculados[$id] = "Agente: ". $agentes_desvinculado ;
+        $arrDesvinculados["a-" . $id] = "Agente: $agentes_desvinculado";
+
+    }
+}
 
 // Lista das Rotinas disponiveis na tabela ROTINAS
+$sql = " SELECT r.cod_rotina as cod_rotina,r.desc_rotina as desc_rotina," ;
+$sql.= " permissoes.permissao as permissao";
+$sql.= " FROM rotinas as r " ;
+$sql.= " LEFT JOIN permissoes ON permissoes.cod_rotina = r.cod_rotina ";
+$sql.= " AND permissoes.cod_usuario = '$id' " ;
+$sql.= " order by desc_rotina" ;
+
 try {
-    $sql = "SELECT r.cod_rotina as cod_rotina,r.desc_rotina as desc_rotina," ;
-    $sql.= " permissoes.permissao as permissao";
-    $sql.= " FROM rotinas as r " ;
-    $sql.= " LEFT JOIN permissoes ON permissoes.cod_rotina = r.cod_rotina ";
-    $sql.= " AND permissoes.cod_usuario = ".$id ;
-    $sql.= " order by desc_rotina" ;
     $row = $db->query($sql)->fetchAll();
+
 } catch (Exception $e) {
-    display_error($LANG['error'].$e->getMessage(),true) ;
-}           
+    display_error($LANG['error'].$e->getMessage(),true);
+    
+}
+
 // Define variaveis do template          
-$smarty->assign ('dt_permissoes',$row);
-$smarty->assign ('dt_usuario',$nome) ;
-$smarty->assign ('dt_id',$id);
-$smarty->assign  ('TIPOS_PERMS', array('S' => $LANG['yes'], 'N' => $LANG['no'], '' =>$LANG['undef']));
-display_template("permissoes.tpl",$smarty,$titulo) ;
+$smarty->assign ('dt_permissoes', $row);
+$smarty->assign ('dt_usuario', $nome) ;
+$smarty->assign ('dt_id', $id);
+$smarty->assign ('dt_name', $name);
+$smarty->assign ('LISTA_DESVINCULADOS', $arrDesvinculados);
+$smarty->assign ('LISTA_VINCULADOS', $arrVinculados);
+$smarty->assign ('TIPOS_PERMS', array('S' => $LANG['yes'], 'N' => $LANG['no'], '' =>$LANG['undef']));
+$smarty->assign ('PROTOTYPE', true);
+display_template("permissoes.tpl", $smarty, $titulo) ;
 
 /*------------------------------------------------------------------------------
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function gravar() {
+
     global $db;
-    $id = $_POST['id'] ;
+
+    $id = $_POST['id'];
+    $name = $_POST['name'];     
+
+    /* Remove qualquer referencia de vinculo a este ramal */
+    Snep_Vinculos::resetVinculos($name);
+
+    /* Cadastro de ramais vinculados */
+    $vinculos = ( isset( $_POST['vinculo2'] ) ? $_POST['vinculo2'] : null );
+    if ($vinculos) {
+        foreach($vinculos as $vinculo) {
+            $tipo = substr($vinculo, 0, 1);
+            $numero = substr($vinculo, strpos($vinculo, "-")+1);
+
+            if($tipo == "r") {
+                Snep_Vinculos::setVinculos($name, 'R', $numero);
+            }else {
+                Snep_Vinculos::setVinculos($name, 'A', $numero);
+            }            
+        }
+    }
+    
     try {
         $db->beginTransaction() ;
         $sql = "SELECT cod_rotina FROM rotinas order by cod_rotina ";
