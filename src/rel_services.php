@@ -37,10 +37,10 @@ $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
     /* Busca servi�os d�sponiveis */
 
     try {
-       $sq_srv = " SELECT DISTINCT service FROM services_log " ;
+       $sq_srv = " SELECT DISTINCT service FROM services_log ";
        $srv = $db->query($sq_srv)->fetchAll();
     } catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
+       display_error($LANG['error'].$e->getMessage(),true);
        exit ;
     }
     $service = array();
@@ -87,7 +87,7 @@ $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
 
 
 /* Monta  formulario de busca */        
-$titulo = $LANG['menu_reports']." -> ".$LANG['services_report'] ;
+$titulo = $LANG['menu_reports']." » ".$LANG['services_report'] ;
 $smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
 $smarty->assign ('dt_relchamadas',$dados_iniciais) ;
 $smarty->assign ('groupsrc', $_SESSION['relservices']['groupsrc']);
@@ -132,7 +132,6 @@ function monta_relatorio($acao) {
 
       }
   $srv = " AND service IN (".substr($srv, 0, -1).")";
-
   }
   
   /* Busca os ramais pertencentes ao grupo de ramal de orgem selecionado */
@@ -146,9 +145,9 @@ function monta_relatorio($acao) {
       }
       else {
           foreach ($origens as $ramal) {
-              $ramalsrc .= $ramal->getNumero() . ',';
+              $ramalsrc .= "'{$ramal->getNumero()}'" . ',';
           }
-          $ramaissrc = " AND peer in (" . trim($ramalsrc, ',') . ") ";
+          $ramaissrc = " AND peer in (". trim($ramalsrc, ',') .") ";
       }
   }
   if($src)  {
@@ -166,7 +165,7 @@ function monta_relatorio($acao) {
           $list .= $valor.',';
 
       }
-      $ramaissrc = " AND services_log.peer IN (".substr($list, 0, -1).") ";
+      $ramaissrc = " AND services_log.peer IN ('".substr($list, 0, -1)."') ";
       
   }
 
@@ -263,7 +262,7 @@ $tot_pages = ceil(count($row)/$SETUP['ambiente']['linelimit']) ;
  for ($i = 1 ; $i <= $tot_pages ; $i ++ )
      $paginas[$i] = $i;
 
-$titulo = $LANG['menu_reports']." -> ".$LANG['services_report'];
+$titulo = $LANG['menu_reports']." » ".$LANG['services_report'];
 $titulo.= $_SESSION['titulo_2']; 
 $smarty->register_object("formata",$my_object) ; 
 $smarty->assign ('DADOS',$row);
