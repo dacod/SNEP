@@ -222,6 +222,9 @@ function insert_exten($number, &$khompChannels) {
         $sql = "INSERT INTO peers($fields) VALUES($values);";
 
         $db->exec($sql);
+
+
+
     }
 }
 
@@ -265,6 +268,8 @@ function cadastrar()  {
                 catch( PBX_Exception_NotFound $ex ) {
                     insert_exten($number, $khompChannels);
                 }
+
+                Snep_Vinculos::setVinculos($number, 'R', $number);
             }
             else {
                 $number = explode("-",$number);
@@ -275,6 +280,8 @@ function cadastrar()  {
                     catch( PBX_Exception_NotFound $ex ) {
                         insert_exten($number, $khompChannels);
                     }
+                    
+                    Snep_Vinculos::setVinculos($number, 'R', $number);
                 }
             }
         }
@@ -285,6 +292,7 @@ function cadastrar()  {
         display_error($ex->getMessage(), true);
         exit();
     }
+
 
     // Gravando mudanças no arquivo e recarregando configurações no asterisk.
     grava_conf();
