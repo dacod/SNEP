@@ -9,6 +9,7 @@ com "arrastar e soltar"
     Corrigido bug na restauração da ação de reescrita de requisição nas regras
 de negócio.
     Adicionado suporte a ramal com interface manual
+    Corrigido "Notices" no relacionamento de ramais em modo debug.
 
 1.1.5:
     Adição de um sistema de plugins para as Regras de Negócio.
