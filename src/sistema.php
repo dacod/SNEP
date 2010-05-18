@@ -17,6 +17,7 @@
  */
 require_once("../includes/verifica.php");
 require_once("../configs/config.php");
+require_once("../configs/atualiza.php");
 
 if( preg_match("/MSIE (?<version>.*?);/", $_SERVER['HTTP_USER_AGENT'], $browser_version) && (float) $browser_version['version'] < 8 ) {
     $smarty->assign("IE_ERROR",true);
