@@ -6,7 +6,8 @@ com "arrastar e soltar"
     Adição de Alias de Expressão Regular para ser usado com as Regras de Negócio
     Corrigido sistema de controle de tempo em minutos para ramais e troncos.
     Corrigido bug na seleção do modo debug.
-
+    Corrigido bug na restauração da ação de reescrita de requisição nas regras
+de negócio.
 
 1.1.5:
     Adição de um sistema de plugins para as Regras de Negócio.

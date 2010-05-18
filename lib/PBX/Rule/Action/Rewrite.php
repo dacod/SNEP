@@ -83,9 +83,10 @@ class PBX_Rule_Action_Rewrite extends PBX_Rule_Action {
     public function getConfig() {
         $i18n = $this->i18n;
         $type    = (isset($this->config['type']))?"<value>{$this->config['type']}</value>":"";
+        $cut     = (isset($this->config['cut']))?"<value>{$this->config['cut']}</value>":"";
         $replace = (isset($this->config['replace']))?"<value>{$this->config['replace']}</value>":"";
         $prefix  = (isset($this->config['prefix']))?"<value>{$this->config['prefix']}</value>":"";
-        $suffix   = (isset($this->config['suffix']))?"<value>{$this->config['suffix']}</value>":"";
+        $suffix  = (isset($this->config['suffix']))?"<value>{$this->config['suffix']}</value>":"";
         return <<<XML
 <params>
     <radio>
@@ -106,6 +107,7 @@ class PBX_Rule_Action_Rewrite extends PBX_Rule_Action {
         <id>cut</id>
         <label>{$i18n->translate("Corte")}</label>
         <default>nocut</default>
+        $cut
         <option>
             <label>{$i18n->translate("Não cortar")}</label>
             <value>nocut</value>
