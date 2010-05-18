@@ -196,6 +196,7 @@
                     <input {if $dt_ramais.channel_tech == "IAX2"}checked="true"{/if} type="radio" name="canal" value="IAX2" id="canal_iax2" onchange="show_tab('none')" /><label for="canal_iax2">IAX2</label>
                     <input {if $dt_ramais.channel_tech == "KHOMP"}checked="true"{/if} type="radio" name="canal" value="KHOMP" id="canal_khomp" onchange="show_tab('khomp')" /><label for="canal_khomp">KHOMP</label>
                     <input {if $dt_ramais.channel_tech == "VIRTUAL"}checked="true"{/if} type="radio" name="canal" value="VIRTUAL" id="canal_virtual" onchange="show_tab('virtual')" /><label for="canal_virtual">Virtual</label>
+                    <input {if $dt_ramais.channel_tech == "MANUAL"}checked="true"{/if} type="radio" name="canal" value="MANUAL" id="canal_manual" onchange="show_tab('manual_tech')" /><label for="canal_manual">Manual</label>
                     <div id="khomp" style="display:{if $khomp_channel}block{else}none{/if};">
                         {if $no_khomp}
                             <p>{$LANG.no_khomp}</p>
@@ -223,6 +224,10 @@
                          <select id="trunk" name="trunk">
                             {html_options options=$TRUNKS selected=$dt_ramais.trunk}
                          </select>
+                    </div>
+                    <div id="manual_tech" style="display:{if $dt_ramais.channel_tech == "MANUAL"}block{else}none{/if};">
+                         <label for="manual">Manual:</label>
+                         <input class="campos" type="text" id="manual" name="manual" value="{$dt_ramais.manual}" />
                     </div>
                   </td>
                </tr>
@@ -288,7 +293,8 @@
 
    var tabs = new Array(
         $('khomp'),
-        $('virtual')
+        $('virtual'),
+        $('manual_tech')
     );
    function show_tab(tab) {ldelim}
         tab = tab.toLowerCase();

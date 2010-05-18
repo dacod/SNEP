@@ -189,7 +189,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $type, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $type, $manual, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -215,11 +215,14 @@ function cadastrar() {
         $canal .= "/b" . $khomp_boards . 'c' . $khomp_channels;
     }
     else if($canal == "VIRTUAL") {
-            $canal .= "/" . $trunk;
-        }
-        else {
-            $canal .= "/" . $name;
-        }
+        $canal .= "/" . $trunk;
+    }
+    else if($canal == "MANUAL") {
+        $canal .= "/" . $manual;
+    }
+    else {
+        $canal .= "/" . $name;
+    }
 
     // Tempos de Minutagem
     if ($tempo == "s") {
@@ -290,7 +293,7 @@ function cadastrar() {
 
         $db->commit();
 
-      /* Gera arquivo /etc/asterisk/snep/snep-sip.conf */ 
+        /* Gera arquivo /etc/asterisk/snep/snep-sip.conf */
         grava_conf();
 
         echo "<meta http-equiv='refresh' content='0;url=../src/ramais.php'>\n" ;
@@ -312,7 +315,7 @@ function alterar() {
         display_error($LANG['msg_notselect'],true) ;
         exit ;
     }
-    
+
     $sql = "SELECT id, type, name, callerid, context, mailbox, qualify, secret,";
     $sql.= " allow, dtmfmode, vinculo, email, `call-limit`, incominglimit,";
     $sql.= " outgoinglimit, usa_vc, pickupgroup, nat, canal, authenticate, " ;
@@ -343,6 +346,7 @@ function alterar() {
     $row['channel_tech'] = substr($row['canal'], 0, strpos($row['canal'], '/'));
 
     $khomp_error = false;
+    $khomp_channels = null;
     if($row['channel_tech'] == "KHOMP") {
         $interface = substr($row['canal'], strpos($row['canal'], '/')+1);
         $khomp_board = substr($interface,1,1);
@@ -362,6 +366,9 @@ function alterar() {
             $khomp_board = false;
             $khomp_channel = true;
         }
+    }
+    else if($row['channel_tech'] == "MANUAL") {
+        $row['manual'] = substr($row['canal'], strpos($row['canal'], '/')+1);
     }
     else if($row['channel_tech'] == "VIRTUAL") {
         $row['trunk'] = substr($row['canal'], strpos($row['canal'], '/')+1);
@@ -440,7 +447,7 @@ function alterar() {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
-    global $LANG, $db, $type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
+    global $LANG, $manual, $db, $type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
 
@@ -473,11 +480,14 @@ function grava_alterar() {
         $canal .= "/b" . $khomp_boards . 'c' . $khomp_channels;
     }
     else if($canal == "VIRTUAL") {
-            $canal .= "/" . $trunk;
-        }
-        else {
-            $canal .= "/" . $name;
-        }
+        $canal .= "/" . $trunk;
+    }
+    else if($canal == "MANUAL") {
+        $canal .= "/" . $manual;
+    }
+    else {
+        $canal .= "/" . $name;
+    }
 
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
 
@@ -578,7 +588,7 @@ function excluir() {
         
         $db->commit();
 
-      /* Gera arquivo de configuração */
+        /* Gera arquivo de configuração */
         grava_conf();
 
         echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;

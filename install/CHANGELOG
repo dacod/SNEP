@@ -8,6 +8,7 @@ com "arrastar e soltar"
     Corrigido bug na seleção do modo debug.
     Corrigido bug na restauração da ação de reescrita de requisição nas regras
 de negócio.
+    Adicionado suporte a ramal com interface manual
 
 1.1.5:
     Adição de um sistema de plugins para as Regras de Negócio.

@@ -65,6 +65,9 @@ class PBX_Usuarios {
         else if($tech == "IAX2") {
             $interface = new PBX_Asterisk_Interface_IAX2(array("username"=>$usuario->name, "secret"=>$usuario->secret));
         }
+        else if($tech == "MANUAL") {
+            $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> substr($usuario->canal, strpos($usuario->canal, '/')+1)));
+        }
         else if($tech == "VIRTUAL") {
             $trunk = PBX_Trunks::get(substr($usuario->canal,strpos($usuario->canal, '/') +1 ));
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> $trunk->getInterface()->getCanal() . "/" . $userid));
