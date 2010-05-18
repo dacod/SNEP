@@ -173,6 +173,41 @@ XML;
                         $num = substr($num, $cut_point);
                     }
                 }
+                else if($expr['type'] == "AL") {
+                    $aliases = PBX_ExpressionAliases::getInstance();
+
+                    $expression = $aliases->get( (int)$expr['value'] );
+
+                    $regular_expression = new PBX_Asterisk_Expression();
+                    $found = null;
+                    foreach ($expression["expressions"] as $expr_value) {
+                        $regular_expression->setExpression($expr_value);
+                        if($regular_expression->match($num)) {
+                            $found = $expr_value;
+                            break;
+                        }
+                    }
+
+                    // Removendo da contagem caracteres de controle e instrução
+                    $normalized_string = str_replace("_", "", $found);
+
+                    // Normalizando [123-8] e similares para um unico caractere
+                    $normalized_string = preg_replace("/\[[0-9\-]*\]/", "#", $normalized_string);
+
+                    /* Nesse ponto uma expressão:
+                     * _0XX|[2-9]XX[23].
+                     * Deve ser:
+                     * 0XX|#XX#.
+                     */
+
+                    $cut_point = strpos($normalized_string, "|");
+
+                    if($cut_point > 0) { // caso haja algo para cortar
+                        // Cortando
+                        $num = substr($num, $cut_point);
+                    }
+
+                }
                 else {
                     $log->debug(sprintf($i18n->translate("Tipo de expressao que casa com essa regra nao permite corte por |, esta casa com: %s"), $expr['type'] . '-' . $expr['value']));
                 }

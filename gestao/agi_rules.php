@@ -84,9 +84,7 @@ HEAD;
 
         $smarty->assign('OPCOES_CONTACTS_GROUPS', $groups);
 
-        /* ----------------------------------------------------------------- */
-        /* Listam de troncos */
-        /* ----------------------------------------------------------------- */
+        /* Lista de Troncos para interface */
         $trunks = array();
         foreach (PBX_Trunks::getAll() as $tronco) {
             $trunks[] = array(
@@ -96,6 +94,17 @@ HEAD;
 
         }
         $smarty->assign('OPCOES_TRONCOS', $trunks);
+
+        /* Lista de Aliases para Expressão Regular */
+        $expressions = array();
+        foreach (PBX_ExpressionAliases::getInstance()->getAll() as $expression) {
+            $expressions[] = array(
+                    'id'   => $expression["id"],
+                    'name' => $expression["name"]
+            );
+
+        }
+        $smarty->assign('OPCOES_ALIAS', $expressions);
 
         $actions = PBX_Rule_Actions::getInstance();
         $installed_actions = array();
@@ -320,6 +329,61 @@ HEAD;
         return $rule;
     }
 
+    private function parseConditions($conditions) {
+        $LANG = Zend_Registry::get('lang');
+        $parsed_conditions = "";
+        foreach($conditions as $condition) {
+                switch($condition['type']) {
+                    case "X" :
+                        $parsed_conditions .= "{$LANG['any']}<br />";
+                        break;
+                    case "R" :
+                        $parsed_conditions .= $condition['value'] . "<br />";
+                        break;
+                    case "RX" :
+                        $parsed_conditions .= $condition['value'] . "<br />";
+                        break;
+                    case "T" :
+                        $trunk = PBX_Trunks::get($condition['value']);
+                        $parsed_conditions .= "{$LANG['trunk']} {$trunk->getName()}<br />";
+                        break;
+                    case "CG" :
+                        $select = "SELECT id, name FROM contacts_group";
+                        $raw_groups = $db->query($select)->fetchAll();
+
+                        $groups = array();
+                        foreach ($raw_groups as $row) {
+                            $groups[$row["id"]] = $row["name"];
+                        }
+                        $parsed_conditions .= "{$LANG['contacts_group']}: {$groups[$condition['value']]}<br />";
+                        break;
+                    case "AL":
+                        $aliases = PBX_ExpressionAliases::getInstance();
+                        $alias = $aliases->get((int)$condition['value']);
+                        $parsed_conditions .= "Alias {$alias['name']}<br />";
+                        break;
+                    case "G" :
+                        switch ($condition['value']) {
+                            case 'all':
+                                $groupname = $LANG['all'];
+                                break;
+                            case 'users':
+                                $groupname = $LANG['user'];
+                                break;
+                            case 'admin':
+                                $groupname = $LANG['admin'];
+                                break;
+                            default:
+                                $groupname = $condition['value'];
+                                break;
+                        }
+                        $parsed_conditions .= "{$LANG['group']} {$groupname}<br />";
+                        break;
+                }
+            }
+            return $parsed_conditions;
+    }
+
     public function indexAction() {
         global $LANG;
         $smarty = Zend_Registry::get('smarty');
@@ -341,94 +405,15 @@ HEAD;
             $where = null;
         }
 
-        $select = "SELECT id, name FROM contacts_group";
-        $raw_groups = $db->query($select)->fetchAll();
-
-        $groups = array();
-        foreach ($raw_groups as $row) {
-            $groups[$row["id"]] = $row["name"];
-        }
-
         // Executa acesso ao banco de Dados
         $regras = PBX_Rules::getAll($where);
 
         $dados = array();
         foreach ($regras as $rule) {
 
-            $list_src = '';
-            foreach($rule->getSrcList() as $src) {
-                switch($src['type']) {
-                    case "X" :
-                        $list_src .= "{$LANG['any']}<br />";
-                        break;
-                    case "R" :
-                        $list_src .= $src['value'] . "<br />";
-                        break;
-                    case "RX" :
-                        $list_src .= $src['value'] . "<br />";
-                        break;
-                    case "T" :
-                        $trunk = PBX_Trunks::get($src['value']);
-                        $list_src .= "{$LANG['trunk']} {$trunk->getName()}<br />";
-                        break;
-                    case "CG" :
-                        $list_src .= "{$LANG['contacts_group']}: {$groups[$src['value']]}<br />";
-                        break;
-                    case "G" :
-                        switch ($src['value']) {
-                            case 'all':
-                                $groupname = $LANG['all'];
-                                break;
-                            case 'users':
-                                $groupname = $LANG['user'];
-                                break;
-                            case 'admin':
-                                $groupname = $LANG['admin'];
-                                break;
-                            default:
-                                $groupname = $src['value'];
-                                break;
-                        }
-                        $list_src .= "{$LANG['group']} {$groupname}<br />";
-                        break;
-                }
-            }
-
-            $list_dst = '';
-            foreach($rule->getDstList() as $dst) {
-                switch($dst['type']) {
-                    case "X" :
-                        $list_dst .= "{$LANG['any']}<br />";
-                        break;
-                    case "R" :
-                        $list_dst .= $dst['value'] . "<br />";
-                        break;
-                    case "RX" :
-                        $list_dst .= $dst['value'] . "<br />";
-                        break;
-                    case "S" :
-                        $list_dst .= "{$LANG['no_destiny']}<br />";
-                        break;
-                    case "G" :
-                        switch ($dst['value']) {
-                            case 'all':
-                                $groupname = $LANG['all'];
-                                break;
-                            case 'users':
-                                $groupname = $LANG['user'];
-                                break;
-                            case 'admin':
-                                $groupname = $LANG['admin'];
-                                break;
-                            default:
-                                $groupname = $dst['value'];
-                                break;
-                        }
-                        $list_dst .= "{$LANG['group']} {$groupname}<br />";
-                        break;
-                }
-            }
-
+            $list_src = $this->parseConditions($rule->getSrcList());
+            $list_dst = $this->parseConditions($rule->getDstList());
+            
             $dados[] = array(
                     "codigo"    => $rule->getId(),
                     "ativa"     => $rule->isActive(),

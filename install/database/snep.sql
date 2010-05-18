@@ -45,6 +45,28 @@ CREATE TABLE `agentes` (
   PRIMARY KEY  (`agentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+--
+-- Table structure for table `expr_alias`
+--
+
+DROP TABLE IF EXISTS `expr_alias`;
+CREATE TABLE expr_alias (
+    `aliasid` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `name` VARCHAR(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `expr_alias_expression`
+--
+
+DROP TABLE IF EXISTS `expr_alias_expression`;
+CREATE TABLE expr_alias_expression (
+    `aliasid` INTEGER NOT NULL,
+    `expression` VARCHAR(200) NOT NULL,
+    CONSTRAINT fk_expression_alias FOREIGN KEY (`aliasid`) REFERENCES expr_alias(`aliasid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Table structure for table `regras_negocio`
 --
@@ -590,12 +612,12 @@ FROM `trunks` ;
 --
 DROP TABLE IF EXISTS `time_history`;
 CREATE TABLE IF NOT EXISTS `time_history` (
-  `id` int(11) NOT NULL auto_increment,
-  `owner` int(11) NOT NULL,
-  `year` int(4) NOT NULL,
-  `month` int(2) NOT NULL,
-  `day` int(2) NOT NULL,
-  `used` int(11) NOT NULL default '0',
+  `id` integer NOT NULL auto_increment,
+  `owner` integer NOT NULL,
+  `year` integer NOT NULL,
+  `month` integer,
+  `day` integer,
+  `used` integer NOT NULL default '0',
   `changed` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `owner_type` char(1) NOT NULL default 'T',
   PRIMARY KEY  (`id`)

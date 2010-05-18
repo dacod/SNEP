@@ -2,7 +2,10 @@
     Suporte a geração de formulários dinâmicos a partir de XML especificado em
 cada ação das regras de negócio. [modularização]
     Reestruturação da tela de cadastro/edição de regras permitindo reordenamento
-com "arrastar e soltar".
+com "arrastar e soltar"
+    Adição de Alias de Expressão Regular para ser usado com as Regras de Negócio
+    Corrigido sistema de controle de tempo em minutos para ramais e troncos.
+    Corrigido bug na seleção do modo debug.
 
 
 1.1.5:

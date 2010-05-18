@@ -124,6 +124,7 @@
         {$RULE_ACTIONS}
         {* DEFININDO ARRAY COM OS GRUPOS *}
         var group_list = new Array({foreach from=$OPCOES_GRUPOS key=key item=grupo name=grupos}new Array("{$key}","{$grupo}"){if !$smarty.foreach.grupos.last},{/if}{/foreach});
+        var alias_list = new Array({foreach from=$OPCOES_ALIAS key=key item=alias name=aliases}new Array("{$alias.id}","{$alias.name}"){if !$smarty.foreach.aliases.last},{/if}{/foreach});
         var trunk_list = new Array({foreach from=$OPCOES_TRONCOS key=key item=tronco name=troncos}new Array("{$tronco.id}","{$tronco.name}"){if !$smarty.foreach.troncos.last},{/if}{/foreach});
         var contacts_group_list = new Array({foreach from=$OPCOES_CONTACTS_GROUPS key=key item=grupo name=grupo}new Array("{$key}","{$grupo}"){if !$smarty.foreach.grupo.last},{/if}{/foreach});
 

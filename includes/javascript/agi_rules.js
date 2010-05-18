@@ -25,8 +25,12 @@ function Field(id) {
     this.typeList = new Array();
     this.lastReference = null;
 
-    this.typeList[0]  = new Array('RX',str_regex ,true);
-    this.typeList[1]  = new Array('X',str_any, false);
+    this.typeList[this.typeList.push()]  = new Array('RX',str_regex ,true);
+    this.typeList[this.typeList.push()]  = new Array('X',str_any, false);
+    this.typeList[this.typeList.push()] = new Array('G',str_group, true);
+    this.typeList[this.typeList.push()] = new Array('CG',str_contacts_group, true);
+    this.typeList[this.typeList.push()] = new Array('R',str_ramal, true);
+    this.typeList[this.typeList.push()] = new Array('AL',"Alias de Expressão", true);
 
     this.render = function() {
         $(this.id).innerHTML = this.getHtml(this.lastReference);
@@ -91,6 +95,20 @@ function Field(id) {
             }
             html += "</select>";
         } // fim campo grupo de contatos
+        else if(this.type == "AL") {
+            html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
+            html += '<option> - - </option>';
+            for(i=0; i < alias_list.length; i++) {
+                if(alias_list[i][0] == this.value) {
+                    html += '<option selected="selected" value="' + alias_list[i][0] + '">';
+                }
+                else {
+                    html += '<option value="' + alias_list[i][0] + '">';
+                }
+                html += alias_list[i][1] + '</option>';
+            }
+            html += "</select>";
+        }
         else if(showfield) {
             html += ' <input class="campos required" onchange="' + objReference + '.value = this.value;" value="' + this.value + '" type="text" />';
         }
@@ -111,9 +129,6 @@ function SrcField(id) {
     this.Field(id);
 
     this.typeList[this.typeList.push()] = new Array('T',str_trunk, true);
-    this.typeList[this.typeList.push()] = new Array('G',str_group, true);
-    this.typeList[this.typeList.push()] = new Array('CG',str_contacts_group, true);
-    this.typeList[this.typeList.push()] = new Array('R',str_ramal, true);
 }
 // Definindo herança entre SrcField e Field;
 copyPrototype(SrcField, Field);
@@ -125,7 +140,6 @@ function DstField(id) {
     this.Field(id);
 
     this.typeList[this.typeList.push()] = new Array('S',str_s, false);
-    this.typeList[this.typeList.push()] = new Array('G',str_group, true);
 }
 // Definindo herança entre DstField e Field;
 copyPrototype(DstField, Field);

@@ -244,6 +244,7 @@ class PBX_Rule {
      *  RX - Expressão Regular Asterisk
      *  X  - Qualquer Numero
      *  G  - Grupo de Destino
+     *  CG - Grupo de contatos
      *
      * @param array $item array com tipo e valor do destino
      */
@@ -397,6 +398,21 @@ class PBX_Rule {
                     return false;
                 }
                 break;
+            case "AL":
+                $aliases = PBX_ExpressionAliases::getInstance();
+
+                $expression = $aliases->get( (int)$expr );
+
+                $found = false;
+                foreach ($expression["expressions"] as $expr_value) {
+                    if(preg_match("/{$this->astrule2regex($expr_value)}/", $value)) {
+                        $found = true;
+                        break;
+                    }
+                }
+
+                return $found;
+                break;
             default:
                 throw new PBX_Exception_BadArg("Tipo de expressao invalido '$type' para checagem de origem/destino, cheque a regra de negocio {$this->parsingRuleId}");
         }
@@ -460,7 +476,14 @@ class PBX_Rule {
         $asterisk = $this->asterisk; // facilitando o trabalho
         $log = Zend_Registry::get('log');
 
-        $this->plugins->startup();
+        $to_execute = true;
+        try {
+            $this->plugins->startup();
+        }
+        catch(PBX_Rule_Action_Exception_StopExecution $ex) {
+            $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
+            $to_execute = false;
+        }
 
         if(count($this->acoes) == 0) {
             $log->warn("A regra nao possui nenhuma acao");
@@ -481,33 +504,48 @@ class PBX_Rule {
                     // $this->asterisk->set_variable("AUDIOHOOK_INHERIT({$recordApp['application']})", "yes");
                 }
 
-                $to_execute = true;
                 // A foreach don't do it because of PBX_Rule_Action_Exception_GoTo
                 for($priority=0; $priority < count($this->acoes) && $to_execute; $priority++) {
                     $acao = $this->acoes[$priority];
 
-                    $this->plugins->preExecute($priority);
-                    $log->debug("Executando acao $priority-" . get_class($acao));
                     try {
-                        $acao->execute($asterisk, $this->request);
-                    }
-                    catch(PBX_Exception_AuthFail $ex) {
-                        $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
-                        $to_execute = false;
+                        $this->plugins->preExecute($priority);
                     }
                     catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-                        $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
+                        $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
                         $to_execute = false;
                     }
-                    catch(PBX_Rule_Action_Exception_GoTo $goto) {
-                        $priority = $goto->getIndex() -1;
-                        $log->info("Desviando fluxo para acao {$goto->getIndex()}.");
+
+                    if($to_execute === true) {
+                        $log->debug("Executando acao $priority-" . get_class($acao));
+                        try {
+                            $acao->execute($asterisk, $this->request);
+                        }
+                        catch(PBX_Exception_AuthFail $ex) {
+                            $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
+                            $to_execute = false;
+                        }
+                        catch(PBX_Rule_Action_Exception_StopExecution $ex) {
+                            $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
+                            $to_execute = false;
+                        }
+                        catch(PBX_Rule_Action_Exception_GoTo $goto) {
+                            $priority = $goto->getIndex() -1;
+                            $log->info("Desviando fluxo para acao {$goto->getIndex()}.");
+                        }
+                        catch(Exception $ex) {
+                            $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
+                            $log->crit($ex);
+                        }
                     }
-                    catch(Exception $ex) {
-                        $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
-                        $log->crit($ex);
+                    
+                    try {
+                        $this->plugins->postExecute($priority);
                     }
-                    $this->plugins->postExecute($priority);
+                    catch(PBX_Rule_Action_Exception_StopExecution $ex) {
+                        $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
+                        $to_execute = false;
+                    }
                 }
             }
         }
@@ -620,8 +658,9 @@ class PBX_Rule {
      */
     public function getValidDstExpr($dst) {
         foreach ($this->getDstList() as $thisdst) {
-            if($this->checkExpr($thisdst['type'], $thisdst['value'], $dst))
+            if($this->checkExpr($thisdst['type'], $thisdst['value'], $dst)) {
                 return $thisdst;
+            }
         }
         return null;
     }
@@ -635,8 +674,9 @@ class PBX_Rule {
      */
     public function getValidSrcExpr($src) {
         foreach ($this->getSrcList() as $thissrc) {
-            if($this->checkExpr($thissrc['type'], $thissrc['value'], $src))
+            if($this->checkExpr($thissrc['type'], $thissrc['value'], $src)) {
                 return $thissrc;
+            }
         }
         return null;
     }

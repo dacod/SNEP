@@ -79,7 +79,8 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         $log = Zend_Registry::get('log');
         $this->rulePlugins = new PBX_Rule_Plugin_Broker();
 
-        $plugins_dir = $config->system->path->base . "/lib/PBX/Rule/Action";
+        // Registrando plugin de tempo limite
+        $this->rulePlugins->registerPlugin(new Snep_Rule_Plugin_TimeLimit());
 
         foreach (Snep_Modules::getInstance()->getRegisteredModules() as $module) {
             $plugins_dir = $config->system->path->base . "/" . $module->getModuleDir() . "/rule_plugins";

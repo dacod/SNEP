@@ -192,6 +192,8 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->startup();
+            } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
             }
@@ -207,6 +209,8 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->preExecute($index);
+            } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
             }
@@ -222,6 +226,8 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->postExecute($index);
+            } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
             }
@@ -235,6 +241,8 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->shutdown();
+            } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
             }

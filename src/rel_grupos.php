@@ -43,4 +43,4 @@
  $smarty->assign ('array_include_buttom',array("url" => "../src/grupos.php", "display"  => $LANG['include']." ".$LANG['menu_grupos']));
  // Exibe template
  display_template("rel_grupos.tpl",$smarty,$titulo);
- ?>
+ 
