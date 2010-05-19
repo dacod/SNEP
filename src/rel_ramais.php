@@ -56,7 +56,7 @@ foreach ($row as $key => $ramal) {
     }
     $row[$key] = $ramal;
     $vinculos = Snep_Vinculos::getNivelVinculos($ramal['name']);
-    $row[$key]['vinculo'] = ($vinculos == 1 : 'Todos' ? $vinculos);
+    $row[$key]['vinculo'] = ($vinculos == 1 ? 'Todos' : $vinculos);
     
 }
 
