@@ -97,15 +97,20 @@ class Snep_Vinculos {
         foreach($vinculos as $vinculo) {
             if($vinculo['tipo'] == "R") {
                 $ramais .= "{$vinculo['id_vinculado']}, ";
-            }else {
+            }
+            if($vinculo['tipo'] == "A") {
+                $agentes .= "{$vinculo['id_vinculado']}, ";
+            }
+            elseif($vinculo['tipo'] == "G") {
                 $grupos .= "{$vinculo['id_vinculado']}, ";
             }
         }
 
-        ( $ramais == '' ? 0 : $ramais = " Ramais: ( " . substr($ramais, 0, -2) ." )" );
-        ( $grupos == '' ? 0 : $grupos = " Grupos: ( " . substr($grupos, 0, -2) ." )" );
+        ( $agentes == '' ? 0 : $agentes = "  Agentes: ". substr($agentes, 0, -2) );
+        ( $ramais  == '' ? 0 : $ramais  = " Ramais: ". substr($ramais, 0, -2) );
+        ( $grupos  == '' ? 0 : $grupos  = " Grupos: ". substr($grupos, 0, -2) );
 
-        return $ramais . $grupos;
+        return $ramais . $agentes . $grupos;
     }
 
     public function setVinculos($ramal, $tipo, $vinculo) {
