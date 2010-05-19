@@ -1,0 +1,49 @@
+<h1>Expressão Regular</h1>
+
+<p>
+    Expressões regulares são uma forma de descrever trechos dinâmicos de texto
+    ou números.
+</p>
+
+<p>
+    As expressões regulares do tipo usado pelo Asterisk são otimizadas para o
+    uso com números de telefone. Os caracteres especiais são: X, Z, N, [ ] e .
+    (ponto).
+</p>
+
+<p>Suas funções são:</p>
+<dl>
+    <dt>X</dt>
+    <dd>Qualquer número de 0 a 9.</dd>
+
+    <dt>Z</dt>
+    <dd>Qualquer número de 1 a 9</dd>
+
+    <dt>N</dt>
+    <dd>Qualquer número de 2 a 9</dd>
+
+    <dt>[ e ]</dt>
+    <dd>Chaves são usadas para criação de <strong>listas</strong> onde se deseja
+    especificar quais numeros podem ser casados. ex: [0-9] é equivalente a X.
+    [13-7] vai casar com os números 1, 3, 4, 5, 6 e 7.</dd>
+    
+    <dt>|</dt>
+    <dd>O pipe pode é usado pelo snep para demarcar um ponto na expressão que
+    pode ser usado pela ação Reescrever Requisição para cortar o número
+    desejado naquele ponto. Ex: 0|48X. vai casar qualquer número que começe com
+    048 e contenham pelo menos um digito a mais. A instrução | pode ser usada
+    para remover o 0 e adicionar um código de operadora longa distância.</dd>
+
+    <dt>.</dt>
+    <dd>Casa no mínimo 1 caractere ou mais. Não importa de que tipo, sejam
+    letras ou números.</dd>
+</dl>
+
+<p>Qualquer outro caractere que não esteja nessas definições acima será usado
+de forma literal. Os mais usados são * asterisco e # sustenido/quadrado.</p>
+
+<h3>Links Relacionados:</h3>
+<ul>
+    <li><a href="ajuda.php?script=agi_rules">Regras de Negócio</a></li>
+    <li><a href="ajuda.php?script=expression_alias">Alias de Expressão Regular</a></li>
+</ul>
