@@ -2,100 +2,121 @@
 * ========================================================================
 * Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP
 * Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt
-* Autor: Flavio henrique Somensi <flavio@opens.com.br>
+* Autor: Henrique Grolli Bassotto <henrique@opens.com.br>
 * ========================================================================
 -->
 <h2>Regras de Negócios</h2>
 
 <p>Uma regra de Negócios executa ações na central.Para que estas ações sejam
-executadas algumas condições devem ser satisfeitas, como:</p>
+    executadas algumas condições devem ser satisfeitas, como:</p>
 <ul>
-<li>Uma condição de "encaixe" deve ser satisfeita - a Origem e o Destino da
-chamada devem se enquadrar em uma regra cadastrada</li>
-<li>O horário da chamada deve ser compatível com o Horário de Incidência da Regra</li>
+    <li>Uma condição de "encaixe" deve ser satisfeita - a Origem e o Destino da
+        chamada devem se enquadrar em uma regra cadastrada</li>
+    <li>O horário da chamada deve ser compatível com o Horário de Incidência da
+        Regra</li>
 </ul>
 <p>Os campos para definição das regras são:</p>
 <dl>
     <dt>Descrição:</dt>
     <dd>Uma descrição textual para facilitar a visualização da regra na lista
-    de regras de negócio.</dd>
+        de regras de negócio.</dd>
 
     <dt>Origem:</dt>
     <dd>A origem da ligação. É possível selecionar mais de uma origem para a
-    ação usando diferentes critérios como expressão regular no formato Asterisk
-    ou um numero específico, grupo de ramais, etc.</dd>
+        ação usando diferentes critérios como expressão regular no formato
+        Asterisk ou um numero específico, grupo de ramais, etc.</dd>
 
     <dt>Destino:</dt>
     <dd>Mesmo conceito das origens basta selecionar um critério para casamento
-    do destino da ligação.</dd>
+        do destino da ligação.</dd>
 
     <dt>Horário de Incidência</dt>
     <dd>Horários e dias da semana em que a regra é válida. Caso ela não esteja
-       dentro de seu horário de validade na hora da ligação ela será ignorada.
+        dentro de seu horário de validade na hora da ligação ela será ignorada.
     </dd>
 
     <dt>Gravação:</dt>
     <dd>Gravar ou não a ligação. O arquivo de gravação pode ser recuperado pelo
-       relatório de chamadas efetuadas.</dd>
+        relatório de chamadas efetuadas.</dd>
 </dl>
 
 <h2>Ações de uma regra</h2>
 <p>O roteamento e destino das ligações no SNEP são definidos pelas ações de
-uma regra de negócio. Essas ações vão trabalhar a requisição original e
-encaminhar a ligação para um ramal, tronco, fila, entre outros.</p>
+    uma regra de negócio. Essas ações vão trabalhar a requisição original e
+    encaminhar a ligação para um ramal, tronco, fila, entre outros.</p>
 
 <p>As ações presente por padrão no SNEP e seus comportamentos são:</p>
-<ul>
-    <li><h3>Direcionar</h3>
-        <ul>
-            <li><strong>para Ramal</strong>: Encaminha a ligação para um ramal
-            cadastrado no SNEP. Caso nenhum ramal seja especificado a ação
-            tentará usar um ramal com mesmo número do numero de destino da ligação.</li>
-            <li><strong>para Tronco</strong>: A ligação será direcionada para
-            um tronco tentando alcançar o destino da ligação.</li>
-            <li><strong>para Fila</strong>: Coloca a ligação em uma fila de
-            chamadas.</li>
-            <li><strong>para Contexto</strong>: Envia a ligação para um contexto
-            do dialplan do Asterisk. Essa opção é usada para a customização de
-            algum comportamento em um nível mais baixo. Também é usada para a
-            criação de URA/IVR.</li>
-        </ul>
-    </li>
-    <li><h3>Origem/Destino</h3>
-        <p>Ações que editam a requisição orginal da ligação.</p>
-        <ul>
-            <li><strong>Editar</strong>: Edita uma requisição sendo possível
-            modificar a origem ou o destino da ligação. É possível "cortar" o
-            número de origem/destino usando o "|" (pipe) para definir até que ponto
-            o número será cortado. ex: 0XX|XX. será cortado o 0XX ficando somente
-            os numeros a partir do terceiro caracter. Essa ação também permite
-            adicionar um prefixo e sufixo ao numero original.</li>
-            <li><strong>Definir</strong>: Define uma nova origem ou um novo
-            destino para a ligação. Qualquer ação que seja adicionada após essa
-            usará esses novos números para operar. Caso queira modificar somente
-            uma das requisições mantenha o outro campo em branco.</li>
-            <li><strong>Restaurar</strong>: Restaura a requisição aos seus
-            valores inciais. Reverte as modificiações das outras ações desse grupo.</li>
-        </ul>
-    </li>
-    <li><h3>Ações</h3>
-        <p>Ações diversas.</p>
-        <ul>
-            <li><strong>Cadeado</strong>: Essa ação atende a ligação e pede uma
-            senha para o originador. Essa senha se não for definida na própria
-            ação será obtida do cadastro do originador se ele for um ramal do
-            SNEP.</li>
-            <li><strong>Loop</strong>: Gera um loop nas ações. Toda vez que essa
-            ação for chamada ela direciona o fluxo da execução das ações para
-            o indice da ação definido em sua configuração. Ela também pede que
-            seja definido o número de vezes em que o loop será executado.</li>
-        </ul>
-    </li>
-</ul>
+<dl>
+    <dt>Cadeado</dt>
+    <dd>
+        Essa ação atende a ligação e pede uma senha para o originador. Essa
+        senha se não for definida na própria ação será obtida do cadastro do
+        originador se ele for um ramal do
+        SNEP.
+    </dd>
 
+    <dt>Definir Centro de Custos</dt>
+    <dd>
+        Define o centro de custos que será usado para gravar o registro da
+        chamada para visualização no relatório. A ultima ação dessas a ser
+        executada vai definir o centro de custos que aparecerá no relatório.
+    </dd>
 
+    <dt>Desviar para Contexto</dt>
+    <dd>
+        Envia a ligação para um contexto do dialplan do Asterisk. Essa opção é
+        usada para a customização de algum comportamento em um nível mais baixo.
+        Também é usada para a criação de URA/IVR.
+    </dd>
+
+    <dt>Discar para Ramal</dt>
+    <dd>
+        Encaminha a ligação para um ramal cadastrado no SNEP. Caso nenhum ramal
+        seja especificado a ação tentará usar um ramal com mesmo número do
+        numero de destino da ligação.
+    </dd>
+
+    <dt>Discar para Tronco</dt>
+    <dd>
+        A ligação será direcionada para um tronco tentando alcançar o destino
+        da ligação.
+    </dd>
+
+    <dt>Enviar para Fila</dt>
+    <dd>Coloca a ligação em uma fila de chamadas.</dd>
+
+    <dt>Executar Aplicação</dt>
+    <dd>
+        Executa uma aplicação do Asterisk.
+        <a href="applications.php">Ver aplicações disponíveis</a>.
+    </dd>
+
+    <dt>Loop</dt>
+    <dd>
+        Gera um loop nas ações. Toda vez que essa ação for chamada ela direciona
+        o fluxo da execução das ações para o indice da ação definido em sua
+        configuração. Ela também pede que seja definido o número de vezes em que
+        o loop será executado.
+    </dd>
+
+    <dt>Reescrever Requisição</dt>
+    <dd>
+        Edita uma requisição sendo possível modificar a origem ou o destino da
+        ligação. É possível "cortar" o número de origem/destino usando o "|"
+        (pipe) para definir até que ponto o número será cortado. ex: 0XX|XX.
+        será cortado o 0XX ficando somente os numeros a partir do terceiro
+        caracter. Essa ação também permite adicionar um prefixo e sufixo ao
+        numero original.
+    </dd>
+
+    <dt>Restaurar</dt>
+    <dd>
+        Restaura a requisição aos seus valores inciais. Reverte as modificiações
+        das outras ações desse grupo.
+    </dd>
+</dl>
 
 <p>Links Relacionados:</p>
 <ul>
-   <li><a href="ajuda.php?script=agi_rules">Cadastro</a></li>              
+    <li><a href="applications.php">Aplicações Disponíveis</a></li>
 </ul>

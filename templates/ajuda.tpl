@@ -21,14 +21,7 @@
       <link rel="icon" href="favicon.ico" type="images/x-icon" />
       <link rel="shortcut icon" href="favicon.ico" />
       <link rel="stylesheet" href="../css/{$CSS_TEMPL}.css" type="text/css" />
-      <meta http-equiv="Content-Type" content="text/html; {$LANG.ISO}" />
-      <meta http-equiv="Content-Script-Type" content="text/javascript" />
-      <meta http-equiv="imagetoolbar" content="false" />
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-      <META http-equiv="Expires" content="Fri, 25 Dec 1980 00:00:00 GMT" />
-      <META http-equiv="Last-Modified" content="{php}gmdate('D, d M Y H:i:s'){/php} GMT" />   
-      <META http-equiv="Cache-Control" content="no-cache, must-revalidate" />
-      <META http-equiv="Pragma" content="no-cache" />
       <meta name="copyright" content="Opens Tecnologia&reg;" />
       <script src="../includes/javascript/popup.js"></script>
    </head>
@@ -38,15 +31,8 @@
            {include file="../doc/manual/$texto"}
        </div>
    <div id="footer" style="padding-top: 10px;padding-left: 5px;">
-       
-       <div style="width:100px;float:right;text-align: center">
-          <input type="button" class="button" value="{$LANG.close}" onClick="parent.close()"/>
-          <div class="buttonEnding"></div>
-       </div>
-
-      {$LANG.goto}: <a  href="../src/ajuda.php?script=index">&Iacute;ndice</a>
-
-
+      <input style="float:right;" type="button" class="new_button" value="Fechar" onClick="parent.close()"/>
+      {$LANG.goto}: <a  href="../src/ajuda.php?script=index">Índice</a>
    </div>
    
  </body>
