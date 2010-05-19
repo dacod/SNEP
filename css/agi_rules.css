@@ -39,6 +39,20 @@
     padding: 10px;
 }
 
+#actions_toolbar {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+#loader_icon {
+    float: right;
+    padding: 4px;
+    display: none;
+}
+
 #actions, #actions-list-scrollable {
     height: 400px;
 }

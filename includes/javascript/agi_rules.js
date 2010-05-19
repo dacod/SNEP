@@ -240,6 +240,8 @@ removeAction = function(element) {
 
 id = 0;
 addNewAction = function(type) {
+    $('addActionButton').disable();
+    $('loader_icon').style.display = "block";
     new Ajax.Request('/snep/gestao/actionform.php', {
         method: 'get',
         parameters: {
@@ -254,6 +256,10 @@ addNewAction = function(type) {
         },
         onFailure: function(response) {
             alert("Erro ao adicionar ação: " + response.responseJSON.message);
+        },
+        onComplete: function(response) {
+            $('addActionButton').enable();
+            $('loader_icon').style.display = "none";
         }
     });
 }

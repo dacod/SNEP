@@ -78,7 +78,11 @@
             </tr>
         </table>
 
-        <p>
+        <p class="info_box">
+            Você pode reordenar as ações arrastando e soltando o item da ação.
+        </p>
+
+        <p id="actions_toolbar">
             <label for="action-name">Ação:</label>
             <select class="campos" id="action-name">
                 {foreach from=$ACTIONS key=action_id item=action}
@@ -87,11 +91,8 @@
             </select>
             <input class="new_button" type="button" id="addActionButton" value="Adicionar Ação" />
             <input class="new_button" type="button" id="cleanActionsButton" value="Remover Todas" />
+            <img src="../imagens/ajax-loader1.gif" id="loader_icon" alt="Loading..." />
         </p>
-        <p class="info_box">
-            Você pode reordenar as ações arrastando e soltando o item da ação.
-        </p>
-
         <table id="actions">
             <thead>
                 <tr>
