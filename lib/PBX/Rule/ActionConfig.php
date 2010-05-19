@@ -71,32 +71,37 @@ class PBX_Rule_ActionConfig {
         foreach( $this->xml as $element ) {
             switch( $element->getName() ) {
                 case 'string':
-                    $form->addElement( $this->parseString($element) );
+                    $parsed_element = $this->parseString($element);
                     break;
                 case 'int':
-                    $form->addElement( $this->parseInt($element) );
+                    $parsed_element = $this->parseInt($element);
                     break;
                 case 'ramal':
-                    $form->addElement( $this->parseRamal($element) );
+                    $parsed_element = $this->parseRamal($element);
                     break;
                 case 'tronco':
-                    $form->addElement( $this->parseTronco($element) );
+                    $parsed_element = $this->parseTronco($element);
                     break;
                 case 'radio':
-                    $form->addElement( $this->parseRadio($element) );
+                    $parsed_element = $this->parseRadio($element);
                     break;
                 case 'ccustos':
-                    $form->addElement( $this->parseCCustos($element) );
+                    $parsed_element = $this->parseCCustos($element);
                     break;
                 case 'boolean':
-                    $form->addElement( $this->parseBoolean($element) );
+                    $parsed_element = $this->parseBoolean($element);
                     break;
                 case 'queue':
-                    $form->addElement( $this->parseQueue($element) );
+                    $parsed_element = $this->parseQueue($element);
+                    break;
+                case 'audio':
+                    $parsed_element = $this->parseAudio($element);
                     break;
                 default:
-                    $form->addElement( $this->parseString($element) );
+                    $parsed_element = $this->parseString($element);
             }
+            $parsed_element->getDecorator('errors')->setOption('placement','PREPEND');
+            $form->addElement($parsed_element);
         }
         $form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar')));
         $this->form = $form;
@@ -178,6 +183,31 @@ class PBX_Rule_ActionConfig {
             $form_element->addMultiOption($tronco->getId(), $tronco->getName());
             if(isset($element->value) && $tronco->getId() == $element->value) {
                 $form_element->setValue($element->value);
+            }
+        }
+
+        return $form_element;
+    }
+
+    /**
+     * Faz o parse de um campo <audio>
+     * @param SimpleXMLElement $element
+     */
+    protected function parseAudio($element) {
+        $i18n = Zend_Registry::get('i18n');
+
+        $form_element = new Zend_Form_Element_Select((string)$element->id);
+        $form_element->setLabel( (string)$i18n->translate("Audio") );
+
+        $config = Zend_Registry::get('config');
+        foreach (scandir($config->system->path->asterisk->sounds) as $sound) {
+            if($sound !== "." && $sound !== "..") {
+                $sound = pathinfo($sound);
+                $sound = $sound['filename'];
+                $form_element->addMultiOption($sound, $sound);
+                if(isset($element->value) && $sound == $element->value) {
+                    $form_element->setValue($element->value);
+                }
             }
         }
 
