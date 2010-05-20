@@ -91,8 +91,9 @@ class Snep_Vinculos {
         $stmt = $db->query($select);
         $vinculos = $stmt->fetchAll();
 
-        $ramais = '';
-        $grupos = '';
+        $ramais  = '';
+        $grupos  = '';
+        $agentes = '';
         
         foreach($vinculos as $vinculo) {
             if($vinculo['tipo'] == "R") {
