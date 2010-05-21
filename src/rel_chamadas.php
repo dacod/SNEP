@@ -511,9 +511,9 @@ function monta_relatorio($acao) {
         }
         $tot_wait = $tot_dur - $tot_bil ;
         $totais = array("answered"    =>   number_format($tot_ans, thousands_sep, ",", "."),
-                "notanswer"   =>   number_format($tot_noa, thousands_sep, ",", "."),
-                "busy"        =>   number_format($tot_bus, thousands_sep, ",", "."),
-                "fail"        =>   number_format($tot_fai, thousands_sep, ",", "."),
+                "notanswer"   =>   $tot_noa,
+                "busy"        =>   $tot_bus,
+                "fail"        =>   $tot_fai,
                 "billsec"     =>   $tot_bil,
                 "duration"    =>   $tot_dur,
                 "espera"      =>   $tot_wait,
