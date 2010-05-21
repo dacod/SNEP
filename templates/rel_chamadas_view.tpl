@@ -165,7 +165,8 @@
                   <td class="esq">{$LANG.origin}</td>
                   <td class="esq">{$LANG.destination}</td>
                   <td class="esq">{$LANG.callstatus}</td>
-                  <td class="dir">{$LANG.duration}</td>
+                  <td class="esq">{$LANG.duration}</td>
+                  <td class="esq">Conversação</td>
                   <td class="esq">{$LANG.menu_ccustos}</td>
                   <!--<td class="esq">{$LANG.context}</td>-->
                   <td class="esq">{$LANG.city} - {$LANG.state}</td>
@@ -204,16 +205,14 @@
                   {else}
                      <td class="{$classe}">{$TIPOS_DISP.$disposition}</td>
                      <td class="{$classe}" align="center">
-                        {if $VIEW_TARIF == "yes"}
-                            {assign var="tempo_tarifa" value=$DADOS[chamadas].billsec}
-                        {else}
-                            {assign var="tempo_tarifa" value=$DADOS[chamadas].duration}
-                        {/if}
                         {if #typetime# == "S"}
-                           {$tempo_tarifa}
+                           $DADOS[chamadas].duration
                         {else}
-                           {formata->fmt_segundos a=$tempo_tarifa b='hms'}
+                           {formata->fmt_segundos a=$DADOS[chamadas].duration b='hms'}
                         {/if}
+                     </td>
+                     <td class="{$classe}" align="center">
+                         {formata->fmt_segundos a=$DADOS[chamadas].billsec b='hms'}
                      </td>
                      <td class="{$classe}">
                          {assign var="cc" value=$DADOS[chamadas].accountcode}
