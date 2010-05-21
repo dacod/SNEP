@@ -187,8 +187,7 @@ function monta_relatorio($acao) {
 
     $vinculo_table = "";
     $vinculo_where = "";
-    if($result) {
-        echo "entrou";
+    if($result) {        
         $vinculo_table = " ,permissoes_vinculos ";
         $vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) ) AND ";
     }
