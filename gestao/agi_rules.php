@@ -348,6 +348,7 @@ HEAD;
                         $parsed_conditions .= "{$LANG['trunk']} {$trunk->getName()}<br />";
                         break;
                     case "CG" :
+                        $db = Zend_Registry::get('db');
                         $select = "SELECT id, name FROM contacts_group";
                         $raw_groups = $db->query($select)->fetchAll();
 
