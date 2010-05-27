@@ -559,7 +559,7 @@ class PBX_Rule {
      * @return PBX_Rule_Action
      */
     public function getAcao($index) {
-        $this->getAction($index);
+        return $this->getAction($index);
     }
 
     /**
