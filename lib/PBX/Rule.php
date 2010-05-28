@@ -841,6 +841,15 @@ class PBX_Rule {
     }
 
     /**
+     * Define se a regra está ativa ou não
+     *
+     * @param boolean $active
+     */
+    public function setActive( $active ) {
+        $this->active = $active;
+    }
+
+    /**
      * Fornece uma interface de conexão com o asterisk.
      *
      * @param Asterisk_AGI $asterisk

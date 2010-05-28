@@ -525,9 +525,10 @@ HEAD;
 
         if($_POST) {
             if($this->isValidPost()) {
-                $rule = $this->parseRuleFromPost();
-                $rule->setId($id);
-                PBX_Rules::update($rule);
+                $new_rule = $this->parseRuleFromPost();
+                $new_rule->setId($id);
+                $new_rule->setActive($rule->isActive());
+                PBX_Rules::update($new_rule);
                 header("HTTP/1.1 303 See Other");
                 header("Location: ./agi_rules.php");
             }
