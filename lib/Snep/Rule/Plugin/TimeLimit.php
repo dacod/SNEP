@@ -86,8 +86,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
                 $allowed = $allowed && $this->extensionIsAllowed($requester->getNumero());
             }
 
-            if(!$allowed) {
-                $log->err("A CASA CAIU, FANFARRAO! NAO VAI LIGA PRA NINGUEM!");
+            if(!$allowed) 
                 throw new PBX_Rule_Action_Exception_StopExecution("Bloqueado por falta de saldo.");
             }
         }
