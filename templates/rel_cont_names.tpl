@@ -17,8 +17,9 @@
 {include file="cabecalho.tpl"}
 {include file="filtrar_incluir.tpl"}
 
-{config_load file="../includes/setup.conf" section="cores"}
-<table align="center" >   
+{config_load file="../includes/setup.conf" section="ambiente"}
+{math equation="(x-y)*z" x=$smarty.get.pag|default:1 y=1 z=#linelimit#  assign="INI"}
+<table align="center">
    <thead>
       <tr>
          <td class="cen" width="10px">{$LANG.id}</td>
@@ -33,7 +34,7 @@
          {/if}
       </tr>
    </thead>
-   {section name=contatos loop=$DADOS}
+   {section name=contatos loop=$DADOS max=#linelimit# start=$INI}
    <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
          <td class="cen">{$DADOS[contatos].id}</td>
          <td>{$DADOS[contatos].name}</td>
@@ -59,6 +60,12 @@
          {/if}
        </tr>
       </tr>
-   {/section}          
+   {/section}
+   <tr class="dir">
+      <td colspan="9" class="links" >
+          <a href="./rel_cont_names.php?action=delete_all"><input style="float:left;" type="button" class="new_button" value="Apagar dados da seleção" /></a>
+         {include file="paginacao.tpl"}
+      </td>
+   </tr>
 </table>
 { include file="rodape.tpl }

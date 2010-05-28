@@ -1,3 +1,6 @@
+1.1.7:
+    Inclusão de contatos em lote via CSV.
+
 1.1.6:
     Suporte a geração de formulários dinâmicos a partir de XML especificado em
 cada ação das regras de negócio. [modularização]

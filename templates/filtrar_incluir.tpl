@@ -18,7 +18,7 @@
    <tr>
       {if $view_filter}
          <td class="subtable" width="60%" height="35">
-             <form name="filtro" method="post" action="{$smarty.server.SCRIPT_NAME}">
+            <form name="filtro" method="post" action="{$smarty.server.SCRIPT_NAME}">
             {$LANG.fieldtofilter}
                 <select name="field_filter" class="campos">
                     {html_options options=$OPCOES}
@@ -26,34 +26,28 @@
                 &nbsp;&nbsp;&nbsp;
                 {$LANG.filter}: <input type="text" name="text_filter" class="campos">
                 &nbsp;&nbsp;&nbsp;
-                <input type="submit" name="filtrar" value="{$LANG.apply}" class="button"/>
-                <div class="buttonEnding"></div>
+                <input type="submit" name="filtrar" value="{$LANG.apply}" class="new_button"/>
                 &nbsp;&nbsp;&nbsp;
-                <input type="submit" name="limpar" value="{$LANG.cancel}"  class="button"/>
-                <div class="buttonEnding"></div>
+                <input type="submit" name="limpar" value="{$LANG.cancel}"  class="new_button"/>
             </form>
          </td>
       {/if}
-      {if $debugger_btn}
-        <td class="subtable"  height="35">
-           <a href="./debugger.php" class="links_debug" >
-              {$LANG.debugger}
-           </a>
-         </td>
-      {/if}
+      <td class="subtable"  height="35">
       {if $view_include_buttom}
-         <td class="subtable"  height="35">
            <a href="#" class="links_include" onclick="location.href='{$array_include_buttom.url}'"  >
               {$array_include_buttom.display}
            </a>
-         </td>         
       {/if}
       {if $view_include_buttom2}
-         <td class="subtable" width="15%" height="35">
            <a href="#" class="links_include_various" onclick="location.href='{$array_include_buttom2.url}'"  >
               {$array_include_buttom2.display}
            </a>
-         </td>
       {/if}
+      {if $debugger_btn}
+           <a href="./debugger.php" class="links_debug" >
+              {$LANG.debugger}
+           </a>
+      {/if}
+      </td>
    </tr>
 </table>
