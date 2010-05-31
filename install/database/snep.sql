@@ -57,6 +57,16 @@ CREATE TABLE expr_alias (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `expr_alias`
+--
+
+LOCK TABLES `expr_alias` WRITE;
+/*!40000 ALTER TABLE `expr_alias` DISABLE KEYS */;
+INSERT INTO `expr_alias` VALUES (1,'Fixo Local'),(2,'Celular Local - VC1'),(3,'Fixo DDD'),(4,'Celular Interurbano - VC2/VC3');
+/*!40000 ALTER TABLE `expr_alias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `expr_alias_expression`
 --
 
@@ -66,6 +76,16 @@ CREATE TABLE expr_alias_expression (
     `expression` VARCHAR(200) NOT NULL,
     CONSTRAINT fk_expression_alias FOREIGN KEY (`aliasid`) REFERENCES expr_alias(`aliasid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `expr_alias_expression`
+--
+
+LOCK TABLES `expr_alias_expression` WRITE;
+/*!40000 ALTER TABLE `expr_alias_expression` DISABLE KEYS */;
+INSERT INTO `expr_alias_expression` VALUES (1,'[2-5]XXXXXXX'),(2,'[6-9]XXXXXXX'),(3,'0|XX[2-5]XXXXXXX'),(4,'0|XX[6-9]XXXXXXX');
+/*!40000 ALTER TABLE `expr_alias_expression` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `regras_negocio`
