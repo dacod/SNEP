@@ -59,10 +59,11 @@
  Funcao PRINCIPAL - Monta a tela principal da rotina
 ------------------------------------------------------------------------------*/
 function principal()  {
-   global $smarty,$titulo ;
+   global $smarty,$titulo,$LANG ;
 
    $smarty->assign('TARIFAS', 'TRUE');
    $smarty->assign('ACAO',"cadastrar");
+   $smarty->assign ('CITY', $LANG['select']);
    display_template("tarifas.tpl",$smarty,$titulo) ;
 }
 
@@ -82,8 +83,8 @@ function cadastrar()  {
     $tarifa->prefixo   = $_POST['prefixo'];
     $tarifa->vcel      = $_POST['vcel'];
     $tarifa->vfix      = $_POST['vfix'];
-    $tarifa->vpf       = $_POST['vpf'];
-    $tarifa->vpc       = $_POST['vpc'];
+    $tarifa->vpf       = 0 ; //$_POST['vpf'];
+    $tarifa->vpc       = 0 ; //$_POST['vpc'];
 
     Snep_Tarifas::register($tarifa);
         
@@ -111,9 +112,9 @@ function alterar()  {
    $smarty->assign ('dt_tarifas',$row[0]);
    $smarty->assign ('ESTADO',$row[0]['estado']);
    $smarty->assign ('CIDADE',$row[0]['cidade']);
-   $smarty->assign ('CITY', "Selecione");
    $smarty->assign ('dt_valores',$row_vlr);
    $smarty->assign ('id_tarifa', $row_vlr[0]['codigo']);
+   $smarty->assign ('CITY', $LANG['select']);
    display_template("tarifas.tpl",$smarty,$titulo);
 }
 
@@ -134,8 +135,8 @@ function grava_alterar()  {
        $tarifa->data      = $_POST['data'][$action[$tar]];
        $tarifa->vcel      = $_POST['vcel'][$action[$tar]];
        $tarifa->vfix      = $_POST['vfix'][$action[$tar]];
-       $tarifa->vpf       = $_POST['vpf'][$action[$tar]];
-       $tarifa->vpc       = $_POST['vpc'][$action[$tar]];
+       $tarifa->vpf       = 0 ; //$_POST['vpf'][$action[$tar]];
+       $tarifa->vpc       = 0 ; //$_POST['vpc'][$action[$tar]];
         
        Snep_Tarifas::registerValores($tarifa, $_POST['codigo']);
 
