@@ -101,7 +101,7 @@ $smarty->assign ('status_noa', ( isset( $_SESSION['relchamadas']['status_noa'] )
 $smarty->assign ('status_bus', ( isset( $_SESSION['relchamadas']['status_bus'] )  ?  "checked=\"checked\"" : "") );
 $smarty->assign ('status_fai', ( isset( $_SESSION['relchamadas']['status_fai'] )  ?  "checked=\"checked\"" : "") );
 $smarty->assign ('view_tarif', ( isset( $_SESSION['relchamadas']['view_tarif'] )  ?  $_SESSION['relchamadas']['view_tarif'] : "no") );
-$smarty->assign ('view_compact', ( isset( $_SESSION['relchamadas']['view_compact'] )  ?  $_SESSION['relchamadas']['view_compact'] : "no") ) ;
+$smarty->assign ('view_files', ( isset( $_SESSION['relchamadas']['view_files'] )  ?  $_SESSION['relchamadas']['view_files'] : "no") ) ;
 $smarty->assign ('graph_type', ( isset( $_SESSION['relchamadas']['graph_type'] ) ? $_SESSION['relchamadas']['graph_type'] : "B")) ;
 $smarty->assign ('call_type', ( isset( $_SESSION['relchamadas']['call_type'] ) ? $_SESSION['relchamadas']['call_type'] : "T")) ;
 $smarty->assign ('groupsrc', isset( $_SESSION['relchamadas']['groupsrc'] )  ? $_SESSION['relchamadas']['groupsrc'] : "") ;
@@ -125,7 +125,7 @@ display_template("rel_chamadas.tpl", $smarty,$titulo);
  Funcao monta_relatorio - Monta o relatsorio
 ------------------------------------------------------------------------------*/
 function monta_relatorio($acao) {
-    global  $srctype, $ordernar, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini, $dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides, $dst_exceptions, $prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_compact, $view_tarif, $my_object, $acao;
+    global  $srctype, $ordernar, $dsttype, $LANG, $db, $smarty, $rel_type, $dia_ini, $dia_fim, $hora_fim, $hora_ini, $groupsrc, $groupdst , $status_all, $status_ans, $status_noa, $status_bus, $status_fai, $filter, $contas, $duration1, $duration2 , $src, $dst, $orides, $dst_exceptions, $prefix_inout, $graph_type, $call_type, $SETUP, $tipos_chamadas_rel, $view_files, $view_tarif, $my_object, $acao;
 
     /* Salvando dados do formulario.                                              */
     $_SESSION['relchamadas']['dia_ini'] = $dia_ini;
@@ -145,7 +145,7 @@ function monta_relatorio($acao) {
     $_SESSION['relchamadas']['status_noa'] = $status_noa;
     $_SESSION['relchamadas']['status_bus'] = $status_bus;
     $_SESSION['relchamadas']['status_fai'] = $status_fai;
-    $_SESSION['relchamadas']['view_compact'] = $_POST['view_compact'];
+    $_SESSION['relchamadas']['view_files'] = $view_files;
     $_SESSION['relchamadas']['view_tarif'] = $_POST['view_tarif'];
     $_SESSION['relchamadas']['graph_type'] = $graph_type;
     $_SESSION['relchamadas']['call_type'] = $call_type;
@@ -203,7 +203,7 @@ function monta_relatorio($acao) {
 
     $ORIGENS = '';
 
-    /* Clausula do where: Origens e Destinos                                      */
+    // Clausula do where: Origens
     if($src !== "") {
         if(strpos($src, ",")) {
             $SRC = '';
@@ -217,6 +217,7 @@ function monta_relatorio($acao) {
         }
     }
     
+    // Clausula do where: Destinos
     if($dst !== "") {
         if(strpos($dst, ",")) {
             $DST = '';
@@ -510,15 +511,15 @@ function monta_relatorio($acao) {
         }
         $tot_wait = $tot_dur - $tot_bil ;
         $totais = array("answered"    =>   number_format($tot_ans, thousands_sep, ",", "."),
-                "notanswer"   =>   $tot_noa,
-                "busy"        =>   $tot_bus,
-                "fail"        =>   $tot_fai,
-                "billsec"     =>   $tot_bil,
-                "duration"    =>   $tot_dur,
-                "espera"      =>   $tot_wait,
-                "oth"         => $tot_oth,
-                "tot_tarifado"=>   $tot_tarifado );
-        //"tot_tarifado"=>number_format($tot_tarifado,2,",","."));
+                        "notanswer"   =>   $tot_noa,
+                        "busy"        =>   $tot_bus,
+                        "fail"        =>   $tot_fai,
+                        "billsec"     =>   $tot_bil,
+                        "duration"    =>   $tot_dur,
+                        "espera"      =>   $tot_wait,
+                        "oth"         => $tot_oth,
+                        "tot_tarifado"=>   $tot_tarifado );
+                     // "tot_tarifado"=>number_format($tot_tarifado,2,",","."));
     }else {
         if ( count($tot_fai) == 0 && count($tot_bus) == 0 &&
                 count($tot_ans) == 0 && count($tot_noa) == 0 &&
@@ -552,7 +553,7 @@ function monta_relatorio($acao) {
 
     $sql_chamadas .= " GROUP BY userfield ORDER BY $ordernar " ;
 
-    $_SESSION['view_compact'] = $_POST['view_compact'];
+    $_SESSION['view_files'] = $_POST['view_files'];
     $_SESSION['sql_chamadas'] = $sql_chamadas ;
     $_SESSION['totais'] = $totais ;
     $_SESSION['titulo_2'] = $LANG['periodo'].": ".$dia_ini." (".$hora_ini.") a ". $dia_fim." (".$hora_fim.")";
@@ -753,7 +754,7 @@ function exibe_relatorio() {
     $smarty->assign ('TOTAIS', $totais);
     $smarty->assign ('TP_GRAPH', $_SESSION['parametros']['tpgraf'] );
     $smarty->assign ('TPREL', $tp_rel);
-    $smarty->assign ('VIEW_COMPACT', $_SESSION['view_compact']);
+    $smarty->assign ('VIEW_FILES', $_SESSION['view_files']);
     $smarty->assign ('VIEW_TARIF', $_SESSION['parametros']['view_tarif']);
     $titulo = $LANG['menu_reports']." » ". $LANG['menu_rel_callers']."<br />" ;
     $titulo.= $_SESSION['titulo_2'];
