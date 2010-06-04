@@ -171,10 +171,11 @@
                   <!--<td class="esq">{$LANG.context}</td>-->
                   <td class="esq">{$LANG.city} - {$LANG.state}</td>
                   {if $VIEW_TARIF == "yes"}
-                     <td class="dir">{$LANG.value}</td>
+                  <td class="dir">{$LANG.value}</td>
                   {/if}
-
+                  {if $VIEW_FILES == "yes"}
                   <td class="cen" colspan="3">{$LANG.record}</td>
+                  {/if}
                </tr>
             </thead>
             {section name=chamadas loop=$DADOS max=#linelimit# start=$INI}
@@ -217,6 +218,7 @@
                      <td class="{$classe}">
                          {assign var="cc" value=$DADOS[chamadas].accountcode}
                          {$CCUSTOS.$cc}
+
                      </td>
 <!--                   <td class="{$classe}">{$DADOS[chamadas].dcontext}</td> -->
                      <td class="{$classe}">
@@ -236,13 +238,15 @@
                      </td>
                   {/if}
                   {/if}
+
+                  {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
                      {if $DADOS[chamadas].userfield != "" && $classe == ""}
-                        {formata->fmt_gravacao a=$DADOS[chamadas].userfield b=#path_voz# c=#sufixo_voz#}
+                        {formata->fmt_gravacao a=$DADOS[chamadas].calldate b=$DADOS[chamadas].userfield c="arquivos"}
                         {if $voz != "N.D."}
-                           {if $VIEW_COMPACT == "yes"}
-                              {if $quebra == "True"}
-                                 <input type="checkbox"  value="{$voz}">
+                           {if $VIEW_FILES == "yes"}
+                              <input type="checkbox"  value="{$voz}">
+                              {if $quebra == "True"}                                 
                                  {assign var="classe" value=""}
                               {/if}
                            {/if}
@@ -254,6 +258,7 @@
                         ---
                      {/if}
                   </td>
+
                   {if $EXCLUIR_ICON != ""}
                      <td>
                      {if $DADOS[chamadas].userfield != "" && $classe == ""}
@@ -266,6 +271,7 @@
                         ---
                      {/if}
                      </td>
+                  {/if}
                   {/if}
                </tr>
                <tr id="eg{$smarty.section.chamadas.index+1}" style="display:none;">
@@ -292,7 +298,7 @@
                   {if $VIEW_TARIF == "yes"}
                      {$LANG.tottariff}:&nbsp;<b>{$TOTAIS.tot_tarifado|string_format:"%.2f"}</b>
                   {/if}
-                  {if $VIEW_COMPACT == "yes"}
+                  {if $VIEW_FILES == "yes"}
                      <span class="botaospan">
                         <span  class="button"  style="float:left" OnClick="compactCheckeds();">{$LANG.compress} .</span>
                            <div class="buttonEnding"></div>

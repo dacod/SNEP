@@ -176,10 +176,10 @@
 
     <tr class="esq">
        <td>
-          {$LANG.selectandcompact}
+          {$LANG.view_files}
        </td>
        <td class="esq">
-         {html_radios name="view_compact" options=$OPCOES_YN selected=$view_compact }
+         {html_radios name="view_files" options=$OPCOES_YN selected=$view_files }
        </td>
     </tr>
 
