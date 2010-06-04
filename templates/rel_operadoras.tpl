@@ -25,9 +25,7 @@
          <td class="cen">{$LANG.firstmin}</td>
          <td class="cent">{$LANG.outmin}</td>
          <td class="cen">{$LANG.vlrbase_fix}</td>
-         <td class="cent">{$LANG.vlrpartida_fix}</td>
          <td class="cent">{$LANG.vlrbase_cel}</td>
-         <td class="cent">{$LANG.vlrpartida_cel}</td>
          <td class="cen" colspan="2" width="100px">{$LANG.actions}</td>
       </tr>
    </thead>
@@ -38,9 +36,7 @@
          <td class="cen">{$DADOS[operadoras].tpm}</td>
          <td class="cen">{$DADOS[operadoras].tdm}</td>
          <td class="dir">{$DADOS[operadoras].tbf|string_format:"%.2f"}</td>
-         <td class="dir">{$DADOS[operadoras].vpf|string_format:"%.2f"}</td>
          <td class="dir">{$DADOS[operadoras].tbc|string_format:"%.2f"}</td>
-         <td class="dir">{$DADOS[operadoras].vpc}</td>
          <td align="center" valign="middle" width="30px">
             <acronym title="{$LANG.change}">
                <a href="../tarifas/operadoras.php?acao=alterar&amp;id={$DADOS[operadoras].codigo}"><img src="../imagens/edit.png" alt="{$LANG.change}" /></a>
