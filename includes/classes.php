@@ -277,7 +277,7 @@ class Bar_Graph {
       if ($dbg == 1) {
          $ret .= " // OPERADORA={$t['codigo']} , TPM={$t['tpm']} , TDM={$t['tdm']} , TBF={$t['tbf']} , TBC={$r['tbc']}, VPC={$t['vpc']}, VPF={$t['vpf']}" ;
       }
-      
+      // Nao encontrou operadora ligada ao Centro de Custos da Chamda 
       if ( trim( $t['codigo'] ) === "" ) {
          return "N.O.D" ;
       }
@@ -297,10 +297,8 @@ class Bar_Graph {
 
       // Caso exista, verifica tarifas conforme data da ligação
       if( $td ) {
-
           array_push( $td, substr($dt_chamada, 0, 10) );
           $tr = Snep_Tarifas::getTarifaReaj($td);
-
           if( $tr ) {
               $t['tbf'] = $tr['vfix'];
               $t['tbc'] = $tr['vcel'];
@@ -311,28 +309,24 @@ class Bar_Graph {
 
       if($dbg == 1) {
           $ret .= " # REAJUSTE #  TBF: {$t['tbf']}  TBC: {$t['tbc']} VPF: {$t['vpf']} VPC: {$t['vpc']} ";
-      }
-
-      if($dbg == 1) {
           $ret .= " // COD_TARIFA=$cod_tarifa" ;
       }
 
       // Calcula o tempo do primeiro minuto e desconta o tempo restante
       $tp_fone = ( ( strlen( $destino ) >= 8 && substr( $prefixo, -4, 1) > 6 ) ? "C" : "F" );
-      ///$tpo_resta = $duracao - $t['tpm'];
-      
+
       if ($tp_fone == 'C') {
           $vp = $t['vpc'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
-          $tb = $t['tbc'] ;      // Tarifa para o restante dos tempo
+          $tb = $t['tbc'] ;   // Tarifa para o restante dos tempo
       } else {
           $vp = $t['vpf'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
-          $tb = $t['tbf'];       // Tarifa para o restante dos tempo
+          $tb = $t['tbf'];    // Tarifa para o restante dos tempo
       }
-
       if($dbg == 1) {
-          $ret .= "<br /> [Dur] {$duracao}  [P.Minuto] {$t['tpm']} [T.Minuto] {$t['tdm']} [T.Basica] {$tb} [V.Partida] {$vp} ";
+          $ret .= "<br /> [Dur Cadastro] [Arranque] {$t['tpm']} [Restante] {$t['tdm']} [T.Basica] {$tb} [V.Partida] {$vp} ";
+          $ret .= "<br /> [Dur Chamada] {$duracao}  [Arranque] {$t_arq} [Restante] {$t_rst}  ";
       }
-
+      // Calcula a tarifa
       $tarifa = Snep_Tarifas::calcula($duracao, $t['tpm'], $t['tdm'], $tb, $vp);
 
       if($dbg == 1) {
