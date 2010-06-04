@@ -102,8 +102,8 @@ function cadastrar()  {
     $operadora->tdm  = $_POST['tdm'];
     $operadora->tbf  = $_POST['tbf'];
     $operadora->tbc  = $_POST['tbc'];
-    $operadora->vpf  = $_POST['vpf'] ;
-    $operadora->vpc  = $_POST['vpc'];
+    $operadora->vpf  = 0 ; //$_POST['vpf'] ;
+    $operadora->vpc  = 0 ; //$_POST['vpc'];
 
     // Registra objeto, o mesmo retorna id de cadastro no banco
     $id = Snep_Operadoras::register($operadora);
@@ -183,8 +183,8 @@ function grava_alterar()  {
     $operadora->tdm    = $_POST['tdm'];
     $operadora->tbf    = $_POST['tbf'];
     $operadora->tbc    = $_POST['tbc'];
-    $operadora->vpf    = $_POST['vpf'] ;
-    $operadora->vpc    = $_POST['vpc'];
+    $operadora->vpf    = 0 ; //$_POST['vpf'] ;
+    $operadora->vpc    = 0 ; //$_POST['vpc'];
 
     // Atualiza banco com novas informações
     Snep_Operadoras::update($operadora);
