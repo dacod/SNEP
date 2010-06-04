@@ -265,19 +265,29 @@ class Snep_Tarifas {
     }
 
     public static function calcula($duracao, $tpm, $tdm, $tb, $vp = null) {
-
-        $tempo_restante = $duracao - $tpm;       
-        $valor = $tb;
-
-        if($vp) {
-            $valor += $vp;
+        // Divide tempo da Chamada em 2: t_arq = tempo de arranque ; t_rst = tempo restante
+        if ($duracao <= $tpm) {
+           $t_rst = 0 ;
+        } else {
+           $t_rst = $duracao - $tpm;
         }
 
-        $fracionado = $tempo_restante /  $tdm;
-        $tarifa_fracionada = $tb / $tdm;
-        $valor_restante = $fracionado * $tarifa_fracionada;
-        $valor += $valor_restante;
+        // Calculo do Tempo de Arranque: Tarifa Base / 60 * Tempo Arranque
+        // Garante que qquer q seja tempo da chamada, vai cobrar o equivalente ao Tempo de arranque definido
+        $vlr_arq = 0 ;
+        $vlr_arq = ( ( $tb / 60 ) * $tpm ) ;
 
+        // Calculo do Tempo Restante da chamada, descontado o tempo de Arranque
+        
+        $vlr_rst = 0 ;
+        if ($t_rst > 0) {
+           $qtd_frac = ( (int)( $t_rst/$tdm) + 1 ) ; //  Verifica quantas fracoes de tempo restante existem
+           $vlr_frac = ($tb / (60/$tdm) ) ;             // Calcula o valor de cada fracao   
+           $vlr_rst  = $qtd_frac * $vlr_frac ;
+        }
+
+
+        $valor = $vlr_arq + $vlr_rst;
         return $valor;
 
     }
