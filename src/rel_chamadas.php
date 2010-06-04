@@ -573,7 +573,7 @@ function exibe_relatorio() {
 
     global $db, $smarty, $SETUP, $LANG, $tipos_disp, $tp_rel;
 
-    $tp_rel = $_GET['t'];
+    $tp_rel = (isset( $_GET['t'] ) ? $_GET['t'] : '' );
 
     if ($tp_rel == "grafico") {
         $tot_tmp = $_SESSION['totais'] ;
