@@ -163,23 +163,20 @@ class Bar_Graph {
     * Recebe : Numero do telefone
     * Retorna: Numero formatado no tipo (xxx) xxxx-xxxx
     *----------------------------------------------------------------------------*/
-   function fmt_gravacao($params,$smarty){
-      $arquivo = $params['a'] ;
-      $path_voz = $params['b'] ;
-      $sufixo_voz = $params['c'] ;
-      $comando = 'find ../' . $path_voz . ' -iname \*'.$arquivo."\*" . $sufixo_voz ;
-     
-      $arq_voz = exec($comando) ;
-      // Se arquivo de voz existir e usuario tiver permissao para ve-lo ...
-      
-      if ( file_exists( $arq_voz ) && ver_permissao(81,"",True) ) {
-         $ret=$arq_voz;
-         //$ret = "<a href='".$arq_voz."' class='link_esp_1'>".$LANG['listen']."</a>";
-      } else { 
-         $ret = "N.D." ;
+   function fmt_gravacao($params,$smarty) {
 
+      $calldate = $params['a'] ;
+      $userfield = $params['b'] ;
+      $arquivos = ( ! is_null( $params['c'] ) ? $params['c'] : 'arquivos' ) ;
+
+      $caminho = Snep_Manutencao::arquivoExiste($calldate, $userfield, $arquivos);
+
+      if($caminho) {
+          $smarty->assign('voz', $caminho);
+      }else{
+          $smarty->assign('voz', 'N.D.');   
       }
-      $smarty->assign('voz',$ret) ;
+   
    } // Fim da Funcao fmt_gravacao
 
    /*-----------------------------------------------------------------------------
@@ -322,6 +319,7 @@ class Bar_Graph {
           $vp = $t['vpf'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
           $tb = $t['tbf'];    // Tarifa para o restante dos tempo
       }
+
       if($dbg == 1) {
           $ret .= "<br /> [Dur Cadastro] [Arranque] {$t['tpm']} [Restante] {$t['tdm']} [T.Basica] {$tb} [V.Partida] {$vp} ";
           $ret .= "<br /> [Dur Chamada] {$duracao}  [Arranque] {$t_arq} [Restante] {$t_rst}  ";
