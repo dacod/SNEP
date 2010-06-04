@@ -124,27 +124,28 @@
                       <input name="vfix" id="vfix" class="campos" type="text" size="5"  value="0"  style="text-align: right;" /> {$LANG.dottodec}
                    </td>
                 </tr>
-
+                <!--
                 <tr>
                    <td class="formlabel">{$LANG.vlrpartida_fix}:</td>
                    <td class="subtable" >
                       <input name="vpf" id="vpf" class="campos" type="text" size="5"  value="0"  style="text-align: right;" /> {$LANG.dottodec}
                    </td>
                 </tr>
-
+                -->
                 <tr>
                    <td class="formlabel">{$LANG.vlrbase_cel}:</td>
                    <td class="subtable" >
                       <input name="vcel" id="vcel" class="campos" type="text" size="5"  value="0" style="text-align: right;" /> {$LANG.dottodec}
                    </td>
                 </tr>
-
+                <!-- 
                 <tr>
                    <td class="formlabel">{$LANG.vlrpartida_cel}:</td>
                    <td class="subtable" >
                       <input name="vpc" id="vpc" class="campos" type="text" size="5"  value="0"  style="text-align: right;" /> {$LANG.dottodec}
                    </td>
                 </tr>
+                -->
             {/if}
             <tr>
                <td colspan="2" class="subtable">
@@ -195,8 +196,6 @@
     if (acao != "grava_alterar") {ldelim}
        campos[5]="{$LANG.vlrbase_fix};"+document.formulario.vfix.value+";FLOAT;";
        campos[6]="{$LANG.vlrbase_cel};"+document.formulario.vcel.value+";FLOAT;";
-       campos[7]="{$LANG.vlrpartida_fix};"+document.formulario.vpf.value+";FLOAT;";
-       campos[8]="{$LANG.vlrpartida_cel};"+document.formulario.vpc.value+";FLOAT;";
     {rdelim} else {ldelim}
        var ctd = 5 ;
        var lst = document.formulario.action ;

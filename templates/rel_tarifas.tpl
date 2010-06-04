@@ -28,10 +28,9 @@
          <td class="cen" width="5%">{$LANG.state}</td>
          <td class="cen">{$LANG.prefix}</td>
          <td class="cen" width="5%">{$LANG.ddd}</td>
+         <td class="cen" width="15%">{$LANG.valid_date}</td>
          <td class="cen" width="10%">{$LANG.vlrbase_fix}</td>
-         <td class="cen" width="10%">{$LANG.vlrpartida_fix}</td>
          <td class="cen" width="10%">{$LANG.vlrbase_cel}</td>
-         <td class="cen" width="10%">{$LANG.vlrpartida_cel}</td>
          <td class="cen" colspan="2" width="100px">{$LANG.actions}</td>
       </tr>
    </thead>
@@ -44,10 +43,9 @@
          <td class="cen">{$DADOS[tarifas].estado}</td>
          <td class="cen">{$DADOS[tarifas].prefixo}</td>
          <td class="cen">{$DADOS[tarifas].ddd}</td>
+         <td class="cen">{$DADOS[tarifas].data}</td>         
          <td class="dir">{$DADOS[tarifas].vfix|string_format:"%.2f"}</td>
-         <td class="cen" width="10%">{$DADOS[tarifas].vpf|string_format:"%.2f"}</td>
          <td class="dir">{$DADOS[tarifas].vcel|string_format:"%.2f"}</td>       
-         <td class="cen" width="10%">{$DADOS[tarifas].vpc|string_format:"%.2f"}</td>
          <form name="acao" method="post" action="../tarifas/tarifas.php">
             <td align="center" valign="middle" width="30px;">
                <acronym title="{$LANG.change}">

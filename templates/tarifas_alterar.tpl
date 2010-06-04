@@ -18,11 +18,9 @@
 <table align="center" >   
    <thead>
       <tr>
-         <td class="cen" width="20%">{$LANG.date}</td>
+         <td class="cen" width="20%">{$LANG.valid_date}</td>
          <td class="dir">{$LANG.vlrbase_fix}</td>
-         <td class="dir">{$LANG.vlrpartida_fix}</td>
          <td class="dir">{$LANG.vlrbase_cel}</td>
-         <td class="dir">{$LANG.vlrpartida_cel}</td>
          <td class="cen" width="10%">{$LANG.actions}</td>
       </tr>
    </thead>
@@ -31,18 +29,12 @@
       {assign var="data_atual" value=strtotime("now()")}
       <input type="hidden" name="data[{$key}]" id="data" value="{$item.data}" />
       <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
-         <td class="cen">{$item.data_f}</td>
+         <td class="cen">{$item.data}</td>
          <td class="dir">
             <input type="text" name="vfix[{$key}]" id="vfix" value="{$item.vfix|string_format:'%.2f'}"  class="campos" style="text-align:right;"  size="8"  onChange="this.form.elements['action[{$key}]'].checked=true;;" />
          </td>
          <td class="dir">
-            <input type="text" name="vpf[{$key}]" id="vpf" value="{$item.vpf|string_format:'%.2f'}"  class="campos" style="text-align:right;"  size="8"  onChange="this.form.elements['action[{$key}]'].checked=true;;" />
-         </td>
-         <td class="dir">
             <input type="text" name="vcel[{$key}]" id="vcel" value="{$item.vcel|string_format:'%.2f'}" class="campos" style="text-align:right;" size="8" onChange="this.form.elements['action[{$key}]'].checked=true;;"/>
-         </td>
-         <td class="dir">
-            <input type="text" name="vpc[{$key}]" id="vpc" value="{$item.vpc|string_format:'%.2f'}" class="campos" style="text-align:right;" size="8" onChange="this.form.elements['action[{$key}]'].checked=true;;"/>
          </td>
          <td class="cen">
              <input class="campos" type="checkbox" name="action[{$key}]" value="{$key}" />
@@ -63,13 +55,7 @@
          <input type="text" name="vfix[{$indice}]" id="vfix" class="campos" style="text-align:right;"  size="8" value="0"   onChange="this.form.elements['action[{$indice}]'].checked=true;;" />
       </td>
       <td class="dir">
-         <input type="text" name="vpf[{$indice}]" id="vpf" class="campos" style="text-align:right;"  size="8" value="0"   onChange="this.form.elements['action[{$indice}]'].checked=true;;" />
-      </td>
-      <td class="dir">
          <input type="text" name="vcel[{$indice}]" id="vcel" class="campos" style="text-align:right;" size="8" value="0"  onChange="this.form.elements['action[{$indice}]'].checked=true;;"/>
-      </td>
-      <td class="dir">
-         <input type="text" name="vpc[{$indice}]" id="vpc" class="campos" style="text-align:right;" size="8" value="0"  onChange="this.form.elements['action[{$indice}]'].checked=true;;"/>
       </td>
       <td class="cen">
           <input class="campos" type="checkbox" name="action[{$indice}]" value="{$indice}" />
