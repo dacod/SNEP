@@ -1,5 +1,7 @@
 1.1.7:
     Inclusão de contatos em lote via CSV.
+    Ajuste no conceito de Tarifação
+    Busca de arquivos de gravação utilizando classe Manutenção
 
 1.1.6:
     Suporte a geração de formulários dinâmicos a partir de XML especificado em
