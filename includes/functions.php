@@ -604,6 +604,11 @@ function monta_csv($arr_titulo, $arr_dados) {
             $dados['duration'] = $my_object->fmt_segundos(array("a"=>$dados_ori['duration'],"b"=>'hms', "A"));
             $my_object = null;
         }
+        if (isset($dados['billsec'])) {
+            $my_object = new Formata;
+            $dados['billsec'] = $my_object->fmt_segundos(array("a"=>$dados_ori['billsec'],"b"=>'hms', "A"));
+            $my_object = null;
+        }
         if (isset($dados['src'])) {
             $my_object = new Formata;
             $dados['src'] = $my_object->fmt_telefone(array("a"=>$dados_ori['src']));

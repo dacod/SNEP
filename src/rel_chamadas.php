@@ -20,7 +20,7 @@ require_once("../configs/config.php");
 
 ver_permissao(21);
 
-global $acao,$prefix_inout ;
+global $acao, $prefix_inout;
 
 $prefix_inout = $SETUP['ambiente']['prefix_inout'];
 $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
@@ -151,7 +151,7 @@ function monta_relatorio($acao) {
     $_SESSION['relchamadas']['call_type'] = $call_type;
     $_SESSION['relchamadas']['rel_type'] = $rel_type;
 
-    /* Busca os ramais pertencentes ao grupo de ramal de orgem selecionado        */
+    /* Busca os ramais pertencentes ao grupo de ramal de origem selecionado */
     $ramaissrc = $ramaisdst = "" ;
     if($groupsrc) {
         $origens = PBX_Usuarios::getByGroup($groupsrc);
@@ -611,6 +611,7 @@ function exibe_relatorio() {
                 "dst" => $LANG['csv_destino'],
                 "disposition" => $LANG['csv_status'],
                 "duration" => $LANG['csv_duracao'],
+                "billsec" => "Conversacao",
                 "accountcode" => $LANG['csv_ccusto'],
                 "origem" => $LANG['csv_city']
         );
