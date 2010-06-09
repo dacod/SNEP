@@ -320,11 +320,11 @@ function monta_relatorio($acao) {
     }
     /* Clausula do where: Tipo de Chamada (Originada/Recebida/Outra))             */
     if ($call_type == "S") {                                                      // Chamadas Originadas
-        $CONDICAO .= " AND (tipo = 'S')" ;
+        $CONDICAO .= " AND (ccustos.tipo = 'S')" ;
     } elseif  ($call_type == "E") {  // Chamadas Recebidas
-        $CONDICAO .= " AND (tipo = 'E')" ;
+        $CONDICAO .= " AND (ccustos.tipo = 'E')" ;
     } elseif  ($call_type == "O") {  // Chamadas Outras
-        $CONDICAO .= " AND (tipo = 'O')" ;
+        $CONDICAO .= " AND (ccustos.tipo = 'O')" ;
     }
 
     /* Clausula do where: Prefixos de Login/Logout                                */
