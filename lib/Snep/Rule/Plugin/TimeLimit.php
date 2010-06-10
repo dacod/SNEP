@@ -113,7 +113,9 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
             if($answered_time > 0) {
                 $db = Zend_Registry::get("db");
                 $this->trunkController->update($answered_time, $db);
-                $this->extensionController->update($answered_time, $db);
+                if($this->extensionController !== null) {
+                    $this->extensionController->update($answered_time, $db);
+                }
             }
         }
     }
