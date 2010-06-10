@@ -1,3 +1,6 @@
+1.2.0:
+    Atualizado Zend Framework para versão 1.10.0
+
 1.1.7:
     Inclusão de contatos em lote via CSV.
     Ajuste no conceito de Tarifação
