@@ -110,7 +110,7 @@ CREATE TABLE regras_negocio_actions (
   prio integer NOT NULL,
   `action` varchar(250) NOT NULL,
   PRIMARY KEY(regra_id, prio),
-  FOREIGN KEY (regra_id) REFERENCES regras_negocio(id) ON DELETE CASCADE
+  FOREIGN KEY (regra_id) REFERENCES regras_negocio(id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `regras_negocio_actions_config`;
