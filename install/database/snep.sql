@@ -748,6 +748,7 @@ CREATE TABLE IF NOT EXISTS `contacts_names` (
 -- Estrutura da tabela `lista_abandono`
 --
 
+DROP TABLE IF EXISTS `lista_abandono`;
 CREATE TABLE IF NOT EXISTS `lista_abandono` (
   `time` int(20) NOT NULL,
   `data` varchar(150) NOT NULL,
@@ -762,6 +763,14 @@ CREATE TABLE IF NOT EXISTS `lista_abandono` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `permissoes_vinculos`;
+CREATE TABLE `permissoes_vinculos` (
+  `id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `id_peer` VARCHAR( 100 ) NOT NULL ,
+  `tipo` CHAR( 1 ) NOT NULL,
+  `id_vinculado` VARCHAR( 100 ) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
