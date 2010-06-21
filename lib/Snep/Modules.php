@@ -71,6 +71,10 @@ class Snep_Modules {
         }
         else {
             $this->registeredModules[] = $module;
+            $libDir = $module->getModuleDir() . "/lib";
+            if(file_exists($libDir)) {
+                set_include_path($libDir . PATH_SEPARATOR  . get_include_path());
+            }
         }
     }
 
