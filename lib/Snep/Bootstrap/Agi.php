@@ -104,6 +104,7 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
     }
 
     public function boot() {
+        set_time_limit(0);
         // Iniciando ambiente para ideal funcionamento da Lib
         $this->startAutoLoader();
         $this->startLocale();
