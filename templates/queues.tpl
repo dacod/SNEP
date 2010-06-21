@@ -279,14 +279,26 @@
   function valida_formulario() {ldelim}
      var mensagem="{$LANG.msg_errors}";
      var erro=true ;
-     if (document.formulario.name.value.length == 0 ) {ldelim}
+     text = document.formulario.name.value.toLowerCase();
+
+     if (text.length == 0 ) {ldelim}
         mensagem += "\n - {$LANG.msg_thefield} '{$LANG.name}' {$LANG.msg_notblank}";
         erro=false ;
      {rdelim}
+
+     var letras="abcdefghyjklmnopqrstuvwxyz1234567890_-";
+     
+     for(i=0; i < text.length; i++) {ldelim}
+       if (letras.indexOf(text.charAt(i),0) == -1 ) {ldelim}
+          mensagem = "O nome da fila não pode ter caracteres especiais ou espaços em branco.";
+          erro=false;
+       {rdelim}
+     {rdelim}
+
      if (!erro) {ldelim}
         alert(mensagem);
      {rdelim}
-     return erro ;
+     return erro;
   {rdelim}
   
   function DHTMLSound(surl) {ldelim}
