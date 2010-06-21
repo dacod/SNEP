@@ -394,8 +394,8 @@ HEAD;
         // Opcoes de Filtros
         $opcoes = array(
                 "desc" => "Descrição",
-                "src"  => $LANG['origin'],
-                "dst"  => $LANG['destination']
+                "origem"  => $LANG['origin'],
+                "destino"  => $LANG['destination']
         );
 
         // Se aplicar Filtro ....
