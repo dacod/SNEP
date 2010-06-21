@@ -27,7 +27,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-abstract class Snep_Usuario {
+abstract class Snep_Usuario extends Snep_Channel {
 
     /**
      * Nome do usuário

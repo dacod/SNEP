@@ -82,7 +82,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
             $allowed = $this->trunkIsAllowed($config['tronco']);
 
             $requester = $this->asterisk->requestObj->getSrcObj();
-            if($requester instanceof Snep_Ramal) {
+            if($requester instanceof Snep_Exten) {
                 $allowed = $allowed && $this->extensionIsAllowed($requester->getNumero());
             }
 

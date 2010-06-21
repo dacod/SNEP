@@ -491,7 +491,7 @@ class PBX_Rule {
         else {
             $requester = $this->request->getSrcObj();
             // Verificando se o telefone for um ramal e se ele não está bloqueado (cadeado).
-            if($requester instanceof Snep_Ramal && $requester->isLocked()) {
+            if($requester instanceof Snep_Exten && $requester->isLocked()) {
                 $log->info("Usuario $requester esta com cadeado habilitado");
                 $asterisk->stream_file('ext-disabled');
             }

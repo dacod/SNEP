@@ -34,7 +34,7 @@ class Extensions {
      * Retorna um Ramal
      *
      * @param int $exten_id
-     * @return Snep_Ramal usuario
+     * @return Snep_Exten usuario
      */
     public function get( $exten_id ) {
         $db = Zend_Registry::get('db');
@@ -55,7 +55,7 @@ class Extensions {
      *
      * @param Object $data Resultado de um select com todas as colunas no banco
      * de dados dos ramais.
-     * @return Snep_Ramal ramal criado a partir dos dados.
+     * @return Snep_Exten ramal criado a partir dos dados.
      */
     private function processExten( $data ) {
         $tech = substr($data->canal, 0, strpos($data->canal, '/'));
@@ -93,7 +93,7 @@ class Extensions {
             throw new Exception("Tecnologia $tech desconhecida ou invalida.");
         }
 
-        $exten = new Snep_Ramal($data->name, $data->secret, $data->callerid, $interface);
+        $exten = new Snep_Exten($data->name, $data->secret, $data->callerid, $interface);
 
         $exten->setGroup($data->group);
 
@@ -124,7 +124,7 @@ class Extensions {
     /**
      * Retorna todos os usuários do banco.
      *
-     * @return Snep_Ramal[] array
+     * @return Snep_Exten[] array
      */
     public function getAll() {
         $db = Zend_Registry::get('db');
@@ -146,9 +146,9 @@ class Extensions {
     /**
      * Registra um ramal no banco de dados.
      *
-     * @param Snep_Ramal $exten Ramal a ser persistido no banco.
+     * @param Snep_Exten $exten Ramal a ser persistido no banco.
      */
-    public function register( Snep_Ramal $exten ) {
+    public function register( Snep_Exten $exten ) {
         if($this->commitPending === false) {
             $this->queueRegister($exten);
             $this->commit();
@@ -161,9 +161,9 @@ class Extensions {
     /**
      * Adiciona um ramal na fila para ser adicionado em lote no banco de dados.
      *
-     * @param Snep_Ramal $exten
+     * @param Snep_Exten $exten
      */
-    public function queueRegister( Snep_Ramal $exten ) {
+    public function queueRegister( Snep_Exten $exten ) {
         if( array_key_exists($exten->getNumero(), $this->commitList) ) {
             throw new Exception("Ramal $exten já está na fila para inserção no banco.");
         }
@@ -192,10 +192,10 @@ class Extensions {
      * Processa os dados de um objeto em um array associativo que pode ser
      * usado para manipulação do banco de dados.
      *
-     * @param Snep_Ramal $exten
+     * @param Snep_Exten $exten
      * @return array string
      */
-    private function getExtenData( Snep_Ramal $exten ) {
+    private function getExtenData( Snep_Exten $exten ) {
         $extenData = array(
             "context" => "default",
             "peer_type" => "R",
@@ -233,9 +233,9 @@ class Extensions {
     /**
      * Atualiza informações de um ramal registrado no banco de dados.
      *
-     * @param Snep_Ramal $exten
+     * @param Snep_Exten $exten
      */
-    public function update( Snep_Ramal $exten ) {
+    public function update( Snep_Exten $exten ) {
         $db = Zend_Registry::get('db');
 
         $db->update("peers", $this->getExtenData($exten), "name='{$exten->getNumero()}'");

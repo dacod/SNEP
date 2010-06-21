@@ -26,7 +26,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Snep_Ramal extends Snep_Usuario {
+class Snep_Exten extends Snep_Usuario {
     
     /**
      * Do Not Disturb
@@ -45,7 +45,7 @@ class Snep_Ramal extends Snep_Usuario {
     /**
      * Ramal para siga-me
      *
-     * @var Snep_Ramal Siga-me
+     * @var Snep_Exten Siga-me
      */
     private $folowme;
 
@@ -82,7 +82,7 @@ class Snep_Ramal extends Snep_Usuario {
         parent::__construct($numero, $callerid, $numero, $senha);
 
         if(!$interface instanceof PBX_Asterisk_Interface) {
-            throw new Exception("Tipo errado Snep_Ramal::__construct() espera uma instancia da classe abstrata PBX_Asterisk_Interface");
+            throw new Exception("Tipo errado Snep_Exten::__construct() espera uma instancia da classe abstrata PBX_Asterisk_Interface");
         }
 
         $this->setInterface($interface);

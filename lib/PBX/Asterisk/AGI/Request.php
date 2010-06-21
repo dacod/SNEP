@@ -53,7 +53,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
     /**
      * Define o objeto que faz a requisição da ligação. (Originador)
      *
-     * @param Snep_Ramal|Snep_Trunk $obj
+     * @param Snep_Exten|Snep_Trunk $obj
      */
     public function setSrcObj( $obj ) {
         $this->srcObj = $obj;

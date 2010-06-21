@@ -24,7 +24,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Snep_Trunk {
+class Snep_Trunk extends Snep_Channel {
 
     /**
      * DTMF Dial Mode

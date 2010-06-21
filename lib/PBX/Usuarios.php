@@ -82,7 +82,7 @@ class PBX_Usuarios {
             throw new Exception("Tecnologia $tech desconhecida ou invalida.");
         }
 
-        $user = new Snep_Ramal($usuario->name, $usuario->secret, $usuario->callerid, $interface);
+        $user = new Snep_Exten($usuario->name, $usuario->secret, $usuario->callerid, $interface);
 
         $user->setGroup($usuario->group);
 

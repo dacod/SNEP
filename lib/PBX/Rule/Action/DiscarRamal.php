@@ -254,7 +254,7 @@ XML;
         $log = Zend_Registry::get('log');
 
         try {
-            if (!$this->ramal instanceof Snep_Ramal) {
+            if (!$this->ramal instanceof Snep_Exten) {
                 $ramal = PBX_Usuarios::get($request->destino);
             }
             else {
