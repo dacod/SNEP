@@ -34,12 +34,12 @@
       {/if}
       <td class="subtable"  height="35">
       {if $view_include_buttom}
-           <a href="#" class="links_include" onclick="location.href='{$array_include_buttom.url}'"  >
+           <a href="{$array_include_buttom.url}" class="links_include" >
               {$array_include_buttom.display}
            </a>
       {/if}
       {if $view_include_buttom2}
-           <a href="#" class="links_include_various" onclick="location.href='{$array_include_buttom2.url}'"  >
+           <a href="{$array_include_buttom2.url}" class="links_include_various"  >
               {$array_include_buttom2.display}
            </a>
       {/if}
