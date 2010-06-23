@@ -276,34 +276,36 @@
  /*---------------------------------------------------------------------------
   * Funcoes JAVA de validacao do Formulario
   * --------------------------------------------------------------------------*/
-  function valida_formulario() {ldelim}
+ {literal}
+  function valida_formulario() {
      var mensagem="{$LANG.msg_errors}";
-     var erro=true ;
+     var erro=false ;
      text = document.formulario.name.value.toLowerCase();
 
-     if (text.length == 0 ) {ldelim}
+     if (text.length == 0 ) {
         mensagem += "\n - {$LANG.msg_thefield} '{$LANG.name}' {$LANG.msg_notblank}";
-        erro=false ;
-     {rdelim}
+        erro=true;
+     }
 
-     var letras="abcdefghyjklmnopqrstuvwxyz1234567890_-";
+     var letras="abcdefghijklmnopqrstuvwxyz1234567890_-";
      
-     for(i=0; i < text.length; i++) {ldelim}
-       if (letras.indexOf(text.charAt(i),0) == -1 ) {ldelim}
+     for(i=0; i < text.length; i++) {
+       if (letras.indexOf(text.charAt(i),0) == -1 ) {
           mensagem = "O nome da fila não pode ter caracteres especiais ou espaços em branco.";
-          erro=false;
-       {rdelim}
-     {rdelim}
+          erro=true;
+       }
+     }
 
-     if (!erro) {ldelim}
+     if (erro) {
         alert(mensagem);
-     {rdelim}
-     return erro;
-  {rdelim}
-  
+     }
+     
+     return !erro;
+  }
+
+  {/literal}
   function DHTMLSound(surl) {ldelim}
      var som='{$SOUNDS_PATH}'+document.getElementById(surl).value ;
      document.getElementById('dummyspan').innerHTML="<embed src='"+som+"' hidden=true autostart=true loop=false>";
   {rdelim}
-
  </script>
