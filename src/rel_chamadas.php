@@ -349,10 +349,7 @@ function monta_relatorio($acao) {
     $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
 
     /* Montagem do SELECT de Consulta */
-    $SELECT  = "ccustos.codigo,ccustos.tipo, date_format(calldate,\"%d/%m/%Y\") AS key_dia, date_format(calldate,\"%d/%m/%Y %H:%i:%s\") AS dia,  src, dst, disposition, duration, billsec, accountcode, userfield, dcontext, amaflags, uniqueid " ;
-    if ($view_tarif === "yes") {
-        $SELECT .= ", calldate ";
-    }
+    $SELECT  = "ccustos.codigo,ccustos.tipo, date_format(calldate,\"%d/%m/%Y\") AS key_dia, date_format(calldate,\"%d/%m/%Y %H:%i:%s\") AS dia,  src, dst, disposition, duration, billsec, accountcode, userfield, dcontext, amaflags, uniqueid, calldate " ;
     $tot_tarifado = 0 ;
     
     /* Consulta de sql para verificar quantidade de registros selecionados e
