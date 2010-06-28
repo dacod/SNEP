@@ -37,8 +37,7 @@
       </td>
       <td  class="subtable" align="left">
          &nbsp;&nbsp;&nbsp;
-         <input type="submit" value="Entrar" class="button" name="login"></input>
-         <div class="buttonEnding"></div>
+         <input type="submit" value="Entrar" class="new_button" name="login" />
       </td>
    </tr>
    <tr>

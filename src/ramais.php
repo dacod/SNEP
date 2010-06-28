@@ -211,6 +211,7 @@ function cadastrar() {
     $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;
 
     // Monta a cadeia de canais
+    $canal = strtoupper($canal);
     if($canal == "KHOMP") {
         $canal .= "/b" . $khomp_boards . 'c' . $khomp_channels;
     }
@@ -476,14 +477,15 @@ function grava_alterar() {
     $allow .= (strlen(trim($cod4))>0) ? ";$cod4" : ";" ;
     $allow .= (strlen(trim($cod5))>0) ? ";$cod5" : ";" ;
 
+    $canal = strtoupper($canal);
     if($canal == "KHOMP") {
-        $canal .= "/b" . $khomp_boards . 'c' . $khomp_channels;
+        $canal = "KHOMP/b" . $khomp_boards . 'c' . $khomp_channels;
     }
     else if($canal == "VIRTUAL") {
-        $canal .= "/" . $trunk;
+        $canal = "VIRTUAL/" . $trunk;
     }
     else if($canal == "MANUAL") {
-        $canal .= "/" . $manual;
+        $canal = "MANUAL/" . $manual;
     }
     else {
         $canal .= "/" . $name;
@@ -494,16 +496,16 @@ function grava_alterar() {
     $sql = "UPDATE peers ";
     $sql.=" SET name='$name',callerid='$callerid', ";
     $sql.= "context='$context',mailbox='$name',qualify='$qualify',";
-    $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$fromuser'," ;
-    $sql.= "username='$username',fullcontact='$fullcontact',dtmfmode='$dtmfmode'," ;
+    $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$fromuser',";
+    $sql.= "username='$username',fullcontact='$fullcontact',dtmfmode='$dtmfmode',";
     $sql.= "email='$email', `call-limit`='$call_limit',";
     $sql.= "outgoinglimit='1', incominglimit='1',";
-    $sql.= "usa_vc='$usa_vc',pickupgroup=$pickupgroup,callgroup='$callgroup'," ;
+    $sql.= "usa_vc='$usa_vc',pickupgroup=$pickupgroup,callgroup='$callgroup',";
     $sql.= "nat='$nat',canal='$canal', authenticate=$authenticate, ";
     $sql.= "`group`='$group', ";
-    $sql.= "time_total=$time_total, time_chargeby='$time_chargeby'  WHERE id=$id" ;
+    $sql.= "time_total=$time_total, time_chargeby='$time_chargeby'  WHERE id=$id";
 
-    $db->beginTransaction() ;
+    $db->beginTransaction();
     $stmt = $db->prepare($sql);
     $stmt->execute();
 

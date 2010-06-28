@@ -1,5 +1,7 @@
 1.2.0:
     Atualizado Zend Framework para versão 1.10.0
+    Alterada interface de cadastro de ramais para modelo usado em sistema de
+troncos.
 
 1.1.7:
     Inclusão de contatos em lote via CSV.
