@@ -7,7 +7,7 @@
  *-----------------------------------------------------------------------------*/
 
 #main_container {
-    border: 1px solid #ccc;
+    border: 1px solid #a4a7ab;
 }
 
 .error_box {
@@ -30,6 +30,17 @@
     font-weight: bold;
     font-size: 11px;
     background: url("../imagens/menu.png");
+}
+
+#paginationControl {
+    border-left: 1px solid #a4a7ab;
+    border-right: 1px solid #a4a7ab;
+    border-bottom: 1px solid #a4a7ab;
+    padding: 4px;
+    font-size: 12px;
+
+    text-align: right;
+
 }
 
 .new_button:active {

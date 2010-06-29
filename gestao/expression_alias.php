@@ -20,13 +20,7 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 ver_permissao(12);
 
-class ExprAliasController {
-
-    protected function __redirect($url) {
-        header("HTTP/1.1 303 See Other");
-        header("Location: $url");
-        exit(0);
-    }
+class ExprAliasController extends Snep_Controller {
 
     public function __construct() {
         $smarty = Zend_Registry::get('smarty');
