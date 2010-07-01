@@ -26,7 +26,7 @@
         <item uri="../src/rel_queues.php" label="menu_queues" ></item>
         <item uri="../src/rel_groups.php" label="menu_grupos_ramais" ></item>
         <item uri="../src/rel_grupos.php" label="menu_grupos" ></item>
-        <item uri="../src/rel_ramais.php" label="menu_ramais" ></item>
+        <item uri="../src/extensions.php" label="menu_ramais" ></item>
         <item uri="../gestao/conferencias.php" label="menu_conference" ></item>
         <item uri="../src/rel_troncos.php" label="menu_troncos" ></item>
     </item>

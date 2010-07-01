@@ -266,26 +266,28 @@ $tipos_disp = array("ANSWERED"=>$LANG['answer'],
 
 
 $tipos_procura = array("1"=>$LANG['exact'], "2"=>$LANG['start'], 
-        "3"=>$LANG['end'],   "4"=>$LANG['contain']) ;
+        "3"=>$LANG['end'],   "4"=>$LANG['contain']);
 
-$tipos_contas = array("f"=>$LANG['row'], "o"=>$LANG['other'],""=>$LANG['undef']) ;
+$tipos_contas = array("f"=>$LANG['row'], "o"=>$LANG['other'],""=>$LANG['undef']);
 
-$tipos_tf = array("1"=>$LANG['yes'],"0"=>$LANG['no']) ;
+$tipos_tf = array("1"=>$LANG['yes'],"0"=>$LANG['no']);
 
-$tipos_time = array("M"=>$LANG['minutes'],"S"=>$LANG['seconds']) ;
+$tipos_time = array("M"=>$LANG['minutes'],"S"=>$LANG['seconds']);
 
-$tipos_conference = array("M"=>"Meetme","C"=>"Conference") ;
+$tipos_conference = array("M"=>"Meetme","C"=>"Conference");
 
-$tipos_yn = array("yes"=>$LANG['yes'],"no"=>$LANG['no']) ;
-$tipos_sn = array("S"=>$LANG['yes'],"N"=>$LANG['no']) ;
+$tipos_yn = array("yes"=>$LANG['yes'],"no"=>$LANG['no']);
+$tipos_sn = array("S"=>$LANG['yes'],"N"=>$LANG['no']);
 
 $tipos_fp = array("friend"=>$LANG['friend'],
         "peer"=>$LANG['peer'],
-        "user"=>$LANG['user']) ;
+        "user"=>$LANG['user']);
 
 $tipos_dtmf = array("rfc2833"=>"rfc2833","inband"=>"inband","info"=>"info");
+Zend_Registry::set("dtmf", $tipos_dtmf);
 
 $tipos_codecs = array(" "=>" ", "all"=>"all", "g729"=>"g729", "ilbc"=>"ilbc", "gsm"=>"gsm", "ulaw"=>"ulaw", "alaw"=>"alaw", "h264"=>"h264", "h263"=>"h263", "h263p"=>"h263p") ;
+Zend_Registry::set("codecs", $tipos_codecs);
 
 $codecs_default = array("cod1"=>"alaw", "cod2"=>"ulaw", "cod3"=>"gsm", "cod4"=>"g729", "cod5"=>"");
 

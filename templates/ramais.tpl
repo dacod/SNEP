@@ -23,13 +23,7 @@
             <tr>
                 <td class="formlabel">{$LANG.ramal}:</td>
                 <td class="subtable">
-                    <input name="name" id="name" type="text" size="5" maxlength="50"  value="{$dt_ramais.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} onBlur="this.form.elements['mailbox'].value=this.value" />
-                </td>
-            </tr>
-            <tr>
-                <td class="formlabel">{$LANG.extendname}:</td>
-                <td class="subtable">
-                    <input name="callerid" type="text" size="40" maxlength="80" class="campos" value="{$dt_ramais.callerid}" {if $ACAO != "grava_alterar"} onBlur="this.value=this.value+' <'+this.form.elements['name'].value+'>'" onFocus="this.value='';" {/if} />
+                    <input name="name" id="name" type="text" size="5" maxlength="50"  value="{$dt_ramais.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} />
                 </td>
             </tr>
             <tr>
@@ -39,29 +33,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="formlabel">{$LANG.email}:</td>
+                <td class="formlabel">{$LANG.extendname}:</td>
                 <td class="subtable">
-                    <input name="email" type="text" size="40" maxlength="150" class="campos" value="{$dt_ramais.email}" />
-                </td>
-            </tr>
-            <tr>
-                <td class="formlabel">Voicemail:</td>
-                <td class="subtable">
-                    {assign var="vc" value=""}
-                    {if $dt_ramais.usa_vc == "yes"}
-                    {assign var="vc" value="checked"}
-                    {/if}
-                    <input id="voicemail" type="checkbox" name="usa_vc" {$vc} /><label for="voicemail">Habilitar</label>
-                </td>
-            </tr>
-            <tr>
-                <td class="formlabel">Bloqueio:</td>
-                <td class="subtable">
-                    {assign var="auth" value=""}
-                    {if $dt_ramais.usa_auth == "yes"}
-                    {assign var="auth" value="checked"}
-                    {/if}
-                    <input type="checkbox" name="usa_auth" {$auth} id="auth" /><label for="auth">Bloquear Ramal</label>
+                    <input name="callerid" type="text" size="40" maxlength="80" class="campos" value="{$dt_ramais.callerid}" {if $ACAO != "grava_alterar"} onBlur="this.value=this.value+' <'+this.form.elements['name'].value+'>'" onFocus="this.value='';" {/if} />
                 </td>
             </tr>
             <tr>
@@ -78,6 +52,32 @@
                     <select name="pickupgroup" size="1" class="campos">
                         {html_options options=$OPCOES_GRUPOS selected=$dt_ramais.pickupgroup}
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="formlabel" style="vertical-align:top;">Voicemail:</td>
+                <td class="subtable">
+                    {assign var="vc" value=""}
+                    {if $dt_ramais.usa_vc == "yes"}
+                    {assign var="vc" value="checked"}
+                    {/if}
+                    <input id="voicemail" onchange="this.checked?$('email').enable():$('email').disable();" type="checkbox" name="usa_vc" {$vc} /><label for="voicemail">Habilitar</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="formlabel" style="vertical-align:top;">E-Mail:</td>
+                <td class="subtable">
+                    <input {if $dt_ramais.usa_vc != "yes"}disabled{/if} name="email" id="email" type="text" size="40" maxlength="150" class="campos" value="{$dt_ramais.email}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formlabel">Bloqueio:</td>
+                <td class="subtable">
+                    {assign var="auth" value=""}
+                    {if $dt_ramais.usa_auth == "yes"}
+                    {assign var="auth" value="checked"}
+                    {/if}
+                    <input type="checkbox" name="usa_auth" {$auth} id="auth" /><label for="auth">Bloquear Ramal</label>
                 </td>
             </tr>
             <tr>
@@ -226,7 +226,7 @@
                                  <tr>
                                      <td rowspan="2" class="subtable" width="40%">
                                          <strong>{$LANG.availables}</strong><br />
-                                         <select name="filas_disp[]" id="filas_disp" multiple="true" size="4" class="campos" style="width: 170px;" />
+                                         <select name="filas_disp[]" id="filas_disp" multiple="true" size="4" class="campos" style="width: 170px;">
                                          {html_options options=$FILAS_DISP}
                                          </select>
                                      </td>
@@ -256,7 +256,7 @@
                          <td colspan="2" class="subtable" align="center" height="40px" valign="middle" style="border-top: 1px solid #ccc;">
                              <input class="new_button" type="submit" id="gravar" value="{$LANG.save}" />
                              &nbsp;&nbsp;&nbsp;
-                             <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_ramais.php'" />
+                             <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
                          </td>
                      </tr>
                  </table>

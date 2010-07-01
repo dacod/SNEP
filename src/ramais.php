@@ -16,7 +16,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("../includes/verifica.php");  
+require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 
 ver_permissao(16) ;
@@ -97,7 +97,7 @@ foreach (PBX_Trunks::getAll() as $tronco) {
 $smarty->assign('TRUNKS', $trunks);
 
 // Variaveis de ambiente do form
-$smarty->assign('ACAO',$acao) ;  
+$smarty->assign('ACAO',$acao) ;
 $smarty->assign('OPCOES_YN',$tipos_yn) ;
 $smarty->assign('TYPES',array('peer' => "Peer",'friend' => 'Friend'));
 $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
@@ -298,7 +298,7 @@ function cadastrar() {
         grava_conf();
 
         echo "<meta http-equiv='refresh' content='0;url=../src/ramais.php'>\n" ;
-        
+
     } catch (Exception $ex ) {
         $db->rollBack();
         display_error($LANG['error'].$ex->getMessage(),true);
@@ -545,59 +545,5 @@ function grava_alterar() {
         display_error($LANG['error'].$ex->getMessage(),true) ;
     }
     $pag =  ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php?pag=$pag'>\n" ;
-}
-
-/*------------------------------------------------------------------------------
- * Funcao EXCLUIR - Excluir registro selecionado da Tabela RAMAIS
- *                  Excluir registro correspondente da tabela voicemail_users
-------------------------------------------------------------------------------*/
-function excluir() {
-    global $LANG, $db, $canal;
-
-    //display_confirme($LANG['msg_excluded'],true) ;
-
-    $id = isset($_GET['id']) ? $_GET['id'] : false;
-    if (!$id) {
-        display_error($LANG['msg_notselect'],true) ;
-        exit ;
-    }
-
-    // Fazendo procura por referencia a esse ramal em regras de negócio.
-    $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
-    $regras = $db->query($rules_query)->fetchAll();
-
-    $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value like '%$id%')";
-    $regras = array_merge($regras, $db->query($rules_query)->fetchAll());
-
-    if(count($regras) > 0) {
-        $msg = $LANG['extension_conflict_in_rules'].":<br />\n";
-        foreach ($regras as $regra) {
-            $msg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
-        }
-        display_error($msg,true);
-        exit(1);
-    }
-    $sql = "DELETE FROM peers WHERE name='".$id."'";
-
-    try {
-        $db->beginTransaction() ;
-        $stmt = $db->prepare($sql);
-        $stmt->execute() ;
-        $sql = "delete from voicemail_users where customer_id='$id'";
-        $stmt = $db->prepare($sql);
-        $stmt->execute() ;
-        
-        $db->commit();
-
-        /* Gera arquivo de configuração */
-        grava_conf();
-
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;
-
-    } catch (PDOException $e) {
-        $db->rollBack();
-        display_error($LANG['error'].$e->getMessage(),true) ;
-    }
-
+    echo "<meta http-equiv='refresh' content='0;url=../src/extensions.php?page=$pag'>\n" ;
 }

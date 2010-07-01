@@ -24,7 +24,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Extensions {
+class Snep_Extensions {
 
     private $commitPending = false;
 
@@ -33,17 +33,17 @@ class Extensions {
     /**
      * Retorna um Ramal
      *
-     * @param int $exten_id
+     * @param int $extensionId
      * @return Snep_Exten usuario
      */
-    public function get( $exten_id ) {
+    public function get( $extensionId ) {
         $db = Zend_Registry::get('db');
 
-        $select = $db->select()->from('peers')->where("name = '$exten_id' AND peer_type='R'");
+        $select = $db->select()->from('peers')->where("name = '$extensionId' AND peer_type='R'");
         $stmt = $db->query($select);
         $usuario = $stmt->fetchObject();
         if(!$usuario) {
-            throw new PBX_Exception_NotFound("Usuario $exten_id nao encontrado");
+            throw new PBX_Exception_NotFound("Usuario $extensionId nao encontrado");
         }
 
         return $this->processExten( $usuario );
@@ -69,7 +69,7 @@ class Extensions {
                 "qualify"  => $data->qualify,
                 "dtmfmode" => $data->dtmfmode,
                 "nat"      => $data->nat,
-                "call-limit" => $data->{call-limit}
+                "call-limit" => $data->{"call-limit"}
             );
 
             if($tech == "SIP") {
@@ -82,6 +82,9 @@ class Extensions {
         else if($tech == "VIRTUAL") {
             $trunk = PBX_Trunks::get(substr($data->canal,strpos($data->canal, '/') +1 ));
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> $trunk->getInterface()->getCanal() . "/" . $exten_id));
+        }
+        else if($tech == "MANUAL") {
+            $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> substr($data->canal, strpos($data->canal, '/')+1)));
         }
         else if($tech == "KHOMP") {
             $khomp_id = substr($data->canal, strpos($data->canal, '/')+1);
@@ -122,7 +125,7 @@ class Extensions {
     }
 
     /**
-     * Retorna todos os usuários do banco.
+     * Retorna todos os ramais do banco.
      *
      * @return Snep_Exten[] array
      */
@@ -178,7 +181,7 @@ class Extensions {
     public function commit() {
         $data = array();
         foreach ($this->commitList as $exten) {
-            $data[] = $this->getExtenData($exten);
+            $data[] = $this->getExtenDataAsArray($exten);
         }
 
         $db = Zend_Registry::get('db');
@@ -195,7 +198,7 @@ class Extensions {
      * @param Snep_Exten $exten
      * @return array string
      */
-    private function getExtenData( Snep_Exten $exten ) {
+    private function getExtenDataAsArray( Snep_Exten $exten ) {
         $extenData = array(
             "context" => "default",
             "peer_type" => "R",
@@ -238,7 +241,7 @@ class Extensions {
     public function update( Snep_Exten $exten ) {
         $db = Zend_Registry::get('db');
 
-        $db->update("peers", $this->getExtenData($exten), "name='{$exten->getNumero()}'");
+        $db->update("peers", $this->getExtenDataAsArray($exten), "name='{$exten->getNumero()}'");
     }
 
     /**
