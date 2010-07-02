@@ -309,7 +309,7 @@ function cadastrar() {
   Funcao ALTERAR - Altera um registro
 ------------------------------------------------------------------------------*/
 function alterar() {
-    global $LANG,$db,$smarty,$titulo, $acao, $user_groups ;
+    global $LANG,$db,$smarty,$titulo, $acao, $user_groups;
 
     $id = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
     if (!$id) {
@@ -317,7 +317,7 @@ function alterar() {
         exit ;
     }
 
-    $sql = "SELECT id, type, name, callerid, context, mailbox, qualify, secret,";
+    $sql = "SELECT id, type, password, name, callerid, context, mailbox, qualify, secret,";
     $sql.= " allow, dtmfmode, vinculo, email, `call-limit`, incominglimit,";
     $sql.= " outgoinglimit, usa_vc, pickupgroup, nat, canal, authenticate, " ;
     $sql.= " `group`, time_total, time_chargeby FROM peers WHERE id=".$id;
