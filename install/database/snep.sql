@@ -296,6 +296,7 @@ DROP TABLE IF EXISTS `peers`;
 CREATE TABLE `peers` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(80) NOT NULL default '',
+  `password` VARCHAR(12) NOT NULL,
   `accountcode` varchar(20) default NULL,
   `amaflags` varchar(13) default NULL,
   `callgroup` varchar(10) default NULL,

@@ -189,7 +189,7 @@ function principal() {
  Funcao CADASTRAR - Inclui um novo registro
 ------------------------------------------------------------------------------*/
 function cadastrar() {
-    global $LANG, $type, $manual, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+    global $LANG, $type, $password, $manual, $db, $trunk, $name, $group, $vinc, $callerid, $qualify,  $secret, $cod1, $cod2, $cod3, $cod4, $cod5,$dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal,$nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
     $context = "default";
 
@@ -249,14 +249,14 @@ function cadastrar() {
     try {
         $db->beginTransaction() ;
         $sql = "INSERT INTO peers (" ;
-        $sql.= "name,callerid,context,mailbox,qualify,";
+        $sql.= "name, password,callerid,context,mailbox,qualify,";
         $sql.= "secret,type,allow,fromuser,username,fullcontact,";
         $sql.= "dtmfmode,email,`call-limit`,incominglimit,";
         $sql.= "outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate," ;
         $sql.= "trunk, `group`, callgroup, time_total, " ;
         $sql.= "time_chargeby ".$sql_fields_default ;
         $sql.= ") values (";
-        $sql.=  "'$name','$callerid','$context','$name','$qualify',";
+        $sql.=  "'$name','$password','$callerid','$context','$name','$qualify',";
         $sql.= "'$secret','$type','$allow','$fromuser','$username','$fullcontact',";
         $sql.= "'$dtmfmode','$email','$call_limit','1',";
         $sql.= "'1', '$usa_vc', $pickupgroup ,'$canal','$nat', '$peer_type',";
@@ -273,7 +273,7 @@ function cadastrar() {
         if ($usa_vc) {
             $sql = "INSERT INTO voicemail_users ";
             $sql.= " (fullname, email, mailbox, password, customer_id, `delete`) VALUES ";
-            $sql.= " ('$callerid', '$email','$name','$secret','$name', 'yes')";
+            $sql.= " ('$callerid', '$email','$name','$password','$name', 'yes')";
             $stmt = $db->prepare($sql) ;
             $stmt->execute() ;
         }
@@ -448,7 +448,7 @@ function alterar() {
   Funcao GRAVA_ALTERAR - Grava registro Alterado
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
-    global $LANG, $manual, $db, $type, $id, $trunk, $name, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
+    global $LANG, $manual, $db, $type, $id, $trunk, $name, $password, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email,  $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat,$canal, $old_vinculo,$vinculo,$authenticate, $old_authenticate, $usa_auth, $filas_selec, $group,$time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
 
@@ -494,7 +494,7 @@ function grava_alterar() {
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
 
     $sql = "UPDATE peers ";
-    $sql.=" SET name='$name',callerid='$callerid', ";
+    $sql.=" SET name='$name',password='$password' , callerid='$callerid', ";
     $sql.= "context='$context',mailbox='$name',qualify='$qualify',";
     $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$fromuser',";
     $sql.= "username='$username',fullcontact='$fullcontact',dtmfmode='$dtmfmode',";
@@ -514,7 +514,7 @@ function grava_alterar() {
     if ($usa_vc == "yes") {
         $sql = "insert into voicemail_users ";
         $sql.= " (fullname, email, mailbox, password, customer_id, `delete`) values ";
-        $sql.= " ('$callerid', '$email','$name','$secret','$name', 'yes')";
+        $sql.= " ('$callerid', '$email','$name','$password','$name', 'yes')";
         $stmt = $db->prepare($sql);
         $stmt->execute();
     }

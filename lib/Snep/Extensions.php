@@ -96,7 +96,7 @@ class Snep_Extensions {
             throw new Exception("Tecnologia $tech desconhecida ou invalida.");
         }
 
-        $exten = new Snep_Exten($data->name, $data->secret, $data->callerid, $interface);
+        $exten = new Snep_Exten($data->name, $data->password, $data->callerid, $interface);
 
         $exten->setGroup($data->group);
 
@@ -206,7 +206,7 @@ class Snep_Extensions {
             "fromuser" => $exten->getNumero(),
             "username" => $exten->getNumero(),
             "callerid" => $exten->getCallerid(),
-            "secret" => $exten->getPassword(),
+            "password" => $exten->getPassword(),
             "pickupgroup" => $exten->getPickupGroup(),
             "canal" => $exten->getInterface()->getCanal(),
             "group" => $exten->getGroup(),
@@ -224,6 +224,7 @@ class Snep_Extensions {
             $interface = $exten->getInterface();
             $extenData['allow'] = $interface->allow;
             $extenData['type'] = $interface->type;
+            $extenData['secret'] = $interface->secret;
             $extenData['qualify'] = $interface->qualify;
             $extenData['dtmfmode'] = $interface->dtmfmode;
             $extenData['call-limit'] = $interface->{call-limit};

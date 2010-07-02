@@ -29,7 +29,7 @@
             <tr>
                 <td class="formlabel">{$LANG.secret}:</td>
                 <td class="subtable">
-                    <input name="secret" type="password" size="25" maxlength="50" class="campos" value="{$dt_ramais.secret}">{$LANG.onlynumbers}
+                    <input name="password" type="password" size="25" maxlength="50" class="campos" value="{$dt_ramais.password}">{$LANG.onlynumbers}
                 </td>
             </tr>
             <tr>
@@ -96,7 +96,14 @@
                 </td>
             </tr>
         </table>
+        <!-- SIP E IAX2  -->
         <table id="ip" cellspacing="0" align="center" style="display:{if $dt_ramais.channel_tech == "SIP" || $dt_ramais.channel_tech == "IAX2"}block{else}none{/if}; border-top: none; border-bottom: none;">
+            <tr>
+                <td class="formlabel">{$LANG.secret}:</td>
+                <td class="subtable">
+                    <input name="secret" type="password" class="campos" value="{$dt_ramais.secret}" >
+                </td>
+            </tr>
             <tr>
                 <td class="formlabel">{$LANG.calllimit}:</td>
                 <td class="subtable">

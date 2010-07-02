@@ -2,6 +2,9 @@
     Atualizado Zend Framework para versão 1.10.0
     Alterada interface de cadastro de ramais para modelo usado em sistema de
 troncos.
+    Separação da senha SIP da senha do ramal.
+    Melhoria de suporte aos modulos com inclusão automática de biblioteca de
+modulo
 
 1.1.7:
     Inclusão de contatos em lote via CSV.
