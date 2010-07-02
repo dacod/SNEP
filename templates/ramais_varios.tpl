@@ -113,11 +113,9 @@
 <table cellspacing="0" align="center">
     <tr>
         <td colspan="2" class="subtable" align="center" height="32px" valign="top">
-            <input class="button" type="submit" id="gravar" value="{$LANG.save}">
-            <div class="buttonEnding"></div>
+            <input class="new_button" type="submit" id="gravar" value="{$LANG.save}">
             &nbsp;&nbsp;&nbsp;
-            <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_ramais.php'" />
-            <div class="buttonEnding"></div>
+            <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
             <input type="hidden" name="old_name" value="{$dt_ramais.old_name}" >
             <input type="hidden" name="old_vinculo" value="{$dt_ramais.old_vinculo}" >
             <input type="hidden" name="old_authenticate" value="{$dt_ramais.old_authenticate}" >

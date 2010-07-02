@@ -84,6 +84,10 @@ class ExtensionsController extends Snep_Controller {
         $this->__redirect("./ramais.php");
     }
 
+    public function multiAddAction() {
+        $this->__redirect("./ramais_varios.php");
+    }
+
     /**
      * Redireciona a edição do ramal para a tela antiga de edição.
      *
@@ -167,6 +171,9 @@ switch($action) {
         break;
     case "delete":
         $controller->deleteAction();
+        break;
+    case "multiadd":
+        $controller->multiAddAction();
         break;
     default:
         $controller->indexAction();

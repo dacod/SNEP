@@ -95,7 +95,6 @@ $smarty->assign('FXSS',$fxs_list);
  // Variaveis de ambiente do form
  $smarty->assign('ACAO',$acao);
  $smarty->assign('PROTOTYPE',true);
- $smarty->assign('EXTEN_LIST',$extensions_list);   
  $smarty->assign('OPCOES_YN',$tipos_yn) ;
  $smarty->assign('OPCOES_DTMF',$tipos_dtmf) ;
  $smarty->assign('OPCOES_CODECS',$tipos_codecs) ;
@@ -299,5 +298,5 @@ function cadastrar()  {
     ast_status("sip reload","");
     ast_status("iax2 reload","");
 
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n";
+    echo "<meta http-equiv='refresh' content='0;url=../src/extensions.php'>\n";
 }
