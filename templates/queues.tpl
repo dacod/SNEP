@@ -18,6 +18,13 @@
  <table cellspacing="0" align="center" class="contorno">
     <form name="formulario"  method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return valida_formulario();">
     <tr>
+       <td colspan="2">
+          <div id="titulo">
+            Dados da Fila de Atendimento
+          </div>
+       </td>
+    </tr>
+    <tr>
        <td class="formlabel" style="width: 50%;">{$LANG.q_name}:</td>
        <td class="subtable" >
          <input name="name" type="text" size="20" maxlength="20"   value="{$dt_queues.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} />
@@ -229,12 +236,163 @@
        </td>
     </tr>
     <tr>
-       <td colspan="2" class="cen">
-          <div id="titulo">
-             {$LANG.queues_alert   }
-          </div>
+       <td colspan="2">
+           <div id="titulo">
+             {$LANG.queues_alert}
+           </div>
        </td>
     </tr>
+
+    <tr>
+        <td colspan="3" class="tb_tit2">
+            Envio de alerta por E-mail
+        </td>
+    </tr>
+
+    <tr>
+
+        <td colspan="3">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td class="formlabel">
+                        Emails: (separados por vírgula)
+                        {$alert_email.ativo}
+                        <input type="hidden" name="a_email_ativo" id="a_email_ativo" value="{$alert_email.ativo}" />
+                    </td>
+                    <td class="subtable">
+                       <input type="text" name="a_email_emails" id="a_email_emails" class="campos" value="{$alert_email.destino}" />
+                    </td>
+                    <td class="subtable"> <span style="float:right;" id="a_email_" class="{if $alert_email.ativo == 1} regra1 {else} regra0 {/if}" onclick="change_alert('a_email_')"> </span> </td>
+                </tr>
+                <tr>
+                    <td class="formlabel">
+                        Número de ligações em espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                       <input type="text" value="{$alert_email.sla}"  name="a_email_sla" id="a_email_sla" class="campos" size="3" maxlength="3" />
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td class="formlabel">
+                        Tempo máximo de espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                        <input type="text" value="{$alert_email.tme}"  name="a_email_tme" id="a_email_tme" class="campos" size="3" maxlength="3" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" class="tb_tit2">
+            Envio de alerta Sonoro
+        </td>
+    </tr>
+
+
+    <tr>
+        <td colspan="2">
+            <table cellspacing="0" cellpadding="0" border="0">                
+                <tr>
+                    <td class="formlabel">
+                        Número de ligações em espera na Fila para emtir alerta
+                        <input type="hidden" name="a_sonoro_ativo" id="a_sonoro_ativo" value="{$alert_sonoro.ativo}" />
+                    </td>
+                    <td class="subtable">
+                       <input type="text"  value="{$alert_sonoro.sla}" name="a_sonoro_sla" id="a_sonoro_sla" class="campos" size="3" maxlength="3"/>
+                    </td>
+                    <td class="subtable"> <span style="float:right;" id="a_sonoro_" class="{if $alert_sonoro.ativo == 1} regra1 {else} regra0 {/if}" onclick="change_alert('a_sonoro_')"> </span> </td>
+                </tr>
+                <tr>
+                    <td class="formlabel">
+                        Tempo máximo de espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                       <input type="text" value="{$alert_sonoro.tme}" name="a_sonoro_tme" id="a_sonoro_tme" class="campos" size="3" maxlength="3"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" class="tb_tit2">
+            Envio de alertas Visuais
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <table cellspacing="0" cellpadding="0" border="0">
+
+                <tr>
+                    <td class="formlabel">
+                        Número de ligações em espera na Fila para emitir alerta
+                        <input type="hidden" name="a_visual_ativo" id="a_visual_ativo" value="{$alert_visual.ativo}" />
+                    </td>
+                    <td class="subtable">
+                       <input type="text" value="{$alert_visual.sla}" name="a_visual_sla" id="a_visual_sla"  class="campos" size="3" maxlength="3"/>
+                    </td>
+                    <td class="subtable"> <span style="float:right;" id="a_visual_" onclick="change_alert('a_visual_')" class="{if $alert_visual.ativo == 1} regra1 {else} regra0 {/if}"> </span> </td>
+                </tr>
+                <tr>
+                    <td class="formlabel">
+                        Tempo máximo de espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                       <input type="text"  value="{$alert_visual.tme}" name="a_visual_tme" id="a_visual_tme"  class="campos" size="3" maxlength="3"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" class="tb_tit2">
+            Envio de alerta por SMS
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <table cellspacing="0" cellpadding="0" border="0">
+                
+                <tr>
+                    <td class="formlabel">
+                        Celulares: (separados por vírgula)
+                        <input type="hidden" name="a_sms_ativo" id="a_sms_ativo" value="{$alert_sms.ativo}" />
+                    </td>
+                    <td class="subtable">
+                       <input type="text"  value="{$alert_sms.destino}" name="a_sms_celular" id="a_sms_celular"  class="campos" />
+                    </td>
+                    <td class="subtable"> <span style="float:right;" id="a_sms_" onclick="change_alert('a_sms_')" class="{if $alert_sms.ativo == 1} regra1 {else} regra0 {/if}"> </span> </td>
+                </tr>                
+                
+                <tr>
+                    <td class="formlabel">
+                        Número de ligações em espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                       <input type="text" value="{$alert_sms.sla}"  name="a_sms_sla" id="a_sms_sla"  class="campos" size="3" maxlength="3"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="formlabel">
+                        Tempo máximo de espera na Fila para emitir alerta
+                    </td>
+                    <td class="subtable">
+                       <input type="text" value="{$alert_sms.tme}"  name="a_sms_tme" id="a_sms_tme"  class="campos" size="3" maxlength="3"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+
+    <!--
     <tr>  
        <td class="formlabel">{$LANG.maxcallqueue}</td>
        <td class="subtable">
@@ -258,6 +416,8 @@
     <tr>
        <td class="subtable" colspan="2" ><hr /></td>
     </tr>
+
+    -->
     <tr>
        <td colspan="2" class="subtable" align="center" height="32px" valign="top">
           <input class="button" type="submit" id="gravar" value="{$LANG.save}">
@@ -271,41 +431,52 @@
  </table>
  <span id=dummyspan></span>
  { include file="rodape.tpl }
+
  <script language="javascript" type="text/javascript">
+
   document.forms[0].elements[0].focus() ;
  /*---------------------------------------------------------------------------
   * Funcoes JAVA de validacao do Formulario
   * --------------------------------------------------------------------------*/
- {literal}
-  function valida_formulario() {
+  function valida_formulario() {ldelim}
      var mensagem="{$LANG.msg_errors}";
-     var erro=false ;
-     text = document.formulario.name.value.toLowerCase();
-
-     if (text.length == 0 ) {
+     var erro=true ;
+     if (document.formulario.name.value.length == 0 ) {ldelim}
         mensagem += "\n - {$LANG.msg_thefield} '{$LANG.name}' {$LANG.msg_notblank}";
-        erro=true;
-     }
-
-     var letras="abcdefghijklmnopqrstuvwxyz1234567890_-";
-     
-     for(i=0; i < text.length; i++) {
-       if (letras.indexOf(text.charAt(i),0) == -1 ) {
-          mensagem = "O nome da fila não pode ter caracteres especiais ou espaços em branco.";
-          erro=true;
-       }
-     }
-
-     if (erro) {
+        erro=false ;
+     {rdelim}
+     if (!erro) {ldelim}
         alert(mensagem);
-     }
-     
-     return !erro;
-  }
-
-  {/literal}
+     {rdelim}
+     return erro ;
+  {rdelim}
+  
   function DHTMLSound(surl) {ldelim}
      var som='{$SOUNDS_PATH}'+document.getElementById(surl).value ;
      document.getElementById('dummyspan').innerHTML="<embed src='"+som+"' hidden=true autostart=true loop=false>";
   {rdelim}
+
+  
+ </script>
+
+ <script language="javascript" type="text/javascript">
+ {literal}
+ 
+ function change_alert(par) {
+
+    if($(par).hasClassName('regra0')) {
+        $(par).removeClassName('regra0');
+        $(par).addClassName('regra1');
+        $(par + 'ativo').value = 1;
+
+    }else{
+        $(par).removeClassName('regra1');
+        $(par).addClassName('regra0');
+        $(par + 'ativo').value = 0;
+    }
+    
+ }
+ {/literal}
+ </script>
+
  </script>
