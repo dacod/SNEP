@@ -348,7 +348,7 @@
             </table>
         </td>
     </tr>
-
+<!--
     <tr>
         <td colspan="3" class="tb_tit2">
             Envio de alerta por SMS
@@ -391,7 +391,7 @@
         </td>
     </tr>
 
-
+-->
     <!--
     <tr>  
        <td class="formlabel">{$LANG.maxcallqueue}</td>
