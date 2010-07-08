@@ -69,7 +69,7 @@
                   <input type="submit" value="{$LANG.save}" name="permissao" class="button" />
                   <div class="buttonEnding"></div>
                   &nbsp;&nbsp;&nbsp;
-                  <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_ramais.php'" />
+                  <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
                   <div class="buttonEnding"></div>
             </td>
         </tr>
