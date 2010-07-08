@@ -49,6 +49,9 @@
              <td valign="middle" align="center">
              {if $exten.exten != 'admin'}
              <form name="formulario" method="post"  action="../configs/permissoes.php" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="{$exten.id}" />
+                  <input type="hidden" name="nome" value="{$exten.callerid}" />
+                  <input type="hidden" name="name" value="{$exten.exten}" />
                 <acronym title="{$LANG.permitions}">
                    <input type="image" src="../imagens/permitions.png" border="0" alt="{$LANG.permitions}"  name="acao" value="permissoes"/>
                 </acronym>
