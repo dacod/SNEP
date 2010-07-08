@@ -365,7 +365,7 @@ CREATE TABLE `peers` (
 
 LOCK TABLES `peers` WRITE;
 /*!40000 ALTER TABLE `peers` DISABLE KEYS */;
-INSERT INTO `peers` VALUES (1,'admin','','','','Administrator <0>','no','','','','admin','','','dynamic','','br','admin','','','','','','','','','','','','admin123','friend','admin','',';;;;','',0,'','','','','','',';;;','0','0','0','','R',NULL,'','','no','admin',null,null,null, false, null);
+INSERT INTO `peers` VALUES (1,'admin','admin123','','','','Administrator <0>','no','','','','admin','','','dynamic','','br','admin','','','','','','','','','','','','admin123','friend','admin','',';;;;','',0,'','','','','','',';;;','0','0','0','','R',NULL,'','','no','admin',null,null,null, false, null);
 /*!40000 ALTER TABLE `peers` ENABLE KEYS */;
 UNLOCK TABLES;
 
