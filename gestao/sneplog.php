@@ -19,7 +19,8 @@
  require_once("../includes/verifica.php");
  require_once("../configs/config.php"); 
  ver_permissao(103) ;
- 
+
+ $acao = ( isset( $acao ) ? $acao : '' );
  if ($acao == "relatorio") {
         verlog();
  }
@@ -28,24 +29,24 @@
  }
 
  // Dados iniciais do formulário.
- $dados_iniciais = array( 'dataini' => ( $_SESSION['sneplog']['diaini']  ? $_SESSION['sneplog']['diaini']  : date('d/m/Y', strtotime("-1 days")) ),
-                          'datafim' => ( $_SESSION['sneplog']['diafim']  ? $_SESSION['sneplog']['diafim']  : date('d/m/Y')),
-                          'horaini' => ( $_SESSION['sneplog']['horaini'] ? $_SESSION['sneplog']['horaini'] : "00:00"),
-                          'horafim' => ( $_SESSION['sneplog']['horafim'] ? $_SESSION['sneplog']['horafim'] : "23:59"),
+ $dados_iniciais = array( 'dataini' => ( isset ($_SESSION['sneplog']['diaini'])  ? $_SESSION['sneplog']['diaini']  : date('d/m/Y', strtotime("-1 days")) ),
+                          'datafim' => ( isset ($_SESSION['sneplog']['diafim'])  ? $_SESSION['sneplog']['diafim']  : date('d/m/Y')),
+                          'horaini' => ( isset ($_SESSION['sneplog']['horaini']) ? $_SESSION['sneplog']['horaini'] : "00:00"),
+                          'horafim' => ( isset ($_SESSION['sneplog']['horafim']) ? $_SESSION['sneplog']['horafim'] : "23:59"),
                           'status'  => 'todos' );
 
- $status = array( 'all'   => $_SESSION['sneplog']['statusall'],
-                  'alert' => $status_alert,
-                  'cri'   => $status_cri,
-                  'err'   => $status_err,
-                  'inf'   => $status_inf,
-                  'deb'   => $status_deb );
+ $status = array( 'all'   => ( isset($_SESSION['sneplog']['statusall']) ? $_SESSION['sneplog']['statusall'] : '' ),
+                  'alert' => ( isset($status_alert) ? $status_alert : ''),
+                  'cri'   => ( isset($status_cri) ? $status_cri : '') ,
+                  'err'   => ( isset($status_err) ? $status_err : ''),
+                  'inf'   => ( isset($status_inf) ? $status_inf : ''),
+                  'deb'   => ( isset($status_deb) ? $status_deb : '') );
 
  // Recupera variáveis em sessão.
- $src = $_SESSION['sneplog']['src'];
- $dst = $_SESSION['sneplog']['dst'];
+ $src = (isset($_SESSION['sneplog']['src']) ? $_SESSION['sneplog']['src'] : '');
+ $dst = (isset($_SESSION['sneplog']['dst']) ? $_SESSION['sneplog']['dst'] : '') ;
 
- $titulo =  $LANG['menu_status']." -> ".$LANG['tit_logger'];
+ $titulo =  $LANG['menu_status']." » ".$LANG['tit_logger'];
  $smarty->assign('status', $status);
  $smarty->assign('dados', $dados_iniciais);
  $smarty->assign('src', $src);
@@ -91,12 +92,11 @@
      if(count($result) <= 0) {
         display_error($LANG['error_lognoresult'],true) ;
      }
-     $titulo = $LANG['menu_status']." -> ".$LANG['tit_logger'] ." -> ". $LANG['tit_logger_find'];
+     $titulo = $LANG['menu_status']." » ".$LANG['tit_logger'] ." » ". $LANG['tit_logger_find'];
 
      $smarty->assign('type', 'log');
      $smarty->assign('resultado', $result);
      $smarty->assign('PROTOTYPE', True);
-
      display_template("sneplog_view.tpl",$smarty,$titulo) ;
      exit ;
  }
@@ -108,10 +108,9 @@
 
     // Esta função exibe um template e as ações de busca no arquivo são feitos em ajax, chamando
     // o script sneplogtail.php.
-    $titulo = $LANG['menu_status']." -> ".$LANG['tit_logger'] ." -> ". $LANG['tit_logger_tail'];
+    $titulo = $LANG['menu_status']." » ".$LANG['tit_logger'] ." » ". $LANG['tit_logger_tail'];
     $smarty->assign('type', 'tail');    
     $smarty->assign('PROTOTYPE', True);
-
     display_template("sneplog_view.tpl",$smarty,$titulo) ;
     exit ;
  }

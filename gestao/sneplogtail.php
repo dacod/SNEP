@@ -19,15 +19,15 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 
 
-$n = $_POST['n'];
+$n = ( isset($_POST['n']) ? $_POST['n'] : 30 );
 
 $log = new Snep_Log($smarty->agi_log, 'agi.log');
 
 if($log != 'error') {
    $res = $log->getTail($n);
 }else{
-   display_error($LANG['error_logfile'],false) ;
+   echo "Arquivo de log não encontrado";   
    exit ;
 }
 
-print_r($res);
+//print_r($res);
