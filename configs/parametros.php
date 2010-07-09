@@ -57,8 +57,12 @@ function gravar()  {
 	 }
 
          // Pesquisa e faz a troca do valor da variavel - salva em arquivo temporario
-         if($option == "new_debug") {
-            $comando = "sed \"s,^$option_sed.*=.*,$option_sed = $value\", < \"$config_file\" > \"$config_tmp\"";
+         if($option == "debug") {
+            if($value == 'yes') {
+                $comando = "sed \"s,^$option.*=.*,$option=yes\", < \"$config_file\" > \"$config_tmp\"";
+            }else{
+                $comando = "sed \"s,^$option.*=.*,$option=no\", < \"$config_file\" > \"$config_tmp\"";
+            }
          }
          elseif($option == "record_mp3") {             
             if($value == 'true') {
@@ -76,6 +80,8 @@ function gravar()  {
 
          else {
             $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"", < "'.$config_file.'" > "'.$config_tmp.'"';
+
+echo $comando;
 
          }
          if (executacmd($comando,$LANG['msg_err_sed'])) {
