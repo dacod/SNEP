@@ -135,5 +135,5 @@ function gravar() {
     } catch (Exception $e) {
         display_error($LANG['error'].$e->getMessage(),true) ;
     }
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_ramais.php'>\n" ;
+    echo "<meta http-equiv='refresh' content='0;url=../src/extensions.php'>\n" ;
 }
