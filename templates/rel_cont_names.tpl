@@ -16,7 +16,7 @@
  *}
 {include file="cabecalho.tpl"}
 {include file="filtrar_incluir.tpl"}
-
+{config_load file="../includes/setup.conf" section="cores"}
 {config_load file="../includes/setup.conf" section="ambiente"}
 {math equation="(x-y)*z" x=$smarty.get.pag|default:1 y=1 z=#linelimit#  assign="INI"}
 <table align="center">
