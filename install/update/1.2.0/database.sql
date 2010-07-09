@@ -2,6 +2,8 @@
 ALTER TABLE `peers` ADD `password` VARCHAR(12) NOT NULL;
 UPDATE `peers` SET `password`=`secret`;
 
+INSERT INTO `rotinas` VALUES (105,'Erros Links Khomp')
+
 /* Tabela de Alertas de filas */
 CREATE TABLE `alertas` (
   `recurso` VARCHAR( 20 ) NOT NULL ,
