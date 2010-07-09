@@ -20,7 +20,7 @@
  require_once("../configs/config.php");
  ver_permissao(32) ;
  $conf_app = $SETUP['ambiente']['conference_app'] ;
- $titulo = $LANG['menu_register']." -> ".$LANG['menu_conference'] ;
+ $titulo = $LANG['menu_register']." » ".$LANG['menu_conference'] ;
   if (array_key_exists ('conference', $_POST)) {
     gravar() ;
  } 
