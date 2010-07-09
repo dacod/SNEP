@@ -20,7 +20,7 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 ver_permissao(59);
 
-$titulo = $LANG['menu_register']." -> " . $LANG['contacts_group'] ;
+$titulo = $LANG['menu_register']." » " . $LANG['contacts_group'] ;
 // SQL padrao
 $sql = "SELECT * FROM contacts_group" ;
 // Opcoes de Filtros

@@ -18,7 +18,7 @@
  require_once("../includes/verifica.php");   
  require_once("../configs/config.php");
  ver_permissao(18) ;
- $titulo = $LANG['menu_register']." -> ".$LANG['menu_queues'] ;
+ $titulo = $LANG['menu_register']." » ".$LANG['menu_queues'] ;
  // SQL padrao
  $sql = "SELECT name,strategy,maxlen,musiconhold FROM queues " ;
  // Opcoes de Filtros

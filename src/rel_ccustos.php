@@ -20,7 +20,7 @@
  require_once("../configs/config.php");
 
  ver_permissao(27) ;
- $titulo = $LANG['menu_register']." -> ".$LANG['menu_ccustos'] ;
+ $titulo = $LANG['menu_register']." » ".$LANG['menu_ccustos'] ;
  // SQL padrao
   $sql = "SELECT * FROM ccustos " ;
  // Opcoes de Filtrros

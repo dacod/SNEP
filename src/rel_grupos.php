@@ -18,7 +18,7 @@
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php"); 
  ver_permissao(11) ;
- $titulo = $LANG['menu_register']." -> ".$LANG['menu_grupos'] ;
+ $titulo = $LANG['menu_register']." » ".$LANG['menu_grupos'] ;
  // SQL padrao
  $sql = "SELECT * FROM grupos " ;
  // Opcoes de Filtrros
