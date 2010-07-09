@@ -18,7 +18,7 @@
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php");
  ver_permissao(61);
- $titulo = $LANG['menu_config']." -> ".$LANG['params'];
+ $titulo = $LANG['menu_config']." » ".$LANG['params'];
  if (array_key_exists ('parametros', $_POST)) {
     gravar() ;
  }
@@ -48,13 +48,17 @@ function gravar()  {
       foreach ( $_POST["alterar"] as $chave => $option ) {
 
          $value = str_replace(",","\,", $_POST["new_$option"] );
-         $option_sed = $option == "record_flags"? "record\.flags" : $option;
-         $option_sed = $option == "record_app"? "record\.application" : $option;
+
+	 if( $option == "record_flags" ) {
+		$option_sed = "record\.flags";
+	 }
+	 if( $option == "record_app" ) {
+		$option_sed = "record\.application";
+	 }
 
          // Pesquisa e faz a troca do valor da variavel - salva em arquivo temporario
          if($option == "new_debug") {
             $comando = "sed \"s,^$option_sed.*=.*,$option_sed = $value\", < \"$config_file\" > \"$config_tmp\"";
-
          }
          elseif($option == "record_mp3") {             
             if($value == 'true') {
@@ -71,9 +75,9 @@ function gravar()  {
          }
 
          else {
-            $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"'.'", < "'.$config_file.'" > "'.$config_tmp.'"';
-         }
+            $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"", < "'.$config_file.'" > "'.$config_tmp.'"';
 
+         }
          if (executacmd($comando,$LANG['msg_err_sed'])) {
             // Ajusta permissoes do arquivo temporario
             $comando = 'mv '. $config_tmp .' '. $config_file ;
