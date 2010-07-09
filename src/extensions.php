@@ -29,9 +29,10 @@ class ExtensionsController extends Snep_Controller {
     public function indexAction() {
         $db = Zend_Registry::get('db');
         $select = $db->select()->from("peers",array(
+                "id" => "id",
                 "exten" => "name",
                 "name" => "callerid",
-                "channel" => "canal",
+                "channel" => "canal",                
                 "group"
         ));
         $select->where("peer_type='R'");
@@ -71,7 +72,7 @@ class ExtensionsController extends Snep_Controller {
         $smarty->assign ('array_include_buttom',array("url" => "./extensions.php?action=add", "display"  => $LANG['include']." ".$LANG['ramal'], "peer_type"=>"R"));
         $smarty->assign ('array_include_buttom2',array("url" => "./extensions.php?action=multiadd", "display"  => $LANG['include']." ".$LANG['menu_ramais'], "peer_type"=>"R"));
 
-        $titulo = "Cadastro > Ramais";
+        $titulo = "Cadastro » Ramais";
         display_template("extensions/index.tpl", $smarty, $titulo);
     }
 
