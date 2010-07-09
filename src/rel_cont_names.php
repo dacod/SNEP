@@ -20,16 +20,27 @@ require_once("../configs/config.php");
 
 ver_permissao(59);
 
-$titulo = $LANG['menu_contato']." -> ".$LANG['menu_contacts'];
+$titulo = $LANG['menu_contato']." » ".$LANG['menu_contacts'];
 
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 if($action == 'delete_all') {
+
     $filter = $_SESSION['rel_cont_names_last_filter'];
+
     if ($filter != "") {
-       $filter = "WHERE " . $filter;
+       $filter = "WHERE " . substr($filter, 2);
     }
-    echo "DELETE FROM contacts_names $filter";
-    exit();
+    $sql = "DELETE FROM contacts_names $filter";
+
+    try {
+        $row = $db->query($sql);        
+    }
+    catch (Exception $e) {
+        display_error($LANG['error'].$e->getMessage(),true) ;
+    }
+
+    header( 'Location: rel_cont_names.php' );
+    exit;
 }
 
 $filter = "";
