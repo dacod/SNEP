@@ -127,7 +127,7 @@ class PBX_ExpressionAliases {
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
-        $db->update("expr_alias", array("name"=>$expression['name']));
+        $db->update("expr_alias", array("name"=>$expression['name']), "aliasid='$id'");
         $db->delete("expr_alias_expression","aliasid='$id'");
 
         foreach ($expression['expressions'] as $expr) {
