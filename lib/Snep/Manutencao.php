@@ -122,13 +122,13 @@ class Snep_Manutencao {
                     foreach($storages as $storage) {
 
                         if( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".wav") ) {
-                            return $arquivos ."/". $storage ."/". $data;
+                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".wav";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3") ) {
-                            return $arquivos ."/". $storage ."/". $data;
+                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV")) {
-                            return $arquivos ."/". $storage ."/". $data;
+                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV";
                         }
                     }
 
