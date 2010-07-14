@@ -48,6 +48,7 @@ function gravar()  {
       foreach ( $_POST["alterar"] as $chave => $option ) {
 
          $value = str_replace(",","\,", $_POST["new_$option"] );
+         $option_sed = $option;
 
          if($option == "record_flags") {
             $option_sed =  "record\.flags";
@@ -56,6 +57,7 @@ function gravar()  {
          if($option == "record_app") {
             $option_sed = "record\.application";
          }
+         
 
          // Pesquisa e faz a troca do valor da variavel - salva em arquivo temporario
          if($option == "debug") {
@@ -80,13 +82,15 @@ function gravar()  {
             $comando = 'sed "s,^'.$option_sed.'.*=.*,'.$option_sed.' = \"'.$value.'\"'.'", < "'.$config_file.'" > "'.$config_tmp.'"';
          }
 
+
          if (executacmd($comando,$LANG['msg_err_sed'])) {
             // Ajusta permissoes do arquivo temporario
             $comando = 'mv '. $config_tmp .' '. $config_file ;
-            
+      
             if (executacmd($comando,$LANG['msg_err_move'])) {
                $erro = TRUE ;
             }
+      
          }
 
       } // Fim do foreach
