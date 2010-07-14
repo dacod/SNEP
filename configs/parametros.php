@@ -30,7 +30,7 @@
  $smarty->assign( 'record_mp3',     $config->system->record_mp3);
  $smarty->assign( 'record_flags',   $config->general->record->flags);
  $smarty->assign( 'record_app',     strtolower($config->general->record->application));
- display_template("pbx/parametros.tpl", $smarty,$titulo) ;
+ display_template("parametros.tpl", $smarty,$titulo) ;
     
 /*------------------------------------------------------------------------------
  Funcao gravar - Converte e grava o arquivo
