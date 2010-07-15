@@ -241,8 +241,6 @@
 
                   {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
-                      {$DADOS[chamadas].userfield}
-
                      {if $DADOS[chamadas].userfield != "" && $classe == ""}
                         {formata->fmt_gravacao a=$DADOS[chamadas].calldate b=$DADOS[chamadas].userfield}
                         {if $voz != "N.D."}
