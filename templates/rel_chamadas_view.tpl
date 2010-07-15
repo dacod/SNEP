@@ -241,8 +241,10 @@
 
                   {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
+                      {$DADOS[chamadas].userfield}
+
                      {if $DADOS[chamadas].userfield != "" && $classe == ""}
-                        {formata->fmt_gravacao a=$DADOS[chamadas].calldate b=$DADOS[chamadas].userfield c="arquivos"}
+                        {formata->fmt_gravacao a=$DADOS[chamadas].calldate b=$DADOS[chamadas].userfield}
                         {if $voz != "N.D."}
                            {if $VIEW_FILES == "yes"}
                               <input type="checkbox"  value="{$voz}">
