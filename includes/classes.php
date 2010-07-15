@@ -166,10 +166,9 @@ class Bar_Graph {
    function fmt_gravacao($params,$smarty) {
 
       $calldate = $params['a'] ;
-      $userfield = $params['b'] ;
-      $arquivos = ( ! is_null( $params['c'] ) ? $params['c'] : 'arquivos' ) ;
+      $userfield = $params['b'] ;     
 
-      $caminho = Snep_Manutencao::arquivoExiste($calldate, $userfield, $arquivos);
+      $caminho = Snep_Manutencao::arquivoExiste($calldate, $userfield);
 
       if($caminho) {
           $smarty->assign('voz', $caminho);
