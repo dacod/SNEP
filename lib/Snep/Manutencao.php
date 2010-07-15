@@ -88,11 +88,13 @@ class Snep_Manutencao {
      * @param <string> $arquivos
      * @return <string> Caminho para o arquivo.
      */
-    public function arquivoExiste($calldate, $userfield, $arquivos) {
+    public function arquivoExiste($calldate, $userfield) {
 
         $data = substr($calldate, 0, 10);
 
-        $arquivos = "../" . $arquivos;
+        $config = Zend_Registry::get('config');
+
+        $arquivos = $config->ambiente->path_voz;
         
         if( file_exists($arquivos) ) {
 
