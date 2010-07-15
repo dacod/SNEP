@@ -25,7 +25,7 @@ if (array_key_exists ('permissao', $_POST)) {
 }
 
 $name = ( isset( $_POST['name'] ) ? $_POST['name'] : null ) ;
-$id = ( isset( $_POST['id'] ) ? $_POST['id'] : null ) ;
+$dt_id = ( isset( $_POST['id'] ) ? $_POST['id'] : null ) ;
 $nome = ( isset(  $_POST['nome']  ) ? $_POST['nome'] : null) ;
 
 $titulo = $LANG['menu_register']." » ".$LANG['menu_ramais']." » ".$LANG['permitions']." ".$LANG['of']." ".$LANG['user'] ;
@@ -86,7 +86,7 @@ try {
 // Define variaveis do template          
 $smarty->assign ('dt_permissoes', $row);
 $smarty->assign ('dt_usuario', $nome) ;
-$smarty->assign ('dt_id', $id);
+$smarty->assign ('dt_id', $dt_id);
 $smarty->assign ('dt_name', $name);
 $smarty->assign ('LISTA_DESVINCULADOS', $arrDesvinculados);
 $smarty->assign ('LISTA_VINCULADOS', $arrVinculados);
