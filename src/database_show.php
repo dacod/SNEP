@@ -99,22 +99,41 @@ $lista = array();
         }
         if(strpos($vall, "SIP") > 1 || strpos($vall, "IAX2") > 1 || strpos($vall, "KHOMP") > 1 || strpos($vall, "Agent") > 1) {
             $d = trim ($vall);
-            $queues[$strFila]['agent'] .= substr($d, 0, strpos($d, " ")) . ", ";
+            ( ! isset( $queues[$strFila]['agent'] )  ?
+                       $queues[$strFila]['agent'] = substr($d, 0, strpos($d, " ")) . ", " :
+                       $queues[$strFila]['agent'] .= substr($d, 0, strpos($d, " ")) . ", "
+            );
+            
             switch($vall) {
                 case strpos($vall, "Not in use") > 1 :
-                    $queues[$strFila]['status'] .=  $LANG['notinuse'].",";
+                    ( ! isset( $queues[$strFila]['status'] ) ?
+                               $queues[$strFila]['status'] = $LANG['notinuse'] . "," :
+                               $queues[$strFila]['status'] = $LANG['notinuse'] . ","
+                    );                   
                     break;
                 case strpos($vall, "Unknown") > 1 :
-                    $queues[$strFila]['status'] .=  $LANG['unknown'].",";
+                    ( ! isset( $queues[$strFila]['status'] ) ?
+                               $queues[$strFila]['status'] =  $LANG['unknown'] . "," :
+                               $queues[$strFila]['status'] .=  $LANG['unknown'] . ","
+                    );
                     break;
                 case strpos($vall, "In use") > 1 :
-                    $queues[$strFila]['status'] .=  $LANG['inuse'].",";
+                    ( ! isset( $queues[$strFila]['status'] ) ?
+                               $queues[$strFila]['status'] =  $LANG['inuse'] . "," :
+                               $queues[$strFila]['status'] .=  $LANG['inuse'] . ","
+                    );
                     break;
                 case strpos($vall, "paused") > 1 :
-                    $queues[$strFila]['status'] .=  $LANG['inpause'].",";
+                    ( ! isset( $queues[$strFila]['status'] ) ?
+                               $queues[$strFila]['status'] .=  $LANG['inpause'] . "," :
+                               $queues[$strFila]['status'] .=  $LANG['inpause'] . ","
+                    );                    
                     break;
                 case strpos($vall, "Unavailable") > 1 :
-                    $queues[$strFila]['status'] .=  $LANG['unavailable'].",";
+                    ( ! isset( $queues[$strFila]['status'] ) ?
+                               $queues[$strFila]['status'] =  $LANG['unavailable'] . "," :
+                               $queues[$strFila]['status'] .=  $LANG['unavailable'] . ","
+                    );
                     break;
             }
         }
