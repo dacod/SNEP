@@ -138,8 +138,10 @@
      $destino = "";
      $quebra = False ;
      unset($duration,$billsec);
-     
-     foreach ($db->query($sql) as $row) {
+
+     $dados = $db->query($sql)->fetchAll();
+
+     foreach ($dados as $row) {
              
         // Trata das Chamadas - Quantidades
         if ($flag == $row['userfield'] ) {   
