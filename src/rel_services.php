@@ -90,7 +90,7 @@ $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
 $titulo = $LANG['menu_reports']." » ".$LANG['services_report'] ;
 $smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
 $smarty->assign ('dt_relchamadas',$dados_iniciais) ;
-$smarty->assign ('groupsrc', $_SESSION['relservices']['groupsrc']);
+$smarty->assign ('groupsrc', (isset($_SESSION['relservices']['groupsrc']) ? '' : '') );
 $smarty->assign ('OPCOES_USERGROUPS',$g);
 $smarty->assign ('SERVICES', $service);
 display_template("rel_services.tpl",$smarty,$titulo) ;
