@@ -23,8 +23,10 @@
  $titulo = $LANG['menu_tarifas']." » ".$LANG['menu_operadoras'] ;
  $opcoes = array( "nome" => $LANG['name'], "codigo" => $LANG['id']) ;
 
- if ($_POST['text_filter'] != "") {
-    $row = Snep_Operadoras::getFiltrado($_POST['field_filter'], $_POST['text_filter']);
+ ( is_null( $_POST['text_filter'] ) ? $text_filter = "" : $text_filter = $_POST['text_filter'] );
+
+ if ( $text_filter != "" ) {
+    $row = Snep_Operadoras::getFiltrado($text_filter, $text_filter);
 
  }else{
     $row = Snep_Operadoras::getFiltrado(null, null);
