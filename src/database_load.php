@@ -25,7 +25,7 @@
   
   global $smarty, $SETUP, $filas_selec, $LANG, $view_ps;
 
-  $titulo = $LANG['menu_status']." -> ".$LANG['menu_databaseshow']." -> ".$LANG['view'];
+  $titulo = $LANG['menu_status']." » ".$LANG['menu_databaseshow']." -> ".$LANG['view'];
   $smarty->assign ('REFRESH',array('mostrar'=> True,
                                   'tempo'  => 10,
                                   'url'    => "../src/database_show.php"));
