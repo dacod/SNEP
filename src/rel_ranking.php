@@ -31,10 +31,10 @@
 
  $nivel = Snep_Vinculos::getNivelVinculos( $_SESSION['name_user'] );
  
- $dados_iniciais = array("dia_ini" => ( $_SESSION['relrank']['dia_ini'] ? $_SESSION['relrank']['dia_ini'] : "01/".date('m/Y') ),
-                         "dia_fim"=> ( $_SESSION['relrank']['dia_fim'] ? $_SESSION['relrank']['dia_fim'] : "01/".date('m/Y') ),
-                         "hora_ini" => ( $_SESSION['relrank']['hora_ini'] ? $_SESSION['relrank']['hora_ini'] : "00:00"),
-                         "hora_fim"=> ( $_SESSION['relrank']['hora_fim'] ? $_SESSION['relrank']['hora_fim'] : "23:59")
+ $dados_iniciais = array("dia_ini"  => ( isset( $_SESSION['relrank']['dia_ini'] ) ? $_SESSION['relrank']['dia_ini'] : "01/".date('m/Y') ),
+                         "dia_fim"  => ( isset( $_SESSION['relrank']['dia_fim'] ) ? $_SESSION['relrank']['dia_fim'] : "01/".date('m/Y') ),
+                         "hora_ini" => ( isset( $_SESSION['relrank']['hora_ini'] ) ? $_SESSION['relrank']['hora_ini'] : "00:00"),
+                         "hora_fim" => ( isset( $_SESSION['relrank']['hora_fim'] ) ? $_SESSION['relrank']['hora_fim'] : "23:59")
                          );
  
  for ($i=1;$i<=30;$i++) {
@@ -42,15 +42,14 @@
  }                        
  $titulo = $LANG['menu_reports']." » ".$LANG['menu_callranking'];
 
- $smarty->assign ('rank_num', ( $_SESSION['relrank']['rank_num'] ? $_SESSION['relrank']['rank_num'] : '')) ;
- $smarty->assign ('rank_type',( $_SESSION['relrank']['rank_type'] ? $_SESSION['relrank']['rank_type'] : 'qtdade')) ;
- $smarty->assign ('viewtop',( $_SESSION['relrank']['viewtop'] ? $_SESSION['relrank']['viewtop'] : '10')) ;
- $smarty->assign ('OPCOES_YN',$tipos_yn) ;
- $smarty->assign ('FILTERS',$dst_exceptions) ;
- $smarty->assign ('dt_ranking',$dados_iniciais) ;
+ $smarty->assign ('rank_num',  ( isset( $_SESSION['relrank']['rank_num'] ) ? $_SESSION['relrank']['rank_num'] : '')) ;
+ $smarty->assign ('rank_type', ( isset( $_SESSION['relrank']['rank_type'] ) ? $_SESSION['relrank']['rank_type'] : 'qtdade')) ;
+ $smarty->assign ('viewtop',   ( isset( $_SESSION['relrank']['viewtop'] ) ? $_SESSION['relrank']['viewtop'] : '10')) ;
+ $smarty->assign ('OPCOES_YN', $tipos_yn) ; 
+ $smarty->assign ('dt_ranking', $dados_iniciais) ;
  $smarty->assign ('VIEWTOP',$viewtop) ;
  $smarty->assign ('NIVEL', $nivel);
- $smarty->assign ('OPCOES_RANK',array("qtdade"=>$LANG['rank_qtdade'],"tempo"=>$LANG['rank_time'])); 
+ $smarty->assign ('OPCOES_RANK', array("qtdade" => $LANG['rank_qtdade'], "tempo" => $LANG['rank_time']));
  display_template("rel_ranking.tpl",$smarty,$titulo) ;
  
 /*-----------------------------------------------------------------------------
@@ -294,7 +293,7 @@
   $rank_type = $_SESSION['relrank']['rank_type'];
    
      
-  global $db, $smarty, $SETUP, $LANG, $tipos_disp, $acao;
+  global $smarty, $SETUP, $LANG, $tipos_disp, $acao;
      
   if($tp_rel == "csv")    {
          
@@ -328,15 +327,20 @@
   }
   
   // Cria Objeto para formatacao de dados
+  $titulo = $LANG['menu_reports']." » ".$LANG['menu_callranking']."<br />" ;
+  $titulo.= $TIT_DATE ;
   $my_object = new Formata ;
   $smarty->register_object("formata",$my_object) ;
-  $smarty->assign('DADOS',$rank_final) ;
-  ($rank_type == "qtdade" ? $smarty->assign('TOTAIS',$totais_q) :  $smarty->assign('TOTAIS',$totais_t) );
-  $smarty->assign ('ARQCVS', ( isset( $csv_rel_ranking ) ? $csv_rel_ranking : '') );
-  $smarty->assign ('TPREL', $tp_rel);
-  $smarty->assign('RANKTYPE',$rank_type) ;
-  $titulo = $LANG['menu_reports']." -> ".$LANG['menu_callranking']."<br />" ;
-  $titulo.= $TIT_DATE ;   
+  if( $rank_type == "qtdade" ) {
+      $smarty->assign('TOTAIS',$totais_q);
+  }else{
+      $smarty->assign('TOTAIS',$totais_t);
+  }  
+  $smarty->assign( 'DADOS', $rank_final) ;
+  $smarty->assign( 'ARQCVS', ( isset( $csv_rel_ranking ) ? $csv_rel_ranking : '') );
+  $smarty->assign( 'TPREL', $tp_rel);
+  $smarty->assign( 'RANKTYPE',$rank_type) ;
+     
   display_template("rel_ranking_view.tpl",$smarty,$titulo) ;
   exit ;     
      
