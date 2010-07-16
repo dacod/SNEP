@@ -245,7 +245,7 @@ function sql_vinc($src, $dst, $srctype, $dsttype, $base = "") {
 function monta_vinculo($vinculo,$tipo="A") {
     $retorno = array();
 
-    if($vinculos == "" && $vinculo == "A") {
+    if($vinculo == "" || $vinculo == "A") {
         return false;
     }else {
 
