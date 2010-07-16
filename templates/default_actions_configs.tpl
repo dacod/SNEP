@@ -16,7 +16,8 @@
  *}
 
 {include file="cabecalho.tpl"}
-
+{config_load file="../includes/setup.conf" section="cores"}
+{config_load file="../includes/setup.conf" section="ambiente"}
 <table>
     <thead>
         <tr>
@@ -27,11 +28,19 @@
     </thead>
     <tbody>
         {section name=acao loop=$ACOES}
-        <tr>
+        
+        {if $cor_bg == #COR_GRID_A#}
+           {assign var="cor_bg" value=#COR_GRID_B#}
+        {else}
+           {assign var="cor_bg" value=#COR_GRID_A#}
+        {/if}
+        
+        <tr bgcolor="{$cor_bg}" >
             <td>{$ACOES[acao].name}</td>
             <td>{$ACOES[acao].description}</td>
             <td><a href="./configure_action.php?id={$ACOES[acao].id}">{$LANG.configure}</a></td>
         </tr>
+        
         {/section}
     </tbody>
 </table>

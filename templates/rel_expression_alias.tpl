@@ -16,6 +16,9 @@
  *}
 {include file="cabecalho.tpl"}
 {include file="filtrar_incluir.tpl"}
+{config_load file="../includes/setup.conf" section="cores"}
+{config_load file="../includes/setup.conf" section="ambiente"}
+
 <table cellspacing="0" cellpadding="0" border="0" align="center"  >   
     <thead>
         <tr>
@@ -26,7 +29,12 @@
     </thead>
     <tbody>
         {foreach from=$ALIASES item=alias}
-        <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
+        {if $cor_bg == #COR_GRID_A#}
+           {assign var="cor_bg" value=#COR_GRID_B#}
+        {else}
+           {assign var="cor_bg" value=#COR_GRID_A#}
+        {/if}        
+        <tr  bgcolor="{$cor_bg}" >
             <td class="cen">{$alias.id}</td>
             <td>{$alias.name}</td>
             <td align="center" valign="middle" width="30px" >
