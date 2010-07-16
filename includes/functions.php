@@ -625,9 +625,11 @@ function monta_csv($arr_titulo, $arr_dados) {
             $my_object = null;
         }
         if (array_key_exists("tarifacao", $arr_titulo)) {
-            $my_object = new Formata;
-            $dados['tarifacao'] = $my_object->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']),"A");
-            $my_object = null;
+            if($dados['disposition'] != "NO ANSWER") {
+                $my_object = new Formata;
+                $dados['tarifacao'] = $my_object->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']),"A");
+                $my_object = null;
+            }
         }
         if($dados['disposition']) {
             if($dados['disposition'] == "ANSWERED") {
