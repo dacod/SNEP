@@ -78,11 +78,11 @@ $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
         }
     }
     /* Determina data inicial e final */
-    $dados_iniciais = array("dia_ini" => ( $_SESSION['relservices']['dia_ini'] ? $_SESSION['relservices']['dia_ini'] : date('d/m/Y') ) ,
-                            "hora_ini"=> ( $_SESSION['relservices']['hora_ini'] ? $_SESSION['relservices']['hora_ini'] : '00:00' ),
-                            "dia_fim" => ( $_SESSION['relservices']['dia_fim'] ? $_SESSION['relservices']['dia_fim'] : date('d/m/Y') ),
-                            "hora_fim"=> ( $_SESSION['relservices']['hora_fim'] ? $_SESSION['relservices']['hora_fim'] : '23:59'),
-                            "src" => ( $_SESSION['relservices']['src'] ? $_SESSION['relservices']['src'] : '')
+    $dados_iniciais = array("dia_ini" => ( isset( $_SESSION['relservices']['dia_ini'] ) ? $_SESSION['relservices']['dia_ini'] : date('d/m/Y') ) ,
+                            "hora_ini"=> ( isset( $_SESSION['relservices']['hora_ini'] ) ? $_SESSION['relservices']['hora_ini'] : '00:00' ),
+                            "dia_fim" => ( isset( $_SESSION['relservices']['dia_fim'] )  ? $_SESSION['relservices']['dia_fim'] : date('d/m/Y') ),
+                            "hora_fim"=> ( isset( $_SESSION['relservices']['hora_fim'] )  ? $_SESSION['relservices']['hora_fim'] : '23:59'),
+                            "src" => ( isset( $_SESSION['relservices']['src'] ) ? $_SESSION['relservices']['src'] : '')
 ) ;
 
 
