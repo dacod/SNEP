@@ -34,5 +34,5 @@ foreach ($acoes->getInstalledActions() as $acao) {
 }
 
 $smarty->assign("ACOES", $info_acoes);
-$titulo = $LANG['menu_rules']." -> ".$LANG['default_configs'];
+$titulo = $LANG['menu_rules']." » ".$LANG['default_configs'];
 display_template("default_actions_configs.tpl",$smarty,$titulo);

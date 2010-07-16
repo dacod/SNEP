@@ -18,7 +18,7 @@
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php");
  ver_permissao(61);
- $titulo = $LANG['menu_config']." -> ".$LANG['params'];
+ $titulo = $LANG['menu_config']." » ".$LANG['params'];
  if (array_key_exists ('parametros', $_POST)) {
     gravar() ;
  }

@@ -448,7 +448,7 @@ HEAD;
         $this->populateCommomFields();
 
         $smarty->assign('ACAO',"cadastrar");
-        $titulo = "Regras de Negócio -> Regra -> Adicionar";
+        $titulo = "Regras de Negócio » Regra » Adicionar";
 
         if($_POST) {
             if($this->isValidPost()) {

@@ -19,7 +19,7 @@
  require_once("../configs/config.php"); 
  ver_permissao(50) ;
  unset($_SESSION['secao']);
- $titulo = $LANG['menu_config']." -> ".$LANG['menu_sounds'] ;
+ $titulo = $LANG['menu_config']." » ".$LANG['menu_sounds'] ;
  // SQL padrao
  $sql = "SELECT arquivo,descricao,tipo,date_format(data,'%d/%m/%Y %h:%i:%s') as data FROM sounds WHERE tipo != 'MOH'" ;
  // Opcoes de Filtrros

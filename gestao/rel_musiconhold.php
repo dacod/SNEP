@@ -20,7 +20,7 @@ require_once("../includes/verifica.php");
  require_once("../configs/config.php");
  ver_permissao(53) ;
  unset($_SESSION['secao']) ;
- $titulo = $LANG['menu_config']." -> ".$LANG['menu_musiconhold'].": ".$LANG['sections'] ;
+ $titulo = $LANG['menu_config']." » ".$LANG['menu_musiconhold'].": ".$LANG['sections'] ;
   if (array_key_exists ('musiconhold', $_POST)) {
     gravar() ;
  } 

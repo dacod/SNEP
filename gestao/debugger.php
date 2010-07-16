@@ -181,7 +181,7 @@ if($acao == "simulate") {
 }
 
 $smarty->assign('PROTOTYPE', true);
-$titulo = $LANG['menu_rules']." -> ".$LANG['menu_rules_in_out']." -> ".$LANG['debugger'];
+$titulo = $LANG['menu_rules']." » ".$LANG['menu_rules_in_out']." » ".$LANG['debugger'];
 $smarty->assign('debugger', true);
 
 if ($view == "conflict") {
