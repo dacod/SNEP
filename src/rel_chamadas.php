@@ -405,7 +405,7 @@ function monta_relatorio($acao) {
                         if ($acao == 'grafico')
                             $tot_ans[$key_dia] ++ ;
                         else
-                            $tot_ans ++ ;
+                        $tot_ans ++ ;
                         $tot_bil += $val['billsec'] ;
                         $tot_dur += $val['duration'] ;
                         if ($view_tarif === "yes") {
@@ -507,7 +507,7 @@ function monta_relatorio($acao) {
             exit ;
         }
         $tot_wait = $tot_dur - $tot_bil ;
-        $totais = array("answered"    =>   number_format($tot_ans, thousands_sep, ",", "."),
+        $totais = array("answered"    =>   $tot_ans,
                         "notanswer"   =>   $tot_noa,
                         "busy"        =>   $tot_bus,
                         "fail"        =>   $tot_fai,
