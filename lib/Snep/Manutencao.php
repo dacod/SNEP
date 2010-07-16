@@ -100,22 +100,22 @@ class Snep_Manutencao {
 
                 // Se existir pasta com data, já organizado pelo movefiles.
                 if( file_exists($arquivos ."/". $userfield .".wav") ) {
-                    return $arquivos ."/". $userfield .".wav";
+                    return "../arquivos/". $userfield .".wav";
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".mp3") ) {
-                    return $arquivos ."/". $userfield .".mp3";
+                    return "../arquivos/". $userfield .".mp3";
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".WAV")) {
-                    return $arquivos ."/". $userfield .".WAV";
+                    return "../arquivos/". $userfield .".WAV";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".wav") ) {
-                    return $arquivos ."/". $data ."/". $userfield .".wav";
+                    return "../arquivos/". $data ."/". $userfield .".wav";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".mp3") ) {
-                    return $arquivos ."/". $data ."/". $userfield .".mp3";
+                    return "../arquivos/". $data ."/". $userfield .".mp3";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".WAV")) {
-                    return $arquivos ."/". $data ."/". $userfield .".WAV";
+                    return "../arquivos/". $data ."/". $userfield .".WAV";
                     
                 }else{
 
@@ -124,13 +124,13 @@ class Snep_Manutencao {
                     foreach($storages as $storage) {
 
                         if( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".wav") ) {
-                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".wav";
+                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".wav";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3") ) {
-                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3";
+                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".mp3";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV")) {
-                            return $arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV";
+                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".WAV";
                         }
                     }
 
