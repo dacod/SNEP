@@ -147,7 +147,7 @@ $asterisk->set_variable("__TOUCH_MONITOR", $filename); // setando a variavel tou
 /**
  * TODO: Corrigir caminho para gravações. Demanda alteração em todo sistema.
  */
-$recordPath = realpath("../" . $config->ambiente->path_voz);
+$recordPath = realpath($config->ambiente->path_voz);
 //Definindo aplicação de gravação.
 $regra->setRecordApp($config->general->record->application, array($recordPath . "/" . $filename . ".wav", $config->general->record->flags));
 
