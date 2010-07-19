@@ -49,7 +49,6 @@
              <img src="../imagens/ouvir.png" alt="Ouvir" width="16" height="16" hspace="0" vspace="0" style="border: none; cursor : hand;"  onclick="DHTMLSound('announce')"/>
           </a>
           -->
-
        </td>
     </tr>   
     <tr>
@@ -433,8 +432,8 @@
  { include file="rodape.tpl }
 
  <script language="javascript" type="text/javascript">
-
  {literal}
+ 
   document.forms[0].elements[0].focus() ;
  /*---------------------------------------------------------------------------
   * Funcoes JAVA de validacao do Formulario
@@ -459,8 +458,9 @@
      }
      if (erro) {
         alert(mensagem);
+        return false ;
      }
-     return erro ;
+     return true ;
   }
 
   function DHTMLSound(surl) {
@@ -468,8 +468,7 @@
      document.getElementById('dummyspan').innerHTML="<embed src='"+som+"' hidden=true autostart=true loop=false>";
   }
 
- function change_alert(par) {
-
+  function change_alert(par) {
     if($(par).hasClassName('regra0')) {
         $(par).removeClassName('regra0');
         $(par).addClassName('regra1');
@@ -480,8 +479,7 @@
         $(par).addClassName('regra0');
         $(par + 'ativo').value = 0;
     }
-
- }
+  }
 
  {/literal}
  </script>
