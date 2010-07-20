@@ -17,7 +17,7 @@
  */
 
 require_once("../includes/verifica.php");
- require_once("../configs/config.php");
+require_once("../configs/config.php");
 
  if ($acao == "zerar") {
     ast_status("khomp links errors clear","","") ;
