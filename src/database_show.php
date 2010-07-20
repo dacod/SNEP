@@ -19,16 +19,19 @@
 require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 
+
 if (!$data = ast_status("database show","",True )) {
    display_error($LANG['msg_nosocket'],true) ;
    exit;
 }
+
+
 $lines = explode("\n",$data);
 $arr = array();
 
-    foreach($lines as $indice => $ramal) {
-        $arr[] = substr($ramal, 0, strpos($ramal,":"));
-    }
+foreach($lines as $indice => $ramal) {
+    $arr[] = substr($ramal, 0, strpos($ramal,":"));
+}
 
 $agents = array();
 $lista = array();
@@ -99,41 +102,22 @@ $lista = array();
         }
         if(strpos($vall, "SIP") > 1 || strpos($vall, "IAX2") > 1 || strpos($vall, "KHOMP") > 1 || strpos($vall, "Agent") > 1) {
             $d = trim ($vall);
-            ( ! isset( $queues[$strFila]['agent'] )  ?
-                       $queues[$strFila]['agent'] = substr($d, 0, strpos($d, " ")) . ", " :
-                       $queues[$strFila]['agent'] .= substr($d, 0, strpos($d, " ")) . ", "
-            );
-            
+            $queues[$strFila]['agent'] .= substr($d, 0, strpos($d, " ")) . ", ";
             switch($vall) {
                 case strpos($vall, "Not in use") > 1 :
-                    ( ! isset( $queues[$strFila]['status'] ) ?
-                               $queues[$strFila]['status'] = $LANG['notinuse'] . "," :
-                               $queues[$strFila]['status'] = $LANG['notinuse'] . ","
-                    );                   
+                    $queues[$strFila]['status'] .=  $LANG['notinuse'].",";
                     break;
                 case strpos($vall, "Unknown") > 1 :
-                    ( ! isset( $queues[$strFila]['status'] ) ?
-                               $queues[$strFila]['status'] =  $LANG['unknown'] . "," :
-                               $queues[$strFila]['status'] .=  $LANG['unknown'] . ","
-                    );
+                    $queues[$strFila]['status'] .=  $LANG['unknown'].",";
                     break;
                 case strpos($vall, "In use") > 1 :
-                    ( ! isset( $queues[$strFila]['status'] ) ?
-                               $queues[$strFila]['status'] =  $LANG['inuse'] . "," :
-                               $queues[$strFila]['status'] .=  $LANG['inuse'] . ","
-                    );
+                    $queues[$strFila]['status'] .=  $LANG['inuse'].",";
                     break;
                 case strpos($vall, "paused") > 1 :
-                    ( ! isset( $queues[$strFila]['status'] ) ?
-                               $queues[$strFila]['status'] .=  $LANG['inpause'] . "," :
-                               $queues[$strFila]['status'] .=  $LANG['inpause'] . ","
-                    );                    
+                    $queues[$strFila]['status'] .=  $LANG['inpause'].",";
                     break;
                 case strpos($vall, "Unavailable") > 1 :
-                    ( ! isset( $queues[$strFila]['status'] ) ?
-                               $queues[$strFila]['status'] =  $LANG['unavailable'] . "," :
-                               $queues[$strFila]['status'] .=  $LANG['unavailable'] . ","
-                    );
+                    $queues[$strFila]['status'] .=  $LANG['unavailable'].",";
                     break;
             }
         }
@@ -159,7 +143,7 @@ if(!preg_match("/No such command/", $arrCodecs['1'])) {
 }
 
 
-$titulo = $LANG['menu_status']." -> ".$LANG['menu_databaseshow'];
+$titulo = $LANG['menu_status']." » ".$LANG['menu_databaseshow'];
 $smarty->assign ('FILAS',$queues) ;
 $smarty->assign ('RAMAIS',$ramais) ;
 $smarty->assign ('CODECS',$codec) ;
