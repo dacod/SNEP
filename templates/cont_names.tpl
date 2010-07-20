@@ -16,7 +16,7 @@
 *}
 {include file="cabecalho.tpl"}
 <table cellspacing="0" align="center" class="contorno">
-    <form name="formulario"  method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
+    <form name="formulario"  method="POST" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
         <tr>
             <td colspan="2" class="subtable"></td>
         </tr>
@@ -68,7 +68,7 @@
         <tr>
             <td class="formlabel">{$LANG.phones}:</td>
             <td class="subtable" >
-                <input name="phone_1" type="text" size="15" maxlength="15" class="campos" value="{$dt_contatos.phone_1}" />
+                <input name="phone_1" id="phone_1" type="text" size="15" maxlength="15" class="campos" value="{$dt_contatos.phone_1}" />
                 &nbsp;&nbsp;&nbsp;&nbsp;{$LANG.phone_format_contact}
 
             </td>
@@ -76,7 +76,7 @@
         <tr>
             <td class="formlabel">{$LANG.cells}:</td>
             <td class="subtable" >
-                <input name="cell_1" type="text" size="15" maxlength="15" class="campos" value="{$dt_contatos.cell_1}" />
+                <input name="cell_1" id="cell_1" type="text" size="15" maxlength="15" class="campos" value="{$dt_contatos.cell_1}" />
                 &nbsp;&nbsp;&nbsp;&nbsp;{$LANG.phone_format_contact}
 
             </td>
@@ -98,14 +98,26 @@
 </table>
 { include file="rodape.tpl }
 <script language="javascript" type="text/javascript">
+{literal}
     document.forms[0].elements[0].focus() ;
-    function check_form() {ldelim}
-    campos = new Array() ;
-    campos[0] = "{$LANG.name};"+document.formulario.name.value+";NOT_NULL;";
-    campos[1] = "{$LANG.phones};"+document.formulario.phone_1.value+";NUM;";
-    campos[2] = "{$LANG.cells};"+document.formulario.cell_1.value+";NUM;";
-    return valida_formulario(campos) ;
-    {rdelim}
-    { include file="../includes/javascript/functions_smarty.js" }
+
+    function check_form() {
+        campos = new Array() ;
+        campos[0] = "{$LANG.name};"+document.formulario.name.value+";NOT_NULL;";
+        
+        if( $('phone_1').value == "" && $('cell_1').value == "") {
+            alert('Informe um telefone ou celular para o contato.');
+            if($('phone_1').value == "") {
+                alert('Informe o nome do contato.');
+                return false;
+            }
+            return false;
+        }else{
+            return valida_formulario(campos) ;
+        }
+        
+    }
+{/literal}
+{ include file="../includes/javascript/functions_smarty.js" }
 </script>
 <script type="text/javascript" src="../includes/javascript/fselects.js"></script>
