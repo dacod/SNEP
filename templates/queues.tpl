@@ -418,7 +418,7 @@
 
     -->
     <tr>
-       <td colspan="2" class="subtable" align="center" height="32px" valign="top">
+       <td colspan="2" class="notopcenter subtable" align="center" height="32px" valign="top">
           <input class="button" type="submit" id="gravar" value="{$LANG.save}">
           <div class="buttonEnding"></div>
           &nbsp;&nbsp;&nbsp;
