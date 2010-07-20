@@ -19,42 +19,108 @@
     <li><strong>Ramal: </strong>Define o código do que identificará o Ramal. O
         Sistema sempre irá sugerir o número seguinte ao maior valor já cadastrado.
         Este código também será o LOGIN para o SNEP.</li>
-    <li><strong>Nome Completo: </strong>Define um nome para o Ramal.</li>
+
     <li><strong>Senha: </strong>Define uma senha para o Ramal, que também será
         a senha para o LOGIN no SNEP.</li>
-    <li><strong>E-Mail: </strong>Define um e-mail para o Ramal.</li>
+    
+    <li><strong>Nome Completo: </strong>Define um nome para o Ramal.</li>
 
-    <li><strong>Limite de Chamadas de Entrada: </strong>Define um número que
-        irá limitar o número de chamadas que o Ramal pode receber.</li>
-    <li><strong>Limite de Chamadas de Saída: </strong>Define um número que
-        irá limitar o número de chamadas que o Ramal pode fazer.</li>
-    <li><strong>Usa Voicemail : </strong>Define se o Ramal vai ou não utilizar Correio
-        de Voz.</li>
     <li><strong>Grupo de Ramais:</strong>Define o grupo de Ramais qual o ramal pertence</li>
-    <li><h3>OPÇÕES AVANÇADAS</h3>
-        <ul>
-            <li><strong>Grupo de Captura: </strong>Grupo de Captura do qual o Ramal
+
+    <li><strong>Grupo de Captura: </strong>Grupo de Captura do qual o Ramal
                 fará parte. Ramais em um mesmo grupo de captura permitem-se
                 capturar ligaços uns dos outros (<a href="ajuda.php?script=rel_grupos">Cadastros >> Grupos de Captura</a>).</li>
+
+    <li><strong>Voicemail : </strong>Define se o Ramal vai ou não utilizar Correio
+        de Voz.</li>
+
+    <li><strong>E-Mail: </strong>Define um e-mail para o Ramal.</li>
+    
+    <li><strong>Bloqueio: </strong>Cadeado para o ramal. Permite ou não efetuar chamadas.</li>
+
+    <li><strong>Tecnologia: </strong> Define qual tecnologia de canal o ramal irá usar para fazer/receber ligações. <br />
+        <ul>
+            <li><strong>SIP/IAX:</strong> Canais com tecnologia SIP ou IAX.</li>
+        </ul>
+        <ul>
+            <li><strong>Khomp:</strong> Ramais de tecnologia Khomp</li>
+        </ul>
+        <ul>
+            <li><strong>Virtual:</strong> Ramais com interfaces virtuais são mapeados em um tronco. Ao selecionar um tronco para a interface virtual do ramal, a ligação para ele será feita discando através do tronco para o numero do ramal.</li>
+        </ul>
+        <ul>
+            <li><strong>Manual:</strong> Permite especificar qual canal/tecnologia será utlizada na criação do ramal .</li>
+        </ul>
+    </li>
+   
+    <li><h3>OPÇÕES SIP / IAX</h3>
+        <ul>
+            <li><strong>Limite de Chamadas Simultaneas: </strong> Define o número máximo de chamadas simultaneas para este ramal.</li>
+
             <li><strong>Atravessar NAT: </strong>Define se a conexão do Ramal irá ou
                 não através um NAT.</li>
+
             <li><strong>Controle de Qualidade: </strong>Define se haverá ou não controle
                 de qualidade nas ligações do Ramal.</li>
+
             <li><strong>Tipo do peer (SIP): </strong>Define o tipo do sip, se será friend ou peer.</li>
+
             <li><strong>Modo de DTMF: </strong>Define o modo de DTMF do Ramal (Dual-Tone
                 Multi-Frequency = Tons de multi frequências.</li>
+
             <li><strong>CODECS Permitidos: </strong>Define quais os CODECS permitidos e
                 preferidos para o Ramal, na ordem que for escolhido.</li>
-            <li><strong>Canais: </strong>Define qual tecnologia de canal o ramal irá usar para fazer/receber ligações.
-                <ul>
-                    <li><strong>Virtual: </strong>ramais com interfaces virtuais são mapeados em um tronco.
-                        Ao selecionar um tronco para a interface virtual do ramal, a ligação para ele será feita discando através do tronco para o numero do ramal.</li>
-                </ul>
-            </li>
-            <li><strong>Visualizar Status...: </strong>Define de quais filas o Ramal, quando
+
+            <li><strong>Controle de Minutos: </strong>Define um tempo limite em minutos.</li>
+
+            <li><strong>Tipo de controle: </strong>Define o tipo de controle dos minutos.</li>
+            
+            <li><strong>Visualizar Status: </strong>Define de quais filas o Ramal, quando
                 LOGADO no SNEP poderá acompanhar o Status (<a href="ajuda.php?script=queues">Status >> Filas</a>)</li>
         </ul>
     </li>
+
+    <li><h3>OPÇÃO KHOMP</h3>
+        <ul>
+            <li><strong>Placa: </strong>Define qual das placas existentes no sistema.</li>
+
+            <li><strong>Canal: </strong>Define qual canal da placa selecionada.</li>
+
+            <li><strong>Controle de Minutos: </strong>Define um tempo limite em minutos.</li>
+
+            <li><strong>Tipo de controle: </strong>Define o tipo de controle dos minutos.</li>
+
+            <li><strong>Visualizar Status: </strong>Define de quais filas o Ramal, quando
+                LOGADO no SNEP poderá acompanhar o Status (<a href="ajuda.php?script=queues">Status >> Filas</a>)</li>
+        </ul>
+    </li>
+
+    <li><h3>OPÇÃO VIRTUAL</h3>
+        <ul>
+            <li><strong>Tronco: </strong>Define o tronco a ser mapeado.</li>
+
+            <li><strong>Controle de Minutos: </strong>Define um tempo limite em minutos.</li>
+
+            <li><strong>Tipo de controle: </strong>Define o tipo de controle dos minutos.</li>
+
+            <li><strong>Visualizar Status: </strong>Define de quais filas o Ramal, quando
+                LOGADO no SNEP poderá acompanhar o Status (<a href="ajuda.php?script=queues">Status >> Filas</a>)</li>
+        </ul>
+    </li>
+
+    <li><h3>OPÇÃO MANUAL</h3>
+        <ul>
+            <li><strong>Manual: </strong>Define o canal/tecnologia a ser utilizado.</li>
+
+            <li><strong>Controle de Minutos: </strong>Define um tempo limite em minutos.</li>
+
+            <li><strong>Tipo de controle: </strong>Define o tipo de controle dos minutos.</li>
+
+            <li><strong>Visualizar Status: </strong>Define de quais filas o Ramal, quando
+                LOGADO no SNEP poderá acompanhar o Status (<a href="ajuda.php?script=queues">Status >> Filas</a>)</li>
+        </ul>
+    </li>
+
 </ul>
 
 <p>Links Relacionados</p>
