@@ -19,8 +19,13 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 ver_permissao(105);
 
+if (!$data = ast_status("show channels","",True )) {
+   display_error($LANG['msg_nosocket'], true) ;
+   exit;
+}
+
 $titulo = $LANG['menu_links_erros'] ;
-$smarty->assign ('REFRESH',array('mostrar'=> True,
+$smarty->assign ('REFRESH',array('mostrar'=> false,
                               'tempo'  => $SETUP['ambiente']['tempo_refresh'],
                               'url'    => "../gestao/links_errors.php"));
 $titulo = $LANG['menu_links_erros'];
