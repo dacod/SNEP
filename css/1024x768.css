@@ -17,7 +17,12 @@
     background-repeat: no-repeat;
     background-position: 5px center;
 }
-
+.nobottomcenter {
+    border-bottom: none !important;
+}
+.notopcenter {
+    padding-top:4px !important;
+}
 .new_button {
     border: 1px solid #FDB712;
     padding: 4px 10px;
@@ -581,6 +586,10 @@ thead.mensagem {
    margin-left: -490px; 
    text-align: left ;
    padding-right: 1px ;   
+}
+#container form{
+    margin:0px;
+    padding:0px;    
 }
 #compactar {
    width: 390px ;
