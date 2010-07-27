@@ -31,7 +31,7 @@
   }
 
   $titulo = $LANG['menu_status']." » ".$LANG['menu_databaseshow']." » ".$LANG['view'];
-  $smarty->assign ('REFRESH',array('mostrar'=> false,
+  $smarty->assign ('REFRESH',array('mostrar'=> true,
                                    'tempo'  => 10,
                                    'url'    => "../src/database_show.php"));
   display_template("cabecalho.tpl",$smarty,$titulo) ;
