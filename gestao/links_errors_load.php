@@ -25,7 +25,7 @@ if (!$data = ast_status("show channels","",True )) {
 }
 
 $titulo = $LANG['menu_links_erros'] ;
-$smarty->assign ('REFRESH',array('mostrar'=> false,
+$smarty->assign ('REFRESH',array('mostrar'=> true,
                               'tempo'  => $SETUP['ambiente']['tempo_refresh'],
                               'url'    => "../gestao/links_errors.php"));
 $titulo = $LANG['menu_links_erros'];
