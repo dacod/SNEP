@@ -313,8 +313,9 @@ function grava_alterar()  {
      $db->exec($sql) ;
      $db->commit();
      // Executa comando do Asterisk para recarregar as Filas
-     echo ast_status("module reload app_queue.so", "" ) ;
+     ast_status("module reload app_queue.so", "" ) ;
      echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+
    } catch (Exception $e) {
      $db->rollBack();
      display_error($LANG['error'].$e->getMessage(),true) ;
