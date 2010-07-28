@@ -448,7 +448,7 @@
         mensagem += "\n - {$LANG.msg_thefield} '{$LANG.name}' {$LANG.msg_notblank}";
         erro=true ;
      }
-     var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?~_ ";
+     var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?~ ";
 
      for (var i = 0; i < name.length; i++) {
           if (iChars.indexOf(name.charAt(i)) != -1) {
