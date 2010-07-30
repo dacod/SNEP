@@ -49,7 +49,7 @@
              <td valign="middle" align="center">
              {if $exten.exten != 'admin'}
              <form name="formulario" method="post"  action="../configs/permissoes.php" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="{$exten.id}" />
+                <input type="hidden" name="dt_id" value="{$exten.id}" />
                 <input type="hidden" name="nome" value="{$exten.name}" />
                 <input type="hidden" name="name" value="{$exten.exten}" />
                 <acronym title="{$LANG.permitions}">

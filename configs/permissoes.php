@@ -25,7 +25,7 @@ if (array_key_exists ('permissao', $_POST)) {
 }
 
 $name = ( isset( $_POST['name'] ) ? $_POST['name'] : null ) ;
-$dt_id = ( isset( $_POST['id'] ) ? $_POST['id'] : null ) ;
+$dt_id = ( isset( $_POST['dt_id'] ) ? $_POST['dt_id'] : null ) ;
 $nome = ( isset(  $_POST['nome']  ) ? $_POST['nome'] : null) ;
 
 $titulo = $LANG['menu_register']." » ".$LANG['menu_ramais']." » ".$LANG['permitions']." ".$LANG['of']." ".$LANG['user'] ;
@@ -60,9 +60,9 @@ if($desvinculados) {
 /* Agentes Desvinculados ao ramal */
 $agentes_desvinculados = Snep_Vinculos::getDesvinculadosAgente($name);
 if($agentes_desvinculados) {
-    foreach($agentes_desvinculados as $id => $agentes_desvinculado) {
+    foreach($agentes_desvinculados as $ida => $agentes_desvinculado) {
         //$arrAgentesDesvinculados[$id] = "Agente: ". $agentes_desvinculado ;
-        $arrDesvinculados["a-" . $id] = "Agente: $agentes_desvinculado";
+        $arrDesvinculados["a-" . $ida] = "Agente: $agentes_desvinculado";
 
     }
 }
@@ -72,7 +72,7 @@ $sql = " SELECT r.cod_rotina as cod_rotina,r.desc_rotina as desc_rotina," ;
 $sql.= " permissoes.permissao as permissao";
 $sql.= " FROM rotinas as r " ;
 $sql.= " LEFT JOIN permissoes ON permissoes.cod_rotina = r.cod_rotina ";
-$sql.= " AND permissoes.cod_usuario = '$id' " ;
+$sql.= " AND permissoes.cod_usuario = '$dt_id' " ;
 $sql.= " order by desc_rotina" ;
 
 try {
