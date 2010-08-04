@@ -24,6 +24,15 @@ ver_permissao(16) ;
 global $acao ;
 unset($_SESSION['filas_selec']);
 
+// Testa conexao com Asterisk
+try {
+    $asterisk = PBX_Asterisk_AMI::getInstance();
+    $asterisk->Command("core show version");
+}
+catch( Asterisk_Exception_CantConnect $ex ) {
+    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, -1);
+}
+
 // Monta Lista de Grupos de Ramais
 $user_groups = array() ;
 try {
@@ -69,7 +78,7 @@ try {
     $khompInfo = new PBX_Khomp_Info();
 }
 catch( Asterisk_Exception_CantConnect $ex ) {
-    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, 0);
+    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, -1);
 }
 
 $no_khomp = false;
