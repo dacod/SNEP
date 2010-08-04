@@ -30,7 +30,7 @@
         <tr>
             <td class="formlabel" >{$LANG.name}:</td>
             <td class="subtable" >
-                <input name="name" type="text" size="30" maxlength="50"  class="campos" value="{$dt_contatos.name}" >
+                <input id="name" name="name" type="text" size="30" maxlength="50"  class="campos" value="{$dt_contatos.name}" >
             </td>
         </tr>
         <tr>
@@ -108,7 +108,7 @@
         if( $('phone_1').value == "" && $('cell_1').value == "") {
             alert('Informe um telefone ou celular para o contato.');
 
-            if($('phone_1').value == "") {
+            if($('name').value == "") {
                 alert('Informe o nome do contato.');
                 return false;
             }
