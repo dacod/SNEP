@@ -33,8 +33,8 @@
             <ul id="expr" style="list-style:none; padding: 0px; margin: 0px;"></ul>
           </td>
        </tr>
-      <tr>
-         <td colspan="2" class="subtable" style="text-align: center;">
+       <tr>
+         <td colspan="2" class="subtable" style="text-align: center;border-top: 1px solid rgb(204, 204, 204);padding: 4px 0px;"  >
             <input class="new_button" type="submit" id="gravar" value="{$LANG.save}">
             <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../gestao/expression_alias.php'" />
          </td>
