@@ -107,12 +107,19 @@
         
         if( $('phone_1').value == "" && $('cell_1').value == "") {
             alert('Informe um telefone ou celular para o contato.');
+
             if($('phone_1').value == "") {
                 alert('Informe o nome do contato.');
                 return false;
             }
             return false;
         }else{
+            if($('phone_1').value != "") {
+                campos[1] = "{$LANG.phones};"+document.formulario.phone_1.value+";NUM;";
+            }
+            if($('phone_1').value != "") {
+                campos[2] = "{$LANG.cells};"+document.formulario.cell_1.value+";NUM;";
+            }
             return valida_formulario(campos) ;
         }
         
