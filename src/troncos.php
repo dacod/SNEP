@@ -19,6 +19,16 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 ver_permissao(31);
 
+// Testa conexao com Asterisk
+try {
+    $asterisk = PBX_Asterisk_AMI::getInstance();
+    $asterisk->Command("core show version");
+}
+catch( Asterisk_Exception_CantConnect $ex ) {
+    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, -1);
+}
+
+
 // Monta lista de Troncos existentes - para Redundancia
 // ----------------------------------------------------
 $sql = "SELECT id,name,callerid FROM trunks " ;
