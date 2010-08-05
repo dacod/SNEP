@@ -22,15 +22,13 @@
    </tr>
    <tr>
       <td class="formlabel" >{$LANG.name}:</td>
-      <td class="subtable" >
+      <td class="subtable" style="padding:10px;">
         <input name="nome" type="text" size="30" maxlength="50"  class="campos" value="{$dt_grupos.nome}" >
       </td>
    </tr>
+
   <tr>
-    <td class="subtable" colspan="2" ><hr /></td>
-  </tr>
-  <tr>
-     <td colspan="2" class="subtable" align="center" height="32px" valign="top">
+     <td colspan="2" class="notopcenter" align="center" height="32px;padding;top:5px;" valign="top">
         <input class="button" type="submit" id="gravar" value="{$LANG.save}">
         <div class="buttonEnding"></div>
         &nbsp;&nbsp;&nbsp;

@@ -21,10 +21,10 @@
             <form name="filtro" method="post" action="{$smarty.server.SCRIPT_NAME}">
             {$LANG.fieldtofilter}
                 <select name="field_filter" class="campos">
-                    {html_options options=$OPCOES}
+                    {html_options options=$OPCOES selected=$field_filter }
                 </select>
                 &nbsp;&nbsp;&nbsp;
-                {$LANG.filter}: <input type="text" name="text_filter" class="campos">
+                {$LANG.filter}: <input type="text" name="text_filter" class="campos" {if $field_text != ""}value={$field_text} {/if}>
                 &nbsp;&nbsp;&nbsp;
                 <input type="submit" name="filtrar" value="{$LANG.apply}" class="new_button"/>
                 &nbsp;&nbsp;&nbsp;

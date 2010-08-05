@@ -19,6 +19,16 @@
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php");
  ver_permissao(17) ;
+
+
+ // Testa conexao com Asterisk
+try {
+    $asterisk = PBX_Asterisk_AMI::getInstance();
+    $asterisk->Command("core show version");
+}
+catch( Asterisk_Exception_CantConnect $ex ) {
+    display_error("Falha ao conectar com o servidor Asterisk: {$ex->getMessage()}", true, -1);
+}
  
  // Monta Lista de Grupos de Captura
  if (!isset($grupos) || count($grupos) == 0) {
@@ -34,7 +44,6 @@
        $grupos[$val['cod_grupo']] = $val['nome'] ;
     asort($grupos) ;  
  }
-
 
  // Monta Lista de Grupos de Ramais
  $user_groups = array() ;

@@ -22,7 +22,7 @@
  session_start() ;
  if (array_key_exists ('login', $_POST)) {        
     try {
-       $sql = "SELECT id,name,secret,callerid,vinculo FROM peers " ;
+       $sql = "SELECT id,name,password,callerid,vinculo FROM peers " ;
        $sql.= " WHERE name = '".$_POST['user_login']."'";
        $row = $db->query($sql)->fetch();
     } catch  (Exception $e) {;
@@ -30,7 +30,7 @@
        $ERR= True ;
     }
     if (!isset($ERR)) {
-       if ($_POST['user_login'] != $row['name'] || $_POST['user_senha'] !=    $row['secret']) {
+       if ($_POST['user_login'] != $row['name'] || $_POST['user_senha'] !=    $row['password']) {
           display_error($LANG['msg_loginerror'],true);
           exit ;
        } else {

@@ -22,6 +22,9 @@ ver_permissao(59);
 
 $titulo = $LANG['menu_contato']." » ".$LANG['menu_contacts'];
 
+$_SESSION['field_filter'] =  ( isset( $_POST['field_filter'] ) ? $_POST['field_filter'] : "" );
+$_SESSION['field_text'] = ( isset( $_POST['text_filter'] ) ? $_POST['text_filter'] : "" );
+
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 if($action == 'delete_all') {
 
@@ -121,6 +124,8 @@ $tmp =  ver_permissao(57,"", True);
 // Variaveis Relativas a Barra de Filtro/Botao Incluir
 $smarty->assign ('view_filter',True) ;
 $smarty->assign ('OPCOES', $opcoes) ;
+$smarty->assign ('field_filter',  ( isset( $_SESSION['field_filter'] ) ? $_SESSION['field_filter'] : "" )  );
+$smarty->assign ('field_text', ( isset( $_SESSION['field_text'] ) ? $_SESSION['field_text'] : "") );
 $smarty->assign ('array_include_buttom',array("url" => "../src/cont_names.php", "display"  => $LANG['include']." ".$LANG['menu_contacts']));
 $smarty->assign ('array_include_buttom2',array("url" => "../src/import_contacts_csv.php", "display"  => "Importar CSV"));
 

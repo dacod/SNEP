@@ -28,10 +28,11 @@ if (!$data = ast_status("khomp links show concise","",True )) {
    display_error($LANG['msg_nosocket'], true) ;
    exit;
 }
- $lines = explode("\n",$data);
- $links = array() ; 
- $boards = array() ;
- $lst = '';
+
+$lines = explode("\n",$data);
+$links = array() ; 
+$boards = array() ;
+$lst = '';
 
  if(trim(substr($lines['1'], 10 ,16)) === "Error" || strpos($lines['1'], "such command") > 0 ) {
        display_error($LANG['msg_nokhomp'], true) ;

@@ -83,7 +83,7 @@ CREATE TABLE expr_alias_expression (
 
 LOCK TABLES `expr_alias_expression` WRITE;
 /*!40000 ALTER TABLE `expr_alias_expression` DISABLE KEYS */;
-INSERT INTO `expr_alias_expression` VALUES (1,'[2-5]XXXXXXX'),(2,'[6-9]XXXXXXX'),(3,'0|XX[2-5]XXXXXXX'),(4,'0|XX[6-9]XXXXXXX');
+INSERT INTO `expr_alias_expression` VALUES (1,'[2-6]XXXXXXX'),(2,'[7-9]XXXXXXX'),(3,'0|XX[2-5]XXXXXXX'),(4,'0|XX[6-9]XXXXXXX');
 /*!40000 ALTER TABLE `expr_alias_expression` ENABLE KEYS */;
 UNLOCK TABLES;
 

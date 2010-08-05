@@ -27,7 +27,7 @@
     <tr>
        <td class="formlabel" style="width: 50%;">{$LANG.q_name}:</td>
        <td class="subtable" >
-         <input name="name" type="text" size="20" maxlength="20"   value="{$dt_queues.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} />
+         <input name="name" id="name" type="text" size="20" maxlength="20"   value="{$dt_queues.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} />
        </td>
     </tr>
     <tr>
@@ -49,7 +49,6 @@
              <img src="../imagens/ouvir.png" alt="Ouvir" width="16" height="16" hspace="0" vspace="0" style="border: none; cursor : hand;"  onclick="DHTMLSound('announce')"/>
           </a>
           -->
-
        </td>
     </tr>   
     <tr>
@@ -419,7 +418,7 @@
 
     -->
     <tr>
-       <td colspan="2" class="subtable" align="center" height="32px" valign="top">
+       <td colspan="2" class="notopcenter subtable" align="center" height="32px" valign="top">
           <input class="button" type="submit" id="gravar" value="{$LANG.save}">
           <div class="buttonEnding"></div>
           &nbsp;&nbsp;&nbsp;
@@ -433,37 +432,43 @@
  { include file="rodape.tpl }
 
  <script language="javascript" type="text/javascript">
-
+ {literal}
+ 
   document.forms[0].elements[0].focus() ;
  /*---------------------------------------------------------------------------
   * Funcoes JAVA de validacao do Formulario
   * --------------------------------------------------------------------------*/
-  function valida_formulario() {ldelim}
+  function valida_formulario() {
      var mensagem="{$LANG.msg_errors}";
-     var erro=true ;
-     if (document.formulario.name.value.length == 0 ) {ldelim}
+     var erro=false ;
+
+     var name =  $('name').value;
+
+     if (name.length == 0 ) {
         mensagem += "\n - {$LANG.msg_thefield} '{$LANG.name}' {$LANG.msg_notblank}";
-        erro=false ;
-     {rdelim}
-     if (!erro) {ldelim}
+        erro=true ;
+     }
+     var iChars = "!@#$%^&*()+=-[]\\\';,./{}|\":<>?~ ";
+
+     for (var i = 0; i < name.length; i++) {
+          if (iChars.indexOf(name.charAt(i)) != -1) {
+             mensagem="A fila possue caracteres inválidos no nome, verifique."
+             erro=true;
+          }
+     }
+     if (erro) {
         alert(mensagem);
-     {rdelim}
-     return erro ;
-  {rdelim}
-  
-  function DHTMLSound(surl) {ldelim}
+        return false ;
+     }
+     return true ;
+  }
+
+  function DHTMLSound(surl) {
      var som='{$SOUNDS_PATH}'+document.getElementById(surl).value ;
      document.getElementById('dummyspan').innerHTML="<embed src='"+som+"' hidden=true autostart=true loop=false>";
-  {rdelim}
+  }
 
-  
- </script>
-
- <script language="javascript" type="text/javascript">
- {literal}
- 
- function change_alert(par) {
-
+  function change_alert(par) {
     if($(par).hasClassName('regra0')) {
         $(par).removeClassName('regra0');
         $(par).addClassName('regra1');
@@ -474,9 +479,7 @@
         $(par).addClassName('regra0');
         $(par + 'ativo').value = 0;
     }
-    
- }
- {/literal}
- </script>
+  }
 
+ {/literal}
  </script>

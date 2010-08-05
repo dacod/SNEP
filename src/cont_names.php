@@ -38,7 +38,7 @@ if ($acao == "cadastrar") {
     cadastrar();
 }
 elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_contacts']." -> ".$LANG['menu_contacts']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_contacts']." » ".$LANG['menu_contacts']." » ".$LANG['change'];
     alterar();
 } 
 elseif ($acao ==  "grava_alterar") {
@@ -47,7 +47,7 @@ elseif ($acao ==  "grava_alterar") {
 elseif ($acao ==  "excluir") {
     excluir();
 } else {
-    $titulo = $LANG['menu_contato']." -> ".$LANG['menu_contacts']." -> ".$LANG['include'];
+    $titulo = $LANG['menu_contato']." » ".$LANG['menu_contacts']." » ".$LANG['include'];
     principal() ;
 }
 
@@ -67,10 +67,11 @@ function principal()
       display_error($LANG['error'].$e->getMessage(),true) ;
    }  
    
-   $lastID = trim($row['id'])+1 ;
-   $smarty->assign('LASTID', $lastID) ;
-   $smarty->assign('ACAO',"cadastrar") ;
-   display_template("cont_names.tpl",$smarty,$titulo) ;
+   $lastID = trim($row['id']) + 1;
+   $smarty->assign('LASTID', $lastID);
+   $smarty->assign('PROTOTYPE', true);
+   $smarty->assign('ACAO',"cadastrar");
+   display_template("cont_names.tpl",$smarty,$titulo);
 }
 
 /*------------------------------------------------------------------------------

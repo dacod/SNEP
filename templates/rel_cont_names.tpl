@@ -61,11 +61,27 @@
        </tr>
       </tr>
    {/section}
+
    <tr class="dir">
       <td colspan="9" class="links" >
-          <a href="./rel_cont_names.php?action=delete_all"><input style="float:left;" type="button" class="new_button" value="Apagar dados da seleção" /></a>
+          <span> <input onclick="remove_all();" style="float:left;" type="button" class="new_button" value="Apagar dados da seleção" /> </span>
          {include file="paginacao.tpl"}
       </td>
    </tr>
+
 </table>
+ <script type="text/javascript">
+     {literal}
+     function remove_all() {
+        var confirma = confirm("Você removerá todos os itens visualizados pelo filtro, está certo disso?");
+        
+        if(confirma) {
+            window.location.href="../src/rel_cont_names.php?action=delete_all";
+        }else{
+            window.location.href="../src/rel_cont_names.php";
+        }
+     }
+     {/literal}
+ </script>
+
 { include file="rodape.tpl }

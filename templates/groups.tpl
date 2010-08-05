@@ -51,7 +51,7 @@
              <img src="../imagens/go-next.png" border="0"  width="32" height="32"/>
           </a>
        </td>
-       <td class="noleftrightcenter" rowspan="2" width="40%">
+       <td class="noleftrightcenter nobottomcenter" rowspan="2" width="40%">
           <div id="titulo">
              {$LANG.include_exten} :
           </div>
@@ -65,23 +65,22 @@
        </td>
     </tr>
     <tr>
-       <td class="subtable" style="text-align:center; vertical-align: middle; ">
+       <td class="subtable notopcenter" style="text-align:center; vertical-align: middle; ">
            <a href="#" onclick="movimento('lista1', 'passar','lista2')">
               <img src="../imagens/go-previous.png" border="0"  width="32" height="32"/>
            </a>
        </td>
     </tr>
+    <tr>
+        <td colspan="3" class="subtable notopcenter" align="center" height="32px" valign="top">
 
-  <tr>
-     <td colspan="3" class="subtable" align="center" height="32px" valign="top">
-         <br />
         <input class="button" type="submit" id="gravar" value="{$LANG.save}">
         <div class="buttonEnding"></div>
         &nbsp;&nbsp;&nbsp;
         <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_groups.php'" />
         <div class="buttonEnding"></div>
-     </td>
-  </tr>
+        </td>
+    </tr>
   <input type="hidden" name="cod_grupo" value="{$dt_grupos.name}" />
 </form>
 

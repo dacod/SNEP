@@ -179,6 +179,7 @@ function cadastrar()  {
                                               'ativo'   => $_POST['a_sms_ativo'] ) );
    }
 */
+   $announce = substr($announce, 0, strpos($announce, "."));
    $sql  = "INSERT INTO queues " ;
    $sql .= " VALUES ('$name', '$musiconhold', '$announce', '$context', $timeout, '$monitor_type', '$monitor_format', '$queue_youarenext', '$queue_thereare', '$queue_callswaiting', '$queue_holdtime', '$queue_minutes', '$queue_seconds', '$queue_lessthan', '$queue_thankyou', '$queue_reporthold', $announce_frequency, $announce_round_seconds, '$announce_holdtime', $retry, $wrapuptime, $maxlen, $servicelevel, '$strategy', '$joinempty', '$leavewhenempty', '$eventmemberstatus', '$eventwhencalled', '$reportholdtime', $memberdelay, $weight, '$timeoutrestart', '$periodic_announce', $periodic_announce_frequency,'0','0','$alert_mail')" ;
    
@@ -288,6 +289,8 @@ function grava_alterar()  {
    // Campos desabilitados
    $announce_round_seconds = 0;
    $periodic_announce_frequency = 0 ;
+
+   $announce = substr($announce, 0, strpos($announce, "."));
     
    $sql =  " UPDATE queues SET " ;
    $sql.=  " musiconhold='$musiconhold', announce='$announce', context='$context', ";
@@ -305,16 +308,15 @@ function grava_alterar()  {
    $sql .= " periodic_announce_frequency=$periodic_announce_frequency ";
    $sql .= " WHERE name='$name' " ;
  
-
-
    try {
 
      $db->beginTransaction() ;
      $db->exec($sql) ;
      $db->commit();
      // Executa comando do Asterisk para recarregar as Filas
-     echo ast_status("module reload app_queue.so", "" ) ;
+     ast_status("module reload app_queue.so", "" ) ;
      echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+
    } catch (Exception $e) {
      $db->rollBack();
      display_error($LANG['error'].$e->getMessage(),true) ;

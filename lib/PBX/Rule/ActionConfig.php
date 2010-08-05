@@ -103,7 +103,7 @@ class PBX_Rule_ActionConfig {
             $parsed_element->getDecorator('errors')->setOption('placement','PREPEND');
             $form->addElement($parsed_element);
         }
-        $form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar')));
+        $form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar'), array("class" => "new_button")));
         $this->form = $form;
         return $this->form;
     }
