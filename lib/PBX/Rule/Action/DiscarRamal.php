@@ -308,7 +308,7 @@ XML;
 
             if($this->diff_ring) {
                 if($ramal->getInterface()->getTech() == "SIP") {
-                    $asterisk->exec('SIPAddHeader', '"Alert-Info: Bellcore-r3"');
+                    $asterisk->exec('SIPAddHeader', 'Alert-Info: Bellcore-r3');
                 }
                 else if($ramal->getInterface()->getTech() == "KHOMP") {
                     $canal .= "/ring=400.200:ring_ext=400.2000";
