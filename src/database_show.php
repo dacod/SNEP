@@ -125,7 +125,7 @@ $lista = array();
 
 /*-------------------------------------------------------------------------------------- */
     
-if (!$codecs = ast_status("show g729","",True )) {
+if (!$codecs = ast_status("core show g729","",True )) {
    display_error($LANG['msg_nosocket'],true) ;
    exit;
 }
