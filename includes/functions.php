@@ -591,6 +591,7 @@ function monta_csv($arr_titulo, $arr_dados) {
     $titulos = implode(";", $arr_titulo);
     $dados_csv = '';
     $dad_csv = '';
+    $formatter = new Formata();
 
     foreach ($arr_dados as $chave => $dados_ori ) {
 
@@ -600,36 +601,22 @@ function monta_csv($arr_titulo, $arr_dados) {
         $dados = $dados_ori;
 
         if (isset($dados['duration'])) {
-            $my_object = new Formata;
-            $dados['duration'] = $my_object->fmt_segundos(array("a"=>$dados_ori['duration'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['duration'] = $formatter->fmt_segundos(array("a"=>$dados_ori['duration'],"b"=>'hms', "A"));
         }
         if (isset($dados['billsec'])) {
-            $my_object = new Formata;
-            $dados['billsec'] = $my_object->fmt_segundos(array("a"=>$dados_ori['billsec'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['billsec'] = $formatter->fmt_segundos(array("a"=>$dados_ori['billsec'],"b"=>'hms', "A"));
         }
         if (isset($dados['src'])) {
-            $my_object = new Formata;
-            $dados['src'] = $my_object->fmt_telefone(array("a"=>$dados_ori['src']));
-            $my_object = null;
+            $dados['src'] = $formatter->fmt_telefone(array("a"=>$dados_ori['src']));
         }
         if (isset($dados['dst'])) {
-            $my_object = new Formata;
-            $dados['dst'] = $my_object->fmt_telefone(array("a"=>$dados_ori['dst']));
-            $my_object = null;
+            $dados['dst'] = $formatter->fmt_telefone(array("a"=>$dados_ori['dst']));
         }
         if (isset($dados['par2'])) {
-            $my_object = new Formata;
-            $dados['dst'] = $my_object->fmt_telefone(array("a"=>$dados_ori['dst']));
-            $my_object = null;
+            $dados['dst'] = $formatter->fmt_telefone(array("a"=>$dados_ori['dst']));
         }
         if (array_key_exists("tarifacao", $arr_titulo)) {
-            if($dados['disposition'] != "NO ANSWER") {
-                $my_object = new Formata;
-                $dados['tarifacao'] = $my_object->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']),"A");
-                $my_object = null;
-            }
+            $dados['tarifacao'] = $formatter->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']));
         }
         if($dados['disposition']) {
             if($dados['disposition'] == "ANSWERED") {
@@ -643,97 +630,61 @@ function monta_csv($arr_titulo, $arr_dados) {
             }
         }
         if(isset($dados['dst'])) {
-            $my_object = new Formata;
-            $dados['origem'] = $my_object->fmt_cidade(array("a"=>$dados_ori['dst']));
-            $my_object = null;
+            $dados['origem'] = $formatter->fmt_cidade(array("a"=>$dados_ori['dst']));
         }
 
         /* Tratamento das Estatísticas do Operador */
 
         if (isset($dados['otp_cha'])) {
-            $my_object = new Formata;
-            $dados['otp_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_cha'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['otp_cha'] = $formatter->fmt_segundos(array("a"=>$dados_ori['otp_cha'],"b"=>'hms', "A"));
         }
         if (isset($dados['otp_ate'])) {
-            $my_object = new Formata;
-            $dados['otp_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_ate'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['otp_ate'] = $formatter->fmt_segundos(array("a"=>$dados_ori['otp_ate'],"b"=>'hms', "A"));
         }
         if (isset($dados['otp_esp'])) {
-            $my_object = new Formata;
-            $dados['otp_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['otp_esp'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['otp_esp'] = $formatter->fmt_segundos(array("a"=>$dados_ori['otp_esp'],"b"=>'hms', "A"));
         }
         if (isset($dados['omd_cha'])) {
-            $my_object = new Formata;
-            $dados['omd_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_cha'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['omd_cha'] = $formatter->fmt_segundos(array("a"=>$dados_ori['omd_cha'],"b"=>'hms', "A"));
         }
         if (isset($dados['omd_ate'])) {
-            $my_object = new Formata;
-            $dados['omd_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_ate'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['omd_ate'] = $formatter->fmt_segundos(array("a"=>$dados_ori['omd_ate'],"b"=>'hms', "A"));
         }
         if (isset($dados['omd_esp'])) {
-            $my_object = new Formata;
-            $dados['omd_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['omd_esp'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['omd_esp'] = $formatter->fmt_segundos(array("a"=>$dados_ori['omd_esp'],"b"=>'hms', "A"));
         }
         if (isset($dados['rtp_cha'])) {
-            $my_object = new Formata;
-            $dados['rtp_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_cha'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rtp_cha'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rtp_cha'],"b"=>'hms', "A"));
         }
         if (isset($dados['rtp_ate'])) {
-            $my_object = new Formata;
-            $dados['rtp_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_ate'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rtp_ate'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rtp_ate'],"b"=>'hms', "A"));
         }
         if (isset($dados['rtp_esp'])) {
-            $my_object = new Formata;
-            $dados['rtp_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rtp_esp'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rtp_esp'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rtp_esp'],"b"=>'hms', "A"));
         }
         if (isset($dados['rmd_cha'])) {
-            $my_object = new Formata;
-            $dados['rmd_cha'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_cha'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rmd_cha'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rmd_cha'],"b"=>'hms', "A"));
         }
         if (isset($dados['rmd_ate'])) {
-            $my_object = new Formata;
-            $dados['rmd_ate'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_ate'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rmd_ate'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rmd_ate'],"b"=>'hms', "A"));
         }
         if (isset($dados['rmd_esp'])) {
-            $my_object = new Formata;
-            $dados['rmd_esp'] = $my_object->fmt_segundos(array("a"=>$dados_ori['rmd_esp'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['rmd_esp'] = $formatter->fmt_segundos(array("a"=>$dados_ori['rmd_esp'],"b"=>'hms', "A"));
         }
         if (isset($dados['tml'])) {
-            $my_object = new Formata;
-            $dados['tml'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tml'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['tml'] = $formatter->fmt_segundos(array("a"=>$dados_ori['tml'],"b"=>'hms', "A"));
         }
         if (isset($dados['tma'])) {
-            $my_object = new Formata;
-            $dados['tma'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tma'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['tma'] = $formatter->fmt_segundos(array("a"=>$dados_ori['tma'],"b"=>'hms', "A"));
         }
         if (isset($dados['tmef'])) {
-            $my_object = new Formata;
-            $dados['tmef'] = $my_object->fmt_segundos(array("a"=>$dados_ori['tmef'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['tmef'] = $formatter->fmt_segundos(array("a"=>$dados_ori['tmef'],"b"=>'hms', "A"));
         }
         if (isset($dados['TA'])) {
-            $my_object = new Formata;
-            $dados['TA'] = $my_object->fmt_segundos(array("a"=>$dados_ori['TA'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['TA'] = $formatter->fmt_segundos(array("a"=>$dados_ori['TA'],"b"=>'hms', "A"));
         }
         if (isset($dados['TN'])) {
-            $my_object = new Formata;
-            $dados['TN'] = $my_object->fmt_segundos(array("a"=>$dados_ori['TN'],"b"=>'hms', "A"));
-            $my_object = null;
+            $dados['TN'] = $formatter->fmt_segundos(array("a"=>$dados_ori['TN'],"b"=>'hms', "A"));
         }
 
         /* Este foreach percorre cada um dos arrays internos de $row e guarda o que

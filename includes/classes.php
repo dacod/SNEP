@@ -186,7 +186,7 @@ class Bar_Graph {
    *         dt_chamada - campo 'calldate' da tabela CDR
    * Retorna: array (valor, cidade, estado, tp_fone, dst_fmtd)
    * ----------------------------------------------------------------------------*/
-   function fmt_tarifa($param,$smarty) {
+   function fmt_tarifa($param, $smarty = null) {
 
       global $db ;
 
@@ -205,19 +205,19 @@ class Bar_Graph {
 
       // Chamada não efetuada, tempo igual a zero.
       if ($duracao == 1) {
-         return 0;
+         return $smarty == "A" ? "0" : "0,00";
          exit;
       }
 
       // Descarta ligação de entrada, não tarifáveis.
       if ( $tn < 8  || !is_numeric($destino) || $tipoccusto == "E" || $ccusto == "" ) {
-         return "N.A." ;
+         return $smarty == "A" ? "0" : "0,00";
          exit;
       }
 
       // Descarta 0800, não tarifáveis
       if(substr(trim($destino),0,4) == "0800") {
-          return "N.A.";
+          return $smarty == "A" ? "0" : "0,00";
           exit;
       }
 
@@ -275,7 +275,7 @@ class Bar_Graph {
       }
       // Nao encontrou operadora ligada ao Centro de Custos da Chamda 
       if ( trim( $t['codigo'] ) === "" ) {
-         return "N.O.D" ;
+         return $smarty == "A" ? "0" : "0,00";
       }
 
       /* Pega dados das tarifas conforme requisitos da operadora, ddi , ddd e prefixo)
@@ -329,11 +329,11 @@ class Bar_Graph {
       if($dbg == 1) {
           echo $ret;
       }
-   
+
       if ($smarty == "A")
          return $tarifa;
       else
-         return number_format($tarifa,2,",",".") ;
+         return number_format($tarifa,2,",","");
    }
 
 } // Fim da Classe formata
