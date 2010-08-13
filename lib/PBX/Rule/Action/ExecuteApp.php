@@ -70,7 +70,7 @@ class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
         return <<<XML
 <params>
     <string>
-        <label>Applicação</label>
+        <label>Aplicação</label>
         <id>application</id>
         $application
     </string>

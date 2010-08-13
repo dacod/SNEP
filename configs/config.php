@@ -59,6 +59,7 @@ define('VERSAO',Zend_Registry::get('snep_version'));
 $smarty->compile_check = True;
 $smarty->debugging = False;
 $sis_nome = "SNEP" ;
+$smarty->assign("i18n",Zend_Registry::get("i18n"));
 
 Zend_Registry::set('smarty',$smarty);
 

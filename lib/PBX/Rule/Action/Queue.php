@@ -38,9 +38,7 @@ class PBX_Rule_Action_Queue extends PBX_Rule_Action {
      * @param array $config configurações da ação
      */
     public function __construct() {
-        $path = Zend_Registry::get('config');
-        // Especificando caminho para arquivo de tradução
-        $this->i18n = new Zend_Translate('gettext', $path->system->path->base . "/lang/actions/" . get_class($this) . "/" . "pt_BR.mo" , 'pt_BR');
+        $this->i18n = Zend_Registry::get("i18n");
     }
 
     /**

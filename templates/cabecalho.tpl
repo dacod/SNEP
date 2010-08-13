@@ -94,7 +94,7 @@
     <!-- Ajuda Contextual -->
    <div id="menu">
        <div id="ajuda">
-              <a href="../src/ajuda.php?script={$SCRIPT_NAME}" rel="popup console 500 600 noicon">{$LANG.help}</a>
+           <a href="../src/ajuda.php?script={$SCRIPT_NAME}" rel="popup console 500 600 noicon">{$i18n->translate("Ajuda")}</a>
        </div>
        {$MENU}
    </div>

@@ -20,7 +20,7 @@
          <b>{$EMP_NOME}</b>
       </td>
       <td width="50%" class="subtable" align="right">
-         {$SIS_NOME}, {$LANG.version}: {$VERSAO}
+          SNEP, {$i18n->translate("Versão")}: {$VERSAO}
       </td>
    </tr>
 </table>

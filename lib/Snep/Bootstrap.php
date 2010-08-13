@@ -56,6 +56,31 @@ abstract class Snep_Bootstrap {
 
         $i18n = new Zend_Translate('gettext', $this->config->system->path->base . '/lang/pt_BR.mo', 'pt_BR');
         Zend_Registry::set('i18n', $i18n);
+
+        $translation_files = $this->config->system->path->base . "/lang/";
+        foreach( scandir($translation_files) as $filename ) {
+            // Todos os arquivos .php devem ser classes de descrição de modulos
+            if( preg_match("/.*\.mo$/", $filename) ) {
+                $translation_id = basename($filename, '.mo');
+                if($translation_id != "pt_BR") {
+                    $i18n->addTranslation($translation_files . "/$filename", $translation_id);
+                }
+            }
+        }
+
+        require_once "Zend/Locale.php";
+
+        if(Zend_Locale::isLocale($this->config->system->locale)) {
+            $locale = $this->config->system->locale;
+        }
+        else {
+            $locale = "pt_BR";
+        }
+        
+        Zend_Registry::set('Zend_Locale', $locale);
+        Zend_Locale::setDefault($locale);
+        Zend_Locale_Format::setOptions(array('locale' => $locale));
+        $i18n->setLocale($locale);
     }
 
     public function getConfigFile() {
