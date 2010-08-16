@@ -199,7 +199,7 @@ if (!defined('TTF_DIR')) {
             define('TTF_DIR', $sroot.'/fonts/');
         }
     } else {
-        define('TTF_DIR','/usr/share/fonts/truetype/');
+        define('TTF_DIR','/usr/share/fonts/truetype/ttf-bitstream-vera/');
     }
 }
 
@@ -218,7 +218,7 @@ if (!defined('MBTTF_DIR')) {
             define('MBTTF_DIR', $sroot.'/fonts/');
         }
     } else {
-        define('MBTTF_DIR','/usr/share/fonts/truetype/');
+        define('MBTTF_DIR','/usr/share/fonts/truetype/ttf-bitstream-vera/');
     }
 }
 
