@@ -126,7 +126,7 @@ class ExtensionsController extends Snep_Controller {
         $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
         $regras = $db->query($rules_query)->fetchAll();
 
-        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value like '%$id%')";
+        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id')";
         $regras = array_merge($regras, $db->query($rules_query)->fetchAll());
 
         if(count($regras) > 0) {
