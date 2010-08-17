@@ -54,6 +54,6 @@
         <item uri="../gestao/rel_musiconhold.php" label="menu_musiconhold"></item>
     </item>
 
-    <item id="logout" label="menu_sair" uri="../src/logout.php" ></item>
+    <item id="logout" label="menu_sair" uri="../index.php/auth/logout" ></item>
 
 </menu>

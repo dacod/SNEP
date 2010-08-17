@@ -1,0 +1,21 @@
+<form  action="<?php echo $this->url(array("controller"=>"auth", "action"=>"login"), null, true); ?>" METHOD="post">
+    <dl id="login_form">
+        <?php if($this->message): ?>
+        <span class="<?php echo $this->msgclass; ?>"><?php echo $this->message; ?></span>
+        <?php endif; ?>
+        
+        <div class="form_element">
+            <dt><?php echo $this->translate("Usuário / Ramal"); ?>:</dt>
+            <dd><input type="text" size="30" id="exten" name="exten"></dd>
+        </div>
+
+        <div class="form_element">
+            <dt><?php echo $this->translate("Senha"); ?>:</dt>
+            <dd><input type="password" size="30" name="password" /></dd>
+        </div>
+
+        <div class="form_submit">
+            <dd><input type="submit" value="<?php echo $this->translate("Entrar"); ?>" /></dd>
+        </div>
+    </dl>
+</form>

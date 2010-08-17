@@ -18,6 +18,6 @@
 
 session_start();
 if (!isset($_SESSION["active_user"])) {
-    header('Location: ../src/login.php');
-    exit ;
+    header('Location: ../');
+    exit;
 }

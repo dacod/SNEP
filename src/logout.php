@@ -16,10 +16,5 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-session_start();
-session_unregister("active_user");
-session_unregister("id_user");
-session_unregister("name_user");
-session_destroy() ;
-header("Location: ../index.php");
+header("Location: ../index.php/auth/logout");
 exit ;

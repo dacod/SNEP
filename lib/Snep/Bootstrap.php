@@ -47,6 +47,7 @@ abstract class Snep_Bootstrap {
             $this->setConfigFile($configFile);
         }
         Zend_Registry::set('snep_version', file_get_contents($this->config->system->path->base . "/configs/snep_version"));
+        Zend_Registry::set('vendor', $this->config->ambiente->emp_nome);
     }
 
     protected function startLocale() {
@@ -81,6 +82,7 @@ abstract class Snep_Bootstrap {
         Zend_Locale::setDefault($locale);
         Zend_Locale_Format::setOptions(array('locale' => $locale));
         $i18n->setLocale($locale);
+        Zend_Registry::set("Zend_Translate", $i18n);
     }
 
     public function getConfigFile() {
