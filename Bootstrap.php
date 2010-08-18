@@ -2,7 +2,7 @@
 
 require_once 'Zend/Session.php';
 require_once 'Zend/Application/Bootstrap/Bootstrap.php';
-require_once 'model/AclPlugin.php';
+require_once 'default/model/AclPlugin.php';
 
 Zend_Session::start();
 
@@ -31,6 +31,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $acl->add(new Zend_Acl_Resource('error'));
         $acl->add(new Zend_Acl_Resource('index'));
         $acl->add(new Zend_Acl_Resource('auth'));
+        $acl->add(new Zend_Acl_Resource('installer'));
 
         // Default permissions
         $acl->deny('all');
@@ -38,6 +39,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         
         $acl->allow(null,'auth');
         $acl->allow(null,'error');
+        $acl->allow(null,'installer');
 
         $this->acl = $acl;
 

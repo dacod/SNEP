@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installform>
+    <database>
+        <elements>
+            <username>
+                <type>text</type>
+                <options>
+                    <label>Usuário</label>
+                </options>
+            </username>
+            <password>
+                <type>password</type>
+                <options>
+                    <label>Senha</label>
+                </options>
+            </password>
+            <host>
+                <type>text</type>
+                <options>
+                    <label>Host</label>
+                </options>
+            </host>
+        </elements>
+    </database>
+    <asterisk>
+        <elements>
+            <username>
+                <type>text</type>
+                <options>
+                    <label>Usuário</label>
+                </options>
+            </username>
+            <password>
+                <type>password</type>
+                <options>
+                    <label>Senha</label>
+                </options>
+            </password>
+        </elements>
+    </asterisk>
+    <snep>
+        <elements>
+            <password>
+                <type>password</type>
+                <options>
+                    <label>Senha</label>
+                </options>
+            </password>
+            <confirmpassword>
+                <type>password</type>
+                <options>
+                    <label>Confirmação de Senha</label>
+                </options>
+            </confirmpassword>
+        </elements>
+    </snep>
+</installform>

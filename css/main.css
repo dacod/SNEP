@@ -130,10 +130,6 @@ button:hover, input[type=submit]:hover {
 }
 
 /* Formulários */
-form dl {
-    display: inline-block;
-}
-
 .form_submit {
     text-align: right;
 }
