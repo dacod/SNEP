@@ -52,6 +52,7 @@
         <item uri="../configs/parametros.php" label="menu_params"></item>
         <item uri="../src/rel_sounds.php" label="menu_sounds"></item>
         <item uri="../gestao/rel_musiconhold.php" label="menu_musiconhold"></item>
+        <item uri="../configs/inspector.php" label="Diagnóstico do Sistema"></item>
     </item>
 
     <item id="logout" label="menu_sair" uri="../index.php/auth/logout" ></item>
