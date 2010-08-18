@@ -1,0 +1,128 @@
+<?php
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of
+ *  the License, or (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+
+/**
+ * Classe permissions faz verificação dono do arquivo e permissões dos arquivos do Snep.
+ *
+ * @see Snep_Inspector_Test
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
+ *
+ */
+
+
+class permissions extends Snep_Inspector_Test {
+
+    /**
+     * Array de arquivos a serem verificados.
+     * @var Array
+     */
+    public $paths = array('templates_c'         => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'configs/.license'    => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/'             => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/pt_BR'        => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'includes/setup.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
+        );
+
+    /**
+     * Executa teste na criação do objeto.
+     */
+    public function __contruct() {
+        self::getTests();
+    }
+
+    /**
+     * Realiza testes de permissões e dono do arquivo.
+     * @return Array
+     */
+    public function getTests() {
+
+        // Registra erro como falso
+        $result['permissions']['error'] = 0;
+
+        // Inicia indice do array.
+        $result['permissions']['message'] = '';
+
+        // Pega array do setup.conf do Zend_Registry.
+        $config = Zend_Registry::get('config');
+
+        // Pega registro path.base do setup.conf
+        $core_path = $config->system->path->base . "/";
+
+        // Percorre array de arquivos.
+        foreach($this->paths as $path => $permission) {
+
+            // Guarda usuário do Serviço Httpd
+            $user = self::getHttpUser();
+
+            // Verifica exigencia de existencia do arquivo.
+            if($permission['exists']) {
+
+                if( ! file_exists( $core_path . $path ) ) {
+                    // Não existindo arquivo concatena mensagem de erro
+                    $result['permissions']['message'] .= " O arquivo $core_path$path não existe. \n";
+                    // Seta erro como verdadeiro
+                    $result['permissions']['error'] = 1;
+
+                    // Existindo arquivo
+                }else{
+
+                    // Verifica exigencia de verificação de escrita
+                    if($permission['writable']) {
+                        if( ! is_writable($core_path . $path) ) {
+                            // Não existindo permissão de gravacao concatena mensagem de erro.
+                            $result['permissions']['message'] .= "Arquivo $core_path$path não possue permissão de escrita \n";
+                            // Seta erro como verdadeiro
+                            $result['permissions']['error'] = 1;
+                        }
+                    }
+
+                    // Verifica existencia de verificação de leitura
+                    if($permission['readable']) {
+                        if( ! is_readable($core_path . $path) ) {
+                            // Não existindo permissão de leitura concatena mensagem de erro.
+                            $result['permissions']['message'] .= "Arquivo $core_path$path não possue permissão de leitura \n";
+                            // Seta erro como falso.
+                            $result['permissions']['error'] = 1;
+                        }
+                    }
+
+                    // Guarda dono do arquivo
+                    $dono = fileowner( $core_path . $path );
+
+                    // Compara dono do arquivo com usuário do Serviço Httpd
+                    if( $dono != $user['id'] ) {
+                        $result['permissions']['message'] .= "Dono do arquivo $core_path$path não é o mesmo do Serviço Httpd, os arquivos devem pertencer ao usuario {$user['name']} \n";
+                        $result['permissions']['error'] = 1;
+                    }
+                }
+            }
+        }
+
+        // Transforma newline em br
+        $result['permissions']['message'] = nl2br( $result['permissions']['message'] );
+
+        // Retorna Array
+        return $result['permissions'];
+    }
+
+}
