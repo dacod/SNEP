@@ -27,8 +27,7 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  *
  */
-
-class extensions extends Snep_Inspector_Test {
+class PHPExtensions extends Snep_Inspector_Test {
 
     /**
      * Array de extensões a serem verificadas.
@@ -72,6 +71,10 @@ class extensions extends Snep_Inspector_Test {
 
         // Retorna Array
         return $result['extension'];
+    }
+
+    public function getTestName() {
+        return Zend_Registry::get("Zend_Translate")->translate("Extensões PHP");
     }
     
 }

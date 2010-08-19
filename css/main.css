@@ -109,10 +109,16 @@ button, input[type=submit] {
     font-weight: bold;
     font-size: 11px;
     background: url("../imagens/menu.png");
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #fff;
 }
 
 button:active, input[type=submit]:active {
     background: url("../imagens/button_clicked.png");
+    background-position: top;
+    background-repeat: repeat-x;
+    background-color: #fff;
 }
 
 button:disabled, input[type=submit]:disabled {
@@ -130,17 +136,41 @@ button:hover, input[type=submit]:hover {
 }
 
 /* Formulários */
-.form_submit {
-    text-align: right;
+.form_element {
+    display: table-row;
+}
+
+form fieldset {
+    padding: 0px 0px 10px 0px;
+    margin: 0px;
+    
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #E8A916;
+}
+
+form legend {
+    font-size: 14px;
+    font-weight: bold;
+    color: #E8A916;
+    
 }
 
 form dt {
-    text-align: left;
+    display: table-cell;
+    text-align: right;
     margin-top: 4px;
-    font-weight: bold !important;
+    padding-right: 5px;
+    min-width: 150px;
+}
+
+form label:after {
+    content: ':';
 }
 
 form dd {
+    display: table-cell;
     margin-left: 0px;
 }
 
@@ -163,7 +193,7 @@ form .errors li {
 }
 
 form .errors, .error {
-    background-color: #ffcccc;
+    color: #ff0000;
 }
 
 .failure {
@@ -173,3 +203,12 @@ form .errors, .error {
     display: block;
 }
 /* FIM Configuração dos formulários feitos com listas de definição */
+
+.installer_buttons {
+    text-align: right;
+}
+
+.installer_buttons button {
+    font-size: 12px;
+    padding: 10px;
+}

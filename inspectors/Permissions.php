@@ -27,16 +27,13 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  *
  */
-
-
-class permissions extends Snep_Inspector_Test {
+class Permissions extends Snep_Inspector_Test {
 
     /**
      * Array de arquivos a serem verificados.
      * @var Array
      */
     public $paths = array('templates_c'         => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          'configs/.license'    => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           'sounds/'             => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           'sounds/pt_BR'        => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           'sounds/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1),
@@ -71,15 +68,12 @@ class permissions extends Snep_Inspector_Test {
         // Percorre array de arquivos.
         foreach($this->paths as $path => $permission) {
 
-            // Guarda usuário do Serviço Httpd
-            $user = self::getHttpUser();
-
             // Verifica exigencia de existencia do arquivo.
             if($permission['exists']) {
 
                 if( ! file_exists( $core_path . $path ) ) {
                     // Não existindo arquivo concatena mensagem de erro
-                    $result['permissions']['message'] .= " O arquivo $core_path$path não existe. \n";
+                    $result['permissions']['message'] .= " O arquivo <strong>$core_path$path</strong> não existe. \n";
                     // Seta erro como verdadeiro
                     $result['permissions']['error'] = 1;
 
@@ -90,7 +84,7 @@ class permissions extends Snep_Inspector_Test {
                     if($permission['writable']) {
                         if( ! is_writable($core_path . $path) ) {
                             // Não existindo permissão de gravacao concatena mensagem de erro.
-                            $result['permissions']['message'] .= "Arquivo $core_path$path não possue permissão de escrita \n";
+                            $result['permissions']['message'] .= "Arquivo <strong>$core_path$path</strong> não possui permissão de escrita \n";
                             // Seta erro como verdadeiro
                             $result['permissions']['error'] = 1;
                         }
@@ -100,19 +94,10 @@ class permissions extends Snep_Inspector_Test {
                     if($permission['readable']) {
                         if( ! is_readable($core_path . $path) ) {
                             // Não existindo permissão de leitura concatena mensagem de erro.
-                            $result['permissions']['message'] .= "Arquivo $core_path$path não possue permissão de leitura \n";
+                            $result['permissions']['message'] .= "Arquivo <strong>$core_path$path</strong> não possui permissão de leitura \n";
                             // Seta erro como falso.
                             $result['permissions']['error'] = 1;
                         }
-                    }
-
-                    // Guarda dono do arquivo
-                    $dono = fileowner( $core_path . $path );
-
-                    // Compara dono do arquivo com usuário do Serviço Httpd
-                    if( $dono != $user['id'] ) {
-                        $result['permissions']['message'] .= "Dono do arquivo $core_path$path não é o mesmo do Serviço Httpd, os arquivos devem pertencer ao usuario {$user['name']} \n";
-                        $result['permissions']['error'] = 1;
                     }
                 }
             }
@@ -123,6 +108,10 @@ class permissions extends Snep_Inspector_Test {
 
         // Retorna Array
         return $result['permissions'];
+    }
+
+    public function getTestName() {
+        return Zend_Registry::get("Zend_Translate")->translate("Permissão de Arquivos");
     }
 
 }

@@ -28,20 +28,19 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  *
  */
-
-class agi extends Snep_Inspector_Test {
+class AGI extends Snep_Inspector_Test {
 
     /**
      * Array de arquivos e permissões exigidas.
      * @var Array
      */
     public $paths = array('/var/lib/asterisk/agi-bin/snep' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds'       => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/backup'=> array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/tmp'   => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1)
-        );
+        '/var/lib/asterisk/sounds' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+        '/var/lib/asterisk/sounds/backup' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+        '/var/lib/asterisk/sounds/tmp' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+        '/var/lib/asterisk/sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+        '/var/lib/asterisk/moh' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
+    );
 
     /**
      * Executa teste na criação do objeto.
@@ -59,26 +58,23 @@ class agi extends Snep_Inspector_Test {
         $result['agi']['error'] = 0;
         $result['agi']['message'] = '';
 
-        // Guarda usuário do Serviço Httpd
-        $user = self::getHttpUser();
-
         // Percorre array de arquivos
-        foreach($this->paths as $path => $agi) {
+        foreach ($this->paths as $path => $agi) {
 
             // Verifica existencia do mesmo
-            if($agi['exists']) {
-                if( ! file_exists( $path ) ) {
+            if ($agi['exists']) {
+                if (!file_exists($path)) {
                     // Não existindo o arquivo registra concatena mensagem de erro.
                     $result['agi']['message'] .= " O arquivo $path não existe. \n";
                     // Seta erro com verdadeiro.
                     $result['agi']['error'] = 1;
 
                     // Existindo o arquivo, realiza testes.
-                }else{
+                } else {
 
                     // Verifica se existe exigencia de gravação.
-                    if($agi['writable']) {
-                        if( ! is_writable( $path ) ) {
+                    if ($agi['writable']) {
+                        if (!is_writable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
                             $result['agi']['message'] .= "Arquivo $path não possue permissão de escrita \n";
                             // Seta erro como verdadeiro.
@@ -87,31 +83,26 @@ class agi extends Snep_Inspector_Test {
                     }
 
                     // Verifica se existe exigênca de leitura.
-                    if($agi['readable']) {
-                        if( ! is_readable( $path ) ) {
+                    if ($agi['readable']) {
+                        if (!is_readable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
                             $result['agi']['message'] .= "Arquivo $path não possue permissão de leitura \n";
                             // Seta erro como verdadeiro.
                             $result['agi']['error'] = 1;
                         }
                     }
-
-                    // Guarda dono do arquivo
-                    $dono = fileowner( $path );
-
-                    // Compara dono do arquivo com usuário do Serviço Httpd
-                    if( $dono != $user['id'] ) {
-                        $result['agi']['message'] .= "Dono do arquivo $path não é o mesmo do Servidor Httpd, o arquivo deve pertencer ao usuario {$user['name']} \n";
-                        $result['agi']['error'] = 1;
-                    }
                 }
             }
         }
         // Transforma newline em br
-        $result['agi']['message'] = nl2br( $result['agi']['message'] );
+        $result['agi']['message'] = nl2br($result['agi']['message']);
 
         // Retorna array.
         return $result['agi'];
+    }
+
+    public function getTestName() {
+        return Zend_Registry::get("Zend_Translate")->translate("Ambiente para o AGI SNEP");
     }
 
 }

@@ -1,2 +1,25 @@
-Diagnóstico do sistema
-<p><button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Próximo"); ?></button></p>
+<?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/diagnostic.css"); ?>
+
+<p>
+    <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu Configurações > Diagnóstico."); ?>
+</p>
+
+<ol id="diagnostic_list">
+<?php foreach ($this->testResult as $test): ?>
+    <li <?php echo 'class="' . ($test["error"] ? "test_failed" : "test_succeded") . '"';  ?> >
+        <h2><?php echo $test["name"]; ?></h2>
+        <?php if($test["error"]): ?>
+        <p class="error_description"><?php echo $test['message']; ?></p>
+        <?php endif;?>
+    </li>
+<?php endforeach; ?>
+</ol>
+
+<p class="installer_buttons">
+<?php if($this->errored): ?>
+    <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>
+    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Continuar assim mesmo"); ?></button>
+<?php else: ?>
+    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Próximo"); ?></button>
+<?php endif;?>
+</p>

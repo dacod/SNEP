@@ -36,12 +36,7 @@ abstract class Snep_Inspector_Test {
     abstract public function getTests();
 
     /**
-     * Retorna usuário do serviço Httpd
-     * @return Array
+     * @return string Nome do teste que será executado
      */
-    public function getHttpUser() {
-        $user['name'] = exec('whoami');
-        $user['id'] = exec('id -u '.$user['name'] );
-        return $user;
-    }
+    abstract public function getTestName();
 }

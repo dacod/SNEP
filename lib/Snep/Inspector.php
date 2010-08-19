@@ -29,6 +29,13 @@
  */
 class Snep_Inspector {
 
+    /**
+     * Se algum teste reportou erro
+     *
+     * @var boolean
+     */
+    protected $errored = false;
+
     // Array de registro de inspeções.
     private $inspected = array();
 
@@ -48,9 +55,18 @@ class Snep_Inspector {
                 $class = basename($file, ".php");
                 $obj = new $class;
 
-                $this->inspected[$class] = $obj->getTests();
+                $testData = $obj->getTests();
+                $testData["name"] = $obj->getTestName();
+                $this->inspected[$class] = $testData;
+                if($testData["error"] == true) {
+                    $this->errored = true;
+                }
             }
         }
+    }
+
+    public function errored() {
+        return $this->errored;
     }
     
     /**

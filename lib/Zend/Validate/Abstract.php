@@ -345,6 +345,10 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
             return null;
         }
 
+        if( null !== self::getDefaultTranslator() ) {
+            return self::getDefaultTranslator();
+        }
+
         if (null === $this->_translator) {
             return self::getDefaultTranslator();
         }

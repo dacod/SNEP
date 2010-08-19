@@ -77,12 +77,17 @@ abstract class Snep_Bootstrap {
         else {
             $locale = "pt_BR";
         }
-        
+
         Zend_Registry::set('Zend_Locale', $locale);
         Zend_Locale::setDefault($locale);
-        Zend_Locale_Format::setOptions(array('locale' => $locale));
         $i18n->setLocale($locale);
         Zend_Registry::set("Zend_Translate", $i18n);
+
+        $zend_validate_translator = new Zend_Translate_Adapter_Array(
+            "./lang/Zend_Validate/$locale/Zend_Validate.php",
+            $locale
+        );
+        Zend_Validate_Abstract::setDefaultTranslator($zend_validate_translator);
     }
 
     public function getConfigFile() {

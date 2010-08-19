@@ -28,7 +28,7 @@
  *
  */
 
-class logs extends Snep_Inspector_Test {
+class Logs extends Snep_Inspector_Test {
 
     /**
      * Lista de arquivos a serem verificados
@@ -66,9 +66,6 @@ class logs extends Snep_Inspector_Test {
         // Percorre array de arquivos.
         foreach($this->paths as $path => $logs) {
 
-            // Guarda usuário do Serviço Httpd
-            $user = self::getHttpUser();
-
             // Verifica existência do arquivo.
             if( ! file_exists( $core_path . $path ) ) {
                 // Não existindo concatena mensagem de erro.
@@ -99,17 +96,6 @@ class logs extends Snep_Inspector_Test {
                     }
                 }
 
-                // Guarda dono do arquivo.
-                $dono = fileowner( $core_path . $path );
-
-                // Compara dono do arquivo com usuário do Serviço Httpd
-                if( $dono != $user['id'] ) {
-                    // Não sendo do mesmo usuário, concatena ensagem de erro.
-                    $result['logs']['message'] .= "Dono do arquivo não é o mesmo do Serviço Httpd, os arquivos devem pertencer ao usuario {$user['name']} \n";
-                    // Seta erro como verdadeiro.
-                    $result['logs']['error'] = 1;
-                }
-
             }
 
             // Transforma newline em br
@@ -119,5 +105,9 @@ class logs extends Snep_Inspector_Test {
             return $result['logs'];
         }
 
+    }
+
+    public function getTestName() {
+        return Zend_Registry::get("Zend_Translate")->translate("Arquivos de log");
     }
 }
