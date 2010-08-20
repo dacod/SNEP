@@ -84,7 +84,7 @@ abstract class Snep_Bootstrap {
         Zend_Registry::set("Zend_Translate", $i18n);
 
         $zend_validate_translator = new Zend_Translate_Adapter_Array(
-            "./lang/Zend_Validate/$locale/Zend_Validate.php",
+            $this->config->system->path->base . "/lang/Zend_Validate/$locale/Zend_Validate.php",
             $locale
         );
         Zend_Validate_Abstract::setDefaultTranslator($zend_validate_translator);

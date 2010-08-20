@@ -1,3 +1,9 @@
+1.3.0:
+    Correção no Voicemail
+    Ambiente Zend para login no sistema
+    Tela de diagnostico de sistema
+    Novo Instalador
+
 1.2.0:
     Atualizado Zend Framework para versão 1.10.0
     Alterada interface de cadastro de ramais para modelo usado em sistema de
