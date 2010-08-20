@@ -174,9 +174,13 @@ form dd {
     margin-left: 0px;
 }
 
-form .description {
-    display: inline;
-    font-size: 12px;
+form .hint {
+    display: inline-block;
+    font-size: 10px;
+    max-width: 220px;
+    vertical-align: top;
+    padding: 2px;
+    margin: 0px;
 }
 
 form .errors {
