@@ -86,8 +86,11 @@
         $this->config = parse_ini_file($config, true);
 
       // If optconfig is specified, stuff vals and vars into 'asmanager' config array.
-      foreach($optconfig as $var=>$val)
-        $this->config['asmanager'][$var] = $val;
+      if(is_array($optconfig)) {
+          foreach($optconfig as $var=>$val) {
+            $this->config['asmanager'][$var] = $val;
+          }
+      }
 
       // add default values to config for uninitialized values
       if(!isset($this->config['asmanager']['server'])) $this->config['asmanager']['server'] = 'localhost';
@@ -122,7 +125,7 @@
     * @param boolean $allow_timeout if the socket times out, return an empty array
     * @return array of parameters, empty on timeout
     */
-    function wait_response($allow_timeout=false)
+    function wait_response($allow_timeout=true)
     {
       $timeout = false;
       do
@@ -131,7 +134,7 @@
         $parameters = array();
 
         $buffer = trim(fgets($this->socket, 4096));
-        while($buffer != '')
+        while($buffer != "")
         {
           $a = strpos($buffer, ':');
           if($a)
@@ -161,13 +164,13 @@
         // process response
         switch($type)
         {
-          case '': // timeout occured
+          case "": // timeout occured
             $timeout = $allow_timeout;
             break;
-          case 'event':
+          case "event":
             $this->process_event($parameters);
             break;
-          case 'response':
+          case "response":
             break;
           default:
             $this->log('Unhandled response packet from Manager: ' . print_r($parameters, true));
@@ -292,7 +295,7 @@
       if($res['Response'] != 'Success')
       {
         $this->log("Failed to login.");
-        $this->disconnect();
+        fclose($this->socket);
         throw new Asterisk_Exception_Auth("Failed to login.");
       }
     }
