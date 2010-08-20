@@ -245,6 +245,7 @@ function cadastrar() {
     }
 
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
+    $usa_vc = $usa_vc ? 'yes' : 'no';
 
     // Monta lista campos Default
     $sql_fields_default = $sql_values_default = "" ;
@@ -501,6 +502,7 @@ function grava_alterar() {
     }
 
     $authenticate = $usa_auth == "yes"? 'true' : 'false';
+    $usa_vc = $usa_vc ? 'yes' : 'no';
 
     $sql = "UPDATE peers ";
     $sql.=" SET name='$name',password='$password' , callerid='$callerid', ";
