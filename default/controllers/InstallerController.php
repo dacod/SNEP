@@ -73,11 +73,9 @@ class InstallerController extends Zend_Controller_Action {
                 }
             }
 
-
-            // Fazer a verificação de banco de dados
-
             if($form_isValid) {
-                // Escrever as configurações na tela ou arquivo.
+                // Criar tabelas no banco de dados
+                // Salvar/Mostrar arquivo de configuração
             }
         }
 

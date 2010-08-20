@@ -78,17 +78,15 @@ body {
 }
 
 #login_form {
-    width: 200px;
-    display: block;
-
     margin-top: 50px;
     margin-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
+    display:table;
 }
 
-#login_form .form_element input {
-    width: 195px;
+#login_form dt {
+    font-weight: bold;
 }
 
 input[type=text], input[type=password] {
