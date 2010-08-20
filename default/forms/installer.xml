@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <installform>
+    <!-- Database Configuration Data -->
     <database>
         <elements>
             <username>
@@ -7,6 +8,10 @@
                 <options>
                     <label>Usuário</label>
                     <required>true</required>
+                    <description>
+                        O usuário informado deverá ter a permissão de criar
+                        tabelas no banco de dados informado.
+                    </description>
                 </options>
             </username>
             <password>
@@ -14,9 +19,18 @@
                 <options>
                     <label>Senha</label>
                     <required>true</required>
+                    <renderpassword>true</renderpassword>
                 </options>
             </password>
-            <host>
+            <dbname>
+                <type>text</type>
+                <options>
+                    <label>Banco de Dados</label>
+                    <value>snep</value>
+                    <required>true</required>
+                </options>
+            </dbname>
+            <hostname>
                 <type>text</type>
                 <options>
                     <label>Host</label>
@@ -31,17 +45,10 @@
                         </hostname>
                     </validators>
                 </options>
-            </host>
-            <database>
-                <type>text</type>
-                <options>
-                    <label>Banco de Dados</label>
-                    <value>snep</value>
-                    <required>true</required>
-                </options>
-            </database>
+            </hostname>
         </elements>
     </database>
+    <!-- Asterisk Configuration Data -->
     <asterisk>
         <elements>
             <username>
@@ -51,14 +58,15 @@
                     <required>true</required>
                 </options>
             </username>
-            <password>
+            <secret>
                 <type>password</type>
                 <options>
                     <label>Senha</label>
                     <required>true</required>
+                    <renderpassword>true</renderpassword>
                 </options>
-            </password>
-            <host>
+            </secret>
+            <server>
                 <type>text</type>
                 <options>
                     <label>Host</label>
@@ -73,9 +81,10 @@
                         </hostname>
                     </validators>
                 </options>
-            </host>
+            </server>
         </elements>
     </asterisk>
+    <!-- Snep Configuration Data -->
     <snep>
         <elements>
             <password>
@@ -83,6 +92,12 @@
                 <options>
                     <label>Senha</label>
                     <required>true</required>
+                    <renderpassword>true</renderpassword>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
+                    </validators>
                 </options>
             </password>
             <confirmpassword>
@@ -90,6 +105,11 @@
                 <options>
                     <label>Confirmação de Senha</label>
                     <required>true</required>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
+                    </validators>
                 </options>
             </confirmpassword>
         </elements>

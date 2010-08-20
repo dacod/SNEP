@@ -36,8 +36,48 @@ class InstallerController extends Zend_Controller_Action {
         $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => "Enviar")));
 
         if($this->getRequest()->isPost()) {
-            if($form->isValid($_POST)) {
-                echo "só manda jogadô";
+            $form_isValid = $form->isValid($_POST);
+
+            $snep_data = $form->getValue("snep");
+            if($snep_data['password'] !== $snep_data['confirmpassword']) {
+                $snep_form->getElement('confirmpassword')->addError($this->view->translate("A confirmação de senha não é igual a senha informada"));
+                $form_isValid = false;
+            }
+
+            if(!$asterisk_form->isErrors()) {
+                $asterisk_data = $form->getValue("asterisk");
+                $asterisk = new Asterisk_AMI(null, $asterisk_data);
+
+                try {
+                    $asterisk->connect();
+                }
+                catch(Asterisk_Exception_Auth $ex) {
+                    $asterisk_form->getElement('secret')->addError($this->view->translate("Usuário ou senha recusada pelo servidor Asterisk"));
+                    $form_isValid = false;
+                }
+                catch(Asterisk_Exception_CantConnect $ex) {
+                    $asterisk_form->getElement('server')->addError($this->view->translate("Falha ao conectar: %s", $ex->getMessage()));
+                    $form_isValid = false;
+                }
+            }
+
+            if(!$database_form->isErrors()) {
+                $database_data = $form->getValue('database');
+                $db = Zend_Db::factory('Pdo_Mysql', $database_data);
+                try {
+                    $db->getConnection();
+                }
+                catch(Zend_Db_Exception $ex) {
+                    $database_form->getElement('hostname')->addError($this->view->translate("Falha ao conectar: %s", $ex->getMessage()));
+                    $form_isValid = false;
+                }
+            }
+
+
+            // Fazer a verificação de banco de dados
+
+            if($form_isValid) {
+                // Escrever as configurações na tela ou arquivo.
             }
         }
 
