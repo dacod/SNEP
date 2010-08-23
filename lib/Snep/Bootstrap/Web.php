@@ -58,6 +58,7 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
         $modules = Snep_Modules::getInstance();
         $registered_modules = $modules->getRegisteredModules();
         $menu = Zend_Registry::get('menu');
+        Zend_Controller_Front::getInstance()->addModuleDirectory($this->config->system->path->base . "/modules");
 
         /**
          * Adiciona os menus dos modulos no menu do Snep

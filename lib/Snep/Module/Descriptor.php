@@ -31,6 +31,13 @@
 abstract class Snep_Module_Descriptor {
 
     /**
+     * ID do módulo
+     *
+     * @var string
+     */
+    protected $id = null;
+
+    /**
      * Nome do modulo
      */
     protected $name = "Unamed Module";
@@ -65,6 +72,10 @@ abstract class Snep_Module_Descriptor {
      */
     protected $moduleDir;
 
+    public function getModuleId() {
+        return $this->id;
+    }
+    
     public function getName() {
         return $this->name;
     }
@@ -95,6 +106,18 @@ abstract class Snep_Module_Descriptor {
 
     public function setModuleDir($moduleDir) {
         $this->moduleDir = $moduleDir;
+    }
+
+    /**
+     * ID do módulo para ambiente zend do snep.
+     *
+     * IMPORTANTE: Essa opção sobreescreve a opção setModuleDir();
+     *
+     * @param string $id
+     */
+    public function setModuleId($id) {
+        $this->setModuleDir($id);
+        $this->id = $id;
     }
 
     /**

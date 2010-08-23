@@ -16,6 +16,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "Snep/Module/Descriptor.php";
+
 /**
  * Controle de módulos instalados no sistema.
  *
@@ -71,7 +73,15 @@ class Snep_Modules {
         }
         else {
             $this->registeredModules[] = $module;
-            $libDir = $module->getModuleDir() . "/lib";
+            
+            if($module->getModuleId() !== null) {
+                $module_dir = Zend_Registry::get("config")->system->path->base . "/modules/" . $module->getModuleDir();
+                $libDir = $module_dir . "/lib";
+            }
+            else {
+                $libDir = $module->getModuleDir() . "/lib";
+            }
+            
             if(file_exists($libDir)) {
                 set_include_path($libDir . PATH_SEPARATOR  . get_include_path());
             }
