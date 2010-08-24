@@ -158,9 +158,11 @@ form legend {
 form dt {
     display: table-cell;
     text-align: right;
-    margin-top: 4px;
+    margin-top: 0px;
     padding-right: 5px;
+    padding-top: 2px;
     min-width: 150px;
+    vertical-align: top;
 }
 
 form label:after {
@@ -175,7 +177,7 @@ form dd {
 form .hint {
     display: inline-block;
     font-size: 10px;
-    max-width: 220px;
+    max-width: 300px;
     vertical-align: top;
     padding: 2px;
     margin: 0px;
