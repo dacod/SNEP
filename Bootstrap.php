@@ -67,11 +67,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front_controller->setBaseUrl($_SERVER['SCRIPT_NAME']);
     }
 
-    protected function _initSnep() {
-        $snepBoot = new Snep_Bootstrap_Web("includes/setup.conf");
-        $snepBoot->specialBoot();
-    }
-
     /**
      * Inicia o doctype e outros parametros do layout.
      *
@@ -88,12 +83,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->headTitle()->setSeparator(' - ');
         $view->headTitle('SNEP');
 
-        $view->menu = Zend_Registry::get('menu');
-        $view->menu->setId("navmenu");
-
         $view->headLink()->setStylesheet($view->baseUrl() . "/css/main.css");
 
         // Return it, so that it can be stored by the bootstrap
         return $view;
+    }
+
+    protected function _initSnep() {
+        $snepBoot = new Snep_Bootstrap_Web("includes/setup.conf");
+        $snepBoot->specialBoot();
+
+        $layout = $this->getResource('layout');
+        $view = $layout->getView();
+
+        $view->menu = Zend_Registry::get('menu');
+        $view->menu->setId("navmenu");
     }
 }
