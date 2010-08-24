@@ -51,7 +51,7 @@ function janela_otimizada(URL) {
      }
      /* Ajuste de Altura da Janela */
      ALT=(ALT-(ALT*0.19)) ;
-     PARAM="width="+LARG+",height="+ALT+",top="+TOP+",left="+LEFT+",scrollbars=yes,directories=no,status=no,toolbar=no,menubar=no,location=no,resizable=no";
+     PARAM="width="+LARG+",height="+ALT+",top="+TOP+",left="+LEFT+",scrollbars=yes,directories=no,status=no,toolbar=no,menubar=no,location=no,resizable=yes";
      window.open(URL,NOME,PARAM)
 }
 
