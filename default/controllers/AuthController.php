@@ -7,6 +7,7 @@ class AuthController extends Zend_Controller_Action {
     public function loginAction() {
         $this->view->headTitle($this->view->translate("Login"));
         $this->view->breadcrumb = $this->view->translate("Login");
+        $this->view->hideMenu = true;
         
         // Não precisamos fazer login se ja estamos logados
         $auth = Zend_Auth::getInstance();

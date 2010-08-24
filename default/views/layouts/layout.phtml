@@ -11,6 +11,11 @@
     <div id="header">
         <img src="<?php echo $this->baseUrl(); ?>/imagens/snep_logo.png" alt="SNEP" id="snep_logo" />
     </div>
+    <?php if(!$this->hideMenu): ?>
+    <div id="menu">
+        <?php echo $this->menu; ?>
+    </div>
+    <?php endif; ?>
     <div id="breadcrumb">
         <?php echo $this->breadcrumb; ?>
     </div>
