@@ -73,7 +73,7 @@ class Permissions extends Snep_Inspector_Test {
 
                 if( ! file_exists( $core_path . $path ) ) {
                     // Não existindo arquivo concatena mensagem de erro
-                    $result['permissions']['message'] .= " O arquivo <strong>$core_path$path</strong> não existe. \n";
+                    $result['permissions']['message'] .= "O arquivo <strong>$core_path$path</strong> não existe. \n";
                     // Seta erro como verdadeiro
                     $result['permissions']['error'] = 1;
 

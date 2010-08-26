@@ -69,7 +69,7 @@ class Logs extends Snep_Inspector_Test {
             // Verifica existência do arquivo.
             if( ! file_exists( $core_path . $path ) ) {
                 // Não existindo concatena mensagem de erro.
-                $result['logs']['message'] .= " O arquivo $core_path$path não existe. \n";
+                $result['logs']['message'] .= " O arquivo <strong>$core_path$path</strong> não existe. \n";
                 // Seta erro como verdadeiro.
                 $result['logs']['error'] = 1;
 
@@ -80,7 +80,7 @@ class Logs extends Snep_Inspector_Test {
                 if($logs['writable']) {
                     if( ! is_writable($core_path . $path) ) {
                         // Não existindo concatena mensagem de erro.
-                        $result['logs']['message'] .= "Arquivo $core_path$path não possue permissão de escrita \n";
+                        $result['logs']['message'] .= "Arquivo <strong>$core_path$path</strong> não possue permissão de escrita \n";
                         // Seta erro como verdadeiro.
                         $result['logs']['error'] = 1;
                     }
@@ -90,7 +90,7 @@ class Logs extends Snep_Inspector_Test {
                 if($logs['readable']) {
                     if( ! is_readable($core_path . $path) ) {
                         // Não existindo concatena mensagem de erro.
-                        $result['logs']['message'] .= "Arquivo $core_path$path não possue permissão de leitura \n";
+                        $result['logs']['message'] .= "Arquivo <strong>$core_path$path</strong> não possue permissão de leitura \n";
                         // Seta erro como verdadeiro.
                         $result['logs']['error'] = 1;
                     }
