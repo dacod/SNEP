@@ -5,7 +5,7 @@
 
                 $style = ( $valor['error'] ? 'list_error' : 'list_no_error' );
 
-                echo " <li class='$style' > $chave </li> ";
+                echo " <li class='$style' > {$valor['name']} </li> ";
 
                 if ($valor['error']) {
                     echo "<li style=\"background-color: #FFEDED\"> <pre> {$valor['message']} </pre> </li>";
@@ -14,3 +14,7 @@
         echo "</ul>";
 ?>
 </div>
+
+<p class="installer_buttons">
+    <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>
+</p>
