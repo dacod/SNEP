@@ -16,11 +16,6 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//require_once("../includes/verifica.php");
-//require_once("../../configs/config.php");
-
-//ver_permissao(61);
-
 
 
 class ParametersController extends Zend_Controller_Action {
@@ -87,7 +82,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($general, "general");
         
         // Sessão Gravação
-        $model_gravacao = new Zend_Config_Xml('./configs/setup.conf.xml', 'gravacao', true);
+        $model_gravacao = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'gravacao', true);
         $gravacao = new Snep_Form_SubForm($this->view->translate("Configurações de Gravação"), $model_gravacao );
         $gravacao->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Gravação")));
 
@@ -109,7 +104,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($gravacao, "gravacao");
 
         // Sessão Ramais
-        $model_ramais = new Zend_Config_Xml('./configs/setup.conf.xml', 'ramais', true);
+        $model_ramais = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'ramais', true);
         $ramais = new Snep_Form_SubForm($this->view->translate("Configurações de Ramais e Agentes"), $model_ramais );
         $ramais->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Ramais e Agentes")));
 
@@ -123,7 +118,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($ramais, "ramais");
 
         // Sessão Troncos
-        $model_troncos = new Zend_Config_Xml('./configs/setup.conf.xml', 'troncos', true);
+        $model_troncos = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'troncos', true);
         $troncos = new Snep_Form_SubForm($this->view->translate("Configurações de Troncos"), $model_troncos );
         $troncos->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Troncos")));
 
@@ -133,7 +128,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($troncos, "troncos");
 
         // Sessão Paineis
-        $model_painel = new Zend_Config_Xml('./configs/setup.conf.xml', 'painel', true);
+        $model_painel = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'painel', true);
         $painel = new Snep_Form_SubForm($this->view->translate("Configurações de Painel"), $model_painel );
         $painel->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Painel")));
 
