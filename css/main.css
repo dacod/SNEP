@@ -383,3 +383,12 @@ ul#navmenu ul li.iehover ul,
 ul#navmenu ul ul li.iehover ul {
   display: block;
 }
+
+.error_box {
+    padding: 10px 10px 10px 45px;
+    background-color: #ffcccc;
+    background-image: url("../imagens/error_16.png");
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    text-decoration:bolder;
+}
