@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <general>
+        <elements>
+            <emp_nome>
+                <type>text</type>
+                <options>
+                    <label>Nome da Empresa</label>
+                    <required>true</required>
+                </options>
+            </emp_nome>
+
+            <locale>
+                <type>select</type>                
+                    <options>
+                    <label>Localização</label>                    
+                    <multiOptions>
+                        <en>English (en)</en>
+                        <pt_BR>Português Brasil (pt_BR)</pt_BR>
+                    </multiOptions>
+                    </options>
+            </locale>
+   
+            <language>
+                <type>select</type>
+                 <options>
+                    <label>Idioma</label>
+                    <multiOptions>
+                        <en>English (en)</en>
+                        <pt_BR>Português Brasil (pt_BR)</pt_BR>
+                    </multiOptions>
+                    </options>   
+            </language>
+
+            <debug>
+                <type>checkbox</type>
+                <options>
+                    <value>Ativar / Desativar</value>
+                    <label>Debug do Snep</label>                    
+                    <description>Habilita eventuais mensagens de erro da aplicação.</description>
+                </options>
+            </debug>
+            
+            <ip_sock>
+                <type>text</type>
+                <options>
+                    <label>Hostname</label>                    
+                    <description>Endereço ou Ip de conexão via socket com Asterisk</description>
+                    <required>true</required>
+                </options>
+            </ip_sock>
+
+            <user_sock>
+                <type>text</type>
+                <options>
+                    <label>Usuário</label>
+                    <description>Nome do usuário da conexão via socket com Asterisk</description>
+                    <required>true</required>
+                </options>
+            </user_sock>
+
+            <pass_sock>
+                <type>password</type>
+                <options>
+                    <label>Senha</label>
+                    <description>Senha do usuário da conexão via socket com Asterisk</description>
+                    <required>true</required>
+                    <renderpassword>true</renderpassword>
+                </options>
+            </pass_sock>
+
+            <linelimit>
+                <type>text</type>
+                <options>
+                    <label>Número de linhas padrão</label>
+                    <description>Define o número de linhas por página de relatório.</description>
+                    <required>true</required>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>3</max>
+                            </options>
+                            
+                        </strlen>
+                    </validators>
+                </options>
+            </linelimit>
+
+            <dst_exceptions>
+                <type>text</type>
+                <options>
+                    <label>Exceções para Destinos</label>
+                    <description> Define quais destinos devem ser desprezados por relatórios (Sintaxe: nono ; nonono ; nono) </description>
+                    <required>true</required>
+                </options>
+            </dst_exceptions>
+
+            <conference_app>
+                <type>select</type>
+                <options>
+                    <label>Aplicação de Conferências</label>
+                    <multiOptions>
+                        <C> Conference </C>
+                        <M> Meetme </M>
+                    </multiOptions>
+                    <descriptions>
+                     Aplicação responsável pelas Salas de Conferência do.
+                    </descriptions>
+                </options>
+            </conference_app>
+
+        </elements>
+    </general>
+
+    <gravacao>
+        <elements>
+            <application>
+             <type>select</type>
+                <options>
+                    <label>Aplicação de Gravação</label>
+                    <multiOptions>
+                        <monitor> Monitor </monitor>
+                        <mixmonitor> MixMonitor </mixmonitor>
+                        <krecord> Krecord </krecord>
+                    </multiOptions>
+                    <descriptions>
+                     Aplicação responsável pelas gravações das ligações.
+                    </descriptions>
+
+                </options>
+            </application>
+            <flag>
+                 <type>text</type>
+                 <options>
+                     <label>Parâmetro de gravação</label>
+                 </options>
+                 <description>Opções da aplicação de gravação</description>
+            </flag>
+             <record_mp3>
+                 <type>radio</type>
+                 <options>                     
+                     <label>Arquivos de Gravação</label>
+                        <multiOptions>
+                            <true> Formato mp3 </true>
+                            <false> Formato wav </false>
+                        </multiOptions>
+                        <description>Formato em que as gravações serão mantidas</description>
+                 </options>
+             </record_mp3>
+
+             <path_voz>
+                 <type>text</type>
+                 <options>
+                     <label>Arquivos de Gravação</label>
+                     <description>Local dos arquivos de gravação de chamadas</description>
+                     <required>true</required>
+                     
+                 </options>
+             </path_voz>
+
+             <path_voz_bkp>
+                 <type>text</type>
+                 <options>
+                     <label>Arquivos de Backup</label>
+                     <description>Local do BACKUP Compactado dos arquivos de gravação</description>
+                 </options>
+             </path_voz_bkp>
+             
+        </elements>
+    </gravacao>
+    
+    <ramais>
+        <elements>
+            <peers_range>
+                <type>text</type>
+                <options>
+                    <label>Ranges de Ramais</label>
+                    <description>
+                        Sintaxe: ramal_inicial-ramal_final ; ramal_inicial-ramal_final
+                        Exemplo: 300-312 ; 333-335
+                    </description>
+                    <required>true</required>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{4}-\d{4}[;]?)$/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>100</max>
+                            </options>
+                        </strlen>
+                    </validators>
+                </options>
+            </peers_range>
+            <agents>
+                <type>text</type>
+                <options>
+                    <label>Ranges de Agentes</label>
+                    <description>
+                        Sintaxe: ramal_inicial-ramal_final ; ramal_inicial-ramal_final
+                        Exemplo: 300-312 ; 333-335 ; ...
+                    </description>
+                    <required>true</required>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{4}-\d{4}[;]?)$/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>100</max>
+                            </options>
+                        </strlen>
+                    </validators>
+                </options>
+            </agents>
+
+        </elements>
+    </ramais>
+
+    <troncos>
+        <elements>
+            <valor_controle_qualidade>
+                <type>text</type>
+                <options>
+                    <label>Controle de Qualidade</label>
+                    <description>Valor padrão para controle de qualidade</description>
+                </options>
+            </valor_controle_qualidade>
+        </elements>
+    </troncos>
+
+    <painel>
+        <elements>
+            <menu_status_1>              
+                <type>text</type>
+                <options>
+                    <label>Aba do Painel 1</label>
+                    <description>(depende de: /op-panel/ index1.php)</description>
+                </options>
+            </menu_status_1>
+            
+            <menu_status_2>
+                <type>text</type>
+                <options>
+                    <label>Aba do Painel 2 </label>
+                    <description>(depende de: /op-panel/ index2.php)</description>
+                </options>
+            </menu_status_2>
+
+            <menu_status_3>
+                <type>text</type>
+                <options>
+                    <label>Aba do Painel 3 </label>
+                    <description>(depende de: /op-panel/ index3.php)</description>
+                </options>
+            </menu_status_3>
+        </elements>
+    </painel>
+
+</modelo>
