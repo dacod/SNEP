@@ -1,0 +1,16 @@
+<div class="inspect">
+<?php
+        echo "<ul>";
+            foreach( $this->inspect as $chave => $valor ) {
+
+                $style = ( $valor['error'] ? 'list_error' : 'list_no_error' );
+
+                echo " <li class='$style' > $chave </li> ";
+
+                if ($valor['error']) {
+                    echo "<li style=\"background-color: #FFEDED\"> <pre> {$valor['message']} </pre> </li>";
+                }
+            }
+        echo "</ul>";
+?>
+</div>
