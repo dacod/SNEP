@@ -52,7 +52,7 @@ class Bar_Graph {
      * Retorna: "m" Minutos  ; "H": Horas ;             "h": Horas arredondada
      *          "D": Dias    ; "d": Dias arredontados ; "hms": hh:mm:ss
      *-------------------------------------------------------------------------*/
-    function fmt_segundos($params,$smarty){
+    function fmt_segundos($params,$smarty = null){
        $segundos = $params['a'] ;
        $tipo_ret = (isset($params['b']) && $params['b'] != "") ? $params['b'] : 'hms' ;
        switch($tipo_ret){
@@ -92,7 +92,7 @@ class Bar_Graph {
     * Recebe : Numero do telefone
     * Retorna: Numero formatado no tipo (xxx) xxxx-xxxx
     *--------------------------------------------------------------------------*/
-   function fmt_telefone($params,$smarty){
+   function fmt_telefone($params,$smarty = null){
       $numero = trim($params['a']) ;
       if (strlen($numero) < 8 || !is_numeric($numero))
           return $numero ;
@@ -120,7 +120,7 @@ class Bar_Graph {
     *                                $flag = S/N - Se encontrou a cidade em CNL
     * Retorna: Nome da Cidade/Estado
     *--------------------------------------------------------------------------*/
-   function fmt_cidade($params,$smarty)  {
+   function fmt_cidade($params,$smarty = "")  {
       global $LANG, $db;
       $flag = "N" ;
       $tp_ret = ($smarty=="A") ? "A" : "" ;
@@ -187,14 +187,13 @@ class Bar_Graph {
    * Retorna: array (valor, cidade, estado, tp_fone, dst_fmtd)
    * ----------------------------------------------------------------------------*/
    function fmt_tarifa($param, $smarty = null) {
-
-      global $db ;
+      $db = Zend_Registry::get('db');
 
       $destino = $param['a'] ;
       $duracao = $param['b'] ;
       $ccusto = $param['c'] ;
       $dt_chamada = $param['d'] ;
-      $tipoccusto = ( $param['e'] ? $param['e'] : NULL );
+      $tipoccusto = ( isset($param['e']) ? $param['e'] : NULL );
 
       // DEBUG de Tarifação, retorna string com informações da tarifação
       $dbg = 0;
@@ -225,9 +224,11 @@ class Bar_Graph {
       $num_dst = substr( $destino, -4 );
       $prefixo = substr( $destino, -8, 4 );
 
+      $ddd_dst = "";
+
       if(strlen($destino) >= 10) {
           $ddd_dst = substr( $destino, -10, 2 );
-      }      
+      }
 
       if( $tn == 11 ) {
          $ddi_dst = "" ;
@@ -236,10 +237,9 @@ class Bar_Graph {
          $ddi_dst = "" ;
       }
       
-      $dst_fmtd = "(". $ddd_dst .") ". $prefixo ."-". $num_dst;
-
       if ($dbg==1) {
-         $ret = "<hr>CCUSTOS=$ccusto == DATA=$dt_chamada == TEMPO=$duracao <br>DST = $dst_fmtd" ;
+          $dst_fmtd = "(". $ddd_dst .") ". $prefixo ."-". $num_dst;
+          $ret = "<hr>CCUSTOS=$ccusto == DATA=$dt_chamada == TEMPO=$duracao <br>DST = $dst_fmtd" ;
       }
 
       // Pesquisa cidades no CNL - Anatel
@@ -287,6 +287,7 @@ class Bar_Graph {
       */
 
       // Verifica a existência de tarifas definidas para operadora
+      $td = false;
       if($ddd_dst) {
           $td = Snep_Tarifas::getTarifaDisp($t['operadora'], $ddd_dst, strtoupper($nome_cidade));
       }
@@ -324,7 +325,7 @@ class Bar_Graph {
           $ret .= "<br /> [Dur Chamada] {$duracao}  [Arranque] {$t_arq} [Restante] {$t_rst}  ";
       }
       // Calcula a tarifa
-      $tarifa = Snep_Tarifas::calcula($duracao, $t['tpm'], $t['tdm'], $tb, $vp);
+      $tarifa = Snep_Tarifas::calcula($duracao, $t['tpm'], $t['tdm'], $tb);
 
       if($dbg == 1) {
           echo $ret;

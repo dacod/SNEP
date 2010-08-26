@@ -594,11 +594,11 @@ function exibe_relatorio() {
 
     if ($tp_rel == "csv") {
         try {
-            $sql = $_SESSION['sql_chamadas'] ;
+            $sql = $_SESSION['sql_chamadas'];
             $row = $db->query($sql)->fetchAll();
 
         } catch (Exception $e) {
-            display_error($LANG['error'].$e->getMessage(),true) ;
+            display_error($LANG['error'].$e->getMessage(),true);
             exit;
         }
 
@@ -736,7 +736,7 @@ function exibe_relatorio() {
         $inicio += $num;
     }
 
-    $tmp =  ver_permissao(82,"", True) ;
+    $tmp =  ver_permissao(82,"", True);
 
     $smarty->assign ('EXCLUIR_ICON', $tmp);
     $smarty->assign ('CCUSTOS', $_SESSION['ccusto']);
@@ -757,7 +757,7 @@ function exibe_relatorio() {
     $titulo = $LANG['menu_reports']." » ". $LANG['menu_rel_callers']."<br />" ;
     $titulo.= $_SESSION['titulo_2'];
     display_template("rel_chamadas_view.tpl", $smarty,$titulo) ;
-    ?>
+?>
 <script language="javascript" type="text/javascript">
     /*------------------------------------------------------------------------------
      * Funcao para remover arquivo de gravacao

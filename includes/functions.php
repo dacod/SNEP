@@ -616,8 +616,14 @@ function monta_csv($arr_titulo, $arr_dados) {
             $dados['dst'] = $formatter->fmt_telefone(array("a"=>$dados_ori['dst']));
         }
         if (array_key_exists("tarifacao", $arr_titulo)) {
-            $dados['tarifacao'] = $formatter->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate']));
+            if($dados_ori['disposition'] == "ANSWERED") {
+                $dados['tarifacao'] = $formatter->fmt_tarifa(array("a"=>$dados_ori['dst'],"b"=>$dados_ori['billsec'],"c"=>$dados_ori['accountcode'],"d"=>$dados_ori['calldate'], "e" => $dados_ori['tipo']));
+            }
+            else {
+                $dados['tarifacao'] = "0,00";
+            }
         }
+
         if($dados['disposition']) {
             if($dados['disposition'] == "ANSWERED") {
                 $dados['disposition'] = "Atendida";

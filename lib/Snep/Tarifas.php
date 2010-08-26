@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -42,9 +43,17 @@ class Snep_Tarifas {
     private $vpf;
     private $vpc;
 
-    public function __construct() {}
-    public function __destruct() {}
-    public function __clone() {}
+    public function __construct() {
+
+    }
+
+    public function __destruct() {
+
+    }
+
+    public function __clone() {
+
+    }
 
     // Retorna determinado atributo
     public function __get($atributo) {
@@ -61,8 +70,8 @@ class Snep_Tarifas {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('tarifas')
-        ->where("codigo = '$codigo'");
+                        ->from('tarifas')
+                        ->where("codigo = '$codigo'");
 
         $stmt = $db->query($select);
         $arrTarifa = $stmt->fetchAll();
@@ -75,9 +84,9 @@ class Snep_Tarifas {
         $db = Zend_registry::get('db');
 
         $select = $db->select()
-        ->from('tarifas_valores')
-        ->where("codigo = ?", $codigo)
-        ->order('data');
+                        ->from('tarifas_valores')
+                        ->where("codigo = ?", $codigo)
+                        ->order('data');
 
         $stmt = $db->query($select);
         $arrValores = $stmt->fetchAll();
@@ -87,19 +96,19 @@ class Snep_Tarifas {
 
     public function getTarifaDisp($op, $ddd, $cidade) {
         $db = Zend_Registry::get('db');
-     
+
         $select = $db->select()
-                ->from('tarifas' )
-                ->where('operadora = ?', $op )
-                ->where('ddd = ?', $ddd )
-                ->where('cidade = ?', $cidade);
+                        ->from('tarifas')
+                        ->where('operadora = ?', $op)
+                        ->where('ddd = ?', $ddd)
+                        ->where('cidade = ?', $cidade);
 
         $stmt = $db->query($select);
         $tarifa = $stmt->fetch();
 
-        if(!$tarifa) {
+        if (!$tarifa) {
             return 0;
-        }else{
+        } else {
             return $tarifa;
         }
     }
@@ -108,33 +117,33 @@ class Snep_Tarifas {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                ->from('tarifas_valores')
-                ->where('codigo = ?', $tarifa['codigo'])
-                ->where('data >= ?', $tarifa[0])
-                ->order('data DESC limit 1');
+                        ->from('tarifas_valores')
+                        ->where('codigo = ?', $tarifa['codigo'])
+                        ->where('data >= ?', $tarifa[0])
+                        ->order('data DESC limit 1');
 
         $stmt = $db->query($select);
         $reajuste = $stmt->fetch();
 
-        if(count($reajuste) > 0 ) {
+        if (count($reajuste) > 0) {
             return $reajuste;
-        }else{
+        } else {
             return 0;
-        }        
+        }
     }
 
     // Retorna tarifas - com ou sem filtro (rel_tarifas.php)
     public function getFiltrada($campo, $valor) {
         $db = Zend_registry::get('db');
-        
+
         $tab = ($campo == 'nome' ? 'c' : 't' );
 
         $select = $db->select()
-            ->from(array('o' => 'operadoras'), array('nome'))
-            ->from(array('t' => 'tarifas'))            
-            ->join(array('tv' => 'tarifas_valores') , 't.codigo = tv.codigo AND o.codigo = t.operadora');
+                        ->from(array('o' => 'operadoras'), array('nome'))
+                        ->from(array('t' => 'tarifas'))
+                        ->join(array('tv' => 'tarifas_valores'), 't.codigo = tv.codigo AND o.codigo = t.operadora');
 
-        if(!is_null($valor)) {
+        if (!is_null($valor)) {
             //$select->where(" $tab.". $campo ." like '%". $valor ."%'");
         }
 
@@ -149,7 +158,7 @@ class Snep_Tarifas {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('tarifas');
+                        ->from('tarifas');
 
         $stmt = $db->query($select);
         $arrTarifas = $stmt->fetchAll();
@@ -159,16 +168,16 @@ class Snep_Tarifas {
 
     // Registra objeto tarifa - informacoes sobre tarifa (tarifas)
     public static function register($tarifa) {
-        $db = Zend_Registry::get('db');     
+        $db = Zend_Registry::get('db');
 
         $insert_data = array("operadora" => $tarifa->operadora,
-                             "ddi"       => $tarifa->ddi,
-                             "pais"      => $tarifa->pais,
-                             "ddd"       => $tarifa->ddd,
-                             "cidade"    => $tarifa->cidade,
-                             "estado"    => $tarifa->estado,
-                             "prefixo"   => $tarifa->prefixo                             
-                       );
+            "ddi" => $tarifa->ddi,
+            "pais" => $tarifa->pais,
+            "ddd" => $tarifa->ddd,
+            "cidade" => $tarifa->cidade,
+            "estado" => $tarifa->estado,
+            "prefixo" => $tarifa->prefixo
+        );
 
         $db->insert('tarifas', $insert_data);
         $id = $db->lastInsertId();
@@ -182,38 +191,38 @@ class Snep_Tarifas {
 
         $exist = self::verifyValores($tarifa->data);
 
-        if(!$exist) {
-            $tarifa->data = date("Y-m-d H:i:s");            
+        if (!$exist) {
+            $tarifa->data = date("Y-m-d H:i:s");
         }
 
         $insert_data = array("codigo" => $id,
-                             "data"   => $tarifa->data,
-                             "vcel"   => $tarifa->vcel,
-                             "vfix"   => $tarifa->vfix,
-                             "vpf"    => $tarifa->vpf,
-                             "vpc"    => $tarifa->vpc
-                       );
-       if(!$exist) {
-           $db->insert('tarifas_valores', $insert_data);
-       }else{
-           $db->update('tarifas_valores', $insert_data, "data='$tarifa->data'");
-       }        
+            "data" => $tarifa->data,
+            "vcel" => $tarifa->vcel,
+            "vfix" => $tarifa->vfix,
+            "vpf" => $tarifa->vpf,
+            "vpc" => $tarifa->vpc
+        );
+        if (!$exist) {
+            $db->insert('tarifas_valores', $insert_data);
+        } else {
+            $db->update('tarifas_valores', $insert_data, "data='$tarifa->data'");
+        }
     }
 
     // Verifica existencia de determinado valor já registrado verifica data
     public static function verifyValores($data) {
-        $db  = Zend_Registry::get('db');
+        $db = Zend_Registry::get('db');
 
-         $select = $db->select()
-        ->from('tarifas_valores')
-        ->where("data='$data'");
+        $select = $db->select()
+                        ->from('tarifas_valores')
+                        ->where("data='$data'");
 
         $stmt = $db->query($select);
         $tarifa = $stmt->fetchAll();
 
-        if(count($tarifa) > 0) {
+        if (count($tarifa) > 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
@@ -221,17 +230,17 @@ class Snep_Tarifas {
     // Atualiza informacoes de um objeto tarifa no banco
     public static function update($tarifa) {
 
-        $tarifa = self::get( $tarifa->codigo );
+        $tarifa = self::get($tarifa->codigo);
 
-        if($tarifa) {
+        if ($tarifa) {
 
             $update_data = array("codigo" => $tarifa->codigo,
-                                 "data"   => date("Y-m-d H:i:s"),
-                                 "vcel"   => $tarifa->vcel,
-                                 "vfix"   => $tarifa->vfix,
-                                 "vpf"    => $tarifa->vpf,
-                                 "vpc"    => $tarifa->vpc
-                           );
+                "data" => date("Y-m-d H:i:s"),
+                "vcel" => $tarifa->vcel,
+                "vfix" => $tarifa->vfix,
+                "vpf" => $tarifa->vpf,
+                "vpc" => $tarifa->vpc
+            );
 
 
             $db = Zend_Registry::get('db');
@@ -245,51 +254,54 @@ class Snep_Tarifas {
         $tarifa = self::get($codigo);
         $db = Zend_Registry::get('db');
 
-        $db->beginTransaction() ;
+        $db->beginTransaction();
         try {
-            $db->delete('tarifas', "codigo = $codigo");            
+            $db->delete('tarifas', "codigo = $codigo");
             $db->commit();
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
         }
-        
-        $db->beginTransaction() ;
+
+        $db->beginTransaction();
         try {
             $db->delete('tarifas_valores', "codigo = $codigo");
             $db->commit();
-
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
         }
     }
 
-    public static function calcula($duracao, $tpm, $tdm, $tb, $vp = null) {
+    /**
+     * Calcula a tarifa
+     *
+     * @param int $duracao da ligação
+     * @param int $tempo_primeiro_min tempo primeiro minuto
+     * @param int $fracionamento
+     * @param float $tarifa_base
+     * @return float
+     */
+    public static function calcula($duracao, $tempo_primeiro_min, $fracionamento, $tarifa_base, $tp = NULL) {
+        if($duracao <= 2) {
+            return 0.0;
+        }
+
+        // Valor corresponde ao valor do arranque
+        $valor = $tarifa_base * ($tempo_primeiro_min / 60);
+        $valor_fracao = $tarifa_base * ($fracionamento / 60);
+
         // Divide tempo da Chamada em 2: t_arq = tempo de arranque ; t_rst = tempo restante
-        if ($duracao <= $tpm) {
-           $t_rst = 0 ;
+        if ($duracao <= $tempo_primeiro_min) {
+            $tempo_restante = 0;
         } else {
-           $t_rst = $duracao - $tpm;
+            $tempo_restante = $duracao - $tempo_primeiro_min;
         }
 
-        // Calculo do Tempo de Arranque: Tarifa Base / 60 * Tempo Arranque
-        // Garante que qquer q seja tempo da chamada, vai cobrar o equivalente ao Tempo de arranque definido
-        $vlr_arq = 0 ;
-        $vlr_arq = ( ( $tb / 60 ) * $tpm ) ;
-
-        // Calculo do Tempo Restante da chamada, descontado o tempo de Arranque
-        
-        $vlr_rst = 0 ;
-        if ($t_rst > 0) {
-           $qtd_frac = ( (int)( $t_rst/$tdm) + 1 ) ; //  Verifica quantas fracoes de tempo restante existem
-           $vlr_frac = ($tb / (60/$tdm) ) ;             // Calcula o valor de cada fracao   
-           $vlr_rst  = $qtd_frac * $vlr_frac ;
+        if ($tempo_restante > 0) {
+            $fracoes = ceil($tempo_restante / $fracionamento);
+            $valor += $fracoes * $valor_fracao;
         }
 
-
-        $valor = $vlr_arq + $vlr_rst;
         return $valor;
-
     }
 
 }
