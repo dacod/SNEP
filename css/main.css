@@ -136,10 +136,11 @@ button:hover, input[type=submit]:hover {
 /* Formulários */
 .form_element {
     display: table-row;
+    height: 30px;
 }
 
 form fieldset {
-    padding: 0px 0px 10px 0px;
+    padding: 15px 0px 10px 0px;
     margin: 0px;
     
     border-bottom: none;
@@ -161,7 +162,7 @@ form dt {
     margin-top: 0px;
     padding-right: 5px;
     padding-top: 2px;
-    min-width: 150px;
+    min-width: 200px;
     vertical-align: top;
 }
 
@@ -177,10 +178,11 @@ form dd {
 form .hint {
     display: inline-block;
     font-size: 10px;
-    max-width: 300px;
+    max-width: 600px;
     vertical-align: top;
-    padding: 2px;
+    padding: 0 2px;
     margin: 0px;
+    color: #696969
 }
 
 form .errors {
@@ -198,6 +200,14 @@ form .errors li {
 
 form .errors, .error {
     color: #ff0000;
+}
+.zend_form input[type="text"], .zend_form input[type="password"] {
+
+    border: 1px solid #d2d2d2;
+    height: 20px;
+    line-height: 3em;
+    padding: 1px;
+    background: #fff url("../imagens/bg_input.png") repeat-x top left;
 }
 
 .failure {
