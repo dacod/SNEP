@@ -384,11 +384,30 @@ ul#navmenu ul ul li.iehover ul {
   display: block;
 }
 
-.error_box {
+#content .error_box {
     padding: 10px 10px 10px 45px;
-    background-color: #ffcccc;
+    background-color: #F46770;
     background-image: url("../imagens/error_16.png");
     background-repeat: no-repeat;
     background-position: 5px center;
-    text-decoration:bolder;
+    font-weight: bolder;
+}
+
+.inspect ul{
+    margin:0px;
+    padding:0px;
+}
+.inspect li {
+    list-style:none;
+}
+#content .list_error {
+    padding: 5px 3px 5px 25px;
+    background: #F46770 url("../imagens/false.png") no-repeat scroll 5px center;
+    font-weight: bolder;
+}
+
+#content .list_no_error {
+    padding: 5px 3px 5px 25px;
+    background: #8BE98A url("../imagens/true.png") no-repeat scroll 5px center;
+    font-weight: bolder;
 }
