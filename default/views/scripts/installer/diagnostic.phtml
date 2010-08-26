@@ -1,19 +1,27 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/diagnostic.css"); ?>
 
 <p>
-    <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu Configurações > Diagnóstico."); ?>
+    <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
 </p>
 
-<ol id="diagnostic_list">
-<?php foreach ($this->testResult as $test): ?>
-    <li <?php echo 'class="' . ($test["error"] ? "test_failed" : "test_succeded") . '"';  ?> >
-        <h2><?php echo $test["name"]; ?></h2>
-        <?php if($test["error"]): ?>
-        <p class="error_description"><?php echo $test['message']; ?></p>
-        <?php endif;?>
-    </li>
-<?php endforeach; ?>
-</ol>
+<div class="inspect">
+    <ol>
+    <?php
+        echo "<ul>";
+            foreach( $this->testResult as $chave => $valor ) {
+
+                $style = ( $valor['error'] ? 'list_error' : 'list_no_error' );
+
+                echo " <li class='$style' ><h2> {$valor['name']} </h2> </li> ";
+
+                if ($valor['error']) {
+                    echo "<li style=\"background-color: #FFEDED\"> <pre> {$valor['message']} </pre> </li>";
+                }
+            }
+        echo "</ul>";
+?>
+    </ol>
+</div>
 
 <p class="installer_buttons">
 <?php if($this->errored): ?>
