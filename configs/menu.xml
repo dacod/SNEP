@@ -12,49 +12,49 @@
 <menu>
 
     <item id="status" label="menu_status">
-        <item uri="../src/sistema.php" label="menu_system"></item>
-        <item uri="../gestao/links_load.php" label="menu_links"></item>
-        <item uri="../src/database_load.php" label="menu_databaseshow"></item>
-        <item uri="../gestao/links_errors_load.php" label="menu_links_erros"></item>
-        <item uri="../gestao/sneplog.php" label="tit_logger"></item>
+        <item uri="src/sistema.php" label="menu_system"></item>
+        <item uri="gestao/links_load.php" label="menu_links"></item>
+        <item uri="src/database_load.php" label="menu_databaseshow"></item>
+        <item uri="gestao/links_errors_load.php" label="menu_links_erros"></item>
+        <item uri="gestao/sneplog.php" label="tit_logger"></item>
     </item>
 
     <item id="register" label="menu_register" resourceid="10">
-        <item uri="../src/rel_ccustos.php" label="menu_ccustos" ></item>
-        <item uri="../src/rel_cont_names.php" label="menu_contacts" ></item>
-        <item uri="../src/rel_contacts_groups.php" label="menu_contacts_groups" ></item>
-        <item uri="../src/rel_queues.php" label="menu_queues" ></item>
-        <item uri="../src/rel_groups.php" label="menu_grupos_ramais" ></item>
-        <item uri="../src/rel_grupos.php" label="menu_grupos" ></item>
-        <item uri="../src/extensions.php" label="menu_ramais" ></item>
-        <item uri="../gestao/conferencias.php" label="menu_conference" ></item>
-        <item uri="../src/rel_troncos.php" label="menu_troncos" ></item>
+        <item uri="src/rel_ccustos.php" label="menu_ccustos" ></item>
+        <item uri="src/rel_cont_names.php" label="menu_contacts" ></item>
+        <item uri="src/rel_contacts_groups.php" label="menu_contacts_groups" ></item>
+        <item uri="src/rel_queues.php" label="menu_queues" ></item>
+        <item uri="src/rel_groups.php" label="menu_grupos_ramais" ></item>
+        <item uri="src/rel_grupos.php" label="menu_grupos" ></item>
+        <item uri="src/extensions.php" label="menu_ramais" ></item>
+        <item uri="gestao/conferencias.php" label="menu_conference" ></item>
+        <item uri="src/rel_troncos.php" label="menu_troncos" ></item>
     </item>
 
     <item id="reports" label="menu_reports" resourceid="20">
-        <item uri="../src/rel_chamadas.php" label="menu_rel_callers"></item>
-        <item uri="../src/rel_services.php" label="services_report"></item>
-        <item uri="../src/rel_ranking.php" label="menu_callranking"></item>
+        <item uri="src/rel_chamadas.php" label="menu_rel_callers"></item>
+        <item uri="src/rel_services.php" label="services_report"></item>
+        <item uri="src/rel_ranking.php" label="menu_callranking"></item>
     </item>
 
     <item id="billing" label="menu_tarifas" resourceid="70">
-        <item uri="../tarifas/rel_operadoras.php" label="menu_operadoras"></item>
-        <item uri="../tarifas/rel_tarifas.php" label="menu_tarifas"></item>
+        <item uri="tarifas/rel_operadoras.php" label="menu_operadoras"></item>
+        <item uri="tarifas/rel_tarifas.php" label="menu_tarifas"></item>
     </item>
 
     <item id="routing" label="menu_rules" uri="../gestao/agi_rules.php" resourceid="48">
-        <item uri="../gestao/agi_rules.php" label="routes"></item>
-        <item uri="../gestao/default_actions_configs.php" label="default_configs"></item>
-        <item uri="../gestao/expression_alias.php" label="Alias de Expressão Regular"></item>
+        <item uri="gestao/agi_rules.php" label="routes"></item>
+        <item uri="gestao/default_actions_configs.php" label="default_configs"></item>
+        <item uri="gestao/expression_alias.php" label="Alias de Expressão Regular"></item>
     </item>
 
     <item id="configs" label="menu_config" resourceid="60">
-        <item uri="../index.php/parameters/" label="menu_params"></item>
-        <item uri="../src/rel_sounds.php" label="menu_sounds"></item>
-        <item uri="../gestao/rel_musiconhold.php" label="menu_musiconhold"></item>
-        <item uri="../index.php/inspector/" label="Diagnóstico do Sistema"></item>
+        <item uri="parameters" label="menu_params"></item>
+        <item uri="src/rel_sounds.php" label="menu_sounds"></item>
+        <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item>
+        <item uri="inspector" label="Diagnóstico do Sistema"></item>
     </item>
 
-    <item id="logout" label="menu_sair" uri="../index.php/auth/logout" ></item>
+    <item id="logout" label="menu_sair" uri="auth/logout" ></item>
 
 </menu>

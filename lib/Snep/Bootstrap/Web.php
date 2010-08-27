@@ -50,7 +50,11 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
     }
 
     protected function startMenu() {
-        Zend_Registry::set("menu", new Snep_Menu($this->config->system->path->base . "/configs/menu.xml"));
+        $menu = new Snep_Menu();
+        $config = Zend_Registry::get('config');
+        $menu->setBaseUrl($config->system->path->web . "/" );
+        $menu->setItemsFromXML($this->config->system->path->base . "/configs/menu.xml");
+        Zend_Registry::set("menu", $menu);
     }
 
     protected function startModules() {

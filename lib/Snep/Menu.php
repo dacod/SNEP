@@ -43,12 +43,22 @@ class Snep_Menu {
     private $items;
 
     /**
+     * Define uma URL base para todos os itens de menu que não contiverem uma
+     * url completa.
+     *
+     * @var string
+     */
+    protected $baseUrl = "";
+
+    /**
      * Arquivo XML para fazer parse do menu
      *
      * @param string $xml_file
      */
-    public function __construct( $xml_file ) {
-        $this->setItemsFromXML( $xml_file );
+    public function __construct( $xml_file = null ) {
+        if($xml_file !== null) {
+            $this->setItemsFromXML( $xml_file );
+        }
     }
 
     /**
@@ -60,6 +70,14 @@ class Snep_Menu {
         return $this->render();
     }
 
+    public function getBaseUrl() {
+        return $this->baseUrl;
+    }
+
+    public function setBaseUrl($baseUrl) {
+        $this->baseUrl = $baseUrl;
+    }
+    
     /**
      * Adiciona um item ao menu
      *
@@ -165,9 +183,22 @@ class Snep_Menu {
     }
 
     private function parseXMLMenuItem( $xml_item ) {
+        if(!Zend_Uri::check($xml_item['uri'])) {
+            if(substr($xml_item['uri'], -4) == ".php") {
+                $fixed_uri = $this->baseUrl . $xml_item['uri'];
+            } else {
+                $config = Zend_Registry::get('config');
+                $fixed_uri = $this->baseUrl . ($config->system->path->modrewrite ? "" : "index.php/") . $xml_item['uri'];
+            }
+        }
+        else {
+            $fixed_uri = $xml_item['uri'];
+        }
+
         $id         = $xml_item['id'] ? (string) $xml_item['id'] : null;
         $label      = $xml_item['label'] ? (string) $xml_item['label'] : null;
-        $uri        = $xml_item['uri'] ? (string) $xml_item['uri'] : null;
+
+        $uri        = $xml_item['uri'] ? $fixed_uri : null;
         $resourceId = $xml_item['resourceid'] ? (string) $xml_item['resourceid'] : null;
         
         $item = new Snep_Menu_Item($id, $label, $uri);
