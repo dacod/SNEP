@@ -143,7 +143,7 @@ class ParametersController extends Zend_Controller_Action {
         $painel3->setValue( $config->ambiente->menu_status_3 );
         $form->addSubForm($painel, "painel");
 
-        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => "Enviar")));
+        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => "Salvar")));
 
         // Verifica se o formulario foi submetido
         if($this->_request->getPost()) {
