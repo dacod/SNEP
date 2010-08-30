@@ -33,9 +33,16 @@
           <form name="ok" id="ok">
           {if $RET < 0}
              <input type="button" class="button" value="Ok" onClick="history.go({$RET});"  />
-          {else}
+          {/if}
+
+          {if $RET == 0}
+             <input type="button" class="button" value="Ok" onClick="javascript:self.close();" />
+          {/if}
+
+          {if $RET > 0}
              <input type="button" class="button" value="Ok" onClick="location.reload(true);" />
           {/if}
+
           <div class="buttonEnding"></div>
           </form>
        </td>
