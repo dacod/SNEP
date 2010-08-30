@@ -202,10 +202,8 @@ form .errors, .error {
     color: #ff0000;
 }
 .zend_form input[type="text"], .zend_form input[type="password"] {
-
     border: 1px solid #d2d2d2;
-    height: 20px;
-    line-height: 3em;
+    line-height: 1.5em;
     padding: 1px;
     background: #fff url("../imagens/bg_input.png") repeat-x top left;
 }
