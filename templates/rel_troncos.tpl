@@ -26,7 +26,6 @@
          <td class="cen" width="25%">{$LANG.desc}</td>
          <td class="cen" width="20%">{$LANG.technologies}</td>
          <td class="cen" width="15%">{$LANG.trunktype}</td>
-         <td class="esq" width="20%">{$LANG.trunkredund}</td>
          <td class="cen" colspan="2" width="10px">{$LANG.actions}</td>
       </tr>
    </thead>
@@ -36,8 +35,7 @@
          <td>{$DADOS[troncos].callerid}</td>
          <td class="cen">{$DADOS[troncos].tecnologias}</td>
          {assign var="tt" value=$DADOS[troncos].trunktype}
-         <td class="cen">{$OPCAO_TTRONCO.$tt}</td>
-         <td class="esq">{$DADOS[troncos].trunkredund}</td>
+         <td class="cen">{$OPCAO_TTRONCO.$tt}</td>         
          <form name="acao" method="post" action="../src/troncos.php">
          <td align="center" valign="middle" width="30px;">
             <acronym title="{$LANG.change}">
