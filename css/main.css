@@ -419,3 +419,92 @@ ul#navmenu ul ul li.iehover ul {
     background: #8BE98A url("../imagens/true.png") no-repeat scroll 5px center;
     font-weight: bolder;
 }
+
+#content thead {
+    background-color: #FFD10D;    
+}
+#content thead td {
+    padding: 5px 2px;
+    font-weight: bolder;
+}
+#content img {
+    border:0px;
+}
+#content tbody td {
+    padding: 3px 2px;
+    border-bottom: 1px solid #d2d2d2;
+    
+}
+#content .c0 {
+    background-color: #eeeeee;    
+}
+#content .c1 {
+    background-color: #fff;    
+}
+#content .filtros {
+    background-color: #f1f1f1;
+    border: 1px solid #e1e1e1;
+    padding: 6px 4px 0px 4px;
+    margin-bottom: 3px;
+    height:40px;
+}
+.links_include {
+   float:right;
+}
+.links {
+   float:right;
+}
+.links .include {
+       float:right;
+   background: url("../imagens/include.png") no-repeat left top;
+   margin: 0;
+   padding-left: 18px;
+   height: 16px;
+   padding-right: 10px;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   color: #696969;
+   font-weight: bold;
+   text-decoration: none ;
+}
+.links .includes {
+       float:right;
+   background: url("../imagens/include_all.png") no-repeat left top;
+   margin: 0;
+   padding-left: 18px;
+   height: 16px;
+   padding-right: 10px;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   color: #696969;
+   font-weight: bold;
+   text-decoration: none ;
+}
+.filtros form dt {
+    width: 60px;
+    min-width: 10px !important;
+}
+.filtros tr:hover {
+    background-color: #d2d2d2;
+}
+
+#paginationControl {
+    font-size: 16px;    
+    width: 953px;
+    font-weight: bolder;
+    height: 40px;
+    color: #696969;
+    text-align: right;
+}
+#paginationControl a{
+    color: #696969;
+}
+
+#paginationControl .atual {
+    font-size: 20px;
+    color: #FFD10D;
+}
+
+#paginationControl .disabled {
+    color: #d2d2d2;
+}
