@@ -1,0 +1,30 @@
+<?php echo $this->render('filter.phtml') ?>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+   <thead>
+      <tr>
+         <td> <?php echo $this->translate('Ramal') ?> </td>
+         <td> <?php echo $this->translate('Nome do Usuário') ?> </td>
+         <td> <?php echo $this->translate('Canal') ?> </td>
+         <td> <?php echo $this->translate('Grupo de Ramal') ?> </td>
+         <td colspan="3"> <?php echo $this->translate('Ações') ?> </td>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    foreach($this->extensions as $cha => $val ): ?>
+        <?php ($c ? $c = 0 : $c = 1 ); ?>
+        <tr class="c<?php echo $c ?>">
+            <td> <b> <?php echo $val['exten'] ?> </b> </td>
+            <td> <?php echo $val['name'] ?> </td>
+            <td> <?php echo $val['channel'] ?> </td>
+            <td> <?php echo $val['group'] ?> </td>
+            <td> <a href='/snep/src/extensions.php?action=edit&id=<?php echo $val['exten'] ?>'> <img src='/snep/imagens/edit.png' title=<?php echo $this->translate('Editar') ?> /> </a> </td>
+            <td> <a href='/snep/src/extensions.php?action=delete&id=<?php echo $val['exten'] ?>'> <img src='/snep/imagens/delete.png' title=<?php echo $this->translate('Remover')?> /> </a> </td>
+            <td> <a href="/snep/src"<input type="image" src="/snep/imagens/permitions.png" alt='<?php echo $this->translate('Permissões e Vinculos')?> />'  name='acao' value='permissoes'/> </td>
+        </tr>
+    <?php endforeach ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>

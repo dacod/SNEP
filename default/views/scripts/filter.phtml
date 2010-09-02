@@ -1,0 +1,12 @@
+<div class="filtros">
+    <div class="links">
+         <?php if( isset($this->filter) ) : ?>
+             <?php foreach($this->filter as $links): ?>
+                <a class="<?php echo $links['css'] ?>" href=<?php echo $links['url'] ?> > <?php echo $links['display'] ?> </a>
+             <?php endforeach ?>
+         <?php endif ?>
+    </div>
+    <?php if( isset( $this->form_filter ) ) : ?>
+        <?php echo $this->form_filter ?>
+    <?php endif ?>
+</div>
