@@ -159,6 +159,7 @@ function monta_relatorio($acao) {
             display_error($LANG['error'] . $LANG['error_nogroup_item'] ,true);
         }
         else {
+            $ramalsrc = "";
             foreach ($origens as $ramal) {
                 $ramalsrc .= $ramal->getNumero() . ',';
             }
@@ -173,10 +174,11 @@ function monta_relatorio($acao) {
             display_error($LANG['error'] . $LANG['error_nogroup_item'] ,true);
         }
         else {
+            $ramaldst = "";
             foreach ($destinos as $ramal) {
                 $ramaldst .= $ramal->getNumero() . ',';
             }
-            $ramaisdst = " AND dst in (" . trim($ramalsrc, ',') . ") ";
+            $ramaisdst = " AND dst in (" . trim($ramaldst, ',') . ") ";
         }
     }
     

@@ -6,6 +6,7 @@
     Correção de loop infinito ao usar senha ou usuário inválido para conectar
 com o asterisk
     Correção no calculo da tarifa
+    Correção de bug ao selecionar grupo de destino no relatório de chamadas
 
 1.2.0:
     Atualizado Zend Framework para versão 1.10.0
