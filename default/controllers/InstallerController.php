@@ -1,8 +1,42 @@
 <?php
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of
+ *  the License, or (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+
 require_once 'Zend/Controller/Action.php';
 require_once 'Snep/Inspector.php';
 
+/**
+ * Snep Installer Interface
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Henrique Grolli <henrique@opens.com.br>
+ */
 class InstallerController extends Zend_Controller_Action {
+
+    public function  preDispatch() {
+        parent::preDispatch();
+        $this->view->hideMenu = true;
+        // Fazer checagem futura se o sistema está instalado ou não.
+        if(Zend_Auth::getInstance()->hasIdentity() && $this->getRequest()->getActionName() != "installed") {
+            $this->_redirect("index");
+        }
+    }
 
     public function indexAction() {
         $this->view->breadcrumb = $this->view->translate("Instalador");
@@ -18,7 +52,36 @@ class InstallerController extends Zend_Controller_Action {
         $this->view->testResult = $inspector->getInspects();
     }
 
+    protected function install(Zend_Db_Adapter_Abstract $db) {
+        $path = Zend_Registry::get('config')->system->path;
+        $schema = file_get_contents($path->base . "/default/installer/schema.sql");
+        $system_data = file_get_contents($path->base . "/default/installer/system_data.sql");
+
+        $db->beginTransaction();
+        try {
+            // Schema creation
+            $db->query($schema);
+            // System data insertions
+            $db->query($system_data);
+
+            Zend_Debug::dump(Zend_Registry::get("config"));
+            throw new Exception("NAO");
+
+            $db->commit();
+        }
+        catch (Exception $ex) {
+            $db->rollBack();
+            throw $ex;
+        }
+
+    }
+
+    public function installedAction() {
+        $this->view->breadcrumb = $this->view->translate("Instalação Concluida");
+    }
+
     public function configureAction() {
+        $this->view->hideMenu = true;
         $this->view->breadcrumb = $this->view->translate("Instalador » Configuração");
         $form_config = new Zend_Config_Xml("./default/forms/installer.xml");
 
@@ -74,8 +137,14 @@ class InstallerController extends Zend_Controller_Action {
             }
 
             if($form_isValid) {
-                // Criar tabelas no banco de dados
-                // Salvar/Mostrar arquivo de configuração
+                try {
+                    $this->install($db);
+                }
+                catch(Exception $ex) {
+                    $this->view->message = $ex->getMessage();
+                    $this->renderScript("installer/error.phtml");
+                }
+                
             }
         }
 

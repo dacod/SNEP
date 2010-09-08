@@ -95,8 +95,6 @@ class ExtensionsController extends Snep_Controller {
      * A remoção da tela antiga se dará no momento que o formulário de edição
      * e adição de ramais for simplificado.
      *
-     * @TODO usar Zend_Form para criação do formulário de cadastro e ediçao de
-     * ramais.
      */
     public function editAction() {
         $exten = isset($_GET['id']) ? $_GET['id'] : null;
