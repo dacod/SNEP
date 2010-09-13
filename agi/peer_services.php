@@ -35,7 +35,7 @@ try {
     $ramal = PBX_Usuarios::get($argv[1]);
 
     if($ramal->getFollowMe() != "") {
-        $ramal2 = $ramal->getFollowMe();
+        $ramal2 = PBX_Usuarios::get($ramal->getFollowMe());
         $sigame = $ramal2->getInterface()->getCanal();
     }
 
