@@ -140,6 +140,7 @@ function cadastrar() {
         $cod3 = $snep_cod3;
         $cod4 = $snep_cod4;
         $cod5 = $snep_cod5;
+        $nat = "no";
     }
 
     // verifica tipo de Qualify, (yes|no|specify)
@@ -388,6 +389,7 @@ function grava_alterar() {
         $cod3 = $snep_cod3;
         $cod4 = $snep_cod4;
         $cod5 = $snep_cod5;
+        $nat = "no";
     }
 
     if (!$_POST['id']) {
