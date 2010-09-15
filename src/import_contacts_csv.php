@@ -31,7 +31,7 @@ class ImportContactsController {
     public function indexAction() {
         $smarty = Zend_Registry::get('smarty');
 
-        $titulo = "Contatos -> Importar CSV";
+        $titulo = "Contatos » Importar CSV";
         display_template("contacts/import/csv/index.tpl",$smarty,$titulo);
     }
 
@@ -98,7 +98,7 @@ class ImportContactsController {
 
                 $smarty->assign('GROUPS', $groups);
 
-                $titulo = "Contatos -> Importar CSV -> Relacionar Campos";
+                $titulo = "Contatos -> Importar CSV » Relacionar Campos";
                 display_template("contacts/import/csv/process.tpl",$smarty,$titulo);
                 
             }
@@ -154,7 +154,7 @@ class ImportContactsController {
                 throw $ex;
             }
 
-            $this->__redirect("./rel_cont_names.php");
+            $this->__redirect("/contacts/");
         }
         else {
             display_error("ERRO INTERNO", true);
