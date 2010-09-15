@@ -107,8 +107,14 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
         $this->startI18N(); // Inicia o antigo $LANG do Snep para compactibilidade
         $this->startLogger();
         $this->startDatabase();
-        $this->registerCCustos();
-        $this->registerQueues();
+
+        $config = Zend_Registry::get('config');
+
+        if( trim ( $config->ambiente->db->host ) != "" ) {
+            $this->registerCCustos();
+            $this->registerQueues();
+        }
+
         $this->startMenu(); // Carrega o menu padrão do Snep
         $this->startModules(); // Inicia os modulos instalados
         $this->startActions(); // Registra as ações do sistema e as ações dos Módulos
