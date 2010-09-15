@@ -24,16 +24,21 @@
  $smarty->assign('TIPOS_CCUSTOS', $tipos_ccustos) ;
  if ($acao == "cadastrar") {
     cadastrar();
+
  } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register']." -> ".$LANG['menu_ccustos']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_register']." » ".$LANG['menu_ccustos']." » ".$LANG['change'];
     alterar() ;
+
  } elseif ($acao ==  "grava_alterar") {
     grava_alterar() ;
+
  } elseif ($acao ==  "excluir") {
     excluir() ;
+
  } else {
-   $titulo = $LANG['menu_register']." -> ".$LANG['menu_ccustos']." -> ".$LANG['include'];
+   $titulo = $LANG['menu_register']." » ".$LANG['menu_ccustos']." » ".$LANG['include'];
    principal() ;
+   
  }
 /*------------------------------------------------------------------------------
  Funcao PRINCIPAL - Monta a tela principal da rotina
@@ -58,7 +63,7 @@ function cadastrar()  {
       $db->beginTransaction() ;
       $db->exec($sql) ;
       $db->commit();
-      echo "<meta http-equiv='refresh' content='0;url=../src/ccustos.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../index.php/costcenter/' >\n" ;
    } catch (Exception $e) {
       $db->rollBack();
       display_error($LANG['error'].$e->getMessage(),true) ;
@@ -111,7 +116,7 @@ function grava_alterar()  {
      $db->beginTransaction() ;
      $db->exec($sql) ;
      $db->commit();
-     echo "<meta http-equiv='refresh' content='0;url=../src/rel_ccustos.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/costcenter/'>\n" ;
    } catch (Exception $e) {
      $db->rollBack();
      display-error($LANG['error'].$e->getMessage(),true) ;
@@ -133,10 +138,11 @@ function excluir()  {
       $db->beginTransaction() ;
       $db->exec($sql) ;
       $db->commit();
-//      display_error($LANG['msg_excluded'],true) ;
-      //echo "<meta http-equiv='refresh' content='0;url=../src/rel_ccustos.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../index.php/costcenter/'>\n" ;
+
    } catch (PDOException $e) {
       display_error($LANG['error'].$e->getMessage(),true) ;
+      
    }  
 }
 ?>
