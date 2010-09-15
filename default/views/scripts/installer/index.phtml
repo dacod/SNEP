@@ -1,4 +1,15 @@
-<h1>Bem vindo ao SNEP PBX!</h1>
-<p><?php echo $this->translate("Texto lindo e maravilhoso sobre o snep. Instale o snep e salve um panda."); ?></p>
+<h1> <?php echo $this->translate("Bem vindo ao SNEP PBX!"); ?> </h1>
 
-<p class="installer_buttons"><button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Iniciar a Instalação"); ?></button></p>
+<p>
+<?php echo $this->translate("Você será conduzido na instalação do SNEP."); ?>
+</p>
+
+<ul>
+    <li><?php echo $this->translate("Diagnóstico do Sistema") ?></li>
+    <li><?php echo $this->translate("Configuração do acesso a Banco de Dados, Asterisk"); ?></li>
+    <li><?php echo $this->translate("Definição da senha do Administrador"); ?></li>
+</ul>
+
+<p class="installer_buttons">
+    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Iniciar a Instalação"); ?></button>
+</p>
