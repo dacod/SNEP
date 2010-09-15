@@ -41,6 +41,12 @@ body {
     padding: 10px;
 }
 
+#content tbody tr:hover {
+    background-color: #d2d2d2;
+    border: 1px solid #000 !important;
+    color: #000;
+}
+
 #footer {
     border-top: none;
     border-left: 1px solid #a4a7ab;
@@ -73,9 +79,10 @@ body {
 }
 
 #login_form {
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-left: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
     display:table;
 }
 
@@ -430,10 +437,12 @@ ul#navmenu ul ul li.iehover ul {
     
 }
 #content .c0 {
-    background-color: #eeeeee;    
+    background-color: #eeeeee;
+    padding: 2px;
 }
 #content .c1 {
-    background-color: #fff;    
+    background-color: #fff;
+    padding: 12px;
 }
 #content .filtros {
     background-color: #f1f1f1;
@@ -484,7 +493,7 @@ ul#navmenu ul ul li.iehover ul {
 
 #paginationControl {
     font-size: 16px;    
-    width: 953px;
+    
     font-weight: bolder;
     height: 40px;
     color: #696969;
@@ -502,11 +511,32 @@ ul#navmenu ul ul li.iehover ul {
 #paginationControl .disabled {
     color: #d2d2d2;
 }
-
-.secretbox {
-    width: 500px;
-    margin: 20px auto;
-    padding: 5px 5px 5px 60px;    
-    background: #FFEDED url("../imagens/secret.png") no-repeat left center;
-    border: 1px solid #F46770;
+.mt3 {
+    margin-top: 3px;
+}
+.action {
+    text-align: center;
+    width:70px;
+}
+.alterar {
+    padding-left:20px;
+    background: url("../imagens/edit.png") no-repeat center left;
+    color: #696969;    
+    font-size: 10px;
+    text-decoration:none;
+}
+.alterar:hover {
+    text-decoration:underline;
+    color:#000;
+}
+.excluir {
+    padding-left:20px;
+    background: url("../imagens/delete.png") no-repeat center left;
+    cursor:pointer;
+    font-size: 10px;
+    color: #696969;    
+}
+.excluir:hover {
+    text-decoration:underline;
+    color:#000;
 }
