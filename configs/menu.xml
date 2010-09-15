@@ -20,7 +20,7 @@
     </item>
 
     <item id="register" label="menu_register" resourceid="10">
-        <item uri="src/rel_ccustos.php" label="menu_ccustos" ></item>
+        <item uri="costcenter" label="menu_ccustos" ></item>
         <item uri="src/rel_cont_names.php" label="menu_contacts" ></item>
         <item uri="src/rel_contacts_groups.php" label="menu_contacts_groups" ></item>
         <item uri="src/rel_queues.php" label="menu_queues" ></item>
