@@ -92,7 +92,7 @@ function cadastrar() {
       $stmt->execute();
       $db->commit();
       
-      echo "<meta http-equiv='refresh' content='0; url=rel_cont_names.php'>\n"; 
+      echo "<meta http-equiv='refresh' content='0; url=../index.php/contacts/'>\n";
    } 
    catch (Exception $e) 
    {
@@ -147,7 +147,7 @@ function grava_alterar()  {
      $stmt = $db->prepare($sql) ;
      $stmt->execute() ;
      $db->commit();
-     echo "<meta http-equiv='refresh' content='0;url=../src/rel_cont_names.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0; url=../index.php/contacts/'>\n";
    } 
    catch (Exception $e) 
    {
@@ -178,7 +178,7 @@ function excluir()  {
         $pdoResource->execute();
         $db->commit();
         display_error($LANG['msg_excluded'],true);
-        echo "<meta http-equiv='refresh' content='0;url=rel_cont_names.php'>\n";
+        echo "<meta http-equiv='refresh' content='0; url=../index.php/contacts/'>\n";
     }
     catch (PDOException $e) {
         $pdoResource->rollBack();
