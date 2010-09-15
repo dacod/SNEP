@@ -31,8 +31,6 @@ INSERT INTO groups VALUES ('users','all');
 
 INSERT INTO `contacts_group` VALUES (1, 'Default');
 
-INSERT INTO `peers` VALUES (1,'admin','admin123','','','','Administrator <0>','no','','','','admin','','','dynamic','','br','admin','','','','','','','','','','','','admin123','friend','admin','',';;;;','',0,'','','','','','',';;;','0','0','0','','R',NULL,'','','no','admin',null,null,null, false, null);
-
 INSERT INTO `ccustos` VALUES ('1','E','ENTRADAS','Ligacoes de Entrada');
 INSERT INTO `ccustos` VALUES ('2','S','SAIDAS','Ligacoes de Saida');
 INSERT INTO `ccustos` VALUES ('5','O','FUNCIONALIDADES','Funcionalidades do Sistema');
@@ -266,3 +264,6 @@ INSERT INTO `sounds` VALUES ('queue-reporthold.wav','Filas - Tempo de espera','2
 INSERT INTO `sounds` VALUES ('queue-seconds.wav','Filas - Segundos','2008-08-12 08:45:50','AST','');
 INSERT INTO `sounds` VALUES ('queue-thereare.wav','Filas - Sua chamada é a','2008-08-12 08:48:21','AST','');
 INSERT INTO `sounds` VALUES ('queue-youarenext.wav','Filas - Sua chamada é a primeira da fila','2008-08-12 08:48:44','AST','');
+
+INSERT INTO peers (name, password,callerid,context,mailbox,qualify,secret,type,allow,fromuser,username,fullcontact,dtmfmode,email,`call-limit`,incominglimit,outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate,trunk, `group`, callgroup, time_total, time_chargeby ,accountcode,amaflags,defaultip,host,insecure,language,deny,permit,mask,port,restrictcid,rtptimeout,rtpholdtimeout,musiconhold,regseconds,ipaddr,regexten,cancallforward,setvar,disallow,canreinvite) values ('admin','admin123','Administrador ','default','admin','no','admin123','peer','alaw;ulaw;gsm;g729;','admin','admin','','rfc2833','','0','1','1', 'no', NULL ,'','no', 'R',false,'no','admin','', NULL, 'NULL' ,'','','','dynamic','','pt_BR','','','','','','','','cliente',0,'','','yes','','all','no')
+
