@@ -36,7 +36,7 @@
         <tr>
             <td colspan="2" class="subtable" align="center" height="32px" valign="top">
                 <input class="new_button" type="submit" id="enviar" value="Enviar">
-                <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../src/rel_cont_names.php'" />
+                <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../index.php/contacts/'" />
             </td>
         </tr>
     </table>
