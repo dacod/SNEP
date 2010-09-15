@@ -33,8 +33,7 @@
             <hostname>
                 <type>text</type>
                 <options>
-                    <label>Host</label>
-                    <value>localhost</value>
+                    <label>Host</label>                    
                     <required>true</required>
                     <validators>
                         <hostname>
@@ -69,8 +68,7 @@
             <server>
                 <type>text</type>
                 <options>
-                    <label>Host</label>
-                    <value>localhost</value>
+                    <label>Host</label>                    
                     <required>true</required>
                     <validators>
                         <hostname>
