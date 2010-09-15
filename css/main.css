@@ -502,3 +502,11 @@ ul#navmenu ul ul li.iehover ul {
 #paginationControl .disabled {
     color: #d2d2d2;
 }
+
+.secretbox {
+    width: 500px;
+    margin: 20px auto;
+    padding: 5px 5px 5px 60px;    
+    background: #FFEDED url("../imagens/secret.png") no-repeat left center;
+    border: 1px solid #F46770;
+}
