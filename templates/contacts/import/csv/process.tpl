@@ -45,7 +45,7 @@
         </select><br />
         <input type="checkbox" name="discard_first_row" id="discard_first_row" /><label for="discard_first_row">Descartar primeira linha</label><br />
         <input class="new_button" type="submit" id="salvar" value="Salvar" />
-        <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../src/rel_cont_names.php'" />
+        <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../index.php/contacts/'" />
     </p>
     </div>
 </form>
