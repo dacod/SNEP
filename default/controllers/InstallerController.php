@@ -33,13 +33,13 @@ class InstallerController extends Zend_Controller_Action {
         parent::preDispatch();
         $this->view->hideMenu = true;
         // Fazer checagem futura se o sistema está instalado ou não.
-        if(Zend_Auth::getInstance()->hasIdentity() && $this->getRequest()->getActionName() != "installed") {
+        if(Zend_Auth::getInstance()->hasIdentity() && $this->getRequest()->getActionName() == "installed") {
             $this->_redirect("index");
         }
     }
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Instalador");
+        $this->view->breadcrumb = $this->view->translate("Instalador do SNEP");
         $this->view->next = $this->view->url(array("controller"=>"installer", "action"=>"diagnostic"), null, true);
     }
 
@@ -53,19 +53,35 @@ class InstallerController extends Zend_Controller_Action {
     }
 
     protected function install(Zend_Db_Adapter_Abstract $db) {
-        $path = Zend_Registry::get('config')->system->path;
+
+        $config = Zend_Registry::get('config');
+        $path = $config->system->path;
+
         $schema = file_get_contents($path->base . "/default/installer/schema.sql");
         $system_data = file_get_contents($path->base . "/default/installer/system_data.sql");
 
         $db->beginTransaction();
         try {
-            // Schema creation
-            $db->query($schema);
-            // System data insertions
-            $db->query($system_data);
 
-            Zend_Debug::dump(Zend_Registry::get("config"));
-            throw new Exception("NAO");
+            // Schema creation
+            // System scheme insertions
+            $schema = explode(";\n", $schema);            
+            $schema = array_map('trim',$schema);
+            $schema = array_filter($schema, 'strlen');
+
+            foreach ($schema as $sql) {
+                $db->query($sql);
+            }
+            
+            // System data insertions
+            // Schema creation
+            $system_data = explode(";\n", $system_data);            
+            $system_data = array_map('trim',$system_data);
+            $system_data = array_filter($system_data, 'strlen');
+
+            foreach ($system_data as $sql) {
+                $db->query($sql);
+            }
 
             $db->commit();
         }
@@ -78,6 +94,20 @@ class InstallerController extends Zend_Controller_Action {
 
     public function installedAction() {
         $this->view->breadcrumb = $this->view->translate("Instalação Concluida");
+        $this->view->hideMenu = true;
+
+        $db = Zend_Registry::get('db');
+
+        $select = $db->select()
+           ->from('peers', array('name', 'password'))
+           ->where("name = 'admin'");
+
+        $stmt = $db->query($select);
+        $secret = $stmt->fetch();
+        $this->view->secret = $secret;
+
+        $this->getRequest()->setActionName("installed");
+
     }
 
     public function configureAction() {
@@ -144,7 +174,30 @@ class InstallerController extends Zend_Controller_Action {
                     $this->view->message = $ex->getMessage();
                     $this->renderScript("installer/error.phtml");
                 }
+
+                // Setando usuário do admin.
+                $db->update("peers", array('password' => $snep_data['password']), "id = 1");
+
+                // Gravando alterações no arquivo de configuração.
+                $config_file = "./includes/setup.conf";
+                $config = new Zend_Config_Ini($config_file, null, true);
+
+                $config->ambiente->ip_sock     = $_POST['asterisk']['server'];
+                $config->ambiente->user_sock   = $_POST['asterisk']['username'];
+                $config->ambiente->pass_sock   = $_POST['asterisk']['secret'];
+
+                $config->ambiente->db->host              = $_POST['database']['hostname'];
+                $config->ambiente->db->username          = $_POST['database']['username'];
+                $config->ambiente->db->password          = $_POST['database']['password'];
+                $config->ambiente->db->dbname            = $_POST['database']['dbname'];
+
+                $writer = new Zend_Config_Writer_Ini(array('config'   => $config,
+                                                           'filename' => $config_file));
+                // Grava arquivo.
+                $writer->write();
                 
+                $this->_redirect("installer/installed");
+
             }
         }
 
