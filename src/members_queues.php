@@ -23,9 +23,9 @@ global $name, $acao ;
 $name = isset($_POST['name']) ? $_POST['name'] : $_GET['name'];
 if ($acao == 'gravar') {
     grava_members() ;
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
 }
-$titulo = $LANG['menu_register']." -> ".$LANG['menu_queues']." -> ".$LANG['queue_members']." : ".$name;
+$titulo = $LANG['menu_register']." » ".$LANG['menu_queues']." » ".$LANG['queue_members']." : ".$name;
 // Lista de Todos os ramais disponiveis
 $sql = "SELECT name, canal, callerid, `group` FROM peers  WHERE canal != '' AND name != 'admin' AND peer_type = 'R' ORDER BY `group`, name" ;
 $ramais_disp = array() ;
@@ -87,7 +87,7 @@ function grava_members() {
 
     try {
         $db->commit();
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
 
     } catch(Exception $e) {
         $db->rollBack();
