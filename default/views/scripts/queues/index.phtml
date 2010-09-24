@@ -1,0 +1,46 @@
+<?php
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+echo $this->render('filter.phtml')
+
+?>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+   <thead>
+      <tr>
+         <td> <?php echo $this->translate('Nome') ?> </td>
+         <td> <?php echo $this->translate('Estratégia de distribuição das chamadas') ?> </td>
+         <td> <?php echo $this->translate('Classe das músicas de espera') ?> </td>
+         <td colspan="3" class="action"> <?php echo $this->translate('Ações') ?> </td>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    foreach($this->queues as $cha => $val ): ?>
+        <?php ($c ? $c = 0 : $c = 1 ); ?>
+        <tr class="c<?php echo $c ?>">
+            <td> <b> <?php echo $val['name'] ?> </b> </td>
+            <td> <?php echo $val['strategy'] ?> </td>         
+            <td> <?php echo $val['musiconhold'] ?> </td>
+            <td class="action">
+                <a class="alterar" href='/snep/src/queues.php?acao=alterar&name=<?php echo $val['name'] ?>'>
+                      <?php echo $this->translate('Alterar')?> 
+                </a>
+            </td>
+            <td class="action">
+                <span class="excluir" onclick="remove_item('/snep/src/queues.php?acao=excluir&name=<?php echo $val['name'] ?>', 'Deseja realmente excluir a Fila?');">
+                    <?php echo $this->translate('Excluir')?>
+                </span>
+            </td>
+            <td class="action">
+                <a class="membros" href='/snep/src/members_queues.php?name=<?php echo $val['name'] ?>'>
+                    <?php echo $this->translate('Membros')?>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
