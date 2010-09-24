@@ -43,7 +43,7 @@
  }
  // Sons que estao no diretorio de sons
  $sounds=array(""=>"");
- $files = scandir(SNEP_PATH_SOUNDS);
+ $files = scandir( SNEP_PATH_SOUNDS );
 
  foreach($files as $i => $value) {
    if (substr($value, 0, 1) == '.') {
@@ -190,7 +190,7 @@ function cadastrar()  {
 
       // Executa comando do Asterisk para recarregar as Filas
       ast_status("module reload app_queue.so", "" );
-      echo "<meta http-equiv='refresh' content='0;url=../src/queues.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
       
    } catch (Exception $e) {
       $db->rollBack();
@@ -315,7 +315,7 @@ function grava_alterar()  {
      $db->commit();
      // Executa comando do Asterisk para recarregar as Filas
      ast_status("module reload app_queue.so", "" ) ;
-     echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
 
    } catch (Exception $e) {
      $db->rollBack();
