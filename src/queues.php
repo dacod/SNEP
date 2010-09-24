@@ -352,6 +352,6 @@ function excluir()  {
      // display_error($LANG['msg_excluded'],true) ;
      //echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
  } catch (PDOException $e) {
-    display_error($LANG['error'].$e->getMessage(),true) ;
+    display_error($LANG['error'].$e->getMessage(),true);
  }  
 }
