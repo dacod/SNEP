@@ -69,6 +69,18 @@
                 </options>
             </pass_sock>
 
+            <mail>
+                <type>text</type>
+                <options>
+                    <label>E-mail padrão</label>
+                    <description>Email padrão para envio de alertas.</description>
+                    <required>true</required>
+                    <validators>
+                        <EmailAddress>EmailAddress</EmailAddress>
+                    </validators>
+                </options>
+            </mail>
+
             <linelimit>
                 <type>text</type>
                 <options>
