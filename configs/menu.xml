@@ -21,14 +21,14 @@
 
     <item id="register" label="menu_register" resourceid="10">
         <item uri="costcenter" label="menu_ccustos" ></item>
-        <item uri="src/rel_cont_names.php" label="menu_contacts" ></item>
-        <item uri="src/rel_contacts_groups.php" label="menu_contacts_groups" ></item>
-        <item uri="src/rel_queues.php" label="menu_queues" ></item>
-        <item uri="src/rel_groups.php" label="menu_grupos_ramais" ></item>
-        <item uri="src/rel_grupos.php" label="menu_grupos" ></item>
-        <item uri="src/extensions.php" label="menu_ramais" ></item>
+        <item uri="contacts" label="menu_contacts" ></item>
+        <item uri="contactsgroups" label="menu_contacts_groups" ></item>
+        <item uri="queues" label="menu_queues" ></item>
+        <item uri="extensionsgroups" label="menu_grupos_ramais" ></item>
+        <item uri="pickupgroups" label="menu_grupos" ></item>
+        <item uri="extensions" label="menu_ramais" ></item>
         <item uri="gestao/conferencias.php" label="menu_conference" ></item>
-        <item uri="src/rel_troncos.php" label="menu_troncos" ></item>
+        <item uri="trunks" label="menu_troncos" ></item>
     </item>
 
     <item id="reports" label="menu_reports" resourceid="20">
