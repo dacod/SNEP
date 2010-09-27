@@ -116,7 +116,7 @@ $smarty->assign('PROTOTYPE', True);
 if ($acao == "cadastrar") {
     cadastrar();
 } elseif ($acao == "alterar") {
-    $titulo = $LANG['menu_register'] . " -> " . $LANG['menu_ramais'] . " -> " . $LANG['change'];
+    $titulo = $LANG['menu_register'] . " » " . $LANG['menu_ramais'] . " » " . $LANG['change'];
     alterar();
 } elseif ($acao == "grava_alterar") {
     grava_alterar();
@@ -125,7 +125,7 @@ if ($acao == "cadastrar") {
 } elseif ($acao == "pesquisar") {
     pesquisa_canal();
 } else {
-    $titulo = $LANG['menu_register'] . " -> " . $LANG['menu_ramais'] . " -> " . $LANG['include'];
+    $titulo = $LANG['menu_register'] . " » " . $LANG['menu_ramais'] . " » " . $LANG['include'];
     principal();
 }
 
@@ -301,7 +301,7 @@ function cadastrar() {
         /* Gera arquivo /etc/asterisk/snep/snep-sip.conf */
         grava_conf();
 
-        echo "<meta http-equiv='refresh' content='0;url=../src/ramais.php'>\n";
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/extensions/'>\n";
     } catch (Exception $ex) {
         $db->rollBack();
         display_error($LANG['error'] . $ex->getMessage(), true);
@@ -542,5 +542,5 @@ function grava_alterar() {
         display_error($LANG['error'] . $ex->getMessage(), true);
     }
     $pag = ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
-    echo "<meta http-equiv='refresh' content='0;url=../src/extensions.php?page=$pag'>\n";
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/extensions/'>\n";
 }
