@@ -55,7 +55,7 @@ function cadastrar()  {
       $db->beginTransaction() ;
       $db->exec($sql) ;
       $db->commit();
-      echo "<meta http-equiv='refresh' content='0;url=../src/grupos.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../src/index.php/pickupgroups/'>\n" ;
    } catch (Exception $e) {
       $db->rollBack();
       display_error($LANG['error'].$e->getMessage(),true) ;
@@ -95,7 +95,7 @@ function grava_alterar()  {
      $db->beginTransaction() ;
      $db->exec($sql) ;
      $db->commit();
-     echo "<meta http-equiv='refresh' content='0;url=../src/rel_grupos.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../src/index.php/pickupgroups/'>\n" ;
    } catch (Exception $e) {
      $db->rollBack();
      display_error($LANG['error'].$e->getMessage(),true) ;
@@ -118,7 +118,7 @@ function excluir()  {
       $db->exec($sql) ;
       $db->commit();
       display_error($LANG['msg_excluded'],true) ;
-     echo "<meta http-equiv='refresh' content='0;url=../src/rel_grupos.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../src/index.php/pickupgroups/'>\n" ;
  } catch (PDOException $e) {
     display_error($LANG['error'].$e->getMessage(),true) ;
  }  
