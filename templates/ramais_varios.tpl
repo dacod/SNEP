@@ -115,7 +115,7 @@
         <td colspan="2" class="subtable" align="center" height="32px" valign="top">
             <input class="new_button" type="submit" id="gravar" value="{$LANG.save}">
             &nbsp;&nbsp;&nbsp;
-            <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
+            <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../index.php/extensions/'" />
             <input type="hidden" name="old_name" value="{$dt_ramais.old_name}" >
             <input type="hidden" name="old_vinculo" value="{$dt_ramais.old_vinculo}" >
             <input type="hidden" name="old_authenticate" value="{$dt_ramais.old_authenticate}" >
