@@ -69,6 +69,9 @@ class ParametersController extends Zend_Controller_Action {
         $pass_sock = $general->getElement('pass_sock');
         $pass_sock->setValue( $config->ambiente->pass_sock );
 
+        $email = $general->getElement('mail');
+        $email->setValue( $config->system->mail );
+
         $linelimit = $general->getElement('linelimit');
         $linelimit->setValue( $config->ambiente->linelimit);
 
@@ -171,6 +174,7 @@ class ParametersController extends Zend_Controller_Action {
                 $config->ambiente->ip_sock                  = $dados['general']['ip_sock'];
                 $config->ambiente->user_sock                = $dados['general']['user_sock'];
                 $config->ambiente->pass_sock                = $dados['general']['pass_sock'];
+                $config->system->mail                       = $dados['general']['mail'];
                 $config->ambiente->linelimit                = $dados['general']['linelimit'];
                 $config->ambiente->dst_exceptions           = $dados['general']['dst_exceptions'];
                 $config->ambiente->conference_app           = $dados['general']['conference_app'];
@@ -200,7 +204,6 @@ class ParametersController extends Zend_Controller_Action {
                 $this->_redirect("./default/parameters/");
 
             }
-
 
         }
 
