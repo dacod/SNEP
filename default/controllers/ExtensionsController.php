@@ -43,6 +43,8 @@ class ExtensionsController extends Zend_Controller_Action {
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page)  ? $page : 1 );
 
+        $this->view->filtro = $this->_request->getParam('filtro');
+        
         $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
         $paginator = new Zend_Paginator($paginatorAdapter);
 
@@ -53,11 +55,9 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/extensions/index/";
 
-        // Array de opcoes para o filtro.
-        $LANG = Zend_Registry::get('lang');        
-        $opcoes = array("name" => $LANG['ramal'],
-                        "callerid" => $LANG['name'],
-                        "group" => $LANG['group']
+        $opcoes = array("name"     => $this->view->translate("Ramal"),
+                        "callerid" => $this->view->translate("Nome"),
+                        "group"    => $this->view->translate("Grupo")
         );
 
         // Formulário de filtro.
@@ -65,18 +65,32 @@ class ExtensionsController extends Zend_Controller_Action {
         $config = new Zend_Config_Xml($config_file, null, true);
 
         $form = new Zend_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/extensions/index');       
-        $form->setAttrib('id', 'filtro');
+        $form->setAction( $this->getFrontController()->getBaseUrl() . '/extensions/index' );
 
         $filter = new Zend_Form( $config->filter );
-        $filter->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Enviar"))));
 
-        // Captura elemento campo select
+        $filter_value = $filter->getElement('filtro');
+        $filter_value->setValue( $this->_request->getPost('filtro') );
+
+        $submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Procurar")));
+        $submit->removeDecorator('DtDdWrapper');
+        $submit->addDecorator('HtmlTag', array('tag' => 'dd'));
+
+        // Botão Lista Completa
+        $reset = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Lista Completa") ) );
+        $reset->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page'");
+        $reset->removeDecorator('DtDdWrapper');
+        $reset->addDecorator('HtmlTag', array('tag' => 'dd'));    
+
+        // Define elementos do 'campo' select
         $campo = $filter->getElement('campo');
         $campo->setMultiOptions( $opcoes );
 
         $filtro = $filter->getElement('filtro');
-        $filtro->setValue( $this->_request->getPost('filtro') );
+        $filtro->setValue( $this->_request->getParam('filtro') );
+
+        $filter->addElement( $submit);
+        $filter->addElement( $reset );
 
         $form->addSubForm($filter, "filter");        
         $this->view->form_filter = $form;
@@ -85,8 +99,7 @@ class ExtensionsController extends Zend_Controller_Action {
                                            "css" => "includes"),
                                      array("url" => "/snep/src/extensions.php?action=add",
                                            "display" => "Incluir Ramal",
-                                           "css" => "include")
-                                      );
+                                           "css" => "include") );
         
     }
 
