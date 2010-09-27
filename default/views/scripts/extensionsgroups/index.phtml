@@ -1,0 +1,39 @@
+<?php
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+echo $this->render('filter.phtml');
+
+?>
+
+<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+   <thead>
+      <tr>
+         <td> <?php echo $this->translate('Nome') ?> </td>
+         <td> <?php echo $this->translate('Tipo') ?> </td>         
+         <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </td>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    foreach($this->extensionsgroups as $cha => $val ): ?>
+        <?php ($c ? $c = 0 : $c = 1 ); ?>
+        <tr class="c<?php echo $c ?>">
+            <td> <b> <?php echo $val['name'] ?> </b> </td>
+            <td> <?php echo $val['inherit'] ?> </td>
+            <td class="action">
+                <a class="alterar" href='/snep/src/groups.php?acao=alterar&cod_grupo=<?php echo $val['name'] ?>'>
+                    <?php echo $this->translate('Alterar')?>
+                </a>
+            </td>
+            <td class="action">
+                    <span class="excluir" onclick="remove_item('src/groups.php?acao=excluir&cod_grupo=infra=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o Grupo de Ramal?')?>' );" src='/snep/imagens/delete.png' title=<?php echo $this->translate('Remover')?> >
+                        <?php echo $this->translate("Excluir"); ?>
+                    </span>
+            </td>
+        </tr>
+    <?php endforeach ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
