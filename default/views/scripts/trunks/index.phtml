@@ -26,7 +26,7 @@ echo $this->render('filter.phtml');
         <tr class="c<?php echo $c ?>">
 
             <td class="action"> <b> <?php echo $val['name'] ?> </b> </td>
-            <td> <b> <?php echo $val['callerid'] ?> </b> </td>
+            <td> <?php echo $val['callerid'] ?> </td>
             <td>
                 <?php echo ( $val['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
             </td>
