@@ -1,22 +1,23 @@
-
-<div id="paginationControl">
-    <?php if( isset($this->pages->previous) ): ?>
-            <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->first ?>> <?php $this->translate("Inicio")?>  </a> |
-    <?php else: ?>
-            <span class="disabled"> <?php $this->translate("Inicio")?> </span> |
-    <?php endif ?>
-
-    <?php foreach($this->pages->pagesInRange as $item): ?>
-        <?php if( $item != $this->pages->current ): ?>
-            <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $item ?>> <?php echo $item ?> </a> |
+<?php if( count( $this->pages->pagesInRange ) > 1 ):?>
+<div class="pagination mt3" id="paginationControl">
+        <?php if( isset($this->pages->previous) ): ?>
+                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->first ?>> <?php echo $this->translate("Inicio")?>  </a> |
         <?php else: ?>
-            <span class="atual"> <?php echo $item ?> </span> |
+                <span class="disabled"> <?php echo $this->translate("Inicio")?> </span> |
         <?php endif ?>
-    <?php endforeach ?>
 
-    <?php if( isset($this->pages->next) ): ?>
-            <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->last ?>> <?php echo $this->translate('Fim') ?> </a>
-    <?php else: ?>
-            <span class="disabled"> <?php echo $this->translate('Fim') ?> </span>
-    <?php endif ?>
+        <?php foreach($this->pages->pagesInRange as $item): ?>
+            <?php if( $item != $this->pages->current ): ?>
+                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $item ?>> <?php echo $item ?> </a> |
+            <?php else: ?>
+                <span class="atual"> <?php echo $item ?> </span> |
+            <?php endif ?>
+        <?php endforeach ?>
+
+        <?php if( isset($this->pages->next) ): ?>
+                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->last ?>> <?php echo $this->translate('Fim') ?> </a>
+        <?php else: ?>
+                <span class="disabled"> <?php echo $this->translate('Fim') ?> </span>
+        <?php endif ?>
 </div>
+<?php endif?>
