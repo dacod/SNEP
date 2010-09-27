@@ -10,20 +10,23 @@ echo $this->render('filter.phtml');
    <thead>
       <tr>
          <td class="action"> <?php echo $this->translate('Código') ?> </td>
+         <td> <?php echo $this->translate('Nome') ?> </td>
          <td> <?php echo $this->translate('Tipo de Tronco') ?> </td>
          <td> <?php echo $this->translate('Tecnologia de Canais') ?> </td>
          <td class="action"> <?php echo $this->translate('Alterar') ?> </td>
          <td class="action"> <?php echo $this->translate('Excluir') ?> </td>
       </tr>
    </thead>
-   <tbody>
+   <tbody>  
 
     <?php    
     $c = 0;
     foreach($this->trunks as $cha => $val ): ?>
         <?php ($c ? $c = 0 : $c = 1 ); ?>
         <tr class="c<?php echo $c ?>">
+
             <td class="action"> <b> <?php echo $val['name'] ?> </b> </td>
+            <td> <b> <?php echo $val['callerid'] ?> </b> </td>
             <td>
                 <?php echo ( $val['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
             </td>
