@@ -265,7 +265,7 @@
                          <td colspan="2" class="subtable" align="center" height="40px" valign="middle" style="border-top: 1px solid #ccc;">
                              <input class="new_button" type="submit" id="gravar" value="{$LANG.save}" />
                              &nbsp;&nbsp;&nbsp;
-                             <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
+                             <input class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../index.php/extensions/'" />
                          </td>
                      </tr>
                  </table>
