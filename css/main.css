@@ -96,6 +96,27 @@ input[type=text], input[type=password] {
     border: 1px solid #a4a7ab;
 }
 
+.dashboard {
+    width: 100%;
+    display:block;
+    min-height: 400px;
+}
+.dash_box {
+    padding: 4px 10px;
+    border-bottom: 2px solid #d2d2d2;
+    border-left: 2px solid #d2d2d2;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #f1f1f1;
+    min-height: 200px;
+    width:445px;
+    margin: 5px;
+    padding: 8px;
+    float:left;
+}
+
+
 button, input[type=submit] {
     border: 1px solid #FDB712;
     padding: 4px 10px;
@@ -107,7 +128,7 @@ button, input[type=submit] {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 11px;
-    background: url("../imagens/menu.png");
+    background: url("../imagens/botao.png");
     background-position: bottom;
     background-repeat: repeat-x;
     background-color: #fff;
@@ -203,7 +224,7 @@ form .errors, .error {
     color: #ff0000;
 }
 .zend_form input[type="text"], .zend_form input[type="password"] {
-    border: 1px solid #d2d2d2;
+    border: 1px solid #A4A7AB;
     line-height: 1.5em;
     padding: 1px;
     background: #fff url("../imagens/bg_input.png") repeat-x top left;
@@ -422,19 +443,20 @@ ul#navmenu ul ul li.iehover ul {
 }
 
 #content thead {
-    background-color: #FFD10D;    
+    background-color: #FFE400;
 }
 #content thead td {
     padding: 5px 2px;
     font-weight: bolder;
+    font-size: 11px;
 }
+
 #content img {
     border:0px;
 }
 #content tbody td {
-    padding: 3px 2px;
-    border-bottom: 1px solid #d2d2d2;
-    
+    padding: 6px 2px !important;
+    border-bottom: 1px solid #d2d2d2;    
 }
 #content .c0 {
     background-color: #eeeeee;
@@ -447,15 +469,28 @@ ul#navmenu ul ul li.iehover ul {
 #content .filtros {
     background-color: #f1f1f1;
     border: 1px solid #e1e1e1;
-    padding: 6px 4px 0px 4px;
+    padding: 0px 4px 0px 4px;
     margin-bottom: 3px;
-    height:40px;
+    height:47px;
+}
+#content .pagination {
+    background-color: #fdfdfd;
+    border-top: 1px solid #d2d2d2;
+    padding: 4px 4px 0px 4px;
+    margin-bottom: 3px;
+    margin-top: 10px;
+    height:25px;
 }
 .links_include {
    float:right;
 }
 .links {
    float:right;
+   margin-top: 15px;
+}
+.links a:hover {
+    text-decoration: underline;
+    color: #000;
 }
 .links .include {
        float:right;
@@ -492,8 +527,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 
 #paginationControl {
-    font-size: 16px;    
-    
+    font-size: 14px;    
     font-weight: bolder;
     height: 40px;
     color: #696969;
@@ -501,13 +535,16 @@ ul#navmenu ul ul li.iehover ul {
 }
 #paginationControl a{
     color: #696969;
+    text-decoration: none;
 }
-
+#paginationControl a:hover{
+    text-decoration: underline;
+    color: #000;
+}
 #paginationControl .atual {
-    font-size: 20px;
+    font-size: 14px;
     color: #FFD10D;
 }
-
 #paginationControl .disabled {
     color: #d2d2d2;
 }
@@ -517,6 +554,10 @@ ul#navmenu ul ul li.iehover ul {
 .action {
     text-align: left;
     width:70px;
+}
+.toogle {
+    text-align: left;
+    width:110px;
 }
 .alterar {
     padding-left:20px;
@@ -539,4 +580,36 @@ ul#navmenu ul ul li.iehover ul {
 .excluir:hover {
     text-decoration:underline;
     color:#000;
+}
+.membros {
+    padding-left:20px;
+    background: url("../imagens/usuario.png") no-repeat center left;
+    cursor:pointer;
+    font-size: 10px;
+    text-decoration: none;
+    color: #696969;
+}
+.membros:hover {
+    text-decoration:underline;
+    color:#000;
+}
+.zend_form  dd {
+    padding-left: 4px;
+}
+.zend_form  dt {
+    font-size: 12px;
+}
+.regra0 {
+    width: 36px;
+    height: 19px;
+    margin: 0px 0px 0px 10px;
+    display: block;
+    background: url("../imagens/ativar.gif") no-repeat left top;
+}
+.regra1 {
+    width: 36px;
+    height: 19px;
+    margin: 0px 0px 0px 10px;
+    display: block;
+    background: url("../imagens/desativar.gif") no-repeat left top;
 }
