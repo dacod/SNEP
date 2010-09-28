@@ -119,28 +119,42 @@ class Snep_Alertas {
         return $ret;
     }
 
-    public function SendAlerta($fila, $alertas) {
-
-        foreach($alertas as $alerta) {
-            switch ($alerta['tipo']) {
-                case "email":
-
-            }
-
-        }
-
-    }
 
     public function SendEmail($alerta) {
 
-        $msg = "SNEP - A fila {$alerta['recurso']} ";
-        $mail = new Zend_Mail();
-        $mail->setBodyText($_POST['texto']);
-        $mail->setFrom($_POST['email']);
-        $mail->addTo('rafael@localhost');
-        $mail->setSubject('Contato Site');
-        $mail->send();
-     
+        $config = Zend_Registry::get('config');
+
+        if(is_null($alerta['destino'])) {
+            $alerta['destino'] = $config->system->mail;
+
+        }
+        elseif( strpos($alerta['destino'], ",") > 0 ) {
+            
+            $email = explode(",", $alerta['destino']);
+            foreach($email as $mail) {
+                
+                $msg = "SNEP - A fila {$alerta['recurso']} ";
+                $mail = new Zend_Mail();
+                $mail->setBodyText( $alerta['message'] );
+                $mail->setFrom( $mail );
+                $mail->addTo( $alerta['destino'] );
+                $mail->setSubject( 'Alerta de Fila' );
+                $mail->send();                                 
+                
+            }            
+        }else{
+
+            $msg = "SNEP - A fila {$alerta['recurso']} ";
+            $mail = new Zend_Mail();
+            $mail->setBodyText( $alerta['message'] );
+            $mail->setFrom( $config->system->mail );
+            $mail->addTo( $alerta['destino'] );
+            $mail->setSubject( 'Alerta de Fila' );
+            $mail->send();
+            
+        }
+
+
 
     }
 
