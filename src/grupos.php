@@ -24,14 +24,14 @@
  if ($acao == "cadastrar") {
     cadastrar();
  } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register']." -> ".$LANG['menu_grupos']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_register']." » ".$LANG['menu_grupos']." » ".$LANG['change'];
     alterar() ;
  } elseif ($acao ==  "grava_alterar") {
     grava_alterar() ;
  } elseif ($acao ==  "excluir") {
     excluir() ;
  } else {
-   $titulo = $LANG['menu_register']." -> ".$LANG['menu_grupos']." -> ".$LANG['include'];
+   $titulo = $LANG['menu_register']." » ".$LANG['menu_grupos']." » ".$LANG['include'];
    principal() ;
  }
 /*------------------------------------------------------------------------------
@@ -116,8 +116,7 @@ function excluir()  {
       $sql = "DELETE FROM grupos WHERE cod_grupo='".$codigo."'";
       $db->beginTransaction() ;
       $db->exec($sql) ;
-      $db->commit();
-      display_error($LANG['msg_excluded'],true) ;
+      $db->commit();      
       echo "<meta http-equiv='refresh' content='0;url=../index.php/pickupgroups/'>\n" ;
  } catch (PDOException $e) {
     display_error($LANG['error'].$e->getMessage(),true) ;
