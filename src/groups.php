@@ -25,7 +25,7 @@
  if ($acao == "cadastrar") {
     cadastrar();
  } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register']." -> ".$LANG['menu_grupos_ramais']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_register']." » ".$LANG['menu_grupos_ramais']." » ".$LANG['change'];
     alterar() ;
  } elseif ($acao ==  "grava_alterar") {
     grava_alterar() ;
@@ -39,7 +39,7 @@
    elseif ($acao ==  "excluir_def") {
     excluir_def();
  } else {
-   $titulo = $LANG['menu_register']." -> ".$LANG['menu_grupos_ramais']." -> ".$LANG['include'];
+   $titulo = $LANG['menu_register']." » ".$LANG['menu_grupos_ramais']." » ".$LANG['include'];
    principal() ;
  }
 /*------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ function cadastrar()  {
       $db->beginTransaction() ;
       $db->exec($sql) ;
       $db->commit();
-      echo "<meta http-equiv='refresh' content='0;url=../src/rel_groups.php'>\n" ;
+      echo "<meta http-equiv='refresh' content='0;url=../index.php/extensionsgroups/'>\n" ;
    } catch (Exception $e) {
       $db->rollBack();
       display_error($LANG['error'].$e->getMessage(),true) ;
@@ -214,7 +214,7 @@ function grava_alterar()  {
         $db->exec($sql_peers);
         $db->commit();
     }
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_groups.php'>\n" ;
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/extensionsgroups/'>\n" ;
 }
 
 /*------------------------------------------------------------------------------
@@ -284,7 +284,7 @@ function excluir_def()  {
         $sql = "DELETE FROM groups WHERE name='".$codigo."'";
         $db->exec($sql) ;
         $db->commit();
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_groups.php'>\n" ;
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/extensionsgroups/'>\n";
     } catch (PDOException $e) {
         $db->rollBack();
         display_error($LANG['error'].$e->getMessage(),true) ;
