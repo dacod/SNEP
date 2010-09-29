@@ -3,35 +3,50 @@ $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/pro
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
+
 ?>
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
    <thead>
       <tr>
          <td class="action"> <?php echo $this->translate('Código') ?> </td>
-         <td> <?php echo $this->translate('Nome') ?> </td>         
+         <td> <?php echo $this->translate('Nome') ?> </td>
+         <td> <?php echo $this->translate('Grupo') ?> </td>
+         <td> <?php echo $this->translate('Cidade') ?> </td>
+         <td> <?php echo $this->translate('Estado') ?> </td>
+         <td> <?php echo $this->translate('CEP') ?> </td>
+         <td> <?php echo $this->translate('Telefone') ?> </td>
+         <td> <?php echo $this->translate('Celular') ?> </td>
          <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </td>
       </tr>
    </thead>
    <tbody>
     <?php
     $c = 0;
-    foreach($this->pickupgroups as $id => $val ): ?>
-        <?php ($c ? $c = 0 : $c = 1 ); ?>
-        <tr class="c<?php echo $c ?>">
-            <td class="action"> <b> <?php echo $val['cod_grupo'] ?> </b> </td>
-            <td> <?php echo $val['nome'] ?> </td>
-            <td class="action">
-                <a class="alterar" href='/snep/src/grupos.php?acao=alterar&cod_grupo=<?php echo $val['cod_grupo'] ?>'>
-                    <?php echo $this->translate('Alterar')?> 
-                </a>
-            </td>
-            <td class="action">
-                <span class="excluir" onclick="remove_item('/snep/src/grupos.php?acao=excluir&cod_grupo=<?php echo $val['cod_grupo'] ?>', 'Deseja realmente excluir o Grupo de Captura?');">
-                    <?php echo $this->translate('Excluir')?>
-                </span>                
-            </td>
-        </tr>
-    <?php endforeach ?>
+    if($this->contacts):
+        foreach($this->contacts as $id => $val ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td class="action"> <b> <?php echo $val['id'] ?> </b> </td>
+                <td> <?php echo $val['name'] ?> </td>
+                <td> <?php echo $val['grupo'] ?> </td>
+                <td> <?php echo $val['city'] ?> </td>
+                <td> <?php echo $val['state'] ?> </td>
+                <td> <?php echo $val['cep'] ?> </td>
+                <td> <?php echo $val['phone_1'] ?> </td>
+                <td> <?php echo $val['cell_1'] ?> </td>
+                <td class="action">
+                    <a class="alterar" href='/snep/src/cont_names.php?acao=alterar&id=<?php echo $val['id'] ?>'>
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <span class="excluir" onclick="remove_item('/snep/src/cont_names.php?acao=excluir&id=<?php echo $val['id'] ?>', 'Deseja realmente excluir o Contato ?');">
+                        <?php echo $this->translate('Excluir')?>
+                    </span>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
 </table>
 
 <?php echo $this->render('pagination.phtml') ?>
