@@ -25,6 +25,9 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais");
      
         $db = Zend_Registry::get('db');
+      
+        $this->view->tra = array("admin" => $this->view->translate("Administradores"),
+                                 "users" => $this->view->translate("Usuários") );
 
         $select = $db->select()
                 ->from("groups", array("name", "inherit"));
