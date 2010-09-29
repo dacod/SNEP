@@ -89,7 +89,7 @@ class ContactsgroupsController extends Zend_Controller_Action {
 
         $form->addSubForm($filter, "filter");        
         $this->view->form_filter = $form;
-        $this->view->filter = array( array("url" => "/snep/src/groups.php",
+        $this->view->filter = array( array("url" => "/snep/src/contacts_group.php",
                                            "display" => $this->view->translate("Incluir Grupo de Contatos"),
                                            "css" => "include"),
                                    );
