@@ -26,7 +26,7 @@ class ContactsController extends Zend_Controller_Action {
         
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                ->from("contacts_names", array("id", "name", "city", "state", "phone_1", "cell_1"))
+                ->from("contacts_names", array("id", "name", "city", "state", "cep" ,"phone_1", "cell_1"))
                 ->from("contacts_group", array("name as grupo"))
                 ->where("contacts_names.group = contacts_group.id");
                         
