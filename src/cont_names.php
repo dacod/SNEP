@@ -176,8 +176,7 @@ function excluir()  {
         $sql = "DELETE FROM contacts_names WHERE id='$id';";
         $pdoResource = $db->prepare($sql);
         $pdoResource->execute();
-        $db->commit();
-        display_error($LANG['msg_excluded'],true);
+        $db->commit();        
         echo "<meta http-equiv='refresh' content='0; url=../index.php/contacts/'>\n";
     }
     catch (PDOException $e) {
