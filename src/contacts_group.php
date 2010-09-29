@@ -25,7 +25,7 @@ $smarty->assign('ACAO',$acao);
 if ($acao == "cadastrar") {
     cadastrar();
 } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register']." -> ".$LANG['contacts_group']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_register']." » ".$LANG['contacts_group']." » ".$LANG['change'];
     alterar();
 } elseif ($acao ==  "grava_alterar") {
     grava_alterar();
@@ -36,7 +36,7 @@ if ($acao == "cadastrar") {
 } elseif ($acao ==  "excluir_def") {
     excluir_def();
 } else {
-    $titulo = $LANG['menu_register']." -> ".$LANG['contacts_group']." -> ".$LANG['include'];
+    $titulo = $LANG['menu_register']." » ".$LANG['contacts_group']." » ".$LANG['include'];
     principal();
 }
 /*------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ function cadastrar() {
         display_error($LANG['error'].$e->getMessage(),true);
     }
 
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_contacts_groups.php'>\n";
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/contactsgroups'>\n";
 }
 
 /*------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ function grava_alterar() {
         $db->rollBack();
         display_error($LANG['error'].$e->getMessage(),true);
     }
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_contacts_groups.php'>\n";
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/contactsgroups'>\n";
 }
 
 /*------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ function excluir_def() {
 
     try {
         $db->commit();
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_contacts_groups.php'>\n";
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/contactsgroups'>\n";
     } catch (PDOException $e) {
         $db->rollBack();
         display_error($LANG['error'].$e->getMessage(),true);
