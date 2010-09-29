@@ -10,30 +10,40 @@ echo $this->render('filter.phtml');
    <thead>
       <tr>
          <td> <?php echo $this->translate('Nome') ?> </td>
-         <td> <?php echo $this->translate('Tipo') ?> </td>         
+         <td> <?php echo$this->translate('Tipo') ?> </td>
          <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </td>
       </tr>
    </thead>
    <tbody>
     <?php
     $c = 0;
-    foreach($this->extensionsgroups as $cha => $val ): ?>
-        <?php ($c ? $c = 0 : $c = 1 ); ?>
-        <tr class="c<?php echo $c ?>">
-            <td> <b> <?php echo $val['name'] ?> </b> </td>
-            <td> <?php echo $val['inherit'] ?> </td>
-            <td class="action">
-                <a class="alterar" href='/snep/src/groups.php?acao=alterar&cod_grupo=<?php echo $val['name'] ?>'>
-                    <?php echo $this->translate('Alterar')?>
-                </a>
-            </td>
-            <td class="action">
-                    <span class="excluir" onclick="remove_item('src/groups.php?acao=excluir&cod_grupo=infra=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o Grupo de Ramal?')?>' );" src='/snep/imagens/delete.png' title=<?php echo $this->translate('Remover')?> >
-                        <?php echo $this->translate("Excluir"); ?>
-                    </span>
-            </td>
-        </tr>
-    <?php endforeach ?>
+    if($this->extensionsgroups):
+        foreach($this->extensionsgroups as $cha => $val ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td>
+                    <b>
+                        <?php if(array_key_exists($val['name'], $this->tra) ) : ?>
+                            <?php echo $this->tra[$val['name']]; ?>
+                        <?php else : ?>
+                           <?php echo $val['name']; ?>
+                        <?php endif ?>
+                    </b>
+                </td>
+                <td> <?php echo $val['inherit'] ?>  </td>
+                <td class="action">
+                    <a class="alterar" href='/snep/src/groups.php?acao=alterar&cod_grupo=<?php echo $val['name'] ?>'>
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                        <span class="excluir" onclick="remove_item('/snep/src/groups.php?acao=excluir&cod_grupo=<?php echo $val['name']?>' , '<?php echo $this->translate('Deseja realmente excluir o Grupo de Ramal?')?>' );" src='/snep/imagens/delete.png' title=<?php echo $this->translate('Remover')?> >
+                            <?php echo $this->translate("Excluir"); ?>
+                        </span>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
 </table>
 
 <?php echo $this->render('pagination.phtml') ?>
