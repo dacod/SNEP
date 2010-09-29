@@ -137,6 +137,9 @@ $lastuserfield = $asterisk->get_variable('CDR(userfield)');
 if($lastuserfield['data'] === "") {
     $asterisk->set_variable("CDR(userfield)", $filename);
 }
+else {
+    $filename = $lastuserfield['data'];
+}
 
 
 // Variaveis sendo definidas para manutenção da compactibilidade com recurso
