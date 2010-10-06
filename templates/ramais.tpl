@@ -74,9 +74,9 @@
                 <td class="formlabel">Bloqueio:</td>
                 <td class="subtable">
                     
-                    {assign var="auth" value="checked=''"}
+                    {assign var="auth" value=""}
                     {if $dt_ramais.usa_auth == "yes"}
-                        {assign var="auth" value="checked=checked"}
+                        {assign var="auth" value="checked='checked'"}
                     {/if}
 
                     <input type="checkbox" name="usa_auth" {$auth} id="auth" /><label for="auth">Bloquear Ramal</label>
