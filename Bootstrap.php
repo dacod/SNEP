@@ -95,6 +95,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         $layout = $this->getResource('layout');
         $view = $layout->getView();
+        $view->setScriptPath('./default/views/scripts');
 
         $view->menu = Zend_Registry::get('menu');
         $view->menu->setId("navmenu");
