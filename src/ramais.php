@@ -487,7 +487,7 @@ function grava_alterar() {
         $canal .= "/" . $name;
     }
 
-    $authenticate = $usa_auth == "yes" ? 'true' : 'false';
+    $authenticate = $usa_auth == "on" ? 1 : 0;
     $usa_vc = $usa_vc ? 'yes' : 'no';
 
     $sql = "UPDATE peers ";
