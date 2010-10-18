@@ -61,22 +61,27 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
         parent::startModules();
         $modules = Snep_Modules::getInstance();
         $registered_modules = $modules->getRegisteredModules();
+        
         $menu = Zend_Registry::get('menu');
         Zend_Controller_Front::getInstance()->addModuleDirectory($this->config->system->path->base . "/modules");
 
         /**
          * Adiciona os menus dos modulos no menu do Snep
+         *
+         * edita urls que não contenham .php ao final no novo formato para o
+         * Zend_Front_Controller
          */
         foreach ($registered_modules as $module) {
             foreach ($module->getMenuTree() as $key => $menuItem) {
-                if($menu->getItemById($key)) {
+                $previous = $menu->getItemById($key);
+                if($previous) {
                     if( is_array($menuItem) ) {
                         foreach ($menuItem as $realItem) {
-                            $menu->getItemById($key)->addSubmenuItem($realItem);
+                            $previous->addSubmenuItem($realItem);
                         }
                     }
                     else {
-                        $menu->getItemById($key)->addSubmenuItem($menuItem);
+                        $previous->addSubmenuItem($menuItem);
                     }
                 }
                 else if($menuItem instanceof Snep_Menu_Item) {

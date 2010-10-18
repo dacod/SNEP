@@ -39,6 +39,7 @@
 // define('TTF_DIR','/usr/share/fonts/truetype/');
 // define('MBTTF_DIR','/usr/share/fonts/truetype/');
 
+
 //-------------------------------------------------------------------------
 // Cache directory specification for use with CSIM graphs that are
 // using the cache.
@@ -129,4 +130,3 @@ define('CACHE_FILE_GROUP','www');
 // (Set to '' will give the default persmissions for the 'PHP-user')
 define('CACHE_FILE_MOD',0664);
 
-?>

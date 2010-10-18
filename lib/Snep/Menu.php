@@ -111,7 +111,7 @@ class Snep_Menu {
     /**
      * Retorna os itens do menu
      *
-     * @return Snep_Menu_Item[]
+     * @return Snep_Menu_Item
      */
     public function getItems() {
         return $this->items;
@@ -183,22 +183,10 @@ class Snep_Menu {
     }
 
     private function parseXMLMenuItem( $xml_item ) {
-        if(!Zend_Uri::check($xml_item['uri'])) {
-            if(substr($xml_item['uri'], -4) == ".php") {
-                $fixed_uri = $this->baseUrl . $xml_item['uri'];
-            } else {
-                $config = Zend_Registry::get('config');
-                $fixed_uri = $this->baseUrl . ($config->system->path->modrewrite ? "" : "index.php/") . $xml_item['uri'];
-            }
-        }
-        else {
-            $fixed_uri = $xml_item['uri'];
-        }
-
         $id         = $xml_item['id'] ? (string) $xml_item['id'] : null;
         $label      = $xml_item['label'] ? (string) $xml_item['label'] : null;
 
-        $uri        = $xml_item['uri'] ? $fixed_uri : null;
+        $uri        = $xml_item['uri'] ? $xml_item['uri'] : null;
         $resourceId = $xml_item['resourceid'] ? (string) $xml_item['resourceid'] : null;
         
         $item = new Snep_Menu_Item($id, $label, $uri);
@@ -245,6 +233,37 @@ class Snep_Menu {
     }
 
     /**
+     * Gambiarra violentíssima. Corrige as URL's para que o ambiente de módulos
+     * antigos possam conviver com os novos módulos que usam o
+     * Zend_Front_Controller. Deve ser removido assim que esses modulos antigos
+     * forem atualizados.
+     *
+     * @TODO Atualizar módulos e dependencias para estrutura Zend e remover
+     * esse método.
+     */
+    private function fixUrl(Snep_Menu_Item $item) {
+        if(!Zend_Uri::check($item->getUri())) {
+            if(substr($item->getUri(), -4) == ".php") {
+                $fixed_uri = $this->baseUrl . $item->getUri();
+            } else {
+                $config = Zend_Registry::get('config');
+                $fixed_uri = $this->baseUrl . ($config->system->path->modrewrite ? "" : "index.php/") . $item->getUri();
+            }
+        }
+        else {
+            $fixed_uri = $item->getUri();
+        }
+        $item->setUri($fixed_uri);
+
+        $submenu = $item->getSubmenu();
+        if(count($submenu) > 0) {
+            foreach ($submenu as $submenu_item) {
+                $this->fixUrl($submenu_item);
+            }
+        }
+    }
+
+    /**
      * Percorre os itens do menu e cria um HTML para impressão.
      *
      * O html segue a estrutura de listas desordenadas aninhadas.
@@ -255,6 +274,7 @@ class Snep_Menu {
         $items = "";
 
         foreach ($this->getItems() as $item) {
+            $this->fixUrl($item);
             if( $item->getId() == "logout" ) {
                 $logout = $item;
             }
