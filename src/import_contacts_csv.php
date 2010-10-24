@@ -42,8 +42,6 @@ class ImportContactsController {
                 display_error("O arquivo precisa ser do tipo CSV", true);
             }
             else {
-                $file_content = file_get_contents($file_info['tmp_name']);
-
                 $handle = fopen($file_info['tmp_name'], "r");
                 if ($handle) {
                     $csv = array();
