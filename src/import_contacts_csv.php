@@ -44,16 +44,18 @@ class ImportContactsController {
             else {
                 $handle = fopen($file_info['tmp_name'], "r");
                 if ($handle) {
+                    $replace_from = array("\n",'"');
+                    $replace_to = array("","");
                     $csv = array();
                     $row_number = 2;
-                    $first_row = explode(",",str_replace("\n","",fgets($handle, 4096)));
+                    $first_row = explode(",",str_replace($replace_from,$replace_to,fgets($handle, 4096)));
                     $column_count = count($first_row);
                     $csv[] = $first_row;
                     
                     while (!feof($handle)) {
                         $line = fgets($handle, 4096);
                         if(strpos($line, ",")) {
-                            $row = explode(",",str_replace("\n","",$line));
+                            $row = explode(",",str_replace($replace_from,$replace_to,$line));
                             if(count($row) != $column_count) {
                                 display_error("Número inválido de colunas na linha: $row_number", true);
                             }
@@ -152,7 +154,7 @@ class ImportContactsController {
                 throw $ex;
             }
 
-            $this->__redirect("/contacts/");
+            $this->__redirect(Zend_Registry::get("config")->system->path->web . "/index.php/contacts/");
         }
         else {
             display_error("ERRO INTERNO", true);
