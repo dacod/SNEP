@@ -1,9 +1,7 @@
 <?php
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
-echo $this->render('filter.phtml')
-
+echo $this->render('filter.phtml');
 ?>
 
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
@@ -13,7 +11,7 @@ echo $this->render('filter.phtml')
          <td> <?php echo $this->translate('Nome do Usuário') ?> </td>
          <td> <?php echo $this->translate('Canal') ?> </td>
          <td> <?php echo $this->translate('Grupo de Ramal') ?> </td>
-         <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?>  </td>
+         <td colspan="3" class="action"> <?php echo $this->translate('Ações') ?>  </td>
       </tr>
    </thead>
    <tbody>
@@ -36,8 +34,17 @@ echo $this->render('filter.phtml')
                     <?php echo $this->translate('Remover')?>
                 </span>
             </td>
+            <td class="action">
+                <form method="post"  action="<?php echo $this->baseUrl(); ?>/configs/permissoes.php">
+                    <input type="hidden" name="id" value="<?php echo $val['id']; ?>" />
+                    <input type="hidden" name="nome" value="<?php echo $val['name']; ?>" />
+                    <input type="hidden" name="name" value="<?php echo $val['exten']; ?>" />
+                    <acronym title="<?php echo $this->translate('Permissões')?>">
+                       <input type="image" src="../imagens/permitions.png" border="0" alt="<?php echo $this->translate('Permissões')?>"  name="acao" value="permissoes"/>
+                    </acronym>
+                 </form>
+            </td>
         </tr>
     <?php endforeach ?>
 </table>
-
 <?php echo $this->render('pagination.phtml') ?>

@@ -69,49 +69,12 @@
                   <input type="submit" value="{$LANG.save}" name="permissao" class="button" />
                   <div class="buttonEnding"></div>
                   &nbsp;&nbsp;&nbsp;
-                  <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
+                  <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../index.php/extensions'" />
                   <div class="buttonEnding"></div>
             </td>
         </tr>
 
- </table>   
-<!--
- <table>
-        <tr>            
-            <td rowspan="1" class="norightcenter" width="40%">
-              <div id="titulo">
-              {$LANG.vinc_group_for_exten}
-              </div>
-              <select class="campos" name="grupo_vinculo1[]" id="grupo_vinculo1" multiple="true" size="10" style="width: 300px;" >
-                 {html_options options=$LISTA_GRUPOS_DESVINCULADOS}
-              </select>
-            </td>
-            <td class="subtable"  align="center">
-              <span onclick="movimento('grupo_vinculo2', 'passar', 'grupo_vinculo1')">
-                 <img src="../imagens/go-next.png" border="0" />
-              </span>
-               <br />
-
-              <span onclick="movimento('grupo_vinculo1', 'passar', 'grupo_vinculo2')">
-                 <img src="../imagens/go-previous.png" border="0" />
-              </span>
-
-            </td>
-            <td class="noleftrightcenter" rowspan="1rowspan" width="40%">
-              <div id="titulo">
-                 {$LANG.vinc_group_exten}
-              </div>
-              <select  class="campos" name="grupo_vinculo2[]" id="grupo_vinculo2" multiple="true" size="10" style="width: 300px;" >
-                 {html_options options=$LISTA_GRUPOS_VINCULADOS}
-              </select>
-            </td>
-        </tr>
-
-
-
-</table>
--->
-
+ </table>
 <table>
     <thead>
        <tr>
@@ -139,7 +102,7 @@
           <input type="submit" value="{$LANG.save}" name="permissao" class="button" />
           <div class="buttonEnding"></div>     
           &nbsp;&nbsp;&nbsp;
-          <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/extensions.php'" />
+          <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../index.php/extensions'" />
          <div class="buttonEnding"></div>     
       </td>
     </tr>
