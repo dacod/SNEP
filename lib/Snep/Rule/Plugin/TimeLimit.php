@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -45,7 +46,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
     protected function trunkIsAllowed($id) {
         $log = Zend_Registry::get('log');
         $db = Zend_Registry::get('db');
-        
+
         $controller = new Snep_Rule_Plugin_TimeLimit_OldController($id, "T", $db);
         $this->trunkController = $controller;
         return $controller->status == "allow" ? true : false;
@@ -76,18 +77,18 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
     public function preExecute($index) {
         $action = $this->rule->getAction($index);
 
-        if($action instanceof PBX_Rule_Action_DiscarTronco) {
+        if ($action instanceof PBX_Rule_Action_DiscarTronco) {
             $log = Zend_Registry::get('log');
             $config = $action->getConfigArray();
             $allowed = $this->trunkIsAllowed($config['tronco']);
 
             $requester = $this->asterisk->requestObj->getSrcObj();
-            if($requester instanceof Snep_Exten) {
+            if ($requester instanceof Snep_Exten) {
                 $allowed = $allowed && $this->extensionIsAllowed($requester->getNumero());
             }
 
-            if(!$allowed) {
-                throw new PBX_Rule_Action_Exception_StopExecution("Bloqueado por falta de saldo.");
+            if (!$allowed) {
+                throw new PBX_Rule_Action_Exception_GoTo($index + 1);
             }
         }
     }
@@ -102,7 +103,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
         $action = $this->rule->getAction($index);
 
         // Somente as  ligações feitas através de troncos são contabilizadas.
-        if($action instanceof PBX_Rule_Action_DiscarTronco) {
+        if ($action instanceof PBX_Rule_Action_DiscarTronco) {
             $log = Zend_Registry::get('log');
             $asterisk = $this->asterisk;
 
@@ -110,10 +111,10 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
             $answered_time = $asterisk->get_variable("ANSWEREDTIME");
             $answered_time = (int) $answered_time['data'];
 
-            if($answered_time > 0) {
+            if ($answered_time > 0) {
                 $db = Zend_Registry::get("db");
                 $this->trunkController->update($answered_time, $db);
-                if($this->extensionController !== null) {
+                if ($this->extensionController !== null) {
                     $this->extensionController->update($answered_time, $db);
                 }
             }

@@ -508,35 +508,26 @@ class PBX_Rule {
                 for($priority=0; $priority < count($this->acoes) && $to_execute; $priority++) {
                     $acao = $this->acoes[$priority];
 
+                    $log->debug("Executando acao $priority-" . get_class($acao));
                     try {
                         $this->plugins->preExecute($priority);
+                        $acao->execute($asterisk, $this->request);
                     }
-                    catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-                        $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
+                    catch(PBX_Exception_AuthFail $ex) {
+                        $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
                         $to_execute = false;
                     }
-
-                    if($to_execute === true) {
-                        $log->debug("Executando acao $priority-" . get_class($acao));
-                        try {
-                            $acao->execute($asterisk, $this->request);
-                        }
-                        catch(PBX_Exception_AuthFail $ex) {
-                            $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
-                            $to_execute = false;
-                        }
-                        catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-                            $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
-                            $to_execute = false;
-                        }
-                        catch(PBX_Rule_Action_Exception_GoTo $goto) {
-                            $priority = $goto->getIndex() -1;
-                            $log->info("Desviando fluxo para acao {$goto->getIndex()}.");
-                        }
-                        catch(Exception $ex) {
-                            $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
-                            $log->crit($ex);
-                        }
+                    catch(PBX_Rule_Action_Exception_StopExecution $ex) {
+                        $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
+                        $to_execute = false;
+                    }
+                    catch(PBX_Rule_Action_Exception_GoTo $goto) {
+                        $priority = $goto->getIndex() -1;
+                        $log->info("Desviando fluxo para acao {$goto->getIndex()}.");
+                    }
+                    catch(Exception $ex) {
+                        $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
+                        $log->crit($ex);
                     }
                     
                     try {

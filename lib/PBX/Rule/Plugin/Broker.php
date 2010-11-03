@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -44,6 +45,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
             $plugin->setRule($rule);
         }
     }
+
     /**
      * Define a interface de comunicação com o asterisk em todos os plugins.
      *
@@ -63,8 +65,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
      * @param  int $stackIndex
      * @return PBX_Rule_Plugin_Broker
      */
-    public function registerPlugin(PBX_Rule_Plugin $plugin, $stackIndex = null)
-    {
+    public function registerPlugin(PBX_Rule_Plugin $plugin, $stackIndex = null) {
         if (false !== array_search($plugin, $this->plugins, true)) {
             require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Plugin already registered');
@@ -107,8 +108,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
      * @param string|PBX_Rule_Plugin $plugin Plugin object or class name
      * @return PBX_Rule_Plugin_Broker
      */
-    public function unregisterPlugin($plugin)
-    {
+    public function unregisterPlugin($plugin) {
         if ($plugin instanceof Zend_Controller_Plugin) {
             // Given a plugin object, find it in the array
             $key = array_search($plugin, $this->plugins, true);
@@ -135,8 +135,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
      * @param  string $class
      * @return bool
      */
-    public function hasPlugin($class)
-    {
+    public function hasPlugin($class) {
         foreach ($this->plugins as $plugin) {
             $type = get_class($plugin);
             if ($class == $type) {
@@ -155,8 +154,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
      * if only one found, and array of plugins if multiple plugins of same class
      * found
      */
-    public function getPlugin($class)
-    {
+    public function getPlugin($class) {
         $found = array();
         foreach ($this->plugins as $plugin) {
             $type = get_class($plugin);
@@ -180,8 +178,7 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
      *
      * @return array
      */
-    public function getPlugins()
-    {
+    public function getPlugins() {
         return $this->plugins;
     }
 
@@ -192,7 +189,11 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->startup();
+            } catch (PBX_Exception_AuthFail $ex) {
+                throw $ex;
             } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
+            } catch (PBX_Rule_Action_Exception_GoTo $ex) {
                 throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
@@ -209,7 +210,11 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->preExecute($index);
+            } catch (PBX_Exception_AuthFail $ex) {
+                throw $ex;
             } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
+            } catch (PBX_Rule_Action_Exception_GoTo $ex) {
                 throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
@@ -226,7 +231,11 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->postExecute($index);
+            } catch (PBX_Exception_AuthFail $ex) {
+                throw $ex;
             } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
+            } catch (PBX_Rule_Action_Exception_GoTo $ex) {
                 throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
@@ -241,7 +250,11 @@ class PBX_Rule_Plugin_Broker extends PBX_Rule_Plugin {
         foreach ($this->plugins as $plugin) {
             try {
                 $plugin->shutdown();
+            } catch (PBX_Exception_AuthFail $ex) {
+                throw $ex;
             } catch (PBX_Rule_Action_Exception_StopExecution $ex) {
+                throw $ex;
+            } catch (PBX_Rule_Action_Exception_GoTo $ex) {
                 throw $ex;
             } catch (Exception $ex) {
                 Zend_Registry::get("log")->err($ex);
