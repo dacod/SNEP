@@ -84,6 +84,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->headTitle('SNEP');
 
         $view->headLink()->setStylesheet($view->baseUrl() . "/css/main.css");
+        $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/prototype.js", 'text/javascript');
 
         // Return it, so that it can be stored by the bootstrap
         return $view;
