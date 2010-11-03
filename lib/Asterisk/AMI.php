@@ -24,6 +24,9 @@
   * @version 2.0
   */
 
+require_once "Asterisk/Exception/CantConnect.php";
+require_once "Asterisk/Exception/Auth.php";
+
  /**
   * Asterisk Manager class
   *
@@ -768,8 +771,10 @@
     */
     function log($message, $level=1)
     {
-        $log = Zend_Registry::get('log');
-        $log->log($message, $level);
+        if(class_exists("Zend_Registry")) {
+            $log = Zend_Registry::get('log');
+            $log->log($message, $level);
+        }
     }
 
    /**
