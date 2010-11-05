@@ -35,11 +35,20 @@ class AGI extends Snep_Inspector_Test {
      * @var Array
      */
     public $paths = array('/var/lib/asterisk/agi-bin/snep' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-        '/var/lib/asterisk/sounds' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-        '/var/lib/asterisk/sounds/backup' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-        '/var/lib/asterisk/sounds/tmp' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-        '/var/lib/asterisk/sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-        '/var/lib/asterisk/moh' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
+                          '/var/lib/asterisk/sounds' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/var/lib/asterisk/sounds/backup' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/var/lib/asterisk/sounds/tmp' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/var/lib/asterisk/sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/var/lib/asterisk/moh' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-agentes.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-agents.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-authconferences.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-conferences.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-features.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-iax2.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-iax2-trunks.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-sip.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          '/etc/asterisk/snep/snep-sip-trunks.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
     );
 
     /**
