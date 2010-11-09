@@ -24,9 +24,9 @@ if (array_key_exists ('permissao', $_POST)) {
     gravar() ;
 }
 
-$name = ( isset( $_POST['name'] ) ? $_POST['name'] : null ) ;
-$dt_id = ( isset( $_POST['dt_id'] ) ? $_POST['dt_id'] : null ) ;
-$nome = ( isset(  $_POST['nome']  ) ? $_POST['nome'] : null) ;
+$name = ( isset( $_GET['name'] ) ? $_GET['name'] : null ) ;
+$dt_id = ( isset( $_GET['id'] ) ? $_GET['id'] : null ) ;
+$nome = ( isset(  $_GET['nome']  ) ? $_GET['nome'] : null) ;
 
 $titulo = $LANG['menu_register']." » ".$LANG['menu_ramais']." » ".$LANG['permitions']." ".$LANG['of']." ".$LANG['user'] ;
 
@@ -102,7 +102,7 @@ function gravar() {
     global $db;
 
     $id = $_POST['id'];
-    $name = $_POST['name'];     
+    $name = $_POST['name'];    
 
     /* Remove qualquer referencia de vinculo a este ramal */
     Snep_Vinculos::resetVinculos($name);
