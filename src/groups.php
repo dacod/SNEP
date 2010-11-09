@@ -85,21 +85,24 @@ function cadastrar()  {
 
    // Inclusão dos ramais selecionados no grupo recém criado.
    
-    $ramais = $_POST['lista2'];
+    $ramais = ( isset( $_POST['lista2'] ) ? $_POST['lista2'] : null ) ;
 
-    foreach($ramais as $id => $val) {
-        $sql  = " UPDATE peers SET peers.group='$nome' WHERE name='$val' ";
-           try {
-               $db->beginTransaction() ;
-               $stmt = $db->prepare($sql);
-               $stmt->execute() ;
-               $db->commit();
+    if( $ramais ){
+        foreach($ramais as $id => $val) {
+            $sql  = " UPDATE peers SET peers.group='$nome' WHERE name='$val' ";
+               try {
+                   $db->beginTransaction() ;
+                   $stmt = $db->prepare($sql);
+                   $stmt->execute() ;
+                   $db->commit();
 
-           } catch (Exception $e) {
-               $db->rollBack();
-               display_error($LANG['error'].$e->getMessage(),true) ;
-           }
+               } catch (Exception $e) {
+                   $db->rollBack();
+                   display_error($LANG['error'].$e->getMessage(),true) ;
+               }
+        }
     }
+    
 
 
 
@@ -259,7 +262,7 @@ function excluir()  {
         }
         $grupos[$group['name']] = $name;
     }
-    $smarty->assign('back_button', '../src/rel_groups.php');
+    $smarty->assign('back_button', '../index.php/extensionsgroups/');
     $smarty->assign('ACAO',"grava_alterar");
     $smarty->assign ('name',$codigo);
     $smarty->assign ('dt_grupos',$grupos);
