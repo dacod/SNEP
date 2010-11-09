@@ -25,24 +25,19 @@ echo $this->render('filter.phtml');
             <td> <?php echo $val['channel'] ?> </td>
             <td> <?php echo $val['group'] ?> </td>
             <td class="action">
-                <a class="alterar"  href='/snep/src/extensions.php?action=edit&id=<?php echo $val['exten'] ?>'>
+                <a class="alterar"  href='<?php echo $this->baseUrl(); ?>/src/extensions.php?action=edit&id=<?php echo $val['exten'] ?>'>
                     <?php echo $this->translate('Alterar')?>
                 </a>
             </td>
             <td class="action">
-                <span class="excluir" onclick="remove_item('/snep/src/extensions.php?action=delete&id=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o ramal?')?>' );">
+                <span class="excluir" onclick="remove_item('<?php echo $this->baseUrl(); ?>/src/extensions.php?action=delete&id=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o ramal?')?>' );">
                     <?php echo $this->translate('Remover')?>
                 </span>
             </td>
             <td class="action">
-                <form method="post"  action="<?php echo $this->baseUrl(); ?>/configs/permissoes.php">
-                    <input type="hidden" name="id" value="<?php echo $val['id']; ?>" />
-                    <input type="hidden" name="nome" value="<?php echo $val['name']; ?>" />
-                    <input type="hidden" name="name" value="<?php echo $val['exten']; ?>" />
-                    <acronym title="<?php echo $this->translate('Permissões')?>">
-                       <input type="image" src="../imagens/permitions.png" border="0" alt="<?php echo $this->translate('Permissões')?>"  name="acao" value="permissoes"/>
-                    </acronym>
-                 </form>
+                <a class="membros"  href='<?php echo $this->baseUrl(); ?>/configs/permissoes.php?id=<?php echo $val['id']?>&nome= <?php echo $val['name'] ?>&name=<?php echo $val['exten']?>' >
+                    <?php echo $this->translate('Permissões')?>
+                </a>
             </td>
         </tr>
     <?php endforeach ?>
