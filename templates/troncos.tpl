@@ -275,7 +275,7 @@
            <input class="button" type="submit" id="gravar" value="{$LANG.save}">
            <div class="buttonEnding"></div>
            &nbsp;&nbsp;&nbsp;
-           <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../src/rel_troncos.php'" />
+           <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='../index.php/trunks'" />
            <div class="buttonEnding"></div>      
      </td>
     </tr>
