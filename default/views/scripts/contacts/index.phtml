@@ -26,9 +26,9 @@ echo $this->render('filter.phtml');
         foreach($this->contacts as $id => $val ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td class="action"> <b> <?php echo $val['id'] ?> </b> </td>
+                <td class="action"> <b> <?php echo $val['ide'] ?> </b> </td>
+                <td> <?php echo $val['nome'] ?> </td>
                 <td> <?php echo $val['name'] ?> </td>
-                <td> <?php echo $val['grupo'] ?> </td>
                 <td> <?php echo $val['city'] ?> </td>
                 <td> <?php echo $val['state'] ?> </td>
                 <td> <?php echo $val['cep'] ?> </td>
