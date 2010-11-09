@@ -80,7 +80,7 @@ $smarty->assign('TECHNOS',$technos_ip);
 if ($acao == "cadastrar") {
     cadastrar();
 } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register']." -> ".$LANG['menu_troncos']." -> ".$LANG['change'];
+    $titulo = $LANG['menu_register']." » ".$LANG['menu_troncos']." » ".$LANG['change'];
     alterar() ;
 } elseif ($acao ==  "grava_alterar") {
     grava_alterar() ;
@@ -89,7 +89,7 @@ if ($acao == "cadastrar") {
 } elseif ($acao ==  "pesquisar") {
     pesquisa_canal() ;
 } else {
-    $titulo = $LANG['menu_register']." -> ".$LANG['menu_troncos']." -> ".$LANG['include'];
+    $titulo = $LANG['menu_register']." » ".$LANG['menu_troncos']." » ".$LANG['include'];
     principal() ;
 }
 
@@ -300,7 +300,7 @@ function cadastrar() {
         display_error($LANG['error'].$ex->getMessage().$sql,true) ;
     }
     grava_conf();// Mantenha após o commit
-    echo "<meta http-equiv='refresh' content='0;url=../src/troncos.php'>\n" ;
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/trunks'>\n" ;
 }
 
 /*------------------------------------------------------------------------------
@@ -531,7 +531,7 @@ function grava_alterar() {
         display_error($LANG['error'].$ex->getMessage(),true) ;
     }
     grava_conf(); // Mantenha após o commit.
-    echo "<meta http-equiv='refresh' content='0;url=../src/rel_troncos.php'>\n" ;
+    echo "<meta http-equiv='refresh' content='0;url=../index.php/trunks'>\n" ;
 }
 
 /*------------------------------------------------------------------------------
@@ -573,7 +573,8 @@ function excluir() {
         $db->commit();
         grava_conf();
 
-        echo "<meta http-equiv='refresh' content='0;url=../src/rel_troncos.php'>\n" ;
+
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/trunks'>\n" ;
     } catch (PDOException $ex) {
         $db->rollBack();
         display_error($LANG['error'].$ex->getMessage(),true) ;
