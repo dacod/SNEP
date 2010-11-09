@@ -152,7 +152,7 @@ class ExtensionsController extends Snep_Controller {
             $db->rollBack();
             display_error($LANG['error'].$e->getMessage(),true) ;
         }
-        $this->__redirect("./extensions.php");
+        $this->__redirect("../index.php/extensions/");
     }
 
 }
