@@ -22,15 +22,16 @@ class ContactsController extends Zend_Controller_Action {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                        ->from("contacts_names", array("id", "name", "city", "state", "cep", "phone_1", "cell_1"))
-                        ->from("contacts_group", array("name as grupo"))
-                        ->where("contacts_names.group = contacts_group.id");
-
+                        ->from( array("n" => "contacts_names"), array("id as ide", "name as nome", "city", "state", "cep", "phone_1", "cell_1"))
+                        ->join( array("g" => "contacts_group"), 'n.group = g.id')
+                        ->order('nome');
+                 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
             $select->where("`$field` like '%$query%'");
         }
+
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
@@ -42,17 +43,16 @@ class ContactsController extends Zend_Controller_Action {
         $paginator->setItemCountPerPage(Zend_Registry::get('config')->ambiente->linelimit);
 
         $this->view->contacts = $paginator;
+
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/contacts/index/";
 
-        $opcoes = array("id" => $this->view->translate("Código"),
-            "grupo" => $this->view->translate("Tipo"),
-            "grupo" => $this->view->translate("Nome"),
-            "city" => $this->view->translate("Cidade"),
-            "state" => $this->view->translate("Estado"),
-            "cep" => $this->view->translate("CEP"),
-            "phone_1" => $this->view->translate("Telefone"),
-            "cell_1" => $this->view->translate("Celular"));
+        $opcoes = array("nome" => $this->view->translate("Nome"),                        
+                        "city" => $this->view->translate("Cidade"),
+                        "state" => $this->view->translate("Estado"),
+                        "cep" => $this->view->translate("CEP"),
+                        "phone_1" => $this->view->translate("Telefone"),
+                        "cell_1" => $this->view->translate("Celular"));
 
         // Formulário de filtro.
         $config_file = "./default/forms/filter.xml";
