@@ -76,13 +76,15 @@ function cadastrar() {
     $group_id = $db->lastInsertId();
 
     // Inclusão dos ramais selecionados no grupo recém criado.
-    $contacts = $_POST['lista2'];
+    $contacts = ( isset($_POST['lista2']) ? $_POST['lista2'] : null );
 
-    foreach($contacts as $id) {
-        $sql = "UPDATE contacts_names SET `group`='$group_id' WHERE id='$id' ";
-        $db->exec($sql);
+    if( $contacts ) {
+        foreach($contacts as $id) {
+            $sql = "UPDATE contacts_names SET `group`='$group_id' WHERE id='$id' ";
+            $db->exec($sql);
+        }
     }
-
+    
     try {
         $db->commit();
     } catch (Exception $e) {
@@ -199,7 +201,7 @@ function excluir() {
         $grupos[$group['id']] = $group['name'];
     }
 
-    $smarty->assign('back_button', '../src/rel_contacts_groups.php');
+    $smarty->assign('back_button', '../index.php/contactsgroups');
     $smarty->assign('ACAO',"grava_alterar");
     $smarty->assign ('name',$id);
     $smarty->assign ('dt_grupos',$grupos);
