@@ -48,7 +48,7 @@ class PickupgroupsController extends Zend_Controller_Action {
         $this->view->PAGE_URL = "/snep/index.php/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array("cod_grupo"      => $this->view->translate("Código"),
-                        "nome"        => $this->view->translate("Tipo") );
+                        "nome"        => $this->view->translate("Nome") );
 
         // Formulário de filtro.
         $config_file = "./default/forms/filter.xml";
