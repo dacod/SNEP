@@ -21,13 +21,12 @@
 class TrunksController extends Zend_Controller_Action {
 
     public function indexAction() {
-
         $this->view->breadcrumb = $this->view->translate("Cadastro » Troncos");
      
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                ->from("trunks", array("id","callerid","name","type","trunktype"));
+                ->from("trunks", array("id", "callerid", "name", "type", "trunktype"));
 
         if( $this->_request->getPost('filtro') ) {
             $field = mysql_escape_string( $this->_request->getPost('campo') );
@@ -50,7 +49,8 @@ class TrunksController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/trunks/index/";
 
-        $opcoes = array("name" => $this->view->translate("Nome") );
+        $opcoes = array("callerid" => $this->view->translate("Nome"),
+                        "type" => $this->view->translate("Tecnologia") );
 
         // Formulário de filtro.
         $config_file = "./default/forms/filter.xml";
