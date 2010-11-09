@@ -350,7 +350,7 @@ function excluir()  {
       // Executa comando do Asterisk para recarregar as Filas
       ast_status("module reload app_queue.so", "" ) ;
      // display_error($LANG['msg_excluded'],true) ;
-     //echo "<meta http-equiv='refresh' content='0;url=../src/rel_queues.php'>\n" ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
  } catch (PDOException $e) {
     display_error($LANG['error'].$e->getMessage(),true);
  }  
