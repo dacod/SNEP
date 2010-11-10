@@ -604,15 +604,13 @@ thead.mensagem {
 
 }
 
-
-#titulo {  
-   background-color: #FFFFFF;
-   font-size: 14px;
-   font-variant: small-caps ;   
-   color: #808080 ;
-   font-weight: bolder ;
-   font-family: Verdana, Arial, Helvetica,sans-serif;   
+#titulo {
+    color: #808080;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px;
 }
+
 .tit {border-bottom: 2px solid #FFE400; display:block;}
 body, td, th, li,  lu {
    font-size: 11px;
