@@ -108,18 +108,23 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
      * @return void
      **/
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        $resourceName = '';
+        if($request->getModuleName() == "default") {
+            $resourceName = $request->getControllerName();
 
-        if ($request->getModuleName() != 'default') {
-            $resourceName .= $request->getModuleName() . ':';
+            if(!$this->getAcl()->has($resourceName)) {
+                $resourceName = 'default';
+            }
+        }
+        else {
+            $resourceName = $request->getModuleName() . ':' . $request->getControllerName();
+            if(!$this->getAcl()->has($resourceName)) {
+                $resourceName = $request->getModuleName();
+                if (!$this->getAcl()->has($resourceName)) {
+                    $resourceName = 'default';
+                }
+            }
         }
 
-        $resourceName .= $request->getControllerName();
-
-        if(!$this->getAcl()->has($resourceName)) {
-            $resourceName = 'default';
-        }
-        
         /** Check if the controller/action can be accessed by the current user */
         if (!$this->getAcl()->isAllowed($this->_roleName, $resourceName, $request->getActionName())) {
             /** Redirect to access denied page */
