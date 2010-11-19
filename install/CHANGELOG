@@ -1,6 +1,6 @@
 1.3.0:
     Correção no Voicemail
-    Ambiente Zend para login no sistema
+    Ambiente Zend para login no sistema e telas de indice
     Tela de diagnostico de sistema
     Novo Instalador
     Correção de loop infinito ao usar senha ou usuário inválido para conectar
