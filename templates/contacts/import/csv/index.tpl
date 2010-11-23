@@ -19,7 +19,10 @@
 <form name="formulario"  method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?action=process">
     <table>
         <tr>
-            <td colspan="2" class="subtable">&nbsp;</td>
+            <td colspan="2" class="subtable"><p style="text-align:center;">
+                    O arquivo deverá conter dados <strong>separados por virgula
+                    </strong>. O cabeçalho é opcional e pode ser removido na próxima tela.
+                </p></td>
         </tr>
 
         <tr>

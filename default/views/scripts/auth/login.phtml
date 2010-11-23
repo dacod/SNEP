@@ -1,8 +1,8 @@
 <form  action="<?php echo $this->url(array("controller"=>"auth", "action"=>"login"), null, true); ?>" METHOD="post">
+    <?php if($this->message): ?>
+    <span class="<?php echo $this->msgclass; ?>"><?php echo $this->message; ?></span>
+    <?php endif; ?>
     <dl id="login_form">
-        <?php if($this->message): ?>
-        <span class="<?php echo $this->msgclass; ?>"><?php echo $this->message; ?></span>
-        <?php endif; ?>
         
         <div class="form_element">
             <dt><?php echo $this->translate("Usuário / Ramal"); ?>:</dt>

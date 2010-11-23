@@ -17,10 +17,7 @@
  {include file="cabecalho.tpl"}
  <div class="bgfiltro" style="height: 30px; border: 1px solid #A4A7AB;padding: 4px;">
 
-        <span style="float:right;padding: 4px 10px 0 0;">
-            <input class="button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='sneplog.php'" />
-            <div class="buttonEnding"></div>
-        </span>
+        <input style="float:right;" class="new_button" type="button" id="voltar" value="{$LANG.back}" onClick="location.href='sneplog.php'" />
 
         <span style="float:left;margin-top: 4px;">
             <strong>{$LANG.viewmode} :</strong>

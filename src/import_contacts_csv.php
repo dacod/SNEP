@@ -31,7 +31,7 @@ class ImportContactsController {
     public function indexAction() {
         $smarty = Zend_Registry::get('smarty');
 
-        $titulo = "Contatos » Importar CSV";
+        $titulo = "Cadastro » Contatos » Importar CSV";
         display_template("contacts/import/csv/index.tpl",$smarty,$titulo);
     }
 

@@ -245,6 +245,8 @@ class Snep_Menu {
         if(!Zend_Uri::check($item->getUri())) {
             if(substr($item->getUri(), -4) == ".php") {
                 $fixed_uri = $this->baseUrl . $item->getUri();
+            } elseif(preg_match("/^javascript:/i", $item->getUri())) {
+                $fixed_uri = $item->getUri();
             } else {
                 $config = Zend_Registry::get('config');
                 $fixed_uri = $this->baseUrl . ($config->system->path->modrewrite ? "" : "index.php/") . $item->getUri();

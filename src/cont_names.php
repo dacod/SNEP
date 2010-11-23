@@ -38,7 +38,7 @@ if ($acao == "cadastrar") {
     cadastrar();
 }
 elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_contacts']." » ".$LANG['menu_contacts']." » ".$LANG['change'];
+    $titulo = "Cadastro » Contatos » Alterar";
     alterar();
 } 
 elseif ($acao ==  "grava_alterar") {
@@ -47,7 +47,7 @@ elseif ($acao ==  "grava_alterar") {
 elseif ($acao ==  "excluir") {
     excluir();
 } else {
-    $titulo = $LANG['menu_contato']." » ".$LANG['menu_contacts']." » ".$LANG['include'];
+    $titulo = "Cadastro » Contatos » Incluir";
     principal() ;
 }
 

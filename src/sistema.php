@@ -92,7 +92,7 @@ $my_bargraph = new Bar_Graph;
 $smarty->register_object("bargraph", $my_bargraph);
 
 $smarty->assign('SIS', $SIS);
-$titulo = $LANG['menu_status'];
+$titulo = $LANG['menu_status'] . " » Sistema";
 display_template("sistema.tpl", $smarty, $titulo);
 
 /* -----------------------------------------------------------------------------

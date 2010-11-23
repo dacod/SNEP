@@ -29,7 +29,7 @@ require_once("classes.php");
 function display_template ($template, $smarty, $titulo="") {
     global $LANG, $SETUP, $logo_cliente, $logo_snep, $enable_panel, $enable_khomp;
     
-    if (strpos($_SERVER['PHP_SELF'],"login.php") > 0 ) {
+    if (strpos($_SERVER['PHP_SELF'],"login.php") > 0 OR $smarty->get_template_vars("MOSTRA_MENU") !== null) {
         $smarty->assign('MOSTRA_MENU',False);
     }
     else {

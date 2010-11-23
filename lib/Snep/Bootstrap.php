@@ -139,6 +139,13 @@ abstract class Snep_Bootstrap {
         $db = Zend_Db::factory('Pdo_Mysql', $config);
         Zend_Db_Table::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
+        try {
+            $db->getConnection();
+        }
+        catch(Zend_Db_Adapter_Exception $ex ) {
+            echo "Falha ao inicializar banco de dados: " . $ex->getMessage();
+            exit(1);
+        }
     }
 
     protected function startModules() {
