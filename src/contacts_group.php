@@ -157,7 +157,6 @@ function grava_alterar() {
 
     foreach ($lista2 as $contact_id) {
         $sql_contacts = "UPDATE contacts_names SET `group`='$id' where id='$contact_id'";
-        echo $sql_contacts;
         $db->exec($sql_contacts);
     }
 

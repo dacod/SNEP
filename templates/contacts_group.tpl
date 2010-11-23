@@ -39,7 +39,7 @@
         <input type="hidden" name="grupo" id="grupo" value="{$GRUPO}" />
         <td rowspan="2" class="norightcenter" width="40%">
             <div id="titulo">
-                {$LANG.ramais_free}
+                Contatos Disponíveis:
             </div>
             <select name="lista1[]" id="lista1" multiple="true" size="10" class="campos" style="width: 300px;" >
                 {html_options options=$CONTACTS}
@@ -52,7 +52,7 @@
         </td>
         <td class="noleftrightcenter" rowspan="2" width="40%">
             <div id="titulo">
-                {$LANG.include_exten} :
+                Contatos Alocados:
             </div>
             <select  class="campos" name="lista2[]" multiple="true" id="lista2" size="10" style="width: 300px;" >
                 {if $EDITAR}
