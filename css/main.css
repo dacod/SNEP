@@ -594,9 +594,11 @@ ul#navmenu ul ul li.iehover ul {
     color:#000;
 }
 .zend_form  dd {
+    vertical-align: text-top;
     padding-left: 4px;
 }
 .zend_form  dt {
+    vertical-align: text-top;
     font-size: 12px;
 }
 .regra0 {
