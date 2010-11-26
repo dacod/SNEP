@@ -34,7 +34,7 @@ class ParametersController extends Zend_Controller_Action {
         // Verifica se há erros e se são relacionados com o setup.conf
         if( $response['error'] && strpos($response['message'], "setup.conf") > 0 ) {
             // seta variavel verificada no template
-            $this->view->error = $this->view->translate("O arquivo includes/setup.conf não possue permissão de escrita.");
+            $this->view->error = $this->view->translate("O arquivo includes/setup.conf não possui permissão de escrita.");
         }
         // Cria objeto Snep_Form
         $form = new Snep_Form();
