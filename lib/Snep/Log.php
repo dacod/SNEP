@@ -48,6 +48,10 @@ class Snep_Log {
         }
     }
 
+    public function returnLog() {
+        return $this->log;
+    }
+
     // Função para extrair um relatório conforme parametros passados.
     public function getLog($dia_ini, $dia_fim, $hora_ini, $hora_fim, $st, $src, $dst) {
         $this->dia_ini = $dia_ini;
@@ -132,7 +136,7 @@ class Snep_Log {
     public function getTail($n) {
 
         $n = ( $n ? (int)$n : 30 );
-        $lines = explode("\n", $this->log);
+        $lines = explode("\n", self::returnLog() );
 
         $linhas = count($lines);
         $reverso = array_reverse($lines);

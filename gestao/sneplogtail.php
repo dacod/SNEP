@@ -30,4 +30,4 @@ if($log != 'error') {
    exit ;
 }
 
-//print_r($res);
+print_r($res);
