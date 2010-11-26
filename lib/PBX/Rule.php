@@ -126,7 +126,7 @@ class PBX_Rule {
      * 08:00-12:00
      * 13:30-18:00
      * 
-     * @var string array Array com Range de horários
+     * @var string|array Array com Range de horários
      */
     private $validade = array();
 
@@ -138,7 +138,7 @@ class PBX_Rule {
      * thu
      * fri
      *
-     * @var string array Array com dias da semana em que a regra é válida
+     * @var string|array Array com dias da semana em que a regra é válida
      */
     private $validWeekDays = array("sun", "mon", "tue", "wed", "thu", "fri", "sat");
 
