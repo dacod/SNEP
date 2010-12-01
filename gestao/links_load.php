@@ -51,7 +51,7 @@ while (list($key, $val) = each($lines)) {
     }
 }
 
-$titulo = $LANG['menu_links'];
+$titulo = $LANG['menu_status']." » ".$LANG['menu_links'];
 $smarty->assign('PLACAS', $boards);
 display_template("links_load.tpl", $smarty, $titulo);
 
