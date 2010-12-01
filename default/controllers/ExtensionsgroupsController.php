@@ -27,7 +27,8 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
       
         $this->view->tra = array("admin" => $this->view->translate("Administradores"),
-                                 "users" => $this->view->translate("Usuários") );
+                                 "users" => $this->view->translate("Usuários"),
+                                 "all" => $this->view->translate("Todos") );
 
         $select = $db->select()
                 ->from("groups", array("name", "inherit"));

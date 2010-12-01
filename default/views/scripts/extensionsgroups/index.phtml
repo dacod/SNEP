@@ -30,7 +30,14 @@ echo $this->render('filter.phtml');
                         <?php endif ?>
                     </b>
                 </td>
-                <td> <?php echo $val['inherit'] ?>  </td>
+                <td> 
+                        <?php if(array_key_exists($val['inherit'], $this->tra) ) : ?>
+                            <?php echo $this->tra[$val['inherit']]; ?>
+                        <?php else : ?>
+                           <?php echo $val['inherit']; ?>
+                        <?php endif ?>
+
+                </td>
                 <td class="action">
                     <a class="alterar" href='/snep/src/groups.php?acao=alterar&cod_grupo=<?php echo $val['name'] ?>'>
                         <?php echo $this->translate('Alterar')?>
