@@ -26,7 +26,7 @@
             <tr>
                <td class="formlabel" >{$LANG.id}:</td>
                <td class="subtable" >
-               <input name="codigo" type="text" size="7" maxlength="7"  value="{$dt_ccustos.codigo}" {if $ACAO == "grava_alterar"} readonly="true" class="campos_disable" {else}  class="campos" {/if} onKeyUp="mascara_ccustos(this,this.value)" onBlur="masc_cod(this,this.value)" /> (ex: 9.99.99)
+               <input name="codigo" id="codigo" type="text" size="7" maxlength="7"  value="{$dt_ccustos.codigo}" {if $ACAO == "grava_alterar"} readonly="true" class="campos_disable" {else}  class="campos" {/if} onKeyUp="mascara_ccustos(this,this.value)" onBlur="masc_cod(this,this.value)" /> (ex: 9.99.99)
                </td>
             </tr>
             <tr>
@@ -80,8 +80,11 @@
 </table>
 { include file="rodape.tpl }
 <script language="javascript" type="text/javascript">
+
  document.forms[0].elements[0].focus() ;
+
  function masc_cod(objeto,codigo) {ldelim}
+
     if (codigo.length == 2 ) 
        codigo = codigo.substring(0,1);
     if (codigo.length == 3 ) {ldelim}
@@ -96,11 +99,35 @@
     {rdelim}
     objeto.value = codigo ;   
  {rdelim}
+
  function check_form() {ldelim}
+
        campos = new Array() ;
        campos[0] = "{$LANG.name};"+document.formulario.nome.value+";NOT_NULL;";
-       return valida_formulario(campos) ;
+
+       var permitidos = "0123456789.";
+       var codigo = $('codigo').value;
+
+       for (var i = 0; i < codigo.length; i++) {ldelim}
+          if (permitidos.indexOf(codigo.charAt(i)) != -1) {ldelim}
+             mensagem="O código do Centro de Custo deve conter somente números."
+             erro=true;
+          {rdelim}
+       {rdelim}
+
+       var retorno = valida_formulario(campos);
+
+       if(erro) 
+       {ldelim}
+           alert(mensagem);
+           return false
+       {rdelim}
+       else
+       {ldelim}
+           return retorno
+       {rdelim}
  {rdelim}
+ 
  { include file="../includes/javascript/functions_smarty.js" }
 </script>
 <script  language="JavaScript" type="text/javascript" scr="../includes/javascript/functions.js"></script>
