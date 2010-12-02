@@ -32,7 +32,7 @@
             <tr>
                <td class="formlabel" >{$LANG.name}:</td>
                <td class="subtable" >
-               <input name="nome" type="text" size="30" maxlength="40"  class="campos" value="{$dt_ccustos.nome}" >
+               <input name="nome" id="nome" type="text" size="30" maxlength="40"  class="campos" value="{$dt_ccustos.nome}" >
                </td>
             </tr>
             <tr>
@@ -102,30 +102,39 @@
 
  function check_form() {ldelim}
 
-       campos = new Array() ;
-       campos[0] = "{$LANG.name};"+document.formulario.nome.value+";NOT_NULL;";
+       var permited = "0123456789.";
+       var codigo = $('codigo').value
+       var nome = $('nome').value
+       var mensagem = 'Erro: ';
+       var erro  = false;
 
-       var permitidos = "0123456789.";
-       var codigo = $('codigo').value;
-
-       for (var i = 0; i < codigo.length; i++) {ldelim}
-          if (permitidos.indexOf(codigo.charAt(i)) != -1) {ldelim}
-             mensagem="O código do Centro de Custo deve conter somente números."
-             erro=true;
+       for ( var i = 0; i < codigo.length; i++ ) {ldelim}
+          if ( permited.indexOf( codigo.charAt(i) ) == -1 ) {ldelim}
+             mensagem = "O código do Centro de Custo deve conter somente números. ";
+             erro = true;
           {rdelim}
        {rdelim}
 
-       var retorno = valida_formulario(campos);
+       if(codigo == "") {ldelim}
+             mensagem = "O código do Centro de Custo deve conter somente números. ";
+             erro = true;
+       {rdelim}
 
-       if(erro) 
-       {ldelim}
-           alert(mensagem);
-           return false
+       if(nome == "") {ldelim}
+             mensagem = "Informe um nome para o Centro de Custos. ";
+             erro = true;
+       {rdelim}
+
+       if(erro)
+           {ldelim}
+                alert( mensagem );
+                return false;
        {rdelim}
        else
-       {ldelim}
-           return retorno
+           {ldelim}
+                return true;
        {rdelim}
+       
  {rdelim}
  
  { include file="../includes/javascript/functions_smarty.js" }
