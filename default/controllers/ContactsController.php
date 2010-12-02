@@ -29,7 +29,7 @@ class ContactsController extends Zend_Controller_Action {
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("`$field` like '%$query%'");
+            $select->where("n.`$field` like '%$query%'");
         }
 
 
@@ -47,7 +47,7 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/contacts/index/";
 
-        $opcoes = array("nome" => $this->view->translate("Nome"),                        
+        $opcoes = array("name" => $this->view->translate("Nome"),
                         "city" => $this->view->translate("Cidade"),
                         "state" => $this->view->translate("Estado"),
                         "cep" => $this->view->translate("CEP"),
