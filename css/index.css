@@ -1,0 +1,50 @@
+/* 
+    Document   : index.css
+    Created on : Dec 2, 2010, 2:54:10 PM
+    Author     : Henrique Grolil Bassotto
+    Description:
+        Folha de estilos que descreve a aparência específica das telas de indíce
+*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table .numeric, table .action {
+    text-align: center;
+}
+
+th {
+    padding-top: 5px !important;
+    padding-bottom: 5px  !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+td, th {
+    border: 1px solid #A4A7AB;
+    font-size: 11px;
+    text-align: left;
+}
+
+#content {
+    padding: 0px;
+    border: none;
+    border-bottom: 1px solid #A4A7AB;
+}
+
+.filtros {
+    background-image: url(../imagens/bg_filtro.png);
+    background-repeat: repeat-x;
+    background-color: #fff;
+}
+
+.filtros .zend_form {
+    margin-top: 5px;
+}
+
+.filtros dl {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}

@@ -1,17 +1,18 @@
 <?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
 ?>
 
-<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+<table>
    <thead>
       <tr>
-         <td> <?php echo $this->translate('Ramal') ?> </td>
-         <td> <?php echo $this->translate('Nome do Usuário') ?> </td>
-         <td> <?php echo $this->translate('Canal') ?> </td>
-         <td> <?php echo $this->translate('Grupo de Ramal') ?> </td>
-         <td colspan="3" class="action"> <?php echo $this->translate('Ações') ?>  </td>
+         <th> <?php echo $this->translate('Ramal') ?> </th>
+         <th> <?php echo $this->translate('Nome do Usuário') ?> </th>
+         <th> <?php echo $this->translate('Canal') ?> </th>
+         <th> <?php echo $this->translate('Grupo de Ramal') ?> </th>
+         <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?>  </th>
       </tr>
    </thead>
    <tbody>

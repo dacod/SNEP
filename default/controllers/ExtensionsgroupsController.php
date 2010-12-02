@@ -59,10 +59,8 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $config_file = "./default/forms/filter.xml";
         $config = new Zend_Config_Xml($config_file, null, true);
 
-        $form = new Zend_Form();
-        $form->setAction( $this->getFrontController()->getBaseUrl() . '/'. $this->getRequest()->getControllerName() .'/index' );
-
         $filter = new Zend_Form( $config->filter );
+        $filter->setAction( $this->getFrontController()->getBaseUrl() . '/'. $this->getRequest()->getControllerName() .'/index' );
         $filter_value = $filter->getElement('filtro');
         $filter_value->setValue( $this->_request->getPost('filtro') );
 
@@ -86,9 +84,8 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
 
         $filtro = $filter->getElement('filtro');
         $filtro->setValue( $this->_request->getParam('filtro') );
-
-        $form->addSubForm($filter, "filter");        
-        $this->view->form_filter = $form;
+        
+        $this->view->form_filter = $filter;
         $this->view->filter = array( array("url" => "/snep/src/groups.php",
                                            "display" => $this->view->translate("Incluir Grupo de Ramal"),
                                            "css" => "include"),

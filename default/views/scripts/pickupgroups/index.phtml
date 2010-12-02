@@ -1,15 +1,16 @@
 <?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
 ?>
-<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+<table>
    <thead>
       <tr>
-         <td class="action"> <?php echo $this->translate('Código') ?> </td>
-         <td> <?php echo $this->translate('Nome') ?> </td>
-         <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </td>
+         <th class="action"> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
       </tr>
    </thead>
    <tbody>
@@ -19,7 +20,7 @@ echo $this->render('filter.phtml');
         foreach($this->pickupgroups as $id => $val ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td class="action"> <b> <?php echo $val['cod_grupo'] ?> </b> </td>
+                <td class="numeric"> <b> <?php echo $val['cod_grupo'] ?> </b> </td>
                 <td> <?php echo $val['nome'] ?> </td>
                 <td class="action">
                     <a class="alterar" href='/snep/src/grupos.php?acao=alterar&cod_grupo=<?php echo $val['cod_grupo'] ?>'>

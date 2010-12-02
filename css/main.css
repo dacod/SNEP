@@ -468,10 +468,10 @@ ul#navmenu ul ul li.iehover ul {
 }
 #content .filtros {
     background-color: #f1f1f1;
-    border: 1px solid #e1e1e1;
+    border: 1px solid #A4A7AB;
     padding: 0px 4px 0px 4px;
-    margin-bottom: 3px;
-    height:47px;
+    margin-bottom: 0px;
+    height:37px;
 }
 #content .pagination {
     background-color: #fdfdfd;
@@ -481,19 +481,21 @@ ul#navmenu ul ul li.iehover ul {
     margin-top: 10px;
     height:25px;
 }
+
+
 .links_include {
    float:right;
 }
 .links {
    float:right;
-   margin-top: 15px;
+   margin-top: 10px;
 }
 .links a:hover {
     text-decoration: underline;
     color: #000;
 }
 .links .include {
-       float:right;
+   float:right;
    background: url("../imagens/include.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;

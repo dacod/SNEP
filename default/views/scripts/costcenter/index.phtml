@@ -1,4 +1,5 @@
 <?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
@@ -8,11 +9,11 @@ echo $this->render('filter.phtml')
 <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
    <thead>
       <tr>
-         <td> <?php echo $this->translate('Código') ?> </td>
-         <td> <?php echo $this->translate('Nome') ?> </td>
-         <td> <?php echo $this->translate('Tipo') ?> </td>
-         <td> <?php echo $this->translate('Descrição') ?> </td>
-         <td colspan="2" class="action"> <?php echo $this->translate('Ações') ?>  </td>         
+         <th> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Tipo') ?> </th>
+         <th> <?php echo $this->translate('Descrição') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
       </tr>
    </thead>
    <tbody>
