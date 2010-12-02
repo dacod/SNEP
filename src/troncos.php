@@ -132,7 +132,7 @@ function principal() {
 function cadastrar() {
     global $LANG, $db, $dtmf_dial, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time;
+    global $nat, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -262,7 +262,7 @@ function cadastrar() {
     }
     else { // VIRTUAL
         $trunktype = "T";
-        $id_regex = $id_regex == "" ? $channel : $id_regex;
+        $id_regex = $trunk_regex == "" ? $channel : $trunk_regex;
     }
 
     $dtmf_dial = $dtmf_dial ? 'TRUE' : 'FALSE';
@@ -380,7 +380,7 @@ function alterar() {
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
     global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time;
+    global $nat, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
 
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
@@ -489,7 +489,7 @@ function grava_alterar() {
     }
     else { // VIRTUAL
         $trunktype = "T";
-        $id_regex = $id_regex == "" ? $channel : $id_regex;
+        $id_regex = $trunk_regex == "" ? $channel : $trunk_regex;
     }
 
     if ($tempo === "n") {
