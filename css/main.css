@@ -617,3 +617,15 @@ ul#navmenu ul ul li.iehover ul {
     display: block;
     background: url("../imagens/desativar.gif") no-repeat left top;
 }
+#campo {
+   color:  #000000 ;
+   background-color: #fbfbfb ;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   border-style: solid;
+   border-top-width: 1px;
+   border-right-width: 1px;
+   border-bottom-width: 1px;
+   border-left-width: 1px;
+   border-color: #a4a7ab ;
+}
