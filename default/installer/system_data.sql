@@ -29,8 +29,6 @@ INSERT INTO groups VALUES ('all',null);
 INSERT INTO groups VALUES ('admin','all');
 INSERT INTO groups VALUES ('users','all');
 
-INSERT INTO `contacts_group` VALUES (1, 'Default');
-
 INSERT INTO `ccustos` VALUES ('1','E','ENTRADAS','Ligacoes de Entrada');
 INSERT INTO `ccustos` VALUES ('2','S','SAIDAS','Ligacoes de Saida');
 INSERT INTO `ccustos` VALUES ('5','O','FUNCIONALIDADES','Funcionalidades do Sistema');

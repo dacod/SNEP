@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <general>
+        <elements>
+            <nameCont>
+                <type>text</type>
+                <options>
+                    <label>Contato</label>
+                    <required>true</required>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                            <options>
+                                <allowWhiteSpace>true</allowWhiteSpace>
+                            </options>
+                        </alnum>
+                    </validators>
+                </options>
+            </nameCont>
+            <cpf>
+                <type>text</type>
+                <options>
+                    <label>CPF</label>
+                    <required>true</required>
+                    <validators>
+                        <number>
+                            <validator>Int</validator>
+                        </number>
+                    </validators>
+                </options>
+            </cpf>
+            <phone>
+                <type>text</type>
+                <options>
+                    <label>Telefone</label>
+                    <required>true</required>
+                </options>
+            </phone>
+            <group>
+                <type>select</type>
+                <options>
+                    <label>Grupo</label>
+                </options>
+            </group>
+        </elements>
+    </general>
+</modelo>

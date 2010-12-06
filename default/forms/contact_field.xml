@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <general>
+        <elements>
+            <name>
+                <type>text</type>
+                <options>
+                    <label>Nome</label>
+                    <required>true</required>
+                    <validators>
+                        <date>
+                            <validator>Alnum</validator>
+		                    <options>
+                                <allowWhiteSpace>true</allowWhiteSpace>
+                            </options>	
+                        </date>
+                    </validators>
+                </options>
+            </name>
+            <type>
+            	<type>select</type>            	
+            	<options>
+            		<label>Tipo</label>
+            		<required>true</required>
+            	</options>
+            </type>
+            <required>
+            	<type>checkbox</type>
+            	<options>
+            		<label>Requerido</label>
+            		<required>false</required>
+            	</options>
+           	</required>
+        </elements>
+    </general>
+</modelo>
