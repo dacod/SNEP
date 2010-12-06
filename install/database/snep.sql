@@ -713,39 +713,6 @@ CREATE TABLE `voicemail_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Estrutura da tabela `contacts_group`
---
-
-DROP TABLE IF EXISTS `contacts_group`;
-CREATE TABLE IF NOT EXISTS `contacts_group` (
-  `id` integer NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- Grupo incial dos contatos
-
-INSERT INTO `contacts_group` VALUES (1, 'Default');
-
---
--- Estrutura da tabela `contacts_names`
---
-DROP TABLE IF EXISTS `contacts_names`;
-CREATE TABLE IF NOT EXISTS `contacts_names` (
-  `id` char(11) NOT NULL,
-  `name` varchar(80) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `state` varchar(2) NOT NULL,
-  `cep` varchar(8) NOT NULL,
-  `phone_1` varchar(15) NOT NULL,
-  `cell_1` varchar(15) NOT NULL,
-  `group` integer NOT NULL,
-  CONSTRAINT contacts_group_fk FOREIGN KEY (`group`) REFERENCES contacts_group(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
---
 -- Estrutura da tabela `lista_abandono`
 --
 
