@@ -288,9 +288,15 @@ class Bar_Graph {
 
       // Verifica a existência de tarifas definidas para operadora
       $td = false;
-      if($ddd_dst) {
-          $td = Snep_Tarifas::getTarifaDisp($t['operadora'], $ddd_dst, strtoupper($nome_cidade));
+
+      if( is_null( $nome_cidade ) ) {
+        $cid = null;
+      }else{
+        $cid = $nome_cidade;
       }
+      
+      $td = Snep_Tarifas::getTarifaDisp($t['operadora'], $ddd_dst, strtoupper( trim( $cid ) ) );
+      
 
       // Caso exista, verifica tarifas conforme data da ligação
       if( $td ) {

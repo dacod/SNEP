@@ -43,7 +43,7 @@
          <td class="cen">{$DADOS[tarifas].estado}</td>
          <td class="cen">{$DADOS[tarifas].prefixo}</td>
          <td class="cen">{$DADOS[tarifas].ddd}</td>
-         <td class="cen">{$DADOS[tarifas].data}</td>         
+         <td class="cen">{$DADOS[tarifas]._data}</td>
          <td class="dir">{$DADOS[tarifas].vfix|string_format:"%.2f"}</td>
          <td class="dir">{$DADOS[tarifas].vcel|string_format:"%.2f"}</td>       
          <form name="acao" method="post" action="../tarifas/tarifas.php">

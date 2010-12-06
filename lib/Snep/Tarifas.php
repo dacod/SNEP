@@ -99,9 +99,17 @@ class Snep_Tarifas {
 
         $select = $db->select()
                         ->from('tarifas')
-                        ->where('operadora = ?', $op)
-                        ->where('ddd = ?', $ddd)
-                        ->where('cidade = ?', $cidade);
+                        ->where('operadora = ?', $op);
+                        //->where('ddd = ?', $ddd)
+                        //->where('cidade = ?', $cidade);
+
+        if( $cidade == "Celular" || is_null( $cidade ) ) {
+            $select->where('cidade = ?', $cidade);
+        }
+        
+        if($ddd != "") {
+            $select->where('ddd = ?', $ddd);
+        }
 
         $stmt = $db->query($select);
         $tarifa = $stmt->fetch();

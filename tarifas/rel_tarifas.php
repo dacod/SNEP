@@ -46,6 +46,10 @@
  }else{
     $row = Snep_Tarifas::getFiltrada(null, null);    
  }
+ 
+ foreach($row as $id => $valor) {
+    $row[$id]['_data'] =  substr($valor['data'], 8,2)."-".substr($valor['data'], 5,2)."-".substr($valor['data'], 0,4);
+ }
 
  $tot_pages = ceil( count( $row ) / $SETUP['ambiente']['linelimit'] ) ;
  

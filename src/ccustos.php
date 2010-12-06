@@ -47,6 +47,7 @@ function principal()  {
    global $smarty,$titulo, $LANG, $db ;
    $smarty->assign ('dt_ccustos',array("tipo"=>"E"));
    $smarty->assign('ACAO',"cadastrar");
+   $smarty->assign('PROTOTYPE', true);
    display_template("ccustos.tpl",$smarty,$titulo) ;
 }
 

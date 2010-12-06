@@ -155,13 +155,18 @@ function monta_relatorio($acao) {
     $ramaissrc = $ramaisdst = "" ;
     if($groupsrc) {
         $origens = PBX_Usuarios::getByGroup($groupsrc);
+
+
         if( count($origens) == 0 ) {
             display_error($LANG['error'] . $LANG['error_nogroup_item'] ,true);
         }
         else {
             $ramalsrc = "";
             foreach ($origens as $ramal) {
-                $ramalsrc .= $ramal->getNumero() . ',';
+                $num = $ramal->getNumero();
+                if(is_numeric($num)) {
+                    $ramalsrc .= $num . ',';
+                }                
             }
             $ramaissrc = " AND src in (" . trim($ramalsrc, ',') . ") ";
         }
@@ -176,7 +181,10 @@ function monta_relatorio($acao) {
         else {
             $ramaldst = "";
             foreach ($destinos as $ramal) {
-                $ramaldst .= $ramal->getNumero() . ',';
+                $num = $ramal->getNumero();
+                if(is_numeric($num)) {
+                    $ramaldst .= $num . ',';
+                }                
             }
             $ramaisdst = " AND dst in (" . trim($ramaldst, ',') . ") ";
         }

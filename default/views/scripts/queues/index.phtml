@@ -1,18 +1,18 @@
 <?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml')
-
 ?>
 
-<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+<table>
    <thead>
       <tr>
-         <td> <?php echo $this->translate('Nome') ?> </td>
-         <td> <?php echo $this->translate('Estratégia de distribuição das chamadas') ?> </td>
-         <td> <?php echo $this->translate('Classe das músicas de espera') ?> </td>
-         <td colspan="3" class="action"> <?php echo $this->translate('Ações') ?> </td>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Estratégia de distribuição das chamadas') ?> </th>
+         <th> <?php echo $this->translate('Classe das músicas de espera') ?> </th>
+         <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?> </th>
       </tr>
    </thead>
    <tbody>

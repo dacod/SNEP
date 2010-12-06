@@ -29,7 +29,7 @@ class ContactsController extends Zend_Controller_Action {
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("`$field` like '%$query%'");
+            $select->where("n.`$field` like '%$query%'");
         }
 
 
@@ -47,7 +47,7 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/contacts/index/";
 
-        $opcoes = array("nome" => $this->view->translate("Nome"),                        
+        $opcoes = array("name" => $this->view->translate("Nome"),
                         "city" => $this->view->translate("Cidade"),
                         "state" => $this->view->translate("Estado"),
                         "cep" => $this->view->translate("CEP"),
@@ -58,10 +58,8 @@ class ContactsController extends Zend_Controller_Action {
         $config_file = "./default/forms/filter.xml";
         $config = new Zend_Config_Xml($config_file, null, true);
 
-        $form = new Zend_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-
         $filter = new Zend_Form($config->filter);
+        $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
 
         $filter_value = $filter->getElement('filtro');
         $filter_value->setValue($this->_request->getPost('filtro'));
@@ -86,8 +84,7 @@ class ContactsController extends Zend_Controller_Action {
         $filter->addElement($submit);
         $filter->addElement($reset);
 
-        $form->addSubForm($filter, "filter");
-        $this->view->form_filter = $form;
+        $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "/snep/src/cont_names.php",
                 "display" => $this->view->translate("Incluir Contato"),
                 "css" => "include"),

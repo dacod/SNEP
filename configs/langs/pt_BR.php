@@ -873,6 +873,7 @@ $LANG['kecsIncoming'] = "Entrada";
 $LANG['kecsLocked'] = "Bloqueado";
 $LANG['kecs{Busy}'] = "Falha";
 $LANG['kecs{Busy,Locked,RemoteLock}'] = "Ocupado Sa&iacute;da";
+$LANG['kecs{Busy,Locked,LocalFail}'] = "Ocupado Sa&iacute;da";
 $LANG['kecs{Busy,Outgoing}'] = "Ocupado Sa&iacute;da";
 $LANG['kecs{Busy,Incoming}'] = "Ocupado Entrada";
 $LANG['kgsmIdle'] = "Livre";

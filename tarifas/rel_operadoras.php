@@ -15,29 +15,26 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
- require_once("../includes/verifica.php");   
- require_once("../configs/config.php");
- 
- ver_permissao(38) ;
+require_once("../includes/verifica.php");
+require_once("../configs/config.php");
 
- $titulo = $LANG['menu_tarifas']." » ".$LANG['menu_operadoras'] ;
- $opcoes = array( "nome" => $LANG['name'], "codigo" => $LANG['id']) ;
+ver_permissao(38);
 
- ( is_null( $_POST['text_filter'] ) ? $text_filter = "" : $text_filter = $_POST['text_filter'] );
+$titulo = $LANG['menu_tarifas'] . " » " . $LANG['menu_operadoras'];
+$opcoes = array("nome" => $LANG['name'], "codigo" => $LANG['id']);
 
- if ( $text_filter != "" ) {
-    $row = Snep_Operadoras::getFiltrado($text_filter, $text_filter);
+$text_filter = is_null($_POST['text_filter']) ? "" : $_POST['text_filter'];
 
- }else{
+if ($text_filter != "") {
+    $row = Snep_Operadoras::getFiltrado($_POST['field_filter'], $text_filter);
+} else {
     $row = Snep_Operadoras::getFiltrado(null, null);
+}
 
- }
-
- $smarty->assign ('DADOS',                $row );
- $smarty->assign ('view_filter',          True );
- $smarty->assign ('view_include_buttom',  True );
- $smarty->assign ('OPCOES',               $opcoes );
- $smarty->assign ('array_include_buttom', array("url"      => "../tarifas/operadoras.php",
-                                                "display"  => $LANG['include']." ".$LANG['menu_operadoras'] ) );
- display_template("rel_operadoras.tpl",   $smarty, $titulo );
- ?>
+$smarty->assign('DADOS', $row);
+$smarty->assign('view_filter', True);
+$smarty->assign('view_include_buttom', True);
+$smarty->assign('OPCOES', $opcoes);
+$smarty->assign('array_include_buttom', array("url" => "../tarifas/operadoras.php",
+    "display" => $LANG['include'] . " " . $LANG['menu_operadoras']));
+display_template("rel_operadoras.tpl", $smarty, $titulo);

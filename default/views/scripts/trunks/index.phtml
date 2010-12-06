@@ -1,20 +1,19 @@
 <?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
-
 ?>
 
-<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" >
+<table>
    <thead>
       <tr>
-         <td class="action"> <?php echo $this->translate('Código') ?> </td>
-         <td> <?php echo $this->translate('Nome') ?> </td>
-         <td> <?php echo $this->translate('Tipo de Tronco') ?> </td>
-         <td> <?php echo $this->translate('Tecnologia de Canais') ?> </td>
-         <td class="action"> <?php echo $this->translate('Alterar') ?> </td>
-         <td class="action"> <?php echo $this->translate('Excluir') ?> </td>
+         <th class="action"> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Tipo de Tronco') ?> </th>
+         <th> <?php echo $this->translate('Tecnologia de Canais') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?>  </th>
       </tr>
    </thead>
    <tbody>  
@@ -25,7 +24,7 @@ echo $this->render('filter.phtml');
         <?php ($c ? $c = 0 : $c = 1 ); ?>
         <tr class="c<?php echo $c ?>">
 
-            <td class="action"> <b> <?php echo $val['name'] ?> </b> </td>
+            <td class="numeric"> <b> <?php echo $val['name'] ?> </b> </td>
             <td> <?php echo $val['callerid'] ?> </td>
             <td>
                 <?php echo ( $val['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
