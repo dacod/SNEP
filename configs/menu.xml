@@ -23,7 +23,7 @@
         <item uri="costcenter" label="menu_ccustos" ></item>
         <item uri="contacts" label="menu_contacts" >
              <item uri="contacts" label="Contatos" ></item>
-             <item uri="contactgroups" label="menu_contacts_groups" ></item>
+             <item uri="contactgroups" label="Grupos de Contato" ></item>
              <item uri="field" label="Campos Customizados" ></item>
              <item uri="contacts/csv" label="Importar CSV" ></item>
         </item>
