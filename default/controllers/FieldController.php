@@ -74,8 +74,18 @@ class FieldController extends Zend_Controller_Action {
         $form->setAction( $this->getFrontController()->getBaseUrl() . "/field/add");
         
         $subForm = new Snep_Form_SubForm($this->view->translate("Inserir Campos"), $form_xml->general);
-        $subForm->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar"))));
-        
+
+        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
+        $bt_submit->removeDecorator('DtDdWrapper');
+        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_submit);
+
+        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
+        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/field/'");
+        $bt_back->removeDecorator('DtDdWrapper');
+        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
+        $subForm->addElement($bt_back);
+
         $tipo = $subForm->getElement('type');
         $tipo->setMultiOptions(array('Text' => 'Textbox',
                                      'Checkbox' => 'Checkbox' ) );
@@ -92,10 +102,18 @@ class FieldController extends Zend_Controller_Action {
                 $fields = array('name' => $dados ['subForm']['name'],
                                 'type' => $dados ['subForm']['type'],
                                 'required' => $dados ['subForm']['required']
-                );
-                
+                );                
                 $this->view->contacts = Snep_Contact_Manager::add_field($fields);
                 $this->_redirect("/field/");
+
+            }else{
+
+                $errors = $form->getErrors();
+                if(in_array('regexNotMatch', array_values($errors['subForm']['name']))) {
+                    $name = $subForm->getElement('name');                    
+                    $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
+
+                }
             }
         }
         
@@ -114,9 +132,18 @@ class FieldController extends Zend_Controller_Action {
         $form->setAction($this->getFrontController()->getBaseUrl() . "/field/edit/id/$id");
 
         $subForm = new Snep_Form_SubForm($this->view->translate("Altera Campo"), $form_xml->general);
-       	        
-        $subForm->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar"))));
+
+        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
+        $bt_submit->removeDecorator('DtDdWrapper');
+        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_submit);
         
+        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
+        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/field/'");
+        $bt_back->removeDecorator('DtDdWrapper');
+        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
+        $subForm->addElement($bt_back);
+
         $name = $subForm->getElement('name');
         $type_id = $subForm->getElement('type');
         $required = $subForm->getElement('required');
@@ -139,10 +166,19 @@ class FieldController extends Zend_Controller_Action {
 			
             if ($form_isValid) {
             	
-				$fields = $dados['subForm'];
-				$fields["id"] = $id;
+                $fields = $dados['subForm'];
+                $fields["id"] = $id;
                 $this->view->contacts = Snep_Field_Manager::edit($fields);
                 $this->_redirect("/field/");
+            }else{
+
+                $errors = $form->getErrors();
+                if(in_array('regexNotMatch', array_values($errors['subForm']['name']))) {
+                    $name = $subForm->getElement('name');
+                    $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
+
+                }
+
             }
         }
         $this->view->form = $form;

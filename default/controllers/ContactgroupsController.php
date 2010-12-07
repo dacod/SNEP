@@ -65,7 +65,17 @@ class ContactgroupsController extends Zend_Controller_Action {
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/default/contactgroups/add');
 
         $subForm = new Snep_Form_SubForm( $this->view->translate("Incluir Grupo"), $form_xml->general );
-        $subForm->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar"))));
+        
+        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
+        $bt_submit->removeDecorator('DtDdWrapper');
+        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_submit);
+
+        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
+        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contactgroups/'");
+        $bt_back->removeDecorator('DtDdWrapper');
+        $bt_back->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_back);
 
         $form->addSubForm($subForm, "subForm");
 
@@ -99,7 +109,17 @@ class ContactgroupsController extends Zend_Controller_Action {
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contactgroups/edit');
 
         $subForm = new Snep_Form_SubForm($this->view->translate("Alterar Grupo"), $form_xml->general);
-        $subForm->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar"))));
+
+        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
+        $bt_submit->removeDecorator('DtDdWrapper');
+        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_submit);
+
+        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
+        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contactgroups/'");
+        $bt_back->removeDecorator('DtDdWrapper');
+        $bt_back->addDecorator('HtmlTag', array('tag' => 'li'));
+        $subForm->addElement($bt_back);
 
         $grou_name = $subForm->getElement('name');
         $grou_id = $subForm->getElement('id');
