@@ -577,7 +577,8 @@ ul#navmenu ul ul li.iehover ul {
     background: url("../imagens/delete.png") no-repeat center left;
     cursor:pointer;
     font-size: 10px;
-    color: #696969;    
+    color: #696969; 
+    text-decoration: none;
 }
 .excluir:hover {
     text-decoration:underline;
@@ -628,4 +629,16 @@ ul#navmenu ul ul li.iehover ul {
    border-bottom-width: 1px;
    border-left-width: 1px;
    border-color: #a4a7ab ;
+}
+.button_bar {
+    text-align: center;
+    display:block;
+    padding: 10px;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
+}
+.zend_form li {
+    list-style:none;
+    float:left;
+    margin-right: 5px;
 }
