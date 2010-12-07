@@ -17,18 +17,6 @@
                     </validators>
                 </options>
             </nameCont>
-            <cpf>
-                <type>text</type>
-                <options>
-                    <label>CPF</label>
-                    <required>true</required>
-                    <validators>
-                        <number>
-                            <validator>Int</validator>
-                        </number>
-                    </validators>
-                </options>
-            </cpf>
             <phone>
                 <type>text</type>
                 <options>
