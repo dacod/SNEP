@@ -10,10 +10,16 @@
                     <validators>
                         <date>
                             <validator>Alnum</validator>
-		                    <options>
+                            <options>
                                 <allowWhiteSpace>true</allowWhiteSpace>
-                            </options>	
+                            </options>
                         </date>
+                        <regex>
+                            <validator>Regex</validator>
+                            <options>
+                              <pattern>/^[-a-z0-9_]+/i</pattern>
+                            </options>
+                        </regex>
                     </validators>
                 </options>
             </name>
