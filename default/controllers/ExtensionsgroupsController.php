@@ -31,7 +31,9 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
                                  "all" => $this->view->translate("Todos") );
 
         $select = $db->select()
-                ->from("groups", array("name", "inherit"));
+		->from("groups", array("name", "inherit"))
+		->where("name != 'all' AND name != 'admin' AND name != 'users'");
+
         if( $this->_request->getPost('filtro') ) {
             $field = mysql_escape_string( $this->_request->getPost('campo') );
             $query = mysql_escape_string( $this->_request->getPost('filtro') );
