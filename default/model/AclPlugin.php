@@ -27,8 +27,8 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
     public function __construct(Zend_Acl $aclData, $roleName = 'guest') {
         $this->_errorPage = array(
                 'module' => 'default',
-                'controller' => 'auth',
-                'action' => 'login'
+                'controller' => 'error',
+                'action' => 'denied'
         );
 
         $this->_roleName = $roleName;
@@ -108,27 +108,23 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
      * @return void
      **/
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        if($request->getModuleName() == "default") {
-            $resourceName = $request->getControllerName();
+        $resource = "unknown";
+        $acl = $this->getAcl();
 
-            if(!$this->getAcl()->has($resourceName)) {
-                $resourceName = 'default';
-            }
-        }
-        else {
-            $resourceName = $request->getModuleName() . ':' . $request->getControllerName();
-            if(!$this->getAcl()->has($resourceName)) {
-                $resourceName = $request->getModuleName();
-                if (!$this->getAcl()->has($resourceName)) {
-                    $resourceName = 'default';
-                }
-            }
+        $module = $request->getModuleName();
+        if( $acl->has($module) ) {
+            $controller = $request->getControllerName();
+            $resource = $acl->has($controller) ? $controller : $module;
         }
 
-        /** Check if the controller/action can be accessed by the current user */
-        if (!$this->getAcl()->isAllowed($this->_roleName, $resourceName, $request->getActionName())) {
-            /** Redirect to access denied page */
-            $this->denyAccess();
+        if(!$acl->isAllowed($this->getRoleName(), $resource)) {
+            if(Zend_Auth::getInstance()->hasIdentity()) {
+                $this->denyAccess();
+            }
+            else {
+                $redirector = new Zend_Controller_Action_Helper_Redirector();
+                $redirector->direct("login", "auth", "default");
+            }
         }
     }
 

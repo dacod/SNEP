@@ -20,17 +20,19 @@
 defined('APPLICATION_PATH') ||
     define('APPLICATION_PATH', realpath(dirname(__FILE__)));
 
-$config = parse_ini_file(APPLICATION_PATH . '/includes/setup.conf');
-$snep_env = $config['debug'] ? "development" : "production";
-
-// Define application environment
-defined('APPLICATION_ENV') ||
-    define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : $snep_env));
-
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/lib'),
     get_include_path(),
 )));
+
+require_once 'Snep/Config.php';
+Snep_Config::setConfigFile(APPLICATION_PATH . '/includes/setup.conf');
+$config = Snep_Config::getConfig();
+$snep_env = $config->system->debug ? "development" : "production";
+
+// Define application environment
+defined('APPLICATION_ENV') ||
+    define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : $snep_env));
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
