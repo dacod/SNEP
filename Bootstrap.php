@@ -104,9 +104,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $auth = Zend_Auth::getInstance();
         if ($auth->hasIdentity()) {
             $role = $auth->getIdentity();
-            $extManager = new Snep_Extensions();
-            $exten = $extManager->get($role);
-            $acl->addRole(new Zend_Acl_Role($role), $exten->getGroup());
+            if($role == "admin") {
+                $group = "administrator";
+            }
+            else {
+                $extManager = new Snep_Extensions();
+                $exten = $extManager->get($role);
+                $group = $exten->getGroup();
+            }
+            $acl->addRole(new Zend_Acl_Role($role), $group);
         } else {
             $role = "guest";
         }
