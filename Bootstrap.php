@@ -35,6 +35,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         return $view;
     }
 
+    /**
+     * Efetua a correção da baseUrl para os links adicionando index.php para que
+     * o sistema funcione mesmo que o servidor não esteja com mod_rewrite
+     * habilitado
+     */
+    protected function _initRouter() {
+        $front_controller = Zend_Controller_Front::getInstance();
+        $front_controller->setBaseUrl($_SERVER['SCRIPT_NAME']);
+    }
+
     protected function _initSnep() {
         $snepBoot = new Snep_Bootstrap_Web("includes/setup.conf");
         $snepBoot->specialBoot();
@@ -78,8 +88,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $roles = $db->fetchPairs("SELECT name, inherit FROM groups;");
 
         function addRole($role, $parent, $acl) {
-            if(!$acl->hasRole($role)) {
-                if(!$acl->hasRole($parent) && $parent !== null) {
+            if (!$acl->hasRole($role)) {
+                if (!$acl->hasRole($parent) && $parent !== null) {
                     addRole($parent, $roles['parent'], $acl);
                 }
                 $acl->addRole($role, $parent);
@@ -102,7 +112,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         }
 
         /* Políticas de controle de acesso */
-        if($acl->hasRole("admin")) {
+        if ($acl->hasRole("admin")) {
             $acl->allow('admin');
         }
 
