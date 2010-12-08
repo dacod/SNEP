@@ -1,0 +1,1 @@
+update groups set name='administrator' where name = 'admin';
