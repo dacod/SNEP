@@ -127,10 +127,11 @@ class Snep_Extensions {
     /**
      * Retorna todos os ramais do banco.
      *
-     * @return Snep_Exten[] array
+     * @return array
      */
     public function getAll() {
         $db = Zend_Registry::get('db');
+        $mode = $db->getFetchMode();
         $db->setFetchMode(Zend_Db::FETCH_OBJ);
 
         $select = $db->select('name')->from('peers')->where("peer_type='R' AND name != 'admin'");
@@ -142,6 +143,8 @@ class Snep_Extensions {
         foreach($raw_data as $row) {
             $extensions[] = $this->processExten( $row );
         }
+        
+        $db->setFetchMode($mode);
 
         return $extensions;
     }
