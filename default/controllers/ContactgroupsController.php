@@ -61,24 +61,11 @@ class ContactgroupsController extends Zend_Controller_Action {
         $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Contato");
 
         $form_xml = new Zend_Config_Xml("default/forms/group.xml");
-        $form = new Snep_Form();
-        $form->setAction( $this->getFrontController()->getBaseUrl() . '/default/contactgroups/add');
-
-        $subForm = new Snep_Form_SubForm( $this->view->translate("Incluir Grupo"), $form_xml->general );
         
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contactgroups/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_back);
-
-        $form->addSubForm($subForm, "subForm");
-
+        $form = new Snep_Form( $form_xml->general );
+        $form->setAction( $this->getFrontController()->getBaseUrl() . '/default/contactgroups/add');
+        $form->setButtom();
+        
         if ($this->getRequest()->getPost()) {
 
             $form_isValid = $form->isValid( $_POST );
@@ -105,29 +92,13 @@ class ContactgroupsController extends Zend_Controller_Action {
         $dados = Snep_Group_Manager::get($id);
 
         $form_xml = new Zend_Config_Xml("default/forms/group.xml");
-        $form = new Snep_Form();
+        $form = new Snep_Form( $form_xml->general );
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contactgroups/edit');
 
-        $subForm = new Snep_Form_SubForm($this->view->translate("Alterar Grupo"), $form_xml->general);
-
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contactgroups/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_back);
-
-        $grou_name = $subForm->getElement('name');
-        $grou_id = $subForm->getElement('id');
-
-        $grou_name->setValue($dados['name']);
-        $grou_id->setValue($dados['id']);
-
-        $form->addSubForm($subForm, "subForm");
+        $form->getElement('name')->setValue( $dados['name'] );
+        $form->getElement('id')->setValue( $dados['id'] );
+        
+        $form->setButtom();
 
         if ($this->_request->getPost()) {
 

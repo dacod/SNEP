@@ -67,30 +67,19 @@ class FieldController extends Zend_Controller_Action {
     }
         
     public function addAction() {
+        
     	$this->view->breadcrumb = $this->view->translate("Cadastro » Contatos » Campos");
    		
     	$form_xml = new Zend_Config_Xml("default/forms/contact_field.xml");
-        $form = new Snep_Form();
+
+        $form = new Snep_Form( $form_xml->general );
         $form->setAction( $this->getFrontController()->getBaseUrl() . "/field/add");
-        
-        $subForm = new Snep_Form_SubForm($this->view->translate("Inserir Campos"), $form_xml->general);
 
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/field/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
-        $subForm->addElement($bt_back);
-
-        $tipo = $subForm->getElement('type');
+        $tipo = $form->getElement('type');
         $tipo->setMultiOptions(array('Text' => 'Textbox',
                                      'Checkbox' => 'Checkbox' ) );
-        
-        $form->addSubForm($subForm, "subForm");
+
+        $form->setButtom();
         
         if ($this->_request->getPost()) {
 
@@ -116,7 +105,7 @@ class FieldController extends Zend_Controller_Action {
                 }
             }
         }
-        
+
         $this->view->form = $form;
     }
     public function editAction() {
@@ -128,36 +117,15 @@ class FieldController extends Zend_Controller_Action {
         $dados = Snep_Field_Manager::get($id);
 
         $form_xml = new Zend_Config_Xml("default/forms/contact_field.xml");
-        $form = new Snep_Form();
+        $form = new Snep_Form( $form_xml->general );
         $form->setAction($this->getFrontController()->getBaseUrl() . "/field/edit/id/$id");
 
-        $subForm = new Snep_Form_SubForm($this->view->translate("Altera Campo"), $form_xml->general);
+        $form->getElement('name')->setValue( $dados['name'] ) ;
+        $form->getElement('required')->setValue( $dados['required'] );
+        $form->getElement('type')->setMultiOptions( array('Text' => 'Textbox',
+                                                          'Checkbox' => 'Checkbox' ))->setValue($dados['type']);
 
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-        
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/field/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
-        $subForm->addElement($bt_back);
-
-        $name = $subForm->getElement('name');
-        $type_id = $subForm->getElement('type');
-        $required = $subForm->getElement('required');
-        
-        $name->setValue($dados['name']);
-        $required->setValue($dados['required']);
-        
-        $type = $subForm->getElement('type');
-        $type->setMultiOptions(array('Text' => 'Textbox',
-                                     'Checkbox' => 'Checkbox' ));
-
-        $type_id->setValue($dados['type']);
-        					   
-        $form->addSubForm($subForm, "subForm");
+        $form->setButtom();
 
         if ($this->getRequest()->isPost()) {
 

@@ -114,33 +114,19 @@ class ContactsController extends Zend_Controller_Action {
     }
     
     public function addAction() {
+
         $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
 
         $form_xml = new Zend_Config_Xml("default/forms/contacts.xml");
-        $form = new Snep_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/contacts/add');
 
-        $subForm = new Snep_Form_SubForm($this->view->translate("Inserir Contatos"), $form_xml->general);
+        $form = new Snep_Form( $form_xml->general );
+        $form->setAction( $this->getFrontController()->getBaseUrl() . '/contacts/add' );
+
+        $this->insertDynElements($form, null);
+
+        $form->getElement('group')->setMultiOptions( Snep_Group_Manager::getAll() );
         
-        $this->insertDynElements($subForm, null);
-
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contacts/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
-        $subForm->addElement($bt_back);
-
-        $grou_id = $subForm->getElement('group');
-
-        $groups = Snep_Group_Manager::getAll();
-        $grou_id->setMultiOptions($groups);
-        
-        $form->addSubForm($subForm, "subForm");
+        $form->setButtom();
 
         if ($this->_request->getPost()) {
             
@@ -152,23 +138,17 @@ class ContactsController extends Zend_Controller_Action {
                 $this->_redirect("/contacts/");
             }
         }
-
+        
         $this->view->form = $form;
     }
 
     public function csvAction() {
         $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
 
-        $form = new Zend_Form();
+        $form = new Snep_Form();
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contacts/csvprocess');
         $form->addElement(new Zend_Form_Element_File("contacts_csv", array("label" => $this->view->translate("Arquivo CSV"))));
-        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Enviar"))));
-
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contacts/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
-        $form->addElement($bt_back);
+        $form->setButtom();
 
         $this->view->form = $form;
     }
@@ -253,44 +233,23 @@ class ContactsController extends Zend_Controller_Action {
     
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
+        $this->view->breadcrumb = $this->view->translate( "Cadastro » Contatos" );
 
         $id = $this->_request->getParam('id');
 
-        $dados = Snep_Contact_Manager::get($id);
+        $dados = Snep_Contact_Manager::get( $id );
 
-        $form_xml = new Zend_Config_Xml("default/forms/contacts.xml");
-        $form = new Snep_Form();
-        $form->setAction( $this->getFrontController()->getBaseUrl() . "/contacts/edit/id/$id");
+        $form_xml = new Zend_Config_Xml( "default/forms/contacts.xml" );
+        $form = new Snep_Form( $form_xml->general );
+        $form->setAction( $this->getFrontController()->getBaseUrl() . "/contacts/edit/id/$id" );
 
-        $subForm = new Snep_Form_SubForm($this->view->translate("Altera Contatos"), $form_xml->general);
-       	
-        $this->insertDynElements($subForm, $id);
+        $this->insertDynElements($form, $id);
 
-        $bt_submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
-        $bt_submit->removeDecorator('DtDdWrapper');
-        $bt_submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $subForm->addElement($bt_submit);
-        
-        $bt_back = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Cancelar") ));
-        $bt_back->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/contacts/'");
-        $bt_back->removeDecorator('DtDdWrapper');
-        $bt_back->addDecorator('HtmlTag', array('tag' => 'dd'));
-        $subForm->addElement($bt_back);
-
-        $cont_name = $subForm->getElement('nameCont');
-        $phon_id = $subForm->getElement('phone');
-        $grou_id = $subForm->getElement('group');
-
-        $cont_name->setValue($dados['nameCont']);
-        $phon_id->setValue($dados['phone']);
-
-        $groups = Snep_Group_Manager::getAll();
-        $grou_id->setMultiOptions($groups);
-
-        $grou_id->setValue($dados['group']);
-
-        $form->addSubForm($subForm, "subForm");
+        $form->getElement('nameCont')->setValue( $dados['nameCont'] );
+        $form->getElement('phone')->setValue( $dados['phone'] );
+        $form->getElement('group')->setMultiOptions( Snep_Group_Manager::getAll() )->setValue( $dados['group'] );
+ 
+        $form->setButtom();
 
         if ($this->getRequest()->isPost()) {
 
