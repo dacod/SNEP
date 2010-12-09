@@ -28,6 +28,7 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
         switch ($method) {
             case "get":
                 $method = count($_GET) > 0 ? "get" : "index";
+                $data = (object) $_GET;
                 break;
             case "post":
             case "put":
@@ -50,7 +51,7 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
 
         try {
             header("Content-Type: application/json");
-            if($method == "post" || $method == "put") {
+            if($method == "post" || $method == "put" || $method == "get") {
                 $response = $this->{$method}($data);
             }
             else {
@@ -80,9 +81,10 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
     /**
      * HTTP GET Request com parâmetros
      *
+     * @param Object $data
      * @return array $response
      */
-    public function get() {
+    public function get($data) {
         throw new Snep_Rest_Exception_MethodNotAllowed();
     }
 
