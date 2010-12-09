@@ -38,7 +38,7 @@ body {
 #content {
     border: 1px solid #a4a7ab;
     font-size: 12px;
-    padding: 10px;
+    padding: 10px 0px 0px 0px;
 }
 
 #content tbody tr:hover {
@@ -163,8 +163,7 @@ button:hover, input[type=submit]:hover {
 
 form fieldset {
     padding: 15px 0px 10px 0px;
-    margin: 0px;
-    
+    margin: 0px 5px;    
     border-bottom: none;
     border-left: none;
     border-right: none;
@@ -642,7 +641,6 @@ ul#navmenu ul ul li.iehover ul {
 }
 .zend_form .menus {
     text-align:center;
-    border-top: 1px solid #d2d2d2;
-    border-bottom: 1px solid #d2d2d2;
-    padding: 5px 0;
+    border-top: 1px solid #d2d2d2;    
+    padding: 5px 0 0 0;
 }
