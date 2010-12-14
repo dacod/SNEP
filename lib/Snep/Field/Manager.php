@@ -31,7 +31,7 @@ class Snep_Field_Manager {
      * @return $registros
      */
     public static function get($id) {
-		$db = Zend_Registry::get('db');
+        $db = Zend_Registry::get('db');
         $select = $db->select()
                         ->from(array('c' => 'ad_contact_field'))
                         ->where('c.id = ?', $id);
@@ -110,6 +110,49 @@ class Snep_Field_Manager {
         $registros = $stmt->fetchAll();
 
         return $registros;
+    }
+
+    public function insertDynElements($subForm, $id)
+    {
+    	$value = true;
+    	if ( is_null( $id ) ) {
+    		$value = false;
+    	} else {
+    		$fields2 = Snep_Field_Manager::getFields($value, $id);
+    	}
+
+    	$fields = Snep_Field_Manager::getFields(false, null);
+
+        foreach ($fields as $f) {
+
+        	$element = $subForm->createElement($f['type'], $f['id'])
+						 ->setLabel($f['name'])
+						 ->setDecorators(array(
+            			 	'ViewHelper',
+            				'Description',
+            				'Errors',
+            				array(array('dd' => 'HtmlTag'), array('tag' => 'dd')),
+            				array('Label', array('tag' => 'dt')),
+            				array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class'=>'form_element'))
+        				));
+			$element->addValidators(array(
+    					array('NotEmpty', true)
+						));
+
+			if ($f['required']) {
+				$element->setRequired(true);
+			}
+			if ($value) {
+				foreach ($fields2 as $f2) {
+					if ($f2['name'] == $f['name']) {
+						$element->setValue($f2['value']);
+					}
+				}
+			}
+
+       		$subForm->addElement($element);
+        }
+
     }
     
 }

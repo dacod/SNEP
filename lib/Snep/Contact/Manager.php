@@ -58,12 +58,30 @@ class Snep_Contact_Manager {
         return $select;
     }
 
+    public static function getWithFields($id) {
+        
+        $db = Zend_Registry::get('db');
+        $select = $db->select()
+                        ->from(array('c' => 'ad_contact'), array('id as idCont', 'name as nameCont'))
+                        ->join(array('p' => 'ad_phone'), 'p.contact = c.id')
+                        ->join(array('gc' => 'ad_group_contact'), 'gc.contact = c.id ')
+                        ->join(array('g' => 'ad_group'), 'g.id = gc.group')
+                        ->where('c.id = ?', $id);
+
+        $stmt = $db->query($select);
+        $registros = $stmt->fetch();
+
+        return $registros; 
+
+    }
+
     /**
      * Insere um contato no banco de dados
      *
      * @param array $contacts
      */
     public static function add($contacts) {
+
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
 		
@@ -85,10 +103,10 @@ class Snep_Contact_Manager {
             while (list($key, $val) = each($contacts)) {
             	if (gettype($key) != 'string' ) {
 	            	$db->insert('ad_contact_field_value', array ('field' => $key, 
-            											 'contact' => $idContact,
-           												 'value' => $val));
+                                                                     'contact' => $idContact,
+                                                                     'value' => $val));
             	}
-			}
+            }
             
             $db->commit();
         } catch (Exception $ex) {
@@ -129,6 +147,7 @@ class Snep_Contact_Manager {
      * @param array $contact
      */
     public static function edit($contact) {
+
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
@@ -179,11 +198,12 @@ class Snep_Contact_Manager {
 
     // exclui campo
     public static function del($contact) {
+        
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
 
         try {
-        	$db->delete('ad_contact_field_value', "contact = $contact");
+            $db->delete('ad_contact_field_value', "contact = $contact");
             $db->delete('ad_group_contact', "contact = $contact");
             $db->delete('ad_phone', "contact = $contact");
             $db->delete('ad_contact', "id = $contact");
