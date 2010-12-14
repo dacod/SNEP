@@ -32,6 +32,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $acl->add(new Zend_Acl_Resource('index'));
         $acl->add(new Zend_Acl_Resource('auth'));
         $acl->add(new Zend_Acl_Resource('installer'));
+        $acl->add(new Zend_Acl_Resource('unknown'));
 
         // Default permissions
         $acl->deny('all');
