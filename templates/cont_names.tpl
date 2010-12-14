@@ -16,7 +16,7 @@
 *}
 {include file="cabecalho.tpl"}
 <table cellspacing="0" align="center" class="contorno">
-    <form name="formulario"  method="POST" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
+    <form name="formulario"  method="POST" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}">
         <tr>
             <td colspan="2" class="subtable"></td>
         </tr>
@@ -98,33 +98,6 @@
 </table>
 { include file="rodape.tpl }
 <script language="javascript" type="text/javascript">
-{literal}
-    document.forms[0].elements[0].focus() ;
-
-    function check_form() {
-        campos = new Array() ;
-        campos[0] = "{$LANG.name};"+document.formulario.name.value+";NOT_NULL;";
-        
-        if( $('phone_1').value == "" && $('cell_1').value == "") {
-            alert('Informe um telefone ou celular para o contato.');
-
-            if($('name').value == "") {
-                alert('Informe o nome do contato.');
-                return false;
-            }
-            return false;
-        }else{
-            if($('phone_1').value != "") {
-                campos[1] = "{$LANG.phones};"+document.formulario.phone_1.value+";NUM;";
-            }
-            if($('phone_1').value != "") {
-                campos[2] = "{$LANG.cells};"+document.formulario.cell_1.value+";NUM;";
-            }
-            return valida_formulario(campos) ;
-        }
-        
-    }
-{/literal}
 { include file="../includes/javascript/functions_smarty.js" }
 </script>
 <script type="text/javascript" src="../includes/javascript/fselects.js"></script>
