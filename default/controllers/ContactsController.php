@@ -256,9 +256,16 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->insertDynElements($form, $id);
 
+        $all_groups = Snep_Group_Manager::getAll();
+        $groups = array();
+        foreach($all_groups as $one_group) {
+            $groups[$one_group['id']] = $one_group['name'];
+        }
+
+
         $form->getElement('nameCont')->setValue( $dados['nameCont'] );
         $form->getElement('phone')->setValue( $dados['phone'] );
-        $form->getElement('group')->setMultiOptions( Snep_Group_Manager::getAll() )->setValue( $dados['group'] );
+        $form->getElement('group')->setMultiOptions( $groups )->setValue( $dados['group'] );
  
         $form->setButtom();
 
