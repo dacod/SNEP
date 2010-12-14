@@ -41,6 +41,13 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
                 }
                 break;
             case "delete":
+                $data = json_decode( file_get_contents("php://input") );
+                if($data === null) {
+                    header("Content-Type: text/plain");
+                    header("HTTP/1.1 400 Bad Request");
+                    echo "Bad Request: Invalid " . strtoupper($method) . " body";
+                    exit(1);
+                }
                 break;
             default:
                 header("Content-Type: text/plain");
@@ -51,21 +58,25 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
 
         try {
             header("Content-Type: application/json");
-            if($method == "post" || $method == "put" || $method == "get") {
+            if($method == "post" || $method == "put" || $method == "delete" || $method == "get") {
                 $response = $this->{$method}($data);
             }
             else {
                 $response = $this->{$method}();
             }
+            
             echo json_encode($response);
+
         } catch (Snep_Rest_Exception_HTTP $ex) {
             header("Content-Type: text/plain");
             header("HTTP/1.1 {$ex->getCode()} {$ex->getErrorMessage()}");
             echo $ex->getMessage();
+
         } catch (Exception $ex) {
             header("Content-Type: text/plain");
             header("HTTP/1.1 503 Server Error");
             echo $ex->getTraceAsString();
+
         }
     }
 
@@ -113,7 +124,7 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
      * 
      * @return array $response
      */
-    public function delete() {
+    public function delete($data) {
         throw new Snep_Rest_Exception_MethodNotAllowed();
     }
 
