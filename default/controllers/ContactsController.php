@@ -124,7 +124,13 @@ class ContactsController extends Zend_Controller_Action {
 
         Snep_Field_Manager::insertDynElements($form, null);
 
-        $form->getElement('group')->setMultiOptions( Snep_Group_Manager::getAll() );
+        $all_groups = Snep_Group_Manager::getAll();
+        $groups = array();
+        foreach($all_groups as $one_group) {
+            $groups[$one_group['id']] = $one_group['name'];
+        }
+
+        $form->getElement('group')->setMultiOptions( $groups );
         
         $form->setButtom();
 
