@@ -72,7 +72,7 @@ class ContactgroupsController extends Zend_Controller_Action {
             $dados = $this->_request->getParams();
 
             if ($form_isValid) {
-                $group = array('name' => $dados ['subForm']['name']);
+                $group = array('name' => $dados['name']);
 
                 $this->view->group = Snep_Group_Manager::add($group);
 
@@ -107,8 +107,8 @@ class ContactgroupsController extends Zend_Controller_Action {
 
             if ($form_isValid) {
 
-                $group = array('id' => $dados ['subForm']['id'],
-                    'name' => $dados ['subForm']['name']
+                $group = array('id' => $dados['id'],
+                               'name' => $dados['name']
                 );
 
                 $this->view->Group = Snep_Group_Manager::edit($group);
@@ -121,7 +121,7 @@ class ContactgroupsController extends Zend_Controller_Action {
     public function delAction() {
 
         $id = $this->_request->getParam('id');
-        $this->view->contacts = Snep_Group_Manager::del($id);
+        Snep_Group_Manager::del( $id );
         $this->_redirect("/contactgroups/");
     }
 

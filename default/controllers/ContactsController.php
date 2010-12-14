@@ -122,7 +122,7 @@ class ContactsController extends Zend_Controller_Action {
         $form = new Snep_Form( $form_xml->general );
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contacts/add' );
 
-        $this->insertDynElements($form, null);
+        Snep_Field_Manager::insertDynElements($form, null);
 
         $form->getElement('group')->setMultiOptions( Snep_Group_Manager::getAll() );
         
@@ -132,9 +132,9 @@ class ContactsController extends Zend_Controller_Action {
             
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
-			
+            
             if ($form_isValid) {
-                $this->view->contacts = Snep_Contact_Manager::add($dados['subForm']);
+                $this->view->contacts = Snep_Contact_Manager::add($dados);
                 $this->_redirect("/contacts/");
             }
         }
@@ -201,7 +201,12 @@ class ContactsController extends Zend_Controller_Action {
             $session = new Zend_Session_Namespace('ad_csv');
             $session->data = $csv;
 
-            $groups = Snep_Group_Manager::getAll();
+            $all_groups = Snep_Group_Manager::getAll();
+
+            $groups = array();
+            foreach($all_groups as $one_group) {
+                $groups[$one_group['id']] = $one_group['name'];
+            }
 
             $this->view->BaseUrl = $this->getFrontController()->getBaseUrl();
             $this->view->csvprocess = array_slice($csv,0,10);
@@ -257,7 +262,7 @@ class ContactsController extends Zend_Controller_Action {
             $dados = $this->_request->getParams();
 			
             if ($form_isValid) {            	
-                $contact = $dados['subForm'];
+                $contact = $dados;
                 $contact["id"] = $id;
 
                 $this->view->contacts = Snep_Contact_Manager::edit($contact);

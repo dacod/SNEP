@@ -88,9 +88,9 @@ class FieldController extends Zend_Controller_Action {
 
             if ($form_isValid) {
 
-                $fields = array('name' => $dados ['subForm']['name'],
-                                'type' => $dados ['subForm']['type'],
-                                'required' => $dados ['subForm']['required']
+                $fields = array('name' => $dados['name'],
+                                'type' => $dados['type'],
+                                'required' => $dados['required']
                 );                
                 $this->view->contacts = Snep_Contact_Manager::add_field($fields);
                 $this->_redirect("/field/");
@@ -98,7 +98,7 @@ class FieldController extends Zend_Controller_Action {
             }else{
 
                 $errors = $form->getErrors();
-                if(in_array('regexNotMatch', array_values($errors['subForm']['name']))) {
+                if(in_array('regexNotMatch', array_values($errors['name']))) {
                     $name = $subForm->getElement('name');                    
                     $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
 
@@ -134,14 +134,14 @@ class FieldController extends Zend_Controller_Action {
 			
             if ($form_isValid) {
             	
-                $fields = $dados['subForm'];
+                $fields = $dados;
                 $fields["id"] = $id;
                 $this->view->contacts = Snep_Field_Manager::edit($fields);
                 $this->_redirect("/field/");
             }else{
 
                 $errors = $form->getErrors();
-                if(in_array('regexNotMatch', array_values($errors['subForm']['name']))) {
+                if(in_array('regexNotMatch', array_values($errors['name']))) {
                     $name = $subForm->getElement('name');
                     $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
 
