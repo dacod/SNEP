@@ -23,12 +23,8 @@ class Snep_Group_Manager {
                 ->from ('ad_group');
 
         $stmt = $db->query ($select);
-        $row = $stmt->fetchAll();
-        
-        $groups = array();
-        foreach ($row as $group) {
-            $groups[$group['id']] = $group['name'];
-        }
+        $groups = $stmt->fetchAll();
+                
         return $groups;
     }
 
@@ -104,9 +100,9 @@ class Snep_Group_Manager {
         $db->beginTransaction();
 
         try {
-            $db->delete('ad_group', "id = $group");
-            $db->commit();
-            return true;
+            $db->delete("ad_group",  "id = $group" );
+            $db->commit();            
+            return true;            
         }
         catch(Exception $e) {
             $db->rollBack();
