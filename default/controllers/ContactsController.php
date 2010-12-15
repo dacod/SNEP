@@ -201,7 +201,7 @@ class ContactsController extends Zend_Controller_Action {
 
             $custom_fields = Snep_Field_Manager::getFields(false, null);
             foreach( $custom_fields as $fields ) {
-                $standard_fields[$fields['name']] = $fields['name'];
+                $standard_fields[$fields['id']] = $fields['name'];
             }
 
             $session = new Zend_Session_Namespace('ad_csv');
