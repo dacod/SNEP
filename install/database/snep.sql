@@ -753,46 +753,21 @@ CREATE TABLE `alertas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2008-08-12 16:58:45
-CREATE TABLE ad_campaign (
-    `id` integer primary key auto_increment,
-    `name` VARCHAR(50) not null,
-    `status` ENUM('stopped','running','paused','canceled','failed','completed','scheduled'),
-    `callerid` varchar(100) not null default "adialer",
-    `exten` varchar(100) not null default "camp",
-    `channels` integer not null default 1,
-    `currentProgress` integer,
-    `totalContacts` integer
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+DROP TABLE IF EXISTS `ad_group`;
 CREATE TABLE ad_group (
     `id` integer primary key auto_increment,
     `name` varchar(30) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ad_group_campaign (
-    `campaign` integer,
-    `group` integer,
-    primary key(`campaign`,`group`),
-    foreign key (`campaign`) references ad_campaign(`id`) on update cascade on delete cascade,
-    foreign key (`group`) references ad_group(`id`) on update cascade on delete restrict
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ad_contact`;
 CREATE TABLE ad_contact (
     `id` integer primary key auto_increment,
     `name` varchar(250)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ad_contact_field`;
 CREATE TABLE ad_contact_field (
 	`id` integer primary key auto_increment,
 	`name` varchar(30) not null,
@@ -800,6 +775,7 @@ CREATE TABLE ad_contact_field (
 	`required` tinyint(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ad_contact_field_value`;
 CREATE TABLE ad_contact_field_value (
 	`field` integer not null,
 	`contact` integer not null, 
@@ -808,6 +784,7 @@ CREATE TABLE ad_contact_field_value (
 	FOREIGN KEY (`field`) references ad_contact_field(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ad_group_contact`;
 CREATE TABLE ad_group_contact (
     `contact` integer,
     `group` integer,
@@ -816,6 +793,7 @@ CREATE TABLE ad_group_contact (
     foreign key (`contact`) references ad_contact(`id`) on update cascade on delete cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ad_phone`;
 CREATE TABLE ad_phone (
     `contact` integer not null,
     `phone` varchar(50) not null,
@@ -823,26 +801,3 @@ CREATE TABLE ad_phone (
     primary key (contact,phone),
     foreign key (`contact`) references ad_contact(`id`) on update cascade on delete cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_campaign_log (
-    `id` integer primary key auto_increment,
-    `date` DATETIME not null,
-    `name` VARCHAR(50) not null,
-    `callerid` varchar(100) not null default "adialer",
-    `exten` varchar(100) not null default "camp",
-    `status` ENUM('stopped','running','paused','canceled','failed','completed'),
-    `totalContacts` integer
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_campaign_log_detail (
-    `campaign` integer not null,
-    `date` DATETIME not null,
-    `contact` integer default null,
-    `phone` varchar(200) not null,
-    `status` varchar(200) not null,
-    `duration` integer not null,
-    `billsec` integer not null,
-    FOREIGN KEY (`campaign`) REFERENCES ad_campaign_log(`id`) ON DELETE RESTRICT,
-    FOREIGN KEY (`contact`) REFERENCES ad_contact(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
