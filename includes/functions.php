@@ -45,6 +45,7 @@ function display_template ($template, $smarty, $titulo="") {
     
     $smarty->assign('CSS_TEMPL', CSS_TEMPL);
     $smarty->assign('LOGO_CLIENTE', $logo_cliente);
+    $smarty->assign('PATH_WEB', $SETUP['system']['path.web']);
     $smarty->assign('LOGO_SNEP', $logo_snep);
     $smarty->assign('EMP_NOME', EMP_NOME);
     $smarty->assign('SIS_NOME', SIS_NOME);
