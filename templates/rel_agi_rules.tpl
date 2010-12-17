@@ -28,7 +28,7 @@
          <td class="esq" width="15%">{$LANG.destination}</td>
          <td class="esq">{$LANG.desc}</td>
          <td class="cen" width="5%">{$LANG.exec_order}</td>
-         <td class="cen" colspan="3" width="10%">{$LANG.actions}</td>
+         <td class="cen" colspan="4" width="10%">{$LANG.actions}</td>
       </tr>
    </thead>
    {section name=agi_rules loop=$DADOS}
@@ -42,6 +42,11 @@
          <td align="center" valign="middle">
             <acronym title="{$LANG.change}">
                <a href="agi_rules.php?acao=alterar&amp;id={$DADOS[agi_rules].codigo}"><img src="../imagens/edit.png" alt="{$LANG.change}" /></a>
+            </acronym>
+         </td>
+         <td align="center" valign="middle">
+            <acronym title="Duplicar">
+               <a href="agi_rules.php?acao=duplicar&amp;id={$DADOS[agi_rules].codigo}"><img src="../imagens/duplicate.gif" alt="Duplicar" /></a>
             </acronym>
          </td>
          <td valign="middle" align="center">

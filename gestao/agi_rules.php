@@ -123,7 +123,7 @@ HEAD;
      *
      * @param PBX_Rule $rule
      */
-    private function populateFromRule(PBX_Rule $rule) {
+    private function populateFromRule(PBX_Rule $rule, $copia) {
         $smarty = Zend_Registry::get('smarty');
         $srcList = $rule->getSrcList();
         $src = "origObj.addItem(" . count($srcList) . ");";
@@ -151,13 +151,13 @@ HEAD;
         $horario = $rule->getValidTimeList();
         $data = explode("-", $horario['0']);
 
-
         $smarty->assign('id', $rule->getId());
+
         $smarty->assign('dt_agirules',array("dst"=> $dst,
                 "src"=> $src,
                 "time"=>$time,
                 "record" => $rule->isRecording(),
-                "descricao" => $rule->getDesc(),
+                "descricao" => $copia.$rule->getDesc(),
                 "prioridade" => $rule->getPriority(),
                 "ordem => 0"));
         $listaDiasSemana = $rule->getValidWeekDays();
@@ -386,6 +386,7 @@ HEAD;
     }
 
     public function indexAction() {
+
         global $LANG;
         $smarty = Zend_Registry::get('smarty');
         $db = Zend_Registry::get('db');
@@ -435,6 +436,7 @@ HEAD;
         $smarty->assign ('OPCOES', $opcoes);
         $smarty->assign ('array_include_buttom',array("url" => "../gestao/agi_rules.php?acao=cadastrar", "display"  => "Nova Regra"));
         // Exibe template
+
         display_template("rel_agi_rules.tpl",$smarty,$titulo);
     }
 
@@ -479,7 +481,7 @@ HEAD;
                 unset($post['actions_order']);
 
                 $rule = $this->parseRuleFromPost($post);
-                $this->populateFromRule($rule);
+                $this->populateFromRule($rule, false);
             }
         }
         else {
@@ -548,7 +550,7 @@ HEAD;
             }
         }
 
-        $this->populateFromRule($rule);
+        $this->populateFromRule($rule, false);
         $smarty->assign('ACAO',"alterar&id=$id");
 
         if(!isset($actions)) {
@@ -557,6 +559,67 @@ HEAD;
         }
 
         $titulo = "Regras de Negócio -> Regra $id -> Alterar";
+        display_template("agi_rules.tpl",$smarty,$titulo);
+    }
+
+    public function duplicarAction() {
+        
+        global $LANG, $grupos;
+
+        $this->populateCommomFields();
+        $smarty = Zend_Registry::get('smarty');
+
+        $id = isset($post['id']) ? $post['id'] : $_GET['id'];
+        if (!$id) {
+            display_error($LANG['msg_notselect'],true);
+            exit;
+        }
+
+        try {
+            $rule = PBX_Rules::get($id);
+        }
+        catch(PBX_Exception_NotFound $ex) {
+            display_error("Não existe regra com o id '$id'");
+            exit(1);
+        }
+
+        if($_POST) {
+            if($this->isValidPost()) {
+                $new_rule = $this->parseRuleFromPost();
+                $new_rule->setId($id);
+                $new_rule->setActive($rule->isActive());
+
+                PBX_Rules::register($new_rule);
+                header("HTTP/1.1 303 See Other");
+                header("Location: ./agi_rules.php");
+            }
+            else {
+                $actions = "";
+                foreach ($this->forms as $form_id => $form) {
+                    $actions .= "addAction(" . json_encode(array(
+                            "id"     => $form_id,
+                            "status" => $form['status'],
+                            "type"   => $form['type'],
+                            "form"   => $form['formData']
+                            )) . ")\n";
+                }
+                $actions .= "setActiveAction($('actions_list').firstChild)\n";
+                $smarty->assign('RULE_ACTIONS', $actions);
+                $smarty->assign('ERROR', true);
+            }
+        }
+
+        $copia = "Cópia de ";
+
+        $this->populateFromRule($rule,$copia);
+        $smarty->assign('ACAO',"duplicar&id=$id");
+
+        if(!isset($actions)) {
+            $actions = "getRuleActions({$rule->getId()});\n";
+            $smarty->assign('RULE_ACTIONS',$actions);
+        }
+
+        $titulo = "Regras de Negócio -> Regra $id -> Duplicar";
         display_template("agi_rules.tpl",$smarty,$titulo);
     }
 
@@ -590,6 +653,8 @@ if ($acao == "cadastrar") {
     $routeController->addAction();
 } elseif ($acao ==  "alterar") {
     $routeController->editAction();
+} elseif ($acao ==  "duplicar") {
+    $routeController->duplicarAction();
 } elseif ($acao ==  "grava_alterar") {
     $routeController->editAction();
 } elseif ($acao ==  "excluir") {
