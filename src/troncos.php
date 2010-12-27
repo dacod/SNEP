@@ -132,7 +132,7 @@ function principal() {
 function cadastrar() {
     global $LANG, $db, $dtmf_dial, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
+    global $nat, $peer_type, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -206,7 +206,7 @@ function cadastrar() {
         else {
             $nat = 'no';
         }
-        
+
         // Monta lista campos Default
         foreach( $def_campos_troncos as $key => $value ) {
             $sql_fields_default .= ",$key";
@@ -289,7 +289,7 @@ function cadastrar() {
             $sql.= "name,callerid,context,secret,type,allow,username,";
             $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify, nat ".$sql_fields_default ;
             $sql.= ") values (";
-            $sql.=  "'$name','$callerid','$context','$secret','peer','$allow',";
+            $sql.=  "'$name','$callerid','$context','$secret','$peer_type','$allow',";
             $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes', '$qualify', '$nat' ";
             $sql.= $sql_values_default.")" ;
             $db->exec($sql) ;
@@ -363,6 +363,8 @@ function alterar() {
     }
     $trunk['qualify'] = $peer['qualify'];
 
+    $trunk['peer_type'] = $peer['type'];
+    
     $trunk['nat'] = $peer['nat'] == "yes" ? true : false;
 
     // Retira o tronco atual da lista de troncos para redundancia
@@ -380,7 +382,7 @@ function alterar() {
 ------------------------------------------------------------------------------*/
 function grava_alterar() {
     global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
-    global $nat, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
+    global $nat, $peer_type, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
 
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
@@ -521,7 +523,7 @@ function grava_alterar() {
             $sql = "UPDATE peers ";
             $sql.=" SET fromdomain='$fromdomain', fromuser='$fromuser' ,callerid='$callerid', context='$context',secret='$secret',";
             $sql.= "type='peer', nat='$nat', allow='$allow',host='$host_trunk'," ;
-            $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel',qualify='$qualify'" ;
+            $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel',qualify='$qualify', type='$peer_type'" ;
             $sql.= " WHERE name='$name'" ;
             $db->exec($sql) ;
         }
