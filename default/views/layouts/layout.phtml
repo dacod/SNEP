@@ -9,7 +9,9 @@
 </head>
 <body>
     <div id="header">
-        <img src="<?php echo $this->baseUrl(); ?>/imagens/snep_logo.png" alt="SNEP" id="snep_logo" />
+        <a href="<?php echo Zend_Registry::get('config')->system->path->web; ?>/src/sistema.php" alt="inicio" title="inicio">
+            <img src="<?php echo $this->baseUrl(); ?>/imagens/snep_logo.png" alt="SNEP" id="snep_logo" />
+        </a>
     </div>
     <?php if(!$this->hideMenu): ?>
     <div id="menu">

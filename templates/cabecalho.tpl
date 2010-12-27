@@ -83,7 +83,9 @@
    <table style="border: none; padding: 0 ; margin: 0; width: 100%;" cellpadding="0" cellspacing="0">
       <tr>
          <td style="border: none; padding: 0 ; margin: 0">
-            <img src="{$LOGO_CLIENTE.name}" width="{$LOGO_CLIENTE.width}" height="{$LOGO_CLIENTE.height}" border="0" alt="" align="top">
+             <a href="{$PATH_WEB}/src/sistema.php" alt="inicio" title="inicio">
+                 <img src="{$LOGO_CLIENTE.name}" width="{$LOGO_CLIENTE.width}" height="{$LOGO_CLIENTE.height}" border="0" alt="" align="top">
+             </a>
          </td>
          <td style="border: none; padding: 0 ; margin: 0">
             <img src="{$LOGO_SNEP.name}" width="{$LOGO_SNEP.width}" height="{$LOGO_SNEP.height}" border="0" alt="" align="top">
