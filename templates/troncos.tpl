@@ -149,6 +149,13 @@
            </td>
         </tr>
         <tr>
+           <td class="formlabel">{$LANG.peer_type}:</td>
+           <td class="subtable">
+               <input type="radio" name="peer_type" id="peer_type" value="peer" {if $dt_troncos.peer_type == 'peer'} checked {/if} > Peer
+               <input type="radio" name="peer_type" id="peer_type" value="friend"  {if $dt_troncos.peer_type == 'friend'} checked {/if} > Friend
+           </td>
+        </tr>
+        <tr>
            <td class="formlabel" style="vertical-align: top;">{$LANG.advancedoptions}:</td>
            <td class="subtable">
                <input type="checkbox" name="reverseAuth" id="reverseAuth" {if $dt_troncos.reverseAuth}checked="checked"{/if} /> <label for="reverseAuth">{$LANG.force_reverse_auth}</label><br/>
