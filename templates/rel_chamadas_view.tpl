@@ -190,6 +190,7 @@
                   <td class="{$classe}">{$DADOS[chamadas].dia}</td>
                   <td class="{$classe}">{formata->fmt_telefone a=$DADOS[chamadas].src}</td>
                   <td class="{$classe}">{formata->fmt_telefone a=$DADOS[chamadas].dst}</td>
+                  {assign var="disposition" value=$DADOS[chamadas].disposition}
                      <td class="{$classe}">{$TIPOS_DISP.$disposition}</td>
                      <td class="{$classe}" align="center">
                         {if #typetime# == "S"}
@@ -223,6 +224,7 @@
                         {/if}
                      </td>
                   {/if}
+                  
 
                   {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
