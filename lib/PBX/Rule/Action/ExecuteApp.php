@@ -61,7 +61,7 @@ class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
         $application  = (isset($this->config['application']))?"<value>{$this->config['application']}</value>":"";
         if( isset($this->config['parameters']) ) {
             $parameters = str_replace(array("<",">"), array("&lt;", "&gt;"), $this->config['parameters']);
-            $parameters = "<value>$parameters</value>";
+            $parameters = "<value><![CDATA[$parameters]]></value>";
         }
         else {
             $parameters = "";
