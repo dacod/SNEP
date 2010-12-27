@@ -49,7 +49,7 @@
  } elseif ($acao ==  "alterar") {
     $titulo = $LANG['menu_config']." -> ".$LANG['menu_sounds']." -> ".$LANG['change'];
     if ($secao)
-       $titulo = $LANG['menu_config']." -> ".$LANG['menu_sounds']." ".$LANG['ofa']." ".$LANG['section']." : ".$secao." -> ".$LANG['change'];
+       $titulo = $LANG['menu_config']." -> ".$LANG['menu_sounds']." ".$LANG['ofa']." ".$tLANG['section']." : ".$secao." -> ".$LANG['change'];
     alterar() ;
  } elseif ($acao ==  "grava_alterar") {
     grava_alterar() ;
@@ -81,6 +81,7 @@ function principal()  {
 ------------------------------------------------------------------------------*/
 function cadastrar()  {
    global $LANG, $db, $arquivo, $descricao, $file, $path_sounds, $convertgsm, $tipo;
+
    // Variaiveis para maniputar Musicas em Espera  
    if (isset($_POST['secao']) && strlen($_POST['secao']) > 0) {
       $secao = $_POST['secao']  ;  
@@ -98,6 +99,8 @@ function cadastrar()  {
    $UPL = $_FILES['file']['name'] != "" ? True : False ;
    if ($UPL) {
       $file = $_FILES['file'];
+      $file['name']= str_replace(' ', '_',  $file['name']);
+      $arquivo= str_replace(' ', '_',  $arquivo);
       // Verifica se ja nao tem arquivo com este nome no BD
       try {
          $sql = "SELECT arquivo FROM sounds WHERE (arquivo='$arquivo'" ;
@@ -115,12 +118,13 @@ function cadastrar()  {
       $arq_tmp = $path_sounds."/tmp/".$file["name"] ;
       $arq_dst = $path_sounds."/".$file["name"] ;
       $arq_bkp = $path_sounds."/backup/".$file["name"] ;
-      
+
       // Move upload para tmp
       if (!move_uploaded_file($file["tmp_name"], $arq_tmp)){         
          display_error($LANG['msg_errmovetmp'].": ".$file['tmp_name'].' -> '.$file['name'], true) ;
          exit();
       }
+
       // Move Arquivo do tmp para o dir path_sounds, faz backup se ja
       // existir arquivo com mesmo nome
       $result = move_arquivo($arq_tmp, $arq_dst, $arq_bkp) ;
@@ -302,7 +306,7 @@ function alterar()  {
       $tmp['backup'] = True ;
       $tmp['arq_backup'] = $dir_sounds."backup/".$arquivo ;
    }
-   $row += $tmp ;
+   $row += $tmp;
    $smarty->assign('ACAO',"grava_alterar") ;
    $smarty->assign('dt_sounds',$row);
    display_template("sounds.tpl",$smarty,$titulo);
@@ -335,7 +339,8 @@ function grava_alterar()  {
       $ext_novo  = strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
       $arquivo = $nome_original ;
       $arq_bkp = $path_sounds."/backup/".$nome_original ;      
-      
+
+
       // Se as ext forem iguais , mantem o nome do arquivo atual
       if ($ext_atual === $ext_novo) {
          $arq_dst = $path_sounds."/".$nome_original ;
@@ -418,9 +423,9 @@ function grava_alterar()  {
      $db->commit();
      if (!$DEBUG)
         if ($secao === "")
-           echo "<meta http-equiv='refresh' content='0;url=../src/rel_sounds.php'>\n" ;
+           echo "<meta http-equiv='refresh' content='0;url=../src/rel_musiconhold.php'>\n" ;
         else
-           echo "<meta http-equiv='refresh' content='0;url=../gestao/musiconhold.php?acao=listar'>\n";
+           echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_musiconhold.php'>\n";
    } catch (Exception $e) {
      $db->rollBack();
      display_error($LANG['error'].$e->getMessage(),true) ;
@@ -437,37 +442,25 @@ function excluir()  {
       display_error($LANG['msg_notselect'],true) ;
       exit ;
    }
-   try {
-      $sql = "DELETE FROM sounds WHERE arquivo='".$arquivo."'";
-      $sql.= " AND tipo='$tipo' AND secao='$secao'" ;
-      $db->beginTransaction() ;
-      $db->exec($sql) ;
-      $db->commit();
-      display_error($LANG['msg_excluded'],true) ;
-      if ($secao == "")
-         echo "<meta http-equiv='refresh' content='0;url=../src/rel_sounds.php'>\n" ;
-      else
-           echo "<meta http-equiv='refresh' content='0;url=../gestao/musiconhold.php?acao=listar'>\n";
-   } catch (PDOException $e) {
-      display_error($LANG['error'].$e->getMessage(),true) ;
-   }     
-   // Se for Arquivo de MOH, apaga tudo que tiver o mesmo nome,
-   // idepenente da extensao
    if (isset($_SESSION['secao'])) {
       $row = $_SESSION['secao']  ;
       $secao = $row['secao'];
       $tipo = 'MOH';
       $dir = $row['diretorio'] ;
+   }
+
+   // Se for Arquivo de MOH, apaga tudo que tiver o mesmo nome,
+   // idepenente da extensao      
       $comando = "rm -f $dir/".pathinfo($atual,PATHINFO_FILENAME).".* " ;
-      $comando.= " $dir/backup/".pathinfo($atual,PATHINFO_FILENAME).".* " ;      
+      $comando.= " $dir/backup/".pathinfo($atual,PATHINFO_FILENAME).".* " ;
       $result = exec("$comando 2>&1",$out,$err) ;
       if ($err) {
-         display_error($LANG['msg_errdelbackup'].$arq_atual,true) ;
+         display_error('HAHA'.$LANG['msg_errdelbackup'].$arq_atual,true) ;
          exit ;
       }
-   } else {
+    else {
       $secao =  "" ;
-      $tipo = $_POST['tipo'] ;
+      $tipo = isset( $_POST['tipo'])? $_POST['tipo'] : '';
       // Apaga Arquivo de Backup, se Existir
       $arq_bkp = $_POST['backup'];
       if (file_exists($arq_bkp)) {
@@ -479,5 +472,25 @@ function excluir()  {
          }      
       }
    }
+    if (isset($_SESSION['secao'])) {
+      $row = $_SESSION['secao']  ;
+      $secao = $row['secao'];
+      $tipo = 'MOH';
+      $dir = $row['diretorio'] ;
 
+       try {
+          $sql = "DELETE FROM sounds WHERE arquivo='".$arquivo."'";
+          $sql.= " AND tipo='$tipo' AND secao='$secao'" ;
+          $db->beginTransaction() ;
+          $db->exec($sql) ;
+          $db->commit();
+          display_error($LANG['msg_excluded'],true) ;
+          if ($secao == "")
+             echo "<meta http-equiv='refresh' content='0;url=../src/rel_musiconhold.php'>\n" ;
+          else
+             echo "<meta http-equiv='refresh' content='0;url=../gestao/rel_musiconhold.php'>\n";
+       } catch (PDOException $e) {
+          display_error($LANG['error'].$e->getMessage(),true) ;
+       }
+   }
 }
