@@ -37,7 +37,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         // Default permissions
         $acl->deny('all');
         $acl->allow('users');
-        
+
         $acl->allow(null,'auth');
         $acl->allow(null,'error');
         $acl->allow(null,'installer');
@@ -86,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         $view->headLink()->setStylesheet($view->baseUrl() . "/css/main.css");
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/prototype.js", 'text/javascript');
+        $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/functions.js", 'text/javascript');
 
         // Return it, so that it can be stored by the bootstrap
         return $view;
