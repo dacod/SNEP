@@ -191,19 +191,6 @@
                   <td class="{$classe}">{formata->fmt_telefone a=$DADOS[chamadas].src}</td>
                   <td class="{$classe}">{formata->fmt_telefone a=$DADOS[chamadas].dst}</td>
                   {assign var="disposition" value=$DADOS[chamadas].disposition}
-                  {if $DADOS[chamadas].qtdade > 1 && $DADOS[chamadas].userfield != ""}
-                       <td class="{$classe}" colspan="4">
-                          {if $DADOS[chamadas].qtdade > 1}
-                             {if $DADOS[chamadas].userfield != ""}
-                                 <a href="#" class="mais"  id="more{$smarty.section.chamadas.index+1}"  onclick="moreinfo('{$DADOS[chamadas].userfield}', '{$smarty.section.chamadas.index+1}','{$VIEW_TARIF}');">
-                                   <span  >{$LANG.detail}</span>
-                                    </a>
-                             {/if}
-                          {else}
-                             N.A.
-                          {/if}
-                       </td>
-                  {else}
                      <td class="{$classe}">{$TIPOS_DISP.$disposition}</td>
                      <td class="{$classe}" align="center">
                         {if #typetime# == "S"}
@@ -237,7 +224,7 @@
                         {/if}
                      </td>
                   {/if}
-                  {/if}
+
 
                   {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
@@ -246,7 +233,7 @@
                         {if $voz != "N.D."}
                            {if $VIEW_FILES == "yes"}
                               <input type="checkbox"  value="{$voz}">
-                              {if $quebra == "True"}                                 
+                              {if $quebra == "True"}
                                  {assign var="classe" value=""}
                               {/if}
                            {/if}
