@@ -43,7 +43,7 @@ class PBX_Trunks {
      * @return Array com todos os usuarios do snep.
      */
     public static function getAll() {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select('id')
         ->from('trunks')
@@ -67,7 +67,7 @@ class PBX_Trunks {
      * @param int $id Numero do tronco a ser obtido
      */
     public static function get($id) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select()->from('trunks')->where("id = $id");
         $stmt = $db->query($select);
