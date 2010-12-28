@@ -95,7 +95,7 @@ class PBX_Interfaces {
      * @return object Objeto que representa o dono da interface (se houver)
      */
     public static function getChannelOwner($channel) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select()
                      ->from('trunks');
@@ -183,3 +183,4 @@ class PBX_Interfaces {
         throw new Exception("Nao suportado por essa versao do snep");
     }
 }
+
