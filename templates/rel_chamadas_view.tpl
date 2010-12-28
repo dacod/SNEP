@@ -224,7 +224,7 @@
                         {/if}
                      </td>
                   {/if}
-                  
+
 
                   {if $VIEW_FILES == "yes"}
                   <td class="{$classe}" style="text-align:center">
@@ -233,7 +233,7 @@
                         {if $voz != "N.D."}
                            {if $VIEW_FILES == "yes"}
                               <input type="checkbox"  value="{$voz}">
-                              {if $quebra == "True"}                                 
+                              {if $quebra == "True"}
                                  {assign var="classe" value=""}
                               {/if}
                            {/if}
