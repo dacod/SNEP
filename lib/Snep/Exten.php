@@ -52,7 +52,7 @@ class Snep_Exten extends Snep_Usuario {
     /**
      * Interface de comunicação fisica com o ramal.
      *
-     * @var Interface objeto que herda a classe Interface
+     * @var PBX_Asterisk_Interface objeto que herda a classe Interface
      */
     private $interface;
 
