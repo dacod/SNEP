@@ -41,10 +41,10 @@ $logdir = $config['system']['path.base'] . "/log";
 unset($config);
 
 require_once 'Snep/Config.php';
-Snep_Config::setConfigFile(APPLICATION_PATH . '/includes/setup.conf');
+Snep_Config::setConfigFile($config_file);
 
 require_once "Snep/Bootstrap/Agi.php";
-$bootstrap = new Snep_Bootstrap_Agi();
+$bootstrap = new Snep_Bootstrap_Agi($config_file);
 $bootstrap->boot();
 
 $asterisk = Zend_Registry::get('asterisk');
