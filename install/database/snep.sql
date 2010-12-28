@@ -28,8 +28,6 @@ GRANT ALL PRIVILEGES ON `snep25` . * TO 'snep'@'localhost';
 
 FLUSH PRIVILEGES ; 
 
-CREATE DATABASE IF NOT EXISTS `snep25` ; 
-GRANT ALL PRIVILEGES ON `snep25` . * TO 'snep'@'localhost'; 
 USE snep25;
 
 --
