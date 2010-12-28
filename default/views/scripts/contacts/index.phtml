@@ -9,7 +9,6 @@ echo $this->render('filter.phtml') ?>
       <tr>
          <th width="50">  <?php echo $this->translate('Código') ?> </th>
          <th> <?php echo $this->translate('Contato') ?> </th>
-         <th> <?php echo $this->translate('Telefone') ?> </th>
          <th> <?php echo $this->translate('Grupo') ?> </th>
          <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?>  </th>
       </tr>
@@ -24,7 +23,6 @@ echo $this->render('filter.phtml') ?>
             <tr class="c<?php echo $c ?>">
                 <td> <b> <?php echo $val['idCont'] ?> </b> </td>
                 <td> <?php echo $val['nameCont'] ?> </td>
-                <td> <?php echo $val['phone'] ?> </td>
                 <td> <?php echo $val['name'] ?> </td>
                 <td class="action">
                     <a class="alterar" href='<?php echo $this->BaseUrl ?>/contacts/edit/id/<?php echo $val['idCont'] ?>'>

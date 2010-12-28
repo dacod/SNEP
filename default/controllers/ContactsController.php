@@ -1,15 +1,33 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of
+ *  the License, or (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
 /**
- * Description of ConfigController
+ * Controlador Contatos
  *
+ * @see 
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author guax
+ *
  */
+
 class ContactsController extends Zend_Controller_Action {
 
     public function indexAction() {
@@ -26,7 +44,6 @@ class ContactsController extends Zend_Controller_Action {
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
-
 
         $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($contactsFilter);
         $paginator = new Zend_Paginator($paginatorAdapter);
@@ -70,77 +87,61 @@ class ContactsController extends Zend_Controller_Action {
                                            "css" => "includes") );
     }
 
-    private function insertDynElements($subForm, $id)
-    {
-    	$value = true;
-    	if ( is_null( $id ) ) {
-    		$value = false;
-    	} else {
-    		$fields2 = Snep_Field_Manager::getFields($value, $id);
-    	}
-    	
-    	$fields = Snep_Field_Manager::getFields(false, null);
-    	
-        foreach ($fields as $f) {
-        	
-        	$element = $subForm->createElement($f['type'], $f['id'])
-						 ->setLabel($f['name'])
-						 ->setDecorators(array(
-            			 	'ViewHelper',
-            				'Description',
-            				'Errors',
-            				array(array('dd' => 'HtmlTag'), array('tag' => 'dd')),
-            				array('Label', array('tag' => 'dt')),
-            				array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class'=>'form_element'))
-        				));
-			$element->addValidators(array(
-    					array('NotEmpty', true)
-						));
-
-			if ($f['required']) {
-				$element->setRequired(true);
-			}
-			if ($value) {
-				foreach ($fields2 as $f2) {
-					if ($f2['name'] == $f['name']) {
-						$element->setValue($f2['value']);
-					}
-				}
-			}
-			        					  
-       		$subForm->addElement($element);
-        }
-        
-    }
-    
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
+        $this->view->pathweb = Zend_Registry::get('config')->system->path->web;        
 
+        // Campos padrão do formulário
         $form_xml = new Zend_Config_Xml("default/forms/contacts.xml");
 
         $form = new Snep_Form( $form_xml->general );
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contacts/add' );
 
+        // Adiciona os campos customizados ao form.
         Snep_Field_Manager::insertDynElements($form, null);
 
+        // Pega grupos de contatos
         $all_groups = Snep_Group_Manager::getAll();
         $groups = array();
         foreach($all_groups as $one_group) {
             $groups[$one_group['id']] = $one_group['name'];
         }
-
+        // Seta valores para grupos
         $form->getElement('group')->setMultiOptions( $groups );
-        
+
+        // Cria elemento com lista ordenada dinamicamente
+        $phone = new Snep_Form_Element_Phones("Phones", array('label' => 'Phone' ));
+        // Insere elemento ao form
+        $form->addElement($phone);
+
+        // Seta barra de menu padrão dos formulários.
         $form->setButtom();
 
         if ($this->_request->getPost()) {
             
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
-            
+
+            // Filtra numeros de telefones, remove letras e caracteries especiais
+            $phones = array();
+            $valid_number = new Zend_Validate_Digits();
+
+            foreach( $_POST['phones'] as $k => $phone ) {
+
+                if($valid_number->isValid( $phone ) ) {
+                    $phones[] = filter_var($phone,FILTER_SANITIZE_NUMBER_INT);
+
+                }else{
+                    $form_isValid = false;
+                    $this->view->number_error = $this->view->translate("Telefones devem conter somente números.");
+                }                
+            }
+            $dados['phones'] = $phones;
+
+            // Se válido, adiciona o mesmo.
             if ($form_isValid) {
-                $this->view->contacts = Snep_Contact_Manager::add($dados);
+                Snep_Contact_Manager::add($dados);
                 $this->_redirect("/contacts/");
             }
         }
@@ -165,12 +166,11 @@ class ContactsController extends Zend_Controller_Action {
         $adapter = new Zend_File_Transfer_Adapter_Http();
 
         if (!$adapter->isValid()) {
-            return new ErrorException("Formato de arquivo invalido");
-            //echo "Formato de arquivo invalido";
+            return new ErrorException("Formato de arquivo invalido");        
             exit;
+
         } else {
             $adapter->receive();
-
             $fileName = $adapter->getFileName();
 
             $handle = fopen($fileName, "r");
@@ -225,18 +225,26 @@ class ContactsController extends Zend_Controller_Action {
         if($this->getRequest()->isPost()) {
             $session = new Zend_Session_Namespace('ad_csv');
             $fields = $_POST['field'];
-
+            
             foreach ($session->data as $contact) {
                 $contactData = array();
                 foreach ($contact as $column => $data) {
+
                     if($fields[$column] != "discard") {
-                        $contactData[$fields[$column]] = $data;
+
+                        if($fields[$column] == "phone") {
+                            $contactData['phones'][] = $data;
+                        }else{
+                            $contactData[$fields[$column]] = $data;
+
+                        }                        
                     }
                 }
                 $contactData['group'] = $_POST['group'];
                 Snep_Contact_Manager::add($contactData);
-
+                print_r($contactData);
             }
+            
         }
 
         $this->_redirect("contacts");
@@ -245,16 +253,22 @@ class ContactsController extends Zend_Controller_Action {
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate( "Cadastro » Contatos" );
+        $this->view->pathweb = Zend_Registry::get('config')->system->path->web;
 
         $id = $this->_request->getParam('id');
 
         $dados = Snep_Contact_Manager::get( $id );
 
+        // Pega telefones do id referido.
+        $this->view->phones = Snep_Contact_Manager::getPhones( $id );
+
+        // Formulario padrao da rotina
         $form_xml = new Zend_Config_Xml( "default/forms/contacts.xml" );
         $form = new Snep_Form( $form_xml->general );
         $form->setAction( $this->getFrontController()->getBaseUrl() . "/contacts/edit/id/$id" );
 
-        $this->insertDynElements($form, $id);
+        // Insere no form campos customizados
+        Snep_Field_Manager::insertDynElements($form, $id);
 
         $all_groups = Snep_Group_Manager::getAll();
         $groups = array();
@@ -262,11 +276,16 @@ class ContactsController extends Zend_Controller_Action {
             $groups[$one_group['id']] = $one_group['name'];
         }
 
-
         $form->getElement('nameCont')->setValue( $dados['nameCont'] );
-        $form->getElement('phone')->setValue( $dados['phone'] );
         $form->getElement('group')->setMultiOptions( $groups )->setValue( $dados['group'] );
- 
+
+        // Cria elemento com lista ordenada dinamicamente
+        $phone = new Snep_Form_Element_Phones("Phones", array('label' => 'Phone' ));
+
+        // Insere elemento no form
+        $form->addElement($phone);
+
+        // Insere botões padrão do form
         $form->setButtom();
 
         if ($this->getRequest()->isPost()) {
@@ -274,12 +293,32 @@ class ContactsController extends Zend_Controller_Action {
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
 			
-            if ($form_isValid) {            	
+            if ($form_isValid) {
                 $contact = $dados;
                 $contact["id"] = $id;
 
-                $this->view->contacts = Snep_Contact_Manager::edit($contact);
-                $this->_redirect("/contacts/");
+                // Filtra numeros de telefones, remove letras e caracteries especiais
+                $phones = array();
+                $valid_number = new Zend_Validate_Digits();
+
+                foreach( $_POST['phones'] as $k => $phone ) {
+
+                    if($valid_number->isValid( $phone ) ) {
+                        $phones[] = filter_var($phone,FILTER_SANITIZE_NUMBER_INT);
+
+                    }else{
+                        $form_isValid = false;
+                        $this->view->number_error = $this->view->translate("Telefones devem conter somente números.");
+                    }
+                }
+                $dados['phones'] = $phones;
+
+                // Se válido, adiciona o mesmo.
+                if ($form_isValid) {
+                    $this->view->contacts = Snep_Contact_Manager::edit($contact);
+                    $this->_redirect("/contacts/");
+                }
+                
             }
         }
         $this->view->form = $form;

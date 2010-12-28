@@ -17,13 +17,6 @@
                     </validators>
                 </options>
             </nameCont>
-            <phone>
-                <type>text</type>
-                <options>
-                    <label>Telefone</label>
-                    <required>true</required>
-                </options>
-            </phone>
             <group>
                 <type>select</type>
                 <options>

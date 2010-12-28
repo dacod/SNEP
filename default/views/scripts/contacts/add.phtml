@@ -1,6 +1,19 @@
+<script type="text/javascript" src="<?php echo $this->pathweb ?>/includes/javascript/scriptaculous/src/scriptaculous.js"></script>
+<script type="text/javascript" src="<?php echo $this->pathweb ?>/includes/javascript/scriptaculous/src/effects.js"></script>
+<script type="text/javascript" src="<?php echo $this->pathweb ?>/includes/javascript/scriptaculous/src/dragdrop.js"></script>
+<script type="text/javascript" src="<?php echo $this->pathweb ?>/includes/javascript/contacts.js"></script>
 
-<?php
+<?php if( $this->number_error ) : ?>
+    <div class="error_box">
+        <?php echo $this->number_error ?>
+    </div>
+<?php endif ?>
 
-echo $this->form;
+<?php echo $this->form ?>
 
-?>
+<script type="text/javascript">
+   newphone();   
+   window.onload = function() {
+       resortable();
+   }
+</script>

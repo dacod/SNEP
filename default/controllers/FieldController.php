@@ -98,8 +98,13 @@ class FieldController extends Zend_Controller_Action {
             }else{
 
                 $errors = $form->getErrors();
-                if(in_array('regexNotMatch', array_values($errors['name']))) {
-                    $name = $subForm->getElement('name');                    
+
+                echo "<pre>";
+                print_r($errors);
+                exit;
+
+                if( in_array('regexNotMatch', array_values( $errors['name'] ) ) ) {
+                    $name = $form->getElement('name');
                     $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
 
                 }
@@ -142,7 +147,7 @@ class FieldController extends Zend_Controller_Action {
 
                 $errors = $form->getErrors();
                 if(in_array('regexNotMatch', array_values($errors['name']))) {
-                    $name = $subForm->getElement('name');
+                    $name = $form->getElement('name');
                     $name->setErrorMessages( array( $this->view->translate("Nome do campo não pode conter caracteres acentuados e espaços em branco.") ) );
 
                 }

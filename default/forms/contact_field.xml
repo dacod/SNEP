@@ -9,9 +9,9 @@
                     <required>true</required>
                     <validators>
                         <date>
-                            <validator>Alnum</validator>
+                            <validator>Alpha</validator>
                             <options>
-                                <allowWhiteSpace>true</allowWhiteSpace>
+                                <allowWhiteSpace>false</allowWhiteSpace>
                             </options>
                         </date>
                         <regex>

@@ -1,19 +1,44 @@
 <?php
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of
+ *  the License, or (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
 
 /**
  * Manutenção registro referente contatos
  *
- * @author elton
+ * @see Snep_Contact_Manager
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Elton Santana <elton@opens.com.br>
+ *
  */
+
 class Snep_Contact_Manager {
 
-    // retorna todos contatos
+    /*
+     *  retorna todos contatos
+     */
     public static function getAll() {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
                         ->from(array('c' => 'ad_contact'), array('id as idCont', 'name as nameCont'))
-                        ->join(array('p' => 'ad_phone'), 'p.contact = c.id')
+                        //->join(array('p' => 'ad_phone'), 'p.contact = c.id')
                         ->join(array('gc' => 'ad_group_contact'), 'gc.contact = c.id ')
                         ->join(array('g' => 'ad_group'), 'g.id = gc.group');
 
@@ -24,30 +49,33 @@ class Snep_Contact_Manager {
         return $registros;
     }
 
-    // retorna contato
+    /*
+     *  retorna contato
+     */
     public static function get($id) {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                        ->from(array('c' => 'ad_contact'), array('id as idCont', 'name as nameCont'))
-                        ->join(array('p' => 'ad_phone'), 'p.contact = c.id')
+                        ->from(array('c' => 'ad_contact'), array('id as idCont', 'name as nameCont'))                        
                         ->join(array('gc' => 'ad_group_contact'), 'gc.contact = c.id ')
                         ->join(array('g' => 'ad_group'), 'g.id = gc.group')
                         ->where('c.id = ?', $id);
 
         $stmt = $db->query($select);
         $registros = $stmt->fetch();
-
+        
         return $registros;
     }
 
-    // retorna contacts - filtro
+    /*
+     *  retorna contacts - filtro
+     */
     public static function getFilter($field, $query) {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
                         ->from(array('c' => 'ad_contact'), array('id as idCont', 'name as nameCont'))
-                        ->join(array('p' => 'ad_phone'), 'p.contact = c.id')
+                        
                         ->join(array('gc' => 'ad_group_contact'), 'gc.contact = c.id ')
                         ->join(array('g' => 'ad_group'), 'g.id = gc.group');
 
@@ -57,7 +85,8 @@ class Snep_Contact_Manager {
 
         return $select;
     }
-
+/*
+ *  Classe Nao utilizada, eu acho
     public static function getWithFields($id) {
         
         $db = Zend_Registry::get('db');
@@ -74,6 +103,32 @@ class Snep_Contact_Manager {
         return $registros; 
 
     }
+*/
+
+
+    /***
+     *  Retorna telefones de contato conforme id, ordenado pela proridade.
+     *  @param int $id
+     */
+    public function getPhones($id) {
+
+        $db = Zend_Registry::get('db');
+        $select = $db->select()
+                        ->from(array('p' => 'ad_phone'), array('phone'))
+                        ->where('p.contact = ?', $id)
+                        ->order('p.priority');
+
+        $stmt = $db->query($select);
+        $registros = $stmt->fetchAll();
+
+        $phones = array();
+        foreach($registros as $registro) {
+            $phones[] = $registro['phone'];
+        }
+
+        return $phones;
+
+    }
 
     /**
      * Insere um contato no banco de dados
@@ -84,34 +139,37 @@ class Snep_Contact_Manager {
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
-		
-        try {
         	
-            $addContact = array(
-                'name' => $contacts['nameCont'],
-            );
-            $db->insert('ad_contact', $addContact);
-            $idContact = $db->lastInsertId();
+        $addContact = array(
+            'name' => $contacts['nameCont'],
+        );
+        $db->insert('ad_contact', $addContact);
+        $idContact = $db->lastInsertId();
 
-            $addPhone = array('contact' => $idContact, 'phone' => $contacts['phone'], 'priority' => '');
+        foreach($contacts['phones'] as $k => $phone) {
+            $addPhone = array('contact' => $idContact, 'phone' => $phone, 'priority' => $k);
             $db->insert('ad_phone', $addPhone);
-            $idPhon = $db->lastInsertId();
+        }
+        unset($contacts['phones']);
 
-            $addContactGroup = array('group' => $contacts['group'], 'contact' => $idContact);
-            $db->insert('ad_group_contact', $addContactGroup);
-            
-            while (list($key, $val) = each($contacts)) {
-            	if (gettype($key) != 'string' ) {
-	            	$db->insert('ad_contact_field_value', array ('field' => $key, 
-                                                                     'contact' => $idContact,
-                                                                     'value' => $val));
-            	}
+        $addContactGroup = array('group' => $contacts['group'], 'contact' => $idContact);
+        $db->insert('ad_group_contact', $addContactGroup);
+
+        while (list($key, $val) = each($contacts)) {
+            if ( ! is_string($key) ) {
+                    $db->insert('ad_contact_field_value', array ('field' => $key,
+                                                                 'contact' => $idContact,
+                                                                 'value' => $val));
             }
-            
+        }
+
+        try {
             $db->commit();
+
         } catch (Exception $ex) {
             $db->rollBack();
             throw $ex;
+            
         }
     }
     
@@ -124,20 +182,22 @@ class Snep_Contact_Manager {
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
 
+        $addField = array(
+            'name' => $fields['name'],
+            'type' => $fields['type'],
+            'required' => $fields['required']
+        );
+
+        $db->insert('ad_contact_field', $addField);
+        $idField = $db->lastInsertId();
+
         try {
-            $addField = array(
-                'name' => $fields['name'],
-                'type' => $fields['type'],
-            	'required' => $fields['required']
-            );
-            
-            $db->insert('ad_contact_field', $addField);
-            $idField = $db->lastInsertId();
-            
             $db->commit();
+
         } catch (Exception $ex) {
             $db->rollBack();
             throw $ex;
+
         }
     }
     
@@ -148,23 +208,33 @@ class Snep_Contact_Manager {
      */
     public static function edit($contact) {
 
-
         $db = Zend_Registry::get('db');
+
+        $db->beginTransaction();
+        $db->delete('ad_phone', "contact = {$contact['id']}");
+        $db->commit();
+
         $db->beginTransaction();
 
         $valueCont = array(
             'name' => $contact['nameCont'],
         );
-        $valuePhon = array('phone' => $contact['phone']);
+        
         $valueContGrou = array(
             'contact' => $contact['id'],
             'group' => $contact['group']
         );
 
+        foreach($contact['phones'] as $k => $phone) {
+            $addPhone = array('contact' => $contact['id'], 'phone' => $phone, 'priority' => $k);
+            $db->insert('ad_phone', $addPhone);
+        }
+
+        unset($contact['phones']);
+
         $db->update('ad_contact', $valueCont, "id='{$contact['id']}'");
         $db->update('ad_group_contact', $valueContGrou, "contact='{$contact['id']}'");
-        $db->update('ad_phone', $valuePhon, "contact='{$contact['id']}'");
-
+        
 		while (list($key, $val) = each($contact)) {
         	if (gettype($key) != 'string' ) {
         	   $value = array('value' => $val);
@@ -190,28 +260,36 @@ class Snep_Contact_Manager {
         
         try {
             $db->commit();
+
         } catch (Exception $ex) {
             $db->rollBack();
             throw $ex;
+            
         }
     }
 
-    // exclui campo
+    /*
+     *  exclui campo
+     *  param int $contact
+     */
     public static function del($contact) {
         
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
 
+        $db->delete('ad_contact_field_value', "contact = $contact");
+        $db->delete('ad_group_contact', "contact = $contact");
+        $db->delete('ad_phone', "contact = $contact");
+        $db->delete('ad_contact', "id = $contact");
+
         try {
-            $db->delete('ad_contact_field_value', "contact = $contact");
-            $db->delete('ad_group_contact', "contact = $contact");
-            $db->delete('ad_phone', "contact = $contact");
-            $db->delete('ad_contact', "id = $contact");
             $db->commit();
             return true;
+
         } catch (Exception $e) {
             $db->rollBack();
             return $e;
+            
         }
     }
 
