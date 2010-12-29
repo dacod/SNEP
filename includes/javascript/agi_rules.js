@@ -69,7 +69,6 @@ function Field(id) {
         } // fim campo tronco
         else if(this.type == "G") { // Campo grupo
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
-            html += '<option> - - </option>';
             for(i=0; i < group_list.length; i++) {
                 if(group_list[i][0] == this.value) {
                     html += '<option selected="selected" value="' + group_list[i][0] + '">';
@@ -83,7 +82,6 @@ function Field(id) {
         } // fim campo grupo
         else if(this.type == "CG") { // Campo grupo de contatos
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
-            html += '<option> - - </option>';
             for(i=0; i < contacts_group_list.length; i++) {
                 if(contacts_group_list[i][0] == this.value) {
                     html += '<option selected="selected" value="' + contacts_group_list[i][0] + '">';
@@ -97,7 +95,6 @@ function Field(id) {
         } // fim campo grupo de contatos
         else if(this.type == "AL") {
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
-            html += '<option> - - </option>';
             for(i=0; i < alias_list.length; i++) {
                 if(alias_list[i][0] == this.value) {
                     html += '<option selected="selected" value="' + alias_list[i][0] + '">';
