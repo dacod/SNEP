@@ -72,7 +72,7 @@ class PBX_Dialplan {
         if(count($rules) > 0) {
             foreach ($rules as $rule) {
                 $rule->setRequest($this->request);
-                if($rule->isValidDst($this->request->destino) && $rule->isValidSrc($this->request->origem) && $rule->isValidTime($execution_time) && $rule->isActive()) {
+                if($rule->isActive() && $rule->isValidDst($this->request->destino) && $rule->isValidSrc($this->request->origem) && $rule->isValidTime($execution_time)) {
                     $this->foundRule = $rule;
                     break; // paramos na primeira regra totalmente válida
                 }
