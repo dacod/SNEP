@@ -51,12 +51,6 @@ class ParametersController extends Zend_Controller_Action {
         $emp_nome = $general->getElement('emp_nome');
         $emp_nome->setValue( $config->ambiente->emp_nome );
 
-        $locale = $general->getElement('locale');
-        $locale->setValue( $config->system->locale );
-
-        $locale = $general->getElement('language');
-        $locale->setValue( $config->ambiente->language );
-
         $debug = $general->getElement('debug');
         $debug->setValue( $config->system->debug );
 
@@ -103,7 +97,7 @@ class ParametersController extends Zend_Controller_Action {
         $path_voz->setValue( $config->ambiente->path_voz );
 
         $path_voz_bkp = $gravacao->getElement('path_voz_bkp');
-        $path_voz_bkp->setValue( $config->ambiente->path_voz );        
+        $path_voz_bkp->setValue( $config->ambiente->path_voz_bkp );
         $form->addSubForm($gravacao, "gravacao");
 
         // Sessão Ramais
@@ -167,8 +161,6 @@ class ParametersController extends Zend_Controller_Action {
                 $config = new Zend_Config_Ini($config_file, null, true);
 
                 $config->ambiente->emp_nome                 = $dados['general']['emp_nome'];
-                $config->system->locale                     = $dados['general']['locale'];
-                $config->ambiente->language                 = $dados['general']['language'];
                 $config->system->debug                      = $dados['general']['debug'];
 
                 $config->ambiente->ip_sock                  = $dados['general']['ip_sock'];

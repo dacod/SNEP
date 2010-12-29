@@ -10,28 +10,6 @@
                 </options>
             </emp_nome>
 
-            <locale>
-                <type>select</type>                
-                    <options>
-                    <label>Localização</label>                    
-                    <multiOptions>
-                        <en>English (en)</en>
-                        <pt_BR>Português Brasil (pt_BR)</pt_BR>
-                    </multiOptions>
-                    </options>
-            </locale>
-   
-            <language>
-                <type>select</type>
-                 <options>
-                    <label>Idioma</label>
-                    <multiOptions>
-                        <en>English (en)</en>
-                        <pt_BR>Português Brasil (pt_BR)</pt_BR>
-                    </multiOptions>
-                    </options>   
-            </language>
-
             <debug>
                 <type>checkbox</type>
                 <options>
