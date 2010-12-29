@@ -224,6 +224,8 @@ function cadastrar() {
         $canal .= "/" . $trunk;
     } else if ($canal == "MANUAL") {
         $canal .= "/" . $manual;
+    } else if ($canal == "AGENT") {
+        $canal .= "/";
     } else {
         $canal .= "/" . $name;
     }
@@ -348,7 +350,7 @@ function alterar() {
 
     $row['peer_type'] = $row['type'];
 
-    $row['channel_tech'] = substr($row['canal'], 0, strpos($row['canal'], '/'));
+    $row['channel_tech'] = strtoupper(substr($row['canal'], 0, strpos($row['canal'], '/')));
 
     $khomp_error = false;
     $khomp_channels = null;
@@ -483,6 +485,14 @@ function grava_alterar() {
         $canal = "VIRTUAL/" . $trunk;
     } else if ($canal == "MANUAL") {
         $canal = "MANUAL/" . $manual;
+    } else if ($canal == "AGENT") {
+        $old_exten = PBX_Usuarios::get($name);
+        if($old_exten->getInterface() instanceof PBX_Asterisk_Interface_Agent){
+            $canal = "Agent/" . $old_exten->getInterface()->getCanal();
+        }
+        else {
+            $canal = "Agent/";
+        }
     } else {
         $canal .= "/" . $name;
     }

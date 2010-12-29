@@ -93,6 +93,7 @@
                         <option value="khomp" {if $dt_ramais.channel_tech == "KHOMP"}selected{/if}>Khomp</option>
                         <option value="virtual" {if $dt_ramais.channel_tech == "VIRTUAL"}selected{/if}>Virtual</option>
                         <option value="manual" {if $dt_ramais.channel_tech == "MANUAL"}selected{/if}>Manual</option>
+                        <option value="agent" {if $dt_ramais.channel_tech == "AGENT"}selected{/if}>Agente</option>
                     </select>
                 </td>
             </tr>
@@ -286,7 +287,7 @@
             $('khomp'),
             $('virtual'),
             $('manual')
-        );
+            );
 
             function show_tab(tab) {
                 tab = tab.toLowerCase();
@@ -298,7 +299,9 @@
                     tab = 'ip';
                 }
 
-                $(tab).show();
+                if(tab != 'agent') {
+                    $(tab).show();
+                }
             }
             {/literal}
             // Checa campos do formularuio

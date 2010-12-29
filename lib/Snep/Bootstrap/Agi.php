@@ -46,24 +46,25 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
     private function updateRequest() {
         $asterisk = Zend_Registry::get('asterisk');
         $request = new PBX_Asterisk_AGI_Request($asterisk->request);
+        $asterisk->set_variable("CALLERID(all)", $request->callerid);
         $asterisk->requestObj = $request;
     }
 
     private function startLogger() {
         $log = Zend_Registry::get('log');
         $asterisk = Zend_Registry::get('asterisk');
-        $request = $asterisk->request;
+        $request = $asterisk->requestObj;
 
         // Log em arquivo
         $writer = new Zend_Log_Writer_Stream($this->config->system->path->log . '/agi.log');
-        $format = "%timestamp% - {$request['agi_callerid']}- -> {$request['agi_extension']} %priorityName% (%priority%):%message%";
+        $format = "%timestamp% - {$request->callerid}- -> {$request->extension} %priorityName% (%priority%):%message%";
         $formatter = new Zend_Log_Formatter_Simple($format . PHP_EOL);
         $writer->setFormatter($formatter);
         $log->addWriter($writer);
 
         // Log no console do Asterisk
         $console_writer = new PBX_Asterisk_Log_Writer($asterisk);
-        $format = "{$asterisk->request['agi_callerid']} -> {$asterisk->request['agi_extension']} %priorityName% (%priority%):%message%";
+        $format = "{$request->callerid} -> {$request->extension} %priorityName% (%priority%):%message%";
         $console_formatter = new Zend_Log_Formatter_Simple($format . PHP_EOL);
         $console_writer->setFormatter($console_formatter);
         $log->addWriter($console_writer);
@@ -112,6 +113,9 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         // Coletando informações enviadas pelo asterisk
         $this->startAsterisk();
 
+        // Atualizando request para facilitar trabalho das ações
+        $this->updateRequest();
+
         // Iniciando logs do sistema
         $this->startLogger();
 
@@ -120,9 +124,6 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
 
         $this->registerCCustos();
         $this->registerQueues();
-
-        // Atualizando request para facilitar trabalho das ações
-        $this->updateRequest();
 
         // Iniciando modulos e Ações das regras de negócio
         $this->startModules();
