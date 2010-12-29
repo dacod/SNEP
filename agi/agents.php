@@ -30,7 +30,7 @@ if(!($argv[1] == "login" && is_numeric($argv[2])) && !($argv[1] == "logoff") ) {
 
 // More beauty references :)
 $operation = $argv[1];
-$agent     = $argv[2];
+$agent     = isset($argv[2]) ? $argv[2] : null;
 $callerid  = $asterisk->request['agi_callerid'];
 
 $channel = $asterisk->request['agi_channel'];
@@ -39,6 +39,7 @@ $channel = strpos($channel, '-') ? substr($channel, 0, strpos($channel, '-')) : 
 $asterisk->verbose("Operation $operation for agent $agent using callerid $callerid",1);
 
 if($operation == "login") {
+    $asterisk->answer();
     $exten = PBX_Usuarios::get($agent);
     for($tries = 3; $tries > 0; $tries--) {
         $asterisk->exec("Read", array("AGETNTPASS","agent-pass", strlen($exten->getPassword()), "", "", 5));
@@ -66,12 +67,13 @@ if($operation == "login") {
 else { // do logoff
     $data = array(
         "date" => new Zend_Db_Expr("NOW()"),
-        "agent" => $agent,
+        "agent" => $asterisk->requestObj->callerid,
         "event" => 2 // Assume-se que o id padrão para event logoff seja 2
     );
     $db->insert('agent_availability', $data);
 
     $channel = $channel;
     $db->update('peers', array("canal"=>"Agent/"), "canal like 'Agent/$channel'");
+    $asterisk->answer();
     $asterisk->stream_file("agent-loggedoff");
 }

@@ -116,14 +116,6 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
         // de TECH/ID-HASH para TECH/ID
         $channel = strpos($channel, '-') ? substr($channel, 0, strpos($channel, '-')) : $channel;
 
-        $db = Snep_Db::getInstance();
-        $result = $db->query("SELECT name FROM peers WHERE canal like 'Agent/$channel' LIMIT 1")->fetch();
-
-        if (isset($result['name'])) {
-            $channel = "Agent/" . $channel;
-            $this->callerid = $result['name'];
-        }
-
         $object = PBX_Interfaces::getChannelOwner($channel);
 
         if ($object instanceof Snep_Trunk && $object->allowExtensionMapping()) {
@@ -138,6 +130,9 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
         }
 
         $this->setSrcObj($object);
+        if($object instanceof Snep_Usuario) {
+            $this->callerid = $object->getNumero();
+        }
     }
 
 }
