@@ -81,6 +81,28 @@
               </tr>
            {/if}
         </table>
+        <br />
+        
+        <!-- Tabela de Troncos -->
+        <table>
+           <thead>
+              <th colspan='5'>
+                 Troncos SIP
+              </th>
+              <tr>
+              	<td>{$LANG.ip}</td>
+              	<td>{$LANG.status}</td>
+              	<td>{$LANG.latencia}</td>
+              </tr>
+           </thead>
+           {foreach name=TRONCOS from=$TRONCOS key=trunk_key item=trunk_val}
+              <tr>
+              	{foreach name=PEERS from=$trunk_val key=peer_key item=peer_val }
+                 	<td class="esq" style="vertical-align: top;">{$peer_val}<br/></td>
+                {/foreach}
+              </tr>
+           {/foreach}
+        </table>
      </td>
    </tr>   
 </table>
