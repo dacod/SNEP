@@ -28,6 +28,10 @@ body {
     background-position: right center;
 }
 
+#header img {
+    border:none;
+}
+
 #breadcrumb {
     color: #808080;
     font-size: 14px;
