@@ -264,27 +264,3 @@ INSERT INTO `sounds` VALUES ('queue-thereare.wav','Filas - Sua chamada é a','20
 INSERT INTO `sounds` VALUES ('queue-youarenext.wav','Filas - Sua chamada é a primeira da fila','2008-08-12 08:48:44','AST','');
 
 INSERT INTO peers (name, password,callerid,context,mailbox,qualify,secret,type,allow,fromuser,username,fullcontact,dtmfmode,email,`call-limit`,incominglimit,outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate,trunk, `group`, callgroup, time_total, time_chargeby ,accountcode,amaflags,defaultip,host,insecure,language,deny,permit,mask,port,restrictcid,rtptimeout,rtpholdtimeout,musiconhold,regseconds,ipaddr,regexten,cancallforward,setvar,disallow,canreinvite) VALUES ('admin','admin123','Administrador ','default','admin','no','admin123','peer','alaw;ulaw;gsm;g729;','admin','admin','','rfc2833','','0','1','1', 'no', NULL ,'','no', 'R',false,'no','admin','', NULL, 'NULL' ,'','','','dynamic','','pt_BR','','','','','','','','cliente',0,'','','yes','','all','no')
-
-INSERT INTO ars_estado VALUES ('AC','Acre');
-INSERT INTO ars_estado VALUES ('AL','Alagoas');
-INSERT INTO ars_estado VALUES ('AP','Amapá');
-INSERT INTO ars_estado VALUES ('AM','Amazonas');
-INSERT INTO ars_estado VALUES ('BA','Bahia');
-INSERT INTO ars_estado VALUES ('CE','Ceará');
-INSERT INTO ars_estado VALUES ('DF','Distrito Federal');
-INSERT INTO ars_estado VALUES ('ES','Espírito Santo');
-INSERT INTO ars_estado VALUES ('GO','Goiás');
-INSERT INTO ars_estado VALUES ('MA','Maranhão');
-INSERT INTO ars_estado VALUES ('MT','Mato Grosso');
-INSERT INTO ars_estado VALUES ('MS','Mato Grosso do Sul');
-INSERT INTO ars_estado VALUES ('MG','Minas Gerais');
-INSERT INTO ars_estado VALUES ('PA','Pará');
-INSERT INTO ars_estado VALUES ('PB','Paraíba');
-INSERT INTO ars_estado VALUES ('PR','Paraná');
-INSERT INTO ars_estado VALUES ('PE','Pernambuco');
-INSERT INTO ars_estado VALUES ('PI','Piauí');
-INSERT INTO ars_estado VALUES ('RJ','Rio de Janeiro');
-INSERT INTO ars_estado VALUES ('RN','Rio Grande do Norte');
-INSERT INTO ars_estado VALUES ('RS','Rio Grande do Sul');
-INSERT INTO ars_estado VALUES ('RO','Rondônia');
-INSERT INTO ars_estado VALUES ('RR','Roraima');
