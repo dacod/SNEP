@@ -21,7 +21,8 @@ $estado = isset($_GET['uf']) && $_GET['uf']!= "" ? $_GET['uf'] : display_error($
 
 global $LANG,$db,$smarty,$titulo, $acao,  $codigo;
 
-$sql = "SELECT DISTINCT municipio FROM cnl WHERE uf='$estado' ORDER BY municipio";
+$sql = "SELECT ars_cidade.name as mucicipio FROM ars_ddd INNER JOIN ars_cidade ON ars_ddd.cidade=ars_cidade.id where ars_ddd.estado = $estado'";
+
 try {
    $row = $db->query($sql)->fetchAll();
 }

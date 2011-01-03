@@ -106,14 +106,6 @@ CREATE TABLE `cdr_compactado` (
   `data` date default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cnl` (
-  `uf` char(2) NOT NULL default '',
-  `municipio` varchar(50) default NULL,
-  `prefixo` varchar(7) NOT NULL default '',
-  `operadora` varchar(30) default NULL,
-  PRIMARY KEY  (`uf`,`prefixo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `events` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -517,3 +509,35 @@ CREATE TABLE ad_phone (
     foreign key (`contact`) references ad_contact(`id`) on update cascade on delete cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE ars_operadora (
+    `id` integer primary key,
+    `name` varchar(30) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ars_estado (
+    `cod` char(2) primary key,
+    `name` varchar(30) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ars_cidade (
+    `id` integer primary key auto_increment,
+    `name` varchar(30) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ars_ddd (
+    `cod` char(2),
+    `estado` char(2),
+    `cidade` integer,
+    primary key (`cod`,`estado`,`cidade`),
+    foreign key (`estado`) references ars_estado(`cod`) on update cascade on delete restrict,
+    foreign key (`cidade`) references ars_cidade(`id`) on update cascade on delete restrict
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ars_prefixo (
+    `prefixo` integer,
+    `cidade` integer,
+    `operadora` integer,
+    primary key (`prefixo`,`cidade`,`operadora`),
+    foreign key (`operadora`) references ars_operadora(`id`) on update cascade on delete restrict,
+    foreign key (`cidade`) references ars_cidade(`id`) on update cascade on delete restrict
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

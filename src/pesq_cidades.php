@@ -20,8 +20,7 @@ require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 $uf = $_GET['uf'] ;
 try {
-    $sql_cid = "SELECT * FROM cnl WHERE uf = '$uf'";
-    $sql_cid .= " GROUP by municipio,uf ORDER by municipio";
+    $sql_cid = "SELECT ars_cidade.name as mucicipio FROM ars_ddd INNER JOIN ars_cidade ON ars_ddd.cidade=ars_cidade.id where ars_ddd.estado = '$uf'";
     $row_cid = $db->query($sql_cid)->fetchAll();
 } catch (Exception $e) {
     display_error($LANG['error'].$e->getMessage(),true) ;
