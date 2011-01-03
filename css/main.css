@@ -573,6 +573,17 @@ ul#navmenu ul ul li.iehover ul {
     text-decoration:underline;
     color:#000;
 }
+.info {
+    padding-left:20px;
+    background: url("../imagens/mais_info.gif") no-repeat center left;
+    color: #696969;
+    font-size: 10px;
+    text-decoration:none;
+}
+.info:hover {
+    text-decoration:underline;
+    color:#000;
+}
 .excluir {
     padding-left:20px;
     background: url("../imagens/delete.png") no-repeat center left;
