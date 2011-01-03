@@ -136,7 +136,7 @@ class Bar_Graph {
       if (!is_numeric($prefixo))
          $cidade = $LANG['unknown'];
       try {
-         $sqlcidade = "select municipio,uf from cnl where prefixo = '$prefixo'" ;
+         $sqlcidade = "select ars_cidade.name as municipio, ars_ddd.estado as uf from ars_prefixo INNER JOIN ars_cidade on ars_cidade.id = ars_prefixo.cidade INNER JOIN ars_ddd on ars_ddd.cidade = ars_cidade.id where prefixo = '$prefixo'" ;
          $rowcidade = $db->query($sqlcidade)->fetch();
          $cidade = ucfirst(strtolower($rowcidade['municipio']))."-".$rowcidade['uf'] ;
          //return array("cidade"=>$sqlcidade,"flag"=>"S") ;
