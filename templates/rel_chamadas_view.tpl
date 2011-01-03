@@ -103,7 +103,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 {$LANG.busys}:&nbsp;
                 <b>{$TOTAIS.busy}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {$LANG.duration}:&nbsp;
+                Falharam:&nbsp;
                 <b>{$TOTAIS.fail}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 {$LANG.others}:&nbsp;<b>{$TOTAIS.oth}</b>
 
