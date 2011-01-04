@@ -128,7 +128,8 @@ class Snep_Tarifas {
                         ->from('tarifas_valores')
                         ->where('codigo = ?', $tarifa['codigo'])
                         ->where('data >= ?', $tarifa[0])
-                        ->order('data DESC limit 1');
+                        ->order('data ASC limit 1')
+                        ->limit('1');
 
         $stmt = $db->query($select);
         $reajuste = $stmt->fetch();
