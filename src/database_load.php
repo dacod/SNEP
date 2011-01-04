@@ -25,11 +25,6 @@
   
   global $smarty, $SETUP, $filas_selec, $LANG, $view_ps;
 
-  if (!$data = ast_status("show channels concise","",True )) {
-   display_error($LANG['msg_nosocket'], true) ;
-   exit;
-  }
-
   $titulo = $LANG['menu_status']." » ".$LANG['menu_databaseshow']." » ".$LANG['view'];
   $smarty->assign ('REFRESH',array('mostrar'=> true,
                                    'tempo'  => 10,

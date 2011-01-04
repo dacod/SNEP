@@ -145,36 +145,35 @@ $lista = array();
     foreach($trunks as $t_key => $t_val) {    	
 		if ($t_key > 1) {
 			$trunk_val = strtok($t_val, ' ');
+			$trunk_val = strtok(' ');
 			
-			$trunk_ip = gethostbyname(substr($trunk_val, 0, strlen($trunk_val)-5));
-			if ($trunk_ip != null)
-			   array_push($trunk_all, $trunk_ip);		
+			if ($trunk_val != null)
+			   array_push($trunk_all, $trunk_val);		
     	}
     }
     
     // SIP Trunks from Peer list
     foreach ($peers as $p_key => $p_val) {
-        if ($p_key > 1) {
-        	if (preg_match_all('/^(\w+|\d+|\d+\.\d+\.\d+\.\d+)(\/\w+)?[ ]+(\d+\.\d+\.\d+\.\d+)[ ]+([[:alpha:]]?[[:space:]]?)*\d+[ ]+(\w+[[:space:]]?)(\(\d+ ms\))?[ ]+$/', $p_val, $match)) {
-        		
-        		$trunk_tmp = array();
-        		foreach ($trunk_all as $trunk_ip) {
-					if($trunk_ip == $match[3][0]) {
-						array_push($trunk_tmp, $match[3][0]);
-						
-						$status = $match[5][0];
-						
-						if (!strcmp("UNREACHABLE ", $status)) {
-							$status = "Não Registrado";
-						} elseif (!strcmp("Unmonitored ", $status)) {
-							$status = "N/A";
-						} elseif (!strcmp("OK ", $status)) {
-							$status = "Registrado";
-						}
-						array_push($trunk_tmp, $status);
-						
-						array_push($trunk_tmp, $match[6][0]);
-					}        	
+    	if ($p_key > 1) {
+        		if (preg_match_all('/^([A-Za-z0-9]+|\w+\/|\d+|\d+\.\d+\.\d+\.\d+|\d+\/)(\w+)?[ ]+(\d+\.\d+\.\d+\.\d+)[ ]+([[:alpha:]]?[[:space:]]?)*\d+[ ]+(\w+[[:space:]]?)(\(\d+ ms\))?[ ]+$/', $p_val, $match)) {
+        			$trunk_tmp = array();        			
+        			foreach ($trunk_all as $trunk_ip) {
+						if(($trunk_ip == $match[1][0]) || ($trunk_ip == $match[2][0])) {
+							array_push($trunk_tmp, $match[3][0]);
+							
+							$status = $match[5][0];
+							
+							if (!strcmp("UNREACHABLE ", $status)) {
+								$status = "Não Registrado";
+							} elseif (!strcmp("Unmonitored ", $status)) {
+								$status = "N/A";
+							} elseif (!strcmp("OK ", $status)) {
+								$status = "Registrado";
+							}
+							array_push($trunk_tmp, $status);
+							
+							array_push($trunk_tmp, $match[6][0]);
+						}        	
         		}
         		array_push($trunk_ret, $trunk_tmp);
         	}
