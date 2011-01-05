@@ -796,8 +796,6 @@ function grava_conf() {
                     $stmt = $database->query($select);
                     $tronco = $stmt->fetchObject();
 
-
-
                     if( $tronco->type == "SNEPSIP" ) {
                         /* Monta entrada do tronco */
                         $peers .= '[' . $peer['username'] . "]\n";
@@ -842,6 +840,18 @@ function grava_conf() {
                         $peers .= 'nat=' . $peer['nat'] . "\n";
                         $peers .= 'disallow=' . $peer['disallow'] . "\n";
                         $peers .= 'allow=' . $allow . "\n";
+                        if( ! is_null($peer['port'])) {
+                            $peers .= 'port=' . $peer['port'] . "\n";
+                        }
+                        if( ! is_null($peer['call-limit']) && $tronco->type == "SIP") {
+                            $peers .= 'call-limit=' . $peer['call-limit'] . "\n";
+                        }
+                        if( ! is_null($tronco->insecure)) {
+                            $peers .= 'insecure=' . $tronco->insecure . "\n";
+                        }
+                        if( ! is_null($tronco->domain) && $tronco->type == "SIP") {
+                            $peers .= 'domain=' . $tronco->domain . "\n";
+                        }                        
                         if( $tronco->reverse_auth ) {
                             $peers .= 'username=' . $peer['username'] . "\n";
                             $peers .= 'secret=' . $peer['secret'] . "\n";
