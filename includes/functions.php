@@ -840,18 +840,22 @@ function grava_conf() {
                         $peers .= 'nat=' . $peer['nat'] . "\n";
                         $peers .= 'disallow=' . $peer['disallow'] . "\n";
                         $peers .= 'allow=' . $allow . "\n";
-                        if( ! is_null($peer['port'])) {
+                        
+                        if( $peer['port'] != "") {
                             $peers .= 'port=' . $peer['port'] . "\n";
                         }
-                        if( ! is_null($peer['call-limit']) && $tronco->type == "SIP") {
+                        if( $peer['call-limit'] != "" && $tronco->type == "SIP") {
                             $peers .= 'call-limit=' . $peer['call-limit'] . "\n";
                         }
-                        if( ! is_null($tronco->insecure)) {
+                        if( $tronco->insecure != "") {
                             $peers .= 'insecure=' . $tronco->insecure . "\n";
                         }
-                        if( ! is_null($tronco->domain) && $tronco->type == "SIP") {
+                        if( $tronco->domain != "" && $tronco->type == "SIP") {
                             $peers .= 'domain=' . $tronco->domain . "\n";
-                        }                        
+                        }
+                        if( $tronco->type == "IAX2") {
+                            $peers .= 'trunk=' . $peer['trunk'] . "\n";
+                        }
                         if( $tronco->reverse_auth ) {
                             $peers .= 'username=' . $peer['username'] . "\n";
                             $peers .= 'secret=' . $peer['secret'] . "\n";

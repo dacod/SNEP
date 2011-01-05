@@ -50,7 +50,7 @@
              {assign var="tt_SNEPIAX2" value="selected"}
           {/if}
 
-          <select onchange="show_tab(this.value)" name="trunktype" {if $ACAO == "grava_alterar"} disabled="true" {/if}>
+          <select onchange="show_tab(this.value)" class="campos" name="trunktype" {if $ACAO == "grava_alterar"} disabled="true" {/if}>
               <option value="SIP" {$tt_SIP} >SIP</option>
               <option value="IAX2" {$tt_IAX2} >IAX2</option>
               <option value="KHOMP" {$tt_KHOMP} >Khomp</option>
@@ -280,6 +280,15 @@
        </td>
     </tr>
 
+    <tr id="istrunk" {if $dt_troncos.trunktype != "IAX2"} style="display:none;" {/if} >
+       <td class="formlabel">Trunk:</td>
+       <td class="subtable">
+           <select name="istrunk" class="campos">
+              <option value="yes" {if $dt_troncos.trunk == "yes"} selected {/if} > yes </option>
+              <option value="no"  {if $dt_troncos.trunk == "no"} selected {/if} > no </option>
+           </select>          
+       </td>
+    </tr>
 
 
     {* CONTROLE DE MINUTOS *}
@@ -380,6 +389,17 @@
         else {ldelim}
             $(tab).show();
         {rdelim}
+
+        if(tab == "iax2") {ldelim}
+            $('istrunk').show();
+
+        {rdelim}
+        else {ldelim}
+            $('istrunk').hide();
+
+        {rdelim}
+
+
    {rdelim}
 
    function noauth() {ldelim}
