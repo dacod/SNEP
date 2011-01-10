@@ -109,6 +109,8 @@
               <input maxlength="50" size="20" type="text" name="fromdomain" value="{$dt_troncos.fromdomain}" class="campos" />
            </td>
         </tr>
+
+
         <tr>
            <td class="formlabel">{$LANG.allow_codecs}:</td>
            <td class="subtable">
@@ -244,6 +246,35 @@
            <label for="dtmf_dial_number">Numero:</label><input type="text" class="campos" {if !$dt_troncos.dtmf_dial}disabled="disabled"{/if} id="dtmf_dial_number" name="dtmf_dial_number" value="{$dt_troncos.dtmf_dial_number}" /><small>(opcional)</small>
        </td>
     </tr>
+
+
+    <tr>
+       <td class="formlabel">Domain:</td>
+       <td class="subtable">
+          <input maxlength="50" size="20" type="text" name="domain" value="{$dt_troncos.domain}" class="campos" />
+       </td>
+    </tr>
+    <tr>
+       <td class="formlabel">Insecure:</td>
+       <td class="subtable">
+          <input maxlength="50" size="20" type="text" name="insecure" value="{$dt_troncos.insecure}" class="campos" />
+       </td>
+    </tr>
+    <tr>
+       <td class="formlabel">Port:</td>
+       <td class="subtable">
+          <input maxlength="50" size="20" type="text" name="port" value="{$dt_troncos.port}" class="campos" />
+       </td>
+    </tr>
+    <tr>
+       <td class="formlabel">Call-limit:</td>
+       <td class="subtable">
+          <input maxlength="50" size="20" type="text" name="calllimit" value="{$dt_troncos.calllimit}" class="campos" />
+       </td>
+    </tr>
+
+
+
     {* CONTROLE DE MINUTOS *}
     <tr>
         <td class="formlabel"><strong>{$LANG.minute_control}:</strong></td>

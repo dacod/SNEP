@@ -133,6 +133,7 @@ function cadastrar() {
     global $LANG, $db, $dtmf_dial, $extensionMapping, $name, $snep_host, $fromdomain, $fromuser, $khomp_board, $id_regex, $trunktype, $callerid, $username, $secret,
     $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $def_campos_troncos, $time_total, $time_chargeby, $tempo, $dialmethod;
     global $nat, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
+    global $domain, $calllimit, $port, $insecure;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -186,6 +187,14 @@ function cadastrar() {
         else {
             $channel= $trunktype . "/" . $username;
         }
+
+        // trunk        
+        $domain = ( is_null(trim($domain)) ? null : $domain);
+        $insecure = ( is_null(trim($insecure)) ? null : $insecure);
+
+        // peer
+        $calllimit = ( is_null(trim($calllimit)) ? null : $calllimit);
+        $port = ( is_null(trim($port)) ? null : $port);
 
         $id_regex = $trunktype . "/" . $username;
 
@@ -275,10 +284,10 @@ function cadastrar() {
     try {
         $db->beginTransaction() ;
         $sql = "INSERT INTO trunks (" ;
-        $sql.= "name, type, callerid, context, dtmfmode, insecure, secret,id_regex,";
+        $sql.= "name, type, callerid, context, dtmfmode, insecure, domain, secret,id_regex,";
         $sql.= "username, allow, channel, trunktype, host, trunk_redund, time_total,";
         $sql.= "time_chargeby, dialmethod, map_extensions, reverse_auth, dtmf_dial, dtmf_dial_number) values (";
-        $sql.= "'$name','$type','$callerid','$context','$dtmfmode','$insecure',";
+        $sql.= "'$name','$type','$callerid','$context','$dtmfmode','$insecure', '$domain',";
         $sql.= "'$secret','$id_regex','$username','$allow','$channel','$trunktype'," ;
         $sql.= "'$host_trunk',$trunk_redund, $time_total, $time_chargeby, '$dialmethod',";
         $sql.= "$extensionMapping, $reverseAuth, $dtmf_dial, '$dtmf_dial_number')" ;
@@ -287,17 +296,21 @@ function cadastrar() {
         if ($trunktype == "I") {
             $sql = "INSERT INTO peers (" ;
             $sql.= "name,callerid,context,secret,type,allow,username,";
-            $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify, nat ".$sql_fields_default ;
+            $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify, nat,`call-limit`,port ". $sql_fields_default ;
             $sql.= ") values (";
             $sql.=  "'$name','$callerid','$context','$secret','peer','$allow',";
             $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', 'yes', '$qualify', '$nat' ";
-            $sql.= $sql_values_default.")" ;
+            $sql.= ",'$calllimit', '$port' ". $sql_values_default.")" ;
+            
             $db->exec($sql) ;
         }
+
         $db->commit();
+
     } catch (Exception $ex) {
         $db->rollBack();
-        display_error($LANG['error'].$ex->getMessage().$sql,true) ;
+        display_error( $LANG['error'] . $ex->getMessage() . $sql, true) ;
+
     }
     grava_conf();// Mantenha após o commit
     echo "<meta http-equiv='refresh' content='0;url=../index.php/trunks'>\n" ;
@@ -331,6 +344,9 @@ function alterar() {
     $trunk['fromdomain'] = $peer['fromdomain'];
     $trunk['fromuser'] = $peer['fromuser'];
 
+    $trunk['calllimit'] = $peer['call-limit'];
+    $trunk['port'] = $peer['port'];
+    
     // Variavel host
     $trunk['host_trunk'] = $trunk['host'] ;
 
@@ -381,7 +397,7 @@ function alterar() {
 function grava_alterar() {
     global $LANG, $db, $extensionMapping, $snep_host, $name, $fromdomain, $fromuser, $trunktype, $callerid, $username, $secret, $insecure, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $channel, $host_trunk, $trunk_redund, $techno, $time_total, $time_chargeby, $tempo, $dialmethod;
     global $nat, $dtmf_dial_number, $snep_cod1, $dtmf_dial, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username,$khomp_board, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
-
+    global $insecure, $domain, $calllimit, $port;
 
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
@@ -432,6 +448,15 @@ function grava_alterar() {
         else {
             $nat = 'no';
         }
+
+        // trunk
+        $domain = ( is_null(trim($domain)) ? null : $domain);
+        $insecure = ( is_null(trim($insecure)) ? null : $insecure);
+
+        // peer
+        $calllimit = ( is_null(trim($calllimit)) ? null : $calllimit);
+        $port = ( is_null(trim($port)) ? null : $port);
+
 
         // Monta lista campos Default
         $def_campos_troncos = isset($def_campos_troncos) ? $def_campos_troncos : array();
@@ -511,16 +536,17 @@ function grava_alterar() {
         $db->beginTransaction() ;
         $sql = "UPDATE trunks SET ";
         $sql.= "callerid='$callerid',secret='$secret',type='$type',";
-        $sql.= "host='$host_trunk',context='$context',insecure='$insecure',";
+        $sql.= "host='$host_trunk',context='$context',insecure='$insecure',domain='$domain', ";
         $sql.= "allow='$allow',dtmfmode='$dtmfmode',channel='$channel', dtmf_dial = $dtmf_dial,";
         $sql.= "username='$username',trunk_redund=$trunk_redund,map_extensions=$extensionMapping,reverse_auth=$reverseAuth,";
         $sql.= "time_total=$time_total, dtmf_dial_number='$dtmf_dial_number', time_chargeby='$time_chargeby', dialmethod='$dialmethod', id_regex='$id_regex'";
         $sql.= "  WHERE name=$name" ;
         $db->exec($sql) ;
+
         if ($trunktype == "I") {
             $sql = "UPDATE peers ";
             $sql.=" SET fromdomain='$fromdomain', fromuser='$fromuser' ,callerid='$callerid', context='$context',secret='$secret',";
-            $sql.= "type='peer', nat='$nat', allow='$allow',host='$host_trunk'," ;
+            $sql.= "type='peer', nat='$nat', allow='$allow',host='$host_trunk', `call-limit`='$calllimit', port='$port', " ;
             $sql.= "username='$username',dtmfmode='$dtmfmode',canal='$channel',qualify='$qualify'" ;
             $sql.= " WHERE name='$name'" ;
             $db->exec($sql) ;
