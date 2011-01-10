@@ -20,8 +20,6 @@
 set_include_path("../lib" . PATH_SEPARATOR  . get_include_path());
 
 $config_file = "../includes/setup.conf";
-require_once 'Snep/Config.php';
-Snep_Config::setConfigFile($config_file);
 
 require_once "Snep/Bootstrap/Web.php";
 $bootstrap = new Snep_Bootstrap_Web($config_file);
