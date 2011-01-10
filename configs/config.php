@@ -20,6 +20,9 @@
 set_include_path("../lib" . PATH_SEPARATOR  . get_include_path());
 
 $config_file = "../includes/setup.conf";
+require_once 'Snep/Config.php';
+Snep_Config::setConfigFile($config_file);
+
 require_once "Snep/Bootstrap/Web.php";
 $bootstrap = new Snep_Bootstrap_Web($config_file);
 $bootstrap->boot();
@@ -127,7 +130,6 @@ $khomp_signal = array(  "kesOk (sync)" => $LANG['ok'],
         "kecs{SignalLost}" => $LANG['signallost'],
         "kecs{Busy}"=> $LANG['kecs{Busy}'],
         "kecs{Busy,Locked,RemoteLock}"=> $LANG['kecs{Busy,Locked,RemoteLock}'],
-        "kecs{Busy,Locked,LocalFail}" => $LANG["kecs{Busy,Locked,LocalFail}"],
         "kecs{Busy,Outgoing}"=> $LANG['kecs{Busy,Outgoing}'],
         "kecs{Busy,Incoming}"=> $LANG['kecs{Busy,Incoming}'],
         "kgsmIdle"=> $LANG['kgsmIdle'],
@@ -303,7 +305,7 @@ $codecs_default = array("cod1"=>"alaw", "cod2"=>"ulaw", "cod3"=>"gsm", "cod4"=>"
 //---------------------------------------------------------------------
 $def_campos_ramais = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "host" => "'dynamic'", "insecure" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "canreinvite" => "'no'")  ;
 
-$def_campos_troncos = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "mailbox" => "''", "email" => "''", "vinculo" => "''", "incominglimit" => 0, "outgoinglimit" => 0, "usa_vc"=>"'no'","canreinvite" => "'no'", "mailbox"=>"''","fullcontact"=>"''","authenticate"=>"''", "subscribecontext"=>"''","incominglimit"=>0,"outgoinglimit"=>0, "usa_vc"=>"'no'", "email"=>"''", "vinculo"=>"''","`call-limit`"=>"'0'");
+$def_campos_troncos = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "restrictcid" => "''","rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "mailbox" => "''", "email" => "''", "vinculo" => "''", "incominglimit" => 0, "outgoinglimit" => 0, "usa_vc"=>"'no'","canreinvite" => "'no'", "mailbox"=>"''","fullcontact"=>"''","authenticate"=>"''", "subscribecontext"=>"''","incominglimit"=>0,"outgoinglimit"=>0, "usa_vc"=>"'no'", "email"=>"''", "vinculo"=>"''");
 
 
 // Define Template CSS a ser usado

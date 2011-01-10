@@ -50,7 +50,7 @@
              {assign var="tt_SNEPIAX2" value="selected"}
           {/if}
 
-          <select onchange="show_tab(this.value)" name="trunktype" {if $ACAO == "grava_alterar"} disabled="true" {/if}>
+          <select onchange="show_tab(this.value)" class="campos" name="trunktype" {if $ACAO == "grava_alterar"} disabled="true" {/if}>
               <option value="SIP" {$tt_SIP} >SIP</option>
               <option value="IAX2" {$tt_IAX2} >IAX2</option>
               <option value="KHOMP" {$tt_KHOMP} >Khomp</option>
@@ -148,6 +148,13 @@
                <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="no"  {if $qualify == 's'}{if $dt_troncos.qualify == 'no'} checked {/if}{/if} > {$LANG.no}
                <input type="radio" onclick="quality(this);" name="qualify" id="qualify" value="specify" {if $qualify == 'e'} checked {/if} > {$LANG.specify}
                <input type="text" name="qualify_time" id="qualify_time" style="width:30px;margin-left: 10px;" class="campos" value="{if $qualify == 'e'} {$dt_troncos.qualify} {else}{if $dt_troncos.qualify == 'yes'}2000 {/if} {/if}" /> millisegundos
+           </td>
+        </tr>
+        <tr>
+           <td class="formlabel">{$LANG.peer_type}:</td>
+           <td class="subtable">
+               <input type="radio" name="peer_type" id="peer_type" value="peer" {if $dt_troncos.peer_type == 'peer'} checked {/if} > Peer
+               <input type="radio" name="peer_type" id="peer_type" value="friend"  {if $dt_troncos.peer_type == 'friend'} checked {/if} > Friend
            </td>
         </tr>
         <tr>
@@ -273,6 +280,15 @@
        </td>
     </tr>
 
+    <tr id="istrunk" {if $dt_troncos.trunktype != "IAX2"} style="display:none;" {/if} >
+       <td class="formlabel">Trunk:</td>
+       <td class="subtable">
+           <select name="istrunk" class="campos">
+              <option value="yes" {if $dt_troncos.trunk == "yes"} selected {/if} > yes </option>
+              <option value="no"  {if $dt_troncos.trunk == "no"} selected {/if} > no </option>
+           </select>          
+       </td>
+    </tr>
 
 
     {* CONTROLE DE MINUTOS *}
@@ -373,6 +389,17 @@
         else {ldelim}
             $(tab).show();
         {rdelim}
+
+        if(tab == "iax2") {ldelim}
+            $('istrunk').show();
+
+        {rdelim}
+        else {ldelim}
+            $('istrunk').hide();
+
+        {rdelim}
+
+
    {rdelim}
 
    function noauth() {ldelim}
