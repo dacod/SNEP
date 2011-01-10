@@ -161,7 +161,9 @@ button:hover, input[type=submit]:hover {
 
 /* Formulários */
 .form_element {
-    display: table-row;
+/*    display: table-row;*/
+    text-align: center;
+    padding-top: 5px;
     height: 30px;
 }
 
@@ -182,13 +184,14 @@ form legend {
 }
 
 form dt {
-    display: table-cell;
-    text-align: right;
+/*    display: table-cell;*/
+    _text-align: right;
     margin-top: 0px;
     padding-right: 5px;
     padding-top: 2px;
     min-width: 200px;
     vertical-align: top;
+    float: left;
 }
 
 form label:after {
@@ -196,8 +199,10 @@ form label:after {
 }
 
 form dd {
-    display: table-cell;
+/*    display: table-cell;*/
     margin-left: 0px;
+    _text-align: right;
+    float: left;
 }
 
 form .hint {
@@ -489,7 +494,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 .links {
    float:right;
-   margin-top: 10px;
+   margin-top: auto;
 }
 .links a:hover {
     text-decoration: underline;
@@ -497,6 +502,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 .links .include {
    float:right;
+   width: 30%;
    background: url("../imagens/include.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;
@@ -509,7 +515,8 @@ ul#navmenu ul ul li.iehover ul {
    text-decoration: none ;
 }
 .links .includes {
-       float:right;
+   float:right;
+   width: 30%;
    background: url("../imagens/include_all.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;
