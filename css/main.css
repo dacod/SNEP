@@ -28,6 +28,10 @@ body {
     background-position: right center;
 }
 
+#header img {
+    border:none;
+}
+
 #breadcrumb {
     color: #808080;
     font-size: 14px;
@@ -38,7 +42,7 @@ body {
 #content {
     border: 1px solid #a4a7ab;
     font-size: 12px;
-    padding: 10px;
+    padding: 10px 0px 0px 0px;
 }
 
 #content tbody tr:hover {
@@ -157,14 +161,15 @@ button:hover, input[type=submit]:hover {
 
 /* Formulários */
 .form_element {
-    display: table-row;
+/*    display: table-row;*/
+    text-align: center;
+    padding-top: 5px;
     height: 30px;
 }
 
 form fieldset {
     padding: 15px 0px 10px 0px;
-    margin: 0px;
-    
+    margin: 0px 5px;    
     border-bottom: none;
     border-left: none;
     border-right: none;
@@ -179,13 +184,14 @@ form legend {
 }
 
 form dt {
-    display: table-cell;
-    text-align: right;
+    display: block;
+    _text-align: right;
     margin-top: 0px;
     padding-right: 5px;
     padding-top: 2px;
     min-width: 200px;
     vertical-align: top;
+    float: left;
 }
 
 form label:after {
@@ -193,8 +199,10 @@ form label:after {
 }
 
 form dd {
-    display: table-cell;
+/*    display: table-cell;*/
     margin-left: 0px;
+    _text-align: right;
+    float: left;
 }
 
 form .hint {
@@ -475,20 +483,18 @@ ul#navmenu ul ul li.iehover ul {
 }
 #content .pagination {
     background-color: #fdfdfd;
-    border-top: 1px solid #d2d2d2;
-    padding: 4px 4px 0px 4px;
+    padding: 2px 4px 0px 4px;
     margin-bottom: 3px;
     margin-top: 10px;
     height:25px;
 }
-
 
 .links_include {
    float:right;
 }
 .links {
    float:right;
-   margin-top: 10px;
+   margin-top: auto;
 }
 .links a:hover {
     text-decoration: underline;
@@ -508,7 +514,8 @@ ul#navmenu ul ul li.iehover ul {
    text-decoration: none ;
 }
 .links .includes {
-       float:right;
+   float:right;
+   width: 30%;
    background: url("../imagens/include_all.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;
@@ -572,12 +579,24 @@ ul#navmenu ul ul li.iehover ul {
     text-decoration:underline;
     color:#000;
 }
+.info {
+    padding-left:20px;
+    background: url("../imagens/mais_info.gif") no-repeat center left;
+    color: #696969;
+    font-size: 10px;
+    text-decoration:none;
+}
+.info:hover {
+    text-decoration:underline;
+    color:#000;
+}
 .excluir {
     padding-left:20px;
     background: url("../imagens/delete.png") no-repeat center left;
     cursor:pointer;
     font-size: 10px;
-    color: #696969;    
+    color: #696969; 
+    text-decoration: none;
 }
 .excluir:hover {
     text-decoration:underline;
@@ -601,6 +620,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 .zend_form  dt {
     vertical-align: text-top;
+    text-align: center;
     font-size: 12px;
 }
 .regra0 {
@@ -628,4 +648,82 @@ ul#navmenu ul ul li.iehover ul {
    border-bottom-width: 1px;
    border-left-width: 1px;
    border-color: #a4a7ab ;
+}
+.button_bar {
+    text-align: center;
+    display:block;
+    padding: 10px;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
+}
+.zend_form li {
+    list-style:none;
+    float:left;
+    margin-right: 8px;
+}
+.zend_form .menus {
+    text-align:center;
+    display: block;
+    clear: both;
+    border-top: 1px solid #d2d2d2;    
+    padding: 5px 0 0 0;
+}
+.boxadd { border: 0px;width: 20px;background: url("../imagens/dot_add.png") no-repeat left top;}
+.boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
+.phone-list {
+    margin-bottom: 8px;
+    padding-top: 5px;
+    height: 70px;
+}
+.span_phone {
+    display:block;
+    width: 200px;
+}
+#phones li {
+    clear:both;
+    width: 340px;
+    list-style-position: inside !important;
+    list-style-type: decimal !important;
+    background: url("../imagens/move.gif") no-repeat right top !important;
+}
+#phones {
+    list-style-position:inside;
+    list-style-type: decimal;
+    margin:0;
+    padding:5px;
+}
+
+.new_button {
+    border: 1px solid #FDB712;
+    padding: 4px 10px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    background: url("../imagens/botao.png");
+}
+.ml5 {
+    float:left;
+    clear:both;
+    margin-left: 20px;
+}
+.quadro {
+    background-color: #f1f1f1;
+    border: 1px solid #d2d2d2;
+    width: 350px;
+    min-height:70px;
+}
+
+.info_box {
+    margin: 0px auto 10px auto;
+    padding: 5px 5px 5px 24px;
+    background-image: url(../imagens/ico_info.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-color: #eeeeff;
+    border: 1px solid #ccc;
 }
