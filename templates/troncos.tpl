@@ -165,6 +165,40 @@
            </td>
         </tr>
 
+        <tr>
+           <td class="formlabel">Dominio:</td>
+           <td class="subtable">
+              <input maxlength="50" size="20" type="text" name="domain" value="{$dt_troncos.domain}" class="campos" />
+           </td>
+        </tr>
+        <tr>
+           <td class="formlabel">Insecure:</td>
+           <td class="subtable">
+              <input maxlength="50" size="20" type="text" name="insecure" value="{$dt_troncos.insecure}" class="campos" />
+           </td>
+        </tr>
+        <tr>
+           <td class="formlabel">Porta:</td>
+           <td class="subtable">
+              <input maxlength="50" size="20" type="text" name="port" value="{$dt_troncos.port}" class="campos" />
+           </td>
+        </tr>
+        <tr>
+           <td class="formlabel">Limite de Canais:</td>
+           <td class="subtable">
+              <input maxlength="50" size="20" type="text" name="calllimit" value="{$dt_troncos.calllimit}" class="campos" />
+           </td>
+        </tr>
+
+        <tr id="istrunk" {if $dt_troncos.trunktype != "IAX2"} style="display:none;" {/if} >
+           <td class="formlabel">Trunk:</td>
+           <td class="subtable">
+               <select name="istrunk" class="campos">
+                  <option value="yes" {if $dt_troncos.trunk == "yes"} selected {/if} > yes </option>
+                  <option value="no"  {if $dt_troncos.trunk == "no"} selected {/if} > no </option>
+               </select>
+           </td>
+        </tr>
     </table>
 </div>
 <table id="khomp" cellspacing="0" align="center" style="border-top: none; border-bottom:none; {if $dt_troncos.trunktype != 'KHOMP'} display:none; {/if}" >
@@ -253,43 +287,6 @@
            <label for="dtmf_dial_number">Numero:</label><input type="text" class="campos" {if !$dt_troncos.dtmf_dial}disabled="disabled"{/if} id="dtmf_dial_number" name="dtmf_dial_number" value="{$dt_troncos.dtmf_dial_number}" /><small>(opcional)</small>
        </td>
     </tr>
-
-
-    <tr>
-       <td class="formlabel">Domain:</td>
-       <td class="subtable">
-          <input maxlength="50" size="20" type="text" name="domain" value="{$dt_troncos.domain}" class="campos" />
-       </td>
-    </tr>
-    <tr>
-       <td class="formlabel">Insecure:</td>
-       <td class="subtable">
-          <input maxlength="50" size="20" type="text" name="insecure" value="{$dt_troncos.insecure}" class="campos" />
-       </td>
-    </tr>
-    <tr>
-       <td class="formlabel">Port:</td>
-       <td class="subtable">
-          <input maxlength="50" size="20" type="text" name="port" value="{$dt_troncos.port}" class="campos" />
-       </td>
-    </tr>
-    <tr>
-       <td class="formlabel">Call-limit:</td>
-       <td class="subtable">
-          <input maxlength="50" size="20" type="text" name="calllimit" value="{$dt_troncos.calllimit}" class="campos" />
-       </td>
-    </tr>
-
-    <tr id="istrunk" {if $dt_troncos.trunktype != "IAX2"} style="display:none;" {/if} >
-       <td class="formlabel">Trunk:</td>
-       <td class="subtable">
-           <select name="istrunk" class="campos">
-              <option value="yes" {if $dt_troncos.trunk == "yes"} selected {/if} > yes </option>
-              <option value="no"  {if $dt_troncos.trunk == "no"} selected {/if} > no </option>
-           </select>          
-       </td>
-    </tr>
-
 
     {* CONTROLE DE MINUTOS *}
     <tr>
