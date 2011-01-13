@@ -33,7 +33,13 @@ class Snep_Bootstrap_Web extends Snep_Bootstrap {
     private function startI18N() {
         $config = Zend_Registry::get('config');
         $locale = $config->ambiente->language;
-        require_once $config->system->path->base . "/configs/langs/$locale.php";
+        $langfile = $config->system->path->base . "/configs/langs/$locale.php";
+        if(file_exists($langfile)) {
+            require_once($langfile);
+        }
+        else {
+            require_once($config->system->path->base . "/configs/langs/pt_BR.php");
+        }
         Zend_Registry::set("lang", $LANG);
     }
 
