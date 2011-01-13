@@ -184,7 +184,7 @@ form legend {
 }
 
 form dt {
-/*    display: table-cell;*/
+    display: block;
     _text-align: right;
     margin-top: 0px;
     padding-right: 5px;
@@ -502,7 +502,6 @@ ul#navmenu ul ul li.iehover ul {
 }
 .links .include {
    float:right;
-   width: 30%;
    background: url("../imagens/include.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;
@@ -621,6 +620,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 .zend_form  dt {
     vertical-align: text-top;
+    text-align: center;
     font-size: 12px;
 }
 .regra0 {
@@ -663,6 +663,8 @@ ul#navmenu ul ul li.iehover ul {
 }
 .zend_form .menus {
     text-align:center;
+    display: block;
+    clear: both;
     border-top: 1px solid #d2d2d2;    
     padding: 5px 0 0 0;
 }
@@ -670,6 +672,8 @@ ul#navmenu ul ul li.iehover ul {
 .boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
 .phone-list {
     margin-bottom: 8px;
+    padding-top: 5px;
+    height: 70px;
 }
 .span_phone {
     display:block;
@@ -677,7 +681,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 #phones li {
     clear:both;
-    width: 350px;
+    width: 340px;
     list-style-position: inside !important;
     list-style-type: decimal !important;
     background: url("../imagens/move.gif") no-repeat right top !important;
