@@ -1,9 +1,9 @@
-CREATE TABLE expr_alias (
+CREATE TABLE IF NOT EXISTS expr_alias (
     `aliasid` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE expr_alias_expression (
+CREATE TABLE IF NOT EXISTS expr_alias_expression (
     `aliasid` INTEGER NOT NULL,
     `expression` VARCHAR(200) NOT NULL,
     CONSTRAINT fk_expression_alias FOREIGN KEY (`aliasid`) REFERENCES expr_alias(`aliasid`) ON DELETE CASCADE
