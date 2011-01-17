@@ -8,7 +8,7 @@ UPDATE `peers` SET `password`=`secret`;
 INSERT INTO `rotinas` VALUES (105,'Erros Links Khomp');
 
 /* Tabela de Alertas de filas */
-CREATE TABLE `alertas` (
+CREATE TABLE IF NOT EXISTS `alertas` (
   `recurso` VARCHAR( 20 ) NOT NULL ,
   `tipo` VARCHAR( 10 ) NOT NULL ,
   `tme` INT( 10 ) NOT NULL ,
