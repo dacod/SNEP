@@ -101,6 +101,11 @@ function cadastrar()  {
       $file = $_FILES['file'];
       $file['name']= str_replace(' ', '_',  $file['name']);
       $arquivo= str_replace(' ', '_',  $arquivo);
+
+      if(strlen($arquivo) >= 50){
+           display_error('Nome do arquivo não deve exceder 50 caracteres. DICA: Um espaço conta como um caracter.' ,true) ;
+            exit;
+      }
       // Verifica se ja nao tem arquivo com este nome no BD
       try {
          $sql = "SELECT arquivo FROM sounds WHERE (arquivo='$arquivo'" ;
@@ -454,8 +459,8 @@ function excluir()  {
       $comando = "rm -f $dir/".pathinfo($atual,PATHINFO_FILENAME).".* " ;
       $comando.= " $dir/backup/".pathinfo($atual,PATHINFO_FILENAME).".* " ;
       $result = exec("$comando 2>&1",$out,$err) ;
-      if ($err) {
-         display_error('HAHA'.$LANG['msg_errdelbackup'].$arq_atual,true) ;
+      if ($err && $err!= 1) {
+         display_error($LANG['msg_errdelbackup'].$arq_atual.$err,true) ;
          exit ;
       }
     else {
