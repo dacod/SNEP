@@ -42,6 +42,9 @@ body {
 #content {
     border: 1px solid #a4a7ab;
     font-size: 12px;
+    display: table;
+    width: 975px;
+    height: auto;
     padding: 10px 0px 0px 0px;
 }
 
@@ -123,6 +126,7 @@ input[type=text], input[type=password] {
 
 button, input[type=submit] {
     border: 1px solid #FDB712;
+    _display: table-cell;
     padding: 4px 10px;
     border-radius: 4px;
     -moz-border-radius: 4px;
@@ -161,10 +165,10 @@ button:hover, input[type=submit]:hover {
 
 /* Formulários */
 .form_element {
-/*    display: table-row;*/
-    text-align: center;
+    text-align: left;
     padding-top: 5px;
-    height: 30px;
+    height: auto;
+    clear: both;
 }
 
 form fieldset {
@@ -184,7 +188,7 @@ form legend {
 }
 
 form dt {
-    display: block;
+/*    display: table-cell;*/
     _text-align: right;
     margin-top: 0px;
     padding-right: 5px;
@@ -199,7 +203,7 @@ form label:after {
 }
 
 form dd {
-/*    display: table-cell;*/
+    display: block;
     margin-left: 0px;
     _text-align: right;
     float: left;
@@ -515,7 +519,6 @@ ul#navmenu ul ul li.iehover ul {
 }
 .links .includes {
    float:right;
-   width: 30%;
    background: url("../imagens/include_all.png") no-repeat left top;
    margin: 0;
    padding-left: 18px;
@@ -528,7 +531,7 @@ ul#navmenu ul ul li.iehover ul {
    text-decoration: none ;
 }
 .filtros form dt {
-    width: 60px;
+    width: auto;
     min-width: 10px !important;
 }
 .filtros tr:hover {
@@ -579,17 +582,6 @@ ul#navmenu ul ul li.iehover ul {
     text-decoration:underline;
     color:#000;
 }
-.info {
-    padding-left:20px;
-    background: url("../imagens/mais_info.gif") no-repeat center left;
-    color: #696969;
-    font-size: 10px;
-    text-decoration:none;
-}
-.info:hover {
-    text-decoration:underline;
-    color:#000;
-}
 .excluir {
     padding-left:20px;
     background: url("../imagens/delete.png") no-repeat center left;
@@ -617,10 +609,10 @@ ul#navmenu ul ul li.iehover ul {
 .zend_form  dd {
     vertical-align: text-top;
     padding-left: 4px;
+    display: table-cell;
 }
 .zend_form  dt {
     vertical-align: text-top;
-    text-align: center;
     font-size: 12px;
 }
 .regra0 {
@@ -663,7 +655,6 @@ ul#navmenu ul ul li.iehover ul {
 }
 .zend_form .menus {
     text-align:center;
-    display: block;
     clear: both;
     border-top: 1px solid #d2d2d2;    
     padding: 5px 0 0 0;
@@ -672,8 +663,6 @@ ul#navmenu ul ul li.iehover ul {
 .boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
 .phone-list {
     margin-bottom: 8px;
-    padding-top: 5px;
-    height: 70px;
 }
 .span_phone {
     display:block;
@@ -681,7 +670,7 @@ ul#navmenu ul ul li.iehover ul {
 }
 #phones li {
     clear:both;
-    width: 340px;
+    width: 350px;
     list-style-position: inside !important;
     list-style-type: decimal !important;
     background: url("../imagens/move.gif") no-repeat right top !important;
