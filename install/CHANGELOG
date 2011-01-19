@@ -1,3 +1,20 @@
+1.3.1:
+- 0000059: [Bug] Correções de CSS para internet Explorer (lucasseid) - resolved.
+- 0000008: [Feature Request] Parâmetros extras para troncos SIP no snep-sip.conf (rafaelbozzetti) - resolved.
+ - 0000001: [Feature Request] Adição de configurações para troncos do tipo IP (rafaelbozzetti) - resolved.
+- 0000043: [Bug] Relatórios de ligações com detalhamento da chamada (lucasseid) - resolved.
+- 0000031: [Bug] Tarifação só acorre com tarifas definidas na operadora, tarifas adicionais não sobrescrevem valores base da operadora (rafaelbozzetti) - resolved.
+- 0000056: [Feature Request] Incluir Status Troncos SIP na Tela de Status Ramais/Agentes/Filas (amim) - resolved.
+- 0000057: [Bug] Relatórios Sintéticos - Nome do campo incorreto. (esantana) - resolved.
+- 0000040: [Feature Request] Atualização da estrutura de CNL (rafaelbozzetti) - resolved.
+- 0000060: [Bug] Problemas com Parametros de locale (lucasseid) - resolved.
+- 0000058: [Bug] Regras de negócio desativadas são lidas pelo AGI (amim) - resolved.
+- 0000051: [Bug] Acoes de uma rota com "&" desaparecem depois de salvar (esantana) - resolved.
+- 0000037: [Bug] Cadastro de MOH - falha em remoção de arquivo (guax) - closed.
+- 0000039: [Feature Request] Atalho Layout SNEP - link para status » sistema no logo (esantana) - closed.
+- 0000038: [Feature Request] Duplicar regra de negócio (esantana) - closed.
+- 0000042: [Bug] Ao mudar o modo de exibição do tempo de ligação e conversa, a ligação apresenta problemas e na conversa continúa em minutos. (lucasseid) - closed.
+
 1.3.0:
     Correção no Voicemail
     Ambiente Zend para login no sistema e telas de indice
