@@ -468,47 +468,6 @@ CREATE TABLE `alertas` (
   `ativo` TINYINT( 1 ) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ad_group (
-    `id` integer primary key auto_increment,
-    `name` varchar(30) not null
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_contact (
-    `id` integer primary key auto_increment,
-    `name` varchar(250)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_contact_field (
-	`id` integer primary key auto_increment,
-	`name` varchar(30) not null,
-	`type` varchar(30) not null,
-	`required` tinyint(1)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_contact_field_value (
-	`field` integer not null,
-	`contact` integer not null, 
-	`value` varchar(50) not null,
-	FOREIGN KEY (`contact`) references ad_contact(`id`),
-	FOREIGN KEY (`field`) references ad_contact_field(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_group_contact (
-    `contact` integer,
-    `group` integer,
-    primary key(`contact`,`group`),
-    foreign key (`group`) references ad_group(`id`) on update cascade on delete restrict,
-    foreign key (`contact`) references ad_contact(`id`) on update cascade on delete cascade
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE ad_phone (
-    `contact` integer not null,
-    `phone` varchar(50) not null,
-    `priority` integer not null default 0,
-    primary key (contact,phone),
-    foreign key (`contact`) references ad_contact(`id`) on update cascade on delete cascade
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE ars_operadora (
     `id` integer primary key,
     `name` varchar(30) not null
