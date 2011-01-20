@@ -19,7 +19,7 @@ class CnlController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Atualização CNL");
+        $this->view->breadcrumb = $this->view->translate("Configurações » Atualização CNL");
 
         $config = Zend_Registry::get('config');
         $this->view->pathweb =  $config->system->path->web;
@@ -35,7 +35,7 @@ class CnlController extends Zend_Controller_Action {
         $form->addElement($element, 'cnl');
 
 
-        $submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Salvar")));
+        $submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Enviar")));
         $submit->setAttrib("onclick", "$('frescura').show();");
         $form->addElement($submit);
 
