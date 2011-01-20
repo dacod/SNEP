@@ -27,6 +27,13 @@
 class PBX_Asterisk_Interface_Agent extends PBX_Asterisk_Interface {
 
     /**
+     * Extensão a qual o agente está logado e disponível.
+     *
+     * @var Snep_Exten
+     */
+    protected $loggedExtension;
+
+    /**
      * Construtor da classe
      * @param array $config Array de configurações da interface
      */
@@ -38,4 +45,13 @@ class PBX_Asterisk_Interface_Agent extends PBX_Asterisk_Interface {
     public function getCanal() {
         return $this->config['channel'];
     }
+
+    public function setLoggedExtension(Snep_Exten $loggedExtension) {
+        $this->loggedExtension = $loggedExtension;
+    }
+
+    public function getLoggedExtension() {
+        return $this->loggedExtension;
+    }
+
 }
