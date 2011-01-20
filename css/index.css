@@ -34,17 +34,51 @@ td, th {
     border-bottom: 1px solid #A4A7AB;
 }
 
+.links {
+    float:right;
+    padding-top: 10px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+.links a {
+    display: inline-block;
+    margin: 0;
+    padding-left: 18px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.links .include {
+    background: url("../imagens/include.png") no-repeat center left;
+
+}
+
+.links .includes {
+    background: url("../imagens/include_all.png") no-repeat center left;
+}
+
 .filtros {
     background-image: url(../imagens/bg_filtro.png);
     background-repeat: repeat-x;
     background-color: #fff;
+    border: 1px solid #A4A7AB;
+    padding: 0px 4px 0px 4px;
+    margin-bottom: 0px;
+    height:37px;
 }
 
 .filtros .zend_form {
-    margin-top: 0px;
-}
-
-.filtros dl {
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+    margin: 0px;
+    padding: 5px 5px 0px 5px;
+    height: 37px;
 }

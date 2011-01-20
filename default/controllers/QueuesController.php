@@ -50,34 +50,12 @@ class QueuesController extends Zend_Controller_Action {
         $opcoes = array("name" => $this->view->translate("Nome"));
 
         // Formulário de filtro.
-        $config_file = "./default/forms/filter.xml";
-        $config = new Zend_Config_Xml($config_file, null, true);
-
-        $filter = new Zend_Form($config->filter);
+        $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $filter_value = $filter->getElement('filtro');
-        $filter_value->setValue($this->_request->getPost('filtro'));
-
-        $submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Procurar")));
-        $submit->removeDecorator('DtDdWrapper');
-        $submit->addDecorator('HtmlTag', array('tag' => 'dd'));
-
-
-        // Botão Lista Completa
-        $reset = new Zend_Form_Element_Button("buttom", array("label" => $this->view->translate("Lista Completa")));
-        $reset->setAttrib("onclick", "location.href='{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page'");
-        $reset->removeDecorator('DtDdWrapper');
-        $reset->addDecorator('HtmlTag', array('tag' => 'dd'));
-
-        $filter->addElement($submit);
-        $filter->addElement($reset);
-
-        // Define elementos do 'campo' select
-        $campo = $filter->getElement('campo');
-        $campo->setMultiOptions($opcoes);
-
-        $filtro = $filter->getElement('filtro');
-        $filtro->setValue($this->_request->getParam('filtro'));
+        $filter->setValue($this->_request->getPost('campo'));
+        $filter->setFieldOptions($opcoes);
+        $filter->setFieldValue($this->_request->getPost('filtro'));
+        $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page");
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "/snep/src/queues.php",
