@@ -597,11 +597,7 @@ ul#navmenu ul ul li.iehover ul {
     border-top: 1px solid #d2d2d2;
     border-bottom: 1px solid #d2d2d2;
 }
-.zend_form li {
-    list-style:none;
-    float:left;
-    margin-right: 8px;
-}
+
 .zend_form .menus {
     text-align:center;
     clear: both;
