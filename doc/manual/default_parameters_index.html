@@ -1,0 +1,83 @@
+<!--
+* ========================================================================
+* Copyright (c) 2008 - Opens Tecnologia - Projeto SNEP
+* Licenciado sob Creative Commons. Veja arquivo ./doc/licenca.txt
+* Autor: Flavio henrique Somensi <flavio@opens.com.br>
+* ========================================================================
+-->
+<h2>Configurações - Parâmetros</h2>
+
+<p>Esta rotina permite que algumas configurações de usabilidade do SNEP sejam
+    definidas ou ajustadas pelo usuário.</p>
+<ul>
+    <li><strong>Nome da Empresa: </strong>Define o nome da Empresa onde o
+        sistema está instaldo</li>
+    <li><strong>Número de linhas ... : </strong>Define o número de linha que
+        deverá ser exibida em cada página dos relatórios.</li>
+    <li><strong>IP para Conexão (*) ... : </strong>Define um número IP ou Hostname do
+        servidor onde o Asterisk está instalado.</li>
+    <li><strong>Nome do Usuário (*) ... : </strong>Define o nome do usuário que será
+        usado para conectar-se com o Asterisk.</li>
+    <li><strong>Senha do usuário (*) ... : </strong>Define a senha do usuário que será
+        usada para conectar-se com o Asterisk.
+        <ul><li>(*) A ligação do SNEP, através destes campos se dá com o Asterisk
+                através do arquivo /etc/asterisk/manager.conf </li></ul>
+    </li>
+    <li><strong>Unidade de medida ... : </strong>Define o tipo de TEMPO (minutos ou
+        segundos) que será usado nos relatórios.</li>
+    <li><strong>Lista de Excessões ... : </strong>Define uma lista de ocorrencias a serem descartadas
+        quando estas aparecerem no campo "dst" em um registro de chamada.</li>
+    <li><strong>Aplicação para Sala de ... : </strong>Define que tipo de aplicação o Asterisk devera usar para gerenciar as Salas de Conferencias. Ao Alterar esta opção , acesse a rotina Cadastros >> Sala de Conferencias  e clique no botão Gravar. </li>
+    <li><strong>Modo de Debug:</strong> Ativa o debug para erros do php e aumenta o numero de mensagens na cli do asterisk feitas pelo agi do snep.</li>
+</ul>
+
+<h3>Configuração de gravação</h3>
+<ul>
+    <li><strong>Aplicação para Gravação das ... : </strong>Define que tipo de aplicação o Asterisk devera usar para efetuar as gravações das ligações. </li>
+    <li><strong>Opções da aplicação de gravação : </strong>Define a extensão que foi usada pelo Asterisk para gravar chamadas no sistema.</li>
+    <li><strong>Local dos arquivios ... :</strong>Define o Local onde estão os arquivos
+        de gravação das chamadas.</li>
+    <li><strong>Local do backup compactado ... : </strong>Define o Local onde estão os arquivos
+        de backup ,compactados ,de gravação das chamadas.</li>
+</ul>
+
+<h3>Configurações de Ramais</h3>
+<ul>
+    <li><strong>Range de Ramais: </strong>Define limites para os numeros usados nos ramais.</li>
+</ul>
+
+<h3>Módulo de Gestão</h3>
+<ul>
+    <li><strong>Converter arquivos de som... : </strong>Define se um arquivo de som
+        a ser usado no Asterisk deverá ser convertido para o formato GSM quando do seu
+        Download para o Sistema. Este valor é apenas sugestivo, podendo ser alterado
+        na rotina específica para importar arquivos de sons.</li>
+    <li><strong>Range de Códigos para Agentes : </strong>Define o Intervalo (Inicio->Fim)
+        de números que serão usados para nomear os Agentes do Sistema.</li>
+</ul>
+
+<h3>Filas</h3>
+
+<ul>
+    <li><strong>Tempo de atualização ... : </strong>Define o intervalor em
+        SEGUNDOS que o sistema irá reler os dados do servidor Asterisk para
+        exibir informações atualizadas do Status das Filas.</li>
+    <li><strong>Número de Ligações ... :</strong>Define o número de ligaçõe que deverão
+        estar em espera para que o sistema emite o alerta visual/sonoro.</li>
+    <li><strong>Tempo Máximode espera ... : </strong>Tempo em SEGUNDOS que uma
+        ligação em espera pode atingir para que o sistema emite o alerta visual/sonoro.</li>
+</ul>
+
+<h3>Troncos</h3>
+<ul>
+    <li><strong>Valor padrão para controle de qualidade:</strong> Valor padrão para o parâmetro qualify
+    da configuração de troncos SIP.</li>
+</ul>
+
+<h3>Módulo Painel</h3>
+<ul>
+    <li><strong>Aba do painel 1,2,3 :</strong>Define o nome que cada ABA do Painel -
+        Flash Operator Panel. O Painel mostra todos as opções (ramais, troncos,agentes,...) configuradas
+        no Asterisk e provê ao usuário, funcionalidades e ações sobre as chamadas , como:
+        monitorar, encaminhar,  transferir, atender, etc ... </li>
+</ul>
