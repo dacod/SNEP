@@ -20,40 +20,23 @@
  require_once("../configs/config.php");
 
  ver_permissao(37) ;
-
- // Verifica quais Centros de Custos já foram atribuidos a alguma operadora.
-    try {
-     $sqlcc = "SELECT ccustos FROM oper_ccustos";
-     $r = $db->query($sqlcc)->fetchAll();
-
-     if(count($r) > 0) {
-         $ind = '';
-             foreach($r as $k => $v) {
-                $ind .= "'".$v['ccustos']."',";
-             }
-         $ind = " WHERE codigo NOT IN(".substr($ind, 0, -1).") ";
-     }
-
-    } catch(Exception $e) {
-        display_error($LANG['error'].$e->getMessage(),true) ;
-        exit ;
-    }
+if(isset ($_GET['id'])){
+    $id = $_GET['id'];
+}
 
  // Monta lista de centro de custos com exceção dos que ja foram atribuidos.
  if (!isset($ccustos) || count($ccustos) == 0) {
-    try {
-       $sql = "SELECT ccustos.* FROM ccustos ". ($ind ? $ind : '') ."ORDER BY ccustos.codigo" ;
-       $row = $db->query($sql)->fetchAll();
-    } catch (Exception $e) {
-       display_error($LANG['error'].$e->getMessage(),true) ;
-       exit ;
+    if (isset ($id)){
+         $ccustos = Snep_Operadoras::getCcustoNotOperadora($id);
     }
-    unset($val);
-    $ccustos = array();
-    if (count($row) > 0) {
-       foreach ($row as $val)
-          $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-       asort($ccustos);
+    else {
+        $stmt = $db->query("SELECT * FROM ccustos");
+        $op_ccustos = $stmt->fetchAll();
+         if (count($op_ccustos) > 0) {
+           foreach ($op_ccustos as $val)
+              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
+              asort($ccustos);
+        }
     }
  }
 
@@ -128,22 +111,8 @@ function alterar()  {
         display_error($LANG['msg_notselect'],true) ;
         exit ;
     }
-
-    // Deprecated - Providenciar Classe que abstraia centros de custo.
-    try {
-       $sql = "SELECT ccustos.* FROM ccustos ORDER by ccustos.codigo"  ;
-       $row = $db->query($sql)->fetchAll();
-       $ccustos = array() ;
-       if (count($row) > 0) {
-          foreach ($row as $val)
-              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-          asort($ccustos) ;
-       }
-    } catch (Exception $e) {
-        display_error($LANG['error'].$e->getMessage(),true) ;
-        exit ;
-    }
-    unset($row);
+    
+    $ccustos = Snep_Operadoras::getCcustoNotOperadora($id);
 
     // Relaciona Centros de Custo desta Operadora
     $row = Snep_Operadoras::getCcustoOperadora($id);

@@ -127,7 +127,7 @@ class Snep_Tarifas {
         $select = $db->select()
                         ->from('tarifas_valores')
                         ->where('codigo = ?', $tarifa['codigo'])
-                        ->where('data >= ?', $tarifa[0])
+                        ->where('data <= ?', $tarifa[0])
                         ->order('data ASC limit 1')
                         ->limit('1');
 

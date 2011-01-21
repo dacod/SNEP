@@ -122,6 +122,37 @@ class Snep_Operadoras {
         return $op_ccustos;
     }
 
+    // Retorna todos os Centros de Custos não atribuídos a operadora requerida
+    // @param String - Id da Operadora
+    // @return Array - Centro de Custos
+    public function getCcustoNotOperadora($id) {
+        $db = Zend_Registry::get('db');
+
+        $stmt = $db->query("SELECT ccustos FROM oper_ccustos where operadora = '$id'");
+        $op_ccustos = $stmt->fetchAll();
+
+        if(count($op_ccustos) > 0) {
+         $ind = '';
+             foreach($op_ccustos as $k => $v) {
+                $ind .= "'".$v['ccustos']."', ";
+             }
+         $ind = substr($ind, 0, -2);
+         $ind = " WHERE codigo NOT IN(".$ind.") ";
+         }
+
+       $sql = "SELECT codigo, tipo, nome, descricao FROM ccustos ". ($ind ? $ind : '') ."ORDER BY codigo" ;
+       $row = $db->query($sql)->fetchAll();
+
+        $ccustos = array();
+        if (count($row) > 0) {
+           foreach ($row as $val)
+              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
+              asort($ccustos);
+        }
+        return $ccustos;
+ }
+
+
     public function getOperadoraCcusto($ccusto) {
         $db = Zend_Registry::get('db');
 
