@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<modelo>
-    <filter>
-        <elements>
-            <campo>
-                <type>select</type>                
-                    <options>
-                    <label>Filtrar por</label>
-                    </options>
-            </campo>   
-            <filtro>
-                <type>text</type>
-                 <options>
-                    <label>Filtro</label>                    
-                 </options>   
-            </filtro>
-        </elements>
-    </filter>
-</modelo>
+<filter>
+    <elements>
+        <campo>
+            <type>select</type>
+            <options>
+                <label>Filtrar por</label>
+            </options>
+        </campo>
+        <filtro>
+            <type>text</type>
+            <options>
+                <label>Filtro</label>
+            </options>
+        </filtro>
+    </elements>
+</filter>
