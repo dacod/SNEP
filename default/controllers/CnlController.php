@@ -26,26 +26,28 @@ class CnlController extends Zend_Controller_Action {
         
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . "/default/cnl/index");
+        $this->view->formAction = $this->getFrontController()->getBaseUrl() . "/default/cnl/index";
 
         $element = new Zend_Form_Element_File('cnl');
         $element->setLabel( $this->view->translate('Arquivo CNL') )
                 ->setDestination('/tmp/');
         
         $element->addValidator('Extension', false, 'bz2');
+        $element->removeDecorator('DtDdWrapper');
         $form->addElement($element, 'cnl');
 
-
-        $submit = new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Enviar")));
-        $submit->setAttrib("onclick", "$('frescura').show();");
-        $form->addElement($submit);
+        $form->setButton();
+        $form->getElement("submit")->setLabel($this->view->translate("Enviar"));
 
         $form->setAttrib('enctype', 'multipart/form-data');
 
         $this->view->form = $form;
+        $this->view->valid = true;
 
         if ($this->_request->getPost()) {
            
             $form_isValid = $form->isValid($_POST);
+            $this->view->valid = $form_isValid;
 
             if ($form_isValid) {
                 $data = $_POST;

@@ -18,7 +18,10 @@ class Snep_Form extends Zend_Form {
     }
 
     public function setButtom() {
+        $this->setButton();
+    }
 
+    public function setButton() {
         $submit = new Zend_Form_Element_Submit("submit", array("label" => "Salvar"));
         $submit->removeDecorator('DtDdWrapper');
         $submit->addDecorator('HtmlTag', array('tag' => 'li'));
@@ -33,7 +36,6 @@ class Snep_Form extends Zend_Form {
         $back->addDecorator('HtmlTag', array('tag' => 'div', 'class' => 'menus', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
 
         $this->addElement($back);
-       
     }
 
 
