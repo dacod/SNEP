@@ -1,5 +1,5 @@
 update groups set name='administrator' where name = 'admin';
-ALTER TABLE  `trunks` ADD  `domain` VARCHAR( 250 ) NOT NULL
+ALTER TABLE  `trunks` ADD  `domain` VARCHAR( 250 ) NOT NULL;
 
 CREATE TABLE IF NOT EXISTS ars_operadora (
     `id` integer primary key,
