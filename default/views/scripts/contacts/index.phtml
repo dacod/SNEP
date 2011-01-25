@@ -1,0 +1,52 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+echo $this->render('filter.phtml');
+?>
+<table>
+   <thead>
+      <tr>
+         <th class="numeric"> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Grupo') ?> </th>
+         <th> <?php echo $this->translate('Cidade') ?> </th>
+         <th> <?php echo $this->translate('Estado') ?> </th>
+         <th> <?php echo $this->translate('CEP') ?> </th>
+         <th class="numeric"> <?php echo $this->translate('Telefone') ?> </th>
+         <th class="numeric"> <?php echo $this->translate('Celular') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    if($this->contacts):
+        foreach($this->contacts as $id => $val ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td class="numeric"> <b> <?php echo $val['ide'] ?> </b> </td>
+                <td> <?php echo $val['nome'] ?> </td>
+                <td> <?php echo $val['name'] ?> </td>
+                <td> <?php echo $val['city'] ?> </td>
+                <td> <?php echo $val['state'] ?> </td>
+                <td> <?php echo $val['cep'] ?> </td>
+                <td class="numeric"> <?php echo $val['phone_1'] ?> </td>
+                <td class="numeric"> <?php echo $val['cell_1'] ?> </td>
+                <td class="action">
+                    <a class="alterar" href='/snep/src/cont_names.php?acao=alterar&id=<?php echo $val['ide'] ?>'>
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <span class="excluir" onclick="remove_item('/snep/src/cont_names.php?acao=excluir&id=<?php echo $val['ide'] ?>', 'Deseja realmente excluir o Contato ?');">
+                        <?php echo $this->translate('Excluir')?>
+                    </span>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>

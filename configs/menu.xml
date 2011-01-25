@@ -20,6 +20,8 @@
 
     <item id="register" label="menu_register" resourceid="10">
         <item uri="costcenter" label="menu_ccustos" ></item>
+        <item uri="contacts" label="menu_contacts" ></item>
+        <item uri="contactsgroups" label="menu_contacts_groups" ></item>
         <item uri="queues" label="menu_queues" ></item>
         <item uri="extensionsgroups" label="menu_grupos_ramais" ></item>
         <item uri="pickupgroups" label="menu_grupos" ></item>
