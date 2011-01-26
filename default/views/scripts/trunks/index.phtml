@@ -13,6 +13,7 @@ echo $this->render('filter.phtml');
          <th> <?php echo $this->translate('Nome') ?> </th>
          <th> <?php echo $this->translate('Tipo de Tronco') ?> </th>
          <th> <?php echo $this->translate('Tecnologia de Canais') ?> </th>
+         <th> <?php echo $this->translate('Saldo de Tempo') ?> </th>
          <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?>  </th>
       </tr>
    </thead>
@@ -30,6 +31,17 @@ echo $this->render('filter.phtml');
                 <?php echo ( $val['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
             </td>
             <td> <?php echo $val['type'] ?> </td>
+            <td> 
+                <?php
+                    // impressão dado tempo restante
+                    if ($val['time_total'] <> null) {
+                        $tr = ($val['time_total'] - $val['used']) / 60 . " min";
+                    }else{
+                        $tr = "<span style='color:#888'>Não Configurado</span>";
+                    }
+                    echo $tr;
+                ?>
+            </td>
             <td class="action">
                 <a class="alterar" href='/snep/src/troncos.php?acao=alterar&id=<?php echo $val['id'] ?>'>
                     <?php echo $this->translate('Alterar')?>

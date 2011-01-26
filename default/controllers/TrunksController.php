@@ -24,7 +24,10 @@ class TrunksController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                        ->from("trunks", array("id", "callerid", "name", "type", "trunktype"));
+                                ->from(array('t' => 'trunks'), array('id', 'callerid', 'name', 'type', 'trunktype','time_chargeby','time_total'))
+                                ->joinleft(array('th' => 'time_history'), "th.owner = t.id and th.owner_type = 'T'")
+                                ->group('t.id');
+
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
