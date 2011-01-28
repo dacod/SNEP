@@ -240,6 +240,7 @@
    }
 
    function ret_cidade(ret) {
+       $('cidade').innerHTML = "";
        $('cidade').insert(ret.responseText);       
        $('wait_estado').hide();
    }

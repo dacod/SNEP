@@ -32,4 +32,3 @@ if(count($municipios > 0)) {
 }
 
 echo $options;
-?>

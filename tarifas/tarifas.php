@@ -164,4 +164,3 @@ function excluir()  {
 
    echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_tarifas.php'>\n" ; 
 }
-?>

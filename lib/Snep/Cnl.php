@@ -211,7 +211,8 @@ class Snep_Cnl {
         $select = $db->select()
         ->from(array('ddd' => 'ars_ddd'),array('estado as uf'))
         ->join(array('cid' => 'ars_cidade'), 'cid.id = ddd.cidade' ,array('name as municipio'))
-        ->where("ddd.estado = '$uf'");
+        ->where("ddd.estado = '$uf'")
+        ->order("municipio");
 
         $stmt = $db->query($select);
         $registros = $stmt->fetchAll();
@@ -234,4 +235,3 @@ class Snep_Cnl {
         return $registros;
     }
 }
-?>
