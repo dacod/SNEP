@@ -512,10 +512,6 @@ CREATE TABLE IF NOT EXISTS `contacts_group` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
--- Grupo incial dos contatos
-
-INSERT INTO `contacts_group` VALUES (1, 'Default');
-
 --
 -- Estrutura da tabela `contacts_names`
 --
