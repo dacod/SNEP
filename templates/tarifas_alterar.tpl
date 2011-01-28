@@ -18,6 +18,7 @@
 <table align="center" >   
    <thead>
       <tr>
+         <td class="cen" width="20%">Cadastrada em</td>
          <td class="cen" width="20%">{$LANG.valid_date}</td>
          <td class="dir">{$LANG.vlrbase_fix}</td>
          <td class="dir">{$LANG.vlrbase_cel}</td>
@@ -29,7 +30,8 @@
       {assign var="data_atual" value=strtotime("now()")}
       <input type="hidden" name="data[{$key}]" id="data" value="{$item.data}" />
       <tr bgcolor='{cycle values="`$smarty.config.COR_GRID_A`,`$smarty.config.COR_GRID_B`"}'>
-         <td class="cen">{$item.data}</td>
+         <td class="cen">{$item.data|date_format:'%d/%m/%Y %T'}</td>
+         <td class="cen">{$item.data|date_format:'%d/%m/%Y'}</td>
          <td class="dir">
             <input type="text" name="vfix[{$key}]" id="vfix" value="{$item.vfix|string_format:'%.2f'}"  class="campos" style="text-align:right;"  size="8"  onChange="this.form.elements['action[{$key}]'].checked=true;;" />
          </td>
@@ -50,7 +52,8 @@
    <!-- Nova Linha para Incluir novo registro -->
    <input type="hidden" name="data[{$indice}]" id="data" value="{$data_atual|date_format:'%Y-%m-%d %T'}" />
    <tr bgcolor="#FFF9C4">
-      <td class="cen">{$data_atual|date_format:'%d/%m/%Y %T'}</td>
+       <td class="cen">{$data_atual|date_format:'%d/%m/%Y %T'}</td>
+      <td class="cen">{$data_atual|date_format:'%d/%m/%Y'}</td>
       <td class="dir">
          <input type="text" name="vfix[{$indice}]" id="vfix" class="campos" style="text-align:right;"  size="8" value="0"   onChange="this.form.elements['action[{$indice}]'].checked=true;;" />
       </td>
