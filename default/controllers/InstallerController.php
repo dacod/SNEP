@@ -59,29 +59,14 @@ class InstallerController extends Zend_Controller_Action {
 
         $schema = file_get_contents($path->base . "/default/installer/schema.sql");
         $system_data = file_get_contents($path->base . "/default/installer/system_data.sql");
+        $cnl_data = file_get_contents($path->base . "/default/installer/cnl_data.sql");
 
         $db->beginTransaction();
         try {
 
-            // Schema creation
-            // System scheme insertions
-            $schema = explode(";\n", $schema);            
-            $schema = array_map('trim',$schema);
-            $schema = array_filter($schema, 'strlen');
-
-            foreach ($schema as $sql) {
-                $db->query($sql);
-            }
-            
-            // System data insertions
-            // Schema creation
-            $system_data = explode(";\n", $system_data);            
-            $system_data = array_map('trim',$system_data);
-            $system_data = array_filter($system_data, 'strlen');
-
-            foreach ($system_data as $sql) {
-                $db->query($sql);
-            }
+            $db->query($schema);
+            $db->query($system_data);
+            $db->query($cnl_data);
 
             $db->commit();
         }

@@ -148,7 +148,7 @@ CREATE TABLE groups (
     name varchar(50) PRIMARY KEY,
     inherit varchar(50),
     FOREIGN KEY (inherit) REFERENCES groups(name) ON UPDATE CASCADE
-)ENGINE=InnoDB  DEFAULT CHARSET=utf8;;
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `peers` (
   `id` int(11) NOT NULL auto_increment,
