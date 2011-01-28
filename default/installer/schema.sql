@@ -367,6 +367,7 @@ CREATE TABLE `trunks` (
   `reverse_auth` BOOLEAN DEFAULT TRUE,
   `dtmf_dial` BOOLEAN NOT NULL DEFAULT FALSE,
   `dtmf_dial_number` VARCHAR(50) DEFAULT NULL,
+  `domain` VARCHAR( 250 ) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
