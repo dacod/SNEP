@@ -74,7 +74,7 @@ HEAD;
         $smarty = Zend_Registry::get('smarty');
         $smarty->assign('OPCOES_GRUPOS', $grupos);
 
-        $select = "SELECT id, name FROM ad_group";
+        $select = "SELECT id, name FROM contacts_group";
         $raw_groups = $db->query($select)->fetchAll();
 
         $groups = array();
@@ -349,7 +349,7 @@ HEAD;
                         break;
                     case "CG" :
                         $db = Zend_Registry::get('db');
-                        $select = "SELECT id, name FROM ad_group";
+                        $select = "SELECT id, name FROM contacts_group";
                         $raw_groups = $db->query($select)->fetchAll();
 
                         $groups = array();

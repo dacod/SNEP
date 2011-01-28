@@ -44,7 +44,7 @@ HEAD;
         $opcoes = array("name"=>"Nome");
         
         // Variaveis Relativas a Barra de Filtro/Botao Incluir
-        $smarty->assign ('view_filter',True);
+        $smarty->assign ('view_filter',false);
         $smarty->assign ('view_include_buttom',True);
         $smarty->assign ('OPCOES', $opcoes);
         $smarty->assign ('array_include_buttom',array("url" => "../gestao/expression_alias.php?action=add", "display"  => "Incluir Alias"));

@@ -17,7 +17,7 @@
 <table align="center" class="bgfiltro">
    <tr>
       {if $view_filter}
-         <td class="subtable" width="70%" height="35">
+         <td class="subtable" width="60%" height="35">
             <form name="filtro" method="post" action="{$smarty.server.SCRIPT_NAME}">
             {$LANG.fieldtofilter}
                 <select name="field_filter" class="campos">

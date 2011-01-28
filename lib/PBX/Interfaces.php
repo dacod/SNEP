@@ -95,37 +95,53 @@ class PBX_Interfaces {
      * @return object Objeto que representa o dono da interface (se houver)
      */
     public static function getChannelOwner($channel) {
-        $db = Snep_Db::getInstance();
+        $db = Zend_Registry::get('db');
 
         $select = $db->select()
                      ->from('trunks');
 
         $interfaces = $db->query($select)->fetchAll();
 
+        $id = -1;
         foreach ($interfaces as $interface) {
             if(preg_match("#^{$interface['id_regex']}$#i", $channel)) {
-                return PBX_Trunks::get($interface['id']);
+                $id = $interface['id'];
+                $type = 'trunk';
+                $ownerid = $interface['id'];
+                break; // feio
             }
         }
 
-        $result = $db->query("SELECT name FROM peers WHERE canal like 'Agent/$channel' LIMIT 1")->fetch();
-        if (isset($result['name'])) {
-            return PBX_Usuarios::get($result['name']);
-        }
+        if($id == -1) {
+            $select = $db->select()
+                         ->from('peers')
+                         ->where("name != 'admin' AND peer_type='R'");
 
-        $select = $db->select()
-                     ->from('peers')
-                     ->where("name != 'admin' AND peer_type='R'");
+            $interfaces = $db->query($select)->fetchAll();
 
-        $interfaces = $db->query($select)->fetchAll();
-
-        foreach ($interfaces as $interface) {
-            if($interface['canal'] == $channel) {
-                return PBX_Usuarios::get($interface['name']);
+            foreach ($interfaces as $interface) {
+                if(preg_match("#^{$interface['canal']}$#i", $channel)) {
+                    $id = $interface['name'];
+                    $type = 'user';
+                    $ownerid = $interface['name'];
+                    break; // feio
+                }
             }
         }
 
-        return null;
+        if($id != -1) {
+            if($type == 'user') {
+                $owner = PBX_Usuarios::get($ownerid);
+            }
+            else {
+                $owner = PBX_Trunks::get($ownerid);
+            }
+        }
+        else {
+            return null;
+        }
+
+        return $owner;
     }
 
     /**
@@ -167,4 +183,3 @@ class PBX_Interfaces {
         throw new Exception("Nao suportado por essa versao do snep");
     }
 }
-

@@ -86,9 +86,6 @@ class Snep_Extensions {
         else if($tech == "MANUAL") {
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> substr($data->canal, strpos($data->canal, '/')+1)));
         }
-        else if($tech == "Agent") {
-            $interface = new PBX_Asterisk_Interface_Agent(array("channel"=> substr($data->canal, strpos($data->canal, '/')+1)));
-        }
         else if($tech == "KHOMP") {
             $khomp_id = substr($data->canal, strpos($data->canal, '/')+1);
             $khomp_board = substr($khomp_id, 1, strpos($khomp_id, 'c')-1);
@@ -130,11 +127,10 @@ class Snep_Extensions {
     /**
      * Retorna todos os ramais do banco.
      *
-     * @return array
+     * @return Snep_Exten[] array
      */
     public function getAll() {
         $db = Zend_Registry::get('db');
-        $mode = $db->getFetchMode();
         $db->setFetchMode(Zend_Db::FETCH_OBJ);
 
         $select = $db->select('name')->from('peers')->where("peer_type='R' AND name != 'admin'");
@@ -146,8 +142,6 @@ class Snep_Extensions {
         foreach($raw_data as $row) {
             $extensions[] = $this->processExten( $row );
         }
-        
-        $db->setFetchMode($mode);
 
         return $extensions;
     }

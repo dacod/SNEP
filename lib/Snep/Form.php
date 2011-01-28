@@ -14,7 +14,6 @@ class Snep_Form extends Zend_Form {
             array('Label', array('tag' => 'dt')),
             array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class'=>'form_element'))
         ));
-
     }
 
     public function setButtom() {

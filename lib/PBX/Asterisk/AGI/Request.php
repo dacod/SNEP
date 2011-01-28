@@ -55,7 +55,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
      *
      * @param Snep_Exten|Snep_Trunk $obj
      */
-    public function setSrcObj($obj) {
+    public function setSrcObj( $obj ) {
         $this->srcObj = $obj;
     }
 
@@ -67,7 +67,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
      * @return mixed valor da propriedade
      */
     public function __get($varname) {
-        switch ($varname) {
+        switch($varname) {
             case 'origem':
                 $varname = 'callerid';
                 break;
@@ -81,7 +81,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
     }
 
     public function __set($varname, $value) {
-        switch ($varname) {
+        switch($varname) {
             case 'origem':
                 $varname = 'callerid';
                 break;
@@ -114,25 +114,35 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
         $channel = $this->request['channel'];
         // removendo o hash de controle do asterisk
         // de TECH/ID-HASH para TECH/ID
-        $channel = strpos($channel, '-') ? substr($channel, 0, strpos($channel, '-')) : $channel;
+        $channel = strpos($channel,'-') ? substr($channel, 0, strpos($channel,'-')) : $channel;
 
-        $object = PBX_Interfaces::getChannelOwner($channel);
+        $ramal = null;
+        try {
+            $ramal = PBX_Usuarios::get($this->request['callerid']);
+            $object = $ramal;
+        }
+        catch( Exception $ex ) {
+            $object = PBX_Interfaces::getChannelOwner($channel);
+        }
 
-        if ($object instanceof Snep_Trunk && $object->allowExtensionMapping()) {
+        if( $object instanceof Snep_Trunk && $object->allowExtensionMapping()) {
             try {
                 $exten = PBX_Usuarios::get($this->origem);
-                if ($exten->getInterface() instanceof PBX_Asterisk_Interface_VIRTUAL) {
+                if( $exten->getInterface() instanceof PBX_Asterisk_Interface_VIRTUAL ) {
                     $object = $exten;
                 }
-            } catch (PBX_Exception_NotFound $ex) {
+            }
+            catch ( PBX_Exception_NotFound $ex ) {
                 // Ignore
             }
         }
 
         $this->setSrcObj($object);
-        if($object instanceof Snep_Usuario) {
-            $this->callerid = $object->getNumero();
+
+        if( is_object($this->getSrcObj()) ) {
+            $log = Zend_Registry::get('log');
+            $classname = get_class($this->getSrcObj());
+            $log->debug("Econtrado objeto para originador: {$this->getSrcObj()} ($classname)");
         }
     }
-
 }

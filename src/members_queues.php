@@ -18,76 +18,67 @@
 
 require_once("../includes/verifica.php");
 require_once("../configs/config.php");
-ver_permissao(18);
-
-$acao = isset($_POST['acao']) ? $_POST['acao'] : $_GET['acao'];
+ver_permissao(18) ;
+global $name, $acao ;
 $name = isset($_POST['name']) ? $_POST['name'] : $_GET['name'];
-
 if ($acao == 'gravar') {
-    grava_members();
+    grava_members() ;
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
 }
-
-$titulo = $LANG['menu_register'] . " » " . $LANG['menu_queues'] . " » " . $LANG['queue_members'] . " : " . $name;
-
+$titulo = $LANG['menu_register']." » ".$LANG['menu_queues']." » ".$LANG['queue_members']." : ".$name;
 // Lista de Todos os ramais disponiveis
-$sql = "SELECT name, canal, callerid, `group` FROM peers  WHERE canal != '' AND name != 'admin' AND peer_type = 'R' ORDER BY `group`, name";
-$ramais_disp = array();
+$sql = "SELECT name, canal, callerid, `group` FROM peers  WHERE canal != '' AND name != 'admin' AND peer_type = 'R' ORDER BY `group`, name" ;
+$ramais_disp = array() ;
 try {
     foreach ($db->query($sql) as $row) {
-        $cd = explode(";", $row['canal']);
-        foreach ($cd as $canal) {
-            if (strlen($canal) > 0) {
-                $tech = substr($canal, 0, 5) == "Agent" ? "Agente" : "Ramal";
-                $interface = sprintf("Local/%s@snep-queue/n", $row['name']);
-                $ramais_disp[$interface] = $row['callerid'] . " ($tech) ({$row['group']})";
-            }
+       $cd = explode(";",$row['canal']);
+       foreach ($cd as $canal) {
+          if (strlen($canal) > 0)
+             $ramais_disp[$canal] = $row['callerid']." ($canal)({$row['group']})";
         }
     }
 } catch (Exception $e) {
-    display_error($LANG['error'] . $e->getMessage(), true);
+    display_error($LANG['error'].$e->getMessage(),true) ;
 }
-
 // Lista de Todos os ramais que ja participam da fila e ajusta o canal
 // com o callerid atual da tabela ramais
-$sql = "SELECT membername,interface FROM queue_members WHERE queue_name = '" . $name . "'";
-$sql.= " ORDER BY membername";
-$ramais_used = array();
+$sql = "SELECT membername,interface FROM queue_members WHERE queue_name = '".$name."'" ;
+$sql.= " ORDER BY membername" ;
+$ramais_used = array() ;
 try {
-    $row = $db->query($sql)->fetchAll();
+    $row = $db->query($sql)->fetchAll() ;
     foreach ($row as $val) {
-        if (array_key_exists($val['interface'], $ramais_disp))
-            $ramais_used[$val['interface']] = $ramais_disp[$val['membername']];
-        else
-            $ramais_used[$val['interface']] = $val['membername'];
-    }
+       if (array_key_exists($val['interface'],$ramais_disp))
+          $ramais_used[$val['interface']] = $ramais_disp[$val['membername']] ;
+       else
+          $ramais_used[$val['interface']] = $val['membername'] ;
+        }
     // Retira da Lista de disponiveis os que ja estao sendo usados
-    foreach ($ramais_disp as $key => $val) {
-        if (array_key_exists($key, $ramais_used)) {
-            unset($ramais_disp[$key]);
+    foreach ($ramais_disp as $key=>$val) {
+        if (array_key_exists($key,$ramais_used)) {
+            unset($ramais_disp[$key]) ;
         }
     }
 } catch (Exception $e) {
-    display_error($LANG['error'] . $e->getMessage(), true);
+    display_error($LANG['error'].$e->getMessage(),true) ;
 }
-$smarty->assign('OPCOES_LIVRES', $ramais_disp);
-$smarty->assign('OPCOES_USADOS', $ramais_used);
-$smarty->assign('ACAO', 'gravar');
-$smarty->assign('name', $name);
-display_template("members_queues.tpl", $smarty, $titulo);
+$smarty->assign ('OPCOES_LIVRES',$ramais_disp);
+$smarty->assign ('OPCOES_USADOS',$ramais_used);
+$smarty->assign ('ACAO','gravar') ;
+$smarty->assign ('name',$name) ;
+display_template("members_queues.tpl",$smarty,$titulo);
 
-/* -----------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------
  * Funcao grava_members - Grava dados nas teb&#231;las do BD
- * ---------------------------------------------------------------------------- */
-
+ * ----------------------------------------------------------------------------*/
 function grava_members() {
-    $db = Snep_Db::getInstance();
-    $name = isset($_POST['name']) ? $_POST['name'] : $_GET['name'];
-    $lista2 = isset($_POST['lista2']) ? $_POST['lista2'] : $_GET['lista2'];
+    global $db, $lista2, $name ;
 
-    $db->beginTransaction();
+
+    $db->beginTransaction() ;
     $sql = "DELETE FROM queue_members WHERE queue_name = '$name'";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
+    $stmt = $db->prepare($sql) ;
+    $stmt->execute() ;
 
     foreach ($lista2 as $val) {
         $sql = "INSERT INTO queue_members (interface,membername,queue_name) VALUES ('$val', '$val', '$name') ";
@@ -96,10 +87,12 @@ function grava_members() {
 
     try {
         $db->commit();
-        echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n";
-    } catch (Exception $e) {
+     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
+
+    } catch(Exception $e) {
         $db->rollBack();
-        display_error($LANG['error'] . $e->getMessage(), true);
+        display_error($LANG['error'].$e->getMessage(),true) ;
     }
-    exit();
+
 }
+

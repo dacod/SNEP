@@ -47,7 +47,7 @@ class PBX_Usuarios {
      * @return Snep_Usuario usuario
      */
     public static function get($userid) {
-        $db = Snep_Db::getInstance();
+        $db = Zend_Registry::get('db');
 
         $userid = str_replace("'", "\'", $userid);
         $select = $db->select()->from('peers')->where("name = '$userid' AND peer_type='R'");
@@ -71,9 +71,6 @@ class PBX_Usuarios {
         else if($tech == "VIRTUAL") {
             $trunk = PBX_Trunks::get(substr($usuario->canal,strpos($usuario->canal, '/') +1 ));
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> $trunk->getInterface()->getCanal() . "/" . $userid));
-        }
-        else if($tech == "Agent") {
-            $interface = new PBX_Asterisk_Interface_Agent(array("channel"=> substr($usuario->canal, strpos($usuario->canal, '/')+1)));
         }
         else if($tech == "KHOMP") {
             $khomp_id = substr($usuario->canal, strpos($usuario->canal, '/')+1);
@@ -119,7 +116,7 @@ class PBX_Usuarios {
      * @return Snep_Usuario array
      */
     public static function getAll() {
-        $db = Snep_Db::getInstance();
+        $db = Zend_Registry::get('db');
 
         $select = $db->select('name')->from('peers')->where("peer_type='R' AND name != 'admin'");
 
@@ -141,7 +138,7 @@ class PBX_Usuarios {
      * @return array Snep_Usuario $objetos
      */
     public static function getByGroup($group) {
-        $db = Snep_Db::getInstance();
+        $db = Zend_Registry::get('db');
 
         $select = $db->select('name','group')->from('peers')->where("peer_type='R' AND name != 'admin'");
 
@@ -170,7 +167,7 @@ class PBX_Usuarios {
      * @return boolean resultado do teste
      */
     public static function hasGroupInheritance($parent, $node) {
-        $db = Snep_Db::getInstance();
+                $db = Zend_Registry::get('db');
         $select = $db->select()
              ->from('groups')
              ->where("name != 'admin' AND name != 'users' AND name != 'all'");

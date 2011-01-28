@@ -25,12 +25,14 @@ $log = Zend_Registry::get('log');
 $log->info("Connection request from " . $asterisk->request['agi_callerid'] . " to agenda entry " . $entryid . ".");
 
 try {
-    $sql = "SELECT phone FROM ad_phone,ad_contact WHERE contact=id AND id='$entryid'";
-
+    $sql = "SELECT phone_1, cell_1 FROM contacts_names WHERE id='$entryid'";
     $result = $db->query($sql)->fetchAll();
-    if(count($result) == 1 && ($action == "*12" && $result[0]['phone'] != "") ) {
+    if(count($result) == 1 && ($action == "*12" && $result[0]['phone_1'] != "") OR ($action == "*13" && $result[0]['cell_1'] != "")) {
         if($action == "*12") {
-            $asterisk->set_extension($result[0]['phone']);
+            $asterisk->set_extension($result[0]['phone_1']);
+        }
+        else {
+            $asterisk->set_extension($result[0]['cell_1']);
         }
     }
     else {

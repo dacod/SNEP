@@ -40,15 +40,12 @@ set_include_path($config['system']['path.base'] . "/lib" . PATH_SEPARATOR  . get
 $logdir = $config['system']['path.base'] . "/log";
 unset($config);
 
-require_once 'Snep/Config.php';
-Snep_Config::setConfigFile($config_file);
-
 require_once "Snep/Bootstrap/Agi.php";
 $bootstrap = new Snep_Bootstrap_Agi($config_file);
 $bootstrap->boot();
 
 $asterisk = Zend_Registry::get('asterisk');
-$config = Snep_Config::getConfig();
+$config = Zend_Registry::get('config');
 $db = Zend_Registry::get('db');
 $request = $asterisk->requestObj;
 $log = Zend_Registry::get('log');

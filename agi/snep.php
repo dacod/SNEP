@@ -51,15 +51,12 @@ set_include_path($config['system']['path.base'] . "/lib" . PATH_SEPARATOR  . get
 $logdir = $config['system']['path.log'];
 unset($config);
 
-require_once 'Snep/Config.php';
-Snep_Config::setConfigFile($config_file);
-
 require_once "Snep/Bootstrap/Agi.php";
 $bootstrap = new Snep_Bootstrap_Agi($config_file);
 $bootstrap->boot();
 
 $asterisk = Zend_Registry::get('asterisk');
-$config = Snep_Config::getConfig();
+$config = Zend_Registry::get('config');
 
 
 // Configuração das opções da linha de comando
