@@ -28,6 +28,7 @@
  * 
  */
 class Snep_Operadoras {
+
     private $codigo;
     private $nome;
     private $tpm;
@@ -36,11 +37,18 @@ class Snep_Operadoras {
     private $tbc;
     private $vpf;
     private $vpc;
-    
 
-    public function __construct() {}
-    public function __destruct() {}
-    public function __clone() {}
+    public function __construct() {
+
+    }
+
+    public function __destruct() {
+
+    }
+
+    public function __clone() {
+
+    }
 
     // Acesso direto aos atributos.
     public function __get($atributo) {
@@ -59,8 +67,8 @@ class Snep_Operadoras {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('operadoras')
-        ->where("codigo = '$codigo'");
+                        ->from('operadoras')
+                        ->where("codigo = '$codigo'");
 
         $stmt = $db->query($select);
         $operadora = $stmt->fetchAll();
@@ -75,8 +83,8 @@ class Snep_Operadoras {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('operadoras')
-        ->order('nome');
+                        ->from('operadoras')
+                        ->order('nome');
 
         $stmt = $db->query($select);
         $operadoras = $stmt->fetchAll();
@@ -92,11 +100,11 @@ class Snep_Operadoras {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                ->from('operadoras')                
-                ->order('codigo');
+                        ->from('operadoras')
+                        ->order('codigo');
 
-        if(!is_null($filtro)) {
-            $select->where("". $filtro ." like '%". $valor ."%'");
+        if (!is_null($filtro)) {
+            $select->where("" . $filtro . " like '%" . $valor . "%'");
         }
 
         $stmt = $db->query($select);
@@ -112,9 +120,9 @@ class Snep_Operadoras {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                ->from(array('o' => 'oper_ccustos'))
-                ->join(array('c' => 'ccustos') , 'c.codigo = o.ccustos', array('codigo', 'nome', 'tipo'))
-                ->where("o.operadora = '$id'");
+                        ->from(array('o' => 'oper_ccustos'))
+                        ->join(array('c' => 'ccustos'), 'c.codigo = o.ccustos', array('codigo', 'nome', 'tipo'))
+                        ->where("o.operadora = '$id'");
 
         $stmt = $db->query($select);
         $op_ccustos = $stmt->fetchAll();
@@ -122,48 +130,17 @@ class Snep_Operadoras {
         return $op_ccustos;
     }
 
-    // Retorna todos os Centros de Custos não atribuídos a operadora requerida
-    // @param String - Id da Operadora
-    // @return Array - Centro de Custos
-    public function getCcustoNotOperadora($id) {
-        $db = Zend_Registry::get('db');
-
-        $stmt = $db->query("SELECT ccustos FROM oper_ccustos where operadora = '$id'");
-        $op_ccustos = $stmt->fetchAll();
-
-        if(count($op_ccustos) > 0) {
-         $ind = '';
-             foreach($op_ccustos as $k => $v) {
-                $ind .= "'".$v['ccustos']."', ";
-             }
-         $ind = substr($ind, 0, -2);
-         $ind = " WHERE codigo NOT IN(".$ind.") ";
-         }
-
-       $sql = "SELECT codigo, tipo, nome, descricao FROM ccustos ". ($ind ? $ind : '') ."ORDER BY codigo" ;
-       $row = $db->query($sql)->fetchAll();
-
-        $ccustos = array();
-        if (count($row) > 0) {
-           foreach ($row as $val)
-              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-              asort($ccustos);
-        }
-        return $ccustos;
- }
-
-
     public function getOperadoraCcusto($ccusto) {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-                ->from(array('o'  => 'operadoras') )
-                ->from(array('oc' => 'oper_ccustos') )
-                ->join(array('c' => 'ccustos'), "o.codigo=oc.operadora AND oc.ccustos=c.codigo AND c.codigo='$ccusto'");
+                        ->from(array('o' => 'operadoras'))
+                        ->from(array('oc' => 'oper_ccustos'))
+                        ->join(array('c' => 'ccustos'), "o.codigo=oc.operadora AND oc.ccustos=c.codigo AND c.codigo='$ccusto'");
 
         $stmt = $db->query($select);
         $ccusto_op = $stmt->fetch();
-        
+
         return $ccusto_op;
     }
 
@@ -174,17 +151,17 @@ class Snep_Operadoras {
         $db = Zend_Registry::get('db');
 
         $insert_data = array("codigo" => $operadora->codigo,
-                             "nome"   => $operadora->nome,
-                             "tpm"    => $operadora->tpm,
-                             "tdm"    => $operadora->tdm,
-                             "tbf"    => $operadora->tbf,
-                             "tbc"    => $operadora->tbc,
-                             "vpf"    => $operadora->vpf,
-                             "vpc"    => $operadora->vpc
-                       );
-         	 	 	
+            "nome" => $operadora->nome,
+            "tpm" => $operadora->tpm,
+            "tdm" => $operadora->tdm,
+            "tbf" => $operadora->tbf,
+            "tbc" => $operadora->tbc,
+            "vpf" => $operadora->vpf,
+            "vpc" => $operadora->vpc
+        );
+
         $db->insert('operadoras', $insert_data);
-        
+
         return $db->lastInsertId();
     }
 
@@ -195,21 +172,21 @@ class Snep_Operadoras {
     public function setCcustoOperadora($operadora, $ccustos) {
         $db = Zend_Registry::get('db');
 
-        $db->beginTransaction() ;
+        $db->beginTransaction();
         $db->delete('oper_ccustos', "operadora = '$operadora'");
 
         try {
             $db->commit();
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
         }
-        
-        foreach($ccustos as $ccusto) {
+
+        foreach ($ccustos as $ccusto) {
             $insert_data = array("operadora" => $operadora,
-                                 "ccustos" => $ccusto
-                            );
+                "ccustos" => $ccusto
+            );
             $db->insert('oper_ccustos', $insert_data);
-        }        
+        }
     }
 
     // Atualiza informações de determinada Operadora
@@ -219,17 +196,17 @@ class Snep_Operadoras {
 
         $oper = self::get($operadora->codigo);
 
-        if($oper) {
+        if ($oper) {
 
-         $update_data = array("codigo" => $operadora->codigo,
-                              "nome"   => $operadora->nome,
-                              "tpm"    => $operadora->tpm,
-                              "tdm"    => $operadora->tdm,
-                              "tbf"    => $operadora->tbf,
-                              "tbc"    => $operadora->tbc,
-                              "vpf"    => $operadora->vpf,
-                              "vpc"    => $operadora->vpc
-                       );
+            $update_data = array("codigo" => $operadora->codigo,
+                "nome" => $operadora->nome,
+                "tpm" => $operadora->tpm,
+                "tdm" => $operadora->tdm,
+                "tbf" => $operadora->tbf,
+                "tbc" => $operadora->tbc,
+                "vpf" => $operadora->vpf,
+                "vpc" => $operadora->vpc
+            );
 
             $db = Zend_Registry::get('db');
             $db->update("operadoras", $update_data, "codigo = '$operadora->codigo'");
@@ -242,25 +219,21 @@ class Snep_Operadoras {
     public static function remove($operadora) {
         $db = Zend_Registry::get('db');
 
-        $oper = self::get( $operadora );
+        $oper = self::get($operadora);
 
-        if($oper) {
+        if ($oper) {
 
             $db->delete('oper_ccustos', "operadora = '$operadora'");
             $db->delete('operadoras', "codigo = '$operadora'");
 
-            $db->beginTransaction() ;
+            $db->beginTransaction();
 
-            try{
+            try {
                 $db->commit();
-
-            }catch(Exception $e) {
+            } catch (Exception $e) {
                 $db->rollBack();
-                
             }
-        }        
+        }
     }
 
-
 }
-?>

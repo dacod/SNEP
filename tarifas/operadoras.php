@@ -26,17 +26,12 @@ if(isset ($_GET['id'])){
 
  // Monta lista de centro de custos com exceção dos que ja foram atribuidos.
  if (!isset($ccustos) || count($ccustos) == 0) {
-    if (isset ($id)){
-         $ccustos = Snep_Operadoras::getCcustoNotOperadora($id);
-    }
-    else {
-        $stmt = $db->query("SELECT * FROM ccustos");
-        $op_ccustos = $stmt->fetchAll();
-         if (count($op_ccustos) > 0) {
-           foreach ($op_ccustos as $val)
-              $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
-              asort($ccustos);
-        }
+    $stmt = $db->query("select * from ccustos as cc left join oper_ccustos as oc on cc.codigo=oc.ccustos where oc.operadora is NULL;");
+    $op_ccustos = $stmt->fetchAll();
+     if (count($op_ccustos) > 0) {
+       foreach ($op_ccustos as $val)
+          $ccustos[$val['codigo']] = $val['tipo']." : ".$val['codigo']." - ".$val['nome'] ;
+          asort($ccustos);
     }
  }
 
@@ -112,8 +107,6 @@ function alterar()  {
         exit ;
     }
     
-    $ccustos = Snep_Operadoras::getCcustoNotOperadora($id);
-
     // Relaciona Centros de Custo desta Operadora
     $row = Snep_Operadoras::getCcustoOperadora($id);
 
@@ -130,7 +123,6 @@ function alterar()  {
     $row = Snep_Operadoras::get($id);
 
     $smarty->assign('OPER_CCUSTOS', $oper_ccustos);
-    $smarty->assign('CCUSTOS', $ccustos);
     $smarty->assign('ACAO',"grava_alterar") ;
     $smarty->assign ('dt_operadoras', $row[0]);
 
@@ -181,4 +173,4 @@ function excluir()  {
    Snep_Operadoras::remove($id);
    echo "<meta http-equiv='refresh' content='0;url=../tarifas/rel_operadoras.php'>\n" ;
 
-}?>
+}
