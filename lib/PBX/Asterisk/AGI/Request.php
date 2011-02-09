@@ -108,6 +108,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
      */
     public function __construct($agi_request) {
         parent::__construct($agi_request);
+        $log = Zend_Registry::get('log');
 
         // Descobrindo se esse canal criado pertence a alguma entidade
         // cadastrada no snep.
@@ -116,14 +117,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
         // de TECH/ID-HASH para TECH/ID
         $channel = strpos($channel,'-') ? substr($channel, 0, strpos($channel,'-')) : $channel;
 
-        $ramal = null;
-        try {
-            $ramal = PBX_Usuarios::get($this->request['callerid']);
-            $object = $ramal;
-        }
-        catch( Exception $ex ) {
-            $object = PBX_Interfaces::getChannelOwner($channel);
-        }
+        $object = PBX_Interfaces::getChannelOwner($channel);
 
         if( $object instanceof Snep_Trunk && $object->allowExtensionMapping()) {
             try {
@@ -139,8 +133,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
 
         $this->setSrcObj($object);
 
-        if( is_object($this->getSrcObj()) ) {
-            $log = Zend_Registry::get('log');
+        if( is_object($object) ) {
             $classname = get_class($this->getSrcObj());
             $log->debug("Econtrado objeto para originador: {$this->getSrcObj()} ($classname)");
         }

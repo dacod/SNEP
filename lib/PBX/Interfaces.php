@@ -100,48 +100,27 @@ class PBX_Interfaces {
         $select = $db->select()
                      ->from('trunks');
 
+        $trunk_ifaces = $db->query($select)->fetchAll();
+
+        foreach ($trunk_ifaces as $interface) {
+            if(preg_match("#^{$interface['id_regex']}$#i", $channel)) {
+                return PBX_Trunks::get($interface['id']);
+            }
+        }
+
+        $select = $db->select()
+                     ->from('peers')
+                     ->where("name != 'admin' AND peer_type='R'");
+
         $interfaces = $db->query($select)->fetchAll();
 
-        $id = -1;
         foreach ($interfaces as $interface) {
-            if(preg_match("#^{$interface['id_regex']}$#i", $channel)) {
-                $id = $interface['id'];
-                $type = 'trunk';
-                $ownerid = $interface['id'];
-                break; // feio
+            if(preg_match("#^{$interface['canal']}$#i", $channel)) {
+                return PBX_Usuarios::get($interface['name']);
             }
         }
-
-        if($id == -1) {
-            $select = $db->select()
-                         ->from('peers')
-                         ->where("name != 'admin' AND peer_type='R'");
-
-            $interfaces = $db->query($select)->fetchAll();
-
-            foreach ($interfaces as $interface) {
-                if(preg_match("#^{$interface['canal']}$#i", $channel)) {
-                    $id = $interface['name'];
-                    $type = 'user';
-                    $ownerid = $interface['name'];
-                    break; // feio
-                }
-            }
-        }
-
-        if($id != -1) {
-            if($type == 'user') {
-                $owner = PBX_Usuarios::get($ownerid);
-            }
-            else {
-                $owner = PBX_Trunks::get($ownerid);
-            }
-        }
-        else {
-            return null;
-        }
-
-        return $owner;
+        
+        return null;
     }
 
     /**

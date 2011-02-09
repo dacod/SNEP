@@ -180,6 +180,7 @@ function cadastrar() {
 
     // Monta a cadeia de canais
     if ($trunktype == "SIP" || $trunktype == "IAX2") {
+        $peer_type = "peer";
         if($dialmethod == 'NOAUTH') {
             $host_trunk = $_POST['host'];
             $channel = $trunktype . "/@" . $host_trunk;
@@ -484,6 +485,7 @@ function grava_alterar() {
     }
     else if( $trunktype == "SNEPSIP" ) {
         $trunktype  = 'SIP';
+        $peer_type  = "peer";
         $username   = $snep_host;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_host;
@@ -495,6 +497,7 @@ function grava_alterar() {
     }
     else if( $trunktype == "SNEPIAX2" ) {
         $trunktype  = 'IAX2';
+        $peer_type  = "peer";
         $username   = $snep_username;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_username;
