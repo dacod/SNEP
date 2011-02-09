@@ -101,7 +101,10 @@ $smarty->assign ('status_noa', ( isset( $_SESSION['relchamadas']['status_noa'] )
 $smarty->assign ('status_bus', ( isset( $_SESSION['relchamadas']['status_bus'] )  ?  "checked=\"checked\"" : "") );
 $smarty->assign ('status_fai', ( isset( $_SESSION['relchamadas']['status_fai'] )  ?  "checked=\"checked\"" : "") );
 $smarty->assign ('view_tarif', ( isset( $_SESSION['relchamadas']['view_tarif'] )  ?  $_SESSION['relchamadas']['view_tarif'] : "no") );
+
+if (ver_permissao(81,"", True))
 $smarty->assign ('view_files', ( isset( $_SESSION['relchamadas']['view_files'] )  ?  $_SESSION['relchamadas']['view_files'] : "no") ) ;
+
 $smarty->assign ('graph_type', ( isset( $_SESSION['relchamadas']['graph_type'] ) ? $_SESSION['relchamadas']['graph_type'] : "B")) ;
 $smarty->assign ('call_type', ( isset( $_SESSION['relchamadas']['call_type'] ) ? $_SESSION['relchamadas']['call_type'] : "T")) ;
 $smarty->assign ('groupsrc', isset( $_SESSION['relchamadas']['groupsrc'] )  ? $_SESSION['relchamadas']['groupsrc'] : "") ;

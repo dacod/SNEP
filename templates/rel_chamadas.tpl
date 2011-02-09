@@ -173,7 +173,7 @@
           {html_radios name="view_tarif" options=$OPCOES_YN selected=$view_tarif}
        </td>
     </tr>
-
+    {if $view_files == 'yes' || $view_files == 'no'}
     <tr class="esq">
        <td>
           {$LANG.view_files}
@@ -182,7 +182,7 @@
          {html_radios name="view_files" options=$OPCOES_YN selected=$view_files }
        </td>
     </tr>
-
+    {/if}
     <tr class="esq">
        <td>
           {$LANG.graphtype}
