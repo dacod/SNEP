@@ -19,12 +19,19 @@
 class TrunksController extends Zend_Controller_Action {
 
     public function indexAction() {
+
+        require_once( APPLICATION_PATH . "/includes/classes.php");
+
         $this->view->breadcrumb = $this->view->translate("Cadastro » Troncos");
 
         $db = Zend_Registry::get('db');
 
-        $select = $db->select()
-                        ->from("trunks", array("id", "callerid", "name", "type", "trunktype"));
+        $select =   "SELECT t.id, t.callerid, t.name, t.type, t.trunktype, t.time_chargeby, t.time_total, th.used
+                     FROM trunks as t
+                     LEFT JOIN time_history as th
+                     ON t.id=th.owner and th.owner_type='T'
+                     GROUP BY t.id
+                    ";
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
@@ -37,7 +44,24 @@ class TrunksController extends Zend_Controller_Action {
 
         $this->view->filtro = $this->_request->getParam('filtro');
 
-        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
+        $datasql = $db->query($select);
+        $trunks = $datasql->fetchAll();
+
+        foreach ($trunks as $id => $val) {
+
+            if ( $val['time_total'] == '' ) {
+                
+                $trunks[$id]['saldo'] = $this->view->translate("Não Configurado");
+
+            } else {
+
+                $saldo = $val['time_total'] - $val['used'];
+                $trunks[$id]['saldo'] = sprintf("%d:%02d",floor($saldo/60), $saldo%60);
+
+            }
+        }
+
+        $paginatorAdapter = new Zend_Paginator_Adapter_Array($trunks);
         $paginator = new Zend_Paginator($paginatorAdapter);
 
         $paginator->setCurrentPageNumber($this->view->page);

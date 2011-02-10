@@ -1,63 +1,72 @@
-Procedimentos de instalação do SNEP Livre
+Instalando Apache
 
-Para que o SNEP funcione integrado ao seu Asterisk é necessário algumas
-mudanças na configuração da sua central.
+# apt-get install apache2
 
-0. Pré-requisitos
+Instalando MySQL
 
+# apt-get install mysql-server
 
-1. Instalação da Interface Web
+Instalando Asterisk
 
-    A interface web pode ser instalada em qualquer diretório que você escolher.
-Todos os arquivos necessários para o funcionamento do SNEP estão nesse diretório
-mas alguns arquivos como você vai ver estarão sendo executados de outros
-diretórios e por tanto é necessário que o arquivo de configuração (snep.conf)
-seja colocado em /etc/$ mysql -uusuario -psenha < snep.sqlsnep.conf.
+Acessar o diretório onde será instalado o Asterisk 1.4 e iniciar o download.
 
-    Uma vez escolhido o diretório de instação é necessário que ele seja visível
-pelo servidor Apache para que se possa ter o real acesso a interface.
+# cd /usr/src
+# wget http://www.asterisk.org/downloads/asterisk/releases/asterisk-1.4-current.tar.gz
 
-    Também é necessário instalar o banco de dados no servidor MySQL. Para isso
-        $ mysql -uusuario -psenha < snep.sql
-        $ mysql -uusuario -psenha snep25 < cnl.sql
+Descompactando os arquivos do pacote
 
-    Dica: geralmente as instações são feitas em /var/www/snep. Em distribuições
-que não alteram o httpd (apache) o diretório estará disponível por padrão em
-http://end_servidor/snep. Outras (debian por exemplo) pode ser necessário a
-configuração de um virtual host.
+# tar xvf asterisk-1.4-current.tar.gz
 
+Instalando dependências para o processo de compilação
 
-2. Criação de Links para AGI e Gravação
+# apt-get install unixodbc
+# apt-get install odbcinst1debian2
+# apt-get install libcurl3
+# apt-get install libcurses5-dev
+# apt-get install build-essential
 
-    O diretório padrão para scripts AGI no asterisk é /var/lib/asterisk/agi-bin
-para facilitar a configuração do dialplan geralmente criamos um link nesse
-diretório apontando para snep/agi/.
+Iniciando processo de compilação
 
-    O mesmo vale para o diretório de gravações. Para que estas estejam
-disponíveis para download na interface elas precisam ser vistas pelo apache.
-Para isso geralmente é criado um link de /var/spool/asterisk/monitor para
-diretório snep/arquivos/.
+# cd asterisk-1.4-current
+# ./configure
+# make
+# make install
 
-    Deve ser criado também o diretório /var/log/snep/ e dado permissão para o
-apache.
+Instalando Snep Livre
 
-3. Configuração do Asterisk
+# cd /var/www/
 
-    Para que o SNEP possa processar as ligações de acordo com as regras de
-roteamento definidas na interface é necessário a configuração do Dialplan.
+Descompactando os arquivos do pacote
 
-    O SNEP oferece mudança em quase todos os aspectos de uma central normal.
-Para ter a melhor configuração veja o etc/asterisk padrão que vem no diretório
-snep/install/.
+# tar xvf snep-1.3.2.tar.bz2
 
+Ajuste as permissões da pasta para o usuário do apache www-data
 
-4. Ajustando permissões
+# chown -R www-data.www-data snep-1.3.2/
+# chmod 775 snep-1.3.2/
+# ln -s snep-1.3.2/ snep
+# cd /etc/apache2/sites-enabled/
+# ln -s /var/www/snep/install/snep.apache2 001-snep
+# chmod -R 775 /var/www/snep/tempalet_c/
+# mkdir /var/log/snep
+# touch ui.log /var/log/snep/
+# touch agi.log /var/log/snep/
 
-    Para que a interface consiga ajustar as configurações é necessário que
-alguns diretórios possuam permissão de escrita pelo usuário do servidor http.
-No caso do slackware grupo apache, do debian grupo www-data. Os diretórios são:
-        * /etc/asterisk/snep/
-        * snep/templates_c/
-        * e o arquivo: snep/includes/setup.conf
+Integração Snep Livre e Asterisk
 
-5. Have fun!
+# cd /etc
+# rm -rf asterisk
+# ln -s /var/www/snep/install/etc/asterisk asterisk
+# cd /var/www/snep/install/etc
+# cp odbcinst.ini /etc/
+# cp odbc.ini /etc/
+
+Criar base de dados, usuario e importar dados
+
+# mysql -u root -p
+# create database snep25
+# grant all privileges on `snep25` . * to 'snep'@'localhost'
+# cd /var/www/snep/default/installer/
+# mysql -u root -p < schema.sql
+# mysql -u root -p < system_data.sql
+# mysql -u root -p < cnl.sql
