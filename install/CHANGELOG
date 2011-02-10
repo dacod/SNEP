@@ -1,9 +1,15 @@
+1.3.2:
+- 0000090: [Feature Request] Visualização de tempo restante para invalidação de troncos que usem tempo limite (esantana) - resolved.
+- 0000097: [Feature Request] Arquivo install/INSTALL desatualizado (esantana) - resolved.
+- 0000025: [Bug] Incluir permissionamento para ver e excluir arquivos de gravação (guax) - resolved.
+- 0000099: [Bug] Problemas de identificação da origem da ligação para ligações com callerid igual a ramal cadastrado. (guax) - resolved.
+
 1.3.1:
 - 0000031: [Bug] Tarifação só acorre com tarifas definidas na operadora, tarifas adicionais não sobrescrevem valores base da operadora (rafaelbozzetti) - resolved.
 - 0000086: [Bug] Não está exibindo a cidade no Relatorio de Chamados (guax) - resolved.
 - 0000057: [Bug] Relatórios Sintéticos - Nome do campo incorreto. (esantana) - resolved.
 - 0000008: [Feature Request] Parâmetros extras para troncos SIP no snep-sip.conf (rafaelbozzetti) - resolved.
- - 0000001: [Feature Request] Adição de configurações para troncos do tipo IP (rafaelbozzetti) - resolved.
+- 0000001: [Feature Request] Adição de configurações para troncos do tipo IP (rafaelbozzetti) - resolved.
 - 0000043: [Bug] Relatórios de ligações com detalhamento da chamada (lucasseid) - resolved.
 - 0000060: [Bug] Problemas com Parametros (lucasseid) - resolved.
 - 0000058: [Bug] Regras de negócio desativadas são lidas pelo AGI (amim) - resolved.
