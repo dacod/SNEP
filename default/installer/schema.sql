@@ -350,7 +350,7 @@ CREATE TABLE `trunks` (
   `callerid` varchar(80) default NULL,
   `context` varchar(80) default NULL,
   `dtmfmode` varchar(7) default NULL,
-  `insecure` varchar(4) default NULL,
+  `insecure` varchar(20) default NULL,
   `secret` varchar(80) default NULL,
   `username` varchar(80) default NULL,
   `allow` varchar(100) default 'g729;ilbc;gsm;ulaw;alaw',
