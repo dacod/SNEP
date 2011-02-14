@@ -15,7 +15,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
-CREATE TABLE `agentes` (
+CREATE TABLE IF NOT EXISTS `agentes` (
   `agentid` int(11) NOT NULL default '0',
   `name` varchar(100) NOT NULL default '',
   `agentpassword` varchar(50) NOT NULL default '',
@@ -23,18 +23,18 @@ CREATE TABLE `agentes` (
   PRIMARY KEY  (`agentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE expr_alias (
+CREATE TABLE IF NOT EXISTS expr_alias (
     `aliasid` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE expr_alias_expression (
+CREATE TABLE IF NOT EXISTS expr_alias_expression (
     `aliasid` INTEGER NOT NULL,
     `expression` VARCHAR(200) NOT NULL,
     FOREIGN KEY (`aliasid`) REFERENCES expr_alias(`aliasid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE regras_negocio (
+CREATE TABLE IF NOT EXISTS regras_negocio (
   id integer PRIMARY KEY auto_increment,
   prio integer NOT NULL default 0,
   `desc` varchar(255) default NULL,
@@ -46,7 +46,7 @@ CREATE TABLE regras_negocio (
   ativa boolean NOT NULL default true
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE regras_negocio_actions (
+CREATE TABLE IF NOT EXISTS regras_negocio_actions (
   regra_id integer NOT NULL,
   prio integer NOT NULL,
   `action` varchar(250) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE regras_negocio_actions (
   FOREIGN KEY (regra_id) REFERENCES regras_negocio(id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE regras_negocio_actions_config (
+CREATE TABLE IF NOT EXISTS regras_negocio_actions_config (
   regra_id integer NOT NULL,
   prio integer NOT NULL,
   `key` varchar(255) NOT NULL,
@@ -63,14 +63,14 @@ CREATE TABLE regras_negocio_actions_config (
   FOREIGN KEY (regra_id, prio) REFERENCES regras_negocio_actions (regra_id, prio) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `registry` (
+CREATE TABLE IF NOT EXISTS `registry` (
     `context` VARCHAR(50),
     `key` VARCHAR(30),
     `value` VARCHAR(250),
     PRIMARY KEY (`context`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ccustos` (
+CREATE TABLE IF NOT EXISTS `ccustos` (
   `codigo` char(7) NOT NULL,
   `tipo` char(1) NOT NULL,
   `nome` varchar(40) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `ccustos` (
   PRIMARY KEY  (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdr` (
+CREATE TABLE IF NOT EXISTS `cdr` (
   `calldate` datetime NOT NULL default '0000-00-00 00:00:00',
   `clid` varchar(80) NOT NULL default '',
   `src` varchar(80) NOT NULL default '',
@@ -100,38 +100,38 @@ CREATE TABLE `cdr` (
   KEY `accountcode` (`accountcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdr_compactado` (
+CREATE TABLE IF NOT EXISTS `cdr_compactado` (
   `userfield` varchar(255) default NULL,
   `arquivo` varchar(255) default NULL,
   `data` date default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `events` (
+CREATE TABLE IF NOT EXISTS `events` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
   `event` longtext,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grupos` (
+CREATE TABLE IF NOT EXISTS `grupos` (
   `cod_grupo` integer NOT NULL auto_increment,
   `nome` varchar(30) NOT NULL,
   UNIQUE KEY `cod_grupo` (`cod_grupo`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE `oper_ccustos` (
+CREATE TABLE IF NOT EXISTS `oper_ccustos` (
   `operadora` int(11) NOT NULL,
   `ccustos` char(7) NOT NULL,
   PRIMARY KEY  (`operadora`,`ccustos`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `oper_contas` (
+CREATE TABLE IF NOT EXISTS `oper_contas` (
   `operadora` int(11) NOT NULL,
   `conta` int(11) NOT NULL,
   PRIMARY KEY  (`operadora`,`conta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `operadoras` (
+CREATE TABLE IF NOT EXISTS `operadoras` (
   `codigo` bigint(20) unsigned NOT NULL auto_increment,
   `nome` varchar(50) NOT NULL,
   `tpm` int(11) default '0',
@@ -144,13 +144,13 @@ CREATE TABLE `operadoras` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE groups (
+CREATE TABLE IF NOT EXISTS groups (
     name varchar(50) PRIMARY KEY,
     inherit varchar(50),
     FOREIGN KEY (inherit) REFERENCES groups(name) ON UPDATE CASCADE
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE `peers` (
+CREATE TABLE IF NOT EXISTS `peers` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(80) NOT NULL default '',
   `password` VARCHAR(12) NOT NULL,
@@ -216,7 +216,7 @@ CREATE TABLE `peers` (
   FOREIGN KEY (`pickupgroup`) REFERENCES grupos(`cod_grupo`) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE `services_log` (
+CREATE TABLE IF NOT EXISTS `services_log` (
   `date` datetime NOT NULL,
   `peer` varchar(80) NOT NULL,
   `service` varchar(50) NOT NULL,
@@ -224,14 +224,14 @@ CREATE TABLE `services_log` (
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `permissoes` (
+CREATE TABLE IF NOT EXISTS `permissoes` (
   `cod_rotina` int(11) NOT NULL default '0',
   `cod_usuario` int(11) NOT NULL default '0',
   `permissao` char(1) NOT NULL default 'S',
   PRIMARY KEY  (`cod_rotina`,`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `queue_log` (
+CREATE TABLE IF NOT EXISTS `queue_log` (
   `time` datetime NOT NULL default '0000-00-00 00:00:00',
   `callid` varchar(20) NOT NULL default '',
   `queuename` varchar(20) NOT NULL default '',
@@ -242,7 +242,7 @@ CREATE TABLE `queue_log` (
   `arg3` varchar(100) NOT NULL default ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `queue_members` (
+CREATE TABLE IF NOT EXISTS `queue_members` (
   `uniqueid` int(10) unsigned NOT NULL auto_increment,
   `membername` varchar(40) default NULL,
   `queue_name` varchar(128) default NULL,
@@ -259,7 +259,7 @@ CREATE TABLE `queue_peers` (
   PRIMARY KEY  (`ramal`,`fila`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `queues` (
+CREATE TABLE IF NOT EXISTS `queues` (
   `name` varchar(128) NOT NULL,
   `musiconhold` varchar(128) default NULL,
   `announce` varchar(128) default NULL,
@@ -300,18 +300,18 @@ CREATE TABLE `queues` (
   PRIMARY KEY  (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `queues_agent` (
+CREATE TABLE IF NOT EXISTS `queues_agent` (
   `agent_id` int(11) NOT NULL,
   `queue` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `rotinas` (
+CREATE TABLE IF NOT EXISTS `rotinas` (
   `cod_rotina` int(11) NOT NULL default '0',
   `desc_rotina` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`cod_rotina`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `sounds` (
+CREATE TABLE IF NOT EXISTS `sounds` (
   `arquivo` varchar(50) NOT NULL,
   `descricao` varchar(80) NOT NULL,
   `data` datetime default NULL,
@@ -320,7 +320,7 @@ CREATE TABLE `sounds` (
   PRIMARY KEY  (`arquivo`,`tipo`,`secao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tarifas` (
+CREATE TABLE IF NOT EXISTS `tarifas` (
   `operadora` int(11) NOT NULL default '0',
   `ddi` smallint(6) NOT NULL default '0',
   `pais` varchar(30) NOT NULL default '',
@@ -333,7 +333,7 @@ CREATE TABLE `tarifas` (
   UNIQUE KEY `operadora` (`operadora`,`ddi`,`ddd`,`prefixo`,`cidade`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tarifas_valores` (
+CREATE TABLE IF NOT EXISTS `tarifas_valores` (
   `codigo` int(11) NOT NULL,
   `data` datetime NOT NULL,
   `vcel` float NOT NULL default '0',
@@ -343,7 +343,7 @@ CREATE TABLE `tarifas_valores` (
   PRIMARY KEY  (`codigo`,`data`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `trunks` (
+CREATE TABLE IF NOT EXISTS `trunks` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(80) NOT NULL default '',
   `accountcode` varchar(20) default NULL,
@@ -384,13 +384,13 @@ CREATE TABLE IF NOT EXISTS `time_history` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
-CREATE TABLE `vinculos` (
+CREATE TABLE IF NOT EXISTS `vinculos` (
   `ramal` varchar(80) default NULL,
   `cod_usuario` varchar(80) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `voicemail_messages` (
+CREATE TABLE IF NOT EXISTS `voicemail_messages` (
   `id` int(11) NOT NULL auto_increment,
   `msgnum` int(11) NOT NULL default '0',
   `dir` varchar(80) default '',
@@ -407,7 +407,7 @@ CREATE TABLE `voicemail_messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `voicemail_users` (
+CREATE TABLE IF NOT EXISTS `voicemail_users` (
   `uniqueid` int(11) NOT NULL auto_increment,
   `customer_id` varchar(11) NOT NULL default '0',
   `context` varchar(50) default '',
@@ -451,14 +451,14 @@ CREATE TABLE IF NOT EXISTS `lista_abandono` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `permissoes_vinculos` (
+CREATE TABLE IF NOT EXISTS `permissoes_vinculos` (
   `id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `id_peer` VARCHAR( 100 ) NOT NULL ,
   `tipo` CHAR( 1 ) NOT NULL,
   `id_vinculado` VARCHAR( 100 ) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `alertas` (
+CREATE TABLE IF NOT EXISTS `alertas` (
   `recurso` VARCHAR( 20 ) NOT NULL ,
   `tipo` VARCHAR( 10 ) NOT NULL ,
   `tme` INT( 10 ) NOT NULL ,
@@ -469,22 +469,22 @@ CREATE TABLE `alertas` (
   `ativo` TINYINT( 1 ) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ars_operadora (
+CREATE TABLE IF NOT EXISTS ars_operadora (
     `id` integer primary key auto_increment,
     `name` varchar(30) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ars_estado (
+CREATE TABLE IF NOT EXISTS ars_estado (
     `cod` char(2) primary key,
     `name` varchar(30) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ars_cidade (
+CREATE TABLE IF NOT EXISTS ars_cidade (
     `id` integer primary key auto_increment,
     `name` varchar(30) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ars_ddd (
+CREATE TABLE IF NOT EXISTS ars_ddd (
     `cod` char(2),
     `estado` char(2),
     `cidade` integer,
@@ -493,7 +493,7 @@ CREATE TABLE ars_ddd (
     foreign key (`cidade`) references ars_cidade(`id`) on update cascade on delete restrict
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE ars_prefixo (
+CREATE TABLE IF NOT EXISTS ars_prefixo (
     `prefixo` integer,
     `cidade` integer,
     `operadora` integer,
@@ -505,8 +505,6 @@ CREATE TABLE ars_prefixo (
 --
 -- Estrutura da tabela `contacts_group`
 --
-
-DROP TABLE IF EXISTS `contacts_group`;
 CREATE TABLE IF NOT EXISTS `contacts_group` (
   `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
@@ -516,7 +514,6 @@ CREATE TABLE IF NOT EXISTS `contacts_group` (
 --
 -- Estrutura da tabela `contacts_names`
 --
-DROP TABLE IF EXISTS `contacts_names`;
 CREATE TABLE IF NOT EXISTS `contacts_names` (
   `id` char(11) NOT NULL,
   `name` varchar(80) NOT NULL,
