@@ -37,6 +37,5 @@ class Snep_Form extends Zend_Form {
         $this->addElement($back);
     }
 
-
 }
 

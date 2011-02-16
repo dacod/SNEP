@@ -467,7 +467,7 @@ ul#navmenu ul ul li.iehover ul {
     border:0px;
 }
 #content tbody td {
-    padding: 6px 10px !important;
+    padding: 6px 10px;
     border-bottom: 1px solid #d2d2d2;    
 }
 #content .c0 {
@@ -661,3 +661,114 @@ ul#navmenu ul ul li.iehover ul {
     background-color: #eeeeff;
     border: 1px solid #ccc;
 }
+
+
+/* ======================== Sectioned/Simple Forms ========================== */
+
+.snep_form th, .snep_form td {
+    border: none !important;
+}
+
+.snep_form tr:hover {
+    background-color: transparent !important;
+}
+
+.snep_form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.snep_form table {
+    width: 100%;
+    border-spacing: 0px;
+}
+
+.snep_form th {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    padding-right: 5px;
+    vertical-align: top;
+    font-weight: normal;
+    color: #000;
+}
+
+.snep_form .required:after {
+    content: "*";
+    color: #ff0000;
+}
+
+.snep_form td {
+    height: 21px;
+    padding-left: 5px !important;
+}
+
+.snep_form .errors {
+    padding-left: 6px;
+    margin: 5px 0px;
+    color: #000;
+    font-weight: bold;
+}
+
+.snep_form .errors li {
+    list-style: none;
+    padding: 6px 22px;
+    background-image: url("../imagens/error_16.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.form_control_left, .form_control_right, .form_control {
+    text-align: center;
+    margin: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+
+    background-image: url('../imagens/E8A916_line.png');
+    background-position: 0px 10px;
+    background-repeat: repeat-x;
+}
+
+
+.form_control_left *, .form_control_right *, .form_control * {
+    margin-top: 20px !important;
+}
+
+/* ======================== Sectioned Form Specific ========================= */
+
+.sectioned_form th {
+    width: 140px;
+    text-align: left;
+}
+
+.sectioned_form .session_mark {
+    background-image: url('../imagens/E8A916_line.png');
+    background-position: center;
+    background-repeat: repeat-x;
+    padding: 0px;
+}
+
+.sectioned_form .session_mark h2 {
+    font-size: 18px;
+    color: #E8A916;
+    background-color: #fff;
+    display: inline;
+    padding-right: 5px;
+    margin: 0px;
+}
+
+/* ========================= Simple Form Specific =========================== */
+.simple_form th {
+    width: 50%;
+    text-align: right;
+}
+
+.form_control_left {
+    text-align: right;
+}
+
+.form_control_right {
+    text-align: left;
+}
+
+/* ========================================================================== */
