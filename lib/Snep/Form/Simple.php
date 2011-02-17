@@ -21,7 +21,7 @@ class Snep_Form_Simple extends Snep_Form_Sectioned {
 
         $this->addElement($submit);
 
-        $back = new Zend_Form_Element_Button("buttom", array("label" => "Cancelar" ));
+        $back = new Zend_Form_Element_Button("cancel", array("label" => "Cancelar" ));
         $back->setAttrib("onclick", "location.href='javascript:history.back();'");
         $back->removeDecorator('DtDdWrapper');
         $back->addDecorator(array("closetd" => 'HtmlTag'), array('class' => 'form_control_right', 'tag' => 'td'));
