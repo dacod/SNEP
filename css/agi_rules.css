@@ -8,7 +8,6 @@
 
 .tabela_regra_negocio {
     margin-bottom: 10px;
-    border-bottom: 1px solid #ccc !important;
 }
 
 .tabela_regra_negocio th {
@@ -40,9 +39,9 @@
 }
 
 #actions_toolbar {
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-top: 1px solid #A4A7AB;
+    border-left: 1px solid #A4A7AB;
+    border-right: 1px solid #A4A7AB;
     padding: 5px;
     margin-bottom: 0px;
 }
@@ -58,7 +57,7 @@
 }
 
 #actions {
-    border: 1px solid #ccc;
+    border: 1px solid #A4A7AB;
     width: 100%;
     padding: 0px;
     border-collapse: collapse;
@@ -69,19 +68,22 @@
     margin: 0px;
 }
 
-#actions td, th {
+#actions td, #actions th {
     margin: 0px;
     padding: 0px;
-    border: 1px solid #ccc;
+    border: 1px solid #A4A7AB !important;
 }
 
 #actions th {
     text-align: left;
     font-size: 10px;
-    padding: 2px 5px;
-    height: 20px;
+    vertical-align: middle;
+    font-size: 10px;
+    height: 25px;
+    padding-left: 5px;
     font-family: sans-serif;
     color: #666;
+    width: auto;
     background-image: url(../imagens/menu.png);
 }
 
@@ -90,7 +92,9 @@
 }
 
 #actions-list-container {
+    padding: 0px !important;
     width: 250px;
+    border-right: 1px solid #A4A7AB !important;
 }
 
 #actions-list-scrollable {
@@ -106,12 +110,13 @@
 }
 
 #actions_list li {
-    width: 250px;
     list-style-position: inside;
     font-family: sans-serif;
     font-size: 10px;
     padding: 4px;
-    border-bottom: 1px solid #ccc;
+    margin-top: -1px;
+    border-bottom: 1px solid #A4A7AB;
+    border-top: 1px solid #A4A7AB;
     cursor: pointer;
 }
 
@@ -140,5 +145,5 @@
     background-repeat: no-repeat;
     background-position: left center;
     background-color: #eeeeff;
-    border: 1px solid #ccc;
+    border: 1px solid #A4A7AB;
 }

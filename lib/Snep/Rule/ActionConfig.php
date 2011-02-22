@@ -47,7 +47,7 @@ class Snep_Rule_ActionConfig extends PBX_Rule_ActionConfig {
      * Faz o parse do XML e gera o formulário.
      */
     protected function parseForm() {
-        $form = new Zend_Form();
+        $form = new Snep_Form();
         $form->setIsArray(true);
         $form->setElementsBelongTo($this->getActionId());
         $form->removeDecorator('form');

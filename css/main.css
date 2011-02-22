@@ -50,7 +50,6 @@ body {
 
 #content tbody tr:hover {
     background-color: #d2d2d2;
-    border: 1px solid #000 !important;
     color: #000;
 }
 
@@ -466,10 +465,11 @@ ul#navmenu ul ul li.iehover ul {
 #content img {
     border:0px;
 }
+
 #content tbody td {
     padding: 6px 10px;
-    border-bottom: 1px solid #d2d2d2;    
 }
+
 #content .c0 {
     background-color: #eeeeee;
     padding: 2px;
@@ -666,7 +666,7 @@ ul#navmenu ul ul li.iehover ul {
 /* ======================== Sectioned/Simple Forms ========================== */
 
 .snep_form th, .snep_form td {
-    border: none !important;
+    border: none;
 }
 
 .snep_form tr:hover {
@@ -700,7 +700,7 @@ ul#navmenu ul ul li.iehover ul {
 
 .snep_form td {
     height: 21px;
-    padding-left: 5px !important;
+    padding-left: 5px;
 }
 
 .snep_form .errors {

@@ -29,6 +29,7 @@ class Snep_Form_Sectioned extends Zend_Form {
         $submit->removeDecorator('DtDdWrapper');
         $submit->addDecorator(array("opentd" => 'HtmlTag'), array('class' => 'form_control', "colspan" => 2, 'tag' => 'td', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
         $submit->addDecorator(array("opentr" => 'HtmlTag'), array('tag' => 'tr', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
+        $submit->setOrder(100);
 
         $this->addElement($submit);
 
@@ -37,6 +38,7 @@ class Snep_Form_Sectioned extends Zend_Form {
         $back->removeDecorator('DtDdWrapper');
         $back->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
         $back->addDecorator(array("closetr" => 'HtmlTag'), array('tag' => 'tr', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
+        $back->setOrder(101);
 
         $this->addElement($back);
     }

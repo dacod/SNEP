@@ -52,7 +52,7 @@ class PBX_Rule_ActionConfig {
     public function __construct($xml) {
         if($xml == "") {
             $i18n = Zend_Registry::get('i18n');
-            $this->form = new Zend_Form();
+            $this->form = new Snep_Form();
             $this->form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar')));
         }
         else {
@@ -65,7 +65,7 @@ class PBX_Rule_ActionConfig {
      * Faz o parse do XML e gera o formulário.
      */
     protected function parseForm() {
-        $form = new Zend_Form();
+        $form = new Snep_Form();
         $i18n = Zend_Registry::get('i18n');
         // Para cada elemento do XML
         foreach( $this->xml as $element ) {

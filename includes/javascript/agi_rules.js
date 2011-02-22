@@ -197,7 +197,7 @@ updateSortableActionsList = function() {
 setActiveAction = function(element) {
     if (!$('actions_list').hasChildNodes()) {
         $('action-config-title').innerHTML = "";
-        $('cleanActionsButton').disable();
+        $('cleanActionsButton').disabled = true;
     }
     else if( element != removed) {
         if( element != null && element != active) {
@@ -220,7 +220,7 @@ cleanActions = function() {
     $('actions_list').innerHTML = "";
     $('actions-config').innerHTML = "";
     $('action-config-title').innerHTML = "";
-    $('cleanActionsButton').disable();
+    $('cleanActionsButton').disabled = true;
     updateSortableActionsList();
     setActiveAction(null);
 }
@@ -237,7 +237,7 @@ removeAction = function(element) {
 
 id = 0;
 addNewAction = function(type) {
-    $('addActionButton').disable();
+    $('addActionButton').disabled = true;
     $('loader_icon').style.display = "block";
     new Ajax.Request('/snep/gestao/actionform.php', {
         method: 'get',
@@ -255,7 +255,7 @@ addNewAction = function(type) {
             alert("Erro ao adicionar ação: " + response.responseJSON.message);
         },
         onComplete: function(response) {
-            $('addActionButton').enable();
+            $('addActionButton').disabled = false;
             $('loader_icon').style.display = "none";
         }
     });
@@ -287,7 +287,7 @@ getRuleActions = function(ruleId) {
 }
 
 addAction = function(action_spec) {
-    $('cleanActionsButton').enable();
+    $('cleanActionsButton').disabled = false;
     var newAction = document.createElement('li');
 
     if(action_spec.status == "error") {
@@ -325,7 +325,7 @@ addAction = function(action_spec) {
 init = function() {
     Position.includeScrollOffsets = true;
     if(!$('actions_list').hasChildNodes()) {
-        $('cleanActionsButton').disable();
+        $('cleanActionsButton').disabled = true;
     }
 
     Event.observe($('addActionButton'), 'click', function(event) {
