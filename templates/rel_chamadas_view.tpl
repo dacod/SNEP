@@ -174,7 +174,21 @@
                   <td class="dir">{$LANG.value}</td>
                   {/if}
                   {if $VIEW_FILES == "yes"}
-                  <td class="cen" colspan="3">{$LANG.record}</td>
+                  <td class="cen" colspan="3">
+                      <script>
+                          {literal}
+                          toggleAll = function(ref) {
+                              var boxes = $$('input[type="checkbox"]');
+
+                              for(box in boxes) {
+                                  boxes[box].checked = ref.checked;
+                              }
+                          }
+                          {/literal}
+                      </script>
+                      <input type="checkbox" title="Selecionar Todos" onclick="toggleAll(this);">
+                      {$LANG.record}
+                  </td>
                   {/if}
                </tr>
             </thead>
