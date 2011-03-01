@@ -22,27 +22,34 @@ function Field(id) {
     this.id = id;
     this.type = "X";
     this.value = '';
-    this.typeList = new Array();
+    this.typeList = [];
     this.lastReference = null;
 
-    this.typeList[this.typeList.push()]  = new Array('RX',str_regex ,true);
-    this.typeList[this.typeList.push()]  = new Array('X',str_any, false);
-    this.typeList[this.typeList.push()] = new Array('G',str_group, true);
-    this.typeList[this.typeList.push()] = new Array('CG',str_contacts_group, true);
-    this.typeList[this.typeList.push()] = new Array('R',str_ramal, true);
-    this.typeList[this.typeList.push()] = new Array('AL',"Alias de Expressão", true);
+    this.typeList[this.typeList.push()]  = ['RX',str_regex ,true];
+    this.typeList[this.typeList.push()]  = ['X',str_any, false];
+    this.typeList[this.typeList.push()] = ['G',str_group, true];
+    this.typeList[this.typeList.push()] = ['CG',str_contacts_group, true];
+    this.typeList[this.typeList.push()] = ['R',str_ramal, true];
+    this.typeList[this.typeList.push()] = ['AL',"Alias de Expressão", true];
 
     this.render = function() {
         $(this.id).innerHTML = this.getHtml(this.lastReference);
+    };
+
+    this.setType = function(type) {
+        this.type = type;
+        this.value = "";
+        this.render();
     }
 
     this.getHtml = function(objReference) {
         this.lastReference = objReference;
         var html = '<span id="' + this.id + '">';
-        html += '<select class="campos" onchange="' + objReference + '.type = this.value; ' + objReference + '.value = \'\'; ' + objReference + '.render()">';
+        html += '<select class="campos" onchange="' + objReference + '.setType(this.value);">';
         var showfield = true;
-        for(var i=0;i<this.typeList.length;i++) {
-            if(this.typeList[i][0] == this.type) {
+        var i;
+        for(i=0;i<this.typeList.length;i++) {
+            if(this.typeList[i][0] === this.type) {
                 html += '<option selected="selected" value="' + this.typeList[i][0] + '">';
                 showfield = (this.typeList[i][2])? true : false;
             }
@@ -53,56 +60,75 @@ function Field(id) {
         }
         html += "</select>";
 
-        if(this.type == "T") { // Campo tronco
+        if(this.type === "T") { // Campo tronco
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
-            html += '<option> - - </option>';
+            var selected = false;
             for(i=0; i < trunk_list.length; i++) {
-                if(trunk_list[i][0] == this.value) {
+                if(trunk_list[i][0] === this.value) {
                     html += '<option selected="selected" value="' + trunk_list[i][0] + '">';
+                    selected = true;
                 }
                 else {
                     html += '<option value="' + trunk_list[i][0] + '">';
                 }
                 html += trunk_list[i][1] + '</option>';
             }
+            if (selected === false) {
+                this.value = trunk_list[0][0];
+            }
             html += "</select>";
         } // fim campo tronco
-        else if(this.type == "G") { // Campo grupo
+        else if(this.type === "G") { // Campo grupo
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
+            var selected = false;
             for(i=0; i < group_list.length; i++) {
-                if(group_list[i][0] == this.value) {
+                if(group_list[i][0] === this.value) {
                     html += '<option selected="selected" value="' + group_list[i][0] + '">';
+                    selected = true;
                 }
                 else {
                     html += '<option value="' + group_list[i][0] + '">';
                 }
                 html += group_list[i][1] + '</option>';
             }
+            if (selected === false) {
+                this.value = group_list[0][0];
+            }
             html += "</select>";
         } // fim campo grupo
-        else if(this.type == "CG") { // Campo grupo de contatos
+        else if(this.type === "CG") { // Campo grupo de contatos
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
+            var selected = false;
             for(i=0; i < contacts_group_list.length; i++) {
-                if(contacts_group_list[i][0] == this.value) {
+                if(contacts_group_list[i][0] === this.value) {
                     html += '<option selected="selected" value="' + contacts_group_list[i][0] + '">';
+                    selected = true;
                 }
                 else {
                     html += '<option value="' + contacts_group_list[i][0] + '">';
                 }
                 html += contacts_group_list[i][1] + '</option>';
             }
+            if (selected === false) {
+                this.value = contacts_group_list[0][0];
+            }
             html += "</select>";
         } // fim campo grupo de contatos
-        else if(this.type == "AL") {
+        else if(this.type === "AL") {
             html += ' <select class="campos" onchange="' + objReference + '.value = this.value;">';
+            var selected = false;
             for(i=0; i < alias_list.length; i++) {
-                if(alias_list[i][0] == this.value) {
+                if(alias_list[i][0] === this.value) {
                     html += '<option selected="selected" value="' + alias_list[i][0] + '">';
+                    selected = true;
                 }
                 else {
                     html += '<option value="' + alias_list[i][0] + '">';
                 }
                 html += alias_list[i][1] + '</option>';
+            }
+            if ( selected === false ) {
+                this.value = alias_list[0][0];
             }
             html += "</select>";
         }
@@ -112,11 +138,11 @@ function Field(id) {
 
         html += "</span>";
         return html;
-    }
+    };
 
     this.getValue = function() {
-        return this.type + (this.value != "" ? ":" + this.value : "");
-    }
+        return this.type + (this.value !== "" ? ":" + this.value : "");
+    };
 }
 
 /**
@@ -333,6 +359,8 @@ init = function() {
     });
 
     Event.observe($('cleanActionsButton'), 'click', cleanActions);
+
+    Event.observe($('routeForm'), 'submit', atualizaValues);
 }
 
 // Após o carregamento da janela, podemos começar a trabalhar com os elementos
