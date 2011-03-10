@@ -21,11 +21,12 @@ $save_dir = $SETUP['ambiente']['path_voz_bkp'];
 if(strlen($_REQUEST['arquivos']) > 1) {
     $strArquivos = substr($_REQUEST['arquivos'],0,strlen($_REQUEST['arquivos'])-1);
     $strListaArquivos = str_replace(","," ",$strArquivos);
-    $strArquivo = $save_dir."/".date("d-m-Y-h-i").".zip";
+    $strNomeArquivo = date("d-m-Y-h-i").".zip";
+    $strArquivo = $save_dir."/".$strNomeArquivo;
     // Grava arquivo em arquivos/backup !! verifique as permissões desta pasta.
     exec("zip $strArquivo $strListaArquivos");
 
-    echo $strArquivo;
+    echo $SETUP['system']['path.web']."/arquivos/backup/".$strNomeArquivo;
 }else{
     echo '0';
 }

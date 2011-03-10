@@ -816,7 +816,8 @@ function exibe_relatorio() {
         if(arq == 0) {
             alert("<?php echo $LANG['no_compact_files'] ?> ");
         }else{
-            alert("<?php echo $LANG['compact_files'] ?> " + arq );
+            alert("<?php echo $LANG['compact_files'] ?> ");
+	    window.location=arq;
         }
     }
     /*------------------------------------------------------------------------------
