@@ -90,6 +90,7 @@
                  Troncos SIP
               </th>
               <tr>
+	        <td>Nome</td>
               	<td>{$LANG.ip}</td>
               	<td>{$LANG.status}</td>
               	<td>{$LANG.latencia}</td>

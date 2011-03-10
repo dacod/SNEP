@@ -169,16 +169,18 @@ $lista = array();
 			   array_push($trunk_all, $trunk_val);		
     	}
     }
-    
     // SIP Trunks from Peer list
     foreach ($peers as $p_key => $p_val) {
     	if ($p_key > 1) {
         		if (preg_match_all('/^([A-Za-z0-9]+|\w+\/|\d+|\d+\.\d+\.\d+\.\d+|\d+\/)(\w+)?[ ]+(\d+\.\d+\.\d+\.\d+)[ ]+([[:alpha:]]?[[:space:]]?)*\d+[ ]+(\w+[[:space:]]?)(\(\d+ ms\))?[ ]+$/', $p_val, $match)) {
-        			$trunk_tmp = array();        			
+                           
+        			$trunk_tmp = array();
         			foreach ($trunk_all as $trunk_ip) {
 						if(($trunk_ip == $match[1][0]) || ($trunk_ip == $match[2][0])) {
-							array_push($trunk_tmp, $match[3][0]);
 							
+                                                        array_push($trunk_tmp, $match[1][0].$match[2][0]);
+                                                        array_push($trunk_tmp, $match[3][0]);
+                                                        
 							$status = $match[5][0];
 							
 							if (!strcmp("UNREACHABLE ", $status)) {
