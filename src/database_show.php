@@ -49,26 +49,44 @@ $lista = array();
                display_error($LANG['msg_nosocket'],true) ;
                exit;
             }
-
-
-            $info = explode("\n", $info);
+            
             $return = null;
-            if($info['3'] != '' && $info['39']) {
-
+           
+                
                 $return = array();
-                $return['ramal'] = substr($info['3'], strpos($info['3'],':')+2) ;
-                $return['tipo'] = 'SIP' ;
-                $return['ip'] = ( strpos($info['38'], 'Unspecified') > 0 ? 'Indeterminado' : substr($info['38'], 17, strpos(substr($info['38'],17)," ") ) ) ;
-                $return['delay'] = substr($info['45'], strpos($info['45'],'('), strpos($info['45'],')'))  ;
-                $return['cds'] = str_replace("|",", ", substr($info['43'], strpos($info['43'],'(')+1, strpos($info['43'],')'))) ;
-                /* Para asterisk 1.6
-                 * $return['ip'] = ( strpos($info['38'], 'Unspecified') > 0 ? 'Indeterminado' : substr($info['44'], 17, strpos(substr($info['44'],17)," ") ) ) ;
-                 * $return['delay'] = substr($info['54'], strpos($info['54'],'('), strpos($info['54'],')'))  ;
-                 * $return['cds'] = str_replace("|",", ", substr($info['51'], strpos($info['51'],'(')+1, strpos($info['51'],')'))) ;
-                 */
-                $return['codec'] = str_replace(")"," ", $return['cds']);
-                unset($return['cds']);
-            }
+               
+                if (preg_match("/(\d+)/" , $info, $matches)){
+                $return['ramal'] = $matches[0];
+                }
+                else
+                $return['ramal'] = 'Indeterminado';
+                
+                $return['tipo'] = 'SIP';
+                
+                $tmp = substr($info,strpos($info, 'Addr->IP'), +35);
+                if (preg_match("#[0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}[.][0-9]{1,3}# " , $tmp, $matches)){
+                $return['ip'] = $matches[0];
+                }
+                else
+                $return['ip'] = 'Indeterminado';
+               
+                $tmp = substr($info,strpos($info, 'Status'), +40);
+                if (preg_match("#\((.*?)\)#" , $tmp, $matches))
+                $return['delay'] = $matches[0];
+                else
+                $return['delay'] = '---';
+                
+               $tmp = substr($info,strpos($info, 'Codecs'), +50);
+               if (preg_match("#\((.*?)\)#" , $tmp, $matches)){
+                $return['codec'] = $matches[0];
+                $return['codec'] = str_replace(")","", $return['codec']);
+                $return['codec'] = str_replace("(","", $return['codec']);
+                $return['codec'] = str_replace("|",", ", $return['codec']);
+               }
+                else
+                $return['codec'] = '---';
+  
+            
             return $return;
         }
     }
