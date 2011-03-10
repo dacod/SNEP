@@ -26,13 +26,21 @@ class TrunksController extends Zend_Controller_Action {
 
         $db = Zend_Registry::get('db');
 
-        $select =   "SELECT t.id, t.callerid, t.name, t.type, t.trunktype, t.time_chargeby, t.time_total, th.used
-                     FROM trunks as t
-                     LEFT JOIN time_history as th
-                     ON t.id=th.owner and th.owner_type='T'
-                     GROUP BY t.id
-                    ";
-
+        $select =   "SELECT t.id, t.callerid, t.name, t.type, t.trunktype, t.time_chargeby, t.time_total,
+                            (
+                                SELECT th.used
+                                FROM time_history AS th
+                                WHERE th.owner = t.id AND th.owner_type='T'
+                                ORDER BY th.changed DESC limit 1
+                            ) as used,
+                            (
+                                SELECT th.changed
+                                FROM time_history AS th
+                                WHERE th.owner = t.id AND th.owner_type='T'
+                                ORDER BY th.changed DESC limit 1
+                            ) as changed
+                     FROM trunks as t ";
+        
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
@@ -41,7 +49,6 @@ class TrunksController extends Zend_Controller_Action {
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
-
         $this->view->filtro = $this->_request->getParam('filtro');
 
         $datasql = $db->query($select);
@@ -49,13 +56,75 @@ class TrunksController extends Zend_Controller_Action {
 
         foreach ($trunks as $id => $val) {
 
-            if ( $val['time_total'] == '' ) {
-                
+            if ( is_null($val['time_total'])) {
+
                 $trunks[$id]['saldo'] = $this->view->translate("Não Configurado");
 
             } else {
 
-                $saldo = $val['time_total'] - $val['used'];
+                $ligacao = new Zend_Date($val['changed']);
+                $anoLigacao = substr($ligacao,6,4);
+                $mesLigacao = substr($ligacao,3,2);
+                $diaLigacao = substr($ligacao,0,2);
+
+                switch ($val['time_chargeby']) {
+
+                    case 'Y':
+
+                        if ($anoLigacao == date('Y')) {
+
+                            $saldo = $val['time_total'] - $val['used'];
+
+                            if ($val['used'] >= $val['time_total']) {
+
+                                $saldo = 0;
+
+                            }
+
+                        } else {
+                            
+                            $saldo = $val['time_total'];
+                            
+                        }
+
+                        break;
+
+                    case 'M':
+
+                        if ($anoLigacao == date('Y') && $mesLigacao == date('m')) {
+
+                            $saldo = $val['time_total'] - $val['used'];
+
+                            if ($val['used'] >= $val['time_total']) {
+
+                                $saldo = 0;
+
+                            }
+
+                        } else {
+
+                            $saldo = $val['time_total'];
+
+                        }
+
+                        break;
+
+                    case 'D':
+
+                        if ($anoLigacao == date('Y') && $mesLigacao == date('m') && $diaLigacao == date('d')) {
+
+                            $saldo = $val['time_total'] - $val['used'];
+
+                        } else {
+
+                            $saldo = $val['time_total'];
+
+                        }
+
+                        break;
+
+                }
+
                 $trunks[$id]['saldo'] = sprintf("%d:%02d",floor($saldo/60), $saldo%60);
 
             }
