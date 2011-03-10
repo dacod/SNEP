@@ -17,7 +17,7 @@
  */
 require_once("../includes/verifica.php");
 require_once("../configs/config.php");
-ver_permissao(26);
+ver_permissao(35);
 
 if ($acao == "relatorio") {
     exibe_monitor();

@@ -18,6 +18,7 @@
 
  require_once("../includes/verifica.php");  
  require_once("../configs/config.php");
+ ver_permissao(35);
 
 /*-----------------------------------------------------------------------------
  * Funcao visualizar - Exibe relacao de filas
