@@ -35,7 +35,7 @@ HEAD;
         $smarty = Zend_Registry::get('smarty');
         $LANG = Zend_Registry::get('lang');
         
-        $titulo = $LANG['menu_rules']." -> Alias Expressão Regular";
+        $titulo = $LANG['menu_rules']." » Alias Expressão Regular";
 
         $aliases = PBX_ExpressionAliases::getInstance();
 

@@ -390,7 +390,7 @@ HEAD;
         global $LANG;
         $smarty = Zend_Registry::get('smarty');
         $db = Zend_Registry::get('db');
-        $titulo = "Regras de Negócio";
+        $titulo = "Regras de Negócio » Rotas";
 
         // Opcoes de Filtros
         $opcoes = array(
@@ -558,7 +558,7 @@ HEAD;
             $smarty->assign('RULE_ACTIONS',$actions);
         }
 
-        $titulo = "Regras de Negócio -> Regra $id -> Alterar";
+        $titulo = "Regras de Negócio » Regra $id » Alterar";
         display_template("agi_rules.tpl",$smarty,$titulo);
     }
 

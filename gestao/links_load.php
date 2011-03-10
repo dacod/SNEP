@@ -66,7 +66,7 @@ function exibe_monitor() {
     $smarty->assign('REFRESH', array('mostrar' => True,
         'tempo' => $SETUP['ambiente']['tempo_refresh'],
         'url' => "../gestao/links.php?placas=" . implode(';', $listplacas)));
-    $titulo = "Status » " . $LANG['menu_links'];
+    $titulo = "Status » Links Khomp";;
     $smarty->assign('LINKS_KHOMP', $links_khomp_lista);
     display_template("cabecalho.tpl", $smarty, $titulo);
 }

@@ -24,9 +24,8 @@ if (!$data = ast_status("show channels","",True )) {
    exit;
 }
 
-$titulo = $LANG['menu_links_erros'] ;
+$titulo = "Status » Erros Links Khomp" ;
 $smarty->assign ('REFRESH',array('mostrar'=> true,
                               'tempo'  => $SETUP['ambiente']['tempo_refresh'],
                               'url'    => "../gestao/links_errors.php"));
-$titulo = $LANG['menu_links_erros'];
 display_template("cabecalho.tpl",$smarty,$titulo) ;

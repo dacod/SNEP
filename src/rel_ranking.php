@@ -48,7 +48,7 @@
  for ($i=1;$i<=30;$i++) {
     $viewtop[$i]=$i;
  }
- $titulo = $LANG['menu_reports']." -> ".$LANG['menu_callranking'];
+ $titulo = $LANG['menu_reports']." » ".$LANG['menu_callranking'];
 
  $smarty->assign ('rank_num', ( isset($_SESSION['relrank']['rank_num']) ? $_SESSION['relrank']['rank_num'] : '')) ;
  $smarty->assign ('rank_type',( isset($_SESSION['relrank']['rank_type']) ? $_SESSION['relrank']['rank_type'] : 'qtdade')) ;
@@ -392,7 +392,7 @@
   $smarty->assign ('ARQCVS', $csv_rel_ranking);
   $smarty->assign ('TPREL', $tp_rel);
   $smarty->assign('RANKTYPE',$rank_type) ;
-  $titulo = $LANG['menu_reports']." -> ".$LANG['menu_callranking']."<br />" ;
+  $titulo = $LANG['menu_reports']." » ".$LANG['menu_callranking']."<br />" ;
   $titulo.= $TIT_DATE ;
   display_template("rel_ranking_view.tpl",$smarty,$titulo) ;
   exit ;
