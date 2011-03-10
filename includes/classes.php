@@ -316,7 +316,7 @@ class Bar_Graph {
       }
 
       // Calcula o tempo do primeiro minuto e desconta o tempo restante
-      $tp_fone = ( ( strlen( $destino ) >= 8 && substr( $prefixo, -4, 1) > 6 ) ? "C" : "F" );
+      $tp_fone = ( ( strlen( $destino ) >= 8 && substr( $prefixo, -4, 1) >= 6 ) ? "C" : "F" );
 
       if ($tp_fone == 'C') {
           $vp = $t['vpc'] ;   // Tarifa de Partida valida ara o tempo do primeiro minuto
