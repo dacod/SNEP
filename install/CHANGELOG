@@ -1,4 +1,4 @@
-1.3.2:
+1.3.3:
 - 0000115: [Feature Request] Criar nível de acesso para o Menu -> Status -> Filas (esantana) - resolved.
 - 0000128: [Feature Request] Incluir nome do Tronco na listagem de Status >> Ramais,Troncos IP, Filas (lucasseid) - resolved.
 - 0000106: [Bug] Regras de Negócio -> Alias Expressão Regular (lucasseid) - resolved.
