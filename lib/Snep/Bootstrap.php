@@ -78,8 +78,9 @@ abstract class Snep_Bootstrap {
             $locale = "pt_BR";
         }
 
-        Zend_Registry::set('Zend_Locale', $locale);
+        Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
         Zend_Locale::setDefault($locale);
+        Zend_Locale_Format::setOptions(array("locale"=> $locale));
         $i18n->setLocale($locale);
         Zend_Registry::set("Zend_Translate", $i18n);
 
