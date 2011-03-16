@@ -47,48 +47,9 @@ class Snep_Rule_ActionConfig extends PBX_Rule_ActionConfig {
      * Faz o parse do XML e gera o formulário.
      */
     protected function parseForm() {
-        $form = new Snep_Form();
-        $form->setIsArray(true);
+        $form = parent::parseForm();
         $form->setElementsBelongTo($this->getActionId());
-        $form->removeDecorator('form');
-        $i18n = Zend_Registry::get('i18n');
-        // Para cada elemento do XML
-        foreach( $this->xml as $element ) {
-            switch( $element->getName() ) {
-                case 'string':
-                    $parsed_element = $this->parseString($element);
-                    break;
-                case 'int':
-                    $parsed_element = $this->parseInt($element);
-                    break;
-                case 'ramal':
-                    $parsed_element = $this->parseRamal($element);
-                    break;
-                case 'tronco':
-                    $parsed_element = $this->parseTronco($element);
-                    break;
-                case 'radio':
-                    $parsed_element = $this->parseRadio($element);
-                    break;
-                case 'ccustos':
-                    $parsed_element = $this->parseCCustos($element);
-                    break;
-                case 'boolean':
-                    $parsed_element = $this->parseBoolean($element);
-                    break;
-                case 'queue':
-                    $parsed_element = $this->parseQueue($element);
-                    break;
-                case 'audio':
-                    $parsed_element = $this->parseAudio($element);
-                    break;
-                default:
-                    $parsed_element = $this->parseString($element);
-            }
-            $parsed_element->getDecorator('errors')->setOption('placement','PREPEND');
-            $form->addElement($parsed_element);
-        }
-        $this->form = $form;
+        
         return $form;
     }
 

@@ -10,7 +10,7 @@ class Snep_Form_Sectioned extends Zend_Form {
             'ViewHelper',
             'Description',
             'Errors',
-            array(array('element' => 'HtmlTag'), array('tag' => 'td')),
+            array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
             array('Label', array('tag' => 'th')),
             array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr'))
         ));
@@ -24,6 +24,11 @@ class Snep_Form_Sectioned extends Zend_Form {
         $this->setButton();
     }
 
+    public function getElementDecorators() {
+        return $this->_elementDecorators;
+    }
+
+
     protected function setButton() {
         $submit = new Zend_Form_Element_Submit("submit", array("label" => "Salvar"));
         $submit->removeDecorator('DtDdWrapper');
@@ -33,7 +38,7 @@ class Snep_Form_Sectioned extends Zend_Form {
 
         $this->addElement($submit);
 
-        $back = new Zend_Form_Element_Button("buttom", array("label" => "Cancelar" ));
+        $back = new Zend_Form_Element_Button("cancel", array("label" => "Cancelar" ));
         $back->setAttrib("onclick", "location.href='javascript:history.back();'");
         $back->removeDecorator('DtDdWrapper');
         $back->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
@@ -44,4 +49,3 @@ class Snep_Form_Sectioned extends Zend_Form {
     }
 
 }
-

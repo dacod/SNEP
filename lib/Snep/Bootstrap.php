@@ -187,7 +187,12 @@ abstract class Snep_Bootstrap {
         }
 
         foreach (Snep_Modules::getInstance()->getRegisteredModules() as $module) {
-            $actions_dir = $config->system->path->base . "/" . $module->getModuleDir() . "/actions";
+            if($module->getModuleId() != null) {
+                $actions_dir = $config->system->path->base . "/modules/" . $module->getModuleDir() . "/actions";
+            }
+            else {
+                $actions_dir = $config->system->path->base . "/" . $module->getModuleDir() . "/actions";
+            }
             if( file_exists($actions_dir) ) {
                 foreach( scandir($actions_dir) as $filename ) {
                     // Todos os arquivos .php devem ser classes de Ações

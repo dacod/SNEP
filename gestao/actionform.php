@@ -71,9 +71,13 @@ if($_GET['mode'] == "new_action") {
     $form = $config->getForm();
     $action_type_element = new Zend_Form_Element_Hidden("action_type");
     $action_type_element->setValue(get_class($action));
+    $action_type_element->setDecorators(array("ViewHelper"));
     $form->addElement($action_type_element);
 
     $form->setView(new Zend_View());
+    $form->removeDecorator('form');
+    $form->removeElement('submit');
+    $form->removeElement('cancel');
 
     $form_html = $form->render();
 
@@ -81,6 +85,7 @@ if($_GET['mode'] == "new_action") {
         "id" => $custom_id,
         "status" => "success",
         "type" => get_class($action),
+        "label" => $action->getName(),
         "form"   => $form_html
     ));
 }
@@ -106,10 +111,14 @@ else {
 
         $form = $config->getForm();
         $action_type_element = new Zend_Form_Element_Hidden("action_type");
+        $action_type_element->setDecorators(array("ViewHelper"));
         $action_type_element->setValue(get_class($action));
         $form->addElement($action_type_element);
 
         $form->setView(new Zend_View());
+        $form->removeDecorator('form');
+        $form->removeElement('submit');
+        $form->removeElement('cancel');
 
         $form_html = $form->render();
 
@@ -117,6 +126,7 @@ else {
             "id" => "action_$id",
             "status" => "success",
             "type" => get_class($action),
+            "label" => $action->getName(),
             "form"   => $form_html
         );
     }

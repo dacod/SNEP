@@ -1,0 +1,38 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . "/css/agi_rules.css");
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/scriptaculous/src/scriptaculous.js", 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/snep.js", 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/agi_rules.js", 'text/javascript');
+?>
+
+<p id="actions_toolbar">
+    <label for="action-name"><?php echo $this->translate("Ação"); ?></label>
+    <select class="campos" id="action-name">
+        <?php foreach ($this->element->getView()->actions as $class => $label): ?>
+        <option id="<?php echo $class; ?>" value="<?php echo $class; ?>" label="<?php echo $label; ?>"><?php echo $label; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="button" id="addActionButton"><?php echo $this->translate("Adicionar Ação"); ?></button>
+    <button type="button" id="cleanActionsButton"><?php echo $this->translate("Remover Todas"); ?></button>
+    <img src="<?php echo $this->baseUrl(); ?>/imagens/ajax-loader1.gif" id="loader_icon" alt="Loading..." />
+</p>
+
+<table id="actions">
+    <thead>
+        <tr>
+            <th><?php echo $this->translate("Ações"); ?></th>
+            <th id="action-config-title"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td id="actions-list-container">
+                <div id="actions-list-scrollable">
+                    <ol id="actions_list"></ol>
+                </div>
+            </td>
+            <td id="actions-config"></td>
+        </tr>
+    </tbody>
+</table>
+<input name="actions_order" type="hidden" id="actions-order" value="" />

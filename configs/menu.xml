@@ -41,8 +41,8 @@
         <item uri="tarifas/rel_tarifas.php" label="menu_tarifas"></item>
     </item>
 
-    <item id="routing" label="menu_rules" uri="gestao/agi_rules.php" resourceid="48">
-        <item uri="gestao/agi_rules.php" label="routes"></item>
+    <item id="routing" label="menu_rules" uri="route" resourceid="48">
+        <item uri="route" label="routes"></item>
         <item uri="gestao/default_actions_configs.php" label="default_configs"></item>
         <item uri="gestao/expression_alias.php" label="Alias de Expressão Regular"></item>
     </item>

@@ -16,14 +16,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         // Main roles
         $acl->addRole(new Zend_Acl_Role('all')); // Everyone
-        $acl->addRole(new Zend_Acl_Role('users'),'all'); // Users
-        $acl->addRole(new Zend_Acl_Role('guest'),'all'); // Non authenticated users
-
+        $acl->addRole(new Zend_Acl_Role('users'), 'all'); // Users
+        $acl->addRole(new Zend_Acl_Role('guest'), 'all'); // Non authenticated users
         // Dynamic roles
         $auth = Zend_Auth::getInstance();
-        if($auth->hasIdentity()) {
+        if ($auth->hasIdentity()) {
             // Already authenticated user
-            $acl->addRole(new Zend_Acl_Role($auth->getIdentity()),'users');
+            $acl->addRole(new Zend_Acl_Role($auth->getIdentity()), 'users');
         }
 
         // System resources
@@ -38,9 +37,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $acl->deny('all');
         $acl->allow('users');
 
-        $acl->allow(null,'auth');
-        $acl->allow(null,'error');
-        $acl->allow(null,'installer');
+        $acl->allow(null, 'auth');
+        $acl->allow(null, 'error');
+        $acl->allow(null, 'installer');
 
         $this->acl = $acl;
 
@@ -48,10 +47,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         // Defining Role
         $auth = Zend_Auth::getInstance();
-        if($auth->hasIdentity()) {
+        if ($auth->hasIdentity()) {
             $role = $auth->getIdentity();
-        }
-        else {
+        } else {
             $role = 'guest';
         }
 
@@ -66,6 +64,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     protected function _initRouter() {
         $front_controller = Zend_Controller_Front::getInstance();
         $front_controller->setBaseUrl($_SERVER['SCRIPT_NAME']);
+
+        $router = $front_controller->getRouter();
+        $router->addRoute('route_edit',
+                new Zend_Controller_Router_Route('route/edit/:id', array('controller' => 'route', 'action' => 'edit'))
+        );
+        $router->addRoute('route_duplicate',
+                new Zend_Controller_Router_Route('route/duplicate/:id', array('controller' => 'route', 'action' => 'duplicate'))
+        );
+        $router->addRoute('route_delete',
+                new Zend_Controller_Router_Route('route/delete/:id', array('controller' => 'route', 'action' => 'delete'))
+        );
     }
 
     /**
@@ -103,4 +112,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->menu = Zend_Registry::get('menu');
         $view->menu->setId("navmenu");
     }
+
 }

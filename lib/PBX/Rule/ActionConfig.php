@@ -52,8 +52,7 @@ class PBX_Rule_ActionConfig {
     public function __construct($xml) {
         if($xml == "") {
             $i18n = Zend_Registry::get('i18n');
-            $this->form = new Snep_Form();
-            $this->form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar')));
+            $this->form = new Snep_Form_Sectioned();
         }
         else {
             $this->xml = new SimpleXMLElement($xml);
@@ -65,7 +64,7 @@ class PBX_Rule_ActionConfig {
      * Faz o parse do XML e gera o formulário.
      */
     protected function parseForm() {
-        $form = new Snep_Form();
+        $form = new Snep_Form_Sectioned();
         $i18n = Zend_Registry::get('i18n');
         // Para cada elemento do XML
         foreach( $this->xml as $element ) {
@@ -97,13 +96,15 @@ class PBX_Rule_ActionConfig {
                 case 'audio':
                     $parsed_element = $this->parseAudio($element);
                     break;
+                case 'select':
+                    $parsed_element = $this->parseSelect($element);
+                    break;
                 default:
                     $parsed_element = $this->parseString($element);
             }
-            $parsed_element->getDecorator('errors')->setOption('placement','PREPEND');
+            $parsed_element->setDecorators($form->getElementDecorators());
             $form->addElement($parsed_element);
         }
-        $form->addElement(new Zend_Form_Element_Submit($i18n->translate('Salvar'), array("class" => "new_button")));
         $this->form = $form;
         return $this->form;
     }
@@ -213,6 +214,29 @@ class PBX_Rule_ActionConfig {
                     $form_element->setValue($element->value);
                 }
             }
+        }
+
+        return $form_element;
+    }
+
+    /**
+     * Faz parse de campo <select>
+     *
+     * @param SimpleXMLElement $element
+     * @return Zend_Form_Element
+     */
+    protected function parseSelect($element) {
+        $i18n = Zend_Registry::get('i18n');
+
+        $form_element = new Zend_Form_Element_Select((string)$element->id);
+        $form_element->setLabel( (string) $element->label);
+
+        foreach ($element->options->option as $option) {
+            $form_element->addMultiOption((string) $option['value'], $option);
+        }
+
+        if(isset($element->value)) {
+            $form_element->setValue($element->value);
         }
 
         return $form_element;

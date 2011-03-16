@@ -234,7 +234,11 @@ form .errors li {
 form .errors, .error {
     color: #ff0000;
 }
-.zend_form input[type="text"], .zend_form input[type="password"] {
+
+input[type="text"],
+input[type="password"],
+select
+{
     border: 1px solid #A4A7AB;
     line-height: 1.5em;
     padding: 1px;
@@ -257,7 +261,6 @@ form .errors, .error {
     font-size: 12px;
     padding: 10px;
 }
-
 
 /* Menu snep */
 #menu {
@@ -567,14 +570,14 @@ ul#navmenu ul ul li.iehover ul {
 .regra0 {
     width: 36px;
     height: 19px;
-    margin: 0px 0px 0px 10px;
+    margin: 0px;
     display: block;
     background: url("../imagens/ativar.gif") no-repeat left top;
 }
 .regra1 {
     width: 36px;
     height: 19px;
-    margin: 0px 0px 0px 10px;
+    margin: 0px;
     display: block;
     background: url("../imagens/desativar.gif") no-repeat left top;
 }
@@ -671,11 +674,6 @@ ul#navmenu ul ul li.iehover ul {
 
 .snep_form tr:hover {
     background-color: transparent !important;
-}
-
-.snep_form {
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .snep_form table {
