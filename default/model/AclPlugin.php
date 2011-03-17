@@ -27,8 +27,8 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
     public function __construct(Zend_Acl $aclData, $roleName = 'guest') {
         $this->_errorPage = array(
                 'module' => 'default',
-                'controller' => 'auth',
-                'action' => 'login'
+                'controller' => 'error',
+                'action' => 'denied'
         );
 
         $this->_roleName = $roleName;
@@ -41,7 +41,7 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
     /**
      * Sets the ACL object
      *
-     * @param mixed $aclData
+     * @param Zend_Acl $aclData
      * @return void
      **/
     public function setAcl(Zend_Acl $aclData) {
@@ -101,34 +101,45 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
     }
 
     /**
-     * Predispatch
-     * Checks if the current user identified by roleName has rights to the requested url (module/controller/action)
-     * If not, it will call denyAccess to be redirected to errorPage
+     * Checks if the request have right to continue or send it to access denied.
+     *
+     * The check is made from the more specific to less until find a resource in
+     * the Zend_Acl object of the system.
+     *
+     * The check is made in the following form:
+     *     module_controller_action
+     *     module_controller
+     *     module
+     *     "unknown"
      *
      * @return void
      **/
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        if($request->getModuleName() == "default") {
-            $resourceName = $request->getControllerName();
+        $module = $request->getModuleName();
+        $controller = $request->getControllerName();
+        $resource = sprintf("%s_%s_%s", $module, $controller, $request->getActionName());
 
-            if(!$this->getAcl()->has($resourceName)) {
-                $resourceName = 'default';
-            }
-        }
-        else {
-            $resourceName = $request->getModuleName() . ':' . $request->getControllerName();
-            if(!$this->getAcl()->has($resourceName)) {
-                $resourceName = $request->getModuleName();
-                if (!$this->getAcl()->has($resourceName)) {
-                    $resourceName = 'default';
+        if(!$this->getAcl()->has($resource)) {
+            $resource = sprintf("%s_%s", $module, $controller);
+            if(!$this->getAcl()->has($resource)) {
+                $resource = $module;
+                if(!$this->getAcl()->has($resource)) {
+                    $resource = "unknown";
                 }
             }
         }
 
         /** Check if the controller/action can be accessed by the current user */
-        if (!$this->getAcl()->isAllowed($this->_roleName, $resourceName, $request->getActionName())) {
-            /** Redirect to access denied page */
-            $this->denyAccess();
+        if (!$this->getAcl()->isAllowed($this->_roleName, $resource)) {
+            if(Zend_Auth::getInstance()->hasIdentity()) {
+                /** Redirect to access denied page */
+                $this->denyAccess();
+            }
+            else {
+                $this->_request->setModuleName("default");
+                $this->_request->setControllerName("auth");
+                $this->_request->setActionName("login");
+            }
         }
     }
 

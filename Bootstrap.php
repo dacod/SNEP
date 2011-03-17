@@ -2,65 +2,34 @@
 
 require_once 'Zend/Session.php';
 require_once 'Zend/Application/Bootstrap/Bootstrap.php';
-require_once 'default/model/AclPlugin.php';
 
 Zend_Session::start();
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
     /**
-     * Inicia o sistema de permissões do snep client.
+     * Adds user role on Snep Acl and register plugin for permission check before
+     * dispatch.
      */
     protected function _initAcl() {
-        $acl = new Zend_Acl();
+        $acl = Snep_Acl::getInstance();
 
-        // Main roles
-        $acl->addRole(new Zend_Acl_Role('all')); // Everyone
-        $acl->addRole(new Zend_Acl_Role('users'), 'all'); // Users
-        $acl->addRole(new Zend_Acl_Role('guest'), 'all'); // Non authenticated users
-        // Dynamic roles
         $auth = Zend_Auth::getInstance();
         if ($auth->hasIdentity()) {
-            // Already authenticated user
-            $acl->addRole(new Zend_Acl_Role($auth->getIdentity()), 'users');
-        }
-
-        // System resources
-        $acl->add(new Zend_Acl_Resource('default'));
-        $acl->add(new Zend_Acl_Resource('error'));
-        $acl->add(new Zend_Acl_Resource('index'));
-        $acl->add(new Zend_Acl_Resource('auth'));
-        $acl->add(new Zend_Acl_Resource('installer'));
-        $acl->add(new Zend_Acl_Resource('unknown'));
-
-        // Default permissions
-        $acl->deny('all');
-        $acl->allow('users');
-
-        $acl->allow(null, 'auth');
-        $acl->allow(null, 'error');
-        $acl->allow(null, 'installer');
-
-        $this->acl = $acl;
-
-        $front = Zend_Controller_Front::getInstance();
-
-        // Defining Role
-        $auth = Zend_Auth::getInstance();
-        if ($auth->hasIdentity()) {
+            $acl->addRole((string) $auth->getIdentity());
             $role = $auth->getIdentity();
+            if($role == "admin") {
+                $acl->allow("admin");
+            }
         } else {
             $role = 'guest';
         }
 
-        $front->registerPlugin(new AclPlugin($this->acl, $role));
+        $front = Zend_Controller_Front::getInstance();
+        require_once 'default/model/AclPlugin.php';
+        $front->registerPlugin(new AclPlugin($acl, $role));
     }
 
-    /**
-     * Efetua a correção da baseUrl para os links adicionando index.php para que
-     * o sistema funcione mesmo que o servidor não esteja com mod_rewrite
-     * habilitado
-     */
     protected function _initRouter() {
         $front_controller = Zend_Controller_Front::getInstance();
         $front_controller->setBaseUrl($_SERVER['SCRIPT_NAME']);
@@ -77,10 +46,51 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         );
     }
 
+    protected function _initLocale() {
+        require_once "Zend/Translate.php";
+        $config = Snep_Config::getConfig();
+        // silenciando strict até arrumar zend_locale
+        date_default_timezone_set("America/Sao_Paulo");
+
+        $i18n = new Zend_Translate('gettext', $config->system->path->base . '/lang/pt_BR.mo', 'pt_BR');
+        Zend_Registry::set('i18n', $i18n);
+
+        $translation_files = $config->system->path->base . "/lang/";
+        foreach( scandir($translation_files) as $filename ) {
+            // Todos os arquivos .php devem ser classes de descrição de modulos
+            if( preg_match("/.*\.mo$/", $filename) ) {
+                $translation_id = basename($filename, '.mo');
+                if($translation_id != "pt_BR") {
+                    $i18n->addTranslation($translation_files . "/$filename", $translation_id);
+                }
+            }
+        }
+
+        require_once "Zend/Locale.php";
+
+        if(Zend_Locale::isLocale($config->system->locale)) {
+            $locale = $config->system->locale;
+        } else {
+            $locale = "pt_BR";
+        }
+
+        Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
+        Zend_Locale::setDefault($locale);
+        Zend_Locale_Format::setOptions(array("locale"=> $locale));
+        $i18n->setLocale($locale);
+        Zend_Registry::set("Zend_Translate", $i18n);
+
+        $zend_validate_translator = new Zend_Translate_Adapter_Array(
+            $config->system->path->base . "/lang/Zend_Validate/$locale/Zend_Validate.php",
+            $locale
+        );
+        Zend_Validate_Abstract::setDefaultTranslator($zend_validate_translator);
+    }
+
     /**
-     * Inicia o doctype e outros parametros do layout.
+     * Starts the system view and layout
      *
-     * @return Bootstrap
+     * @return Zend_View
      */
     protected function _initViewHelpers() {
         // Initialize view
@@ -99,18 +109,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         // Return it, so that it can be stored by the bootstrap
         return $view;
-    }
-
-    protected function _initSnep() {
-        $snepBoot = new Snep_Bootstrap_Web("includes/setup.conf");
-        $snepBoot->specialBoot();
-
-        $layout = $this->getResource('layout');
-        $view = $layout->getView();
-        $view->setScriptPath('./default/views/scripts');
-
-        $view->menu = Zend_Registry::get('menu');
-        $view->menu->setId("navmenu");
     }
 
 }

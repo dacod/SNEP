@@ -9,9 +9,6 @@ class IndexController extends Zend_Controller_Action {
 
         if( trim ( $config->ambiente->db->host ) == "" ) {            
             $this->_redirect("/installer/");
-
-        }else{            
-            $this->_redirect("../src/sistema.php");
         }
         
     }

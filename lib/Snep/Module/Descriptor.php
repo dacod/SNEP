@@ -17,60 +17,70 @@
  */
 
 /**
- * Classe para descrição de modulos do Snep
+ * Module descriptor to keep track of registered modules on Snep system.
  *
- * Para criar ações de regras de negócio em um módulo basta colocá-las em um
- * sub-diretório actions/ dentro do seu moduleDir/
- * 
+ * You can use this class attributes as keys to make your info.xml
  *
  * @category  Snep
  * @package   Snep_Module
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-abstract class Snep_Module_Descriptor {
+class Snep_Module_Descriptor {
 
     /**
-     * ID do módulo
+     * Module id
+     *
+     * This is the same name as the directory that contains it.
+     * Should be unique for all modules.
      *
      * @var string
      */
     protected $id = null;
 
     /**
-     * Nome do modulo
+     * Module name
      */
     protected $name = "Unamed Module";
 
     /**
-     * Versão do módulo
+     * Module version string/number
      *
      * @var string
      */
     protected $version = "";
 
     /**
-     * Descrição do módulo
+     * Module description text.
+     *
+     * Here is where you sell your fish :)
      *
      * @var string
      */
     protected $description = "";
 
     /**
-     * Arvore de menus criada pelo módulo.
-     *
-     * @see Snep_Module_Descriptor::setMenuTree()
-     * @var array
-     */
-    protected $menuTree = array();
-
-    /**
-     * Diretório onde ficam os arquivos do módulo. Importante para encontrar as
-     * ações de regras de negócio do modulo.
+     * Module website or relevant url.
      *
      * @var string
      */
-    protected $moduleDir;
+    protected $website;
+
+    /**
+     * Module author
+     *
+     * @var string
+     */
+    protected $author;
+
+    /**
+     * Constructor
+     *
+     * @param string $id the module id
+     */
+    public function __construct( $id ) {
+        $this->id = $id;
+    }
 
     public function getModuleId() {
         return $this->id;
@@ -100,73 +110,20 @@ abstract class Snep_Module_Descriptor {
         $this->description = $description;
     }
 
-    public function getModuleDir() {
-        return $this->moduleDir;
+    public function getWebsite() {
+        return $this->website;
     }
 
-    public function setModuleDir($moduleDir) {
-        $this->moduleDir = $moduleDir;
+    public function setWebsite($website) {
+        $this->website = $website;
     }
 
-    /**
-     * ID do módulo para ambiente zend do snep.
-     *
-     * IMPORTANTE: Essa opção sobreescreve a opção setModuleDir();
-     *
-     * @param string $id
-     */
-    public function setModuleId($id) {
-        $this->setModuleDir($id);
-        $this->id = $id;
+    public function getAuthor() {
+        return $this->author;
     }
 
-    /**
-     * Retorna uma árvore de menu's para ser inserida no menu principal do Snep
-     * caso o módulo o queira.
-     *
-     * @return array menu
-     */
-    public function getMenuTree() {
-        return $this->menuTree;
+    public function setAuthor($author) {
+        $this->author = $author;
     }
-
-    /**
-     * Define uma árvore de menu para o módulo
-     *
-     * ex:
-     *    $menuTree = array(
-     *        "register" => new Snep_Menu_Item('myModule', 'Telefones', '../mymdule/telefones.php')
-     *    );
-     * Adiciona no menu Registro do snep o item Telefones que direciona para
-     * ../mymodule/telefones.php
-     *
-     * ex2:
-     *    $menuTree = array(
-     *        new Snep_Menu_Item('myModule', 'Telefones', null, array(
-     *            new Snep_Menu_Item('myModule_cad', 'Cadastro', "../mymodule/1.php"),
-     *            new Snep_Menu_Item('myModule_report', 'Relatório', "../mymodule/2.php")
-     *        ))
-     *    );
-     * Adiciona um menu Telefones na raiz do menu do snep com dois subitens
-     * Cadastro e Relatório.
-     *
-     *
-     * Algumas chaves especiais podem ser útilizadas para colocar itens de menu
-     * dentro dos que já existem no Snep. São elas:
-     *     status  = Status
-     *     config  = Configurações
-     *     reports = Relatórios
-     *     routing = Regras de Negócio
-     *     billing = Tarifas
-     *
-     * @param array() $menuTree
-     */
-    protected function setMenuTree( $menuTree ) {
-        if( is_array($menuTree) ) {
-            $this->menuTree = $menuTree;
-        }
-        else {
-            throw new PBX_Exception_BadArg("Arvore de menus para modulos deve ser um array");
-        }
-    }
+    
 }

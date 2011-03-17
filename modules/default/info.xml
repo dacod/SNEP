@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : info.xml
+    Created on : March 15, 2011, 3:37 PM
+    Author     : Henrique Grolli <henrique@opens.com.br>
+    Description:
+        Descriptor for the default module of snep.
+-->
+
+<module>
+    <name>Default</name>
+    <description>Default module that provides basic features to Snep PBX.</description>
+    <author>OpenS Tecnologia</author>
+    <website>www.snep.com.br</website>
+</module>
