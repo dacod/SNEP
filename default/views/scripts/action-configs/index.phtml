@@ -1,0 +1,30 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+?>
+<table>
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Nome') ?></th>
+            <th><?php echo $this->translate('Descrição') ?></th>
+            <th><?php echo $this->translate('Ações') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($this->infoAcoes as $value) {
+        ?>
+        <tr>
+            <td><?php echo $this->translate($value['name']) ?></td>
+            <td><?php echo $this->translate($value['description']) ?></td>
+            <td class="action"> 
+            	<a class="configurar"  href='<?php echo $this->baseUrl(); ?>/index.php/action-configs/edit/id/<?php echo $value['id'] ?>'>
+                	<?php echo $this->translate('Configurar')?>
+                </a>
+            </td>
+        </tr>
+       <?php } ?>
+    </tbody>
+</table>

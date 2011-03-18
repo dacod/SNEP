@@ -16,7 +16,7 @@
 
     <group id="routing" label="Routing">
         <resource id="route" label="Routes"></resource>
-        <!-- <resource id="gestao/default_actions_configs.php" label="Default Config"></resource> -->
+        <resource id="action-configs" label="Default Config"></resource>
         <!-- <resource id="gestao/expression_alias.php" label="Expression Alias"></resource> -->
     </group>
 
