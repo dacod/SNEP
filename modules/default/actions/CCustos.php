@@ -17,32 +17,56 @@
  */
 
 /**
- * Executa uma aplicação no Asterisk
+ * Setar Centro de Custos.
  *
- * @see PBX_Rule
- * @see PBX_Rule_Action
+ * Ação das regras do snep que define um centro de cusos para classificar a
+ * ligação.
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
+class CCustos extends PBX_Rule_Action {
+
+    /**
+     * @var Internacionalização
+     */
+    private $i18n;
+
+    /**
+     * Construtor
+     * @param array $config configurações da ação
+     */
+    public function __construct() {
+        $this->i18n = Zend_Registry::get("i18n");
+    }
 
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
+     *
      * @return Nome da Ação
      */
     public function getName() {
-        return "Executar Aplicação";
+        return $this->i18n->translate("Definir Centro de Custos");
     }
 
     /**
      * Retorna o numero da versão da classe.
+     *
      * @return Versão da classe
      */
     public function getVersion() {
-        return Zend_Registry::get("snep_version");
+        return "1.0";
+    }
+
+    /**
+     * Seta as configurações da ação.
+     *
+     * @param array $config configurações da ação
+     */
+    public function setConfig($config) {
+        $this->config = $config;
     }
 
     /**
@@ -50,7 +74,7 @@ class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return "Executa uma aplicação do Asterisk";
+        return $this->i18n->translate("Define um centro de custos para classificação da ligação");
     }
 
     /**
@@ -58,46 +82,30 @@ class PBX_Rule_Action_ExecuteApp extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
-        $application  = (isset($this->config['application']))?"<value>{$this->config['application']}</value>":"";
-        if( isset($this->config['parameters']) ) {
-            $parameters = str_replace(array("<",">"), array("&lt;", "&gt;"), $this->config['parameters']);
-            $parameters = "<value><![CDATA[$parameters]]></value>";
-        }
-        else {
-            $parameters = "";
-        }
+        $ccustos = (isset($this->config['ccustos']))?"<value>{$this->config['ccustos']}</value>":"";
 
         return <<<XML
 <params>
-    <string>
-        <label>Aplicação</label>
-        <id>application</id>
-        $application
-    </string>
-    <string>
-        <label>Parâmetros</label>
-        <id>parameters</id>
-        $parameters
-    </string>
+    <ccustos>
+        <id>ccustos</id>
+        $ccustos
+    </ccustos>
 </params>
 XML;
     }
 
     /**
-     * Executa a ação.
-     * @param Asterisk_AGI $asterisk
-     * @param PBX_Asterisk_AGI_Request $request
+     * Executa a ação. É chamado dentro de uma instancia usando AGI.
+     *
+     * @param AGI $asterisk
+     * @param int $rule - A regra que chamou essa ação. É passado pra que
+     * a ação possa restaurar as configurações dela para essa regra. Esse parametro
+     * á opcional.
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
-        $application = $this->config['application'];
-        $parameters  = $this->config['parameters'];
-
-        $log->info("Executing application: $application($parameters)");
-        $return = $asterisk->exec($application, $parameters);
-        if($return['result'] == "-2") {
-            $log->err("Falha ao executar aplicacao $application. Retorno: {$return['data']}");
-        }
+        $log->info("Definindo centro de custos para {$this->config['ccustos']}.");
+        $asterisk->set_variable('CDR(accountcode)', $this->config['ccustos']);
     }
 }

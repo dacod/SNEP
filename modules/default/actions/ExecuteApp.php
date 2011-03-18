@@ -17,55 +17,32 @@
  */
 
 /**
- * Tocar Audio
+ * Executa uma aplicação no Asterisk
  *
- * Ação de regra de negócio para tocar audio no canal que a executar.
+ * @see PBX_Rule
+ * @see PBX_Rule_Action
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_Playback extends PBX_Rule_Action {
-
-    /**
-     * @var Internacionalização
-     */
-    private $i18n;
-
-    /**
-     * Construtor
-     * @param array $config configurações da ação
-     */
-    public function __construct() {
-        $this->i18n = Zend_Registry::get("i18n");
-    }
+class ExecuteApp extends PBX_Rule_Action {
 
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
-     *
      * @return Nome da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Tocar Audio");
+        return "Executar Aplicação";
     }
 
     /**
      * Retorna o numero da versão da classe.
-     *
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
-    }
-
-    /**
-     * Seta as configurações da ação.
-     *
-     * @param array $config configurações da ação
-     */
-    public function setConfig($config) {
-        $this->config = $config;
+        return Zend_Registry::get("snep_version");
     }
 
     /**
@@ -73,7 +50,7 @@ class PBX_Rule_Action_Playback extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Toca um arquivo de som cadastrado no Snep.");
+        return "Executa uma aplicação do Asterisk";
     }
 
     /**
@@ -81,30 +58,46 @@ class PBX_Rule_Action_Playback extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
-        $file = (isset($this->config['file']))?"<value>{$this->config['file']}</value>":"";
+        $application  = (isset($this->config['application']))?"<value>{$this->config['application']}</value>":"";
+        if( isset($this->config['parameters']) ) {
+            $parameters = str_replace(array("<",">"), array("&lt;", "&gt;"), $this->config['parameters']);
+            $parameters = "<value><![CDATA[$parameters]]></value>";
+        }
+        else {
+            $parameters = "";
+        }
 
         return <<<XML
 <params>
-    <audio>
-        <label>Arquivo de Som</label>
-        <id>file</id>
-        $file
-    </audio>
+    <string>
+        <label>Aplicação</label>
+        <id>application</id>
+        $application
+    </string>
+    <string>
+        <label>Parâmetros</label>
+        <id>parameters</id>
+        $parameters
+    </string>
 </params>
 XML;
     }
 
     /**
-     * Executa a ação. É chamado dentro de uma instancia usando AGI.
-     *
+     * Executa a ação.
      * @param Asterisk_AGI $asterisk
-     * @param Asterisk_AGI_Request $request
+     * @param PBX_Asterisk_AGI_Request $request
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
-        $asterisk->answer();
-        $log->info("Atendendo e tocando: " . $this->config['file']);
-        $asterisk->stream_file($this->config['file']);
+        $application = $this->config['application'];
+        $parameters  = $this->config['parameters'];
+
+        $log->info("Executing application: $application($parameters)");
+        $return = $asterisk->exec($application, $parameters);
+        if($return['result'] == "-2") {
+            $log->err("Falha ao executar aplicacao $application. Retorno: {$return['data']}");
+        }
     }
 }

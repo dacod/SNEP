@@ -17,18 +17,26 @@
  */
 
 /**
- * Setar Centro de Custos.
+ * ActionLooop Loop em Ações
  *
- * Ação das regras do snep que define um centro de cusos para classificar a
- * ligação.
+ * Ação que faz possível um loop finito na execução de ações nas regras de
+ * negócio.
+ *
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_CCustos extends PBX_Rule_Action {
+class ActionLoop extends PBX_Rule_Action {
 
+    /**
+     * Contagem de vezes em que essa ação foi chamada.
+     *
+     * @var int loop count
+     */
+    private $count;
+    
     /**
      * @var Internacionalização
      */
@@ -39,21 +47,20 @@ class PBX_Rule_Action_CCustos extends PBX_Rule_Action {
      * @param array $config configurações da ação
      */
     public function __construct() {
+        $this->count = 0;
         $this->i18n = Zend_Registry::get("i18n");
     }
 
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
-     *
      * @return Nome da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Definir Centro de Custos");
+        return $this->i18n->translate("Loop");
     }
 
     /**
      * Retorna o numero da versão da classe.
-     *
      * @return Versão da classe
      */
     public function getVersion() {
@@ -61,20 +68,11 @@ class PBX_Rule_Action_CCustos extends PBX_Rule_Action {
     }
 
     /**
-     * Seta as configurações da ação.
-     *
-     * @param array $config configurações da ação
-     */
-    public function setConfig($config) {
-        $this->config = $config;
-    }
-
-    /**
      * Retorna uma breve descrição de funcionamento da ação.
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Define um centro de custos para classificação da ligação");
+        return $this->i18n->translate("Faz um loop na execução de ações.");
     }
 
     /**
@@ -82,30 +80,44 @@ class PBX_Rule_Action_CCustos extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
-        $ccustos = (isset($this->config['ccustos']))?"<value>{$this->config['ccustos']}</value>":"";
+        $i18n  = $this->i18n;
+        $loopcount  = (isset($this->config['loopcount']))?"<value>{$this->config['loopcount']}</value>":"";
+        $actionindex = (isset($this->config['actionindex']))?"<value>{$this->config['actionindex']}</value>":"";
 
+        $lbl_loopcount = $i18n->translate("Repetir:");
+        $lbl_actionindex = $i18n->translate("Indice da ação:");
+
+        $unit = $i18n->translate("vezes");
         return <<<XML
 <params>
-    <ccustos>
-        <id>ccustos</id>
-        $ccustos
-    </ccustos>
+    <int>
+        <label>$lbl_loopcount</label>
+        <id>loopcount</id>
+        <default>5</default>
+        <unit>$unit</unit>
+        $loopcount
+    </int>
+    <int>
+        <label>$lbl_actionindex</label>
+        <id>actionindex</id>
+        <default>0</default>
+        $actionindex
+    </int>
 </params>
 XML;
     }
 
     /**
-     * Executa a ação. É chamado dentro de uma instancia usando AGI.
-     *
-     * @param AGI $asterisk
-     * @param int $rule - A regra que chamou essa ação. É passado pra que
-     * a ação possa restaurar as configurações dela para essa regra. Esse parametro
-     * á opcional.
+     * Executa a ação.
+     * @param Asterisk_AGI $asterisk
+     * @param Asterisk_AGI_Request $request
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
+        $this->count++;
 
-        $log->info("Definindo centro de custos para {$this->config['ccustos']}.");
-        $asterisk->set_variable('CDR(accountcode)', $this->config['ccustos']);
+        if($this->count < $this->config['loopcount']) {
+            throw new PBX_Rule_Action_Exception_GoTo($this->config['actionindex']);
+        }
     }
 }

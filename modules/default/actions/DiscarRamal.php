@@ -29,7 +29,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_DiscarRamal extends PBX_Rule_Action {
+class DiscarRamal extends PBX_Rule_Action {
 
     /**
      * Parametros do Dial do asterisk

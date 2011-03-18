@@ -19,6 +19,11 @@
 
 /**
  * Controlador de regras de rotas.
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Henrique Grolli Bassotto
  */
 class RouteController extends Zend_Controller_Action {
 

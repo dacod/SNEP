@@ -15,6 +15,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*jslint maxerr: 50, indent: 4 */
+
 /**
  * Protótipo para campo de Origens e Destinos.
  */
@@ -151,7 +153,7 @@ function Field(id) {
 function SrcField(id) {
     this.Field(id);
 
-    this.typeList[this.typeList.push()] = new Array('T',str_trunk, true);
+    this.typeList[this.typeList.push()] = ['T',str_trunk, true];
 }
 // Definindo herança entre SrcField e Field;
 copyPrototype(SrcField, Field);
@@ -162,7 +164,7 @@ copyPrototype(SrcField, Field);
 function DstField(id) {
     this.Field(id);
 
-    this.typeList[this.typeList.push()] = new Array('S',str_s, false);
+    this.typeList[this.typeList.push()] = ['S',str_s, false];
 }
 // Definindo herança entre DstField e Field;
 copyPrototype(DstField, Field);
@@ -179,20 +181,20 @@ function TimeField(id) {
 
     this.render = function() {
         $(this.id).innerHTML = this.getHtml(this.lastReference);
-    }
+    };
 
     this.getHtml = function(objReference) {
         this.lastReference = objReference;
         var html = '<span id="' + this.id + '">';
-        html += 'De: <input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos required" maxlength="5" size="5" onblur="valid_valida(this)"  /> hs\
-                 Até: <input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
+        html += 'De: <input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos required" maxlength="5" size="5" onblur="valid_valida(this)"  /> hs';
+        html += 'Até: <input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
         html += "</span>";
         return html;
-    }
+    };
 
     this.getValue = function() {
         return this.startTime + "-" + this.endTime;
-    }
+    };
 }
 
 /* Função para validação de horario de inicio e fim da regra */
@@ -213,21 +215,21 @@ updateSortableActionsList = function() {
     Sortable.create("actions_list",{
         scroll:'actions-list-scrollable',
         onChange:function(element){
-            $('actions-order').value = Sortable.serialize('actions_list')
+            $('actions-order').value = Sortable.serialize('actions_list');
         }
     });
 
     $('actions-order').value = Sortable.serialize('actions_list');
-}
+};
 
 setActiveAction = function(element) {
     if (!$('actions_list').hasChildNodes()) {
         $('action-config-title').innerHTML = "";
         $('cleanActionsButton').disabled = true;
     }
-    else if( element != removed) {
-        if( element != null && element != active) {
-            if(active != null) {
+    else if( element !== removed) {
+        if( element !== null && element !== active) {
+            if(active !== null) {
                 Element.removeClassName(active, 'active');
                 active.config_container.style.display = "none";
             }
@@ -240,7 +242,7 @@ setActiveAction = function(element) {
     else {
         removed = null;
     }
-}
+};
 
 cleanActions = function() {
     $('actions_list').innerHTML = "";
@@ -249,23 +251,23 @@ cleanActions = function() {
     $('cleanActionsButton').disabled = true;
     updateSortableActionsList();
     setActiveAction(null);
-}
+};
 
 removeAction = function(element) {
     removed = element;
     Element.remove(element.config_container);
     Element.remove(element);
     updateSortableActionsList();
-    if( element == active ) {
+    if( element === active ) {
         setActiveAction($('actions_list').firstChild);
     }
-}
+};
 
 id = 0;
 addNewAction = function(type) {
     $('addActionButton').disabled = true;
     $('loader_icon').style.display = "block";
-    new Ajax.Request('/snep/gestao/actionform.php', {
+    new Ajax.Request(SNEP_SCRIPTURL + '/route-form/', {
         method: 'get',
         parameters: {
             mode:"new_action",
@@ -285,7 +287,7 @@ addNewAction = function(type) {
             $('loader_icon').style.display = "none";
         }
     });
-}
+};
 
 getRuleActions = function(ruleId) {
     var params = {
@@ -294,12 +296,12 @@ getRuleActions = function(ruleId) {
         cachebuster: new Date().valueOf()
     };
 
-    new Ajax.Request('/snep/gestao/actionform.php', {
+    new Ajax.Request(SNEP_SCRIPTURL + '/route-form/', {
         method: 'get',
         parameters: params,
         onSuccess: function(response) {
             var act = 0;
-            while(response.responseJSON["action_" + act] != null) {
+            while(response.responseJSON["action_" + act] !== null && response.responseJSON["action_" + act] !== undefined) {
                 id = act;
                 addAction(response.responseJSON["action_" + act]);
                 act++;
@@ -310,19 +312,19 @@ getRuleActions = function(ruleId) {
             alert("Erro ao adicionar ação: " + response.responseJSON.message);
         }
     });
-}
+};
 
 addAction = function(action_spec) {
     $('cleanActionsButton').disabled = false;
     var newAction = document.createElement('li');
 
-    if(action_spec.status == "error") {
+    if(action_spec.status === "error") {
         Element.addClassName(newAction, "error");
     }
     
     newAction.setAttribute('id', action_spec.id);
 
-    var caption           = $(action_spec.type).label;
+    var caption           = action_spec.label;
     newAction.name        = caption;
     newAction.actionType  = action_spec.type;
     newAction.rawId       = action_spec.id;
@@ -346,7 +348,7 @@ addAction = function(action_spec) {
     updateSortableActionsList();
     id++;
     return newAction;
-}
+};
 
 init = function() {
     Position.includeScrollOffsets = true;
@@ -359,9 +361,7 @@ init = function() {
     });
 
     Event.observe($('cleanActionsButton'), 'click', cleanActions);
-
-    Event.observe($('routeForm'), 'submit', atualizaValues);
-}
+};
 
 // Após o carregamento da janela, podemos começar a trabalhar com os elementos
 Event.observe(window, 'load', init, false);

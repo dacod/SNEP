@@ -27,7 +27,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
+class DiscarTronco extends PBX_Rule_Action {
 
     /**
      * @var Internacionalização

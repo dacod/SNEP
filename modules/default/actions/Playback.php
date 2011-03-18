@@ -17,19 +17,16 @@
  */
 
 /**
- * Desviar para Contexto
+ * Tocar Audio
  *
- * Direciona a ligação para um contexto do dialplan.
- *
- * Nota: Essa ação irá quebrar a execução das regras desviando totalmente o
- * controle da ligação para o contexto determinado, sem possibilidade de retorno.
+ * Ação de regra de negócio para tocar audio no canal que a executar.
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class PBX_Rule_Action_GoContext extends PBX_Rule_Action {
+class Playback extends PBX_Rule_Action {
 
     /**
      * @var Internacionalização
@@ -50,7 +47,7 @@ class PBX_Rule_Action_GoContext extends PBX_Rule_Action {
      * @return Nome da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Desviar para Contexto");
+        return $this->i18n->translate("Tocar Audio");
     }
 
     /**
@@ -76,7 +73,7 @@ class PBX_Rule_Action_GoContext extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Envia a ligação para um contexto");
+        return $this->i18n->translate("Toca um arquivo de som cadastrado no Snep.");
     }
 
     /**
@@ -84,16 +81,15 @@ class PBX_Rule_Action_GoContext extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
-        $context = (isset($this->config['context']))?"<value>{$this->config['context']}</value>":"";
+        $file = (isset($this->config['file']))?"<value>{$this->config['file']}</value>":"";
 
         return <<<XML
 <params>
-    <string>
-        <label>Contexto</label>
-        <id>context</id>
-        <default>default</default>
-        $context
-    </string>
+    <audio>
+        <label>Arquivo de Som</label>
+        <id>file</id>
+        $file
+    </audio>
 </params>
 XML;
     }
@@ -107,6 +103,8 @@ XML;
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
-        $asterisk->exec_goto($this->config['context'],$request->destino,1);
+        $asterisk->answer();
+        $log->info("Atendendo e tocando: " . $this->config['file']);
+        $asterisk->stream_file($this->config['file']);
     }
 }

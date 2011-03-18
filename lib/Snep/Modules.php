@@ -18,9 +18,10 @@
 require_once "Snep/Module/Descriptor.php";
 require_once "Snep/Acl.php";
 require_once "Snep/Menu.php";
+require_once "PBX/Rule/Action.php";
 
 /**
- * Controle de módulos instalados no sistema.
+ * System module management
  *
  *
  * @category  Snep
@@ -31,11 +32,17 @@ require_once "Snep/Menu.php";
 class Snep_Modules {
 
     /**
-     * Módulos registrados no sistema.
+     * Descriptors of the registered modules
      *
      * @var array
      */
     protected $registeredModules = array();
+
+    /**
+     * Singleton instance of this class.
+     *
+     * @var Snep_Modules
+     */
     protected static $instance;
 
     protected $path = array();
@@ -44,7 +51,9 @@ class Snep_Modules {
     protected function __clone() { /* Singleton */ }
 
     /**
-     * Retorna a instancia dessa classe com os módulos registrados
+     * Returns the single instance of this class.
+     *
+     * If the instance dont exist, create it.
      *
      * @return Snep_Modules instance
      */
@@ -56,7 +65,7 @@ class Snep_Modules {
     }
 
     /**
-     * Retorna todos os modulos registrados no sistema
+     * Return and array of desriptors for registered modules.
      *
      * @return Snep_Module_Descriptor[]
      */
@@ -64,6 +73,13 @@ class Snep_Modules {
         return $this->registeredModules;
     }
 
+    /**
+     * Adds a path to module loading.
+     *
+     * The module processing and registering is made at this point.
+     *
+     * @param string $path
+     */
     public function addPath($path) {
         if (file_exists($path) && is_dir($path)) {
             $this->path[] = $path;
@@ -79,7 +95,7 @@ class Snep_Modules {
     }
 
     /**
-     * Parses the file info.xml to a module descriptor object.
+     * Parses the file info.xml into a module descriptor object.
      *
      * @param SimpleXMLElement $info
      * @return Snep_Module_Descriptor
@@ -156,7 +172,7 @@ class Snep_Modules {
     }
 
     /**
-     * Take care of the details of module registering.
+     * Take care of module registering details.
      *
      * @param Snep_Module_Descriptor $module
      */
@@ -171,9 +187,26 @@ class Snep_Modules {
             set_include_path(implode(PATH_SEPARATOR, array("$path/lib", get_include_path())));
         }
 
+        // Parsing and registering module resources
         if(file_exists("$path/resources.xml")) {
             Snep_Acl::getInstance()->addResource($descriptor->getModuleId());
             $this->loadResources(simplexml_load_file("$path/resources.xml"), $descriptor->getModuleId());
+        }
+
+        // Finding and registering module Rule Actions.
+        require_once("PBX/Rule/Actions.php");
+        $actions = PBX_Rule_Actions::getInstance();
+
+        if(is_dir($path . "/actions")) {
+            foreach (scandir($path . "/actions") as $file) {
+                if(substr($file, -4) == ".php") {
+                    require_once $path. "/actions/" . $file;
+                    $classname = basename($file, '.php');
+                    if(class_exists($classname)) {
+                        $actions->registerAction($classname);
+                    }
+                }
+            }
         }
     }
 

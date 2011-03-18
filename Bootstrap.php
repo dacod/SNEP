@@ -104,11 +104,42 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->headTitle('SNEP');
 
         $view->headLink()->setStylesheet($view->baseUrl() . "/css/main.css");
+        $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/snep-env.js.php", 'text/javascript');
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/prototype.js", 'text/javascript');
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/functions.js", 'text/javascript');
 
         // Return it, so that it can be stored by the bootstrap
         return $view;
+    }
+
+    protected function _initCCustos() {
+        $db = Snep_Db::getInstance();
+        $ccustos = Snep_CentroCustos::getInstance();
+
+        $select = $db->select()
+                  ->from('ccustos')
+                  ->order("codigo");
+
+        $stmt = $db->query($select);
+        $result = $stmt->fetchAll();
+
+        foreach($result as $ccusto) {
+            $ccustos->register(array("codigo" => $ccusto['codigo'], "nome" => $ccusto['nome']));
+        }
+    }
+
+    protected function _initQueues() {
+        $db = Snep_Db::getInstance();
+        $queues = Snep_Queues::getInstance();
+
+        $select = $db->select()->from('queues');
+
+        $stmt = $db->query($select);
+        $result = $stmt->fetchAll();
+
+        foreach($result as $queue) {
+            $queues->register($queue['name']);
+        }
     }
 
 }
