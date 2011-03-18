@@ -25,11 +25,9 @@
  * Este aplicativo inicia o ambiente para que a biblioteca do snep possa
  * trabalhar no encaminhamento das ligações.
  */
-
-// Tratamento de sinais vindos do asterisk
 declare(ticks = 1);
 if (function_exists('pcntl_signal')) {
-        pcntl_signal(SIGHUP,  SIG_IGN);
+    pcntl_signal(SIGHUP, SIG_IGN);
 }
 
 // Controle da exibição de erros
@@ -37,22 +35,35 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 
-$config_file = "/var/www/snep/includes/setup.conf";
+// Define path to application directory
+defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . "/../"));
 
-//encontrado diretórios do sistema
-if(!file_exists($config_file)) {
-    echo "VERBOSE \"FATAL ERROR: arquivo $config_file nao encontrado\" 1\n";
+// Add standard library to the include path
+set_include_path(implode(PATH_SEPARATOR, array(
+    APPLICATION_PATH . '/lib',
+    get_include_path(),
+)));
+
+// Initializing Snep Config
+require_once "Snep/Config.php";
+try {
+    Snep_Config::setConfigFile(APPLICATION_PATH . '/includes/setup.conf');
+} catch (Exception $ex) {
+    printf('VERBOSE "%s"\n', $ex->getMessage());
     exit(1);
 }
-$config = parse_ini_file($config_file,true);
 
-// Adicionando caminho de libs ao include path para autoloader trabalhar:
-set_include_path($config['system']['path.base'] . "/lib" . PATH_SEPARATOR  . get_include_path());
-$logdir = $config['system']['path.log'];
-unset($config);
+$config = Snep_Config::getConfig();
+
+defined('SNEP_VERSION') || define('SNEP_VERSION', file_get_contents(APPLICATION_PATH . "/configs/snep_version"));
+
+// Define application environment
+$snep_env = Snep_Config::getConfig()->system->debug ? "development" : "production";
+defined('APPLICATION_ENV')
+        || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : $snep_env));
 
 require_once "Snep/Bootstrap/Agi.php";
-$bootstrap = new Snep_Bootstrap_Agi($config_file);
+$bootstrap = new Snep_Bootstrap_Agi(APPLICATION_PATH . '/includes/setup.conf');
 $bootstrap->boot();
 
 $asterisk = Zend_Registry::get('asterisk');
@@ -61,13 +72,11 @@ $config = Zend_Registry::get('config');
 
 // Configuração das opções da linha de comando
 try {
-    $opts = new Zend_Console_Getopt(
-      array(
-        'version|v'           => 'Imprime versao do snep.',
+    $opts = new Zend_Console_Getopt(array(
+        'version|v' => 'Imprime versao do snep.',
         'outgoing_number|o=s' => 'Define um numero para saida da ligação',
-        'xfer|x=s'            => 'Define um canal específico para uso na execução.'
-      )
-    );
+        'xfer|x=s' => 'Define um canal específico para uso na execução.'
+    ));
     $opts->parse();
 } catch (Zend_Console_Getopt_Exception $e) {
     echo $e->getMessage();
@@ -76,21 +85,20 @@ try {
 }
 
 // Imprime versão :)
-if($opts->version) {
+if ($opts->version) {
     echo "SNEP Version " . Zend_Registry::get('snep_version') . "\n";
     exit;
 }
 
-if($opts->xfer) {
+if ($opts->xfer) {
     $asterisk->request['agi_channel'] = $opts->xfer;
     $request = new PBX_Asterisk_AGI_Request($asterisk->request);
     $asterisk->requestObj = $request;
 }
 
-if($opts->outgoing_number) {
+if ($opts->outgoing_number) {
     Zend_Registry::set("outgoingNumber", $opts->outgoing_number);
-}
-else {
+} else {
     Zend_Registry::set("outgoingNumber", "");
 }
 
@@ -106,17 +114,15 @@ try {
     $dialplan->parse();
 
     $regra = $dialplan->getLastRule();
-}
-catch(PBX_Exception_NotFound $ex) {
+} catch (PBX_Exception_NotFound $ex) {
     $log->info("Nenhuma regra valida para essa requisicao: " . $ex->getMessage());
-    if( !$opts->xfer ) {
+    if (!$opts->xfer) {
         $asterisk->answer();
         $asterisk->stream_file('invalid');
         $asterisk->hangup();
     }
     exit();
-}
-catch(Exception $ex) {
+} catch (Exception $ex) {
     $log->crit("Oops! Excecao ao resolver regra de negocio, contate o suporte tecnico");
     $log->crit($ex);
     die();
@@ -125,19 +131,18 @@ catch(Exception $ex) {
 // Definindo nome do arquivo de gravação.
 // Formato: Timestamp_aaaammdd_hhmm_src_dst.wav
 $filename = implode("_", array(
-    time(),
-    date("Ymd"),
-    date("Hi"),
-    $request->getOriginalCallerid(),
-    $request->getOriginalExtension()
-));
+            time(),
+            date("Ymd"),
+            date("Hi"),
+            $request->getOriginalCallerid(),
+            $request->getOriginalExtension()
+        ));
 // Definindo userfield com o nome do arquivo para que se possa encontrar a
 // gravação a partir do registro no CDR.
 $lastuserfield = $asterisk->get_variable('CDR(userfield)');
-if($lastuserfield['data'] === "") {
+if ($lastuserfield['data'] === "") {
     $asterisk->set_variable("CDR(userfield)", $filename);
-}
-else {
+} else {
     $filename = $lastuserfield['data'];
 }
 
@@ -156,7 +161,7 @@ $regra->setRecordApp($config->general->record->application, array($recordPath . 
 
 $regra->setAsteriskInterface($asterisk);
 
-if($opts->xfer) {
+if ($opts->xfer) {
     //$regra->dontRecord();
 }
 
@@ -169,11 +174,9 @@ try {
     $log->info("Executando regra {$regra->getId()}:$regra");
     $regra->execute();
     $log->info("Fim de execucao da regra {$regra->getId()}:$regra");
-}
-catch(PBX_Exception_AuthFail $ex) {
+} catch (PBX_Exception_AuthFail $ex) {
     $log->info("Falha na autenticacao do ramal.");
-}
-catch (Exception $ex) {
+} catch (Exception $ex) {
     $log->crit($ex);
     die();
 }
