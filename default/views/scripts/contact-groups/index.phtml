@@ -1,0 +1,54 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+echo $this->render('filter.phtml')
+?>
+
+<table>
+   <thead>
+      <tr>
+         <th class="action"> 
+            <?php echo $this->translate('Código') ?>
+         </th>
+         <th> 
+            <?php echo $this->translate('Nome') ?>
+         </th>
+         <th> 
+            <?php echo $this->translate('Grupo') ?>
+         </th>
+         <th class="action" colspan="2"> 
+            <?php echo $this->translate('Ações') ?>
+         </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    if($this->contactgroups):
+        foreach( $this->contactgroups as $group ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td class="numeric">
+                    <b> <?php echo $group['id'] ?> </b>
+                </td>
+                <td> 
+                    <?php echo $group['name'] ?>
+                </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $group['id'] ?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <a class="excluir" href="<?php echo $this->url ?>/remove/id/<?php echo $group['id'] ?>">
+                        <?php echo $this->translate('Excluir')?>
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
