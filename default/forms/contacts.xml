@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <name>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <validators>
+                <alnum>
+                    <validator>Alnum</validator>
+                    <options>
+                        <allowWhiteSpace>true</allowWhiteSpace>
+                    </options>
+                </alnum>
+            </validators>
+        </options>
+    </name>
+    <group>
+        <type>select</type>
+        <options>
+            <required>true</required>            
+        </options>
+    </group>
+    <address>
+        <type>text</type>        
+    </address>
+    <city>
+        <type>text</type>
+    </city>
+    <state>
+        <type>text</type>
+    </state>
+    <zipcode>
+        <type>text</type>
+    </zipcode>
+    <phone>
+        <type>text</type>
+    </phone>
+    <cell>
+        <type>text</type>
+    </cell>
+</elements>
+</modelo>

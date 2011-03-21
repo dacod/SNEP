@@ -1,0 +1,58 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+?>
+
+<?php if($this->invalid): ?>
+
+<div style="text-align:center;">
+    <h2>Arquivo inválido</h2>
+    <button type="button" onClick="history.back();"><?php echo $this->translate("Voltar"); ?></button>
+</div>
+
+<?php else: ?>
+<form name="formulario" method="POST" enctype="multipart/form-data" action="/snep/index.php/contacts/csvprocess">
+    <table width="100%">
+        <thead>
+            <tr>
+                <?php
+                $csvarq = $this->csvprocess;
+                foreach ($csvarq[0] as $ind => $linha):
+                ?>
+                    <th>
+                        <select name="field[<?php echo $ind ?>]">
+                        <?php foreach ($this->fields as $field => $name) : ?>
+                            <option value="<?php echo $field; ?>"><?php echo $name; ?></option>
+                        <?php endforeach ?>
+                        </select>
+                    </th>
+                <?php endforeach ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($csvarq as $ind => $linha) : ?>
+            <tr>
+                <?php foreach ($linha as $item) : ?>
+                <td><?php echo $item ?></td>
+                <?php endforeach ?>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+
+    <div id="main_container" style="border-top: none;">
+        <p style="text-align: center; margin: 0px; padding: 5px;">
+            <label for="group"><?php echo $this->translate("Grupo"); ?></label>
+            <select id="group" name="group" class="campos">
+                <?php
+                    foreach ($this->group as $id => $group) {
+                        echo "<option value='$id'>$group</option>";
+                    }
+                ?>
+            </select><br />
+            <input type="checkbox" name="discard_first_row" id="discard_first_row" /><label for="discard_first_row"><?php echo $this->translate("Descartar Primeira Linha"); ?></label><br />
+            <input class="new_button" type="submit" id="salvar" value="Salvar" />
+            <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="history.back()" />
+        </p>
+    </div>
+</form>
+<?php endif; ?>
