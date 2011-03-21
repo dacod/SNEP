@@ -26,7 +26,7 @@ Snep_Config::setConfigFile(APPLICATION_PATH . '/includes/setup.conf');
 $config = Snep_Config::getConfig();
 
 defined('SNEP_VENDOR') || define('SNEP_VENDOR', $config->ambiente->emp_nome);
-defined('SNEP_VERSION') || define('SNEP_VERSION', file_get_contents(APPLICATION_PATH . "/configs/snep_version"));
+defined('SNEP_VERSION') || define('SNEP_VERSION', trim(file_get_contents(APPLICATION_PATH . "/configs/snep_version")));
 
 // Define application environment
 $snep_env = Snep_Config::getConfig()->system->debug ? "development" : "production";
