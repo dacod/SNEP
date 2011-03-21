@@ -1,8 +1,8 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
-$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
 ?>
 <table>
@@ -17,20 +17,20 @@ echo $this->render('filter.phtml');
     <?php
     $c = 0;
     if($this->pickupgroups):
-        foreach($this->pickupgroups as $id => $val ): ?>
+        foreach($this->pickupgroups as $id => $pickupGroups ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td class="numeric"> <b> <?php echo $val['cod_grupo'] ?> </b> </td>
-                <td> <?php echo $val['nome'] ?> </td>
+                <td class="numeric"> <b> <?php echo $pickupGroups['cod_grupo'] ?> </b> </td>
+                <td> <?php echo $pickupGroups['nome'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href='/snep/src/grupos.php?acao=alterar&cod_grupo=<?php echo $val['cod_grupo'] ?>'>
+                    <a class="alterar" href='<?php echo $this->URL; ?>edit/id/<?php echo $pickupGroups['cod_grupo'] ?>'>
                         <?php echo $this->translate('Alterar')?>
                     </a>
                 </td>
                 <td class="action">
-                    <span class="excluir" onclick="remove_item('/snep/src/grupos.php?acao=excluir&cod_grupo=<?php echo $val['cod_grupo'] ?>', 'Deseja realmente excluir o Grupo de Captura?');">
+                    <a class="excluir" href='<?php echo $this->URL; ?>delete/id/<?php echo $pickupGroups['cod_grupo'] ?>'>
                         <?php echo $this->translate('Excluir')?>
-                    </span>
+                    </a>
                 </td>
             </tr>
         <?php endforeach ?>
