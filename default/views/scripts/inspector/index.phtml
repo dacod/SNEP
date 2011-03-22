@@ -1,14 +1,14 @@
 <div class="inspect">
 <?php
         echo "<ul>";
-            foreach( $this->inspect as $chave => $valor ) {
+            foreach( $this->inspect as $key => $value ) {
 
-                $style = ( $valor['error'] ? 'list_error' : 'list_no_error' );
+                $style = ( $value['error'] ? 'list_error' : 'list_no_error' );
 
-                echo " <li class='$style' > {$valor['name']} </li> ";
+                echo " <li class='$style' > {$value['name']} </li> ";
 
-                if ($valor['error']) {
-                    echo "<li style=\"background-color: #FFEDED\"> <pre> {$valor['message']} </pre> </li>";
+                if ($value['error']) {
+                    echo "<li style=\"background-color: #FFEDED\"> <pre> {$value['message']} </pre> </li>";
                 }
             }
         echo "</ul>";

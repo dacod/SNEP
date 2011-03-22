@@ -35,6 +35,14 @@
     <group id="status" label="Status">
         <resource id="index" label="System"></resource>
     </group>
+    
+     <item id="configs" label="Configure" resourceid="60">
+       <!--  <item uri="parameters" label="menu_params"></item> -->
+        <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
+        <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
+       <item uri="inspector" label="System Status"></item> 
+      <!--   <item uri="cnl" label="Atualização Cnl"></item> -->
+    </item>
 
     <!--
     <item id="status" label="menu_status">
@@ -57,12 +65,5 @@
         <item uri="tarifas/rel_tarifas.php" label="menu_tarifas"></item>
     </item>
 
-    <item id="configs" label="menu_config" resourceid="60">
-        <item uri="parameters" label="menu_params"></item>
-        <item uri="src/rel_sounds.php" label="menu_sounds"></item>
-        <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item>
-        <item uri="inspector" label="Diagnóstico do Sistema"></item>
-        <item uri="cnl" label="Atualização Cnl"></item>
-    </item>
     -->
 </default>

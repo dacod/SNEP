@@ -22,13 +22,13 @@ class InspectorController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configurações » Diagnóstico do Sistema");
+        $this->view->breadcrumb = $this->view->translate("Configure » System Status");
 
-        // cria objeto da classe Snep_Inspector
-        $obj = new Snep_Inspector();
+        // Creates Snep_Inspector Object
+        $objInspector = new Snep_Inspector();
 
-        // Pega array de informacoes gerados no construtor
-        $inspect = $obj->getInspects();
+        // Get array with status of inspected system requirements 
+        $inspect = $objInspector->getInspects();
 
         $this->view->inspect = $inspect;
     }
