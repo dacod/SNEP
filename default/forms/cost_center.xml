@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <id>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <validators>
+                <regex>
+                    <validator>regex</validator>
+                    <options>
+                        <pattern>/^\d\.\d{2}\.\d{2}/i</pattern>
+                    </options>
+                </regex>
+            </validators>
+        </options>
+    </id>
+    <name>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <validators>
+                <alnum>
+                    <validator>Alnum</validator>
+                    <options>
+                        <allowWhiteSpace>true</allowWhiteSpace>
+                    </options>
+                </alnum>
+            </validators>
+        </options>
+    </name>
+    <type>
+        <type>radio</type>
+    </type>
+    <description>
+        <type>text</type>
+    </description>
+</elements>
+</modelo>
