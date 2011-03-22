@@ -1,0 +1,21 @@
+<?php
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/scriptaculous/src/scriptaculous.js", 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/snep.js", 'text/javascript');
+?>
+<?php echo $this->form; ?>
+<script language="javascript" type="text/javascript">
+    
+    var expr = new Array();
+
+    window.onload = function() {
+        exprObj = new MultiWx('expr', StringField);
+        <?php echo $this->dataExprAlias; ?>
+        exprObj.render();
+    }
+
+    function atualizaValues() {
+        $('exprValue').value  = exprObj.getValue();
+    }
+
+    Event.observe($('expressionAliasForm'), 'submit', atualizaValues);
+</script>

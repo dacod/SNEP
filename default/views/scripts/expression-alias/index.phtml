@@ -1,0 +1,48 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile("/snep/includes/javascript/snep.js");
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+echo $this->render('filter.phtml')
+?>
+<table cellspacing="0" cellpadding="0" border="0" align="center" >   
+    <thead>
+        <tr>
+            <th valign="middle" width="10px"><?php echo $this->translate('ID') ?></th>
+            <th><?php echo $this->translate('Nome') ?></th>
+            <th  colspan="2" width="40px"><?php echo $this->translate('Ações') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+      <?php
+        foreach ($this->aliases as $value) {
+        ?>
+        <tr>
+            <td align="center"><?php echo $value['id'] ?></td>
+            <td><?php echo $value['name'] ?></td>
+            <td valign="middle" align="center" width="20px">
+                <acronym title="<?php echo $this->translate('Alterar') ?>">
+                    <a href='<?php echo $this->baseUrl(); ?>/index.php/expression-alias/edit/id/<?php echo $value['id'] ?>'><img src="<?php echo $this->baseUrl(); ?>/imagens/edit.png" alt="<?php echo $this->translate('Alterar') ?>" /></a>
+                </acronym>
+            </td>
+            <td valign="middle" align="center" width="20px">
+                <acronym title="<?php echo $this->translate('Excluir') ?>">
+                    <img src="<?php echo $this->baseUrl(); ?>/imagens/delete.png" alt="<?php echo $this->translate('Excluir') ?>" onclick="remove_grupo('<?php echo $value['id'] ?>')"/>
+                </acronym>
+            </td>
+        </tr>
+        <?php 
+        }
+        ?>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    /* Confirmacao e remocao de regras de negocio */
+    function remove_grupo(id) {
+        if(confirm("<?php echo $this->translate('Você deseja realmente excluir este grupo?') ?>")) {
+            window.location.href="<?php echo $this->baseUrl(); ?>/index.php/expression-alias/delete/id/"+parseInt(id);
+        }
+    }    
+</script>
