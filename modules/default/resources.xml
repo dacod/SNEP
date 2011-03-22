@@ -11,7 +11,7 @@
 <default>
     <resource id="error" order="allow"></resource>
     <resource id="auth" order="allow">
-        <resource id="logout" label="Logout"></resource>
+    <resource id="logout" label="Logout"></resource>
     </resource>
 
     <group id="routing" label="Routing">
@@ -36,13 +36,13 @@
         <resource id="index" label="System"></resource>
     </group>
     
-     <item id="configs" label="Configure" resourceid="60">
+    <group id="configs" label="Configure" >
        <!--  <item uri="parameters" label="menu_params"></item> -->
-        <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
-        <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
-       <item uri="inspector" label="System Status"></item> 
-      <!--   <item uri="cnl" label="Atualização Cnl"></item> -->
-    </item>
+       <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
+       <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
+       <resource id="inspector" label="System Status"></resource> 
+       <!--   <item uri="cnl" label="Atualização Cnl"></item> -->
+    </group>
 
     <!--
     <item id="status" label="menu_status">
