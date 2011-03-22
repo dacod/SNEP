@@ -21,7 +21,7 @@
     </group>
 
     <group id="manage" label="Manage">
-        <resource id="costcenter" label="Cost Center" ></resource>
+        <resource id="cost-center" label="Cost Center" ></resource>
         <resource id="contacts" label="Contacts" ></resource>
         <resource id="contact-groups" label="Contact Groups" ></resource>
         <resource id="queues" label="Queues" ></resource>
