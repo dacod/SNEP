@@ -20,7 +20,7 @@ class Snep_Form extends Zend_Form {
         $this->setButton($name);
     }
 
-    public function setButton($name) {
+    public function setButton($name = null) {
 
         $i18n = Zend_Registry::get("i18n");
 
@@ -40,18 +40,27 @@ class Snep_Form extends Zend_Form {
         $this->addElement($back);
     }
 
+    /**
+     * Inserts two selections and buttons to control the elements between them.
+     *
+     * @param string $name - Define elements id, important to javascript interaction
+     * @param string $start_label
+     * @param array $start_itens
+     * @param string $end_label
+     * @param array $end_itens
+     */
     public function setSelectBox($name, $start_label, $start_itens, $end_label, $end_itens = false) {
 
         $i18n = Zend_Registry::get("i18n");
 
         $start_box = new Zend_Form_Element_Multiselect("box");
-        $start_box->setMultiOptions( $start_itens );        
+        $start_box->setMultiOptions( $start_itens );
         $start_box->removeDecorator('DtDdWrapper');
         $start_box->addDecorator('HtmlTag', array('tag' => 'li'));
         $start_box->setAttrib('id', $name.'_box');
         $start_box->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
         $start_box->setLabel( $i18n->translate( $start_label ) );
-
+         
         $end_box = new Zend_Form_Element_Multiselect("box_add");
         if($end_itens){
             $end_box->setMultiOptions( $end_itens );
@@ -63,19 +72,17 @@ class Snep_Form extends Zend_Form {
         $end_box->setLabel( $i18n->translate( $end_label ) );
 
         $add_action = new Zend_Form_Element_Button( $i18n->translate('Adicionar'));
-        $add_action->removeDecorator("DtDdWrapper");
-        $add_action->addDecorator('HtmlTag', array('id' => 'bt_add'));
+        $add_action->removeDecorator("DtDdWrapper");        
         $add_action->setAttrib('id', $name.'_add_bt');
 
         $remove_action = new Zend_Form_Element_Button( $i18n->translate('Remover'));
-        $remove_action->removeDecorator("DtDdWrapper");
-        $remove_action->addDecorator('HtmlTag', array('id' => 'bt_remove'));
+        $remove_action->removeDecorator("DtDdWrapper");        
         $remove_action->setAttrib('id', $name.'_remove_bt');
-
-        $this->addElement($start_box);
-        $this->addElement($end_box);
-        $this->addElement($add_action);
-        $this->addElement($remove_action);
+        
+        $this->addElements(array($start_box,
+                                 $add_action,
+                                 $remove_action,
+                                 $end_box));
 
     }
 
