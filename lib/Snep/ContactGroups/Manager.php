@@ -149,8 +149,5 @@ class Snep_ContactGroups_Manager {
         $contactGroup = $stmt->fetchAll();
 
         return $contactGroup;
-
     }
-
-
 }
