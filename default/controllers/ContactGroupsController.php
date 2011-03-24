@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -16,8 +17,20 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * ContactGroups Controller
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Rafael Pereira Bozzetti
+ */
+
 class ContactGroupsController extends Zend_Controller_Action {
 
+    /**
+     * List all Contact Groups
+     */
     public function indexAction() {
        
         $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Contato");
@@ -47,12 +60,10 @@ class ContactGroupsController extends Zend_Controller_Action {
         $this->view->contactgroups = $paginator;
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
-
         
         $opcoes = array("id"        => $this->view->translate("Código"),
                         "name"      => $this->view->translate("Nome") );
 
-	// Formulário de filtro.
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $filter->setValue($this->_request->getPost('campo'));
@@ -68,6 +79,9 @@ class ContactGroupsController extends Zend_Controller_Action {
         
     }
 
+    /**
+     * Add a new Contact Group
+     */
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Cadastro");
@@ -108,13 +122,16 @@ class ContactGroupsController extends Zend_Controller_Action {
                         Snep_ContactGroups_Manager::insertContactOnGroup($groupId, $idContact);
                     }
                 }
-                $this->_redirect('default/contact-groups/');
+                $this->_redirect( $this->getRequest()->getControllerName() );
         }
         
         $this->view->form = $form;        
 
     }
 
+    /**
+     * Edit a Contact Group
+     */
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Alterar");
@@ -165,13 +182,15 @@ class ContactGroupsController extends Zend_Controller_Action {
                         Snep_ContactGroups_Manager::insertContactOnGroup($dados['id'], $idContact);
                     }
                 }
-                $this->_redirect('default/contact-groups/');
+                $this->_redirect( $this->getRequest()->getControllerName() );
         }
 
-        $this->view->form = $form;   
-        
+        $this->view->form = $form;           
     }
 
+    /**
+     * Remove a Contact Group
+     */
     public function removeAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Remover");
@@ -195,12 +214,15 @@ class ContactGroupsController extends Zend_Controller_Action {
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/remove/id/'.$id.'/confirm/1');
 
-            $form->setButtom('Confirmar');
+            $form->setButtom( $this->view->translate('Confirmar'));
             
             $this->view->form = $form;
         }
     }
 
+    /**
+     * Migrate contacts to other Contact Group
+     */
     public function migrationAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Migrar contatos do grupo");
@@ -257,13 +279,12 @@ class ContactGroupsController extends Zend_Controller_Action {
                     Snep_ContactGroups_Manager::insertContactOnGroup($toGroup, $contact['id'] );
                 }
                 Snep_ContactGroups_Manager::remove($_POST['id']);
-                $this->_redirect('default/contact-groups/');
-                exit;
+                
+                $this->_redirect( $this->getRequest()->getControllerName() );                
 
         }
         
         $this->view->form = $form;
-
     }
 
 }

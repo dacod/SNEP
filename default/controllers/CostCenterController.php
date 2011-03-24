@@ -18,7 +18,7 @@
  */
 
 /**
- * Contacts Controller
+ * Cost Center Controller
  *
  * @category  Snep
  * @package   Snep
@@ -198,7 +198,6 @@ class CostCenterController extends Zend_Controller_Action {
         }
 
         $this->view->form = $form;
-
     }
 
 }

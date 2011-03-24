@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -16,8 +17,20 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Contacts Controller
+ *
+ * @category  Snep
+ * @package   Snep
+ * @copyright Copyright (c) 2010 OpenS Tecnologia
+ * @author    Rafael Pereira Bozzetti
+ */
+
 class ContactsController extends Zend_Controller_Action {
 
+    /**
+     * List all Contacts
+     */
     public function indexAction() {
         
         $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
@@ -48,7 +61,7 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->view->contacts = $paginator;
         $this->view->pages = $paginator->getPages();
-        $this->view->PAGE_URL = "/snep/index.php/contacts/index/";
+        $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array("name"      => $this->view->translate("Nome"),
                         "city"      => $this->view->translate("Cidade"),
@@ -57,7 +70,6 @@ class ContactsController extends Zend_Controller_Action {
                         "phone_1"   => $this->view->translate("Telefone"),
                         "cell_1"    => $this->view->translate("Celular"));
 
-	// Formulário de filtro.
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $filter->setValue($this->_request->getPost('campo'));
@@ -75,6 +87,9 @@ class ContactsController extends Zend_Controller_Action {
         );
     }
 
+    /**
+     *  Add Contact
+     */
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Cadastro");
@@ -132,13 +147,16 @@ class ContactsController extends Zend_Controller_Action {
 
                 if($form_isValid){
                     Snep_Contacts_Manager::add($dados);
-                    $this->_redirect('default/contacts/');
+                    $this->_redirect( $this->getRequest()->getControllerName() );
                 }
         }
         $this->view->form = $form;
 
     }
 
+    /**
+     * Edit Contact
+     */
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Editar");
@@ -201,22 +219,28 @@ class ContactsController extends Zend_Controller_Action {
                 if($form_isValid) {
                     
                     Snep_Contacts_Manager::edit($dados);
-                    $this->_redirect('default/contacts/');
+                    $this->_redirect( $this->getRequest()->getControllerName() );
                 }
         }
         $this->view->form = $form;
     }
 
+    /**
+     * Remove a Contact
+     */
     public function removeAction() {
 
        $this->view->breadcrumb = $this->view->translate("Contatos » Remover");
        $id = $this->_request->getParam('id');
 
        Snep_Contacts_Manager::remove($id);
-       $this->_redirect('default/contacts/');
+       $this->_redirect( $this->getRequest()->getControllerName() );
 
     }
 
+    /**
+     * Import contacts from CSV file
+     */
     public function importAction() {
 
        $this->view->breadcrumb = $this->view->translate("Contatos » Importar CSV");
@@ -232,6 +256,9 @@ class ContactsController extends Zend_Controller_Action {
 
     }
 
+    /**
+     * Associate fields between database and csv file
+     */
     public function csvAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Associação de campos do CSV");
@@ -262,7 +289,7 @@ class ContactsController extends Zend_Controller_Action {
                     $row = explode(",", preg_replace("/[^a-zA-Z0-9,\._\*#]/", "", $line));
 
                     if (count($row) != $column_count) {
-                        throw new ErrorException("Número inválido de colunas na linha: $row_number");
+                        throw new ErrorException( $this->view->translate("Número inválido de colunas na linha: $row_number"));
                     }
                     $csv[] = $row;
                     $row_number++;
@@ -270,16 +297,14 @@ class ContactsController extends Zend_Controller_Action {
             }
             fclose($handle);
 
-            $standard_fields = array(
-                "discard" => $this->view->translate("Descartar"),
-                "name"    => $this->view->translate("Nome"),
-                "address" => $this->view->translate("Endereço"),
-                "city"    => $this->view->translate("Cidade"),
-                "state"   => $this->view->translate("Estado"),
-                "zipcode" => $this->view->translate("CEP"),
-                "phone" => $this->view->translate("Telefone"),
-                "cell"  => $this->view->translate("Celular")
-            );
+            $standard_fields = array("discard" => $this->view->translate("Descartar"),
+                                     "name"    => $this->view->translate("Nome"),
+                                     "address" => $this->view->translate("Endereço"),
+                                     "city"    => $this->view->translate("Cidade"),
+                                     "state"   => $this->view->translate("Estado"),
+                                     "zipcode" => $this->view->translate("CEP"),
+                                     "phone" => $this->view->translate("Telefone"),
+                                     "cell"  => $this->view->translate("Celular") );
 
             $session = new Zend_Session_Namespace('csv');
             $session->data = $csv;
@@ -296,6 +321,9 @@ class ContactsController extends Zend_Controller_Action {
 
     }
 
+    /**
+     * Process a csv file
+     */
     public function csvprocessAction() {
 
         if ($this->getRequest()->isPost()) {
@@ -326,8 +354,6 @@ class ContactsController extends Zend_Controller_Action {
                 Snep_Contacts_Manager::add($contactData);
             }
         }
-
-        $this->_redirect("contacts");
-
+        $this->_redirect( $this->getRequest()->getControllerName() );
     }
 }
