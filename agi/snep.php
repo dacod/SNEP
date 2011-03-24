@@ -17,58 +17,22 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * @file Executável AGI SNEP.
- *
- * Executável AGI que faz o controle de ligações no dialplan do Asterisk.
- *
- * Este aplicativo inicia o ambiente para que a biblioteca do snep possa
- * trabalhar no encaminhamento das ligações.
- */
-declare(ticks = 1);
-if (function_exists('pcntl_signal')) {
-    pcntl_signal(SIGHUP, SIG_IGN);
-}
-
 // Controle da exibição de erros
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 
-// Define path to application directory
-defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . "/../"));
+require_once "Bootstrap.php";
+new Bootstrap();
 
-// Add standard library to the include path
-set_include_path(implode(PATH_SEPARATOR, array(
-    APPLICATION_PATH . '/lib',
-    get_include_path(),
-)));
-
-// Initializing Snep Config
 require_once "Snep/Config.php";
-try {
-    Snep_Config::setConfigFile(APPLICATION_PATH . '/includes/setup.conf');
-} catch (Exception $ex) {
-    printf('VERBOSE "%s"\n', $ex->getMessage());
-    exit(1);
-}
+require_once "Snep/Logger.php";
+require_once "PBX/Asterisk/AGI.php";
+require_once "Zend/Console/Getopt.php";
 
 $config = Snep_Config::getConfig();
-
-defined('SNEP_VERSION') || define('SNEP_VERSION', file_get_contents(APPLICATION_PATH . "/configs/snep_version"));
-
-// Define application environment
-$snep_env = Snep_Config::getConfig()->system->debug ? "development" : "production";
-defined('APPLICATION_ENV')
-        || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : $snep_env));
-
-require_once "Snep/Bootstrap/Agi.php";
-$bootstrap = new Snep_Bootstrap_Agi(APPLICATION_PATH . '/includes/setup.conf');
-$bootstrap->boot();
-
-$asterisk = Zend_Registry::get('asterisk');
-$config = Zend_Registry::get('config');
-
+$log = Snep_Logger::getInstance();
+$asterisk = PBX_Asterisk_AGI::getInstance();
 
 // Configuração das opções da linha de comando
 try {
@@ -79,8 +43,8 @@ try {
     ));
     $opts->parse();
 } catch (Zend_Console_Getopt_Exception $e) {
-    echo $e->getMessage();
-    echo $e->getUsageMessage();
+    $log->err($e->getMessage());
+    $log->err($e->getUsageMessage());
     exit;
 }
 
@@ -165,10 +129,11 @@ if ($opts->xfer) {
     //$regra->dontRecord();
 }
 
-// colocando os plugins do gerenciador de modulos para a regra
+/*
 foreach ($bootstrap->getRulePlugins() as $plugin) {
     $regra->registerPlugin($plugin);
 }
+ */
 
 try {
     $log->info("Executando regra {$regra->getId()}:$regra");

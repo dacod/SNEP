@@ -19,6 +19,7 @@ require_once "Snep/Module/Descriptor.php";
 require_once "Snep/Acl.php";
 require_once "Snep/Menu.php";
 require_once "PBX/Rule/Action.php";
+require_once "Zend/Loader/Autoloader.php";
 
 /**
  * System module management
@@ -84,7 +85,7 @@ class Snep_Modules {
         if (file_exists($path) && is_dir($path)) {
             $this->path[] = $path;
             foreach (scandir($path) as $file) {
-                if( is_dir($file) && file_exists($path . "/$file/info.xml") ) {
+                if( is_dir("$path/$file") && file_exists($path . "/$file/info.xml") ) {
                     $this->registerModule("$path/$file");
                 }
             }
@@ -185,6 +186,11 @@ class Snep_Modules {
         // Adding module lib to include path
         if(is_dir($path . "/lib")) {
             set_include_path(implode(PATH_SEPARATOR, array("$path/lib", get_include_path())));
+            foreach (scandir("$path/lib") as $namespace) {
+                if(is_dir("$path/lib/$namespace")) {
+                    Zend_Loader_Autoloader::getInstance()->registerNamespace($namespace . "_");
+                }
+            }
         }
 
         // Parsing and registering module resources

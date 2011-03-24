@@ -55,6 +55,8 @@ class Snep_Db extends Zend_Db {
             $config = Snep_Config::getConfig()->ambiente->db->toArray();
             $config["driver_options"] = array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true);
             self::$instance = self::factory('Pdo_Mysql', $config);
+            require_once("Zend/Registry.php");
+            Zend_Registry::set("db", self::$instance);
         }
         return self::$instance;
     }

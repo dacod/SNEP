@@ -16,6 +16,10 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "Snep/Db.php";
+require_once "PBX/Trunks.php";
+require_once "PBX/Usuarios.php";
+
 /**
  * Classe para facilitar a recuperação de interfaces do banco
  * de dados.
@@ -95,7 +99,7 @@ class PBX_Interfaces {
      * @return object Objeto que representa o dono da interface (se houver)
      */
     public static function getChannelOwner($channel) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select()
                      ->from('trunks');

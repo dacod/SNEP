@@ -16,6 +16,10 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "Asterisk/AGI/Request.php";
+require_once "PBX/Interfaces.php";
+require_once "Snep/Logger.php";
+
 /**
  * Requisições AGI.
  *
@@ -108,7 +112,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
      */
     public function __construct($agi_request) {
         parent::__construct($agi_request);
-        $log = Zend_Registry::get('log');
+        $log = Snep_Logger::getInstance();
 
         // Descobrindo se esse canal criado pertence a alguma entidade
         // cadastrada no snep.

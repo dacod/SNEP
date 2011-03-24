@@ -152,4 +152,3 @@ class Snep_Log {
     }
 
 }
-?>

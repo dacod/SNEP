@@ -1,9 +1,8 @@
 <?php
 /**
- * Included in 2009 by Henrique Grolli Bassotto (OpenS Tecnologia) for
- * inclusion of this lib in Snep.
+ * Included in 2009 by Henrique Grolli Bassotto (OpenS Tecnologia).
  *
- * The latest released version of phpagi was in 2005, the original notes fallows.
+ * The latest released version of phpagi was in 2005, the original notes follows.
  * You can consider this a fork since the modifications are large.
  *
  * phpagi-asmanager.php : PHP Asterisk Manager functions

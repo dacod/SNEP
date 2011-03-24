@@ -1,10 +1,9 @@
 <?php
-
- /**
+ /*
   * Modified in 2009 by Henrique Grolli Bassotto (OpenS Tecnologia) for
-  * inclusion of this lib in Snep.
+  * inclusion in Snep.
   *
-  * The latest released version of phpagi was in 2005, the original notes fallows.
+  * The latest released version of phpagi was in 2005.
   * You can consider this a fork since the modifications are large.
   * 
   * phpagi.php : PHP AGI Functions for Asterisk
@@ -18,19 +17,9 @@
   * This software is released under the terms of the GNU Lesser General Public License v2.1
   * A copy of which is available from http://www.gnu.org/copyleft/lesser.html
   *
-  * We would be happy to list your phpagi based application on the phpagi
-  * website.  Drop me an Email if you'd like us to list your program.
-  * 
-  *
-  * Written for PHP 4.3.4, should work with older PHP 4.x versions.
-  * added by Henrique: It works with php 5.x very well. =)
-  *
-  * Please submit bug reports, patches, etc to http://sourceforge.net/projects/phpagi/
-  * Gracias. :)
-  *
-  *
-  * @package Snep
   */
+
+require_once "Asterisk/AGI/Request.php";
 
   define('AST_CONFIG_DIR', '/etc/asterisk/');
   define('AST_SPOOL_DIR', '/var/spool/asterisk/');

@@ -16,6 +16,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "Snep/Exten.php";
+
 /**
  * Classe que controla a persistencia de usuarios dentro do banco de dados
  * do snep.
@@ -47,7 +49,7 @@ class PBX_Usuarios {
      * @return Snep_Usuario usuario
      */
     public static function get($userid) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $userid = str_replace("'", "\'", $userid);
         $select = $db->select()->from('peers')->where("name = '$userid' AND peer_type='R'");
@@ -60,19 +62,24 @@ class PBX_Usuarios {
         $tech = substr($usuario->canal, 0, strpos($usuario->canal, '/'));
 
         if($tech == "SIP") {
+            require_once "PBX/Asterisk/Interface/SIP.php";
             $interface = new PBX_Asterisk_Interface_SIP(array("username"=>$usuario->name, "secret"=>$usuario->secret));
         }
         else if($tech == "IAX2") {
+            require_once "PBX/Asterisk/Interface/IAX2.php";
             $interface = new PBX_Asterisk_Interface_IAX2(array("username"=>$usuario->name, "secret"=>$usuario->secret));
         }
         else if($tech == "MANUAL") {
+            require_once "PBX/Asterisk/Interface/VIRTUAL.php";
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> substr($usuario->canal, strpos($usuario->canal, '/')+1)));
         }
         else if($tech == "VIRTUAL") {
+            require_once "PBX/Asterisk/Interface/VIRTUAL.php";
             $trunk = PBX_Trunks::get(substr($usuario->canal,strpos($usuario->canal, '/') +1 ));
             $interface = new PBX_Asterisk_Interface_VIRTUAL(array("channel"=> $trunk->getInterface()->getCanal() . "/" . $userid));
         }
         else if($tech == "KHOMP") {
+            require_once "PBX/Asterisk/Interface/KHOMP.php";
             $khomp_id = substr($usuario->canal, strpos($usuario->canal, '/')+1);
             $khomp_board = substr($khomp_id, 1, strpos($khomp_id, 'c')-1);
             $khomp_channel = substr($khomp_id, strpos($khomp_id, 'c')+1);
@@ -116,7 +123,7 @@ class PBX_Usuarios {
      * @return Snep_Usuario array
      */
     public static function getAll() {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select('name')->from('peers')->where("peer_type='R' AND name != 'admin'");
 
@@ -138,7 +145,7 @@ class PBX_Usuarios {
      * @return array Snep_Usuario $objetos
      */
     public static function getByGroup($group) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select('name','group')->from('peers')->where("peer_type='R' AND name != 'admin'");
 
@@ -167,7 +174,7 @@ class PBX_Usuarios {
      * @return boolean resultado do teste
      */
     public static function hasGroupInheritance($parent, $node) {
-                $db = Zend_Registry::get('db');
+                $db = Snep_Db::getInstance();
         $select = $db->select()
              ->from('groups')
              ->where("name != 'admin' AND name != 'users' AND name != 'all'");

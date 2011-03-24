@@ -16,6 +16,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "PBX/Asterisk/Interface.php";
+
 /**
  * Interface SIP
  *

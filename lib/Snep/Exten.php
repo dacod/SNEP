@@ -15,7 +15,9 @@
  *  You should have received a copy of the GNU Lesser General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
- 
+
+require_once "Snep/Usuario.php";
+
 /**
  * Classe que abstrai ramais do snep.
  *
