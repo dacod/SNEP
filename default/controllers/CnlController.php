@@ -55,7 +55,7 @@ class CnlController extends Zend_Controller_Action {
                 $adapter = new Zend_File_Transfer_Adapter_Http();
 
                 if (!$adapter->isValid()) {
-                    echo "Formato de arquivo invalido";
+                    echo  $this->view->translate("Formato de arquivo invalido");
                     exit;
                 } else {
                     $adapter->receive();
@@ -74,26 +74,26 @@ class CnlController extends Zend_Controller_Action {
                     Snep_Cnl::delCidade();
                     Snep_Cnl::delOperadora();
 
-                    foreach ($data as $operadora => $id) {
+                    foreach ($data as $carrier => $id) {
 
-                        Snep_Cnl::addOperadora($id,$operadora);
+                        Snep_Cnl::addOperadora($id,$carrier);
 
                     }
 
                     foreach ($cnl as $data => $id ) {
 
-                        foreach ($id as $estado => $es) {
+                        foreach ($id as $state => $es) {
 
                             foreach ($es as $ddd => $d) {
 
-                                foreach ($d as $cidade => $pre) {
+                                foreach ($d as $city => $pre) {
 
-                                    $idCidade = Snep_Cnl::addCidade($cidade);
-                                    Snep_Cnl::addDDD($ddd,$estado,$idCidade);
+                                    $cityId= Snep_Cnl::addCidade($city);
+                                    Snep_Cnl::addDDD($ddd,$state,$cityId);
 
-                                    foreach ($pre as $prefixo => $op) {
+                                    foreach ($pre as $prefix => $op) {
 
-                                        Snep_Cnl::addPrefixo($prefixo,$idCidade,$op);
+                                        Snep_Cnl::addPrefixo($prefix,$idCidade,$op);
 
                                     }
                                 }
@@ -101,7 +101,7 @@ class CnlController extends Zend_Controller_Action {
                         }
                     }
 
-                    $this->_redirect("/default/cnl/");
+                    $this->_forward('index', "cnl");
                 }
                     
             }
