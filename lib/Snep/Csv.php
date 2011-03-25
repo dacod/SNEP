@@ -33,8 +33,8 @@ class Snep_Csv {
 
     /**
      *
-     * @param <array> $data
-     * @param <bool> $header
+     * @param array $data
+     * @param bool $header
      * @return string 
      */
     public function generate($data, $header = true) {
@@ -65,4 +65,3 @@ class Snep_Csv {
 
 
 }
-?>
