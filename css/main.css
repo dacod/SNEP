@@ -769,4 +769,22 @@ ul#navmenu ul ul li.iehover ul {
     text-align: left;
 }
 
+/* Contraste para tela de logs do sistema */
+.normal {
+    color: #000; 
+    background-color: #fff;
+}
+
+.terminal {
+    color:#4eff00; 
+    background-color: #000;
+}
+
+.contraste {
+    color:#fff; 
+    background-color: #000; 
+    font-weight: bolder;
+}
+
 /* ========================================================================== */
+
