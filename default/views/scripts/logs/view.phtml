@@ -1,0 +1,60 @@
+ <div class="bgfiltro" style="height: 30px; padding: 2px;">
+        <input style="float:right;" class="new_button" type="button" id="voltar" 
+	       value="<?php echo $this->back; ?>" onClick="location.href='<?php echo $this->location; ?>'" />
+
+        <span style="float:left;">
+            <strong><?php echo $this->exibition_mode; ?></strong>
+            <input type="radio" name="modo" checked id="modo" value="normal" onclick="visualiza(this.value);"> <?php echo $this->normal; ?>
+            <input type="radio" name="modo" id="modo" value="terminal" onclick="visualiza(this.value);"> <?php echo $this->terminal; ?>
+            <input type="radio" name="modo" id="modo" value="contraste" onclick="visualiza(this.value);"> <?php echo $this->contrast; ?>
+        </span>
+	<? if ($this->mode == 'tail') { ?>
+	    <span style="float:left;margin: 7px 0 0 20px; ">
+                <strong><?php echo $this->lines; ?> :</strong>
+                <input type="text" name="n" value="30" class="campos" id="n" style="width: 30px;" />
+            </span>
+     <?php } ?>
+ </div>
+
+<div id="tail" style="border:1px solid #d2d2d2; padding: 4px">
+
+    <?php 
+    if ($this->mode != 'tail') {
+         foreach($this->result as $row) {
+             echo $row . "<br>";
+	 }
+    } else { ?>
+	<script>
+            status();
+            var periodicalExecuter = new PeriodicalExecuter(status, 1);
+
+            function status() {
+                new Ajax.Updater("tail", "../../../../tail/",
+                    { parameters: { lines: $F('n') } });
+            }
+	</script>
+    <? } ?>
+
+</div>
+<script type="text/javascript">
+        function visualiza(valor) {
+            switch(valor) {
+                case "normal":
+                  $('tail').removeClassName('terminal');
+                  $('tail').removeClassName('contraste');
+                  $('tail').addClassName('normal');
+                  break;
+                case "terminal":
+                  $('tail').removeClassName('normal');
+                  $('tail').removeClassName('contraste');
+                  $('tail').addClassName('terminal');
+                  break;
+                case "contraste":
+                  $('tail').removeClassName('terminal');
+                  $('tail').removeClassName('normal');
+                  $('tail').addClassName('contraste');
+                  break;
+            }
+       }
+</script>
+

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <general>
+        <elements>
+            <init_day>
+                <type>text</type>
+                <options>
+                    <label>A partir de</label>
+                    <required>true</required>
+                </options>
+            </init_day>
+            <init_hour>
+                <type>text</type>
+                <options>
+                    <label>mm:hh</label>
+		    <value>00:00</value>
+                    <required></required>
+                </options>
+            </init_hour>
+
+            <end_day>
+                <type>text</type>
+                <options>
+                    <required>true</required>
+                    <label>Até</label>                    
+                    <description></description>
+                </options>
+            </end_day>
+ 
+            <end_hour>
+                <type>text</type>
+                <options>
+                    <label>mm:hh</label>
+		    <value>23:59</value>
+                </options>
+            </end_hour>
+
+	    <status>
+		<type>MultiCheckbox</type>
+		<options>
+		   <separator></separator>
+	           <multioptions>
+			   <ALL>Todos</ALL>
+			   <ALERT>Alert</ALERT>
+			   <CRI>Critico</CRI>
+			   <ERR>Erro</ERR>
+			   <INF>Info</INF>
+			   <DEB>Debug</DEB>
+		   </multioptions>
+		</options>
+	    </status>
+
+            <source>
+                <type>text</type>
+                <options>
+                    <label>Origem</label>
+                    <description></description>
+                    <required></required>
+                </options>
+            </source>
+
+            <dest>
+                <type>text</type>
+                <options>
+		    <label>Destino</label>
+                    <description> </description>
+                    <required></required>
+                </options>
+            </dest>
+
+        </elements>
+    </general>
+</modelo>
