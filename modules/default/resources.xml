@@ -28,6 +28,11 @@
         <resource id="expression-alias" label="Expression Alias"></resource>
     </group>
 
+    <group id="carrier" label="Carrier">
+        <resource id="carrier" label="Carrier"></resource>
+        <resource id="billing" label="Billing"></resource>
+    </group>
+
     <group id="manage" label="Manage">
         <resource id="cost-center" label="Cost Center" ></resource>
         <resource id="contacts" label="Contacts" ></resource>
