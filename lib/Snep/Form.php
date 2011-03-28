@@ -43,46 +43,53 @@ class Snep_Form extends Zend_Form {
     /**
      * Inserts two selections and buttons to control the elements between them.
      *
-     * @param string $name - Define elements id, important to javascript interaction
-     * @param string $start_label
+     * @param string $name - Define elements id. Important to javascript interaction
+     * @param string $label
      * @param array $start_itens
-     * @param string $end_label
      * @param array $end_itens
      */
-    public function setSelectBox($name, $start_label, $start_itens, $end_label, $end_itens = false) {
+    public function setSelectBox($name, $label, $start_itens, $end_itens = false) {
 
         $i18n = Zend_Registry::get("i18n");
 
-        $start_box = new Zend_Form_Element_Multiselect("box");
-        $start_box->setMultiOptions( $start_itens );
-        $start_box->removeDecorator('DtDdWrapper');
-        $start_box->addDecorator('HtmlTag', array('tag' => 'li'));
-        $start_box->setAttrib('id', $name.'_box');
-        $start_box->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
-        $start_box->setLabel( $i18n->translate( $start_label ) );
-         
-        $end_box = new Zend_Form_Element_Multiselect("box_add");
-        if($end_itens){
-            $end_box->setMultiOptions( $end_itens );
-        }
-        $end_box->removeDecorator('DtDdWrapper');
-        $end_box->setAttrib('id', $name.'_box_add');
-        $end_box->addDecorator('HtmlTag', array('tag' => 'li'));
-        $end_box->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
-        $end_box->setLabel( $i18n->translate( $end_label ) );
+        $header = new Zend_Form_Element_Hidden('elementHeader');
+        $header->removeDecorator("DtDdWrapper")
+               ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
 
+        $start_box = new Zend_Form_Element_Multiselect("box");
+        $start_box->setLabel( $i18n->translate( $label ) )
+                  ->setMultiOptions( $start_itens )
+                  ->removeDecorator('DtDdWrapper')
+                  ->setAttrib('id', $name.'_box');
+
+        $end_box = new Zend_Form_Element_Multiselect("box_add");
+        if($end_itens) {
+            $end_box->setMultiOptions( $end_itens );
+            $end_box->setValue( array_keys($end_itens) );
+        }
+        $end_box->removeDecorator('DtDdWrapper')
+                ->removeDecorator('Label')
+                ->setAttrib('id', $name.'_box_add')
+                ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND))
+                ->setRegisterInArrayValidator(false);
+        
         $add_action = new Zend_Form_Element_Button( $i18n->translate('Adicionar'));
-        $add_action->removeDecorator("DtDdWrapper");        
-        $add_action->setAttrib('id', $name.'_add_bt');
+        $add_action->removeDecorator("DtDdWrapper")
+                   ->addDecorator('HtmlTag', array('tag' => 'li'))
+                   ->setAttrib('id', $name.'_add_bt')
+                   ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selectActions', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
 
         $remove_action = new Zend_Form_Element_Button( $i18n->translate('Remover'));
-        $remove_action->removeDecorator("DtDdWrapper");        
-        $remove_action->setAttrib('id', $name.'_remove_bt');
+        $remove_action->removeDecorator("DtDdWrapper")
+                      ->addDecorator('HtmlTag', array('tag' => 'li'))
+                      ->setAttrib('id', $name.'_remove_bt')
+                      ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selectActions', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
         
-        $this->addElements(array($start_box,
-                                 $add_action,
-                                 $remove_action,
-                                 $end_box));
+        $this->addElements( array( $header,
+                                   $start_box,
+                                   $add_action,
+                                   $remove_action,
+                                   $end_box));
 
     }
 
