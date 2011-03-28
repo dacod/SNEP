@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <name>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <validators>
+                <alnum>
+                    <validator>Alnum</validator>
+                    <options>
+                        <allowWhiteSpace>true</allowWhiteSpace>
+                    </options>
+                </alnum>
+            </validators>
+        </options>
+    </name>
+    <ta>
+        <type>text</type>
+    </ta>
+    <tf>
+        <type>text</type>
+    </tf>
+    <tbf>
+        <type>text</type>
+    </tbf>
+    <tbc>
+        <type>text</type>
+    </tbc>
+</elements>
+</modelo>

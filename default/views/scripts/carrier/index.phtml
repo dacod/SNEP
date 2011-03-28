@@ -1,0 +1,46 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+
+echo $this->render('filter.phtml');
+?>
+<table>
+   <thead>
+      <tr>
+         <th class="numeric"> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Nome') ?> </th>         
+         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    if($this->carrier):
+        foreach($this->carrier as $carrier ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td> 
+                    <b> <?php echo $carrier['codigo'] ?> </b>
+                </td>
+                <td> 
+                    <?php echo $carrier['nome'] ?>
+                </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $carrier['codigo'] ?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $carrier['codigo'] ?>','<?php echo $this->remove_msg ?>')">
+                        <?php echo $this->translate('Excluir')?>
+                    </span>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
