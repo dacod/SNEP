@@ -63,5 +63,4 @@ class Snep_Csv {
         return $output;
     }
 
-
 }
