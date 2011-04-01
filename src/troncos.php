@@ -232,6 +232,8 @@ function cadastrar() {
     }
     else if( $trunktype == "SNEPSIP" ) {
         $trunktype  = 'SIP';
+        $peer_type  = "peer";
+        $type       = "peer";
         $username   = $snep_host;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_host;
@@ -243,6 +245,8 @@ function cadastrar() {
     }
     else if( $trunktype == "SNEPIAX2" ) {
         $trunktype  = 'IAX2';
+        $peer_type  = "peer";
+        $type       = "peer";
         $username   = $snep_username;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_username;
