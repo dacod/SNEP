@@ -38,8 +38,13 @@
         <resource id="contacts" label="Contacts" ></resource>
         <resource id="contact-groups" label="Contact Groups" ></resource>
         <resource id="queues" label="Queues" ></resource>
+<<<<<<< .mine
+        <resource id="extensions-groups" label="Extension Groups" ></resource>
+        <resource id="pickup-groups" label="Pickup Groups" ></resource>
+=======
         <resource id="extensionsgroups" label="Extension Groups" ></resource>
         <resource id="pickup-groups" label="Pickup Groups" ></resource>
+>>>>>>> .r982
         <resource id="extensions" label="Extensions" ></resource>
         <!-- <resource id="gestao/conferencias.php" label="menu_conference" ></resource> -->
         <resource id="trunks" label="Trunks" ></resource>
