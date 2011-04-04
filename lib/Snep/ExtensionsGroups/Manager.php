@@ -160,7 +160,7 @@ class Snep_ExtensionsGroups_Manager {
 
         try {
 
-            $db->update("groups" , $group, "name =".$group['name']."'");
+            $db->update("groups" , $group, "name ='".$group['name']."'");
             $db->commit();
             return true;
         }
