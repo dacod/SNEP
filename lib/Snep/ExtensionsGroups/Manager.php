@@ -160,8 +160,11 @@ class Snep_ExtensionsGroups_Manager {
 
         try {
 
-            $db->update("groups" , $group, "name ='".$group['name']."'");
+            $value = array('name' => $group['name'] , 'inherit' => $group['type']);
+
+            $db->update("groups" , $value, "name ='".$group['id']."'");
             $db->commit();
+
             return true;
         }
         catch(Exception $e) {
@@ -183,12 +186,19 @@ class Snep_ExtensionsGroups_Manager {
         $db->beginTransaction();
 
         try {
-            $update_data = array("peers.group" => $extensionsGroup['group']);
-            $db->update("peers", $update_data, "id = '{$extensionsGroup['extensions']}'");
+
+            $value = array("peers.group" => $extensionsGroup['group']);
+
+            Zend_Debug::dump($extensionsGroup['extensions']);
+            Zend_Debug::dump($value);
+            //die;
+            $db->update("peers", $value, "id = ".$extensionsGroup['extensions']);
             $db->commit();
+            
             return true;
         }
         catch(Exception $e) {
+            
             $db->rollBack();
             return $e;
         }
