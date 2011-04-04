@@ -15,7 +15,7 @@
     </resource>
     
      <group id="configs" label="Configure" >
-       <!--  <item uri="parameters" label="menu_params"></item> -->
+       <resource id="parameters" label="Parameters"></resource>
        <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
        <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
        <resource id="inspector" label="System Status"></resource> 
@@ -39,14 +39,21 @@
         <resource id="contact-groups" label="Contact Groups" ></resource>
         <resource id="queues" label="Queues" ></resource>
         <resource id="extensionsgroups" label="Extension Groups" ></resource>
-        <resource id="pickupgroups" label="Pickup Groups" ></resource>
+        <resource id="pickup-groups" label="Pickup Groups" ></resource>
         <resource id="extensions" label="Extensions" ></resource>
         <!-- <resource id="gestao/conferencias.php" label="menu_conference" ></resource> -->
         <resource id="trunks" label="Trunks" ></resource>
     </group>
+    
+      <group id="reports" label="Reports">
+       <!--  <item uri="src/rel_chamadas.php" label="menu_rel_callers"></item> -->
+        <resource id="services-report" label="Services Use"></resource>
+        <!-- <item uri="src/rel_ranking.php" label="menu_callranking"></item> -->
+    </group>
 
     <group id="status" label="Status">
         <resource id="index" label="System"></resource>
+        <resource id="logs" label="Logs"></resource>
     </group>
 
     <!--
@@ -56,13 +63,6 @@
         <item uri="src/database_load.php" label="menu_databaseshow"></item>
         <item uri="gestao/links_errors_load.php" label="menu_links_erros"></item>
         <item uri="gestao/sneplog.php" label="tit_logger"></item>
-    </item>
-    
-
-    <item id="reports" label="menu_reports" resourceid="20">
-        <item uri="src/rel_chamadas.php" label="menu_rel_callers"></item>
-        <item uri="src/rel_services.php" label="services_report"></item>
-        <item uri="src/rel_ranking.php" label="menu_callranking"></item>
     </item>
 
     <item id="billing" label="menu_tarifas" resourceid="70">

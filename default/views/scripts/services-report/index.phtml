@@ -1,0 +1,16 @@
+<?php
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
+?>
+<?php
+echo $this->form;
+?>
+<script language="javascript" type="text/javascript">
+$( 'exten-group_select').observe ('change' , init);
+
+function init() {    
+enableField('exten-group_select', 'exten-exten_select')
+}
+</script>
+

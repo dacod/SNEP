@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : services_report.xml
+    Created on : 25 de Março de 2011, 11:20
+    Author     : Lucas Ivan Seidenfus
+    Description:
+       Zend  Form XML with parameters for the Services Report 
+-->
+
+<form>
+    
+    <period>
+        <elements>
+            
+            <init_day>
+                <type>text</type>
+                <options>
+                    <label>A partir de</label>
+                    <description>dd/mm/aaaa</description>
+                    <required>true</required>
+                        <validators>
+                            <date>
+                                <validator>Date</validator>
+                                <options>
+                                    <format>dd/MM/yyyy</format>
+                                </options>
+                            </date>
+                        </validators>
+                </options>
+            </init_day>
+            
+            <init_hour>
+                <type>text</type>
+                <options>
+                    <label>mm:hh</label>
+                    <value>00:00</value>
+                </options>
+                    <validators>
+                        <date>
+                            <validator>Date</validator>
+                            <options>
+                                <format>hh:mm</format>
+                            </options>
+                        </date>
+                    </validators>
+            </init_hour>
+            
+            <till_day>
+                <type>text</type>
+                <options>
+                    <label>Até</label>
+                    <description>dd/mm/aaaa</description>
+                    <required>true</required>
+                        <validators>
+                            <date>
+                                <validator>Date</validator>
+                                <options>
+                                    <format>dd/MM/yyyy</format>
+                                </options>
+                            </date>
+                        </validators>
+                </options>
+            </till_day>
+            
+            <till_hour>
+                <type>text</type>
+                <options>
+                    <label>mm:hh</label>
+                    <value>23:59</value>
+                </options>
+                    <validators>
+                        <date>
+                            <validator>Date</validator>
+                            <options>
+                                <format>hh:mm</format>
+                            </options>
+                        </date>
+                    </validators>
+            </till_hour>
+            
+        </elements>    
+    </period>  
+    
+    <exten>
+        <elements>
+            
+            <group_select>
+                <type>select</type>
+                <options>
+                    <label>Grupo</label>
+                </options>
+            </group_select>
+            
+            <exten_select>
+                <type>text</type>
+                <options>
+                    <label>Ramais</label>
+                    <description>
+                    (separados com ';')
+                    </description>
+                    <required>true</required>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{4}[;]?)$/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>200</max>
+                            </options>
+                        </strlen>
+                    </validators>
+                </options>
+            </exten_select>
+            
+        </elements>    
+    </exten>  
+    
+    <service>
+        <elements>
+            
+            <serv_select>
+                <type>MultiCheckbox</type>
+                <separator>' '</separator>
+                <options>
+                    <label>Especifique os serviços</label>
+                    <multioptions>
+                        <SIGAME>SIGAME</SIGAME>
+                        <DND>DND</DND>
+                    </multioptions>
+                </options>
+            </serv_select>
+            
+            <stat_select>
+                <type>MultiCheckbox</type>
+                <separator>' '</separator>
+                <options>
+                    <label>Estado atual do serviço</label>                    
+                    <multioptions>
+                        <A>Serviços - Ativados/Desativados </A>
+                        <D>Serviços Desabilitados</D>
+                    </multioptions>
+                </options>
+            </stat_select>
+            
+        </elements>    
+    </service>  
+    
+</form>

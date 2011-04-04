@@ -1,0 +1,31 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+?>
+<table>
+   <thead>
+      <tr>
+         <th> <?php echo $this->translate('Ramal') ?> </th>
+         <th> <?php echo $this->translate('Data e Horário') ?> </th>
+         <th> <?php echo $this->translate('Serviços - Ativados/Desativados') ?> </th>
+         <th> <?php echo $this->translate('Status do Serviço') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+       <?php
+    $c = 0;
+    if($this->report):
+        foreach($this->report as $cha => $val ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td> <b> <?php echo $val['peer'] ?> </b> </td>
+                <td> <?php echo $val['date'] ?> </td>
+                <td> <?php echo $val['service'] ?><?php echo $val['state'] ?></td>
+                <td> <?php echo $val['status'] ?> </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+<?php echo $this->render('pagination.phtml') ?>
