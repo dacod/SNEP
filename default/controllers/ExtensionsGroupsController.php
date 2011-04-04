@@ -169,8 +169,11 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit');
 
-        $id = $this->_request->getParam('id');        
+        $id = $this->_request->getParam('id');
+
         $group = Snep_ExtensionsGroups_Manager::getGroup($id);
+
+        $groupId = $form->getElement('id')->setValue($id);
         $groupName = $form->getElement('name')->setValue($group['name']);
 
         $groupType = $form->getElement('type');
@@ -206,16 +209,15 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
                 $form_isValid = $form->isValid($_POST);
 
                 $dados = $this->_request->getParams();
+                $idGroup = $dados['id'];
 
-                $this->view->group = Snep_ExtensionsGroups_Manager::editGroup(array('name' => $dados['name'],'inherit' => $dados['type']));
+                $this->view->group = Snep_ExtensionsGroups_Manager::editGroup(array('name' => $dados['name'],'type' => $dados['type'],'id' => $idGroup));
 
-                //Zend_Debug::dump($this->view->group);
-                //die;
                 if( $dados['box_add'] ) {
 
                     foreach($dados['box_add'] as $id => $dados['name']) {
 
-                        $this->view->extensions = Snep_ExtensionsGroups_Manager::addExtensionsGroup($dados['name']);
+                        $this->view->extensions = Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $dados['name'], 'group' => $idGroup));
                     }
                 }
 
