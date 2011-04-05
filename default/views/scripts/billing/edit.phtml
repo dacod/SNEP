@@ -1,0 +1,274 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/main.css" );
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/functions_smarty.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<div class="zend_form workaround">
+<form name="formulario"  method="POST" action="<?php echo $this->url . "/edit/" ?>" onSubmit="return check_form('grava_alterar');">
+
+<table cellspacing="0" align="center">
+   <tr>
+      <td valign="top">
+
+         <input type="hidden" name="id" value="<?php echo $this->Carrier['codigo'] ?>" />
+         
+         <table class="subtable" style="width: 350px;">
+            <tr>
+               <td class="formlabel" width="130px"> <?php echo $this->translate("Operadora") ?> </td>
+               <td class="subtable" >
+                  <select name="operadora" disabled >
+                     <?php if($this->carriers): ?>
+                         <?php foreach ( $this->carriers as $idCarrier => $_carrier ) : ?>
+                            <?php if( $idCarrier == $this->Carrier['operadora'] ) : ?>
+                                <?php echo "<option value=\"$idCarrier\">" . $_carrier; ?>
+                            <?php endif ?>                            
+                         <?php endforeach ?>
+                     <?php endif ?>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("País") ?>:</td>
+               <td class="subtable" >
+                  <input name="pais" type="text" size="20" maxlength="30" disabled value="<?php echo $this->Carrier['pais'] ?>">
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Estado") ?>:</td>
+               <td class="subtable" >
+                  <select disabled onchange="cidades(this.value)" name="estado">
+                      <option value="<?php echo $this->billingState['cod'] ?>"> <?php echo $this->billingState['name'] ?>
+                  </select>  *
+                  <div class="waiting" id="wait_estado" style="display:none;">
+
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Cidade") ?>:</td>
+               <td class="subtable" >
+                    <select name="cidade" id="cidade" disabled >
+                        <option value="<?php echo $this->Carrier['cidade']?>">  <?php echo $this->Carrier['cidade']?>
+                    </select> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Código País") ?> :</td>
+               <td class="subtable" >
+                  <input name="ddi" type="text" disabled size="3" maxlength="4" value="<?php echo $this->Carrier['ddi']?>" /> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Código Cidade") ?> :</td>
+               <td class="subtable" >
+                  <input name="ddd" id="ddd" disabled type="text" size="2" maxlength="3" value="<?php echo $this->Carrier['ddd']?>" /> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Prefixo") ?> :</td>
+               <td class="subtable" >
+                  <input name="prefixo" disabled id="prefixo" type="text" size="3" maxlength="4" value="<?php echo $this->Carrier['prefixo']?>" /> *
+               </td>
+            </tr>
+            
+            <tr>
+               <td colspan="2" class="subtable">
+                 <br />
+                 * <?php echo $this->translate('Campos Obrigatórios');  ?>
+               </td>
+            </tr>
+         </table>
+      </td>
+
+      <td valign="top">
+          <table align="center" id="billList">
+
+              
+           <thead>
+              <tr>
+                 <td class="cen" width="20%"> <?php echo $this->translate('Válido à partir de') ?> </td>
+                 <td class="dir"> <?php echo $this->translate('Tarifa Base para Fixo') ?> </td>
+                 <td class="dir"> <?php echo $this->translate('Tarifa base para Celular') ?> </td>
+                 <td class="cen" width="10%"> <?php echo $this->translate('Ações') ?> </td>
+              </tr>
+           </thead>
+           <tr>
+               <td colspan="4" >
+                    <div class="info_box"> <small><?php echo $this->translate("Atenção: A alteração das tarifas já existentes, influencia a tarifação em relatório.") ?> </small> </div>
+               </td>
+           </tr>
+
+           <?php
+           $cnt = 0;
+           foreach($this->billingValues as $idBill => $bill) : ?>
+                 <tr>
+                     <input type="hidden" name="data[<?php echo $idBill ?>]" id="data" value="<?php echo $bill['data'] ?>" />
+
+                     <td class="cen"> <?php echo new Zend_Date($bill['data']); ?> </td>
+                     <td class="dir">
+                        <input type="text" name="vfix[<?php echo $idBill ?>]" id="vfix" value="<?php echo $bill['vfix'] ?>"  class="campos" style="text-align:right;"  size="8"  onChange="this.form.elements['action[{$key}]'].checked=true;;" />
+                     </td>
+                     <td class="dir">
+                        <input type="text" name="vcel[<?php echo $idBill ?>]" id="vcel" value="<?php echo $bill['vcel'] ?>" class="campos" style="text-align:right;" size="8" onChange="this.form.elements['action[{$key}]'].checked=true;;"/>
+                     </td>
+                     <td class="txt_alterar">
+                         <input class="campos" type="checkbox" name="action[<?php echo $idBill ?>]" value="<?php echo $idBill ?>" />
+                         <?php echo $this->translate('Alterar') ?>
+                     </td>
+                 </tr>
+
+           <?php
+           $cnt = $idBill;
+           
+           endforeach ?>
+
+           <?php $cnt++ ?>
+         
+           <tr>
+              <td colspan="6" height="30">
+                <span class="include"> <?php echo $this->translate('Reajuste desta tarifa'); ?> </span>
+              </td>
+           </tr> 
+           <input type="hidden" name="data[<?php echo $cnt ?>]" id="data" value="<?php echo Zend_Date::now() ?>" />
+
+           <tr bgcolor="#FFF9C4">
+              <td class="cen"> <?php echo new Zend_Date(); ?> </td>
+              <td class="dir">
+                 <input type="text" name="vfix[<?php echo $cnt ?>]" id="vfix" class="campos" style="text-align:right;"  size="8" value="0"   onChange="this.form.elements['action[<?php echo $cnt ?>]'].checked=true;;" />
+              </td>
+              <td class="dir">
+                 <input type="text" name="vcel[<?php echo $cnt ?>]" id="vcel" class="campos" style="text-align:right;" size="8" value="0"  onChange="this.form.elements['action[<?php echo $cnt ?>]'].checked=true;;"/>
+              </td>
+              <td class="txt_incluir">
+                  <input class="campos" type="checkbox" name="action[<?php echo $cnt ?>]" value="<?php echo $cnt ?>" />
+                  <strong>
+                        <?php echo $this->translate('Incluir'); ?>
+                  </strong>
+              </td>
+           </tr>
+        </table>
+
+      </td>
+   </tr>
+</table>
+
+<div class="menus">
+         <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Salvar"); ?>">
+         <button name="buttom" id="buttom" type="button" onclick="location.href=' <?php echo $this->url ?>'">
+             <?php echo $this->translate("Cancelar");?>
+         </button>
+</div>
+
+</form>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+ document.forms[0].elements[0].focus() ;
+
+ function check_form(acao) {
+    campos = new Array() ;
+    campos[0] = "{$LANG.city};"+document.formulario.cidade.value+";NOT_NULL;";
+    campos[1] = "{$LANG.ddi};"+document.formulario.ddi.value+";NUM;";
+    campos[2] = "{$LANG.ddd};"+document.formulario.ddd.value+";NUM;";
+    campos[3] = "{$LANG.prefix};"+document.formulario.prefixo.value+";NOT_NULL;";
+    campos[4] = "{$LANG.operadora};"+document.formulario.operadora.value+";NOT_NULL;";
+    if (acao != "grava_alterar") {
+       campos[5]="{$LANG.vlrbase_fix};"+document.formulario.vfix.value+";FLOAT;";
+       campos[6]="{$LANG.vlrbase_cel};"+document.formulario.vcel.value+";FLOAT;";
+    } else {
+       var ctd = 5 ;
+       var lst = document.formulario.action ;
+       for(var x=0 ; x<lst.length ; x++){
+          var ind = lst[x].value ;
+          var avfix = document.formulario.elements['vfix['+ind+']'] ;
+          var avcel = document.formulario.elements['vcel['+ind+']'] ;
+          if (lst.checked) {
+             // Verifica Nome nao esta em Branco
+             dados[ctd] = "{$LANG.vlrbase_fix};"+avfix.value+";FLOAT;";
+             ctd += 1;
+             // Verifica senha numerica
+             dados[ctd] = "{$LANG.vlrbase_cel};"+avcel.value+";FLOAT;";
+             ctd += 1 ;
+          }
+       }
+    }
+
+    return valida_formulario(campos) ;
+
+ }
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+
+   function cidades(uf) {
+
+       $('wait_estado').show();
+
+        var url = '<?php echo $this->url?>/cidade/';
+        var params = 'uf='+uf;
+        var retorno = new Ajax.Request (
+            url, {
+                method: 'POST',
+                parameters: params,
+                onComplete: ret_cidade
+            }
+        );
+
+   }
+
+   function ret_cidade(ret) {
+       $('cidade').innerHTML = "";
+       $('cidade').insert(ret.responseText);
+       $('wait_estado').hide();
+   }
+
+   function prefixo(cidade) {
+
+       var url = 'rel_prefixo.php';
+       var params = 'cidade='+cidade;
+       var retorno = new Ajax.Request (
+           url, {
+                method: 'POST',
+                parameters: params,
+                onComplete: ret_prefixo
+           }
+       );
+   }
+
+   function ret_prefixo(ret) {
+
+       alert(ret.responseText);
+       $('ddd').value = ret.responseText;
+   }
+
+</script>
+
+
+
+<?php
+/* View padrão
+ *
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/selectBox.js');
+
+echo $this->form;
+?>
+
+<script type="text/javascript">
+Event.observe(window, 'load', init, false);
+
+function init() {
+     select = new SelectBox('<?php echo $this->objSelectBox ?>');
+}
+</script>
+ *
+ */
+

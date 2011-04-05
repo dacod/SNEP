@@ -1,0 +1,267 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/main.css" );
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/functions_smarty.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<div class="zend_form workaround">
+
+<form name="formulario"  method="POST" action="<?php echo $this->url . "/add/" ?>" onsubmit="return check_form();">
+
+<table cellspacing="0" align="center">
+   <tr>
+      <td valign="top">          
+         <table class="subtable" style="width: 350px;">
+            <tr>
+               <td class="formlabel" width="130px"> <?php echo $this->translate("Operadora") ?> </td>
+               <td class="subtable" >
+
+                  <input type="hidden" name="data" id="data" value="<?php echo Zend_Date::now() ?>" />
+
+                  <select name="operadora" id="operadora">
+                     <?php if($this->carriers): ?>
+                         <?php foreach ( $this->carriers as $idCarrier => $carrier ) : ?>
+                            <?php echo "<option value=\"$idCarrier\">" . $carrier; ?>
+                         <?php endforeach ?>
+                     <?php endif ?>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"><?php echo $this->translate("País") ?>:</td>
+               <td class="subtable" >
+                  <input name="pais" id="pais" type="text" size="20" maxlength="30" value="BRASIL">
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Estado") ?>:</td>
+               <td class="subtable" >
+                  <select onchange="cidades(this.value)" name="estado" id="estado">
+                     <?php if($this->states): ?>
+                         <?php foreach ( $this->states as $idState => $state ) : ?>
+                            <?php echo "<option value=\"$idState\">" . $state; ?>
+                         <?php endforeach ?>
+                     <?php endif ?>
+                  </select>  *                  
+                  <div class="waiting" id="wait_estado" style="display:none;">
+
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Cidade") ?>:</td>
+               <td class="subtable" >
+                    <select name="cidade" id="cidade" > </select> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Código País") ?> :</td>
+               <td class="subtable" >
+                  <input name="ddi" id="ddi" type="text" size="3" maxlength="4" /> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Código Cidade") ?> :</td>
+               <td class="subtable" >
+                  <input name="ddd" id="ddd" type="text" size="2" maxlength="3" /> *
+               </td>
+            </tr>
+
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Prefixo") ?> :</td>
+               <td class="subtable" >
+                  <input name="prefixo" id="prefixo" type="text" size="3" maxlength="4" /> *
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Tarifa Base Fixo") ?>:</td>
+               <td class="subtable" >
+                  <input name="vfix" id="vfix" class="campos" type="text" size="5"  value="0"  style="text-align: right;" /> 
+                  <small> <?php echo $this->translate("Use . (ponto) p/ decimais)"); ?> </small>
+               </td>
+            </tr>
+            <tr>
+               <td class="formlabel"> <?php echo $this->translate("Tarifa Base Celular") ?>:</td>
+               <td class="subtable" >
+                  <input name="vcel" id="vcel" class="campos" type="text" size="5"  value="0" style="text-align: right;" />
+                  <small> <?php echo $this->translate("Use . (ponto) p/ decimais)"); ?> </small>
+               </td>
+            </tr>
+
+            <tr>
+               <td colspan="2" class="subtable">
+                 <br />
+                 * <?php echo $this->translate('Campos Obrigatórios');  ?>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td valign="top">
+          <ul> <b> <?php echo $this->translate("Regras Gerais");?></b>
+            <li>
+                <?php echo $this->translate("Os valores PADRÃO (fixo e celular) para cada Operadora é informado no cadastro da Operadora."); ?>
+            </li>
+            <li>
+                <?php echo $this->translate("Para reajuste de uma tarifa PADRÃO existente, mantenha os campos com os seguintes dados:"); ?>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <strong><?php echo $this->translate('Estado'); ?>:</strong> <i>---</i>
+                    </li>
+                    <li>
+                        <strong><?php echo $this->translate('Cidade'); ?>:</strong> <i><?php echo $this->translate('Selecionar'); ?></i>
+                    </li>
+                    <li>
+                        <strong><?php echo $this->translate('DDD'); ?>:</strong> <i> 0 </i>
+                    </li>
+                    <li>
+                        <strong><?php echo $this->translate('Prefixo'); ?>:</strong> <i>0000</i>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <?php echo $this->translate("O cadastro de uma Tarifa obedece 3 regras:") ?>
+                <ul>
+                    <li>
+                        1 - <?php echo $this->translate('Se determinadas cidades tem valor de tarifa diferenciado, independente do PREFIXO de destino, uma Tarifa Individual deverá ser cadastrada, atentando para informar corretamente o DDD da cidade e o PREFIXO');?>
+                        <strong>'0000'</strong>
+                    </li>
+                    <li>
+                        2 - <?php echo $this->translate('Se a Operadora tiver valor diferenciado para determinados PREFIXOS de uma mesma CIDADE, uma Tarifa Individual deverá ser cadastrada para cada PREFIXO');?>
+                    </li>
+                    <li>
+                        3 - <?php echo $this->translate('Para');?>
+                        <strong> <?php echo $this->translate('Tarifas INTERNACIONAIS');?>, </strong>
+                        <?php echo $this->translate('uma Tarifa Individual deverá ser cadastrada para cada PAIS, atentando para os seguintes detalhes');?>:
+                        <ul>
+                            <li>
+                               a) <?php echo $this->translate('Informar o Código'); ?>
+                            </li>
+                            <li>
+                               b) <?php echo $this->translate('Informar o Código da Cidade'); ?> = 000
+                            </li>
+                            <li>
+                               c) <?php echo $this->translate('Informar o PREFIXO') ?> = 0000
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </li>
+          </ul>
+
+      </td>
+   </tr>
+</table>
+
+<div class="menus">
+         <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Salvar"); ?>">
+         <button name="buttom" id="buttom" type="button" onclick="location.href='javascript:history.back();'">
+             <?php echo $this->translate("Cancelar");?>
+         </button>
+</div>
+
+</form>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+
+ function check_form() {
+
+    ret  = false;
+
+    if($F('ddi')) {
+        if ( $F('ddi').match(/^\d+$/) || $F('ddi').length != 0) {
+                ret = true;
+        }
+    }
+    if($F('ddd')) {
+        if ( $F('ddd').match(/^\d+$/) || $F('ddd').length != 0) {
+                ret = true;
+        }
+    }
+    if( $F('estado') || $F('cidade')  || $F('prefixo') || $F('operadora')) {
+        ret = true;
+    }    
+    if($F('tbf')) {
+        if ( $F('tbf').match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/) || $F('tbf').length != 0) {
+                ret = true;
+        }
+    }
+    if($F('tbc')) {
+        if ( $F('tbc').match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/) || $F('tbc').length != 0) {
+                ret = true;
+        }
+    }
+
+    if(!ret) {
+        return true;
+    }else{
+        alert('<?php echo $this->translate('Verifique os dados cadastrados.');?>')
+        return false;
+    }
+  }
+
+  function cidades(uf) {
+
+       $('wait_estado').show();
+
+        var url = '<?php echo $this->url?>/cidade/';
+        var params = 'uf='+uf;
+        var retorno = new Ajax.Request (
+            url, {
+                method: 'POST',
+                parameters: params,
+                onComplete: ret_cidade
+            }
+        );
+
+  }
+
+   function ret_cidade(ret) {
+       $('cidade').innerHTML = "";
+       $('cidade').insert(ret.responseText);
+       $('wait_estado').hide();
+  }
+ 
+
+</script>
+
+<script language="javascript" type="text/javascript">
+
+  
+
+</script>
+
+
+<?php
+/*
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/updateItem.js');
+
+echo $this->form;
+?>
+
+<script type="text/javascript">
+
+
+Event.observe(window, 'load', function() {
+    $('state').observe('change', init, false);
+});
+
+
+
+
+
+function init() {
+    updateItem = new updateItem('state', 'city', '<?php echo $this->url?>/data/');
+    
+}
+</script>
+ * 
+ */

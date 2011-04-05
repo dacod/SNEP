@@ -1,0 +1,110 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+
+echo $this->render('filter.phtml');
+?>
+<table>
+   <thead>
+      <tr>
+         <th class="numeric"> 
+            <?php echo $this->translate('Operadora') ?>
+         </th>
+         <th> 
+            <?php echo $this->translate('País') ?>
+         </th>
+         <th>
+            <?php echo $this->translate('Estado') ?>
+         </th>
+         <th>
+            <?php echo $this->translate('Cidade') ?>
+         </th>
+         <th>
+            <?php echo $this->translate('Prefixo') ?>
+         </th>
+          <th>
+            <?php echo $this->translate('Valida à partir de') ?>
+         </th>
+          <th>
+            <?php echo $this->translate('Tarifa base celular') ?>
+         </th>
+          <th>
+            <?php echo $this->translate('Tarifa base telefone') ?>
+         </th>
+         <th colspan="2" class="action"> 
+            <?php echo $this->translate('Ações') ?>
+         </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+
+    $c = 0;
+    if($this->billing):
+            
+        $lst = null;
+    
+        foreach($this->billing as $billing ): ?>
+            <?php 
+            ( $c ? $c = 0 : $c = 1 );
+            ( $billing['codigo'] != $lst ? $hd = 'style="background-color: #FFFA7C !important;"' : $hd = '' );
+            ?>
+            <tr class="c<?php echo $c ?>" <?php echo $hd ?>>
+                            
+                <td> 
+                    <b> <?php echo $billing['nome'] ?> </b>
+                </td>
+                <td> 
+                        <?php echo $billing['pais'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['estado'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['cidade'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['prefixo'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['data'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['vcel'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['vfix'] ?>
+                </td>
+
+                <?php if( $billing['codigo'] != $lst) : ?>
+
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $billing['codigo'] ?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $billing['codigo'] ?>','<?php echo $this->remove_msg ?>')">
+                        <?php echo $this->translate('Excluir')?>
+                    </span>
+                </td>
+
+                <?php else: ?>
+                <td colspan="5">
+
+                </td>
+
+                <?php endif ?>                
+
+            </tr>
+            
+            <?php $lst = $billing['codigo']; ?>
+
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
