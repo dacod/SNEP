@@ -26,24 +26,24 @@
  * ou
  * <input ... onChange="verifica_peers(this.value, 'R','{$LANG.ramal}')" />
  * -----------------------------------------------------------------------------*/
- function verifica_peers(valor,tipo,strtipo) {ldelim}
-      var opt = {ldelim} method: 'get',       
+ function verifica_peers(valor,tipo,strtipo) {
+      var opt = { method: 'get',
                 asynchronous:true, 
                 evalScripts:true, 
-                onSuccess: function(transport) {ldelim}
+                onSuccess: function(transport) {
                    var response = transport.responseText ;
                    response = response.replace(/^\s+|\s+$/g,"") ;
-                   if (response.length > 0) {ldelim}
+                   if (response.length > 0) {
                      alert('{$LANG.msg_channelusedby} '+strtipo+': '+response) ;
                      return false ;
-                   {rdelim} else {ldelim}
+                   } else {
                      return true ;
-                   {rdelim}
-               {rdelim}
-             {rdelim};
+                   }
+               }
+             };
       opt.parameters="c="+valor+"&t="+tipo;
       new Ajax.Request('pesq_peers.php', opt);  
- {rdelim} 
+ }
 /*-----------------------------------------------------------------------------
  * Funcao valida_formulario  - Valida DAdos de um formulario
  * Recebe : dados =  array com dados separados por ";" na seguinte ordem:
@@ -53,61 +53,64 @@
  *              - critica = Critica especifica
  * Retorna: Verdadeiro ou Falso
  * -----------------------------------------------------------------------------*/
- function valida_formulario(dados) {ldelim}
+ function valida_formulario(dados) {
    var msg = new String("");
-   for (i=0;i<=dados.length-1;i++) {ldelim}
+   for (i=0;i<=dados.length-1;i++) {
        dtmp = dados[i].split(";") ;      
        campo   = dtmp[0] ;
        valor   = dtmp[1] ;
        tipo    = dtmp[2] ;
        critica = dtmp[3] ;
       // ----- Dados Numerios somente ----- //
-      if (tipo == "NUM") {ldelim}
-         if (!valor.match(/^\d+$/) || valor.length == 0) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_onlynumeric}\n";
-         {rdelim}
-      {rdelim}
+      if (tipo == "NUM") {
+         if (!valor.match(/^\d+$/) || valor.length == 0) {
+            msg += campo+" not numeric.\n";
+         }
+      }
       // ----- Dados Numerios somente e > que ZERO ----- //
-       if (tipo == "NUM_NOZERO") {ldelim}
-         if (!valor.match(/^\d+$/) || valor < 1) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_notblank}\n";
-         {rdelim}
-      {rdelim}
+       if (tipo == "NUM_NOZERO") {
+         if (!valor.match(/^\d+$/) || valor < 1) {
+            msg += campo+" not null.\n";
+         }
+      }
       // ----- Nao pode estar em Branco ----- //
-      if (tipo == "NOT_NULL") {ldelim}
-         if (valor.length == 0 || (valor.replace(/^\s\s*/, '').replace(/\s\s*$/, '')) == "" ) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_notblank}\n";
-         {rdelim}
-      {rdelim}
+      if (tipo == "NOT_NULL") {
+         if (valor.length == 0 || (valor.replace(/^\s\s*/, '').replace(/\s\s*$/, '')) == "" ) {
+            msg += campo+" not blank.\n";
+         }
+      }
       // ----- Deve ser Ponto Flutuante -- //
-      if (tipo == "FLOAT") {ldelim}
-         if (!valor.match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/)) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_floatvalid}\n";
-         {rdelim}
-      {rdelim}
+      if (tipo == "FLOAT") {
+         if (!valor.match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/)) {
+            msg += campo+" not valid float.\n";
+         }
+      }
       // ----- Deve iniciar com _ (underline) ----- //
-      if (tipo == "UNDER") {ldelim}
-         if (!valor.match(/^[_]/)) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_under_requir}\n";
-         {rdelim}
-      {rdelim}
+      if (tipo == "UNDER") {
+         if (!valor.match(/^[_]/)) {
+            msg += campo+" invalid.\n";
+         }
+      }
       // ----- Alfanuméricos ----- //
-      if (tipo == "ALPHANUM") {ldelim}
-         if (valor.match(/[\W]/)) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_inv_aphanum}\n";
-         {rdelim}
-      {rdelim}
+      if (tipo == "ALPHANUM") {
+         if (valor.match(/[\W]/)) {
+            msg += campo+" not alphabet.\n";
+         }
+      }
       // ----- Campo Nome do Ramal com Numero entre <> ----- //
-      if (tipo == "NAME_PEER") {ldelim}
-         if (!valor.match(/<+[0-9]+>+/)) {ldelim}
-            msg += "{$LANG.thefield} "+campo+" {$LANG.msg_name_peer}\n";
-         {rdelim}
-      {rdelim}
-   {rdelim}
-   if (msg.length > 0) {ldelim}
-      alert("{$LANG.msg_errors}\n"+msg) ;
+      if (tipo == "NAME_PEER") {
+         if (!valor.match(/<+[0-9]+>+/)) {
+            msg += campo+"\n";
+         }
+      }
+   }
+
+   alert(msg);
+   if (msg.length > 0) {
       return false ;
-   {rdelim} else
-      return true ;     
- {rdelim}
+
+   } else
+      return true ;
+  
+ }
 
