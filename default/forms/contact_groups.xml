@@ -4,7 +4,7 @@
     <group>
         <type>text</type>
         <options>
-            <label>Nome</label>
+            <label>Name</label>
             <required>true</required>
             <validators>
                 <alnum>

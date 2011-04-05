@@ -130,8 +130,6 @@ class ContactsController extends Zend_Controller_Action {
         $cell = $form->getElement('cell');
         $cell->setLabel( $this->view->translate('Celular') );
 
-        $form->setButtom();
-
         if($this->_request->getPost()) {
 
                 if( empty( $_POST['cell']) ) {
@@ -210,8 +208,6 @@ class ContactsController extends Zend_Controller_Action {
         $cell->setLabel( $this->view->translate('Celular') );
         ( isset($contact['cell_1']) ? $cell->setValue($contact['cell_1']) : null );
 
-        $form->setButtom();
-
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
@@ -250,7 +246,6 @@ class ContactsController extends Zend_Controller_Action {
        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/csv/');
 
        $form->addElement( new Zend_Form_Element_File('file') );
-       $form->setButtom();
 
        $this->view->form = $form;
 

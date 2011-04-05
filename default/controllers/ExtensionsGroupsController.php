@@ -156,7 +156,6 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
             }
         }
 
-        $form->setButtom();
         $this->view->form = $form;
 
     }
@@ -201,8 +200,6 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $this->view->objSelectBox = "extensions";
 
         $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Ramais'), $groupAllExtensions, $groupExtensions);
-
-        $form->setButtom();
 
         if($this->_request->getPost()) {
 
@@ -254,7 +251,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/delete/id/'.$id.'/confirm/1');
 
-            $form->setButtom( $this->view->translate('Confirmar'));
+            $form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
 
             $this->view->form = $form;
         }

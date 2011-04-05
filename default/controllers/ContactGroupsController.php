@@ -108,8 +108,6 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         $this->view->objSelectBox = "contacts";
         $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Contatos'), $contact, $this->view->translate('Contatos do Grupo'));
-        
-        $form->setButtom();        
 
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
@@ -168,8 +166,6 @@ class ContactGroupsController extends Zend_Controller_Action {
         $hiddenId = new Zend_Form_Element_Hidden('id');
         $hiddenId->setValue($id);
         $form->addElement($hiddenId);
-
-        $form->setButtom();
 
         if($this->_request->getPost()) {
 

@@ -106,7 +106,6 @@ class PickupGroupsController extends Zend_Controller_Action {
             }
         }
 
-        $form->setButton();
         $this->view->form = $form;
 
     }
@@ -125,8 +124,6 @@ class PickupGroupsController extends Zend_Controller_Action {
         $name = $form->getElement('name')->setValue($pickupgroup['nome']);
         $id = $form->getElement('id')->setValue($pickupgroup['cod_grupo']);
         $name = $form->getElement('name')->setLabel($this->view->translate("Nome"));
-
-        $form->setButton();
 
         if ($this->_request->getPost()) {
 
