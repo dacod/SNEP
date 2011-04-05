@@ -185,7 +185,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $groupExtensions = array();
         foreach(Snep_ExtensionsGroups_Manager::getExtensionsGroup($id) as $data) {
 
-            $groupExtensions[$data['id']] = "{$data['name']}";
+            $groupExtensions[$data['name']] = "{$data['name']}";
         }
 
         $groupAllExtensions = array();
@@ -251,7 +251,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/delete/id/'.$id.'/confirm/1');
 
-            $form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
+            //$form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
 
             $this->view->form = $form;
         }
@@ -267,30 +267,31 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $id = $this->_request->getParam('id');
 
         $_allGroups = Snep_ExtensionsGroups_Manager::getAllGroup();
+
         foreach($_allGroups as $group) {
+
             if($group['name'] != $id){
+
                 $allGroups[$group['name']] = $group['name'];
             }
         }
 
         $form = new Snep_Form();
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/migration/stage/2');
+        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/migration/');
 
         if(isset($allGroups)) {
+
             $groupSelect = new Zend_Form_Element_Select('select');
             $groupSelect->setMultiOptions( $allGroups );
             $groupSelect->setLabel( $this->view->translate( $this->view->translate("Novo Grupo")  ) );
             $form->addElement($groupSelect);
-            $form->addElement( new Zend_Form_Element_Submit( $this->view->translate("Migrar") ));
-            $form->addElement( new Zend_Form_Element_Submit( $this->view->translate("Excluir") ));
             $this->view->message = $this->view->translate("O grupo excluído possue ramais associados a ele. Selecione um novo grupo para os ramais. ");
 
         }else{
+
             $groupName = new Zend_Form_Element_Text('new_group');
             $groupName->setLabel( $this->view->translate( $this->view->translate("Novo Grupo")  ) );
             $form->addElement($groupName);
-            $form->addElement( new Zend_Form_Element_Submit( $this->view->translate("Criar") ));
-            $form->addElement( new Zend_Form_Element_Submit( $this->view->translate("Excluir") ));
             $this->view->message = $this->view->translate("O grupo excluído é único e possue ramais associados a ele. Você pode migrar os ramais para um novo grupo. ");
         }
 
@@ -299,27 +300,45 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
 
         $form->addElement($id_exclude);
 
-        $stage = $this->_request->getParam('stage');
+        //$stage = $this->_request->getParam('stage');
 
-        if(isset($stage['stage']) && $id ) {
+        //if(isset($stage['stage']) && $id ) {
+        if($this->_request->getPost()) {
 
                 if( isset( $_POST['select'] ) ) {
+
                     $toGroup = $_POST['select'];
 
                 }else{
+
                     $new_group = array('group' => $_POST['new_group']);
-                    $toGroup = Snep_ExtensionsGroups_Manager::add( $new_group );
+                    $toGroup = Snep_ExtensionsGroups_Manager::addGroup( $new_group );
                 }
 
                 $extensions = Snep_ExtensionsGroups_Manager::getExtensionsGroup($id);
+
                 foreach($extensions as $extension) {
-                    Snep_ExtensionsGroups_Manager::insertExtensionsOnGroup($toGroup, $extension['id'] );
+
+                    Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extension['id'], 'group' => $toGroup));
                 }
 
-                Snep_ExtensionsGroups_Manager::delete($_POST['id']);
+
+                $var = Snep_ExtensionsGroups_Manager::getExtensionsGroup($toGroup);
+
+                $var1 = Snep_ExtensionsGroups_Manager::getExtensionsGroup($id);
+
+                echo "delete = " . $id;
+                echo "<br> ------------------------ update <br>";
+                echo "update = " . $toGroup;
+                Zend_Debug::dump($var);
+                echo "<br> ------------------------ delete <br>";
+                Zend_Debug::dump($var1);
+
+                die;
+
+                Snep_ExtensionsGroups_Manager::delete($id);
 
                 $this->_redirect( $this->getRequest()->getControllerName() );
-
         }
 
         $this->view->form = $form;
