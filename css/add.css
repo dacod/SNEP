@@ -1,11 +1,30 @@
 /* 
-    Document   : index.css
+    Document   : add.css
     Created on : Dec 2, 2010, 2:54:10 PM
     Author     : Henrique Grolil Bassotto
     Description:
         Folha de estilos que descreve a aparência específica das telas de indíce
 */
+.txt_alterar,txt_incluir {
 
+    font-size:10px;
+}
+
+.include {
+    background: url("../imagens/include.png") no-repeat center left;
+    display: inline-block;
+    margin: 0;
+    padding-left: 18px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: underline;
+    color: dimGray;
+}
 #selects {
     display:inline;
     clear:both;
@@ -39,6 +58,39 @@
 #add_contacts {
     width: 250px;
 }
+#leftForm {
+    width: 410px;
+    height: 400px;
+    float:left;    
+}
+#leftForm dd {
+    width: 200px;
+}
+#leftForm #state {
+    width: 200px;
+}
+#leftForm #city {
+    width: 200px;
+}
+#rightForm {
+    width: 500px;
+    height: 400px;
+    padding-left:10px;
+    float:left;
+}
+#rightForm dd {
+    width: 130px;
+}
+#rightForm .billingTitle {
+    float:left;
+    width: 130px;
+    padding: 4px;
+    background-color: #FFE400;
+}
+.workaround tr:hover {
+    background-color: #fff !important;
+}
+
 
 /*
 table {

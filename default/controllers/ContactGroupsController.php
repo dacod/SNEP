@@ -113,6 +113,7 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
+                
                 $dados = $this->_request->getParams();
 
                 $groupId = Snep_ContactGroups_Manager::add(array('group' => $dados['group']));

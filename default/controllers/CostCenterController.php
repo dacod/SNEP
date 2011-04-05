@@ -48,8 +48,8 @@ class CostCenterController extends Zend_Controller_Action {
         }
 
         $this->view->types = array('E' => $this->view->translate('Entrada'),
-                       'S' => $this->view->translate('Saída'),
-                       'O' => $this->view->translate('Outras'));
+                                   'S' => $this->view->translate('Saída'),
+                                   'O' => $this->view->translate('Outras'));
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
