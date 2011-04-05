@@ -36,7 +36,6 @@ class CnlController extends Zend_Controller_Action {
         $element->removeDecorator('DtDdWrapper');
         $form->addElement($element, 'cnl');
 
-        $form->setButton();
         $form->getElement("submit")->setLabel($this->view->translate("Enviar"));
 
         $form->setAttrib('enctype', 'multipart/form-data');

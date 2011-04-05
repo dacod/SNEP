@@ -46,7 +46,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
 
         if ($this->form === Null) {
             $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/expression_alias.xml");
-            $form = new Snep_Form_Sectioned($form_xml);
+            $form = new Snep_Form($form_xml);
 
 
             $exprField = new Snep_Form_Element_Html("expression-alias/elements/expr.phtml", "expr", false);

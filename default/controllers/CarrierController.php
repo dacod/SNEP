@@ -116,8 +116,6 @@ class CarrierController extends Zend_Controller_Action {
         
         $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Centro de Custos'), $idleCostCenter);
 
-        $form->setButtom();       
-
         if($this->_request->getPost()) {
 
                 $form_isValid = $form->isValid($_POST);
@@ -200,7 +198,6 @@ class CarrierController extends Zend_Controller_Action {
         $formId->setValue($id);
         
         $form->addElement($formId);
-        $form->setButtom();
 
         if($this->_request->getPost()) {
 

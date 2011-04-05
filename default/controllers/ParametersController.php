@@ -45,7 +45,6 @@ class ParametersController extends Zend_Controller_Action {
         // Section General
         $modelGeneral = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'general', true);
         $general = new Snep_Form_SubForm($this->view->translate("Configurações Gerais"), $modelGeneral );
-        $general->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações Gerais")));
 
         // Setting propoertie values
         $empName = $general->getElement('emp_nome');
@@ -81,7 +80,6 @@ class ParametersController extends Zend_Controller_Action {
         // Section Recording
         $modeRecording = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'gravacao', true);
         $recording = new Snep_Form_SubForm($this->view->translate("Configurações de Gravação"), $modeRecording );
-        $recording->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Gravação")));
 
          // Setting propoertie values
         $application = $recording->getElement('application');
@@ -103,7 +101,6 @@ class ParametersController extends Zend_Controller_Action {
         // Section Extensions
         $modelPeers = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'ramais', true);
         $peers = new Snep_Form_SubForm($this->view->translate("Configurações de Ramais e Agentes"), $modelPeers );
-        $peers->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Ramais e Agentes")));
 
         // Setting propoertie values
         $peersRange = $peers->getElement('peers_range');
@@ -117,7 +114,6 @@ class ParametersController extends Zend_Controller_Action {
         // Section Trunks
         $modelTrunks = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'troncos', true);
         $trunks = new Snep_Form_SubForm($this->view->translate("Configurações de Troncos"), $modelTrunks );
-        $trunks->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Troncos")));
 
         // Setting propoertie values
         $qualControlValue = $trunks->getElement('valor_controle_qualidade');
@@ -127,7 +123,6 @@ class ParametersController extends Zend_Controller_Action {
         // Section Panels
         $modelPanel = new Zend_Config_Xml('./default/forms/setup.conf.xml', 'painel', true);
         $panel = new Snep_Form_SubForm($this->view->translate("Configurações de Painel"), $modelPanel );
-        $panel->addDecorator("fieldset", array("legend" => $this->view->translate("Configurações de Painel")));
 
         // Setting propoertie values
         $panel1 = $panel->getElement('menu_status_1');
@@ -139,8 +134,6 @@ class ParametersController extends Zend_Controller_Action {
         $panel3 = $panel->getElement('menu_status_3');
         $panel3->setValue( $config->ambiente->menu_status_3 );
         $form->addSubForm($panel, "painel");
-
-        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => "Salvar")));
 
         // Verify if the request is a post
         if($this->_request->getPost()) {
