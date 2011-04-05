@@ -31,7 +31,9 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
             <tr>
                <td class="formlabel"> <?php echo $this->translate("País") ?>:</td>
                <td class="subtable" >
-                  <input name="pais" type="text" size="20" maxlength="30" disabled value="<?php echo $this->Carrier['pais'] ?>">
+                  <select id="pais" name="pais" disabled >
+                       <option value="<?php echo $this->Carrier['pais'] ?>"><?php echo $this->Carrier['pais'] ?>
+                   </select>
                </td>
             </tr>
             <tr>

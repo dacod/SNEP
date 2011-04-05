@@ -30,7 +30,9 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
             <tr>
                <td class="formlabel"><?php echo $this->translate("País") ?>:</td>
                <td class="subtable" >
-                  <input name="pais" id="pais" type="text" size="20" maxlength="30" value="BRASIL">
+                   <select id="pais" name="pais">
+                       <option value="BRASIL">BRASIL
+                   </select>
                </td>
             </tr>
             <tr>
@@ -58,7 +60,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
             <tr>
                <td class="formlabel"> <?php echo $this->translate("Código País") ?> :</td>
                <td class="subtable" >
-                  <input name="ddi" id="ddi" type="text" size="3" maxlength="4" /> *
+                  <input name="ddi" id="ddi" type="text" size="3" maxlength="4" value="55" /> *
                </td>
             </tr>
 
