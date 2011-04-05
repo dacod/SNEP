@@ -8,11 +8,11 @@ echo $this->render('filter.phtml');
 <table>
    <thead>
       <tr>
-         <th> <?php echo $this->translate('Ramal') ?> </th>
-         <th> <?php echo $this->translate('Nome do Usuário') ?> </th>
-         <th> <?php echo $this->translate('Canal') ?> </th>
-         <th> <?php echo $this->translate('Grupo de Ramal') ?> </th>
-         <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?>  </th>
+         <th> <?php echo $this->translate('Extension') ?> </th>
+         <th> <?php echo $this->translate('Caller ID') ?> </th>
+         <th> <?php echo $this->translate('Channel') ?> </th>
+         <th> <?php echo $this->translate('Extension Group') ?> </th>
+         <th colspan="3" class="action"> <?php echo $this->translate('Actions') ?>  </th>
       </tr>
    </thead>
    <tbody>
@@ -27,19 +27,19 @@ echo $this->render('filter.phtml');
             <td> <?php echo $val['group'] ?> </td>
             <td class="action">
                 <a class="alterar"  href='<?php echo $this->baseUrl(); ?>/src/extensions.php?action=edit&id=<?php echo $val['exten'] ?>'>
-                    <?php echo $this->translate('Alterar')?>
+                    <?php echo $this->translate('Edit')?>
                 </a>
             </td>
             <td class="action">
                 <?php if($val['exten'] != "admin"): ?>
                 <span class="excluir" onclick="remove_item('<?php echo $this->baseUrl(); ?>/src/extensions.php?action=delete&id=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o ramal?')?>' );">
-                    <?php echo $this->translate('Excluir')?>
+                    <?php echo $this->translate('Delete')?>
                 </span>
                 <?php endif; ?>
             </td>
             <td class="action">
                 <a class="membros"  href='<?php echo $this->baseUrl(); ?>/configs/permissoes.php?id=<?php echo $val['id']?>&nome= <?php echo $val['name'] ?>&name=<?php echo $val['exten']?>' >
-                    <?php echo $this->translate('Permissões')?>
+                    <?php echo $this->translate('Permissions')?>
                 </a>
             </td>
         </tr>

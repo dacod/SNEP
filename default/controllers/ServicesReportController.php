@@ -40,9 +40,8 @@ class ServicesReportController extends Zend_Controller_Action {
         // Set form action
         $form->setAction($this->getFrontController()->getBaseUrl() . '/services-report/submit');
 
-        $modelPeriod = new Zend_Config_Xml('./default/forms/services_report.xml', 'period', true);
-        $period = new Snep_Form_SubForm($this->view->translate("Período"), $modelPeriod);
-        $period->addDecorator("fieldset", array("legend" => $this->view->translate("Período")));
+        $form_xml = new Zend_Config_Xml('./default/forms/services_report.xml');
+        $period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
 
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
@@ -50,14 +49,10 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $tillDay = $period->getElement('till_day');
         $tillDay->setValue(strtok(Zend_Date::now(), ' '));
-
         $form->addSubForm($period, "period");
 
 
-        $modelExten = new Zend_Config_Xml('./default/forms/services_report.xml', 'exten', true);
-        $exten = new Snep_Form_SubForm($this->view->translate("Ramais"), $modelExten);
-        $exten->addDecorator("fieldset", array("legend" => $this->view->translate("Ramais")));
-
+        $exten = new Snep_Form_SubForm($this->view->translate("Ramais"), $form_xml->exten);
         $groupLib = new Snep_GruposRamais();
         $groupsTmp = $groupLib->getAll();
 
@@ -90,15 +85,17 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $form->addSubForm($exten, "exten");
 
-        $modelService = new Zend_Config_Xml('./default/forms/services_report.xml', 'service', true);
-        $service = new Snep_Form_SubForm($this->view->translate("Serviços"), $modelService);
-        $service->addDecorator("fieldset", array("legend" => $this->view->translate("Serviços")));
+        $service = new Snep_Form_SubForm($this->view->translate("Serviços"), $form_xml->service);
 
         $form->addSubForm($service, "service");
 
-        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => $this->view->translate("Exibir Relatório"))));
+        $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
+        $form->removeElement("cancel");
         $buttonCsv = new Zend_Form_Element_Submit("submit_csv", array("label" => $this->view->translate("Exportar CSV")));
-
+        $buttonCsv->setOrder(1001);
+        $buttonCsv->removeDecorator('DtDdWrapper');
+        $buttonCsv->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
+        $buttonCsv->addDecorator(array("closetr" => 'HtmlTag'), array('tag' => 'tr', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
         $form->addElement($buttonCsv);
 
         return $form;

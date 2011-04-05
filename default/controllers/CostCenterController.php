@@ -112,8 +112,6 @@ class CostCenterController extends Zend_Controller_Action {
 
         $description = $form->getElement('description')->setLabel( $this->view->translate('Descrição') );
 
-        $form->setButtom();
-
         if($this->_request->getPost()) {
 
                 $form_isValid = $form->isValid($_POST);

@@ -1,0 +1,13 @@
+<?php
+    echo $this->form;
+?>
+<script type="text/javascript">
+    techHighlight = function() {
+        $('technology-type').childElements().each(function(el){
+            $$("." + el.value).each(function(el){el.hide()});
+        });
+        $$("." + $('technology-type').value).each(function(el){el.show()});
+    }
+    Event.observe($('technology-type'), 'change', techHighlight);
+    Event.observe(window, 'load', techHighlight);
+</script>

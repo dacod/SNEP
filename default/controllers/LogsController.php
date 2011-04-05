@@ -10,7 +10,7 @@ class LogsController extends Zend_Controller_Action {
 	$test = new Permissions();
         $response = $test->getTests();
    
-        $form = new Snep_Form_Sectioned(new Zend_Config_Xml('./default/forms/logs.xml', 'general', true));
+        $form = new Snep_Form(new Zend_Config_Xml('./default/forms/logs.xml', 'general', true));
 	
         $form->setAction($this->getFrontController()->getBaseUrl() . '/logs/view');
 	

@@ -35,8 +35,10 @@ body {
 #breadcrumb {
     color: #808080;
     font-size: 14px;
-    font-weight: bold;
-    padding: 4px;
+    padding-top: 17px;
+    padding-bottom: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #content {
@@ -48,10 +50,12 @@ body {
     padding: 10px 0px 0px 0px;
 }
 
+/*
 #content tbody tr:hover {
     background-color: #d2d2d2;
     color: #000;
 }
+*/
 
 #footer {
     border-top: none;
@@ -197,10 +201,6 @@ form dt {
     float: left;
 }
 
-form label:after {
-    content: ':';
-}
-
 form dd {
     display: block;
     margin-left: 0px;
@@ -265,9 +265,9 @@ select
 /* Menu snep */
 #menu {
    position: relative;
-   text-align: left ;
-   width: 978px ;
-   height: 24px ;
+   text-align: left;
+   width: 975px;
+   height: 24px;
    border: 1px solid #FFF;
    border-left: none;
    background-color: #EEE;
@@ -281,7 +281,6 @@ ul#navmenu {
   margin: 0;
   border: 0 none;
   padding: 0;
-  width: 100%; /*For KHTML */
   list-style: none;
   height: 24px;
 }
@@ -666,22 +665,60 @@ ul#navmenu ul ul li.iehover ul {
 }
 
 
-/* ======================== Sectioned/Simple Forms ========================== */
+/* ======================= Snep Forms (table based) ========================= */
+
+.snep_form {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.snep_form_section_title {
+    color: #e8ab17;
+    font-size: 11px;
+    padding: 0px;
+}
+
+.snep_form_section_title:first-child h2 {
+    margin-top: 10px;
+}
+
+.snep_form_section_title h2 {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding: 0px;
+}
 
 .snep_form th, .snep_form td {
     border: none;
 }
 
-.snep_form tr:hover {
-    background-color: transparent !important;
+.snep_form th label:after {
+    content: ':';
+}
+
+.snep_form input:disabled {
+    border-color: #ccc;
+    background-color: #efefef;
+    background-image: none;
+    color: #ccc;
+    cursor: default;
+}
+
+.snep_form_element input[type='text'], .snep_form_element input[type='password'] {
+    width: 265px;
 }
 
 .snep_form table {
     width: 100%;
-    border-spacing: 0px;
+    border-collapse: collapse;
 }
 
 .snep_form th {
+    text-align: left;
+    width: 265px;
+    
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 0px;
@@ -691,13 +728,16 @@ ul#navmenu ul ul li.iehover ul {
     color: #000;
 }
 
+.snep_form_element {
+    border-bottom: 1px solid #e1e1e1;
+}
+
 .snep_form .required:after {
     content: "*";
     color: #ff0000;
 }
 
 .snep_form td {
-    height: 21px;
     padding-left: 5px;
 }
 
@@ -716,58 +756,7 @@ ul#navmenu ul ul li.iehover ul {
     background-repeat: no-repeat;
 }
 
-.form_control_left, .form_control_right, .form_control {
-    text-align: center;
-    margin: 0px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-
-    background-image: url('../imagens/E8A916_line.png');
-    background-position: 0px 10px;
-    background-repeat: repeat-x;
-}
-
-
-.form_control_left *, .form_control_right *, .form_control * {
-    margin-top: 20px !important;
-}
-
-/* ======================== Sectioned Form Specific ========================= */
-
-.sectioned_form th {
-    width: 140px;
-    text-align: left;
-}
-
-.sectioned_form .session_mark {
-    background-image: url('../imagens/E8A916_line.png');
-    background-position: center;
-    background-repeat: repeat-x;
-    padding: 0px;
-}
-
-.sectioned_form .session_mark h2 {
-    font-size: 18px;
-    color: #E8A916;
-    background-color: #fff;
-    display: inline;
-    padding-right: 5px;
-    margin: 0px;
-}
-
-/* ========================= Simple Form Specific =========================== */
-.simple_form th {
-    width: 50%;
-    text-align: right;
-}
-
-.form_control_left {
-    text-align: right;
-}
-
-.form_control_right {
-    text-align: left;
-}
+/* ========================================================================== */
 
 /* Contraste para tela de logs do sistema */
 .normal {
@@ -785,6 +774,3 @@ ul#navmenu ul ul li.iehover ul {
     background-color: #000; 
     font-weight: bolder;
 }
-
-/* ========================================================================== */
-

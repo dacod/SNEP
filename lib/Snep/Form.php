@@ -4,38 +4,45 @@ require_once 'Zend/Form.php';
 class Snep_Form extends Zend_Form {
 
     public function  __construct($options = null) {
+        $this->addPrefixPath('Snep_Form', 'Snep/Form');
         parent::__construct($options);
 
         $this->setElementDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
-            array(array('dd' => 'HtmlTag'), array('tag' => 'dd')),
-            array('Label', array('tag' => 'dt')),
-            array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class'=>'form_element'))
+            array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
+            array('Label', array('tag' => 'th')),
+            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>'snep_form_element'))
         ));
+
+        $this->setDecorators(array(
+            'FormElements',
+            array('HtmlTag', array('tag' => 'table')),
+            array('Form', array('class' => 'snep_form'))
+        ));
+
+        $this->addButtons();
     }
 
-    public function setButtom($name = null) {
-        $this->setButton($name);
-    }
-
-    public function setButton($name = null) {
+    protected function addButtons() {
 
         $i18n = Zend_Registry::get("i18n");
 
-        $submit = new Zend_Form_Element_Submit("submit", array("label" => ($name ? $i18n->translate($name) : $i18n->translate("Salvar"))));
+        $submit = new Zend_Form_Element_Submit("submit", array("label" => $i18n->translate("Salvar")));
         $submit->removeDecorator('DtDdWrapper');
-        $submit->addDecorator('HtmlTag', array('tag' => 'li'));
-        $submit->addDecorator('HtmlTag', array('tag' => 'div', 'class' => 'menus', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
+        $submit->addDecorator(array("opentd" => 'HtmlTag'), array('class' => 'form_control', "colspan" => 2, 'tag' => 'td', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
+        $submit->addDecorator(array("opentr" => 'HtmlTag'), array('tag' => 'tr', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
+        $submit->setOrder(1000);
 
         $this->addElement($submit);
 
-        $back = new Zend_Form_Element_Button("buttom", array("label" => $i18n->translate("Cancelar")));
+        $back = new Zend_Form_Element_Button("cancel", array("label" => $i18n->translate("Cancelar") ));
         $back->setAttrib("onclick", "location.href='javascript:history.back();'");
         $back->removeDecorator('DtDdWrapper');
-        $back->addDecorator('HtmlTag', array('tag' => 'li'));
-        $back->addDecorator('HtmlTag', array('tag' => 'div', 'class' => 'menus', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
+        $back->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
+        $back->addDecorator(array("closetr" => 'HtmlTag'), array('tag' => 'tr', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
+        $back->setOrder(1001);
 
         $this->addElement($back);
     }

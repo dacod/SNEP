@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  *  This file is part of SNEP.
  *
  *  SNEP is free software: you can redistribute it and/or modify
@@ -15,11 +15,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * Controller for extension management
+ */
 class ExtensionsController extends Zend_Controller_Action {
+
+    protected $form;
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Ramais");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extensions");
 
         $db = Zend_Registry::get('db');
         $select = $db->select()->from("peers", array(
@@ -52,14 +58,16 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/extensions/index/";
 
-        $options = array("name" => $this->view->translate("Ramal"),
-            "callerid" => $this->view->translate("Nome"),
-            "group" => $this->view->translate("Grupo")
+        $options = array("name" => $this->view->translate("Extension"),
+            "callerid" => $this->view->translate("Name"),
+            "group" => $this->view->translate("Group")
         );
+
+        $baseUrl = $this->getFrontController()->getBaseUrl();
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
-        $filter->setAction($this->getFrontController()->getBaseUrl() . '/extensions/index');
+        $filter->setAction($baseUrl . '/extensions/index');
         $filter->setValue($this->_request->getPost('campo'));
         $filter->setFieldOptions($options);
         $filter->setFieldValue($this->_request->getParam('filtro'));
@@ -67,20 +75,17 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "/snep/src/extensions.php?action=multiadd",
-                "display" => "Incluir Ramais",
+                "display" => $this->view->translate("Add Multiple Extensions"),
                 "css" => "includes"),
-            array("url" => "/snep/src/extensions.php?action=add",
-                "display" => "Incluir Ramal",
+            array("url" => $baseUrl . "/extensions/add",
+                "display" => $this->view->translate("Add Extension"),
                 "css" => "include"));
     }
 
-    /**
-     * Redireciona para a tela antiga de cadastro de ramais.
-     *
-     * @see ExtensionsController::editAction()
-     */
     public function addAction() {
-        $this->__redirect("./ramais.php");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Extension");
+        $this->view->form = $this->getForm();
+        $this->renderScript("extensions/add_edit.phtml");
     }
 
     public function multiAddAction() {
@@ -152,7 +157,24 @@ class ExtensionsController extends Zend_Controller_Action {
             display_error($LANG['error'] . $e->getMessage(), true);
         }
 
-        $this->_redirect("./default/extensions/");
+        $this->_redirect("default/extensions");
+    }
+
+    protected function getForm() {
+        if ($this->form === Null) {
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensions.xml");
+            $form = new Snep_Form();
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
+            $this->form = $form;
+        }
+
+        return $this->form;
     }
 
 }

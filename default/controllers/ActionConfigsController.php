@@ -28,7 +28,7 @@ class ActionConfigsController extends Zend_Controller_Action {
             $action = new $actionTmp;
             if ($action->getDefaultConfigXML() != "") {
                 $infoActions[] = array(
-                    "id" => get_class($action),
+                    "id" => $actionTmp,
                     "name" => $action->getName(),
                     "description" => $action->getDesc()
                 );
@@ -39,7 +39,7 @@ class ActionConfigsController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $idAction = 'PBX_Rule_Action_'.$this->getRequest()->getParam('id');
+        $idAction = $this->getRequest()->getParam('id');
 
         if (!class_exists($idAction)) {
             throw new PBX_Exception_BadArg("Invalid Argument");
