@@ -100,8 +100,8 @@ class BillingController extends Zend_Controller_Action {
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
-        $carrier = $form->getElement('carrier');
-        $carrier->setLabel( $this->view->translate('Operadora') );
+        //$carrier = $form->getElement('carrier');
+        //$carrier->setLabel( $this->view->translate('Operadora') );
         $_carriers = Snep_Carrier_Manager::getAll();
         foreach($_carriers as $_carrier) {
                 $carriers[$_carrier['codigo']] = $_carrier['nome'];
