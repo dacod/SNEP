@@ -189,16 +189,13 @@ class Snep_ExtensionsGroups_Manager {
 
             $value = array("peers.group" => $extensionsGroup['group']);
 
-            Zend_Debug::dump($extensionsGroup['extensions']);
-            Zend_Debug::dump($value);
-            //die;
-            $db->update("peers", $value, "id = ".$extensionsGroup['extensions']);
+            $db->update("peers", $value, "name = ".$extensionsGroup['extensions']);
             $db->commit();
             
             return true;
         }
         catch(Exception $e) {
-            
+
             $db->rollBack();
             return $e;
         }
