@@ -322,20 +322,6 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
                     Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extension['name'], 'group' => $toGroup));
                 }
 
-
-                $var = Snep_ExtensionsGroups_Manager::getExtensionsGroup($toGroup);
-
-                $var1 = Snep_ExtensionsGroups_Manager::getExtensionsGroup($id);
-
-                echo "delete = " . $id;
-                echo "<br> ------------------------ update <br>";
-                echo "update = " . $toGroup;
-                Zend_Debug::dump($var);
-                echo "<br> ------------------------ delete <br>";
-                Zend_Debug::dump($var1);
-
-                die;
-
                 Snep_ExtensionsGroups_Manager::delete($id);
 
                 $this->_redirect( $this->getRequest()->getControllerName() );
