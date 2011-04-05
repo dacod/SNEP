@@ -23,10 +23,13 @@ class LogsController extends Zend_Controller_Action {
 
 	$submit = $form->getElement("submit");
 	$submit->setLabel("Pesquisar Log");
-	
+
+        /*
 	$tail = $form->getElement("cancel");	
 	$tail->setLabel("Em tempo real");
 	$tail->setAttrib("onclick", "location.href='view/mode/tail/lines/30'");
+         * 
+         */
 
         $this->initLogFile();	
 

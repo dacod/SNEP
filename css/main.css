@@ -124,7 +124,7 @@ input[type=text], input[type=password] {
 }
 
 
-button, input[type=submit] {
+button {
     border: 1px solid #FDB712;
     _display: table-cell;
     padding: 4px 10px;
@@ -142,24 +142,50 @@ button, input[type=submit] {
     background-color: #fff;
 }
 
-button:active, input[type=submit]:active {
+input[type=submit] {
+    border: 1px solid #C49C00;
+    _display: table-cell;
+    padding: 4px 10px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    cursor: pointer;
+    color: #FFF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    background: url("../imagens/button_important.png");
+    background-position: top;
+    background-repeat: repeat-x;
+    background-color: #fff;
+
+}
+
+input[type=submit]:active {
+    background: url("../imagens/button_important_clicked.png");
+    background-position: top;
+    background-repeat: repeat-x;
+    background-color: #fff;
+}
+
+button:active {
     background: url("../imagens/button_clicked.png");
     background-position: top;
     background-repeat: repeat-x;
     background-color: #fff;
 }
 
-button:disabled, input[type=submit]:disabled {
+button:disabled {
     border-color: #ccc;
     color: #ccc;
     cursor: default;
 }
 
-button:disabled:hover, input[type=submit]:disabled:hover {
+button:disabled:hover {
     color: #ccc;
 }
 
-button:hover, input[type=submit]:hover {
+button:hover {
     color: #FDB712;
 }
 
@@ -603,15 +629,20 @@ ul#navmenu ul ul li.iehover ul {
     border-top: 1px solid #d2d2d2;    
     padding: 5px 0 0 0;
 }
+
 .boxadd { border: 0px;width: 20px;background: url("../imagens/dot_add.png") no-repeat left top;}
+
 .boxremove { border:0px;width:20px; background: url("../imagens/dot_remove.png") no-repeat left top;}
+
 .phone-list {
     margin-bottom: 8px;
 }
+
 .span_phone {
     display:block;
     width: 200px;
 }
+
 #phones li {
     clear:both;
     width: 350px;
@@ -619,6 +650,7 @@ ul#navmenu ul ul li.iehover ul {
     list-style-type: decimal !important;
     background: url("../imagens/move.gif") no-repeat right top !important;
 }
+
 #phones {
     list-style-position:inside;
     list-style-type: decimal;
@@ -669,6 +701,16 @@ ul#navmenu ul ul li.iehover ul {
     padding-right: 10px;
 }
 
+.snep_form_submit td {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+.snep_form_element td {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
 .snep_form_section_title {
     color: #e8ab17;
     font-size: 11px;
@@ -707,6 +749,11 @@ ul#navmenu ul ul li.iehover ul {
     cursor: default;
 }
 
+.snep_form_cancel {
+    color: #7d7d7d;
+    margin-left: 10px;
+}
+
 .snep_form_element input[type='text'], .snep_form_element input[type='password'] {
     width: 265px;
 }
@@ -720,7 +767,7 @@ ul#navmenu ul ul li.iehover ul {
     text-align: left;
     width: 265px;
     
-    padding-left: 10px;
+    padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 0px;
     padding-right: 5px;
