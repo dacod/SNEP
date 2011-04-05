@@ -319,7 +319,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
 
                 foreach($extensions as $extension) {
 
-                    Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extension['id'], 'group' => $toGroup));
+                    Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extension['name'], 'group' => $toGroup));
                 }
 
 
