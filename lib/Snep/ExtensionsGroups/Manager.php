@@ -211,7 +211,21 @@ class Snep_ExtensionsGroups_Manager {
     public static function delete($id) {
 
         $db = Zend_Registry::get('db');
-        $db->delete("groups","name='{$id}'");
+
+        $db->beginTransaction();
+
+        try {
+
+            $db->delete("groups","name='{$id}'");
+            $db->commit();
+
+            return true;
+        }
+        catch(Exception $e) {
+
+            $db->rollBack();
+            return $e;
+        }
     }
 }
 ?>
