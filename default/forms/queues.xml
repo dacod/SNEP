@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <essential>
+        <elements>
+            <name>
+                <type>text</type>
+                <options>                    
+                    <required>true</required>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                            <options>
+                                <allowWhiteSpace>true</allowWhiteSpace>
+                            </options>
+                        </alnum>
+                    </validators>
+                </options>
+            </name>
+            <musiconhold>
+                <type>select</type>
+                <options>
+                                       
+                </options>
+            </musiconhold>
+            <timeout>
+                <type>text</type>
+            </timeout>
+            <announce_frequency>
+                  <type>text</type>
+            </announce_frequency>
+            <retry>
+                  <type>text</type>
+            </retry>
+            <wrapuptime>
+                  <type>text</type>
+            </wrapuptime>
+            <maxlen>
+                  <type>text</type>
+            </maxlen>
+            <servicelevel>
+                  <type>text</type>
+            </servicelevel>
+            <strategy>
+                  <type>select</type>
+                  <option>
+                      <multiOptions>
+                      </multiOptions>
+                  </option>
+            </strategy>
+        </elements>
+    </essential>
+    <advanced>
+        <elements>
+            <announce>
+                <type>select</type>
+                <options>
+                    <required>true</required>
+                </options>
+            </announce>
+
+            <context>
+                <type>text</type>
+            </context>
+
+            <queue_youarenext>
+                <type>select</type>
+                <options>
+                </options>
+            </queue_youarenext>
+
+            <queue_thereare>
+                <type>select</type>
+            </queue_thereare>
+
+            <queue_callswaiting>
+                <type>select</type>
+            </queue_callswaiting>
+
+            <queue_thankyou>
+                <type>select</type>
+            </queue_thankyou>
+
+            <joinempty>
+                  <type>radio</type>
+            </joinempty>
+
+            <leavewhenempty>
+                  <type>radio</type>
+            </leavewhenempty>
+
+            <reportholdtime>
+                  <type>radio</type>
+            </reportholdtime>
+
+            <memberdelay>
+                  <type>text</type>
+            </memberdelay>
+
+            <weight>
+                  <type>text</type>
+            </weight>
+<!--
+            <autofill>
+               <type>radio</type>
+                    <options>
+                      <yes></yes>
+                      <no></no>
+                    </options>
+            </autofill>
+
+            <autopause>
+               <type>radio</type>
+                    <options>
+                      <yes></yes>
+                      <no></no>
+                    </options>
+            </autopause>
+-->
+        </elements>
+    </advanced>
+</modelo>

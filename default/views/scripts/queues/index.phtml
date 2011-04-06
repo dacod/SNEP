@@ -1,42 +1,46 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
-$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
-echo $this->render('filter.phtml')
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+echo $this->render('filter.phtml');
 ?>
 
 <table>
    <thead>
       <tr>
          <th> <?php echo $this->translate('Nome') ?> </th>
-         <th> <?php echo $this->translate('Estratégia de distribuição das chamadas') ?> </th>
-         <th> <?php echo $this->translate('Classe das músicas de espera') ?> </th>
+         <th> <?php echo $this->translate('Classe de áudio') ?> </th>
+         <th> <?php echo $this->translate('Estratégia') ?> </th>
+         <th> <?php echo $this->translate('SLA') ?> </th>
+         <th> <?php echo $this->translate('Tempo Limite') ?> </th>
          <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?> </th>
       </tr>
    </thead>
    <tbody>
     <?php
     $c = 0;
-    if($this->queues):
-        foreach($this->queues as $cha => $val ): ?>
+    if($this->queues) :
+        foreach($this->queues as $cha => $queue ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td> <b> <?php echo $val['name'] ?> </b> </td>
-                <td> <?php echo $val['strategy'] ?> </td>
-                <td> <?php echo $val['musiconhold'] ?> </td>
+                <td> <b> <?php echo $queue['name'] ?> </b> </td>
+                <td> <?php echo $queue['musiconhold'] ?> </td>
+                <td> <?php echo $queue['strategy'] ?> </td>
+                <td> <?php echo $queue['servicelevel'] ?> </td>
+                <td> <?php echo $queue['timeout'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href='/snep/src/queues.php?acao=alterar&name=<?php echo $val['name'] ?>'>
-                          <?php echo $this->translate('Alterar')?>
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $queue['name'] ?>">
+                        <?php echo $this->translate('Alterar')?>
                     </a>
                 </td>
                 <td class="action">
-                    <span class="excluir" onclick="remove_item('/snep/src/queues.php?acao=excluir&name=<?php echo $val['name'] ?>', 'Deseja realmente excluir a Fila?');">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $queue['name'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Excluir')?>
-                    </span>
+                    </span>                    
                 </td>
                 <td class="action">
-                    <a class="membros" href='/snep/src/members_queues.php?name=<?php echo $val['name'] ?>'>
+                    <a class="membros" href="<?php echo $this->url ?>/members/id/<?php echo $queue['name'] ?>">
                         <?php echo $this->translate('Membros')?>
                     </a>
                 </td>

@@ -1,0 +1,10 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/main.css" );
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/functions_smarty.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+
+<?php
+    echo $this->form;
+?>
