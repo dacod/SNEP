@@ -569,7 +569,7 @@ class QueuesController extends Zend_Controller_Action {
         $nmlVisual = new Zend_Form_Element_Text('nmlVisual');
         $nmlVisual->setlabel($this->view->translate('Número máximo em espera'));
 
-        $queueAlerts = Snep_Alerts::getAlertas( $id );
+        $queueAlerts = Snep_Alerts::getAlert( $id );
 
         foreach($queueAlerts as $queueAlert) {
 
