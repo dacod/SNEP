@@ -173,7 +173,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
         $group = Snep_ExtensionsGroups_Manager::getGroup($id);
 
         $groupId = $form->getElement('id')->setValue($id);
-        $groupName = $form->getElement('name')->setValue($group['name']);
+        $groupName = $form->getElement('name')->setValue($group['name'])->setLabel($this->view->translate('Nome'));;
 
         $groupType = $form->getElement('type');
         $groupType->setRequired(true)
@@ -209,6 +209,11 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
                 $idGroup = $dados['id'];
 
                 $this->view->group = Snep_ExtensionsGroups_Manager::editGroup(array('name' => $dados['name'],'type' => $dados['type'],'id' => $idGroup));
+
+                foreach(Snep_ExtensionsGroups_Manager::getExtensionsGroup($id) as $extensionsGroup) {
+
+                    Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extensionsGroup['name'], 'group' => 'all'));
+                }
 
                 if( $dados['box_add'] ) {
 
@@ -251,7 +256,7 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/delete/id/'.$id.'/confirm/1');
 
-            //$form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
+            $form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
 
             $this->view->form = $form;
         }
@@ -300,9 +305,6 @@ class ExtensionsgroupsController extends Zend_Controller_Action {
 
         $form->addElement($id_exclude);
 
-        //$stage = $this->_request->getParam('stage');
-
-        //if(isset($stage['stage']) && $id ) {
         if($this->_request->getPost()) {
 
                 if( isset( $_POST['select'] ) ) {
