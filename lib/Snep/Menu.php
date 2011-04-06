@@ -16,6 +16,8 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "Snep/Locale.php";
+
 /**
  * Snep main menu system
  *
@@ -176,7 +178,7 @@ class Snep_Menu {
     }
 
     public function setLabel($label) {
-        $this->label = $label;
+        $this->label = Snep_Locale::getInstance()->getZendTranslate()->translate($label);;
     }
 
     /**
