@@ -17,28 +17,71 @@
  */
 
 require_once("Snep/Config.php");
+require_once("Zend/Registry.php");
+require_once("Zend/Locale.php");
+require_once("Zend/Locale/Format.php");
 require_once("Zend/Translate.php");
 require_once("Zend/Translate/Adapter/Array.php");
 require_once("Zend/Validate/Abstract.php");
-require_once("Zend/Locale.php");
-require_once("Zend/Locale/Format.php");
-require_once("Zend/Registry.php");
+
+define("TRANSLATIONS_PATH", APPLICATION_PATH . DIRECTORY_SEPARATOR . "lang");
 
 /**
- * AGI singleton class.
+ * Singleton class to control the localization and internationalization features
+ * of snep.
  *
  * @category  Snep
  * @package   Snep
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Snep_Locale extends Zend_Translate {
+class Snep_Locale {
     /**
      * Singleton instance.
      *
      * @return Snep_Locale
      */
     protected static $instance;
+
+    /**
+     * The current system locale
+     * 
+     * @var string locale
+     */
+    protected $locale;
+
+    /**
+     * The current system language
+     *
+     * @var string language
+     */
+    protected $language;
+
+    /**
+     * Current system Timezone
+     *
+     * @var string timezone
+     */
+    protected $timezone;
+
+    /**
+     * The Zend Translate object for string translations.
+     *
+     * @var Zend_Translate
+     */
+    protected $zendTranslate;
+
+    /**
+     * Zend Locale object for locale management.
+     *
+     * @var Zend_Locale
+     */
+    protected $zendLocale;
+
+    /**
+     * @var array Available languages
+     */
+    protected $availableLanguages = array();
 
     /**
      * Returns the singleton instance of this class.
@@ -54,42 +97,120 @@ class Snep_Locale extends Zend_Translate {
 
     public function __construct() {
         $config = Snep_Config::getConfig();
-        // silenciando strict até arrumar zend_locale
-        date_default_timezone_set("America/Sao_Paulo");
-        parent::__construct('gettext', $config->system->path->base . '/lang/pt_BR.mo', 'pt_BR');
+        $locale = $this->locale = $config->system->locale;
+        $language = $this->language = $config->system->language;
+        $timezone = $this->timezone = $config->system->timezone;
 
-        Zend_Registry::set('i18n', $this);
+        if(!Zend_Locale::isLocale($locale)) {
+            throw new Exception("Fatal: '$locale' is not a valid locale", 500);
+        }
 
-        $translation_files = $config->system->path->base . "/lang/";
-        foreach( scandir($translation_files) as $filename ) {
-            // Todos os arquivos .php devem ser classes de descrição de modulos
-            if( preg_match("/.*\.mo$/", $filename) ) {
-                $translation_id = basename($filename, '.mo');
-                if($translation_id != "pt_BR") {
-                    $this->addTranslation($translation_files . "/$filename", $translation_id);
+        setlocale(LC_COLLATE, $locale . ".utf8");
+        Zend_Locale::setDefault($locale);
+        $this->zendLocale = $zendLocale = new Zend_Locale($locale);
+        Zend_Registry::set('Zend_Locale', $zendLocale);
+        Zend_Locale_Format::setOptions(array("locale"=> $locale));
+
+        if(!Zend_Locale::isLocale($language)) {
+            throw new Exception("Fatal: '$language' is not a valid language locale", 500);
+        }
+
+        if( !self::isTimezone($timezone) ) {
+            throw new Exception("Fatal: '$timezone' is not a valid timezone", 500);
+        }
+        date_default_timezone_set($timezone);
+
+        $language_alt = substr($language, 0, strpos($language, "_"));
+        if(file_exists(TRANSLATIONS_PATH . DIRECTORY_SEPARATOR . "$language.mo")) {
+            $translate = new Zend_Translate('gettext', TRANSLATIONS_PATH . DIRECTORY_SEPARATOR . "$language.mo", $language);
+        }
+        else if(file_exists(TRANSLATIONS_PATH . DIRECTORY_SEPARATOR . "$language_alt.mo")) {
+            $translate = new Zend_Translate('gettext', TRANSLATIONS_PATH . DIRECTORY_SEPARATOR . "$language_alt.mo", $language);
+        }
+        else {
+            $translate = new Zend_Translate('gettext', null, $language);
+        }
+
+        $this->zendTranslate = $translate;
+        Zend_Registry::set("Zend_Translate", $translate);
+
+        $lang_dirs = scandir(TRANSLATIONS_PATH . "/Zend_Validate/");
+        if(in_array($language, $lang_dirs)) {
+            $validate_locale = $language;
+        }
+        else if(in_array($language_alt, $lang_dirs)) {
+            $validate_locale = $language_alt;
+        }
+        else {
+            $validate_locale = "us";
+        }
+
+        $zend_validate_translator = new Zend_Translate_Adapter_Array(
+            TRANSLATIONS_PATH . "/Zend_Validate/$validate_locale/Zend_Validate.php",
+            $language
+        );
+        Zend_Validate_Abstract::setDefaultTranslator($zend_validate_translator);
+    }
+
+    /**
+     * Assert if a timezone identifier is valid or not.
+     *
+     * @param string $timezone Timezone identifier
+     * @return boolean is timezone
+     */
+    public static function isTimezone($timezone) {
+        return key_exists($timezone, Zend_Locale::getTranslationList("territorytotimezone"));
+    }
+
+    /**
+     * @return string System locale identifier
+     */
+    public function getLocale() {
+        return self::$instance->locale;
+    }
+
+    /**
+     * @return string System language identifier
+     */
+    public function getLanguage() {
+        return $this->language;
+    }
+
+    /**
+     * @return string System timezone identifier
+     */
+    public function getTimezone() {
+        return $this->timezone;
+    }
+
+    /**
+     * @return Zend_Translate Default system translator
+     */
+    public function getZendTranslate() {
+        return $this->zendTranslate;
+    }
+
+    /**
+     * @return Zend_Locale Default system locale
+     */
+    public function getZendLocale() {
+        return $this->zendLocale;
+    }
+
+    /**
+     * Return all the languages available on the system.
+     *
+     * @return array available languages
+     */
+    public function getAvailableLanguages() {
+        if (count($this->availableLanguages) === 0) {
+            foreach( scandir(TRANSLATIONS_PATH) as $filename ) {
+                if( preg_match("/.*\.mo$/", $filename) ) {
+                    $this->availableLanguages[] = basename($filename, '.mo');
                 }
             }
         }
-
-        require_once "Zend/Locale.php";
-
-        if(Zend_Locale::isLocale($config->system->locale)) {
-            $locale = $config->system->locale;
-        } else {
-            $locale = "pt_BR";
-        }
-
-        Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
-        Zend_Locale::setDefault($locale);
-        Zend_Locale_Format::setOptions(array("locale"=> $locale));
-        $this->setLocale($locale);
-        Zend_Registry::set("Zend_Translate", $this);
-
-        $zend_validate_translator = new Zend_Translate_Adapter_Array(
-            $config->system->path->base . "/lang/Zend_Validate/$locale/Zend_Validate.php",
-            $locale
-        );
-        Zend_Validate_Abstract::setDefaultTranslator($zend_validate_translator);
+        return $this->availableLanguages;
     }
 
     protected function __clone() {}

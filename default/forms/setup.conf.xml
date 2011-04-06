@@ -113,7 +113,30 @@
         </elements>
     </general>
 
-    <gravacao>
+    <locale>
+        <elements>
+            <timezone>
+                <type>Select</type>
+                <options>
+                    <label>Timezone</label>
+                </options>
+            </timezone>
+            <locale>
+                <type>Select</type>
+                <options>
+                    <label>System Locale</label>
+                </options>
+            </locale>
+            <language>
+                <type>Select</type>
+                <options>
+                    <label>System Language</label>
+                </options>
+            </language>
+        </elements>
+    </locale>
+
+    <recording>
         <elements>
             <application>
              <type>select</type>
@@ -168,9 +191,9 @@
              </path_voz_bkp>
              
         </elements>
-    </gravacao>
+    </recording>
     
-    <ramais>
+    <extensions>
         <elements>
             <peers_range>
                 <type>text</type>
@@ -198,37 +221,11 @@
                     </validators>
                 </options>
             </peers_range>
-            <agents>
-                <type>text</type>
-                <options>
-                    <label>Ranges de Agentes</label>
-                    <description>
-                        Sintaxe: ramal_inicial-ramal_final ; ramal_inicial-ramal_final
-                        Exemplo: 300-312 ; 333-335 ; ...
-                    </description>
-                    <required>true</required>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/(\d{4}-\d{4}[;]?)$/i</pattern>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>1</min>
-                                <max>100</max>
-                            </options>
-                        </strlen>
-                    </validators>
-                </options>
-            </agents>
 
         </elements>
-    </ramais>
+    </extensions>
 
-    <troncos>
+    <trunks>
         <elements>
             <valor_controle_qualidade>
                 <type>text</type>
@@ -238,7 +235,7 @@
                 </options>
             </valor_controle_qualidade>
         </elements>
-    </troncos>
+    </trunks>
 
     <painel>
         <elements>
