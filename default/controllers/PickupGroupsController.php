@@ -23,13 +23,11 @@
 class PickupGroupsController extends Zend_Controller_Action {
 
     /**
-     * Add/Edit form for routes
      *
      * @var Zend_Form
      */
     protected $form;
     /**
-     * Sub-form for Action Rules
      *
      * @var array
      */
@@ -90,7 +88,8 @@ class PickupGroupsController extends Zend_Controller_Action {
         $form_xml = new Zend_Config_Xml("default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/add');
-        $name = $form->getElement('name')->setLabel($this->view->translate("Nome"));        
+
+        $name = $form->getElement('name')->setLabel($this->view->translate("Nome"));
 
         if ($this->getRequest()->getPost()) {
 
@@ -98,9 +97,9 @@ class PickupGroupsController extends Zend_Controller_Action {
             $dados = $this->_request->getParams();
 
             if ($form_isValid) {
-                $pickupgroup = array('nome' => $dados['name']);
+                $pickupGroup = array('nome' => $dados['name']);
 
-                $this->view->group = Snep_PickupGroups_Manager::add($pickupgroup);
+                $this->view->group = Snep_PickupGroups_Manager::add($pickupGroup);
 
                 $this->_redirect("/".$this->getRequest()->getControllerName()."/");
             }
