@@ -120,7 +120,7 @@ class RouteController extends Zend_Controller_Action {
         $this->view->form_filter = $filter;
         $this->view->filter = array(
             array(
-                "url" => "{$this->view->baseUrl()}/gestao/debugger.php",
+                "url" => "{$this->view->baseUrl()}/index.php/simulator/",
                 "display" => "Simulador",
                 "css" => "debugger"
             ),

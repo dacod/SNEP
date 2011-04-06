@@ -1,0 +1,101 @@
+<?php
+/**
+ *  This file is part of SNEP.
+ *
+ *  SNEP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  SNEP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
+ */
+?>
+
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
+?>
+
+<form method="post" action="index">
+    <table style="width: 100%;">
+        <tr>
+            <td style="border-bottom:none; padding: 5px;">
+                <input type="hidden" name="acao" value="simulate" />
+                <label for="srcType"><?php echo $this->translate('Origem') ?></label>
+                <select id="srcType" class="campos" name="srcType" onchange="if(this.value == 'trunk') $('trunk').show(); else $('trunk').hide();">
+                    <option <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'exten' ? "selected" : "" ?> value="exten">Ramal</option>
+                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'trunk' ? "selected" : "" ?> value="trunk">Tronco</option>
+                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'undefined' ? "selected" : "" ?> value="undefined">Indefinido</option>
+                </select>
+                <select id="trunk" name="trunk" style="<?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'trunk' ? "" : "display:none;" ?>">
+                    <?php
+                    foreach ($this->trunks as $key => $value) {
+                        echo "<option value='$key' > $value </option>";
+                    }
+                    ?>
+                </select>
+                <input type="text" name="caller" id="caller" class="campos" value="<?php echo isset($_REQUEST['caller']) ? $_REQUEST['caller'] : ""; ?>" />
+                       <label for="dst"><?php echo $this->translate('Destino') ?></label>
+                    <input type="text" name="dst" class="campos" id="dst" value="<?php echo isset($_REQUEST['dst']) ? $_REQUEST['dst'] : ""; ?>" />
+                <label for="time"><?php echo $this->translate('Horário') ?></label>
+                    <input type="text" size="5" name="time" id="time" class="campos" value="<?php echo isset($_REQUEST['time']) ? $_REQUEST['time'] : ""; ?>" /> (hh:mm)  
+            </td>
+        </tr>
+        <tr>
+            <td style="border-top:none; padding: 5px;">
+                <input type="submit" value="<?php echo $this->translate('Iniciar Simulação') ?>" class="button">     
+                <a id="voltar" class='snep_form_cancel' href="<?php echo $this->baseUrl() ?>/index.php/default/route"><?php echo $this->translate('Cancelar') ?></a>
+            </td>
+        </tr>
+        <?php if ($this->result){ ?>
+        <tr>
+            <td>
+                <ul id="input">
+                    <li><strong><?php echo $this->translate('Origem: ') ?></strong> <?php echo $this->input['caller'] ?></li>
+                    <li><strong><?php echo $this->translate('Destino: ') ?></strong> <?php echo $this->input['dst']  ?></li>
+                    <li><strong><?php echo $this->translate('Horário: ') ?></strong> <?php echo $this->input['time'] ?></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left;">
+                <ul id="results">
+                   <?php foreach ($this->result as $key => $value) { ?>
+                    <li class="rule <?php echo $value['state'] ?>">
+                        <ul class="info">
+                            <li class="execute"><strong><?php echo $this->translate('Ações a executar: ') ?></strong>
+                                <ul>
+                                    <?php
+                                    foreach ($value["actions"] as $key2 => $valueAct) { ?>
+                                    <li><?php echo $valueAct ?></li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                            <li class="desc"><?php echo $this->translate('Regra: ').$value['id'].' '.$value['desc']?></li>
+                            <li class="caller"><?php echo $this->translate('Origem: ').$value['caller']?></li>
+                            <li class="dst"><?php echo $this->translate('Destino: ').$value['dst']?></li>
+                            <li class="valid"><?php echo $this->translate('Validade: ').$value['valid']?></li>
+                        </ul>
+                    <li>
+                        <?php } ?>
+                </ul>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                <ul id="legenda">
+                    <li class="torun"><?php echo $this->translate('Regra que será executada')?></li>
+                    <li class="outdated"><?php echo $this->translate('Regra fora do periodo de validade')?></li>
+                    <li class="ignored"><?php echo $this->translate('Regra ignorada pela prioridade')?></li>
+                </ul>
+            </td>
+        </tr>
+         <?php } ?>
+    </table>
+</form>

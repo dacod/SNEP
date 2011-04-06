@@ -141,5 +141,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             $queues->register($queue['name']);
         }
     }
+    
+    protected function _initLogger() {
+        $log = Snep_Logger::getInstance();
+        
+        $config = Snep_Config::getConfig();
+        
+        $writer = new Zend_Log_Writer_Stream($config->system->path->log . '/ui.log');
+        // Filtramos a 'sujeira' dos logs se não estamos em debug mode.
+        if(!$config->system->debug) {
+            $filter = new Zend_Log_Filter_Priority(Zend_Log::WARN);
+            $writer->addFilter($filter);
+        }
+        $log->addWriter($writer);
+    }
 
 }

@@ -372,7 +372,7 @@ class PBX_Rule {
                 return $value == 's'? true : false;
                 break;
             case 'T': // Troncos
-                $log = Zend_Registry::get('log');
+                $log = Snep_Logger::getInstance();
                 if( ($this->request->getSrcObj() instanceof Snep_Trunk) && $this->request->getSrcObj()->getId() == $expr) {
                     return true;
                 }
