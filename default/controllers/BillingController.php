@@ -50,7 +50,7 @@ class BillingController extends Zend_Controller_Action {
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("n.`$field` like '%$query%'");
+            $select->where("`$field` like '%$query%'");
         }
         
         $page = $this->_request->getParam('page');
@@ -66,8 +66,11 @@ class BillingController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("nome"      => $this->view->translate("Código"),
+        $opcoes = array("nome"      => $this->view->translate("Operadora"),
+                        "pais"      => $this->view->translate("Pais"),
+                        "estado"    => $this->view->translate("Estado"),
                         "cidade"    => $this->view->translate("Cidade"),
+                        "prefixo"    => $this->view->translate("Prefixo"),
                         "ddd"       => $this->view->translate("DDD") );
 
         $filter = new Snep_Form_Filter();
@@ -84,19 +87,19 @@ class BillingController extends Zend_Controller_Action {
     }
 
     /**
-     *  Add Billing
+     *  Add Queue
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Tarifas » Cadastro");
+        $this->view->breadcrumb = $this->view->translate("Filas » Cadastro");
 
         $db = Zend_Registry::get('db');
 
-        /*
-        $xml = new Zend_Config_Xml( "default/forms/billing.xml" );
+
+        $xml = new Zend_Config_Xml( "default/forms/queues.xml" );
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-        */
+
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
