@@ -47,7 +47,7 @@ class Snep_Form_Element_Submit extends Zend_Form_Element {
         $i18n = Zend_Registry::get('i18n');
 
         $content = sprintf('<input type="submit" value="%s" />', $this->_label);
-        $content .= sprintf(' <a class="snep_form_cancel" href="javascript:location.href=\'javascript:history.back();\'">%s</a>', $i18n->translate("Cancelar"));
+        $content .= sprintf(' <a class="snep_form_cancel" href="javascript:location.href=\'javascript:history.back();\'">%s</a>', $i18n->translate("Cancel"));
         foreach ($this->getDecorators() as $decorator) {
             $decorator->setElement($this);
             $content = $decorator->render($content);

@@ -6,21 +6,21 @@ $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/agi_rul
 ?>
 
 <p id="actions_toolbar">
-    <label for="action-name"><?php echo $this->translate("Ação"); ?></label>
+    <label for="action-name"><?php echo $this->translate("Action"); ?></label>
     <select class="campos" id="action-name">
         <?php foreach ($this->element->getView()->actions as $class => $label): ?>
         <option id="<?php echo $class; ?>" value="<?php echo $class; ?>" label="<?php echo $label; ?>"><?php echo $label; ?></option>
         <?php endforeach; ?>
     </select>
-    <button type="button" id="addActionButton"><?php echo $this->translate("Adicionar Ação"); ?></button>
-    <button type="button" id="cleanActionsButton"><?php echo $this->translate("Remover Todas"); ?></button>
-    <img src="<?php echo $this->baseUrl(); ?>/imagens/ajax-loader1.gif" id="loader_icon" alt="Loading..." />
+    <button type="button" id="addActionButton"><?php echo $this->translate("Add Action"); ?></button>
+    <button type="button" id="cleanActionsButton"><?php echo $this->translate("Remove All"); ?></button>
+    <img src="<?php echo $this->baseUrl(); ?>/imagens/ajax-loader1.gif" id="loader_icon" alt="<?php echo $this->translate("Loading"); ?>..." />
 </p>
 
 <table id="actions">
     <thead>
         <tr>
-            <th><?php echo $this->translate("Ações"); ?></th>
+            <th><?php echo $this->translate("Actions"); ?></th>
             <th id="action-config-title"></th>
         </tr>
     </thead>

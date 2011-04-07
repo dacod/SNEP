@@ -2,22 +2,20 @@
 <script language="javascript" type="text/javascript">
     <?php echo $this->rule_actions; ?>
 
-    var group_list = new Array(new Array("all","Todos"),new Array("administrator","administrator"),new Array("users","Usuarios"));
-    var alias_list = new Array(new Array("1","Fixo Local"),new Array("2","Celular Local - VC1"),new Array("3","Fixo DDD"),new Array("4","Celular Interurbano - VC2/VC3"));
-    var trunk_list = new Array(new Array("2","OpenS"),new Array("3","OpenS remoto"),new Array("4","Smyrno"));
-    var contacts_group_list = new Array(new Array("1","Default"),new Array("2","Desenvolvimento"),new Array("3","Suporte"));
+    var group_list = <?php echo $this->group_list; ?>;
+    var alias_list = <?php echo $this->alias_list; ?>;
+    var trunk_list = <?php echo $this->trunk_list; ?>;
+    var contacts_group_list = <?php echo $this->contact_groups_list; ?>;
 
-    var orig = new Array();
-    var dst = new Array();
+    var str_any = "<?php echo $this->translate("Any"); ?>";
+    var str_regex = "<?php echo $this->translate("Regular Expression"); ?>";
+    var str_group = "<?php echo $this->translate("Extension Group"); ?>";
+    var str_contacts_group = "<?php echo $this->translate("Contact Group"); ?>";
 
-    var str_any = "<?php echo $this->translate("Qualquer"); ?>";
-    var str_regex = "<?php echo $this->translate("Expressão Regular"); ?>";
-    var str_group = "<?php echo $this->translate("Grupo"); ?>";
-    var str_contacts_group = "<?php echo $this->translate("Grupo de Contatos"); ?>";
-
-    var str_ramal = "<?php echo $this->translate("Ramal"); ?>";
-    var str_trunk = "<?php echo $this->translate("Tronco"); ?>";
-    var str_s     = "<?php echo $this->translate("Sem Destino"); ?>";
+    var str_ramal = "<?php echo $this->translate("Extension"); ?>";
+    var str_trunk = "<?php echo $this->translate("Trunk"); ?>";
+    var str_s     = "<?php echo $this->translate("No Destiny"); ?>";
+    var str_alias = "<?php echo $this->translate("Expression Alias"); ?>";
 
     window.onload = function() {
         origObj = new MultiWx('orig', SrcField);        

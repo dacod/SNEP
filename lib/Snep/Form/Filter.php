@@ -25,12 +25,12 @@ class Snep_Form_Filter extends Zend_Form {
             'Form'
         ));
 
-        $submit = new Zend_Form_Element_Submit("submit", array("label" => $i18n->translate("Procurar")));
+        $submit = new Zend_Form_Element_Submit("submit", array("label" => $i18n->translate("Filter")));
         $submit->removeDecorator('DtDdWrapper');
         $this->submit = $submit;
 
         // Botão Lista Completa
-        $reset = new Zend_Form_Element_Button("buttom", array("label" => $i18n->translate("Lista Completa")));
+        $reset = new Zend_Form_Element_Button("buttom", array("label" => $i18n->translate("Complete List")));
         ;
         $reset->removeDecorator('DtDdWrapper');
         $this->reset = $reset;

@@ -1,9 +1,9 @@
 <?php if( count( $this->pages->pagesInRange ) > 1 ):?>
 <div class="pagination mt3" id="paginationControl">
         <?php if( isset($this->pages->previous) ): ?>
-                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->first ?>> <?php echo $this->translate("Inicio")?>  </a> |
+                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->first ?>> <?php echo $this->translate("Start")?>  </a> |
         <?php else: ?>
-                <span class="disabled"> <?php echo $this->translate("Inicio")?> </span> |
+                <span class="disabled"> <?php echo $this->translate("Start")?> </span> |
         <?php endif ?>
 
         <?php foreach($this->pages->pagesInRange as $item): ?>
@@ -15,9 +15,9 @@
         <?php endforeach ?>
 
         <?php if( isset($this->pages->next) ): ?>
-                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->last ?>> <?php echo $this->translate('Fim') ?> </a>
+                <a href=<?php echo $this->PAGE_URL ?>page/<?php echo $this->pages->last ?>> <?php echo $this->translate('End') ?> </a>
         <?php else: ?>
-                <span class="disabled"> <?php echo $this->translate('Fim') ?> </span>
+                <span class="disabled"> <?php echo $this->translate('End') ?> </span>
         <?php endif ?>
 </div>
 <?php endif?>

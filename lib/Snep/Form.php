@@ -23,7 +23,7 @@ class Snep_Form extends Zend_Form {
         ));
 
         $i18n = Zend_Registry::get("i18n");
-        $submit = new Snep_Form_Element_Submit("submit", array("label" => $i18n->translate("Salvar")));
+        $submit = new Snep_Form_Element_Submit("submit", array("label" => $i18n->translate("Save")));
         $submit->setOrder(1000);
         $this->addElement($submit);
     }
@@ -61,13 +61,13 @@ class Snep_Form extends Zend_Form {
                 ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selects', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND))
                 ->setRegisterInArrayValidator(false);
         
-        $add_action = new Zend_Form_Element_Button( $i18n->translate('Adicionar'));
+        $add_action = new Zend_Form_Element_Button( $i18n->translate('Add'));
         $add_action->removeDecorator("DtDdWrapper")
                    ->addDecorator('HtmlTag', array('tag' => 'li'))
                    ->setAttrib('id', $name.'_add_bt')
                    ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selectActions', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND ));
 
-        $remove_action = new Zend_Form_Element_Button( $i18n->translate('Remover'));
+        $remove_action = new Zend_Form_Element_Button( $i18n->translate('Remove'));
         $remove_action->removeDecorator("DtDdWrapper")
                       ->addDecorator('HtmlTag', array('tag' => 'li'))
                       ->setAttrib('id', $name.'_remove_bt')

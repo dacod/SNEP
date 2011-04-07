@@ -41,6 +41,10 @@ body {
     padding-right: 10px;
 }
 
+#breadcrumb strong {
+    color: #333333;
+}
+
 #content {
     border: 1px solid #a4a7ab;
     font-size: 12px;

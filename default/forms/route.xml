@@ -17,39 +17,39 @@
             <type>Text</type>
             <options>
                 <required>true</required>
-                <label>Descrição</label>
+                <label>Description</label>
                 <size>60</size>
             </options>
         </desc>
         <week>
             <type>MultiCheckbox</type>
             <options>
-                <label>Dias da semana</label>
+                <label>Week Days</label>
                 <separator> </separator>
                 <multiOptions>
-                    <mon>Segunda</mon>
-                    <tue>Terça</tue>
-                    <wed>Quarta</wed>
-                    <thu>Quinta</thu>
-                    <fri>Sexta</fri>
-                    <sat>Sabado</sat>
-                    <sun>Domingo</sun>
+                    <mon>Monday</mon>
+                    <tue>Tuesday</tue>
+                    <wed>Wednesday</wed>
+                    <thu>Thursday</thu>
+                    <fri>Friday</fri>
+                    <sat>Saturday</sat>
+                    <sun>Sunday</sun>
                 </multiOptions>
             </options>
         </week>
         <record>
             <type>MultiCheckbox</type>
             <options>
-                <label>Gravação</label>
+                <label>Recording</label>
                 <multiOptions>
-                    <enable>Habilitar Gravação</enable>
+                    <enable>Enable recording</enable>
                 </multiOptions>
             </options>
         </record>
         <prio>
             <type>Select</type>
             <options>
-                <label>Prioridade</label>
+                <label>Priority</label>
                 <multiOptions>
                     <p0>0</p0>
                     <p1>1</p1>

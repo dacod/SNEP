@@ -8,13 +8,13 @@ echo $this->render('filter.phtml');
 <table>
    <thead>
       <tr>
-         <th style="width: 5%;"> <?php echo $this->translate('Código') ?> </th>
-         <th style="width: 2%;"> <?php echo $this->translate('Ativa') ?> </th>
-         <th> <?php echo $this->translate('Origem') ?> </th>
-         <th> <?php echo $this->translate('Destino') ?> </th>
-         <th> <?php echo $this->translate('Descrição') ?> </th>
-         <th style="width: 5%;"> <?php echo $this->translate('Prioridade') ?> </th>
-         <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?>  </th>
+         <th style="width: 5%;"> <?php echo $this->translate('Code') ?> </th>
+         <th style="width: 2%;"> <?php echo $this->translate('Active') ?> </th>
+         <th> <?php echo $this->translate('Source') ?> </th>
+         <th> <?php echo $this->translate('Destiny') ?> </th>
+         <th> <?php echo $this->translate('Description') ?> </th>
+         <th style="width: 5%;"> <?php echo $this->translate('Priority') ?> </th>
+         <th colspan="3" class="action"> <?php echo $this->translate('Actions') ?>  </th>
       </tr>
    </thead>
    <tbody>
@@ -25,7 +25,7 @@ echo $this->render('filter.phtml');
     ?>
         <tr class="c<?php echo $c ? 1 : 0; ?>">
             <td> <b> <?php echo $route['id'] ?> </b> </td>
-            <td> <span style="cursor:pointer;" alt="Habilita Desabilita" id="id<?php echo $route['id']; ?>" class="regra<?php echo $route['ativa']; ?>" onclick="regras(<?php echo $route['id']; ?>)"></span> </td>
+            <td> <span style="cursor:pointer;" alt="<?php echo $this->translate("Enable/Disable"); ?>" id="id<?php echo $route['id']; ?>" class="regra<?php echo $route['ativa']; ?>" onclick="regras(<?php echo $route['id']; ?>)"></span> </td>
             <td> <?php echo $route['origem'] ?> </td>
             <td> <?php echo $route['destino'] ?> </td>
             <td> <?php echo $route['desc'] ?> </td>
@@ -33,17 +33,17 @@ echo $this->render('filter.phtml');
 
             <td class="action">
                 <a class="alterar"  href='<?php echo $this->baseUrl(); ?>/index.php/route/edit/<?php echo $route['id'] ?>'>
-                    <?php echo $this->translate('Alterar')?>
+                    <?php echo $this->translate('Edit')?>
                 </a>
             </td>
             <td class="action">
                 <a class="membros"  href='<?php echo $this->baseUrl(); ?>/index.php/route/duplicate/<?php echo $route['id']?>' >
-                    <?php echo $this->translate('Duplicar')?>
+                    <?php echo $this->translate('Duplicate')?>
                 </a>
             </td>
             <td class="action">
                 <span class="excluir" onclick="remove_regra('<?php echo $route['id']; ?>');">
-                    <?php echo $this->translate('Excluir')?>
+                    <?php echo $this->translate('Delete')?>
                 </span>
             </td>
         </tr>
@@ -55,7 +55,7 @@ echo $this->render('filter.phtml');
     function remove_regra(id) {
         var url = '<?php echo $this->baseUrl(); ?>/index.php/route/delete/' + id;
 
-        if(confirm(" Você deseja realmente remover esta regra?")) {
+        if(confirm("Are you sure you want to remove this rule?")) {
             window.location.href= url;
         }
     }

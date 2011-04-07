@@ -32,7 +32,7 @@ function Field(id) {
     this.typeList[this.typeList.push()] = ['G',str_group, true];
     this.typeList[this.typeList.push()] = ['CG',str_contacts_group, true];
     this.typeList[this.typeList.push()] = ['R',str_ramal, true];
-    this.typeList[this.typeList.push()] = ['AL',"Alias de Expressão", true];
+    this.typeList[this.typeList.push()] = ['AL',str_alias, true];
 
     this.render = function() {
         $(this.id).innerHTML = this.getHtml(this.lastReference);
@@ -186,8 +186,8 @@ function TimeField(id) {
     this.getHtml = function(objReference) {
         this.lastReference = objReference;
         var html = '<span id="' + this.id + '">';
-        html += 'De: <input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos required" maxlength="5" size="5" onblur="valid_valida(this)"  /> hs';
-        html += 'Até: <input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
+        html += '<input type="text" onchange="' + objReference + '.startTime = this.value;" value="'+this.startTime+'" class="campos required" maxlength="5" size="5" onblur="valid_valida(this)"  /> - ';
+        html += '<input type="text" onchange="' + objReference + '.endTime = this.value;" value="'+this.endTime+'" class=" campos required" maxlength="5" size="5" onblur="valid_valida(this)"  />';
         html += "</span>";
         return html;
     };

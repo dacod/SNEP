@@ -18,7 +18,7 @@
  */
 
 /**
- * Controlador de regras de rotas.
+ * Route controller.
  *
  * @category  Snep
  * @package   Snep
@@ -33,6 +33,7 @@ class RouteController extends Zend_Controller_Action {
      * @var Zend_Form
      */
     protected $form;
+    
     /**
      * Sub-form for Action Rules
      *
@@ -52,12 +53,12 @@ class RouteController extends Zend_Controller_Action {
             "/^R:/"
         );
         $replace = array(
-            $this->view->translate("Grupo") . " ",
-            $this->view->translate("Sem Destino"),
-            $this->view->translate("Qualquer"),
-            $this->view->translate("Tronco") . " ",
+            $this->view->translate("Group") . " ",
+            $this->view->translate("No Destiny"),
+            $this->view->translate("Any"),
+            $this->view->translate("Trunk") . " ",
             "",
-            $this->view->translate("Ramal") . " ",
+            $this->view->translate("Extension") . " ",
         );
 
         foreach ($item as $key => $entry) {
@@ -76,7 +77,10 @@ class RouteController extends Zend_Controller_Action {
      * List all Routes of the system
      */
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Rotas");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Routes")
+        ));
 
         $db = Zend_Registry::get('db');
         $select = $db->select()->from("regras_negocio",
@@ -103,10 +107,10 @@ class RouteController extends Zend_Controller_Action {
         $this->view->filtro = $this->_request->getParam('filtro');
 
         $options = array(
-            "id" => $this->view->translate("Código"),
-            "origem" => $this->view->translate("Origem"),
-            "destino" => $this->view->translate("Destino"),
-            "desc" => $this->view->translate("Descrição")
+            "id" => $this->view->translate("Code"),
+            "origem" => $this->view->translate("Source"),
+            "destino" => $this->view->translate("Destiny"),
+            "desc" => $this->view->translate("Description")
         );
 
         // Formulário de filtro.
@@ -121,12 +125,12 @@ class RouteController extends Zend_Controller_Action {
         $this->view->filter = array(
             array(
                 "url" => "{$this->view->baseUrl()}/index.php/simulator/",
-                "display" => "Simulador",
+                "display" => $this->view->translate("Simulator"),
                 "css" => "debugger"
             ),
             array(
                 "url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                "display" => "Incluir Regra",
+                "display" => $this->view->translate("Add Rule"),
                 "css" => "include"
             )
         );
@@ -152,23 +156,55 @@ class RouteController extends Zend_Controller_Action {
             $this->view->actions = $installed_actions;
 
             $src = new Snep_Form_Element_Html("route/elements/src.phtml", "src", false);
-            $src->setLabel($this->view->translate("Origem"));
+            $src->setLabel($this->view->translate("Source"));
             $src->setOrder(1);
             $form->addElement($src);
 
             $dst = new Snep_Form_Element_Html("route/elements/dst.phtml", "dst", false);
-            $dst->setLabel($this->view->translate("Destino"));
+            $dst->setLabel($this->view->translate("Destiny"));
             $dst->setOrder(2);
             $form->addElement($dst);
 
             $time = new Snep_Form_Element_Html("route/elements/time.phtml", "time", false);
             $time->setOrder(4);
-            $time->setLabel($this->view->translate("Horário de Incidência"));
+            $time->setLabel($this->view->translate("Valid times"));
             $form->addElement($time);
 
             $form->addElement(new Snep_Form_Element_Html("route/elements/actions.phtml", "actions"));
 
             $this->form = $form;
+
+            $groups = new Snep_GruposRamais();
+            $groups = $groups->getAll();
+            $group_list = "";
+            foreach ($groups as $group) {
+                $group_list .= "[\"{$group['name']}\", \"{$group['name']}\"],";
+            }
+            $group_list = "[" . trim($group_list, ",") . "]";
+
+            $this->view->group_list = $group_list;
+
+            $alias_list = "";
+            foreach (PBX_ExpressionAliases::getInstance()->getAll() as $alias) {
+                $alias_list .= "[\"{$alias['id']}\", \"{$alias['name']}\"],";
+            }
+            $alias_list = "[" . trim($alias_list, ",") . "]";
+            $this->view->alias_list = $alias_list;
+
+            $trunks = "";
+            foreach (PBX_Trunks::getAll() as $trunk) {
+                $trunks .= "[\"{$trunk->getId()}\", \"{$trunk->getName()}\"],";
+            }
+            $trunks = "[" . trim($trunks, ",") . "]";
+            $this->view->trunk_list = $trunks;
+
+            $cgroup_list = "";
+            $cgroup_manager = new Snep_ContactGroups_Manager();
+            foreach ($cgroup_manager->getAll() as $cgroup) {
+                $cgroup_list .= "[\"{$cgroup['id']}\", \"{$cgroup['name']}\"],";
+            }
+            $cgroup_list = "[" . trim($cgroup_list, ",") . "]";
+            $this->view->contact_groups_list = $cgroup_list;
         }
 
         return $this->form;
@@ -178,12 +214,15 @@ class RouteController extends Zend_Controller_Action {
      * Edit Route
      */
     public function editAction() {
+        $id = $this->getRequest()->getParam('id');
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Routes"),
+            $this->view->translate("Edit Route %s", $id)
+        ));
+
         $form = $this->getForm();
         $this->view->form = $form;
-
-        $id = $this->getRequest()->getParam('id');
-
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Rotas » Editar Rota %s", $id);
 
         try {
             $rule = PBX_Rules::get(mysql_escape_string($id));
@@ -231,7 +270,11 @@ class RouteController extends Zend_Controller_Action {
         $this->view->form = $form;
 
         $id = $this->getRequest()->getParam('id');
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Rotas » Duplicar Rota %s", $id);
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Routes"),
+            $this->view->translate("Duplicate Route %s", $id)
+        ));
 
         try {
             $rule = PBX_Rules::get(mysql_escape_string($id));
@@ -260,7 +303,7 @@ class RouteController extends Zend_Controller_Action {
             }
         }
 
-        $rule->setDesc($this->view->translate("Cópia de %s", $rule->getDesc()));
+        $rule->setDesc($this->view->translate("Copy of %s", $rule->getDesc()));
 
         $this->populateFromRule($rule);
 
@@ -276,7 +319,11 @@ class RouteController extends Zend_Controller_Action {
      * Action for adding a route
      */
     public function addAction() {
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Rotas » Incluir");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Routes"),
+            $this->view->translate("Add Route")
+        ));
 
         $form = $this->getForm();
         $form->getElement('week')->setValue(true);
@@ -320,7 +367,6 @@ class RouteController extends Zend_Controller_Action {
      *
      * This method is implemented to validate the fields that can't be validated by
      * Zend_Form like the fields of Action Rules.
-     * 
      *
      * @param array $post
      * @return boolean

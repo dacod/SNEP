@@ -4,13 +4,13 @@
         <campo>
             <type>select</type>
             <options>
-                <label>Filtrar por</label>
+                <label>Filter by</label>
             </options>
         </campo>
         <filtro>
             <type>text</type>
             <options>
-                <label>Filtro</label>
+                <label>Filter</label>
             </options>
         </filtro>
     </elements>

@@ -8,7 +8,7 @@ class Snep_Form_Element_Html extends Zend_Form_Element {
             $this->setDecorators(array(
                 'ViewScript',
                 array(array('element' => 'HtmlTag'), array('tag' => 'td', 'colspan' => 2)),
-                array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr'))
+                array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>'snep_form_element'))
             ));
         }
         else {
@@ -16,7 +16,7 @@ class Snep_Form_Element_Html extends Zend_Form_Element {
                 'ViewScript',
                 array(array('element' => 'HtmlTag'), array('tag' => 'td')),
                 array('Label', array('tag' => 'th')),
-                array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr'))
+                array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>'snep_form_element'))
             ));
         }
 
