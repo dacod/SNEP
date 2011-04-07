@@ -28,8 +28,11 @@
 class SimulatorController extends Zend_Controller_Action {
 
     public function indexAction() {
-        
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Ligações de Entrada e/ou Saída » Simulador");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Routes"),
+            $this->view->translate("Simulator")
+        ));
 
         $trunks = array();
         foreach (PBX_Trunks::getAll() as $value) {
@@ -54,8 +57,8 @@ class SimulatorController extends Zend_Controller_Action {
                 try {
                     $srcObj = PBX_Usuarios::get($caller);
                 } catch (PBX_Exception_NotFound $ex) {
-                    $this->view->error = $this->view->translate("Erro Interface PBX: " . $ex->getMessage());
-                    $this->view->back = $this->view->translate("Voltar");
+                    $this->view->error = $this->view->translate($ex->getMessage());
+                    $this->view->back = $this->view->translate("Back");
                     $this->renderScript('simulator/error.phtml');
                     return;
                 }
@@ -68,13 +71,11 @@ class SimulatorController extends Zend_Controller_Action {
                 $channel = "unknown";
             }
 
-            $request = new PBX_Asterisk_AGI_Request(
-                            array(
-                                "agi_callerid" => $caller,
-                                "agi_extension" => $extension,
-                                "agi_channel" => $channel
-                            )
-            );
+            $request = new PBX_Asterisk_AGI_Request(array(
+                "agi_callerid" => $caller,
+                "agi_extension" => $extension,
+                "agi_channel" => $channel
+            ));
 
             $request->setSrcObj($srcObj);
 
@@ -90,8 +91,8 @@ class SimulatorController extends Zend_Controller_Action {
             try {
                 $dialplan->parse();
             } catch (PBX_Exception_NotFound $ex) {
-                $this->view->error = $this->view->translate("Nenhuma regra encontrada!");
-                $this->view->back = $this->view->translate("Voltar");
+                $this->view->error = $this->view->translate("No rule found.");
+                $this->view->back = $this->view->translate("Back");
                 $this->renderScript('simulator/error.phtml');
             }
 
@@ -113,10 +114,10 @@ class SimulatorController extends Zend_Controller_Action {
                     foreach ($rule->getAcoes() as $action) {
                         $config = $action->getConfigArray();
                         if ($action instanceof PBX_Rule_Action_CCustos) {
-                            $actions[] = $this->view->translate("Definir Centro de Custos para ") . $config['ccustos'];
+                            $actions[] = $this->view->translate("Define Cost Center to ") . $config['ccustos'];
                         } else if ($action instanceof PBX_Rule_Action_DiscarTronco) {
                             $tronco = PBX_Trunks::get($config['tronco']);
-                            $actions[] = $this->view->translate("Discar para Tronco ") . $tronco->getName();
+                            $actions[] = $this->view->translate("Dial through Trunk ") . $tronco->getName();
                         } else if ($action instanceof PBX_Rule_Action_DiscarRamal) {
                             if (isset($config['ramal']) && $config['ramal'] != "") {
                                 $peer = $config['ramal'];
@@ -126,16 +127,16 @@ class SimulatorController extends Zend_Controller_Action {
 
                             try {
                                 $ramal = PBX_Usuarios::get($peer);
-                                $actions[] = $this->view->translate("Discar para Ramal ") . $ramal->getCallerid();
+                                $actions[] = $this->view->translate("Dial to extension %s", $ramal->getCallerid());
                             } catch (PBX_Exception_NotFound $ex) {
-                                $actions[] = "<strong style='color:red'>" . $this->view->translate("Tentativa com falha para ramal") . $extension . $this->view->translate(' (ramal inexistente)') . "</strong>";
+                                $actions[] = "<strong style='color:red'>" . $this->view->translate("Failure on trial to dial extension %: non existent extension", $extension) . "</strong>";
                             }
                         } else if ($action instanceof PBX_Rule_Action_Queue) {
-                            $actions[] = $this->view->translate("Direcionar para fila ") . $config['queue'];
+                            $actions[] = $this->view->translate("Direct to queue %s", $config['queue']);
                         } else if ($action instanceof PBX_Rule_Action_Cadeado) {
-                            $actions[] = $this->view->translate("Requisitar senha");
+                            $actions[] = $this->view->translate("Request password");
                         } else if ($action instanceof PBX_Rule_Action_Context) {
-                            $actions[] = $this->view->translate("Direcionar para contexto ") . $config['context'];
+                            $actions[] = $this->view->translate("Redirect to context %s", $config['context']);
                         }
                     }
 

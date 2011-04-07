@@ -26,11 +26,11 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
         <tr>
             <td style="border-bottom:none; padding: 5px;">
                 <input type="hidden" name="acao" value="simulate" />
-                <label for="srcType"><?php echo $this->translate('Origem') ?></label>
+                <label for="srcType"><?php echo $this->translate('Source') ?>:</label>
                 <select id="srcType" class="campos" name="srcType" onchange="if(this.value == 'trunk') $('trunk').show(); else $('trunk').hide();">
-                    <option <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'exten' ? "selected" : "" ?> value="exten">Ramal</option>
-                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'trunk' ? "selected" : "" ?> value="trunk">Tronco</option>
-                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'undefined' ? "selected" : "" ?> value="undefined">Indefinido</option>
+                    <option <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'exten' ? "selected" : "" ?> value="exten"><?php echo $this->translate("Extension"); ?></option>
+                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'trunk' ? "selected" : "" ?> value="trunk"><?php echo $this->translate("Trunk"); ?></option>
+                    <option  <?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'undefined' ? "selected" : "" ?> value="undefined"><?php echo $this->translate("Undefined"); ?></option>
                 </select>
                 <select id="trunk" name="trunk" style="<?php echo isset($_REQUEST['srcType']) && $_REQUEST['srcType'] == 'trunk' ? "" : "display:none;" ?>">
                     <?php
@@ -40,25 +40,25 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
                     ?>
                 </select>
                 <input type="text" name="caller" id="caller" class="campos" value="<?php echo isset($_REQUEST['caller']) ? $_REQUEST['caller'] : ""; ?>" />
-                       <label for="dst"><?php echo $this->translate('Destino') ?></label>
+                       <label for="dst"><?php echo $this->translate('Destiny') ?>:</label>
                     <input type="text" name="dst" class="campos" id="dst" value="<?php echo isset($_REQUEST['dst']) ? $_REQUEST['dst'] : ""; ?>" />
-                <label for="time"><?php echo $this->translate('Horário') ?></label>
+                <label for="time"><?php echo $this->translate('Time') ?>:</label>
                     <input type="text" size="5" name="time" id="time" class="campos" value="<?php echo isset($_REQUEST['time']) ? $_REQUEST['time'] : ""; ?>" /> (hh:mm)  
             </td>
         </tr>
         <tr>
             <td style="border-top:none; padding: 5px;">
-                <input type="submit" value="<?php echo $this->translate('Iniciar Simulação') ?>" class="button">     
-                <a id="voltar" class='snep_form_cancel' href="<?php echo $this->baseUrl() ?>/index.php/default/route"><?php echo $this->translate('Cancelar') ?></a>
+                <input type="submit" value="<?php echo $this->translate('Simulate') ?>" class="button">
+                <a id="voltar" class='snep_form_cancel' href="<?php echo $this->baseUrl() ?>/index.php/default/route"><?php echo $this->translate('Cancel') ?></a>
             </td>
         </tr>
         <?php if ($this->result){ ?>
         <tr>
             <td>
                 <ul id="input">
-                    <li><strong><?php echo $this->translate('Origem: ') ?></strong> <?php echo $this->input['caller'] ?></li>
-                    <li><strong><?php echo $this->translate('Destino: ') ?></strong> <?php echo $this->input['dst']  ?></li>
-                    <li><strong><?php echo $this->translate('Horário: ') ?></strong> <?php echo $this->input['time'] ?></li>
+                    <li><strong><?php echo $this->translate('Source') ?>:</strong> <?php echo $this->input['caller'] ?></li>
+                    <li><strong><?php echo $this->translate('Destiny') ?>:</strong> <?php echo $this->input['dst']  ?></li>
+                    <li><strong><?php echo $this->translate('Time') ?>:</strong> <?php echo $this->input['time'] ?></li>
                 </ul>
             </td>
         </tr>
@@ -68,7 +68,7 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
                    <?php foreach ($this->result as $key => $value) { ?>
                     <li class="rule <?php echo $value['state'] ?>">
                         <ul class="info">
-                            <li class="execute"><strong><?php echo $this->translate('Ações a executar: ') ?></strong>
+                            <li class="execute"><strong><?php echo $this->translate('Actions to execute') ?>:</strong>
                                 <ul>
                                     <?php
                                     foreach ($value["actions"] as $key2 => $valueAct) { ?>
@@ -76,10 +76,10 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
                                     <?php } ?>
                                 </ul>
                             </li>
-                            <li class="desc"><?php echo $this->translate('Regra: ').$value['id'].' '.$value['desc']?></li>
-                            <li class="caller"><?php echo $this->translate('Origem: ').$value['caller']?></li>
-                            <li class="dst"><?php echo $this->translate('Destino: ').$value['dst']?></li>
-                            <li class="valid"><?php echo $this->translate('Validade: ').$value['valid']?></li>
+                            <li class="desc"><?php echo $this->translate("Rule: %s %s", $value['id'], $value['desc']); ?></li>
+                            <li class="caller"><?php echo $this->translate('Source: %s', $value['caller']);?></li>
+                            <li class="dst"><?php echo $this->translate('Destiny: %s', $value['dst']);?></li>
+                            <li class="valid"><?php echo $this->translate('Validity: %s', $value['valid']);?></li>
                         </ul>
                     <li>
                         <?php } ?>
@@ -90,9 +90,9 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/debugger.css" );
         <tr>
             <td>
                 <ul id="legenda">
-                    <li class="torun"><?php echo $this->translate('Regra que será executada')?></li>
-                    <li class="outdated"><?php echo $this->translate('Regra fora do periodo de validade')?></li>
-                    <li class="ignored"><?php echo $this->translate('Regra ignorada pela prioridade')?></li>
+                    <li class="torun"><?php echo $this->translate('Rule that will be executed')?></li>
+                    <li class="outdated"><?php echo $this->translate('Rule invalid because of time')?></li>
+                    <li class="ignored"><?php echo $this->translate('Rule ignored by priority')?></li>
                 </ul>
             </td>
         </tr>
