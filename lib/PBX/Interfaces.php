@@ -115,7 +115,8 @@ class PBX_Interfaces {
         $interfaces = $db->query($select)->fetchAll();
 
         foreach ($interfaces as $interface) {
-            if(preg_match("#^{$interface['canal']}$#i", $channel)) {
+            if(preg_match("#^{$interface['canal']}$#i", $channel)
+               || preg_match("#^Manual/{$channel}$#i", $interface['canal'])) {
                 return PBX_Usuarios::get($interface['name']);
             }
         }
