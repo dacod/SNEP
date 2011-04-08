@@ -126,10 +126,6 @@ function mascara_ccustos(objeto,ccusto){
         mccusto = mccusto + '.'; 
 	objeto.value = mccusto; 
     }
-    if (mccusto.length == 7) { 
-        mccusto = mccusto + '.'; 
-	objeto.value = mccusto; 
-    }
 }
 
 /*------------------------------------------------------------------------------
