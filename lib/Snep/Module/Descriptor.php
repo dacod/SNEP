@@ -116,7 +116,7 @@ abstract class Snep_Module_Descriptor {
      * @param string $id
      */
     public function setModuleId($id) {
-        $this->setModuleDir($id);
+        $this->setModuleDir('modules/'. $id);
         $this->id = $id;
     }
 

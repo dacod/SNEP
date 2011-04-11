@@ -82,6 +82,9 @@ class Snep_Rule_ActionConfig extends PBX_Rule_ActionConfig {
                 case 'audio':
                     $parsed_element = $this->parseAudio($element);
                     break;
+                case 'select':
+                    $parsed_element = $this->parseSelect($element);
+                    break;
                 default:
                     $parsed_element = $this->parseString($element);
             }

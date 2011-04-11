@@ -29,10 +29,6 @@
  */
 class Snep_Cnl {
 
-    public function __construct() {}
-    public function __destruct() {}
-    public function __clone() {}
-
     public static function delPrefixo() {
 
         $db = Zend_Registry::get('db');
@@ -195,8 +191,7 @@ class Snep_Cnl {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                     ->distinct('operadora')
-                        ->from('cnl','operadora');
+                        ->from('ars_operadora');
 
         $stmt = $db->query($select);
         $registros = $stmt->fetchAll();

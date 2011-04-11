@@ -208,7 +208,7 @@ function cadastrar() {
 
         if($trunktype == "IAX2") {
             $trunk = $istrunk;
-        }else{
+        } else {
             $trunk = 'yes';
         }
 

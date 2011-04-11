@@ -327,4 +327,25 @@ class PBX_Rule_ActionConfig {
 
         return $form_element;
     }
+
+    /**
+     * Faz o parse de um campo <select>
+     * @param SimpleXMLElement $element
+     */
+    protected function parseSelect($element) {
+        $i18n = Zend_Registry::get('i18n');
+
+        $form_element = new Zend_Form_Element_Select((string)$element->id);
+        $form_element->setLabel( (string)$element->label );
+
+
+        foreach($element->options->option as $option) {
+            $form_element->addMultiOption($option['value'], (string) $option);
+            if(isset($element->value) && trim($option['value']) == trim($element->value)) {
+                $form_element->setValue($element->value);
+            }
+        }
+
+        return $form_element;
+    }
 }
