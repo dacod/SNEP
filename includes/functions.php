@@ -824,6 +824,7 @@ function grava_conf() {
                         $peers .= 'nat=' . $peer['nat'] . "\n";
                         $peers .= 'disallow=' . $peer['disallow'] . "\n";
                         $peers .= 'allow=' . $allow . "\n";
+                        $peers .= "requirecalltoken=no";
                         $peers .= "\n";
                     }
                     else if($tronco->dialmethod != "NOAUTH") {

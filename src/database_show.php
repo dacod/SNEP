@@ -76,7 +76,7 @@ $lista = array();
                 else
                 $return['delay'] = '---';
                 
-               $tmp = substr($info,strpos($info, 'Codecs'), +50);
+               $tmp = substr($info,strpos($info, 'Codec Order'), +50);
                if (preg_match("#\((.*?)\)#" , $tmp, $matches)){
                 $return['codec'] = $matches[0];
                 $return['codec'] = str_replace(")","", $return['codec']);

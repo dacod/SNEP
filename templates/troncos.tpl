@@ -230,10 +230,16 @@
     </tr>
 </table>
 <table id="snepiax2" cellspacing="0" align="center" style="border-top: none; border-bottom:none; {if $dt_troncos.trunktype != 'SNEPIAX2'} display:none; {/if}" >
-    <tr >
+    <tr>
        <td class="formlabel">{$LANG.snep_username}:</td>
        <td class="subtable">
           <input name="snep_username" type="text" size="25" maxlength="50" class="campos" value="{$dt_troncos.username}"> <small>{$LANG.same_in_both_machines}</small>
+       </td>
+    </tr>
+    <tr>
+       <td class="formlabel">{$LANG.nat}:</td>
+       <td class="subtable">
+           <label for="snep_nat"><input {if $dt_troncos.nat}checked="checked"{/if} name="snep_nat" id="snep_nat" type="checkbox" class="campos">Habilitar</label>
        </td>
     </tr>
 </table>

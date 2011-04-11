@@ -141,7 +141,7 @@ function cadastrar() {
         $cod3 = $snep_cod3;
         $cod4 = $snep_cod4;
         $cod5 = $snep_cod5;
-        $nat = "no";
+        $nat = $_POST['snep_nat'];
     }
 
     // verifica tipo de Qualify, (yes|no|specify)
@@ -177,6 +177,13 @@ function cadastrar() {
 
     $trunk_redund = $trunk_redund == "" ? 'NULL': $trunk_redund;
     $type = $trunktype;
+
+    if($nat) {
+        $nat = 'yes';
+    }
+    else {
+        $nat = 'no';
+    }
 
     // Monta a cadeia de canais
     if ($trunktype == "SIP" || $trunktype == "IAX2") {
@@ -216,13 +223,6 @@ function cadastrar() {
             $sql_values_default = ",'$fromuser'";
         }
 
-        if($nat) {
-            $nat = 'yes';
-        }
-        else {
-            $nat = 'no';
-        }
-
         // Monta lista campos Default
         foreach( $def_campos_troncos as $key => $value ) {
             $sql_fields_default .= ",$key";
@@ -232,7 +232,6 @@ function cadastrar() {
     }
     else if( $trunktype == "SNEPSIP" ) {
         $trunktype  = 'SIP';
-        $type = "peer";
         $peer_type = "peer";
         $username   = $snep_host;
         $host_trunk = $snep_host;
@@ -245,8 +244,7 @@ function cadastrar() {
     }
     else if( $trunktype == "SNEPIAX2" ) {
         $trunktype  = 'IAX2';
-        $type = "peer";
-        $peer_type = "peer";
+        $peer_type = "friend";
         $username   = $snep_username;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_username;
@@ -420,7 +418,7 @@ function grava_alterar() {
         $cod3 = $snep_cod3;
         $cod4 = $snep_cod4;
         $cod5 = $snep_cod5;
-        $nat = "no";
+        $nat = $_POST['snep_nat'];
     }
 
     if (!$_POST['id']) {
@@ -444,6 +442,13 @@ function grava_alterar() {
     $trunk_redund = $trunk_redund == "" ? 'NULL': $trunk_redund;
     $type = $trunktype;
 
+    if($nat) {
+        $nat = 'yes';
+    }
+    else {
+        $nat = 'no';
+    }
+
     // Monta a cadeia de canais
     if ($trunktype == "SIP" || $trunktype == "IAX2") {
         if($dialmethod == 'NOAUTH') {
@@ -461,13 +466,6 @@ function grava_alterar() {
             $trunk = $istrunk;
         }else{
             $trunk = 'yes';
-        }
-        
-        if($nat) {
-            $nat = 'yes';
-        }
-        else {
-            $nat = 'no';
         }
 
         // trunk
@@ -501,7 +499,7 @@ function grava_alterar() {
     }
     else if( $trunktype == "SNEPIAX2" ) {
         $trunktype  = 'IAX2';
-        $peer_type  = "peer";
+        $peer_type = "friend";
         $username   = $snep_username;
         $host_trunk = $snep_host;
         $channel    = $trunktype . "/" . $snep_username;
