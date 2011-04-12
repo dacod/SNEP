@@ -216,7 +216,6 @@ class Snep_Cnl {
     }
 
     public function getPrefixo($cidade) {
-
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
@@ -228,5 +227,14 @@ class Snep_Cnl {
         $registros = $stmt->fetchAll();
 
         return $registros;
+    }
+
+    public static function getCarrierByPrefix($prefix) {
+        $db = Zend_Registry::get('db');
+        $sql = sprintf("select op.id, op.name from ars_prefixo p inner join ars_operadora op on p.operadora = op.id where p.prefixo = '%s'", $prefix);
+        $stmt = $db->query($sql);
+        $data = $stmt->fetch();
+        $stmt->fetchAll();
+        return $data;
     }
 }
