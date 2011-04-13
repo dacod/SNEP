@@ -41,7 +41,7 @@
         <resource id="extensions-groups" label="Extension Groups" ></resource>
         <resource id="pickup-groups" label="Pickup Groups" ></resource>
         <resource id="extensions" label="Extensions" ></resource>
-        <!-- <resource id="gestao/conferencias.php" label="menu_conference" ></resource> -->
+        <resource id="conference-rooms" label="Conference Rooms" ></resource>
         <resource id="trunks" label="Trunks" ></resource>
     </group>
     

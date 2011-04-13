@@ -1,0 +1,88 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<form name="formulario" method="post"  action="" enctype="multipart/form-data">
+<table>
+   <thead>
+      <tr>
+         <th class="action"> <?php echo $this->translate('Código') ?> </th>
+         <th> <?php echo $this->translate('Restrição de Acesso') ?> </th>
+         <th> <?php echo $this->translate('Centro de Custos') ?> </th>
+         <th class="action"> <?php echo $this->translate('Ações') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+
+    if($this->conferenceRooms):
+
+        foreach($this->conferenceRooms as $id => $conferenceRooms ): ?>
+
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td class="numeric"> <b> <?php echo $conferenceRooms['id'] ?> </b> </td>
+                <td>
+                    <?php
+                        if( empty($conferenceRooms['authenticate']) ) {
+
+                            $checked = '';
+                            $display = "style=\"display:none;\"";
+                        }else{
+
+                            $checked = 'checked';
+                            $display = '';
+                        }
+                    ?>                    
+                    <input type='checkbox' <?php echo $checked ?> name='authenticate[<?php echo $conferenceRooms['id'] ?>]' onclick="pass('<?php echo $conferenceRooms['id'] ?>');">
+                    <?php echo $this->translate('Autenticação por Senha') ?>
+                    <div id="box_<?php echo $conferenceRooms['id'] ?>"  <?php echo $display ?> >                        
+                        <input type="password" name="password[<?php echo $conferenceRooms['id'] ?>]"  value="<?php echo $conferenceRooms['authenticate'] ?>">
+                        <small> <?php echo $this->translate('( Use somente números)') ?></small>
+                    </div>
+
+                </td>
+                <td>
+                    <select name="costCenter[<?php echo $conferenceRooms['id'] ?>]">
+                        <?php foreach ($this->costCenter as $chave => $costCenter ): ?>
+
+                            <?php ( $conferenceRooms['ccustos'] == $costCenter['codigo'] ? $select = 'selected' : $select = '' ); ?>
+
+                            <option value="<?php echo $costCenter['codigo'] ?>" <?php echo $select ?> >
+                              <?php echo $costCenter['tipo'] . " : " . $costCenter['codigo'] . " - " . $costCenter['nome']; ?>
+                        <?php endforeach ?>
+                    </select>
+                </td>
+                <td class="action">
+                    <?php ( $conferenceRooms['status'] ? $chek = 'checked' : $chek = '') ?>
+                    <input type="checkbox" <?php echo $chek ?> value="<?php $conferenceRooms['status'] ?>"  name="activate[<?php echo $conferenceRooms['id'] ?>]">
+                    <?php echo $this->translate('Ativar') ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+            <tr>
+                <td height="40" valign="middle" colspan="4">
+                    <center>
+                        <input type="submit" class="button" name="conference" value="Salvar" />
+                    </center>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<script type="text/javascript">
+
+    function pass(id) {
+
+        if (document.getElementById('box_'+id).style.display == '') {
+
+            document.getElementById('box_'+id).style.display = 'none';
+        } else {
+            
+            document.getElementById('box_'+id).style.display = '';
+        }
+    }
+
+</script>
