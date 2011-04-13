@@ -20,7 +20,7 @@
 /**
  * controller  extensions groups.
  */
-class ExtensionsgroupsController extends Zend_Controller_Action {
+class ExtensionsGroupsController extends Zend_Controller_Action {
 
     /**
      *
