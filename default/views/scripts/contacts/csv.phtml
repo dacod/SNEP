@@ -5,18 +5,19 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 <?php if($this->invalid): ?>
 
 <div style="text-align:center;">
-    <h2>Arquivo inválido</h2>
+    <h2><?php echo $this->translate("Arquivo inválido") ?></h2>
     <button type="button" onClick="history.back();"><?php echo $this->translate("Voltar"); ?></button>
 </div>
 
 <?php else: ?>
-<form name="formulario" method="POST" enctype="multipart/form-data" action="/snep/index.php/contacts/csvprocess">
+
+<form name="formulario" method="POST" action="<?php echo $this->url ?>/csvprocess" >
     <table width="100%">
         <thead>
             <tr>
                 <?php
                 $csvarq = $this->csvprocess;
-                foreach ($csvarq[0] as $ind => $linha):
+                foreach ( $csvarq[0] as $ind => $linha ) :
                 ?>
                     <th>
                         <select name="field[<?php echo $ind ?>]">

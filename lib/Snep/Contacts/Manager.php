@@ -46,8 +46,7 @@ class Snep_Contacts_Manager {
         $stmt = $db->query($select);
         $allGroups = $stmt->fetchAll();
 
-        return $allGroups;
-        
+        return $allGroups;        
     }
 
     /**
@@ -67,7 +66,6 @@ class Snep_Contacts_Manager {
         $contacts = $stmt->fetch();
 
         return $contacts;
-
     }
 
     /**

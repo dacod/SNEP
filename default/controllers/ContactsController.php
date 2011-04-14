@@ -34,10 +34,10 @@ class ContactsController extends Zend_Controller_Action {
     public function indexAction() {
         
         $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
-
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
+
         $select = $db->select()
                         ->from( array("n" => "contacts_names"), array("id as ide", "name as nome", "city", "state", "cep", "phone_1", "cell_1"))
                         ->join( array("g" => "contacts_group"), 'n.group = g.id')
@@ -48,7 +48,6 @@ class ContactsController extends Zend_Controller_Action {
             $query = mysql_escape_string($this->_request->getPost('filtro'));
             $select->where("n.`$field` like '%$query%'");
         }
-
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
@@ -63,12 +62,12 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name"      => $this->view->translate("Nome"),
-                        "city"      => $this->view->translate("Cidade"),
-                        "state"     => $this->view->translate("Estado"),
-                        "cep"       => $this->view->translate("CEP"),
-                        "phone_1"   => $this->view->translate("Telefone"),
-                        "cell_1"    => $this->view->translate("Celular"));
+        $opcoes = array("name"    => $this->view->translate("Nome"),
+                        "city"    => $this->view->translate("Cidade"),
+                        "state"   => $this->view->translate("Estado"),
+                        "cep"     => $this->view->translate("CEP"),
+                        "phone_1" => $this->view->translate("Telefone"),
+                        "cell_1"  => $this->view->translate("Celular"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -93,63 +92,46 @@ class ContactsController extends Zend_Controller_Action {
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Cadastro");
-
-        $db = Zend_Registry::get('db');
-
         $xml = new Zend_Config_Xml( "default/forms/contacts.xml" );
 
         $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-
-        $name = $form->getElement('name');
-        $name->setLabel( $this->view->translate('Nome') );
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();
         foreach($_allGroups as $group) {            
                 $allGroups[$group['id']] = $group['name'];            
         }
         $group = $form->getElement('group');
-        $group->setLabel( $this->view->translate('Grupo') );
-        $group->setMultiOptions( $allGroups );
-
-        $address = $form->getElement('address');
-        $address->setLabel( $this->view->translate('Endereço') );
-
-        $city = $form->getElement('city');
-        $city->setLabel( $this->view->translate('Cidade') );
-
-        $state = $form->getElement('state');
-        $state->setLabel( $this->view->translate('Estado') );
-
-        $zipcode = $form->getElement('zipcode');
-        $zipcode->setLabel( $this->view->translate('CEP') );
-
-        $phone = $form->getElement('phone');
-        $phone->setLabel( $this->view->translate('Fone') );
-
-        $cell = $form->getElement('cell');
-        $cell->setLabel( $this->view->translate('Celular') );
+        if(count($_allGroups)) {
+            $group->setMultiOptions( $allGroups );
+        }
 
         if($this->_request->getPost()) {
 
                 if( empty( $_POST['cell']) ) {
-                    $phone->setRequired(true);
+                    $form->getElement('phone')->setRequired(true);
                 }
 
                 if( empty( $_POST['phone']) ) {
-                    $cell->setRequired(true);
+                    $form->getElement('cell')->setRequired(true);
                 }
 
                 $form_isValid = $form->isValid($_POST);
+
+                if( empty( $_POST['group'] ) ) {
+                    $group->addError($this->view->translate('Nenhum grupo cadastrado'));
+                    $form_isValid = false;
+                }
+
+                
                 $dados = $this->_request->getParams();
 
-                if($form_isValid){
+                if($form_isValid) {
                     Snep_Contacts_Manager::add($dados);
                     $this->_redirect( $this->getRequest()->getControllerName() );
                 }
         }
+        
         $this->view->form = $form;
-
     }
 
     /**
@@ -158,54 +140,38 @@ class ContactsController extends Zend_Controller_Action {
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Editar");
-
-        $db = Zend_Registry::get('db');
         $id = $this->_request->getParam('id');
 
         $contact = Snep_Contacts_Manager::get($id);
-
         $xml = new Zend_Config_Xml( "default/forms/contacts.xml" );
 
-        $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
-
-        $name = $form->getElement('name');
-        $name->setLabel( $this->view->translate('Nome') );
-        $name->setValue($contact['name']);
+        $form = new Snep_Form( $xml );        
+        $form->getElement('name')->setValue($contact['name']);
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();
         foreach($_allGroups as $group) {
                 $allGroups[$group['id']] = $group['name'];
         }
 
-        $group = $form->getElement('group');
-        $group->setLabel( $this->view->translate('Grupo') );
-        $group->setMultiOptions( $allGroups );
+        $group = $form->getElement('group')->setMultiOptions( $allGroups );
         ( isset($contact['group']) ? $group->setValue($contact['group']) : null );
         
         $address = $form->getElement('address');
-        $address->setLabel( $this->view->translate('Endereço') );        
         ( isset($contact['address']) ? $address->setValue($contact['address']) : null );
 
         $city = $form->getElement('city');
-        $city->setLabel( $this->view->translate('Cidade') );        
         ( isset($contact['city']) ? $city->setValue($contact['city']) : null );
 
         $state = $form->getElement('state');
-        $state->setLabel( $this->view->translate('Estado') );        
         ( isset($contact['state']) ? $state->setValue($contact['state']) : null );
 
         $zipcode = $form->getElement('zipcode');
-        $zipcode->setLabel( $this->view->translate('CEP') );
-
         ( isset($contact['cep']) ? $zipcode->setValue($contact['cep']) : null );
 
         $phone = $form->getElement('phone');
-        $phone->setLabel( $this->view->translate('Fone') );
         ( isset($contact['phone_1']) ? $phone->setValue($contact['phone_1']) : null );
 
         $cell = $form->getElement('cell');
-        $cell->setLabel( $this->view->translate('Celular') );
         ( isset($contact['cell_1']) ? $cell->setValue($contact['cell_1']) : null );
 
         if($this->_request->getPost()) {
@@ -244,11 +210,9 @@ class ContactsController extends Zend_Controller_Action {
 
        $form = new Snep_Form();
        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/csv/');
-
        $form->addElement( new Zend_Form_Element_File('file') );
 
        $this->view->form = $form;
-
     }
 
     /**
@@ -257,8 +221,9 @@ class ContactsController extends Zend_Controller_Action {
     public function csvAction() {
 
         $this->view->breadcrumb = $this->view->translate("Contatos » Associação de campos do CSV");
-
         $adapter = new Zend_File_Transfer_Adapter_Http();
+
+        $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         if (!$adapter->isValid()) {
             $this->view->invalid = true;
@@ -298,8 +263,8 @@ class ContactsController extends Zend_Controller_Action {
                                      "city"    => $this->view->translate("Cidade"),
                                      "state"   => $this->view->translate("Estado"),
                                      "zipcode" => $this->view->translate("CEP"),
-                                     "phone" => $this->view->translate("Telefone"),
-                                     "cell"  => $this->view->translate("Celular") );
+                                     "phone" =>   $this->view->translate("Telefone"),
+                                     "cell"  =>   $this->view->translate("Celular") );
 
             $session = new Zend_Session_Namespace('csv');
             $session->data = $csv;

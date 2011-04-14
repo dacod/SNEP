@@ -34,7 +34,6 @@ class ContactGroupsController extends Zend_Controller_Action {
     public function indexAction() {
        
         $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Contato");
-
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
         
         $db = Zend_Registry::get('db');
@@ -61,8 +60,8 @@ class ContactGroupsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
         
-        $opcoes = array("id"        => $this->view->translate("Código"),
-                        "name"      => $this->view->translate("Nome") );
+        $opcoes = array("id"   => $this->view->translate("Código"),
+                        "name" => $this->view->translate("Nome") );
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -84,14 +83,11 @@ class ContactGroupsController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Cadastro");
-
-        $db = Zend_Registry::get('db');
-
+        $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Cadastro"); 
         $xml = new Zend_Config_Xml( "default/forms/contact_groups.xml" );
 
-        $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
+        $form = new Snep_Form( $xml ); 
+        $db = Zend_Registry::get('db');
 
         try {
             $sql = "SELECT c.id as id, c.name as name, g.name as `group` FROM contacts_names as c, contacts_group as g  WHERE (c.group = g.id) ";
@@ -101,17 +97,18 @@ class ContactGroupsController extends Zend_Controller_Action {
             display_error($LANG['error'].$e->getMessage(),true);
             
         }
-        $contact = array();
-        foreach($contacts_result as $key => $val) {
-            $contact[$val['id']] = $val['name'] ." (". $val['group'] .")";
-        }
+        if( count($contacts_result) > 0) {
+            $contact = array();
+            foreach($contacts_result as $key => $val) {
+                $contact[$val['id']] = $val['name'] ." (". $val['group'] .")";
+            }
+            $this->view->objSelectBox = "contacts";
+            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Contatos'), $contact, false);
 
-        $this->view->objSelectBox = "contacts";
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Contatos'), $contact, $this->view->translate('Contatos do Grupo'));
+        }
 
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
-                
                 $dados = $this->_request->getParams();
 
                 $groupId = Snep_ContactGroups_Manager::add(array('group' => $dados['group']));
@@ -134,34 +131,30 @@ class ContactGroupsController extends Zend_Controller_Action {
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Alterar");
-
         $id = $this->_request->getParam('id');
 
-        $db = Zend_Registry::get('db');
         $xml = new Zend_Config_Xml( "default/forms/contact_groups.xml" );
-
         $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit');
 
         $group = Snep_ContactGroups_Manager::get($id);
-        $groupName = $form->getElement('group');
-        $groupName->setValue($group['name']);        
-
+        $form->getElement('group')->setValue($group['name']);        
 
         $groupContacts = array();
         foreach(Snep_ContactGroups_Manager::getGroupContacts($id) as $contact) {
             $groupContacts[$contact['id']] = "{$contact['name']} ({$contact['group']})";
         }
+        if( count($groupContacts) > 0) {
 
-        $noGroupContacts = array();
-        foreach(Snep_Contacts_Manager::getAll() as $contact) {
-                if( ! isset($groupContacts[$contact['id']]) ) {
-                    $noGroupContacts[$contact['id']] = "{$contact['name']} ({$contact['groupName']})";
-                }
+            $noGroupContacts = array();
+            foreach(Snep_Contacts_Manager::getAll() as $contact) {
+                    if( ! isset($groupContacts[$contact['id']]) ) {
+                        $noGroupContacts[$contact['id']] = "{$contact['name']} ({$contact['groupName']})";
+                    }
+            }
+
+            $this->view->objSelectBox = "contacts";
+            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Contatos'), $noGroupContacts, $groupContacts);
         }
-
-        $this->view->objSelectBox = "contacts";
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Contatos'), $noGroupContacts, $this->view->translate('Contatos do Grupo'), $groupContacts);
 
         $hiddenId = new Zend_Form_Element_Hidden('id');
         $hiddenId->setValue($id);
@@ -191,7 +184,6 @@ class ContactGroupsController extends Zend_Controller_Action {
     public function removeAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Remover");
-
         $id = $this->_request->getParam('id');
         $confirm = $this->_request->getParam('confirm');
         
@@ -211,7 +203,7 @@ class ContactGroupsController extends Zend_Controller_Action {
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/remove/id/'.$id.'/confirm/1');
 
-            $form->setButtom( $this->view->translate('Confirmar'));
+//            $form->setButtom( $this->view->translate('Confirmar'));
             
             $this->view->form = $form;
         }
@@ -223,7 +215,6 @@ class ContactGroupsController extends Zend_Controller_Action {
     public function migrationAction() {
 
         $this->view->breadcrumb = $this->view->translate("Grupos de Contatos » Migrar contatos do grupo");
-
         $id = $this->_request->getParam('id');
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();

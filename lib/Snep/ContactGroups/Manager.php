@@ -44,8 +44,7 @@ class Snep_ContactGroups_Manager {
         $stmt = $db->query($select);
         $allGroups = $stmt->fetchAll();
 
-        return $allGroups;
-        
+        return $allGroups;        
     }
 
     /**
@@ -65,7 +64,6 @@ class Snep_ContactGroups_Manager {
         $contactGroup = $stmt->fetch();
 
         return $contactGroup;
-
     }
 
     /**
@@ -80,8 +78,7 @@ class Snep_ContactGroups_Manager {
         $insert_data = array("name" => $group['group']);
         $db->insert('contacts_group', $insert_data);
 
-        return $db->lastInsertId();
-        
+        return $db->lastInsertId();        
     }
 
     /**
@@ -90,16 +87,16 @@ class Snep_ContactGroups_Manager {
      */
     public function remove($id) {
 
-            $db = Zend_Registry::get('db');
+        $db = Zend_Registry::get('db');
 
-            $db->beginTransaction();
-            $db->delete('contacts_group', "id = '$id'");
+        $db->beginTransaction();
+        $db->delete('contacts_group', "id = '$id'");
 
-            try {
-                $db->commit();
-            } catch (Exception $e) {
-                $db->rollBack();
-            }        
+        try {
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+        }
     }
 
     /**
@@ -108,10 +105,10 @@ class Snep_ContactGroups_Manager {
      */
     public function edit($group) {
 
-            $db = Zend_Registry::get('db');
-            
-            $update_data = array('name'     => $group['group']);
-            $db->update("contacts_group", $update_data, "id = '{$group['id']}'");
+        $db = Zend_Registry::get('db');
+
+        $update_data = array('name'     => $group['group']);
+        $db->update("contacts_group", $update_data, "id = '{$group['id']}'");
         
     }
 
