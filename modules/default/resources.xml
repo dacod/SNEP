@@ -54,6 +54,7 @@
     <group id="status" label="Status">
         <resource id="index" label="System"></resource>
         <resource id="logs" label="Logs"></resource>
+        <resource id="ip-status" label="Extensions, IP trunks, queues"></resource>
     </group>
 
     <!--

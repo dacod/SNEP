@@ -1,0 +1,107 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<meta http-equiv="refresh" content="1000" />
+    <table cellpadding="0" cellspacing="0" border="0" align="center">
+       <thead>
+          <tr>
+             <td><?php echo $this->translate("RAMAIS LOGADOS") ?></td>
+             <td><?php echo $this->translate("FILAS") ?></td>
+          </tr>
+       </thead>
+       <tr>
+         <!-- Ramais -->
+         <td valign="top" width="75%">
+            <table>
+               <thead>
+                  <tr>
+                     <td class="esq"><?php echo $this->translate("Ramal") ?></td>
+                     <td class="cen"><?php echo $this->translate("Tipo") ?></td>
+                     <td class="esq"><?php echo $this->translate("IP") ?></td>
+                     <td class="esq"><?php echo $this->translate("Tempo de Resposta") ?></td>
+                     <td class="esq"><?php echo $this->translate("Codecs") ?></td>
+                  </tr>
+               </thead>
+               <?php 
+                    foreach ($this->ramais as $key => $value) {
+                ?>
+                  <tr bgcolor=''>
+                     <td class="esq"><?php echo $value['ramal'] ?></td>
+                     <td class="cen"><?php echo $value['tipo'] ?></td>
+                     <td class="esq"><?php echo $value['ip'] ?></td>
+                     <td class="esq"><?php echo $value['delay'] ?></td>
+                     <td class="esq"><?php echo $value['codec'] ?></td>
+                  </tr>
+               <?php } ?>
+            </table>
+         </td>
+
+         <td valign="top">
+            <table>
+               <thead>
+                  <tr>
+                     <td class="esq"><?php echo $this->translate("Fila") ?></td>
+                     <td class="esq"><?php echo $this->translate("Membros da Fila") ?></td>
+                     <td class="esq"><?php echo $this->translate("Estado") ?></td>
+                  </tr>
+               </thead>
+               <?php
+                    foreach ($this->filas as $key => $value) {
+                ?>
+                  <tr bgcolor=''>
+                     <td class="esq" style="vertical-align: top;"><?php echo $value['fila'] ?></td>
+                     <td class="esq"><?php echo $value['agent'] ?></td>
+                     <td class="esq"><?php echo $value['status'] ?></td>
+                  </tr>
+               <?php } ?>
+            </table>
+            <br />
+            <table>
+               <thead>
+                  <tr>
+                     <td class="esq"><?php echo $this->translate("Licenças ( g729 )") ?></td>
+                     <td class="esq"><?php echo $this->translate("Codificando") ?></td>
+                     <td class="esq"><?php echo $this->translate("Decodificando") ?></td>
+                  </tr>
+               </thead>
+               <?php
+                    if ($this->codecs[1]) {
+                ?>
+                  <tr bgcolor=''>
+                     <td class="esq" style="vertical-align: top;"><?php echo $this->codecs[0] ?></td>
+                     <td class="esq"><?php echo $this->codecs[1] ?></td>
+                     <td class="esq"><?php echo $this->codecs[2] ?></td>
+                  </tr>
+               <?php } ?>
+            </table>
+            <br />
+
+       <!-- Tabela de Troncos -->
+        <table>
+           <thead>
+              <th colspan='5'>
+                 <?php echo $this->translate("Troncos SIP") ?>
+              </th>
+              <tr>
+	        <td><?php echo $this->translate("Nome") ?></td>
+              	<td><?php echo $this->translate("IP") ?></td>
+              	<td><?php echo $this->translate("Status") ?></td>
+              	<td><?php echo $this->translate("Latência") ?></td>
+              </tr>
+           </thead>
+               <?php
+                    foreach ($this->troncos as $key => $value) {
+                ?>
+              <tr>
+                   <?php
+                        foreach ($value as $peerskey => $peersvalue) {
+                    ?>
+                 	<td class="esq" style="vertical-align: top;"><?php echo $peersvalue ?><br/></td>
+                    <?php } ?>
+              </tr>
+               <?php } ?>
+        </table>
+         </td>
+       </tr>
+    </table>
