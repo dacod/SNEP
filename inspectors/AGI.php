@@ -74,7 +74,7 @@ class AGI extends Snep_Inspector_Test {
             if ($agi['exists']) {
                 if (!file_exists($path)) {
                     // Não existindo o arquivo registra concatena mensagem de erro.
-                    $result['agi']['message'] .= "O arquivo <strong>$path</strong> não existe. \n";
+                    Zend_Registry::get("Zend_Translate")->translate(" $path não existe.") ."\n";
                     // Seta erro com verdadeiro.
                     $result['agi']['error'] = 1;
 
@@ -85,7 +85,7 @@ class AGI extends Snep_Inspector_Test {
                     if ($agi['writable']) {
                         if (!is_writable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
-                            $result['agi']['message'] .= "Arquivo <strong>$path</strong> não possue permissão de escrita \n";
+                            Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de escrita.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['agi']['error'] = 1;
                         }
@@ -95,7 +95,7 @@ class AGI extends Snep_Inspector_Test {
                     if ($agi['readable']) {
                         if (!is_readable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
-                            $result['agi']['message'] .= "Arquivo <strong>$path</strong> não possue permissão de leitura \n";
+                            Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de leitura.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['agi']['error'] = 1;
                         }
