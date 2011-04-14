@@ -34,7 +34,6 @@ class QueuesController extends Zend_Controller_Action {
     public function indexAction() {
         
         $this->view->breadcrumb = $this->view->translate("Cadastro » Filas");
-
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -88,8 +87,6 @@ class QueuesController extends Zend_Controller_Action {
 
         $this->view->breadcrumb = $this->view->translate("Filas » Cadastro");
 
-        $db = Zend_Registry::get('db');
-
         $sections = new Zend_Config_Ini('/etc/asterisk/snep/snep-musiconhold.conf');
         $_section = array_keys( $sections->toArray() );
         $section = array();
@@ -97,131 +94,65 @@ class QueuesController extends Zend_Controller_Action {
             $section[$value] = $value;
         }
 
-        
-        $files = scandir( APPLICATION_PATH . '/sounds/pt_BR' );
-        $sounds=array("" => "");
+        $files = '/var/lib/asterisk/sounds/';
+        if( file_exists( $files ) ) {
+            
+            $files = scandir( $files );
+            $sounds = array("" => "");
 
-        foreach($files as $i => $value) {
-            if (substr($value, 0, 1) == '.') {
-               unset($files[$i]);
-               continue ;
+            foreach($files as $i => $value) {
+                if (substr($value, 0, 1) == '.') {
+                   unset($files[$i]);
+                   continue ;
+                }
+                if (is_dir( $files .'/'. $value)) {
+                   unset($files[$i]);
+                   continue ;
+                }
+               $sounds[$value] = $value;
             }
-            if (is_dir( APPLICATION_PATH .'/sounds/pt_BR/'. $value)) {
-               unset($files[$i]);
-               continue ;
-            }
-           $sounds[$value] = $value;
         }
-
-        $form = new Snep_Form();
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');        
-
+        
+        $form = new Snep_Form();       
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         $essentialData = new Zend_Config_Xml('./default/forms/queues.xml', 'essential', true);
         $essential = new Snep_Form_SubForm( $this->view->translate("Configurações Gerais"), $essentialData );
-        
-        $name = $essential->getElement('name');
-        $name->setLabel( $this->view->translate("Nome da Fila"));
 
-        $musiconhold = $essential->getElement('musiconhold');
-        $musiconhold->setLabel( $this->view->translate("Classe da Música de Espera"))
-                    ->setMultiOptions($section);
-
-        $timeout = $essential->getElement('timeout');
-        $timeout->setLabel( $this->view->translate("Tempo de toque por agente"))
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                ->setValue(0);                
-
-        $announce_frequency  = $essential->getElement('announce_frequency');
-        $announce_frequency->setLabel($this->view->translate("Intervalo de repetição das mensagens ao chamador") )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                ->setValue(0);
-
-        $retry  = $essential->getElement('retry');
-        $retry->setLabel($this->view->translate("Tempo de espera para tentar chamar todos os Agentes novamente") )
-              ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-              ->setValue(0);
-
-        $wrapuptime  = $essential->getElement('wrapuptime');
-        $wrapuptime->setLabel($this->view->translate("Tempo de descanso do agente entre uma chamada e outra") )
-                   ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                   ->setValue(0);
-
-        $maxlen  = $essential->getElement('maxlen');
-        $maxlen->setLabel($this->view->translate("Numero maximo de chamadas em espera na fila") );
-
-        $servicelevel  = $essential->getElement('servicelevel');
-        $servicelevel->setLabel($this->view->translate("Nível de Serviço da Fila (Utilizado para Estatísticas e Monitoramento)") )
-                     ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                     ->setValue(0);
-
-        $strategy = $essential->getElement('strategy');
-        $strategy->setLabel($this->view->translate("Estratégia de distribuição das chamadas") )
-                 ->addMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
-                                          'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
-                                          'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
-                                          'random'    => $this->view->translate('Aleatoriamente (random)'),
-                                          'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
-                                          'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ));
+        $essential->getElement('musiconhold')->setMultiOptions($section);
+        $essential->getElement('timeout')->setValue(0);                
+        $essential->getElement('announce_frequency')->setValue(0);
+        $essential->getElement('retry')->setValue(0);
+        $essential->getElement('wrapuptime')->setValue(0);
+        $essential->getElement('servicelevel')->setValue(0);
+        $essential->getElement('strategy')->setMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
+                                                                   'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
+                                                                   'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
+                                                                   'random'    => $this->view->translate('Aleatoriamente (random)'),
+                                                                   'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
+                                                                   'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ));
 
         $form->addSubForm($essential, "essential");
         
         $advancedData =  new Zend_Config_Xml('./default/forms/queues.xml', 'advanced', true);
         $advanced = new Snep_Form_SubForm( $this->view->translate("Configurações Avançadas"), $advancedData );
         
-        $announce = $advanced->getElement('announce');
-        $announce->setLabel( $this->view->translate("Áudio de Anúncio da Fila"))
-                 ->setMultiOptions($sounds)
-                 ->setDescription( $this->view->translate('Arquivo de som para Anúncio da chamada ao Agente imediatamente após atendimento') );
-
-        $context = $advanced->getElement('context');
-        $context->setLabel($this->view->translate("Desvio para Contexto"));
-        $context->setDescription( $this->view->translate("Para qual contexto desviar a chamada quando o chamador digitar qualquer dígito enquanto espera") );
-
-        $queue_youarenext = $advanced->getElement('queue_youarenext');
-        $queue_youarenext->setLabel($this->view->translate("Áudio: Você é o próximo da fila") )
-                         ->setMultiOptions($sounds);
-
-        $queue_thereare = $advanced->getElement('queue_thereare');
-        $queue_thereare->setLabel($this->view->translate("Áudio: Você está aqui") )
-                       ->setMultiOptions($sounds);
-
-        $queue_callswaiting = $advanced->getElement('queue_callswaiting');
-        $queue_callswaiting->setLabel($this->view->translate("Áudio: Número de chamadas aguardando") )
-                           ->setMultiOptions($sounds);
-
-        $queue_thankyou  = $advanced->getElement('queue_thankyou');
-        $queue_thankyou->setLabel($this->view->translate("Áudio: Obrigado por aguardar") )
-                        ->setMultiOptions($sounds);
-
         $boolOptions = array(1 => $this->view->translate('Sim'),
                              0 => $this->view->translate('Não') );
 
-        $joinempty  = $advanced->getElement('joinempty');
-        $joinempty->setLabel($this->view->translate("Usuários podem entrar na Fila mesmo sem Agentes presentes?") )
-                  ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
-                                           'no' => $this->view->translate('Não'),
-                                           'strict' => $this->view->translate('Restrito')) )
-                  ->setValue('no');
-
-        $leavewhenempty  = $advanced->getElement('leavewhenempty');
-        $leavewhenempty->setLabel($this->view->translate("Chamadas devem sair da fila quando os Agentes sairem?") )
-                        ->setMultiOptions( $boolOptions )
-                        ->setValue(0);
-
-        $reportholdtime  = $advanced->getElement('reportholdtime');
-        $reportholdtime->setLabel($this->view->translate("Avisar ao Agente o tempo que a chamada esta esperando na fila") )
-                        ->setMultiOptions( $boolOptions )
-                        ->setValue(0);
-
-        $memberdelay  = $advanced->getElement('memberdelay');
-        $memberdelay->setLabel($this->view->translate("Tempo de silêncio para o Agente antes de conectá-lo ao chamador") )
-                    ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                    ->setValue(0);
-
-        $weight  = $advanced->getElement('weight');
-        $weight->setLabel($this->view->translate("Prioridade da fila") );
+        $advanced->getElement('announce')->setMultiOptions($sounds);
+        $advanced->getElement('queue_youarenext')->setMultiOptions($sounds);
+        $advanced->getElement('queue_thereare')->setMultiOptions($sounds);
+        $advanced->getElement('queue_callswaiting')->setMultiOptions($sounds);
+        $advanced->getElement('queue_thankyou')->setMultiOptions($sounds);
+        $advanced->getElement('leavewhenempty')->setMultiOptions( $boolOptions )->setValue(0);
+        $advanced->getElement('reportholdtime')->setMultiOptions( $boolOptions )->setValue(0);
+        $advanced->getElement('memberdelay')->setValue(0);
+        $advanced->getElement('joinempty')
+                 ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
+                                          'no' => $this->view->translate('Não'),
+                                          'strict' => $this->view->translate('Restrito')) )
+                 ->setValue('no');         
 /*
         $autofill  = $advanced->getElement('autofill');
         $autofill->setLabel($this->view->translate("Distribuir chamadas simultaneamente na fila até que não existam mais agentes disponíveis ou chamadas na fila") )
@@ -235,56 +166,21 @@ class QueuesController extends Zend_Controller_Action {
 */        
         $form->addSubForm($advanced, "advanced");
 
-        $alerts = new Snep_Form_SubForm( $this->view->translate("Configuração de Alertas"));
-
-        $checkMail = new Zend_Form_Element_Checkbox('checkMail');
-        $checkMail->setLabel( $this->view->translate("Alerta de E-mail") )
-                  ->setDescription('Habilitar');
-        $valueMail = new Zend_Form_Element_Text('valueMail');
-        $valueMail->removeDecorator("DtDdWrapper")
-                  ->setLabel( $this->view->translate('E-mail') )
-                  ->addValidator('NotEmpty')
-                  ->addValidator('EmailAddress')
-                  ->addFilter('StringToLower');
-        $tmeMail = new Zend_Form_Element_Text('tmeMail');
-        $tmeMail->removeDecorator("DtDdWrapper")
-                ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlMail = new Zend_Form_Element_Text('nmlMail');
-        $nmlMail->setlabel($this->view->translate('Número máximo em espera'));
-                
-
-        $checkSound = new Zend_Form_Element_Checkbox('checkSound');
-        $checkSound->setLabel( $this->view->translate("Alerta Sonoro") )
-                   ->setDescription('Habilitar');
-        $tmeSound = new Zend_Form_Element_Text('tmeSound');
-        $tmeSound->removeDecorator("DtDdWrapper")
-                ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlSound = new Zend_Form_Element_Text('nmlSound');
-        $nmlSound->setlabel($this->view->translate('Número máximo em espera'));
-                 
-
-        $checkVisual = new Zend_Form_Element_Checkbox('checkVisual');
-        $checkVisual->setLabel( $this->view->translate("Alerta Visual") )
-                    ->setDescription('Habilitar');
-        $tmeVisual = new Zend_Form_Element_Text('tmeVisual');
-        $tmeVisual->removeDecorator("DtDdWrapper")
-                  ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                  ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlVisual = new Zend_Form_Element_Text('nmlVisual');
-        $nmlVisual->setlabel($this->view->translate('Número máximo em espera'));
+        $alertsData =  new Zend_Config_Xml('./default/forms/queues.xml', 'alerts', true);
+        $alerts = new Snep_Form_SubForm( $this->view->translate("Configuração de Alertas"), $alertsData);
         
-        $alerts->addElements( array($checkMail, $valueMail, $tmeMail, $nmlMail));
-        $alerts->addElements( array($checkSound, $tmeSound, $nmlSound));
-        $alerts->addElements(   array($checkVisual, $tmeVisual, $nmlVisual)  );                
+        $alerts->getElement('valueMail')
+               ->addValidator('NotEmpty')
+               ->addValidator('EmailAddress')
+               ->addFilter('StringToLower');
+
         $alerts->setElementDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
             array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
             array('Label', array('tag' => 'th')),
-            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>"snep_form_element" . " $name"))
+            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>"snep_form_element" /*. " $name " */))
         ));
 
         $form->addSubForm($alerts, "alerts");
@@ -382,18 +278,23 @@ class QueuesController extends Zend_Controller_Action {
         }
 
         
-        $files = scandir( APPLICATION_PATH . '/sounds/pt_BR' );
-        $sounds=array("" => "");
-        foreach($files as $i => $value) {
-            if (substr($value, 0, 1) == '.') {
-               unset($files[$i]);
-               continue ;
+        $files = '/var/lib/asterisk/sounds/';
+        if( file_exists( $files ) ) {
+
+            $files = scandir( $files );
+            $sounds = array("" => "");
+
+            foreach($files as $i => $value) {
+                if (substr($value, 0, 1) == '.') {
+                   unset($files[$i]);
+                   continue ;
+                }
+                if (is_dir( $files .'/'. $value)) {
+                   unset($files[$i]);
+                   continue ;
+                }
+               $sounds[$value] = $value;
             }
-            if (is_dir(APPLICATION_PATH .'/sounds/pt_BR/'. $value)) {
-               unset($files[$i]);
-               continue ;
-            }
-            $sounds[$value] = $value;
         }
 
         $form = new Snep_Form();
@@ -402,120 +303,47 @@ class QueuesController extends Zend_Controller_Action {
         $essentialData = new Zend_Config_Xml('./default/forms/queues.xml', 'essential', true);
         $essential = new Snep_Form_SubForm( $this->view->translate("Configurações Gerais"), $essentialData );
 
-        $name = $essential->getElement('name');
-        $name->setLabel( $this->view->translate("Nome da Fila"))
-             ->setValue( $queue['name'] )
-             ->setAttrib('readonly', true);
-
-        $musiconhold = $essential->getElement('musiconhold');
-        $musiconhold->setLabel( $this->view->translate("Classe da Música de Espera"))
-                    ->setMultiOptions($section)
-                    ->setValue( $queue['musiconhold'] );
-
-        $timeout = $essential->getElement('timeout');
-        $timeout->setLabel( $this->view->translate("Tempo de toque por agente"))
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                ->setValue( $queue['timeout'] );
-
-
-        $announce_frequency  = $essential->getElement('announce_frequency');
-        $announce_frequency->setLabel($this->view->translate("Intervalo de repetição das mensagens ao chamador") )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                ->setValue( $queue['announce_frequency'] );
-
-        $retry  = $essential->getElement('retry');
-        $retry->setLabel($this->view->translate("Tempo de espera para tentar chamar todos os Agentes novamente") )
-              ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-              ->setValue( $queue['retry'] );
-
-        $wrapuptime  = $essential->getElement('wrapuptime');
-        $wrapuptime->setLabel($this->view->translate("Tempo de descanso do agente entre uma chamada e outra") )
-                   ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                   ->setValue( $queue['wrapuptime'] );
-
-        $maxlen  = $essential->getElement('maxlen');
-        $maxlen->setLabel($this->view->translate("Número máximo de chamadas em espera na fila") )
-                ->setValue( $queue['maxlen']);
-
-        $servicelevel  = $essential->getElement('servicelevel');
-        $servicelevel->setLabel($this->view->translate("Nível de Serviço da Fila (Utilizado para Estatísticas e Monitoramento)") )
-                     ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                     ->setValue( $queue['servicelevel'] );
-
-        $strategy = $essential->getElement('strategy');
-        $strategy->setLabel($this->view->translate("Estratégia de distribuição das chamadas") )
-                 ->addMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
-                                          'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
-                                          'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
-                                          'random'    => $this->view->translate('Aleatoriamente (random)'),
-                                          'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
-                                          'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ))
-                 ->setValue( $queue['strategy'] );
-
+        $essential->getElement('name')->setValue( $queue['name'] )->setAttrib('readonly', true);
+        $essential->getElement('musiconhold')->setMultiOptions($section)->setValue( $queue['musiconhold'] );
+        $essential->getElement('timeout')->setValue( $queue['timeout'] );
+        $essential->getElement('announce_frequency')->setValue( $queue['announce_frequency'] );
+        $essential->getElement('retry')->setValue( $queue['retry'] );
+        $essential->getElement('wrapuptime')->setValue( $queue['wrapuptime'] );
+        $essential->getElement('maxlen')->setValue( $queue['maxlen']);
+        $essential->getElement('servicelevel')->setValue( $queue['servicelevel'] );
+        $essential->getElement('strategy')
+                  ->addMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
+                                           'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
+                                           'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
+                                           'random'    => $this->view->translate('Aleatoriamente (random)'),
+                                           'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
+                                           'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ) )
+                  ->setValue( $queue['strategy'] );
+                 
 
         $form->addSubForm($essential, "essential");
 
         $advancedData =  new Zend_Config_Xml('./default/forms/queues.xml', 'advanced', true);
         $advanced = new Snep_Form_SubForm( $this->view->translate("Configurações Avançadas"), $advancedData );
 
-        $announce = $advanced->getElement('announce');
-        $announce->setLabel( $this->view->translate("Áudio de Anúncio da Fila"))
-                 ->setMultiOptions($sounds)
-                 ->setValue( $queue['announce'] );
-
-        $context = $advanced->getElement('context');
-        $context->setLabel($this->view->translate("Desvio para Contexto"));
-        $context->setDescription( $this->view->translate("Para qual contexto desviar a chamada quando o chamador digitar qualquer dígito enquanto espera") )
-                ->setValue( $queue['context'] );
-
-        $queue_youarenext = $advanced->getElement('queue_youarenext');
-        $queue_youarenext->setLabel($this->view->translate("Áudio: Você é o próximo da fila") )
-                         ->setMultiOptions($sounds)
-                         ->setValue( $queue['queue_youarenext']);
-
-        $queue_thereare = $advanced->getElement('queue_thereare');
-        $queue_thereare->setLabel($this->view->translate("Áudio: Você está aqui") )
-                       ->setMultiOptions($sounds)
-                       ->setValue( $queue['queue_thereare'] );
-
-        $queue_callswaiting = $advanced->getElement('queue_callswaiting');
-        $queue_callswaiting->setLabel($this->view->translate("Áudio: Número de chamadas aguardando") )
-                           ->setMultiOptions($sounds)
-                           ->setValue( $queue['queue_callswaiting'] );
-
-        $queue_thankyou  = $advanced->getElement('queue_thankyou');
-        $queue_thankyou->setLabel($this->view->translate("Áudio: Obrigado por aguardar") )
-                        ->setMultiOptions($sounds)
-                        ->setValue( $queue['queue_thankyou'] );
-
         $boolOptions = array(1 => $this->view->translate('Sim'),
                              0 => $this->view->translate('Não') );
 
-        $joinempty  = $advanced->getElement('joinempty');
-        $joinempty->setLabel($this->view->translate("Usuários podem entrar na Fila mesmo sem Agentes presentes?") )
-                  ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
-                                           'no' => $this->view->translate('Não'),
-                                           'strict' => $this->view->translate('Restrito')) )
-                  ->setValue( $queue['joinempty']);
-
-        $leavewhenempty  = $advanced->getElement('leavewhenempty');
-        $leavewhenempty->setLabel($this->view->translate("Chamadas devem sair da fila quando os Agentes sairem?") )
-                        ->setMultiOptions( $boolOptions )
-                        ->setValue($queue['leavewhenempty']);
-
-        $reportholdtime  = $advanced->getElement('reportholdtime');
-        $reportholdtime->setLabel($this->view->translate("Avisar ao Agente o tempo que a chamada esta esperando na fila") )
-                        ->setMultiOptions( $boolOptions )
-                        ->setValue( $queue['reportholdtime']);
-
-        $memberdelay  = $advanced->getElement('memberdelay');
-        $memberdelay->setLabel($this->view->translate("Tempo de silêncio para o Agente antes de conectá-lo ao chamador") )
-                    ->setDescription( '('. $this->view->translate('Em segundos') . ')')
-                    ->setValue( $queue['memberdelay']);
-
-        $weight  = $advanced->getElement('weight');
-        $weight->setLabel($this->view->translate("Prioridade da fila") )
-               ->setValue( $queue['weight']);
+        $advanced->getElement('announce')->setMultiOptions($sounds)->setValue( $queue['announce'] );
+        $advanced->getElement('context')->setValue( $queue['context'] );
+        $advanced->getElement('queue_youarenext')->setMultiOptions($sounds)->setValue( $queue['queue_youarenext']);
+        $advanced->getElement('queue_thereare')->setMultiOptions($sounds)->setValue( $queue['queue_thereare'] );
+        $advanced->getElement('queue_callswaiting')->setMultiOptions($sounds)->setValue( $queue['queue_callswaiting'] );
+        $advanced->getElement('queue_thankyou')->setMultiOptions($sounds)->setValue( $queue['queue_thankyou'] );
+        $advanced->getElement('joinempty')
+                 ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
+                                          'no' => $this->view->translate('Não'),
+                                          'strict' => $this->view->translate('Restrito')) )
+                 ->setValue( $queue['joinempty']);
+        $advanced->getElement('leavewhenempty')->setMultiOptions( $boolOptions )->setValue($queue['leavewhenempty']);
+        $advanced->getElement('reportholdtime')->setMultiOptions( $boolOptions )->setValue( $queue['reportholdtime']);
+        $advanced->getElement('memberdelay')->setValue( $queue['memberdelay']);
+        $advanced->getElement('weight')->setValue( $queue['weight']);
 /*
         $autofill  = $advanced->getElement('autofill');
         $autofill->setLabel($this->view->translate("Distribuir chamadas simultaneamente na fila até que não existam mais agentes disponíveis ou chamadas na fila") )
@@ -530,79 +358,42 @@ class QueuesController extends Zend_Controller_Action {
 
         $form->addSubForm($advanced, "advanced");
 
-        $alerts = new Snep_Form_SubForm( $this->view->translate("Configurações de Alerta"));
-
-        $checkMail = new Zend_Form_Element_Checkbox('checkMail');
-        $checkMail->setLabel( $this->view->translate("Alerta de E-mail") )
-                  ->setDescription('Habilitar');
-        $valueMail = new Zend_Form_Element_Text('valueMail');
-        $valueMail->removeDecorator("DtDdWrapper")
-                  ->setLabel( $this->view->translate('E-mail') )
-                  ->addValidator('NotEmpty')
-                  ->addValidator('EmailAddress')
-                  ->addFilter('StringToLower');
-        $tmeMail = new Zend_Form_Element_Text('tmeMail');
-        $tmeMail->removeDecorator("DtDdWrapper")
-                ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlMail = new Zend_Form_Element_Text('nmlMail');
-        $nmlMail->setlabel($this->view->translate('Número máximo em espera'));
-
-
-        $checkSound = new Zend_Form_Element_Checkbox('checkSound');
-        $checkSound->setLabel( $this->view->translate("Alerta Sonoro") )
-                   ->setDescription('Habilitar');
-        $tmeSound = new Zend_Form_Element_Text('tmeSound');
-        $tmeSound->removeDecorator("DtDdWrapper")
-                ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlSound = new Zend_Form_Element_Text('nmlSound');
-        $nmlSound->setlabel($this->view->translate('Número máximo em espera'));
-
-        $checkVisual = new Zend_Form_Element_Checkbox('checkVisual');
-        $checkVisual->setLabel( $this->view->translate("Alerta Visual") )
-                    ->setDescription('Habilitar');
-        $tmeVisual = new Zend_Form_Element_Text('tmeVisual');
-        $tmeVisual->removeDecorator("DtDdWrapper")
-                  ->setlabel( $this->view->translate('Tempo máximo de espera') )
-                  ->setDescription( '('. $this->view->translate('Em segundos') . ')');
-        $nmlVisual = new Zend_Form_Element_Text('nmlVisual');
-        $nmlVisual->setlabel($this->view->translate('Número máximo em espera'));
-
+        $alertsData =  new Zend_Config_Xml('./default/forms/queues.xml', 'alerts', true);
+        $alerts = new Snep_Form_SubForm( $this->view->translate("Configurações de Alerta"), $alertsData);
         $queueAlerts = Snep_Alerts::getAlert( $id );
 
         foreach($queueAlerts as $queueAlert) {
 
             switch ($queueAlert['tipo']) {
                 case 'mail':
-                    $checkMail->setValue( $queueAlert['ativo'] );
-                    $valueMail->setValue( $queueAlert['destino'] );
-                    $tmeMail->setvalue( $queueAlert['tme'] );
-                    $nmlMail->setValue( $queueAlert['sla'] );
+                        $alerts->getElement('checkMail')->setValue( $queueAlert['ativo'] );
+                        $alerts->getElement('valueMail')->addValidator('NotEmpty')
+                                                        ->addValidator('EmailAddress')
+                                                        ->addFilter('StringToLower')
+                                                        ->setValue($queueAlert['destino']);
+                        $alerts->getElement('tmeMail')->setValue( $queueAlert['tme'] );
+                        $alerts->getElement('nmlMail')->setValue( $queueAlert['sla']  );
                     break;
                 case 'sound';
-                    $checkSound->setValue( $queueAlert['ativo'] );
-                    $tmeSound->setValue( $queueAlert['tme'] );
-                    $nmlSound->setValue( $queueAlert['sla'] );
+                        $alerts->getElement('checkSound')->setValue( $queueAlert['ativo'] );
+                        $alerts->getElement('tmeSound')->setValue( $queueAlert['tme'] );
+                        $alerts->getElement('nmlSound')->setValue( $queueAlert['sla'] );
                     break;
                 case 'visual';
-                    $checkVisual->setValue( $queueAlert['ativo'] );
-                    $tmeVisual->setValue( $queueAlert['tme'] );
-                    $nmlVisual->setValue( $queueAlert['sla'] );
+                        $alerts->getElement('checkVisual')->setValue( $queueAlert['ativo'] );
+                        $alerts->getElement('tmeVisual')->setValue( $queueAlert['tme'] );
+                        $alerts->getElement('nmlVisual')->setValue( $queueAlert['sla'] );
                     break;
             }
         }
-        
-        $alerts->addElements( array($checkMail, $valueMail, $tmeMail, $nmlMail));
-        $alerts->addElements( array($checkSound, $tmeSound, $nmlSound));
-        $alerts->addElements(   array($checkVisual, $tmeVisual, $nmlVisual)  );
+
         $alerts->setElementDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
             array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
             array('Label', array('tag' => 'th')),
-            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>"snep_form_element" . " $name"))
+            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class'=>"snep_form_element" /*. " $name"*/))
         ));
 
         $form->addSubForm($alerts, "alerts");
@@ -704,9 +495,7 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function membersAction () {
 
-        $db = Zend_Registry::get("db");
         $queue = $this->_request->getParam("id");
-
         $this->view->breadcrumb = $this->view->translate("Filas » Membros da Fila » ". $queue);
 
         $members = Snep_Queues_Manager::getMembers($queue);
@@ -749,12 +538,8 @@ class QueuesController extends Zend_Controller_Action {
             }
 
             $this->_redirect( $this->getRequest()->getControllerName() . '/' );
-
         }
-        
-        
-
-        
+                
     }
 
     /**

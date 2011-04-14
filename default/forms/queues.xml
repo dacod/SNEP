@@ -4,7 +4,8 @@
         <elements>
             <name>
                 <type>text</type>
-                <options>                    
+                <options>
+                    <label>Nome da Fila</label>
                     <required>true</required>
                     <validators>
                         <alnum>
@@ -19,33 +20,55 @@
             <musiconhold>
                 <type>select</type>
                 <options>
-                                       
+                    <label>Classe da Música de Espera</label>
                 </options>
             </musiconhold>
             <timeout>
                 <type>text</type>
+                <options>
+                    <label>Tempo de toque por agente</label>
+                    <description>(em segundos)</description>
+                </options>
             </timeout>
             <announce_frequency>
                   <type>text</type>
+                  <options>
+                      <label>Intervalo de repetição das mensagens ao chamador</label>
+                      <description>(em segundos)</description>
+                  </options>
             </announce_frequency>
             <retry>
                   <type>text</type>
+                  <options>
+                      <label>Tempo de espera para tentar chamar todos os Agentes novamente</label>
+                      <description>(em segundos)</description>
+                  </options>
             </retry>
             <wrapuptime>
                   <type>text</type>
+                  <options>
+                      <label>Tempo de descanso do agente entre uma chamada e outra</label>
+                      <description>(em segundos)</description>
+                  </options>
             </wrapuptime>
             <maxlen>
                   <type>text</type>
+                  <options>
+                      <label>Numero maximo de chamadas em espera na fila</label>
+                  </options>
             </maxlen>
             <servicelevel>
                   <type>text</type>
+                  <options>
+                      <label>Nível de Serviço da Fila (Utilizado para Estatísticas e Monitoramento)</label>
+                      <description>(em segundos)</description>
+                  </options>
             </servicelevel>
             <strategy>
                   <type>select</type>
-                  <option>
-                      <multiOptions>
-                      </multiOptions>
-                  </option>
+                  <options>
+                      <label>Estratégia de distribuição das chamadas</label>
+                  </options>
             </strategy>
         </elements>
     </essential>
@@ -54,50 +77,82 @@
             <announce>
                 <type>select</type>
                 <options>
+                    <label>Áudio de Anúncio da Fila</label>
+                    <description>Arquivo de som para Anúncio da chamada ao Agente imediatamente após atendimento</description>
                     <required>true</required>
                 </options>
             </announce>
 
             <context>
                 <type>text</type>
+                <options>
+                    <label>Desvio para Contexto</label>
+                    <description>Para qual contexto desviar a chamada quando o chamador digitar qualquer dígito enquanto espera</description>
+                </options>
             </context>
 
             <queue_youarenext>
                 <type>select</type>
                 <options>
+                    <label>Áudio: Você é o próximo da fila</label>
                 </options>
             </queue_youarenext>
 
             <queue_thereare>
                 <type>select</type>
+                <options>
+                    <label>Áudio: Você está aqui</label>
+                </options>
             </queue_thereare>
 
             <queue_callswaiting>
                 <type>select</type>
+                <options>
+                    <label>Áudio: Número de chamadas aguardando</label>
+                </options>
             </queue_callswaiting>
 
             <queue_thankyou>
                 <type>select</type>
+                <options>
+                    <label>Áudio: Obrigado por aguardar</label>
+                </options>
             </queue_thankyou>
 
             <joinempty>
                   <type>radio</type>
+                  <options>
+                      <label>Usuários podem entrar na Fila mesmo sem Agentes presentes?</label>
+                  </options>
             </joinempty>
 
             <leavewhenempty>
                   <type>radio</type>
+                  <options>
+                      <label>Chamadas devem sair da fila quando os Agentes sairem?</label>
+                  </options>
             </leavewhenempty>
 
             <reportholdtime>
                   <type>radio</type>
+                  <options>
+                      <label>Avisar ao Agente o tempo que a chamada esta esperando na fila</label>
+                  </options>
             </reportholdtime>
 
             <memberdelay>
                   <type>text</type>
+                  <options>
+                      <label>Tempo de silêncio para o Agente antes de conectá-lo ao chamador</label>
+                      <description>(em segundos)</description>
+                  </options>
             </memberdelay>
 
             <weight>
                   <type>text</type>
+                  <options>
+                      <label>Prioridade da fila</label>
+                  </options>
             </weight>
 <!--
             <autofill>
@@ -118,4 +173,74 @@
 -->
         </elements>
     </advanced>
+    <alerts>
+        <elements>
+            <checkMail>
+                <type>checkbox</type>
+                <options>
+                    <label>Alerta de E-mail</label>
+                    <description>Habilitar</description>
+                </options>
+            </checkMail>            
+            <valueMail>
+                <type>text</type>
+                <options>
+                    <label>E-mail</label>
+                </options>
+            </valueMail>
+            <tmeMail>
+                <type>text</type>
+                <options>
+                    <label>Tempo máximo de espera</label>
+                    <description>(em segundos)</description>
+                </options>
+            </tmeMail>
+            <nmlMail>
+                <type>text</type>
+                <options>
+                    <label>Número máximo em espera</label>
+                </options>
+            </nmlMail>
+            <checkSound>
+                <type>checkbox</type>
+                <options>
+                    <label>Alerta Sonoro</label>
+                    <description>Habilitar</description>
+                </options>
+            </checkSound>
+            <tmeSound>
+                <type>text</type>
+                <options>
+                    <label>Tempo máximo de espera</label>
+                    <description>(em segundos)</description>
+                </options>
+            </tmeSound>
+            <nmlSound>
+                <type>text</type>
+                <options>
+                    <label>Número máximo em espera</label>
+                </options>
+            </nmlSound>
+            <checkVisual>
+                <type>checkbox</type>
+                <options>
+                    <label>Alerta Visual</label>
+                    <description>Habilitar</description>
+                </options>
+            </checkVisual>
+            <tmeVisual>
+                <type>text</type>
+                <options>
+                    <label>Tempo máximo de espera</label>
+                    <description>(em segundos)</description>
+                </options>
+            </tmeVisual>
+            <nmlVisual>
+                <type>text</type>
+                <options>
+                    <label>Número máximo em espera</label>
+                </options>
+            </nmlVisual>
+        </elements>
+    </alerts>
 </modelo>
