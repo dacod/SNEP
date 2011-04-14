@@ -34,7 +34,6 @@ class CostCenterController extends Zend_Controller_Action {
     public function indexAction() {
 
         $this->view->breadcrumb = $this->view->translate("Cadastro » Centro de Custos");
-
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -42,8 +41,8 @@ class CostCenterController extends Zend_Controller_Action {
                         ->from("ccustos", array("codigo", "tipo", "nome", "descricao"));
 
         if ($this->_request->getPost('filtro')) {
-            $field = mysql_escape_string($this->_request->getPost('campo'));
-            $query = mysql_escape_string($this->_request->getPost('filtro'));
+            $field = mysql_escape_string( $this->_request->getPost('campo') );
+            $query = mysql_escape_string( $this->_request->getPost('filtro') );
             $select->where("`$field` like '%$query%'");
         }
 
@@ -55,10 +54,10 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
         $this->view->filtro = $this->_request->getParam('filtro');
 
-        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
-        $paginator = new Zend_Paginator($paginatorAdapter);
-        $paginator->setCurrentPageNumber($this->view->page);
-        $paginator->setItemCountPerPage(Zend_Registry::get('config')->ambiente->linelimit);
+        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect( $select );
+        $paginator = new Zend_Paginator( $paginatorAdapter );
+        $paginator->setCurrentPageNumber( $this->view->page );
+        $paginator->setItemCountPerPage( Zend_Registry::get('config')->ambiente->linelimit );
 
         $this->view->costcenter = $paginator;
         $this->view->pages = $paginator->getPages();
@@ -90,35 +89,19 @@ class CostCenterController extends Zend_Controller_Action {
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Centro de Custos » Cadastro");
-
-        $db = Zend_Registry::get('db');
-
         $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
 
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-
-        $id = $form->getElement('id')->setLabel( $this->view->translate('Código') )
-                                     ->setDescription('Somente Números');
-
-        $name = $form->getElement('name')->setLabel( $this->view->translate('Nome') );
-
-        $type = $form->getElement('type');
-        $type->setRequired(true)
-             ->setLabel($this->view->translate('Tipo'))
-             ->setMultiOptions(array('E' => $this->view->translate('Entrada'),
-                                     'S'=> $this->view->translate('Saída'),
-                                     'O'=> $this->view->translate('Outras')) );
-
-        $description = $form->getElement('description')->setLabel( $this->view->translate('Descrição') );
+        $form->getElement('type')->setRequired(true)->setMultiOptions( array('E' => $this->view->translate('Entrada'),
+                                                                             'S'=> $this->view->translate('Saída'),
+                                                                             'O'=> $this->view->translate('Outras')) );
 
         if($this->_request->getPost()) {
-
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
 
                 if($form_isValid){
-
                     $dados = $this->_request->getParams();
                     Snep_CostCenter_Manager::add($dados);                    
                     $this->_redirect( $this->getRequest()->getControllerName() );
@@ -133,12 +116,9 @@ class CostCenterController extends Zend_Controller_Action {
     public function removeAction() {
 
         $this->view->breadcrumb = $this->view->translate("Centro de Custos » Remover");
-
-        $db = Zend_Registry::get('db');
         $id = $this->_request->getParam('id');
 
         Snep_CostCenter_Manager::remove($id);
-
     }
 
     /**
@@ -146,41 +126,21 @@ class CostCenterController extends Zend_Controller_Action {
     */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Centro de Custos » Cadastro");
-
-        $db = Zend_Registry::get('db');
         $id = $this->_request->getParam('id');
-
+        $this->view->breadcrumb = $this->view->translate("Centro de Custos » Cadastro");
         $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
 
         $costCenter = Snep_CostCenter_Manager::get($id);
 
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
-
-        $id = $form->getElement('id')
-                   ->setLabel( $this->view->translate('Código') )
-                   ->setValue($costCenter['codigo'])                   
-                   ->setAttrib('readonly', true);
-
-        $name = $form->getElement('name')
-                     ->setLabel( $this->view->translate('Nome') )
-                     ->setValue($costCenter['nome']);
-
-        $type = $form->getElement('type');
-
-        $type->setRequired(true)
-             ->setLabel($this->view->translate('Tipo'))
-             ->setMultiOptions(array('E' => $this->view->translate('Entrada'),
-                                     'S'=> $this->view->translate('Saída'),
-                                     'O'=> $this->view->translate('Outras')) )
-             ->setValue($costCenter['tipo']);
-
-        $description = $form->getElement('description')
-                            ->setLabel( $this->view->translate('Descrição') )
-                            ->setValue( $costCenter['descricao']);
-
-        $form->setButtom();
+        $form->getElement('id')->setValue( $costCenter['codigo'] )->setAttrib('readonly', true);
+        $form->getElement('name')->setValue( $costCenter['nome'] );
+        $form->getElement('description')->setValue( $costCenter['descricao'] );
+        $form->getElement('type')->setValue( $costCenter['tipo'] )->setRequired(true)
+                                 ->setMultiOptions(array('E' => $this->view->translate('Entrada'),
+                                                         'S'=> $this->view->translate('Saída'),
+                                                         'O'=> $this->view->translate('Outras')) );             
 
         if($this->_request->getPost()) {
 

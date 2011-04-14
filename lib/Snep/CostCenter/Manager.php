@@ -44,8 +44,7 @@ class Snep_CostCenter_Manager {
         $stmt = $db->query($select);
         $allCostCenters = $stmt->fetchAll();
 
-        return $allCostCenters;
-        
+        return $allCostCenters;        
     }
 
     /**
@@ -65,7 +64,6 @@ class Snep_CostCenter_Manager {
         $contactGroup = $stmt->fetch();
 
         return $contactGroup;
-
     }
 
     /**
@@ -84,8 +82,7 @@ class Snep_CostCenter_Manager {
         
         $db->insert('ccustos', $insert_data);
 
-        return $db->lastInsertId();
-        
+        return $db->lastInsertId();        
     }
 
     /**
@@ -119,8 +116,7 @@ class Snep_CostCenter_Manager {
                                  'nome'   => $costcenter['name'],
                                  'descricao' => $costcenter['description']);
             
-            $db->update("ccustos", $update_data, "codigo = '{$costcenter['id']}'");
-        
+            $db->update("ccustos", $update_data, "codigo = '{$costcenter['id']}'");        
     }
 
 }

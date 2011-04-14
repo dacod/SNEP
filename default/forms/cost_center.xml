@@ -4,6 +4,7 @@
     <id>
         <type>text</type>
         <options>
+            <label>Código</label>
             <required>true</required>
             <validators>
                 <regex>
@@ -13,11 +14,13 @@
                     </options>
                 </regex>
             </validators>
+            <description>Somente Números</description>
         </options>
     </id>
     <name>
         <type>text</type>
         <options>
+            <label>Nome</label>
             <required>true</required>
             <validators>
                 <alnum>
@@ -29,11 +32,17 @@
             </validators>
         </options>
     </name>
-    <type>
-        <type>radio</type>
-    </type>
     <description>
         <type>text</type>
+        <options>
+            <label>Descrição</label>
+        </options>
     </description>
+    <type>
+        <type>radio</type>
+        <options>
+            <label>Tipo</label>
+        </options>
+    </type>
 </elements>
 </modelo>

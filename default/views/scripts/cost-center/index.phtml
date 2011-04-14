@@ -1,9 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
-
 echo $this->render('filter.phtml')
 ?>
 
@@ -20,26 +18,28 @@ echo $this->render('filter.phtml')
    <tbody>
     <?php
     $c = 0;
-    foreach($this->costcenter as $id => $costcenter ): ?>
-        <?php ($c ? $c = 0 : $c = 1 ); ?>
-        <tr class="c<?php echo $c ?>">
-            <td> <b> <?php echo $costcenter['codigo'] ?> </b> </td>
-            <td> <?php echo $costcenter['nome'] ?> </td>
-            <td> <?php echo $this->types[$costcenter['tipo']] ?> </td>
-            <td> <?php echo $costcenter['descricao'] ?> </td>
-            <td class="action">
-                <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $costcenter['codigo'] ?>">
-                    <?php echo $this->translate('Alterar')?>
-                </a>
-            </td>
-            <td class="action" class="display:inline;">
-                <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
-                <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $costcenter['codigo'] ?>','<?php echo $this->remove_msg ?>')">
-                    <?php echo $this->translate('Excluir')?>
-                </span>
-            </td>
-        </tr>
-    <?php endforeach ?>
+    if( $this->costcenter ) :
+        foreach($this->costcenter as $id => $costcenter ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td> <b> <?php echo $costcenter['codigo'] ?> </b> </td>
+                <td> <?php echo $costcenter['nome'] ?> </td>
+                <td> <?php echo $this->types[$costcenter['tipo']] ?> </td>
+                <td> <?php echo $costcenter['descricao'] ?> </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $costcenter['codigo'] ?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action" class="display:inline;">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $costcenter['codigo'] ?>','<?php echo $this->remove_msg ?>')">
+                        <?php echo $this->translate('Excluir')?>
+                    </span>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif?>
 </table>
 
 <?php echo $this->render('pagination.phtml') ?>
