@@ -4,6 +4,7 @@
         <name>
             <type>text</type>
             <options>
+                <label>Nome</label>
                 <required>true</required>
                 <validators>
                     <alnum>
@@ -17,15 +18,31 @@
         </name>
         <ta>
             <type>text</type>
+            <options>
+                <label>Tempo de Arranque</label>
+                <description>(em segundos)</description>
+            </options>
         </ta>
         <tf>
             <type>text</type>
+            <options>
+                <label>Tempo de Fracionamento</label>
+                <description>(em segundos)</description>
+            </options>
         </tf>
         <tbf>
             <type>text</type>
+            <options>
+                <label>Tarifa Base para Fixo</label>
+                <description>(use ponto para decimais)</description>
+            </options>
         </tbf>
         <tbc>
             <type>text</type>
+            <options>
+                <label>Tarifa Base de Celular</label>
+                <description>(use ponto para decimais)</description>
+            </options>
         </tbc>
     </elements>
 </modelo>

@@ -83,38 +83,19 @@ class CarrierController extends Zend_Controller_Action {
     public function addAction() {
 
         $this->view->breadcrumb = $this->view->translate("Operadoras » Cadastro");
-
-        $db = Zend_Registry::get('db');
-
         $this->view->objSelectBox = "carrier";
 
         $xml = new Zend_Config_Xml( "default/forms/carrier.xml" );
-
         $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-
-        $name = $form->getElement('name');
-        $name->setLabel( $this->view->translate('Nome') );
-
-        $ta = $form->getElement('ta');
-        $ta->setLabel( $this->view->translate('Tempo de Arranque') );        
-
-        $tf = $form->getElement('tf');
-        $tf->setLabel( $this->view->translate('Tempo de Fracionamento') );
-
-        $tbf = $form->getElement('tbf');
-        $tbf->setLabel( $this->view->translate('Tarifa Base para Fixo') );
-
-        $tbc = $form->getElement('tbc');
-        $tbc->setLabel( $this->view->translate('Tarifa Base de Celular') );
 
         $_idleCostCenter = Snep_Carrier_Manager::getIdleCostCenter();
         $idleCostCenter = array();
         foreach($_idleCostCenter as $idle) {
             $idleCostCenter[$idle['codigo']] = $idle['codigo'] ." : ". $idle['tipo'] ." - ". $idle['nome'];
         }
-        
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Centro de Custos'), $idleCostCenter);
+        if($idleCostCenter) {
+            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Centro de Custos'), $idleCostCenter);
+        }
 
         if($this->_request->getPost()) {
 
@@ -122,7 +103,6 @@ class CarrierController extends Zend_Controller_Action {
                 $dados = $this->_request->getParams();
 
                 if( $form_isValid ) {
-
                     $idCarrier = Snep_Carrier_Manager::add( $dados );
 
                     foreach($dados['box_add'] as $costCenter) {
@@ -141,39 +121,18 @@ class CarrierController extends Zend_Controller_Action {
     public function editAction() {
 
         $this->view->breadcrumb = $this->view->translate("Operadoras » Cadastro");
-
-        $db = Zend_Registry::get('db');
-
-        $id = $this->_request->getParam("id");
-        
         $this->view->objSelectBox = "carrier";
+        $id = $this->_request->getParam("id");
 
         $xml = new Zend_Config_Xml( "default/forms/carrier.xml" );
-
         $carrier = Snep_Carrier_Manager::get($id);
 
-        $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit');
-
-        $name = $form->getElement('name');
-        $name->setLabel( $this->view->translate('Nome') );
-        $name->setValue($carrier['nome']);
-
-        $ta = $form->getElement('ta');
-        $ta->setLabel( $this->view->translate('Tempo de Arranque') );
-        $ta->setValue($carrier['tpm']);
-
-        $tf = $form->getElement('tf');
-        $tf->setLabel( $this->view->translate('Tempo de Fracionamento') );
-        $tf->setValue($carrier['tdm']);
-
-        $tbf = $form->getElement('tbf');
-        $tbf->setLabel( $this->view->translate('Tarifa Base para Fixo') );
-        $tbf->setValue($carrier['tbf']);
-
-        $tbc = $form->getElement('tbc');
-        $tbc->setLabel( $this->view->translate('Tarifa Base de Celular') );
-        $tbc->setValue($carrier['tbc']);
+        $form = new Snep_Form( $xml );        
+        $form->getElement('name')->setValue($carrier['nome']);
+        $form->getElement('ta')->setValue($carrier['tpm']);
+        $form->getElement('tf')->setValue($carrier['tdm']);
+        $form->getElement('tbf')->setValue($carrier['tbf']);
+        $form->getElement('tbc')->setValue($carrier['tbc']);
 
         $_idleCostCenter = Snep_Carrier_Manager::getIdleCostCenter();
         $idleCostCenter = array();
@@ -200,18 +159,14 @@ class CarrierController extends Zend_Controller_Action {
         $form->addElement($formId);
 
         if($this->_request->getPost()) {
-
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
 
                 if($form_isValid) {
 
                     Snep_Carrier_Manager::edit($dados);
-
-                    if($dados['box_add']) {
-                        
+                    if($dados['box_add']) {                        
                         Snep_Carrier_Manager::clearCostCenter($dados['id']);
-
                         foreach($dados['box_add'] as $costCenter) {
                             Snep_Carrier_Manager::setCostCenter( $dados['id'], $costCenter );
                         }

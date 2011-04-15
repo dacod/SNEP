@@ -44,8 +44,7 @@ class Snep_Carrier_Manager {
         $stmt = $db->query($select);
         $carrier = $stmt->fetchAll();
 
-        return $carrier;
-        
+        return $carrier;        
     }
 
     /**
@@ -65,7 +64,6 @@ class Snep_Carrier_Manager {
         $carrier = $stmt->fetch();
 
         return $carrier;
-
     }
 
     /**
@@ -85,8 +83,7 @@ class Snep_Carrier_Manager {
 
         $db->insert('operadoras', $insert_data);
 
-        return $db->lastInsertId();
-   
+        return $db->lastInsertId();   
     }
 
     /**
