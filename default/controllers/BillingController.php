@@ -34,7 +34,6 @@ class BillingController extends Zend_Controller_Action {
     public function indexAction() {
         
         $this->view->breadcrumb = $this->view->translate("Cadastro » Tarifas");
-
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -93,9 +92,6 @@ class BillingController extends Zend_Controller_Action {
 
         $this->view->breadcrumb = $this->view->translate("Filas » Cadastro");
 
-        $db = Zend_Registry::get('db');
-
-
         $xml = new Zend_Config_Xml( "default/forms/queues.xml" );
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
@@ -103,8 +99,6 @@ class BillingController extends Zend_Controller_Action {
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
-        //$carrier = $form->getElement('carrier');
-        //$carrier->setLabel( $this->view->translate('Operadora') );
         $_carriers = Snep_Carrier_Manager::getAll();
         foreach($_carriers as $_carrier) {
                 $carriers[$_carrier['codigo']] = $_carrier['nome'];
