@@ -1,7 +1,6 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
 
 echo $this->render('filter.phtml');
@@ -10,7 +9,9 @@ echo $this->render('filter.phtml');
    <thead>
       <tr>
          <th class="numeric"> <?php echo $this->translate('Código') ?> </th>
-         <th> <?php echo $this->translate('Nome') ?> </th>         
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Tempo de Arranque') ?> </th>
+         <th> <?php echo $this->translate('Tempo de Fracionamento') ?> </th>
          <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
       </tr>
    </thead>
@@ -24,8 +25,14 @@ echo $this->render('filter.phtml');
                 <td> 
                     <b> <?php echo $carrier['codigo'] ?> </b>
                 </td>
+                <td>
+                    <b> <?php echo $carrier['tpm'] ?> </b>
+                </td>
+                <td>
+                    <b> <?php echo $carrier['tpm'] ?> </b>
+                </td>
                 <td> 
-                    <?php echo $carrier['nome'] ?>
+                    <?php echo $carrier['tdm'] ?>
                 </td>
                 <td class="action">
                     <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $carrier['codigo'] ?>">
