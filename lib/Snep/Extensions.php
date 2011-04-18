@@ -45,8 +45,9 @@ class Snep_Extensions {
         if(!$usuario) {
             throw new PBX_Exception_NotFound("Usuario $extensionId nao encontrado");
         }
-
-        return $this->processExten( $usuario );
+        
+        $exten =  $this->processExten($usuario);
+        return $exten;
     }
 
     /**
@@ -59,7 +60,7 @@ class Snep_Extensions {
      */
     private function processExten( $data ) {
         $tech = substr($data->canal, 0, strpos($data->canal, '/'));
-
+       
         if( $tech == "SIP" || $tech == "IAX2" ) {
             $config = array(
                 "username" => $data->name,
@@ -69,7 +70,7 @@ class Snep_Extensions {
                 "qualify"  => $data->qualify,
                 "dtmfmode" => $data->dtmfmode,
                 "nat"      => $data->nat,
-                "call-limit" => $data->{"call-limit"}
+                "call-limit" => $data->{'call-limit'}
             );
 
             if($tech == "SIP") {
@@ -97,7 +98,7 @@ class Snep_Extensions {
         }
 
         $exten = new Snep_Exten($data->name, $data->password, $data->callerid, $interface);
-
+        $exten->setChannel($data->canal);
         $exten->setGroup($data->group);
 
         if($data->authenticate) {
@@ -119,6 +120,11 @@ class Snep_Extensions {
         if($data->usa_vc) {
             $exten->setMailBox($data->mailbox);
             $exten->setEmail($data->email);
+        }
+        
+        if($data->time_total != NULL) {
+            $exten->setTimeTotal($data->time_total);
+            $exten->setCtrlType($data->time_chargeby);
         }
 
         return $exten;
@@ -198,6 +204,51 @@ class Snep_Extensions {
      * @param Snep_Exten $exten
      * @return array string
      */
+    public function ExtenDataAsArray( Snep_Exten $exten ) {
+        $extenData = array(
+            "context" => "default",
+            "peer_type" => "R",
+            "name" => $exten->getNumero(),
+            "fromuser" => $exten->getNumero(),
+            "username" => $exten->getNumero(),
+            "callerid" => $exten->getCallerid(),
+            "password" => $exten->getPassword(),
+            "pickupgroup" => $exten->getPickupGroup(),
+            "canal" => $exten->getChannel(),
+            "group" => $exten->getGroup(),
+            "email" => $exten->getEmail(),
+            "usa_vc" => $exten->hasVoiceMail(),
+            "mailbox" => $exten->getMailBox(),
+            "authenticate" => $exten->isLocked(),
+            "time_total" => $exten->getTimeTotal(),
+            "time_chargeby" => $exten->getCtrlType()
+        );
+
+        /**
+         * Adicionando informações específica de interface.
+         */
+        if( $exten->getInterface() instanceof PBX_Asterisk_Interface_SIP ||
+            $exten->getInterface() instanceof PBX_Asterisk_Interface_IAX2) {
+            $interface = $exten->getInterface();
+            $extenData['allow'] = $interface->allow;
+            $extenData['type'] = $interface->type;
+            $extenData['secret'] = $interface->secret;
+            $extenData['qualify'] = $interface->qualify;
+            $extenData['dtmfmode'] = $interface->dtmfmode;
+            $extenData['call-limit'] = $interface->{'call-limit'};
+            $extenData['nat'] = $interface->nat;
+        }
+
+        return $extenData;
+    }
+    
+        /**
+     * Processa os dados de um objeto em um array associativo que pode ser
+     * usado para manipulação do banco de dados.
+     *
+     * @param Snep_Exten $exten
+     * @return array string
+     */
     private function getExtenDataAsArray( Snep_Exten $exten ) {
         $extenData = array(
             "context" => "default",
@@ -213,7 +264,9 @@ class Snep_Extensions {
             "email" => $exten->getEmail(),
             "usa_vc" => $exten->hasVoiceMail(),
             "mailbox" => $exten->getMailBox(),
-            "authenticate" => $exten->isLocked()
+            "authenticate" => $exten->isLocked(),
+            "time_total" => $exten->getTimeTotal(),
+            "time_chargeby" => $exten->getCtrlType()
         );
 
         /**
@@ -227,7 +280,7 @@ class Snep_Extensions {
             $extenData['secret'] = $interface->secret;
             $extenData['qualify'] = $interface->qualify;
             $extenData['dtmfmode'] = $interface->dtmfmode;
-            $extenData['call-limit'] = $interface->{call-limit};
+            $extenData['call-limit'] = $interface->{'call-limit'};
             $extenData['nat'] = $interface->nat;
         }
 

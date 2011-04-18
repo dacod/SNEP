@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -15,7 +16,6 @@
  *  You should have received a copy of the GNU Lesser General Public License
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
-
 require_once "Snep/Usuario.php";
 
 /**
@@ -29,61 +29,78 @@ require_once "Snep/Usuario.php";
  * @author    Henrique Grolli Bassotto
  */
 class Snep_Exten extends Snep_Usuario {
-    
+
     /**
      * Do Not Disturb
      *
      * @var boolean dnd
      */
     private $dnd;
-
     /**
      * Email para o qual as mensagens do voicemail serão enviadas.
      *
      * @var string email
      */
     private $email;
-
     /**
      * Ramal para siga-me
      *
      * @var Snep_Exten Siga-me
      */
     private $folowme;
-
     /**
      * Interface de comunicação fisica com o ramal.
      *
      * @var Interface objeto que herda a classe Interface
      */
     private $interface;
-
     /**
      * Trava do ramal.
      *
      * @var boolean locked
      */
     private $locked;
-
-
     /**
      * Caixa de mensagem do ramal (se houver).
      *
      * @var integer mailbox
      */
     private $mailbox;
-
     /**
      * Grupo de captura
      *
      * @var string
      */
     protected $pickupgroup;
+    /**
+     * Controle de minutos
+     *
+     * @var bool
+     */
+    protected $minuteControl;
+    /**
+     * Controle de minutos - Tempo total dosponível
+     *
+     * @var int
+     */
+    protected $timeTotal;
+    /**
+     * Controle de minutos - Periodisisação do controle
+     *
+     * @var int
+     */
+    protected $ctrlType;
+         /**
+     * Info de Canal 
+     *
+     * @var string
+     */
+    protected $channel;
 
     public function __construct($numero, $senha, $callerid, $interface) {
         parent::__construct($numero, $callerid, $numero, $senha);
 
-        if(!$interface instanceof PBX_Asterisk_Interface) {
+        if (!$interface instanceof PBX_Asterisk_Interface) {
             throw new Exception("Tipo errado Snep_Exten::__construct() espera uma instancia da classe abstrata PBX_Asterisk_Interface");
         }
 
@@ -97,8 +114,8 @@ class Snep_Exten extends Snep_Usuario {
      *
      * @return string
      */
-    public function  __toString() {
-        return (string)$this->numero;
+    public function __toString() {
+        return (string) $this->numero;
     }
 
     /**
@@ -114,6 +131,16 @@ class Snep_Exten extends Snep_Usuario {
     public function DNDEnable() {
         $this->dnd = true;
     }
+    
+    
+    public function getChannel() {
+        return $this->channel;
+    }
+    
+    public function setChannel($channel) {
+        $this->channel = $channel;
+    }
+
 
     /**
      * Email do ramal para voicemail.
@@ -131,6 +158,14 @@ class Snep_Exten extends Snep_Usuario {
      */
     public function getFollowMe() {
         return $this->followme;
+    }
+
+    public function getTimeTotal() {
+        return $this->timeTotal;
+    }
+
+    public function getCtrlType() {
+        return $this->ctrlType;
     }
 
     /**
@@ -195,7 +230,7 @@ class Snep_Exten extends Snep_Usuario {
     public function lock() {
         $this->locked = true;
     }
-    
+
     /**
      * Define um email para o ramal usar com voicemail.
      *
@@ -213,7 +248,6 @@ class Snep_Exten extends Snep_Usuario {
     public function setFollowMe($ramal) {
         $this->followme = $ramal;
     }
-
 
     /**
      * Define a interface física do ramal
@@ -242,10 +276,19 @@ class Snep_Exten extends Snep_Usuario {
         $this->pickupgroup = $group;
     }
 
+    public function setTimeTotal($timeTotal) {
+        $this->timeTotal = $timeTotal;
+    }
+
+    public function setCtrlType($ctrl) {
+        $this->ctrlType = $ctrl;
+    }
+
     /**
      * Destrava o ramal
      */
     public function unlock() {
         $this->locked = false;
     }
+
 }

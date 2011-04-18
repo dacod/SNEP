@@ -26,7 +26,7 @@ echo $this->render('filter.phtml');
             <td> <?php echo $val['channel'] ?> </td>
             <td> <?php echo $val['group'] ?> </td>
             <td class="action">
-                <a class="alterar"  href='<?php echo $this->baseUrl(); ?>/src/extensions.php?action=edit&id=<?php echo $val['exten'] ?>'>
+                <a class="alterar"  href='<?php echo $this->url ?>/edit/id/<?php echo $val['exten'] ?>'>
                     <?php echo $this->translate('Edit')?>
                 </a>
             </td>

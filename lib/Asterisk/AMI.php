@@ -772,7 +772,7 @@ require_once "Asterisk/Exception/Auth.php";
     function log($message, $level=1)
     {
         if(class_exists("Zend_Registry")) {
-            $log = Zend_Registry::get('log');
+            $log = Snep_Logger::getInstance();
             $log->log($message, $level);
         }
     }

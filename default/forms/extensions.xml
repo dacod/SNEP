@@ -76,6 +76,9 @@
                 <type>Text</type>
                 <options>
                     <label>E-Mail</label>
+                    <validators>
+                        <EmailAddress>EmailAddress</EmailAddress>
+                    </validators>
                 </options>
             </email>
 
@@ -98,6 +101,40 @@
                     </multioptions>
                 </options>
             </minute_control>
+            
+            <timetotal>
+                <type>Text</type>
+                <value>0</value>
+                <options>
+                    <label>Time Total</label>
+                    <description>Minutes</description>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
+                </options>
+            </timetotal>
+            
+            <controltype>
+                <type>radio</type>
+                <options>
+                    <label>Control Type</label>
+                    <separator> </separator>
+                    <multioptions>
+                        <Y>Anually</Y>
+                        <M>Monthly</M>
+                        <D>Daily</D>
+                    </multioptions>
+                </options>
+            </controltype>
+            
         </elements>
     </advanced>
     <ip>
@@ -112,6 +149,18 @@
                 <type>Text</type>
                 <options>
                     <label>Simultaneous Call Limit</label>
+                    <description>Numbers Only</description>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </calllimit>
             <nat>
@@ -179,4 +228,20 @@
             </virtual>
         </elements>
     </virtual>
+    <khomp>
+        <elements>
+            <board>
+                <type>Select</type>
+                <options>
+                    <label>Board</label>
+                </options>
+            </board>
+            <channel>
+                <type>Select</type>
+                <options>
+                    <label>Channel</label>
+                </options>
+            </channel>
+        </elements>
+    </khomp>
 </form>

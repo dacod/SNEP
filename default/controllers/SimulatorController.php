@@ -94,6 +94,7 @@ class SimulatorController extends Zend_Controller_Action {
                 $this->view->error = $this->view->translate("No rule found.");
                 $this->view->back = $this->view->translate("Back");
                 $this->renderScript('simulator/error.phtml');
+                return;
             }
 
 
