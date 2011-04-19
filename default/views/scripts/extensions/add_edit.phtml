@@ -1,10 +1,15 @@
 <?php
-if( isset( $this->error ) ) {
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
+?>
+<?php
+if (isset($this->error)) {
     echo "<div class=\"error_box\" > {$this->error} </div>";
 }
-    echo $this->form;
+echo $this->form;
 ?>
 <script type="text/javascript">
+    
     techHighlight = function() {
         $('technology-type').childElements().each(function(el){
             $$("." + el.value).each(function(el){el.hide()});
@@ -13,4 +18,36 @@ if( isset( $this->error ) ) {
     }
     Event.observe($('technology-type'), 'change', techHighlight);
     Event.observe(window, 'load', techHighlight);
+</script>
+
+
+<script language="javascript" type="text/javascript">
+    $( 'advanced-minute_control-option').observe ('click' , init);
+    Event.observe(window, 'load', init);
+
+    function init() {    
+        enableField('advanced-minute_control-option', 'advanced-timetotal');
+        enableField('advanced-minute_control-option', 'advanced-controltype-Y');
+        enableField('advanced-minute_control-option', 'advanced-controltype-M');
+        enableField('advanced-minute_control-option', 'advanced-controltype-D');
+    }
+
+    $('khomp-board').observe ('change' , fillChannels);
+
+    function fillChannels() {
+    
+        board =   document.getElementById('khomp-board').value;
+        channels =   document.getElementById('khomp-channel');
+        boardsData = eval("<?= $this->boardData ?>");
+    
+        channels.length = 0;
+        for (i = 0; i < boardsData[board].length; i++) {
+            var y=document.createElement('option'); 
+            y.text=i; 
+            y.value=i;
+           
+            channels.add(y);
+
+        }
+    }
 </script>

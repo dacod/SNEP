@@ -32,7 +32,7 @@ echo $this->render('filter.phtml');
             </td>
             <td class="action">
                 <?php if($val['exten'] != "admin"): ?>
-                <span class="excluir" onclick="remove_item('<?php echo $this->baseUrl(); ?>/src/extensions.php?action=delete&id=<?php echo $val['exten'] ?>' , '<?php echo $this->translate('Deseja realmente excluir o ramal?')?>' );">
+                <span class="excluir" onclick="remove_item('<?php echo $this->url ?>/delete/id/<?php echo $val['exten'] ?>', '<?php echo $this->translate('Deseja realmente excluir o ramal?')?>' );">
                     <?php echo $this->translate('Delete')?>
                 </span>
                 <?php endif; ?>

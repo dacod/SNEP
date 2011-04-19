@@ -153,7 +153,7 @@ class ParametersController extends Zend_Controller_Action {
         if ($this->_request->getPost()) {
 
             $formIsValid = $form->isValid($_POST);
-            $formData = $this->_request->getParams();
+            $formData = $this->request->getParams();
 
             // Specific verification for propertie path_voice
             if (!file_exists($formData['gravacao']['path_voz'])) {

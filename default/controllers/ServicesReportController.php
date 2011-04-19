@@ -102,14 +102,14 @@ class ServicesReportController extends Zend_Controller_Action {
     }
 
     protected function submitAction() {
-
+        
         if ($this->_request->getPost()) {
             $formData = $this->_request->getParams();
-
-            if (key_exists('submit', $formData))
-                $this->viewAction();
-            else if (key_exists('submit_csv', $formData))
+           
+            if (key_exists('submit_csv', $formData))
                 $this->csvAction();
+            else
+                $this->viewAction();
         }
     }
 

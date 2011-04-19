@@ -23,6 +23,8 @@
 class ExtensionsController extends Zend_Controller_Action {
 
     protected $form;
+    
+    protected $boardData;
 
     public function indexAction() {
 
@@ -87,6 +89,7 @@ class ExtensionsController extends Zend_Controller_Action {
     public function addAction() {
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Extension");
         $this->view->form = $this->getForm();
+        $this->view->boardData = $this->boardData;
 
         if ($this->getRequest()->isPost()) {
 
@@ -114,8 +117,26 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $form = $this->getForm();
         $this->view->form = $form;
+        $this->view->boardData = $this->boardData;
 
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
+
+        if ($this->getRequest()->isPost()) {
+
+            if ($this->view->form->isValid($_POST)) {
+                $postData = $this->_request->getParams();
+                $postData["extension"]["exten"] = $this->_request->getParam("id");
+
+                $ret = $this->execAdd($postData, true);
+
+                if (!is_string($ret)) {
+                    $this->_redirect('/extensions/');
+                } else {
+                    $this->view->error = $ret;
+                    $this->view->form->valid(false);
+                }
+            }
+        }
 
         $extenUtil = new Snep_Extensions();
         $exten = $extenUtil->ExtenDataAsArray($extenUtil->get($id));
@@ -124,8 +145,8 @@ class ExtensionsController extends Zend_Controller_Action {
         $name = $exten["name"];
         $nameField = $form->getSubForm('extension')->getElement('exten');
         $nameField->setValue($name);
-        $nameField->setAttrib('disabled', true);
         $nameField->setAttrib('readonly', true);
+        $nameField->setAttrib('disabled', true);
 
         if (!$exten["canal"] || $exten["canal"] == 'INVALID' || substr($exten["canal"], 0, strpos($exten["canal"], '/')) == '') {
             $techType = 'manual';
@@ -161,7 +182,7 @@ class ExtensionsController extends Zend_Controller_Action {
         }
 
         $timeTotal = $exten["time_total"];
-        if ($timeTotal != NULL) {
+        if (!empty($timeTotal)) {
             $form->getSubForm('advanced')->getElement('minute_control')->setAttrib('checked', 'checked');
             $form->getSubForm('advanced')->getElement('timetotal')->setValue($timeTotal);
             $ctrlType = $exten["time_chargeby"];
@@ -225,7 +246,6 @@ class ExtensionsController extends Zend_Controller_Action {
                     Zend_Debug::Dump($ex->getMessage());
                     exit;
                 }
-
                 if ($khompInfo->hasWorkingBoards()) {
                     foreach ($khompInfo->boardInfo() as $board) {
                         if (preg_match("/KFXS/", $board['model'])) {
@@ -233,7 +253,7 @@ class ExtensionsController extends Zend_Controller_Action {
                             $form->getSubForm('khomp')->getElement('board')->addMultiOption($board['id'], $board['id']);
                             $boardList[$board['id']] = $channels;
 
-                            if($board['id'] == $khompBoard) {
+                            if ($board['id'] == $khompBoard) {
                                 foreach ($channels as $value) {
                                     $form->getSubForm('khomp')->getElement('channel')->addMultiOption($value, $value);
                                 }
@@ -242,6 +262,7 @@ class ExtensionsController extends Zend_Controller_Action {
                     }
                     $form->getSubForm('khomp')->getElement('board')->setValue($khompBoard);
                     $form->getSubForm('khomp')->getElement('channel')->setValue($khompChannel);
+                    
                 }
                 break;
 
@@ -259,17 +280,19 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->renderScript("extensions/add_edit.phtml");
     }
 
-    protected function execAdd($postData) {
+    protected function execAdd($postData, $update = false) {
         $formData = $postData;
         $db = Zend_Registry::get('db');
 
         $exten = $formData["extension"]["exten"];
         $sqlValidName = "SELECT * from peers where name = '$exten'";
         $selectValidName = $db->query($sqlValidName);
+        $resultGetId = $selectValidName->fetch();
 
-
-        if ($selectValidName->fetch()) {
+        if ($resultGetId && !$update) {
             return $this->view->translate('Ramal utilizado. Por favos, escolha outra denominação.');
+        } else if ($update) {
+            $idExt = $resultGetId['id'];
         }
 
         $context = 'default';
@@ -332,8 +355,8 @@ class ExtensionsController extends Zend_Controller_Action {
             $advCtrlType = $advTimeTotal > 0 ? "{$formData['advanced']['controltype']}" : "NULL";
         } else {
             $advMinCtrl = false;
-            $advTimeTotal = null;
-            $advCtrlType = null;
+            $advTimeTotal = 'NULL';
+            $advCtrlType = 'N';
         }
 
         $defFielsExten = array("accountcode" => "''", "amaflags" => "''", "defaultip" => "''", "host" => "'dynamic'", "insecure" => "''", "language" => "'pt_BR'", "deny" => "''", "permit" => "''", "mask" => "''", "port" => "''", "restrictcid" => "''", "rtptimeout" => "''", "rtpholdtimeout" => "''", "musiconhold" => "'cliente'", "regseconds" => 0, "ipaddr" => "''", "regexten" => "''", "cancallforward" => "'yes'", "setvar" => "''", "disallow" => "'all'", "canreinvite" => "'no'");
@@ -346,26 +369,44 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $advEmail = $formData["advanced"]["email"];
 
-        $sql = "INSERT INTO peers (";
-        $sql.= "name, password,callerid,context,mailbox,qualify,";
-        $sql.= "secret,type,allow,fromuser,username,fullcontact,";
-        $sql.= "dtmfmode,email,`call-limit`,incominglimit,";
-        $sql.= "outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate,";
-        $sql.= "trunk, `group`, callgroup, time_total, ";
-        $sql.= "time_chargeby " . $sqlFieldsExten;
-        $sql.= ") values (";
-        $sql.= "'$exten','$extenPass','$extenName','$context','$exten','$qualify',";
-        $sql.= "'$secret','$type','$allow','$exten','$exten','$fullcontact',";
-        $sql.= "'$dtmfmode','$advEmail','$callLimit','1',";
-        $sql.= "'1', '$advVoiceMail', $extenPickGrp ,'$channel','$nat', '$peerType',";
-        $sql.= "$advPadLock,'no','$extenGroup',";
-        $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
-        $sql.= ")";
+        if ($update) {
+            $sql = "UPDATE peers ";
+            $sql.=" SET name='$exten',password='$extenPass' , callerid='$extenName', ";
+            $sql.= "context='$context',mailbox='$exten',qualify='$qualify',";
+            $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$exten',";
+            $sql.= "username='$exten',fullcontact='$fullcontact',dtmfmode='$dtmfmode',";
+            $sql.= "email='$advEmail', `call-limit`='$callLimit',";
+            $sql.= "outgoinglimit='1', incominglimit='1',";
+            $sql.= "usa_vc='$advVoiceMail',pickupgroup=$extenPickGrp,callgroup='$extenPickGrp',";
+            $sql.= "nat='$nat',canal='$channel', authenticate=$advPadLock, ";
+            $sql.= "`group`='$extenGroup', ";
+            $sql.= "time_total=$advTimeTotal, time_chargeby='$advCtrlType'  WHERE id=$idExt";
+        } else {
+            $sql = "INSERT INTO peers (";
+            $sql.= "name, password,callerid,context,mailbox,qualify,";
+            $sql.= "secret,type,allow,fromuser,username,fullcontact,";
+            $sql.= "dtmfmode,email,`call-limit`,incominglimit,";
+            $sql.= "outgoinglimit, usa_vc, pickupgroup, canal,nat,peer_type, authenticate,";
+            $sql.= "trunk, `group`, callgroup, time_total, ";
+            $sql.= "time_chargeby " . $sqlFieldsExten;
+            $sql.= ") values (";
+            $sql.= "'$exten','$extenPass','$extenName','$context','$exten','$qualify',";
+            $sql.= "'$secret','$type','$allow','$exten','$exten','$fullcontact',";
+            $sql.= "'$dtmfmode','$advEmail','$callLimit','1',";
+            $sql.= "'1', '$advVoiceMail', $extenPickGrp ,'$channel','$nat', '$peerType',";
+            $sql.= "$advPadLock,'no','$extenGroup',";
+            $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
+            $sql.= ")";
+        }
 
         $stmt = $db->query($sql);
         $idExten = $db->lastInsertId();
 
+
         if ($advVoiceMail == 'yes') {
+            if ($update) {
+                $db->delete("voicemail_users", " mailbox='$exten' ");
+            }
             $sql = "INSERT INTO voicemail_users ";
             $sql.= " (fullname, email, mailbox, password, customer_id, `delete`) VALUES ";
             $sql.= " ('$extenName', '$advEmail','$exten','$extenPass','$exten', 'yes')";
@@ -388,29 +429,26 @@ class ExtensionsController extends Zend_Controller_Action {
 
     public function deleteAction() {
 
-        $LANG = Zend_Registry::get('lang');
+
         $db = Zend_Registry::get('db');
 
-        $id = isset($_GET['id']) ? $_GET['id'] : false;
-        if (!$id) {
-            display_error($LANG['msg_notselect'], true);
-            exit;
-        }
+        $id = $this->_request->getParam("id");
 
         // Fazendo procura por referencia a esse ramal em regras de negócio.
-        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
-        $regras = $db->query($rules_query)->fetchAll();
+        $rulesQuery = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%R:$id%' OR destino LIKE '%R:$id%'";
+        $rules = $db->query($rulesQuery)->fetchAll();
 
-        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id')";
-        $regras = array_merge($regras, $db->query($rules_query)->fetchAll());
+        $rulesQuery = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id')";
+        $rules = array_merge($rules, $db->query($rulesQuery)->fetchAll());
 
-        if (count($regras) > 0) {
-            $msg = $LANG['extension_conflict_in_rules'] . ":<br />\n";
-            foreach ($regras as $regra) {
-                $msg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
+        if (count($rules) > 0) {
+            $errMsg = $this->view->translate('As seguintes regras fazem uso desse ramal, modifique antes de excluir') . ":<br />\n";
+            foreach ($rules as $regra) {
+                $errMsg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
             }
-            display_error($msg, true);
-            exit(1);
+            $this->view->error = $errMsg;
+            $this->view->back = $this->view->translate("Voltar");
+            $this->_helper->viewRenderer('error');
         }
         $sql = "DELETE FROM peers WHERE name='" . $id . "'";
 
@@ -424,10 +462,19 @@ class ExtensionsController extends Zend_Controller_Action {
 
         try {
             $db->commit();
-            grava_conf();
         } catch (PDOException $e) {
             $db->rollBack();
-            display_error($LANG['error'] . $e->getMessage(), true);
+            $this->view->error = $this->view->translate("Erro ao excluir do BD: ") . $e->getMessage();
+            $this->view->back = $this->view->translate("Voltar");
+            $this->_helper->viewRenderer('error');
+        }
+
+        $return = Snep_InterfaceConf::loadConfFromDb();
+
+        If ($return != true) {
+            $this->view->error = $return;
+            $this->view->back = $this->view->translate("Voltar");
+            $this->_helper->viewRenderer('error');
         }
 
         $this->_redirect("default/extensions");
@@ -473,6 +520,9 @@ class ExtensionsController extends Zend_Controller_Action {
             }
             $form->addSubForm($subFormKhomp, "khomp");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
+            $form->getSubForm('khomp')->getElement('channel')->removeDecorator("InArray");
+            $boardTmp = Zend_Json_Encoder::encode($boardList);
+            $this->boardData = $boardTmp;
             $this->form = $form;
         }
 
