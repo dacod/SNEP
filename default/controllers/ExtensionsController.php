@@ -23,7 +23,6 @@
 class ExtensionsController extends Zend_Controller_Action {
 
     protected $form;
-    
     protected $boardData;
 
     public function indexAction() {
@@ -95,7 +94,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
             if ($this->view->form->isValid($_POST)) {
                 $postData = $this->_request->getParams();
-
+                
                 $ret = $this->execAdd($postData);
 
                 if (!is_string($ret)) {
@@ -140,7 +139,6 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $extenUtil = new Snep_Extensions();
         $exten = $extenUtil->ExtenDataAsArray($extenUtil->get($id));
-        Zend_Debug::Dump($exten);
 
         $name = $exten["name"];
         $nameField = $form->getSubForm('extension')->getElement('exten');
@@ -262,7 +260,6 @@ class ExtensionsController extends Zend_Controller_Action {
                     }
                     $form->getSubForm('khomp')->getElement('board')->setValue($khompBoard);
                     $form->getSubForm('khomp')->getElement('channel')->setValue($khompChannel);
-                    
                 }
                 break;
 
@@ -325,10 +322,19 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $channel = strtoupper($techType);
         if ($channel == "KHOMP") {
+            $khompBoard = $formData[$techType]['board'];
+            $khompChannel = $formData[$techType]['channel'];
+            if($khompBoard == null || $khompBoard == ''){
+                return $this->view->translate('Selecione uma placa Khomp da lista');
+            }
+            if($khompChannel == null || $khompChannel == ''){
+                return $this->view->translate('Selecione uma canal Khomp da lista');
+            }
             $channel .= "/b" . $khompBoard . 'c' . $khompChannel;
         } else if ($channel == "VIRTUAL") {
             $channel .= "/" . $virtualInfo;
         } else if ($channel == "MANUAL") {
+            $manualManual = $formData[$techType]['manual'];
             $channel .= "/" . $manualManual;
         } else {
             $channel .= "/" . $exten;
@@ -520,7 +526,7 @@ class ExtensionsController extends Zend_Controller_Action {
             }
             $form->addSubForm($subFormKhomp, "khomp");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
-            $form->getSubForm('khomp')->getElement('channel')->removeDecorator("InArray");
+            $form->getSubForm('khomp')->getElement('channel')->setRegisterInArrayValidator(false);
             $boardTmp = Zend_Json_Encoder::encode($boardList);
             $this->boardData = $boardTmp;
             $this->form = $form;

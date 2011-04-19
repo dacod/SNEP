@@ -33,10 +33,12 @@ echo $this->form;
     }
 
     $('khomp-board').observe ('change' , fillChannels);
+    Event.observe(window, 'load', fillChannels);
 
     function fillChannels() {
     
         board =   document.getElementById('khomp-board').value;
+        channelValue =   document.getElementById('khomp-channel').value;
         channels =   document.getElementById('khomp-channel');
         boardsData = eval("<?= $this->boardData ?>");
     
@@ -47,7 +49,10 @@ echo $this->form;
             y.value=i;
            
             channels.add(y);
-
+        }
+        
+        if (channelValue != ''){
+            channels.value = channelValue;
         }
     }
 </script>
