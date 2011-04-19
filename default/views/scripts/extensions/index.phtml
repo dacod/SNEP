@@ -4,7 +4,18 @@ $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scr
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 echo $this->render('filter.phtml');
 ?>
-
+<?php if(!$this->all_writable): ?>
+<div class="error_box">
+    <p><?php echo $this->translate("Error: The following files are not writable by the system:"); ?></p>
+    <ul>
+        <?php
+        foreach ($this->writable_files as $file => $status) {
+            echo "<li>$file</li>";
+        }
+        ?>
+    </ul>
+</div>
+<?php endif; ?>
 <table>
    <thead>
       <tr>

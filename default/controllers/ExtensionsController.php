@@ -25,6 +25,31 @@ class ExtensionsController extends Zend_Controller_Action {
     protected $form;
     protected $boardData;
 
+    public function preDispatch() {
+        $all_writable = true;
+        $files = array(
+            "snep-sip.conf" => false,
+            "snep-sip-trunks.conf" => false,
+            "snep-iax2.conf" => false,
+            "snep-iax2-trunks.conf" => false
+        );
+
+        $config = Zend_Registry::get('config');
+        $asteriskDirectory = $config->system->path->asterisk->conf;
+        
+        foreach ($files as $file => $status) {
+            $files[$file] = is_writable($asteriskDirectory . "/snep/" . $file);
+            if($files[$file] === false && $all_writable === true) {
+                $all_writable = false;
+            }
+        }
+
+        $this->view->all_writable = $all_writable;
+        if(!$all_writable) {
+            $this->view->writable_files = $files;
+        }
+    }
+
     public function indexAction() {
 
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions");
@@ -88,6 +113,9 @@ class ExtensionsController extends Zend_Controller_Action {
     public function addAction() {
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Extension");
         $this->view->form = $this->getForm();
+        if(!$this->view->all_writable) {
+            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
+        }
         $this->view->boardData = $this->boardData;
 
         if ($this->getRequest()->isPost()) {
@@ -110,11 +138,13 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function editAction() {
-
         $id = $this->_request->getParam("id");
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Edit » $id");
 
         $form = $this->getForm();
+        if(!$this->view->all_writable) {
+            $form->getElement("submit")->setAttrib("disabled", "disabled");
+        }
         $this->view->form = $form;
         $this->view->boardData = $this->boardData;
 
@@ -304,7 +334,6 @@ class ExtensionsController extends Zend_Controller_Action {
         $type = $formData[$techType]["type"];
         $dtmfmode = $formData[$techType]["dtmf"];
         $callLimit = $formData[$techType]["calllimit"];
-        $virtualInfo = $formData[$techType]['virtual'];
 
         $nat = 'no';
         if ($techType == 'sip' || $techType == 'iax2') {
@@ -332,6 +361,7 @@ class ExtensionsController extends Zend_Controller_Action {
             }
             $channel .= "/b" . $khompBoard . 'c' . $khompChannel;
         } else if ($channel == "VIRTUAL") {
+            $virtualInfo = $formData[$techType]['virtual'];
             $channel .= "/" . $virtualInfo;
         } else if ($channel == "MANUAL") {
             $manualManual = $formData[$techType]['manual'];
@@ -375,12 +405,14 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $advEmail = $formData["advanced"]["email"];
 
+        $allow = "all";
+
         if ($update) {
             $sql = "UPDATE peers ";
             $sql.=" SET name='$exten',password='$extenPass' , callerid='$extenName', ";
             $sql.= "context='$context',mailbox='$exten',qualify='$qualify',";
             $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$exten',";
-            $sql.= "username='$exten',fullcontact='$fullcontact',dtmfmode='$dtmfmode',";
+            $sql.= "username='$exten',fullcontact='',dtmfmode='$dtmfmode',";
             $sql.= "email='$advEmail', `call-limit`='$callLimit',";
             $sql.= "outgoinglimit='1', incominglimit='1',";
             $sql.= "usa_vc='$advVoiceMail',pickupgroup=$extenPickGrp,callgroup='$extenPickGrp',";
@@ -420,13 +452,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $stmt->execute();
         }
 
-        $return = Snep_InterfaceConf::loadConfFromDb();
-
-        If ($return != true) {
-            return $return;
-        }
-
-        return true;
+        Snep_InterfaceConf::loadConfFromDb();
     }
 
     public function multiAddAction() {
@@ -486,6 +512,10 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->_redirect("default/extensions");
     }
 
+    /**
+     *
+     * @return Snep_Form
+     */
     protected function getForm() {
         if ($this->form === Null) {
             $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensions.xml");
@@ -524,9 +554,7 @@ class ExtensionsController extends Zend_Controller_Action {
             } else {
                 $subFormKhomp->removeElement('board');
                 $subFormKhomp->removeElement('channel');
-                $noKhompText = new Zend_Form_Element_Hidden('textKhomp');
-                $noKhompText->setDescription($this->view->translate('Você não possui placas da Khomp.'));
-                $subFormKhomp->addElement($noKhompText);
+                $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
             }
             $form->addSubForm($subFormKhomp, "khomp");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");

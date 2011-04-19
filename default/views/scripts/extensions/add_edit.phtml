@@ -2,6 +2,20 @@
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
 ?>
+
+<?php if(!$this->all_writable): ?>
+<div class="error_box">
+    <p><?php echo $this->translate("Error: The following files are not writable by the system:"); ?></p>
+    <ul>
+        <?php
+        foreach ($this->writable_files as $file => $status) {
+            echo "<li>$file</li>";
+        }
+        ?>
+    </ul>
+</div>
+<?php endif; ?>
+
 <?php
 if (isset($this->error)) {
     echo "<div class=\"error_box\" > {$this->error} </div>";

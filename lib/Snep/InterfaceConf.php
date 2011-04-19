@@ -27,10 +27,10 @@
  * 
  */
 class Snep_InterfaceConf {
-    
-    public static function loadConfFromDb() {
 
+    public static function loadConfFromDb() {
         $view = new Zend_View();
+        $db = Snep_Db::getInstance();
         
         foreach (array("sip", "iax2") as $tech) {
             $config = Zend_Registry::get('config');
@@ -40,10 +40,10 @@ class Snep_InterfaceConf {
             $trunkFileConf = "$asteriskDirectory/snep/snep-$tech-trunks.conf";
 
             if (!is_writable($extenFileConf)) {
-                return $view->translate("Arquivo de configuração ") . $extenFileConf .  $view->translate("sem permissão de escrita.");
+                throw new PBX_Exception_IO($view->translate("Failed to open file %s with write permission.", $extenFileConf));
             }
             if (!is_writable($trunkFileConf)) {
-                return $view->translate("Arquivo de configuração ") . $trunkFileConf .$view->translate("sem permissão de escrita.");
+                throw new PBX_Exception_IO($view->translate("Failed to open file %s with write permission.", $trunkFileConf));
             }
             /* clean snep-sip.conf file */
             file_put_contents($extenFileConf, '');
@@ -63,20 +63,13 @@ class Snep_InterfaceConf {
 
             /* query that gets information of the peers on the DB */
             $sql = "SELECT * FROM peers WHERE name != 'admin' AND canal like '" . strtoupper($tech) . "%'";
-            try {
-                $stmt = $db->prepare($sql);
-                $stmt->execute();
-                $now = $stmt->rowCount();
-            } catch (Exception $e) {
-                return  $view->translate("Erro na execução da consulta para coleta dos dados: ") . $e->getMessage();
-            }
+            $peer_data = $db->query($sql)->fetchAll();
 
             $peers = "\n";
-            $trunk = "\n";
+            $trunk_config = "\n";
 
-            if ($now > 0) {
-                $database = Zend_Registry::get('db');
-                foreach ($stmt->fetchAll() as $peer) {
+            if (count($peer_data) > 0) {
+                foreach ($peer_data as $peer) {
 
                     $sipallow = explode(";", $peer['allow']);
                     $allow = '';
@@ -89,10 +82,8 @@ class Snep_InterfaceConf {
 
                     if ($peer['peer_type'] == 'T') {
 
-                        $select = $database->select()->from('trunks')->where("name = {$peer['name']}");
-                        unset($stmt);
-                        $stmt = $database->query($select);
-                        $trunk = $stmt->fetchObject();
+                        $select = $db->select()->from('trunks')->where("name = {$peer['name']}")->limit(1);
+                        $trunk = $db->query($select)->fetchObject();
 
                         if ($trunk->type == "SNEPSIP") {
                             /* Assemble trunk entries */
@@ -158,7 +149,7 @@ class Snep_InterfaceConf {
                             }
                             $peers .= "\n";
                         }
-                        $trunk .= ( $trunk->dialmethod != "NOAUTH" && !preg_match("/SNEP/", $trunk->type) ? "register => " . $peer['username'] . ":" . $peer['secret'] . "@" . $peer['host'] . "\n" : "");
+                        $trunk_config .= ( $trunk->dialmethod != "NOAUTH" && !preg_match("/SNEP/", $trunk->type) ? "register => " . $peer['username'] . ":" . $peer['secret'] . "@" . $peer['host'] . "\n" : "");
                     } else {
                         /* Assemble Extension entries */
                         $peers .= '[' . $peer['name'] . "]\n";
@@ -183,28 +174,20 @@ class Snep_InterfaceConf {
                         $peers .= "\n";
                     }
                 }
-                unset($database);
             }
 
-            $trunkcont = str_replace(".conf", "-trunks.conf", $header) . $trunk;
+            $trunkcont = str_replace(".conf", "-trunks.conf", $header) . $trunk_config;
             file_put_contents($trunkFileConf, $trunkcont);
 
             $content = $header . $peers;
 
             file_put_contents($extenFileConf, $content);
         }
-        // Forcing asterisk to reload the configs
-        try {
-            
-            $asteriskAmi = PBX_Asterisk_AMI::getInstance();
-            $asteriskAmi->Command("sip reload");
-            $asteriskAmi->Command("iax2 reload");
-            
-        } catch (Exception $e) {
-            return  $view->translate("Erro ao executar comandos de recarga no asterisk: ") . $e->getMessage();
-        }
         
-        return true;
+        // Forcing asterisk to reload the configs
+        $asteriskAmi = PBX_Asterisk_AMI::getInstance();
+        $asteriskAmi->Command("sip reload");
+        $asteriskAmi->Command("iax2 reload");
     }
 
 }
