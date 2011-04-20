@@ -32,8 +32,10 @@ class CostCenterController extends Zend_Controller_Action {
      * List all Cost Center's
      */
     public function indexAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Centro de Custos");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Cost Center")
+        ));
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -63,10 +65,10 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("codigo" => $this->view->translate("Código"),
-                        "tipo" => $this->view->translate("Tipo"),
-                        "nome" => $this->view->translate("Nome"),
-                        "descricao" => $this->view->translate("Descrição")
+        $opcoes = array("codigo" => $this->view->translate("Code"),
+                        "tipo" => $this->view->translate("Type"),
+                        "nome" => $this->view->translate("Name"),
+                        "descricao" => $this->view->translate("Description")
         );
         
         $filter = new Snep_Form_Filter();
@@ -78,7 +80,7 @@ class CostCenterController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add",
-                                          "display" => $this->view->translate("Incluir Centro de Custos"),
+                                          "display" => $this->view->translate("Add Cost Center"),
                                           "css" => "include"),
         );
     }
@@ -87,15 +89,19 @@ class CostCenterController extends Zend_Controller_Action {
      * Add new Cost Center's
      */
     public function addAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Centro de Custos » Cadastro");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Cost Center"),
+            $this->view->translate("Add")
+        ));
+        
         $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
 
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-        $form->getElement('type')->setRequired(true)->setMultiOptions( array('E' => $this->view->translate('Entrada'),
-                                                                             'S'=> $this->view->translate('Saída'),
-                                                                             'O'=> $this->view->translate('Outras')) );
+        $form->getElement('type')->setRequired(true)->setMultiOptions( array('E' => $this->view->translate('Incoming'),
+                                                                             'S'=> $this->view->translate('Outgoing'),
+                                                                             'O'=> $this->view->translate('Other')) );
 
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
@@ -114,10 +120,7 @@ class CostCenterController extends Zend_Controller_Action {
      * Remove Cost Center's
      */
     public function removeAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Centro de Custos » Remover");
         $id = $this->_request->getParam('id');
-
         Snep_CostCenter_Manager::remove($id);
     }
 
@@ -125,9 +128,12 @@ class CostCenterController extends Zend_Controller_Action {
     * Edit Cost Center's
     */
     public function editAction() {
-
         $id = $this->_request->getParam('id');
-        $this->view->breadcrumb = $this->view->translate("Centro de Custos » Cadastro");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Cost Center"),
+            $this->view->translate("Edit")
+        ));
         $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
 
         $costCenter = Snep_CostCenter_Manager::get($id);
@@ -138,9 +144,9 @@ class CostCenterController extends Zend_Controller_Action {
         $form->getElement('name')->setValue( $costCenter['nome'] );
         $form->getElement('description')->setValue( $costCenter['descricao'] );
         $form->getElement('type')->setValue( $costCenter['tipo'] )->setRequired(true)
-                                 ->setMultiOptions(array('E' => $this->view->translate('Entrada'),
-                                                         'S'=> $this->view->translate('Saída'),
-                                                         'O'=> $this->view->translate('Outras')) );             
+                                 ->setMultiOptions(array('E' => $this->view->translate('Incoming'),
+                                                         'S'=> $this->view->translate('Outgoing'),
+                                                         'O'=> $this->view->translate('Other')));
 
         if($this->_request->getPost()) {
 

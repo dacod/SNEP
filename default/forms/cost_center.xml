@@ -4,23 +4,15 @@
     <id>
         <type>text</type>
         <options>
-            <label>Código</label>
+            <label>Code</label>
             <required>true</required>
-            <validators>
-                <regex>
-                    <validator>regex</validator>
-                    <options>
-                        <pattern>/^\d\.\d{2}\.\d{2}/i</pattern>
-                    </options>
-                </regex>
-            </validators>
-            <description>Somente Números</description>
+            <description>Numbers only</description>
         </options>
     </id>
     <name>
         <type>text</type>
         <options>
-            <label>Nome</label>
+            <label>Name</label>
             <required>true</required>
             <validators>
                 <alnum>
@@ -35,13 +27,13 @@
     <description>
         <type>text</type>
         <options>
-            <label>Descrição</label>
+            <label>Description</label>
         </options>
     </description>
     <type>
         <type>radio</type>
         <options>
-            <label>Tipo</label>
+            <label>Type</label>
         </options>
     </type>
 </elements>

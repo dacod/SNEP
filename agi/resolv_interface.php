@@ -21,7 +21,7 @@
  * @file Script agi que faz a resolução do canal (interface) de um ramal do snep
  */
 
-// Importando as configura��es para AGI's
+// Importando as configurações para AGI's
 require_once("agi_base.php");
 
 if($argc != 3) {
@@ -37,4 +37,8 @@ try {
     exit(1);
 }
 
-$asterisk->set_variable($argv[2], $ramal->getInterface()->getCanal());
+$channel = $ramal->getInterface()->getCanal();
+if(substr($channel, 0, 1)  == "k" || substr($channel, 0, 1)  == "K") {
+    $channel = "Khomp/" . strtoupper(substr($channel, strpos($channel, '/') +1));
+}
+$asterisk->set_variable($argv[2], $channel);

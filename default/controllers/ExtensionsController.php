@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  This file is part of SNEP.
  *
@@ -51,18 +50,17 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions");
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
         $select = $db->select()->from("peers", array(
-                    "id" => "id",
-                    "exten" => "name",
-                    "name" => "callerid",
-                    "channel" => "canal",
-                    "group"
-                ));
+            "id"      => "id",
+            "exten"   => "name",
+            "name"    => "callerid",
+            "channel" => "canal",
+            "group"
+        ));
         $select->where("peer_type='R'");
 
         if ($this->_request->getPost('filtro')) {
@@ -102,12 +100,14 @@ class ExtensionsController extends Zend_Controller_Action {
         $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page");
 
         $this->view->form_filter = $filter;
-        $this->view->filter = array(array("url" => "/snep/src/extensions.php?action=multiadd",
+        $this->view->filter = array(
+            array("url" => "/snep/src/extensions.php?action=multiadd",
                 "display" => $this->view->translate("Add Multiple Extensions"),
                 "css" => "includes"),
             array("url" => $baseUrl . "/extensions/add",
                 "display" => $this->view->translate("Add Extension"),
-                "css" => "include"));
+                "css" => "include")
+        );
     }
 
     public function addAction() {
@@ -431,7 +431,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "'$exten','$extenPass','$extenName','$context','$exten','$qualify',";
             $sql.= "'$secret','$type','$allow','$exten','$exten','$fullcontact',";
             $sql.= "'$dtmfmode','$advEmail','$callLimit','1',";
-            $sql.= "'1', '$advVoiceMail', $extenPickGrp ,'$channel','$nat', '$peerType',";
+            $sql.= "'1', '$advVoiceMail', $extenloadconfPickGrp ,'$channel','$nat', '$peerType',";
             $sql.= "$advPadLock,'no','$extenGroup',";
             $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
             $sql.= ")";
@@ -460,8 +460,6 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-
-
         $db = Zend_Registry::get('db');
 
         $id = $this->_request->getParam("id");
@@ -513,7 +511,6 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     /**
-     *
      * @return Snep_Form
      */
     protected function getForm() {
@@ -532,12 +529,7 @@ class ExtensionsController extends Zend_Controller_Action {
             // Monta informações para placas khomp
             $boardList = array();
 
-            try {
-                $khompInfo = new PBX_Khomp_Info();
-            } catch (Asterisk_Exception_CantConnect $ex) {
-                Zend_Debug::Dump($ex->getMessage());
-                exit;
-            }
+            $khompInfo = new PBX_Khomp_Info();
 
             if ($khompInfo->hasWorkingBoards()) {
                 foreach ($khompInfo->boardInfo() as $board) {
