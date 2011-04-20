@@ -17,7 +17,7 @@
  */
 
 /**
- * Classe que auxilia o uso e configuração de Ações das Regras de Negócio do
+ * Classe que auxilia o uso e configuração de Actions das Regras de Negócio do
  * SNEP.
  *
  * @category  Snep

@@ -5,7 +5,7 @@
             <name>
                 <type>text</type>
                 <options>
-                    <label>Nome da Fila</label>
+                    <label>Name da Fila</label>
                     <required>true</required>
                     <validators>
                         <alnum>

@@ -218,7 +218,7 @@ class PBX_Rule {
     }
 
     /**
-     * Adiciona Ações a fila de execução da regra.
+     * Adiciona Actions a fila de execução da regra.
      *
      * @param PBX_Rule_Action $acao - Ação a ser adicionada a fila de execução
      */
@@ -227,7 +227,7 @@ class PBX_Rule {
     }
 
     /**
-     * Adiciona Ações a fila de execução da regra.
+     * Adiciona Actions a fila de execução da regra.
      *
      * @param PBX_Rule_Action $action - Ação a ser adicionada a fila de execução
      */
@@ -468,7 +468,7 @@ class PBX_Rule {
     }
 
     /**
-     * Executa Ações das Regras
+     * Executa Actions das Regras
      *
      * Este método inicia a execução das ações que a regra deve efetuar.
      */

@@ -36,7 +36,7 @@ abstract class Snep_Inspector_Test {
     abstract public function getTests();
 
     /**
-     * @return string Nome do teste que será executado
+     * @return string Name do teste que será executado
      */
     abstract public function getTestName();
 }

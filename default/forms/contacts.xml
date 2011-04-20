@@ -4,7 +4,7 @@
     <name>
         <type>text</type>
         <options>
-            <label>Nome do Contato</label>
+            <label>Name</label>
             <required>true</required>
             <validators>
                 <alnum>
@@ -20,43 +20,43 @@
         <type>select</type>
         <options>
             <required>true</required>
-            <label>Grupo de Contato</label>
+            <label>Group</label>
         </options>
     </group>
     <address>
         <type>text</type>
         <options>
-            <label>Endereço</label>
+            <label>Address</label>
         </options>
     </address>
     <city>
         <type>text</type>
         <options>
-            <label>Cidade</label>
+            <label>City</label>
         </options>
     </city>
     <state>
         <type>text</type>
         <options>
-            <label>Estado</label>
+            <label>State</label>
         </options>
     </state>
     <zipcode>
         <type>text</type>
         <options>
-            <label>Código Postal</label>
+            <label>Zip Code</label>
         </options>
     </zipcode>
     <phone>
         <type>text</type>
         <options>
-            <label>Fone</label>
+            <label>Phone</label>
         </options>
     </phone>
     <cell>
         <type>text</type>
         <options>
-            <label>Celular</label>
+            <label>Cellphone</label>
         </options>
     </cell>
 </elements>

@@ -5,7 +5,7 @@
             <emp_nome>
                 <type>text</type>
                 <options>
-                    <label>Nome da Empresa</label>
+                    <label>Name da Empresa</label>
                     <required>true</required>
                 </options>
             </emp_nome>
@@ -32,7 +32,7 @@
                 <type>text</type>
                 <options>
                     <label>Usuário</label>
-                    <description>Nome do usuário da conexão via socket com Asterisk</description>
+                    <description>Name do usuário da conexão via socket com Asterisk</description>
                     <required>true</required>
                 </options>
             </user_sock>

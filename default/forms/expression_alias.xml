@@ -17,7 +17,7 @@
             <type>Text</type>
             <options>
                 <required>true</required>
-                <label>Nome</label>
+                <label>Name</label>
                 <size>30</size>
             </options>
         </name>

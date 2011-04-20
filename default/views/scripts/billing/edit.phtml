@@ -57,14 +57,14 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Código País") ?> :</td>
+               <td class="formlabel"> <?php echo $this->translate("Code País") ?> :</td>
                <td class="subtable" >
                   <input name="ddi" type="text" disabled size="3" maxlength="4" value="<?php echo $this->Carrier['ddi']?>" /> *
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Código Cidade") ?> :</td>
+               <td class="formlabel"> <?php echo $this->translate("Code Cidade") ?> :</td>
                <td class="subtable" >
                   <input name="ddd" id="ddd" disabled type="text" size="2" maxlength="3" value="<?php echo $this->Carrier['ddd']?>" /> *
                </td>
@@ -95,7 +95,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                  <td class="cen" width="20%"> <?php echo $this->translate('Válido à partir de') ?> </td>
                  <td class="dir"> <?php echo $this->translate('Tarifa Base para Fixo') ?> </td>
                  <td class="dir"> <?php echo $this->translate('Tarifa base para Celular') ?> </td>
-                 <td class="cen" width="10%"> <?php echo $this->translate('Ações') ?> </td>
+                 <td class="cen" width="10%"> <?php echo $this->translate('Actions') ?> </td>
               </tr>
            </thead>
            <tr>
@@ -119,7 +119,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                      </td>
                      <td class="txt_alterar">
                          <input class="campos" type="checkbox" name="action[<?php echo $idBill ?>]" value="<?php echo $idBill ?>" />
-                         <?php echo $this->translate('Alterar') ?>
+                         <?php echo $this->translate('Edit') ?>
                      </td>
                  </tr>
 
@@ -190,7 +190,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
           var avfix = document.formulario.elements['vfix['+ind+']'] ;
           var avcel = document.formulario.elements['vcel['+ind+']'] ;
           if (lst.checked) {
-             // Verifica Nome nao esta em Branco
+             // Verifica Name nao esta em Branco
              dados[ctd] = "{$LANG.vlrbase_fix};"+avfix.value+";FLOAT;";
              ctd += 1;
              // Verifica senha numerica

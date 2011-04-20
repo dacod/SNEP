@@ -124,7 +124,7 @@ class Snep_Bootstrap_Agi extends Snep_Bootstrap {
         // Atualizando request para facilitar trabalho das ações
         $this->updateRequest();
 
-        // Iniciando modulos e Ações das regras de negócio
+        // Iniciando modulos e Actions das regras de negócio
         $this->startModules();
         $this->startActions();
 

@@ -60,7 +60,7 @@ class QueuesController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name"      => $this->view->translate("Nome"),
+        $opcoes = array("name"      => $this->view->translate("Name"),
                         "musiconhold"      => $this->view->translate("Classe de Áudio"),
                         "strategy"    => $this->view->translate("Estratégia"),
                         "sla"    => $this->view->translate("SLA"),
@@ -266,7 +266,7 @@ class QueuesController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Filas » Editar » $id");
+        $this->view->breadcrumb = $this->view->translate("Filas » Edit » $id");
 
         $queue = Snep_Queues_Manager::get($id);
 

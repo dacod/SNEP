@@ -32,7 +32,7 @@ require_once "Snep/Channel.php";
 abstract class Snep_Usuario extends Snep_Channel {
 
     /**
-     * Nome do usuário
+     * Name do usuário
      *
      * @var string
      */
@@ -60,7 +60,7 @@ abstract class Snep_Usuario extends Snep_Channel {
     protected $senha;
 
     /**
-     * Nome de usuário para acesso a interface.
+     * Name de usuário para acesso a interface.
      *
      * @var string
      */

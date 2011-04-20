@@ -69,7 +69,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
         $this->view->URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/";
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name" => $this->view->translate("Nome"));
+        $opcoes = array("name" => $this->view->translate("Name"));
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
@@ -99,7 +99,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/add');
 
         $form->getElement('name')
-             ->setLabel($this->view->translate('Nome'));
+             ->setLabel($this->view->translate('Name'));
 
         $form->getElement('type')
             ->setRequired(true)
@@ -162,7 +162,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais » Alterar Grupos de Ramais");
+        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais » Edit Grupos de Ramais");
 
         $xml = new Zend_Config_Xml( "default/forms/extensions_groups.xml" );
         $form = new Snep_Form( $xml );
@@ -173,7 +173,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
         $group = Snep_ExtensionsGroups_Manager::getGroup($id);
 
         $groupId = $form->getElement('id')->setValue($id);
-        $groupName = $form->getElement('name')->setValue($group['name'])->setLabel($this->view->translate('Nome'));;
+        $groupName = $form->getElement('name')->setValue($group['name'])->setLabel($this->view->translate('Name'));;
 
         $groupType = $form->getElement('type');
         $groupType->setRequired(true)

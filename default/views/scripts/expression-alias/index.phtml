@@ -10,8 +10,8 @@ echo $this->render('filter.phtml')
     <thead>
         <tr>
             <th valign="middle" width="10px"><?php echo $this->translate('ID') ?></th>
-            <th><?php echo $this->translate('Nome') ?></th>
-            <th  colspan="2" width="40px"><?php echo $this->translate('Ações') ?></th>
+            <th><?php echo $this->translate('Name') ?></th>
+            <th  colspan="2" width="40px"><?php echo $this->translate('Actions') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -22,13 +22,13 @@ echo $this->render('filter.phtml')
             <td align="center"><?php echo $value['id'] ?></td>
             <td><?php echo $value['name'] ?></td>
             <td valign="middle" align="center" width="20px">
-                <acronym title="<?php echo $this->translate('Alterar') ?>">
-                    <a href='<?php echo $this->baseUrl(); ?>/index.php/expression-alias/edit/id/<?php echo $value['id'] ?>'><img src="<?php echo $this->baseUrl(); ?>/imagens/edit.png" alt="<?php echo $this->translate('Alterar') ?>" /></a>
+                <acronym title="<?php echo $this->translate('Edit') ?>">
+                    <a href='<?php echo $this->baseUrl(); ?>/index.php/expression-alias/edit/id/<?php echo $value['id'] ?>'><img src="<?php echo $this->baseUrl(); ?>/imagens/edit.png" alt="<?php echo $this->translate('Edit') ?>" /></a>
                 </acronym>
             </td>
             <td valign="middle" align="center" width="20px">
-                <acronym title="<?php echo $this->translate('Excluir') ?>">
-                    <img src="<?php echo $this->baseUrl(); ?>/imagens/delete.png" alt="<?php echo $this->translate('Excluir') ?>" onclick="remove_grupo('<?php echo $value['id'] ?>')"/>
+                <acronym title="<?php echo $this->translate('Delete') ?>">
+                    <img src="<?php echo $this->baseUrl(); ?>/imagens/delete.png" alt="<?php echo $this->translate('Delete') ?>" onclick="remove_grupo('<?php echo $value['id'] ?>')"/>
                 </acronym>
             </td>
         </tr>

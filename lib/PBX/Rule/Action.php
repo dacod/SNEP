@@ -121,7 +121,7 @@ abstract class PBX_Rule_Action {
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
      *
-     * @return string Nome da Ação
+     * @return string Name da Ação
      */
     abstract public function getName();
 

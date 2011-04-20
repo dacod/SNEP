@@ -105,7 +105,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
         $this->view->form = $form;
 
         $id = (int) $this->getRequest()->getParam('id');
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Alias Expressão Regular » Editar Alias $id");
+        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Alias Expressão Regular » Edit Alias $id");
         $aliasesPersistency = PBX_ExpressionAliases::getInstance();
 
         if ($this->getRequest()->isPost()) {

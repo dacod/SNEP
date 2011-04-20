@@ -61,7 +61,7 @@ class Cadeado extends PBX_Rule_Action {
 
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
-     * @return Nome da Ação
+     * @return Name da Ação
      */
     public function getName() {
         return $this->i18n->translate("Cadeado");

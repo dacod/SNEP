@@ -176,7 +176,7 @@ abstract class Snep_Bootstrap {
         $actions = PBX_Rule_Actions::getInstance();
 
         foreach( scandir($actions_dir) as $filename ) {
-            // Todos os arquivos .php devem ser classes de Ações
+            // Todos os arquivos .php devem ser classes de Actions
             if( preg_match("/.*\.php$/", $filename) ) {
                 // Tentar instanciar e Adicionar no array
                 $classname = 'PBX_Rule_Action_' . basename($filename, '.php');
@@ -195,7 +195,7 @@ abstract class Snep_Bootstrap {
             }
             if( file_exists($actions_dir) ) {
                 foreach( scandir($actions_dir) as $filename ) {
-                    // Todos os arquivos .php devem ser classes de Ações
+                    // Todos os arquivos .php devem ser classes de Actions
                     if( preg_match("/.*\.php$/", $filename) ) {
                         // Tentar instanciar e Adicionar no array
                         require_once $actions_dir . "/" . $filename;

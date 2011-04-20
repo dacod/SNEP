@@ -17,7 +17,7 @@
  */
 
 /**
- * Exceção de Ações onde é requerido um desvio no fluxo normal (sequencial) de
+ * Exceção de Actions onde é requerido um desvio no fluxo normal (sequencial) de
  * execução de ações.
  *
  * @category  Snep

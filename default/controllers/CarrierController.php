@@ -61,8 +61,8 @@ class CarrierController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("codigo"      => $this->view->translate("Código"),
-                        "nome"        => $this->view->translate("Nome"));
+        $opcoes = array("codigo"      => $this->view->translate("Code"),
+                        "nome"        => $this->view->translate("Name"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');

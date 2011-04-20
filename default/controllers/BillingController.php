@@ -141,10 +141,10 @@ class BillingController extends Zend_Controller_Action {
         $city->setRegisterInArrayValidator(false);
 
         $country_code = $form->getElement('country_code');
-        $country_code->setLabel( $this->view->translate('Código País') );
+        $country_code->setLabel( $this->view->translate('Code País') );
 
         $city_code = $form->getElement('city_code');
-        $city_code->setLabel( $this->view->translate('Código Cidade') );
+        $city_code->setLabel( $this->view->translate('Code Cidade') );
 
         $prefix = $form->getElement('prefix');
         $prefix->setLabel( $this->view->translate('Prefixo') );
@@ -197,7 +197,7 @@ class BillingController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Tarifas » Editar");
+        $this->view->breadcrumb = $this->view->translate("Tarifas » Edit");
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
@@ -269,12 +269,12 @@ class BillingController extends Zend_Controller_Action {
         $city->setAttrib('disable', true);
 
         $country_code = $form->getElement('country_code');
-        $country_code->setLabel( $this->view->translate('Código País') );
+        $country_code->setLabel( $this->view->translate('Code País') );
         $country_code->setValue($objCarrier['ddi']);
         $country_code->setAttrib('readonly', true);
 
         $city_code = $form->getElement('city_code');
-        $city_code->setLabel( $this->view->translate('Código Cidade') );
+        $city_code->setLabel( $this->view->translate('Code Cidade') );
         $city_code->setValue($objCarrier['ddd']);
         $city_code->setAttrib('readonly', true);
 

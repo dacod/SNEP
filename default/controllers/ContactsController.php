@@ -32,8 +32,10 @@ class ContactsController extends Zend_Controller_Action {
      * List all Contacts
      */
     public function indexAction() {
-        
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Contatos");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Contacts")
+        ));
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -62,12 +64,12 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name"    => $this->view->translate("Nome"),
-                        "city"    => $this->view->translate("Cidade"),
-                        "state"   => $this->view->translate("Estado"),
-                        "cep"     => $this->view->translate("CEP"),
-                        "phone_1" => $this->view->translate("Telefone"),
-                        "cell_1"  => $this->view->translate("Celular"));
+        $opcoes = array("name"    => $this->view->translate("Name"),
+                        "city"    => $this->view->translate("City"),
+                        "state"   => $this->view->translate("State"),
+                        "cep"     => $this->view->translate("ZIP Code"),
+                        "phone_1" => $this->view->translate("Phone"),
+                        "cell_1"  => $this->view->translate("Cellphone"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -78,10 +80,10 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                                          "display" => $this->view->translate("Incluir Contato"),
+                                          "display" => $this->view->translate("Add Contact"),
                                           "css" => "include"),
                                     array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/import/",
-                                          "display" => $this->view->translate("Importar CSV"),
+                                          "display" => $this->view->translate("Import CSV"),
                                           "css" => "includes")
         );
     }
@@ -90,8 +92,11 @@ class ContactsController extends Zend_Controller_Action {
      *  Add Contact
      */
     public function addAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Contatos » Cadastro");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Contacts"),
+            $this->view->translate("Add")
+        ));
         $xml = new Zend_Config_Xml( "default/forms/contacts.xml" );
 
         $form = new Snep_Form( $xml );
@@ -118,7 +123,7 @@ class ContactsController extends Zend_Controller_Action {
                 $form_isValid = $form->isValid($_POST);
 
                 if( empty( $_POST['group'] ) ) {
-                    $group->addError($this->view->translate('Nenhum grupo cadastrado'));
+                    $group->addError($this->view->translate('No group selected'));
                     $form_isValid = false;
                 }
 
@@ -138,8 +143,11 @@ class ContactsController extends Zend_Controller_Action {
      * Edit Contact
      */
     public function editAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Contatos » Editar");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Contacts"),
+            $this->view->translate("Edit")
+        ));
         $id = $this->_request->getParam('id');
 
         $contact = Snep_Contacts_Manager::get($id);
@@ -191,8 +199,6 @@ class ContactsController extends Zend_Controller_Action {
      * Remove a Contact
      */
     public function removeAction() {
-
-       $this->view->breadcrumb = $this->view->translate("Contatos » Remover");
        $id = $this->_request->getParam('id');
 
        Snep_Contacts_Manager::remove($id);
@@ -204,9 +210,12 @@ class ContactsController extends Zend_Controller_Action {
      * Import contacts from CSV file
      */
     public function importAction() {
-
-       $this->view->breadcrumb = $this->view->translate("Contatos » Importar CSV");
-       $this->view->message = $this->view->translate("O arquivo deverá conter dados separados por virgula . O cabeçalho é opcional e pode ser removido na próxima tela.");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Contacts"),
+            $this->view->translate("Import CSV")
+        ));
+       $this->view->message = $this->view->translate("The file must be separated by commas. Header is optional and columns can be associated in the next screen.");
 
        $form = new Snep_Form();
        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/csv/');
@@ -219,8 +228,12 @@ class ContactsController extends Zend_Controller_Action {
      * Associate fields between database and csv file
      */
     public function csvAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Contatos » Associação de campos do CSV");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Contacts"),
+            $this->view->translate("Import CSV"),
+            $this->view->translate("Column Association"),
+        ));
         $adapter = new Zend_File_Transfer_Adapter_Http();
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
@@ -249,7 +262,7 @@ class ContactsController extends Zend_Controller_Action {
                     $row = explode(",", preg_replace("/[^a-zA-Z0-9,\._\*#]/", "", $line));
 
                     if (count($row) != $column_count) {
-                        throw new ErrorException( $this->view->translate("Número inválido de colunas na linha: $row_number"));
+                        throw new ErrorException( $this->view->translate("Invalid column count on line %d", $row_number));
                     }
                     $csv[] = $row;
                     $row_number++;
@@ -257,14 +270,14 @@ class ContactsController extends Zend_Controller_Action {
             }
             fclose($handle);
 
-            $standard_fields = array("discard" => $this->view->translate("Descartar"),
-                                     "name"    => $this->view->translate("Nome"),
-                                     "address" => $this->view->translate("Endereço"),
-                                     "city"    => $this->view->translate("Cidade"),
-                                     "state"   => $this->view->translate("Estado"),
-                                     "zipcode" => $this->view->translate("CEP"),
-                                     "phone" =>   $this->view->translate("Telefone"),
-                                     "cell"  =>   $this->view->translate("Celular") );
+            $standard_fields = array("discard" => $this->view->translate("Discard"),
+                                     "name"    => $this->view->translate("Name"),
+                                     "address" => $this->view->translate("Address"),
+                                     "city"    => $this->view->translate("City"),
+                                     "state"   => $this->view->translate("State"),
+                                     "zipcode" => $this->view->translate("Zip Code"),
+                                     "phone" =>   $this->view->translate("Phone"),
+                                     "cell"  =>   $this->view->translate("Cellphone") );
 
             $session = new Zend_Session_Namespace('csv');
             $session->data = $csv;
@@ -285,7 +298,6 @@ class ContactsController extends Zend_Controller_Action {
      * Process a csv file
      */
     public function csvprocessAction() {
-
         if ($this->getRequest()->isPost()) {
             $session = new Zend_Session_Namespace('csv');
             $fields = $_POST['field'];

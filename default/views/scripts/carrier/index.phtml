@@ -8,11 +8,11 @@ echo $this->render('filter.phtml');
 <table>
    <thead>
       <tr>
-         <th class="numeric"> <?php echo $this->translate('Código') ?> </th>
-         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th class="numeric"> <?php echo $this->translate('Code') ?> </th>
+         <th> <?php echo $this->translate('Name') ?> </th>
          <th> <?php echo $this->translate('Tempo de Arranque') ?> </th>
          <th> <?php echo $this->translate('Tempo de Fracionamento') ?> </th>
-         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Actions') ?> </th>
       </tr>
    </thead>
    <tbody>
@@ -36,13 +36,13 @@ echo $this->render('filter.phtml');
                 </td>
                 <td class="action">
                     <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $carrier['codigo'] ?>">
-                        <?php echo $this->translate('Alterar')?>
+                        <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
                     <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
                     <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $carrier['codigo'] ?>','<?php echo $this->remove_msg ?>')">
-                        <?php echo $this->translate('Excluir')?>
+                        <?php echo $this->translate('Delete')?>
                     </span>
                 </td>
             </tr>

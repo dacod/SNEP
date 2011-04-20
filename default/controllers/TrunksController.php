@@ -140,8 +140,8 @@ class TrunksController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/trunks/index/";
 
-        $opcoes = array("name" => $this->view->translate("Código"),
-            "callerid" => $this->view->translate("Nome")
+        $opcoes = array("name" => $this->view->translate("Code"),
+            "callerid" => $this->view->translate("Name")
         );
 
         // Formulário de filtro.

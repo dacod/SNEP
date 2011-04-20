@@ -9,9 +9,9 @@ echo $this->render('filter.phtml');
 <table>
    <thead>
       <tr>
-         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Name') ?> </th>
          <th> <?php echo$this->translate('Tipo') ?> </th>
-         <th colspan="2" class="action"> <?php echo $this->translate('Ações') ?> </th>
+         <th colspan="2" class="action"> <?php echo $this->translate('Actions') ?> </th>
       </tr>
    </thead>
    <tbody>
@@ -41,12 +41,12 @@ echo $this->render('filter.phtml');
                         <?php if( ! array_key_exists($val['name'], $this->tra) ) : ?>
                             <td class="action">
                                 <a class="alterar" href='<?php echo $this->URL; ?>edit/id/<?php echo $val['name'] ?>'>
-                                    <?php echo $this->translate('Alterar')?>
+                                    <?php echo $this->translate('Edit')?>
                                 </a>
                             </td>
                             <td class="action">
                                 <a class="excluir" href='<?php echo $this->URL; ?>delete/id/<?php echo $val['name']?>'>
-                                    <?php echo $this->translate("Excluir"); ?>
+                                    <?php echo $this->translate("Delete"); ?>
                                 </a>
                             </td>
                             <?php else : ?>

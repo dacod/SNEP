@@ -17,7 +17,7 @@
  */
 
 /**
- * Ações do Snep
+ * Actions do Snep
  *
  * Classe que facilita e abstrai o controle das ações instaladas no sistema.
  *

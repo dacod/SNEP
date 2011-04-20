@@ -17,7 +17,7 @@
  */
 
 /**
- * ActionLooop Loop em Ações
+ * ActionLooop Loop em Actions
  *
  * Ação que faz possível um loop finito na execução de ações nas regras de
  * negócio.
@@ -53,7 +53,7 @@ class ActionLoop extends PBX_Rule_Action {
 
     /**
      * Retorna o nome da Ação. Geralmente o nome da classe.
-     * @return Nome da Ação
+     * @return Name da Ação
      */
     public function getName() {
         return $this->i18n->translate("Loop");

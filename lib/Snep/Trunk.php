@@ -51,7 +51,7 @@ class Snep_Trunk extends Snep_Channel {
     private $id;
 
     /**
-     * Nome do tronco
+     * Name do tronco
      *
      * @var String
      */
@@ -114,7 +114,7 @@ class Snep_Trunk extends Snep_Channel {
         $this->id = $id;
     }
     
-    public function setNome($novo_nome) {
+    public function setName($novo_nome) {
         $this->nome = $novo_nome;
     }
     

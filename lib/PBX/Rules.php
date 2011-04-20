@@ -196,7 +196,7 @@ class PBX_Rules {
      * Atualiza uma regra de negócio no banco de dados.
      *
      * Para usar esse método, basta pegar o objeto da regra do banco de dados.
-     * Alterar seus atributos e passá-lo a esse método.
+     * Edit seus atributos e passá-lo a esse método.
      * 
      * @param PBX_Rule $rule
      */

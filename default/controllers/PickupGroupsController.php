@@ -63,8 +63,8 @@ class PickupGroupsController extends Zend_Controller_Action {
         $this->view->URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/";
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("cod_grupo" => $this->view->translate("Código"),
-            "nome" => $this->view->translate("Nome"));
+        $opcoes = array("cod_grupo" => $this->view->translate("Code"),
+            "nome" => $this->view->translate("Name"));
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
@@ -89,7 +89,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/add');
 
-        $name = $form->getElement('name')->setLabel($this->view->translate("Nome"));
+        $name = $form->getElement('name')->setLabel($this->view->translate("Name"));
 
         if ($this->getRequest()->getPost()) {
 
@@ -111,7 +111,7 @@ class PickupGroupsController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Captura » Alterar Grupos de Captura");
+        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Captura » Edit Grupos de Captura");
 
         $id = $this->_request->getParam('id');
         $pickupgroup = Snep_PickupGroups_Manager::get($id);
@@ -122,7 +122,7 @@ class PickupGroupsController extends Zend_Controller_Action {
 
         $name = $form->getElement('name')->setValue($pickupgroup['nome']);
         $id = $form->getElement('id')->setValue($pickupgroup['cod_grupo']);
-        $name = $form->getElement('name')->setLabel($this->view->translate("Nome"));
+        $name = $form->getElement('name')->setLabel($this->view->translate("Name"));
 
         if ($this->_request->getPost()) {
 
