@@ -19,20 +19,11 @@
 
 class IpStatusController extends Zend_Controller_Action {
 
-    /**
-     *
-     * @var Zend_Form
-     */
-    protected $form;
-    /**
-     *
-     * @var array
-     */
-    protected $forms;
-
     public function indexAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Status » Ramais, Troncos IP, Filas");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Status"),
+            $this->view->translate("Extensions, Trunks and Queues")
+        ));
 
         require_once "includes/AsteriskInfo.php";
         $astinfo = new AsteriskInfo();
