@@ -68,8 +68,7 @@ class CostCenterController extends Zend_Controller_Action {
         $opcoes = array("codigo" => $this->view->translate("Code"),
                         "tipo" => $this->view->translate("Type"),
                         "nome" => $this->view->translate("Name"),
-                        "descricao" => $this->view->translate("Description")
-        );
+                        "descricao" => $this->view->translate("Description") );
         
         $filter = new Snep_Form_Filter();
         $filter->setAction( $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -95,14 +94,8 @@ class CostCenterController extends Zend_Controller_Action {
             $this->view->translate("Add")
         ));
         
-        $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
-
-        $form = new Snep_Form( $xml );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
-        $form->getElement('type')->setRequired(true)->setMultiOptions( array('E' => $this->view->translate('Incoming'),
-                                                                             'S'=> $this->view->translate('Outgoing'),
-                                                                             'O'=> $this->view->translate('Other')) );
-
+        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/cost_center.xml" ) );
+        
         if($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
@@ -134,27 +127,22 @@ class CostCenterController extends Zend_Controller_Action {
             $this->view->translate("Cost Center"),
             $this->view->translate("Edit")
         ));
-        $xml = new Zend_Config_Xml( "default/forms/cost_center.xml" );
 
         $costCenter = Snep_CostCenter_Manager::get($id);
 
-        $form = new Snep_Form( $xml );
+        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/cost_center.xml" ) );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
         $form->getElement('id')->setValue( $costCenter['codigo'] )->setAttrib('readonly', true);
         $form->getElement('name')->setValue( $costCenter['nome'] );
         $form->getElement('description')->setValue( $costCenter['descricao'] );
-        $form->getElement('type')->setValue( $costCenter['tipo'] )->setRequired(true)
-                                 ->setMultiOptions(array('E' => $this->view->translate('Incoming'),
-                                                         'S'=> $this->view->translate('Outgoing'),
-                                                         'O'=> $this->view->translate('Other')));
+        $form->getElement('type')->setValue( $costCenter['tipo'] );
 
         if($this->_request->getPost()) {
-
+            
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
 
                 if($form_isValid) {
-
                     Snep_CostCenter_Manager::edit($dados);
                     $this->_redirect( $this->getRequest()->getControllerName() );
                     

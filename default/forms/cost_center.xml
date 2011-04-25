@@ -31,9 +31,17 @@
         </options>
     </description>
     <type>
-        <type>radio</type>
+        <type>radio</type>                
         <options>
+            <required>true</required>
             <label>Type</label>
+            <value>E</value>
+            <separator> </separator>
+            <multioptions>
+                <E>Incoming</E>
+                <S>Outgoing</S>
+                <O>Other</O>
+            </multioptions>
         </options>
     </type>
 </elements>
