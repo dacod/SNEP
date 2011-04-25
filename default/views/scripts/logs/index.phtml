@@ -1,5 +1,12 @@
-<?php 
-
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . "/css/datepicker.css");
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/datepicker.js", 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/prototype-date-extensions.js", 'text/javascript');
+$locale = str_replace("_", "-", Snep_Locale::getInstance()->getLocale());
 echo $this->form;
-
 ?>
+<script type="text/javascript"> 
+  new Control.DatePicker('init_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: false, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('end_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: false, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+</script>
+ 
