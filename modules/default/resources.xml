@@ -47,8 +47,8 @@
     
       <group id="reports" label="Reports">
        <!--  <item uri="src/rel_chamadas.php" label="menu_rel_callers"></item> -->
+       <resource id="ranking-report" label="Call Ranking"></resource>
         <resource id="services-report" label="Services Use"></resource>
-        <!-- <item uri="src/rel_ranking.php" label="menu_callranking"></item> -->
     </group>
 
     <group id="status" label="Status">

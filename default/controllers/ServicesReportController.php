@@ -236,7 +236,7 @@ class ServicesReportController extends Zend_Controller_Action {
         }
 
         if ($reportData) {
-            $this->view->breadcrumb = $this->view->translate("Relatórios » Serviços Utilizados | Periodo: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) a {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
+            $this->view->breadcrumb = $this->view->translate("Relatórios » Ranking das Ligações  <br/> Periodo: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) a {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
 
             $paginatorAdapter = new Zend_Paginator_Adapter_Array($reportData);
             $paginator = new Zend_Paginator($paginatorAdapter);
@@ -272,7 +272,7 @@ class ServicesReportController extends Zend_Controller_Action {
                 $csvData = $csv->generate($reportData, true);
 
                 $dateNow = new Zend_Date();
-                $fileName = $this->view->translate('relatorio_servicos_csv_') . $dateNow->toString($this->view->translate('dd-MM-yyyy')) . '.csv';
+                $fileName = $this->view->translate('relatorio_servicos_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
 
                 header('Content-type: application/octet-stream');
                 header('Content-Disposition: attachment; filename="' . $fileName . '"');

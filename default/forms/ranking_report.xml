@@ -50,73 +50,54 @@
         </elements>    
     </period>  
     
-    <exten>
+    <rank>
         <elements>
             
-            <group_select>
-                <type>select</type>
+            <type>
+                <type>radio</type>
                 <options>
-                    <label>Grupo</label>
+                    <label>Tipo de Ranking</label>
+                    <value>num</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <num>Quantidade</num>
+                        <time>Tempo</time>
+                    </multioptions>
                 </options>
-            </group_select>
+            </type>
             
-            <exten_select>
+            <origin>
                 <type>text</type>
                 <options>
-                    <label>Ramais</label>
-                    <description>
-                    (separados com ';')
-                    </description>
-                    <required>true</required>
-                    <validators>
+                    <label>Exibir Ranking de 'n' Origens</label>
+                    <value>10</value>
+                    <description>Apenas números</description>
+                     <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
                         <regex>
                             <validator>regex</validator>
                             <options>
-                                <pattern>/(\d{4}[;]?)$/i</pattern>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Este campo deve conter apenas números</regexNotMatch>
+                                </messages>                     
                             </options>
                         </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>1</min>
-                                <max>200</max>
-                            </options>
-                        </strlen>
-                    </validators>
+                        </validators>
                 </options>
-            </exten_select>
+            </origin>
+            
+            <view>
+                <type>select</type>
+                <options>
+                    <label>Exibir os TOP 'n' por Origem</label>
+                    <value>10</value>
+                </options>
+            </view>
             
         </elements>    
-    </exten>  
-    
-    <service>
-        <elements>
-            
-            <serv_select>
-                <type>MultiCheckbox</type>
-                <separator>' '</separator>
-                <options>
-                    <label>Especifique os serviços</label>
-                    <multioptions>
-                        <SIGAME>SIGAME</SIGAME>
-                        <DND>DND</DND>
-                    </multioptions>
-                </options>
-            </serv_select>
-            
-            <stat_select>
-                <type>MultiCheckbox</type>
-                <separator>' '</separator>
-                <options>
-                    <label>Estado atual do serviço</label>                    
-                    <multioptions>
-                        <A>Serviços - Ativados/Desativados </A>
-                        <D>Serviços Desabilitados</D>
-                    </multioptions>
-                </options>
-            </stat_select>
-            
-        </elements>    
-    </service>  
-    
+    </rank>  
+
 </form>

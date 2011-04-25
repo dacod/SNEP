@@ -1,0 +1,88 @@
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl() . "/css/index.css");
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
+?>
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2"> <?php echo $this->translate('Seq') ?> </th>
+            <th rowspan="2"> <?php echo $this->translate('Destino') ?> 
+            <?php
+            if ($this->type == 'num') {
+                ?>
+                <th colspan="3"> <?php echo $this->translate('Quantidade') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Tempo') ?> </th>
+                <?php
+            } else {
+                ?>
+                <th colspan="3"> <?php echo $this->translate('Tempo') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Quantidade') ?> </th>
+
+                <?php
+            }
+            ?>
+        </tr>
+        <tr>
+            <th> <?php echo $this->translate('Atendidas') ?> </th>
+            <th> <?php echo $this->translate('Não Atendida') ?> </th>
+            <th> <?php echo $this->translate('Total') ?> </th>
+            <th> <?php echo $this->translate('Atendidas') ?> </th>
+            <th> <?php echo $this->translate('Não Atendida') ?> </th>
+            <th> <?php echo $this->translate('Total') ?> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $count = 1;
+        foreach ($this->rank as $source => $numCal) {
+            ?>
+            <tr>
+                <td colspan="13">
+                    <strong>
+                        <h3>
+                    <div>
+                        <?php
+                        echo $count . $this->translate(". Origem: ") . $source;
+                        if ($this->type == 'num')
+                            echo '&nbsp;&nbsp;&nbsp;&nbsp;Total: <span class="textocampos">[' . $this->countData[$source] . ']</span>';
+                        else
+                            echo '&nbsp;&nbsp;&nbsp;&nbsp;Total: <span class="textocampos">[' . $this->timeData[$source] . ']</span>';
+                        ?>
+                    </div>    
+                            </h3>
+                    </strong>
+                </td>
+            </tr>
+            <?php
+            $count2 = 1;
+                foreach ($numCal as $caller => $dest) {
+                    foreach ($dest as $destiny => $valueDest) {
+                        echo '<tr>';
+                        echo '<td class="cen">'.$count2.'</td>';
+                        echo '<td class="cen">'.$destiny.'</td>';
+                        if ($this->type == 'num'){
+                            echo '<td class="cen">'.(($valueDest['QA'])?$valueDest['QA'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['QN'])?$valueDest['QN'] : 0).'</td>';
+                            echo '<td class="cen"><strong>'.(($valueDest['QT'])?$valueDest['QT'] : 0).'<strong></td>';
+                            echo '<td class="cen">'.(($valueDest['TA'])?$valueDest['TA'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['TN'])?$valueDest['TN'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['TT'])?$valueDest['TT'] : 0).'</td>';
+                        }else{
+                            echo '<td class="cen">'.(($valueDest['TA'])?$valueDest['TA'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['TN'])?$valueDest['TN'] : 0).'</td>';
+                            echo '<td class="cen"><strong>'.(($valueDest['TT'])?$valueDest['TT'] : 0).'</strong></td>';
+                            echo '<td class="cen">'.(($valueDest['QA'])?$valueDest['QA'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['QN'])?$valueDest['QN'] : 0).'</td>';
+                            echo '<td class="cen">'.(($valueDest['QT'])?$valueDest['QT'] : 0).'</td>';
+                        }
+                           $count2++;
+                           echo '</tr>';
+                    }
+                }
+            $count++;
+        }
+        ?>
+    </tbody>
+</table>

@@ -37,7 +37,7 @@ class Snep_Csv {
      * @param bool $header
      * @return string 
      */
-    public function generate($data, $header = true) {
+    public function generate($data, $header = true, $title = null) {
 
         $indexes = null;
         $values = null;
@@ -52,7 +52,11 @@ class Snep_Csv {
 
         $headers = array();
         foreach($indexes as $i => $v) {
-            $headers[$v] = $v;
+             if ($title){
+                 $headers[$v] = $title[$v];
+             }else{
+                 $headers[$v] = $v;
+             }
         }
 
         if($header) {

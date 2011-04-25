@@ -1,0 +1,14 @@
+<?php
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
+?>
+
+<?php
+if( isset( $this->error ) ) {
+    echo "<div class=\"error_box\" > {$this->error} </div>";
+}
+echo $this->form;
+?>
+
+
