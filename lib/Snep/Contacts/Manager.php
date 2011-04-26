@@ -79,14 +79,15 @@ class Snep_Contacts_Manager {
 
         print_r($contact);
 
-        $insert_data = array('name'     => $contact['name'],
+        $insert_data = array('id'       => $contact['id'],
+                             'name'     => $contact['name'],
                              'address'  => $contact['address'],
                              'city'     => $contact['city'],
                              'state'    => $contact['state'],
                              'cep'      => $contact['zipcode'],
                              'phone_1'  => $contact['phone'],
                              'cell_1'   => $contact['cell'],
-                             'group'    => $contact['group']);
+                             'group'    => $contact['group'] );
 
         $db->insert('contacts_names', $insert_data);
    
@@ -130,5 +131,25 @@ class Snep_Contacts_Manager {
 
         $db->update("contacts_names", $update_data, "id = '{$contact['id']}'");
 
+    }
+
+    /**
+     * Method to return a last inserted id.
+     * The Contacts id cannot be a auto increment field
+     */
+    public function getLastId() {
+
+        $db = Zend_registry::get('db');
+
+        $select = $db->select()
+            ->from("contacts_names", array(' max( floor( id ) ) as id'))
+            //->order('id DESC')
+            ->limit('1');
+
+        $stmt = $db->query($select);
+        $lastId = $stmt->fetch();
+        $return = $lastId['id'] + 1;
+
+        return $return;
     }
 }

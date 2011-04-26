@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modelo>
 <elements>
+    <id>
+        <type>text</type>
+        <options>
+            <label>Code</label>
+            <required>true</required>
+        </options>
+    </id>
     <name>
         <type>text</type>
         <options>

@@ -1,6 +1,11 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 ?>
+<?php if($this->error): ?>
+    <div class="error_box">
+        <?php echo $this->error; ?>
+    </div>
+<?php endif ?>
 
 <?php if($this->invalid): ?>
 
@@ -43,15 +48,19 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
     <div id="main_container" style="border-top: none;">
         <p style="text-align: center; margin: 0px; padding: 5px;">
             <label for="group"><?php echo $this->translate("Group"); ?></label>
+            
             <select id="group" name="group" class="campos">
-                <?php
-                    foreach ($this->group as $id => $group) {
-                        echo "<option value='$id'>$group</option>";
-                    }
-                ?>
-            </select><br />
+                <?php if( isset( $this->group ) )  : ?>
+                    <?php foreach ($this->group as $id => $group) : ?>
+                            <option value='<?php echo $id ?>'> <?php echo $group ?> </option>
+                    <?php endforeach ?>
+                <?php endif ?>
+            </select>
+
+            <br />
+
             <input type="checkbox" name="discard_first_row" id="discard_first_row" /><label for="discard_first_row"><?php echo $this->translate("Discard header"); ?></label><br />
-            <input class="new_button" type="submit" id="salvar" value="<?php echo $this->translate("Save"); ?>" />
+            <input class="new_button" <?php echo ( isset($this->error) ? 'disabled="true"' : null ) ?> type="submit" id="salvar" value="<?php echo $this->translate("Save"); ?>" />
             <input class="new_button" type="button" id="voltar" value="<?php echo $this->translate("Cancel"); ?>" onClick="history.back()" />
         </p>
     </div>
