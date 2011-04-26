@@ -1,0 +1,14 @@
+
+root { 
+    display: block;
+}
+
+.success {
+    text-align: center;
+    background-color: #CBFFCB;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}

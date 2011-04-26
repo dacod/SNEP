@@ -1,1 +1,17 @@
-<?php echo $this->form; ?>
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/action_configs.css" );
+?>
+<table>
+    <tbody>
+        <?php 
+        if ($this->success){
+        ?>
+        <tr>
+            <td class="success"><?php echo $this->translate('Atualizado com sucesso'); ?></td>
+        </tr>
+       <?php } ?>
+        <tr>
+            <td><?php echo $this->form; ?></td>
+        </tr>
+    </tbody>
+</table>

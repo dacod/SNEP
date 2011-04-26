@@ -8,7 +8,7 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
     <thead>
         <tr>
             <th><?php echo $this->translate('Name') ?></th>
-            <th><?php echo $this->translate('Descrição') ?></th>
+            <th><?php echo $this->translate('Description') ?></th>
             <th><?php echo $this->translate('Actions') ?></th>
         </tr>
     </thead>
@@ -21,7 +21,7 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
             <td><?php echo $this->translate($value['description']) ?></td>
             <td class="action"> 
             	<a class="configurar"  href='<?php echo $this->baseUrl(); ?>/index.php/action-configs/edit/id/<?php echo $value['id'] ?>'>
-                	<?php echo $this->translate('Configurar')?>
+                	<?php echo $this->translate('Configure')?>
                 </a>
             </td>
         </tr>
