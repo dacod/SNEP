@@ -126,7 +126,7 @@ class Snep_ContactGroups_Manager {
         $db->update("contacts_names", $update_data, "id = '{$contactId}'");
         
     }
-
+    
     /**
      * Method do return all contacts by group id
      * @param int $id

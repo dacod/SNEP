@@ -87,9 +87,8 @@ class ContactGroupsController extends Zend_Controller_Action {
                     $this->view->translate("Contact Group"),
                     $this->view->translate("Add")
                 ));
-        $xml = new Zend_Config_Xml("default/forms/contact_groups.xml");
-
-        $form = new Snep_Form($xml);
+        
+        $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups.xml") );
         $db = Zend_Registry::get('db');
 
         try {
@@ -136,8 +135,7 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         $id = $this->_request->getParam('id');
 
-        $xml = new Zend_Config_Xml("default/forms/contact_groups.xml");
-        $form = new Snep_Form($xml);
+        $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups.xml") );
 
         $group = Snep_ContactGroups_Manager::get($id);
         $form->getElement('group')->setValue($group['name']);
@@ -154,7 +152,6 @@ class ContactGroupsController extends Zend_Controller_Action {
                     $noGroupContacts[$contact['id']] = "{$contact['name']} ({$contact['groupName']})";
                 }
             }
-
             $this->view->objSelectBox = "contacts";
             $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $noGroupContacts, $groupContacts);
         }
@@ -190,7 +187,9 @@ class ContactGroupsController extends Zend_Controller_Action {
                     $this->view->translate("Contact Group"),
                     $this->view->translate("Delete")
                 ));
+
         $id = $this->_request->getParam('id');
+
         $confirm = $this->_request->getParam('confirm');
 
         if ($confirm == 1) {
@@ -201,7 +200,9 @@ class ContactGroupsController extends Zend_Controller_Action {
         $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
 
         if (count($contacts) > 0) {
+
             $this->_redirect('default/contact-groups/migration/id/' . $id);
+
         } else {
 
             $this->view->message = $this->view->translate("The group will be removed. After that you can't go back.");
@@ -221,6 +222,7 @@ class ContactGroupsController extends Zend_Controller_Action {
                     $this->view->translate("Contact Group"),
                     $this->view->translate("Migrate Contacts")
                 ));
+
         $id = $this->_request->getParam('id');
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();
@@ -230,47 +232,45 @@ class ContactGroupsController extends Zend_Controller_Action {
             }
         }
 
-        $form = new Snep_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/contact-groups/migration/stage/2');
+        $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups_migration.xml") );
+        $form->setAction( $this->getFrontController()->getBaseUrl() . '/contact-groups/migration/stage/2' );
 
         if (isset($allGroups)) {
-            $groupSelect = new Zend_Form_Element_Select('select');
-            $groupSelect->setMultiOptions($allGroups);
-            $groupSelect->setLabel($this->view->translate($this->view->translate("Novo Grupo")));
-            $form->addElement($groupSelect);
-            $form->addElement(new Zend_Form_Element_Submit($this->view->translate("Migrar")));
-            $form->addElement(new Zend_Form_Element_Submit($this->view->translate("Delete")));
-            $this->view->message = $this->view->translate("O grupo excluído possue contatos associados a ele. Selecione um novo grupo para os contatos. ");
+            $form->getElement('group')->setMultiOptions($allGroups);
+            $form->getElement('option')->setMultiOptions( array('migrate' => 'migrate contacts to group',
+                                                                'remove'  => 'remove all' ) )->setValue('migrate');
         } else {
-            $groupName = new Zend_Form_Element_Text('new_group');
-            $groupName->setLabel($this->view->translate($this->view->translate("Novo Grupo")));
-            $form->addElement($groupName);
-            $form->addElement(new Zend_Form_Element_Submit($this->view->translate("Criar")));
-            $form->addElement(new Zend_Form_Element_Submit($this->view->translate("Delete")));
-            $this->view->message = $this->view->translate("O grupo excluído é único e possue contatos associados a ele. Você pode migrar os contatos para um novo grupo. ");
+            $form->removeElement('group');
+            $form->getElement('option')->setMultiOptions( array('remove'  => 'remove all' ) );
+          
         }
 
-        $id_exclude = new Zend_Form_Element_Hidden("id");
-        $id_exclude->setValue($id);
+        $this->view->message = $this->view->translate("The excluded group has associated contacts.");
 
-        $form->addElement($id_exclude);
+        $form->getElement('id')->setValue($id);
 
         $stage = $this->_request->getParam('stage');
 
         if (isset($stage['stage']) && $id) {
 
-            if (isset($_POST['select'])) {
-                $toGroup = $_POST['select'];
-            } else {
-                $new_group = array('group' => $_POST['new_group']);
-                $toGroup = Snep_ContactGroups_Manager::add($new_group);
-            }
+            if($_POST['option'] == 'migrate') {
 
-            $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
-            foreach ($contacts as $contact) {
-                Snep_ContactGroups_Manager::insertContactOnGroup($toGroup, $contact['id']);
+                $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
+                foreach ($contacts as $contact) {
+                    Snep_ContactGroups_Manager::insertContactOnGroup($_POST['group'], $contact['id']);
+                }
+
+                Snep_ContactGroups_Manager::remove($_POST['id']);
+
             }
-            Snep_ContactGroups_Manager::remove($_POST['id']);
+            elseif($_POST['option'] == 'remove') {
+                $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
+                foreach ($contacts as $contact) {
+                    Snep_Contacts_Manager::remove($contact['id']);
+                }
+
+                Snep_ContactGroups_Manager::remove($_POST['id']);                
+            }
 
             $this->_redirect($this->getRequest()->getControllerName());
         }

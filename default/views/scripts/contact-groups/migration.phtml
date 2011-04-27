@@ -1,4 +1,23 @@
+<?php
+$this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
+?>
 <?php echo $this->message ?>
 <?php echo $this->form ?>
+
+<script language="javascript" type="text/javascript">
+    $( 'option-migrate').observe ('click' , enable);
+    $( 'option-remove').observe ('click' , disable);
+
+    Event.observe(window, 'load', init);
+
+    function enable() {
+        enableField('option-migrate', 'group');
+    }
+    function disable() {
+        enableField('option-migrate', 'group');
+    }
+  
+</script>
+
 
 
