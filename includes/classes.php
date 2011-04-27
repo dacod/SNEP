@@ -121,7 +121,9 @@ class Bar_Graph {
     * Retorna: Nome da Cidade/Estado
     *--------------------------------------------------------------------------*/
    function fmt_cidade($params,$smarty = "")  {
-      global $LANG, $db;
+      $db = Zend_Registry::get('db');
+
+      global $LANG;
       $flag = "N" ;
       $tp_ret = ($smarty=="A") ? "A" : "" ;
       $telefone=trim($params['a']);
@@ -209,14 +211,14 @@ class Bar_Graph {
       }
 
       // Descarta ligação de entrada, não tarifáveis.
-      if ( $tn < 8  || !is_numeric($destino) || $tipoccusto == "E" || $ccusto == "" ) {
+      if ( $tn < 8  || !is_numeric($destino) ) {
          return $smarty == "A" ? "0" : "0,00";
          exit;
       }
 
       // Descarta 0800, não tarifáveis
       if(substr(trim($destino),0,4) == "0800") {
-          return $smarty == "A" ? "0" : "0,00";
+          return $smarty == "A" ? "10" : "0,00";
           exit;
       }
 
