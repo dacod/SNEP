@@ -80,7 +80,7 @@ class Bootstrap {
 
     protected function startLocale() {
         // Preciso melhorar isso
-        Snep_Locale::getInstance();
+        $locale = Snep_Locale::getInstance();
         Zend_Registry::set("i18n", $locale->getZendTranslate());
     }
 

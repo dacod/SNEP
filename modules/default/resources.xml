@@ -11,15 +11,15 @@
 <default>
     <resource id="error" order="allow"></resource>
     <resource id="auth" order="allow">
-    <resource id="logout" label="Logout"></resource>
+        <resource id="logout" label="Logout"></resource>
     </resource>
     
-     <group id="configs" label="Configure" >
-       <resource id="parameters" label="Parameters"></resource>
+    <group id="configs" label="Configure" >
+        <resource id="parameters" label="Parameters"></resource>
        <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
        <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
-       <resource id="inspector" label="System Status"></resource> 
-       <resource id="cnl" label="Cnl Update"></resource> -->
+        <resource id="inspector" label="System Status"></resource>
+        <resource id="cnl" label="Cnl Update"></resource> -->
     </group>
 
     <group id="routing" label="Routing">
@@ -34,18 +34,20 @@
     </group>
 
     <group id="manage" label="Manage">
-        <resource id="cost-center" label="Cost Center" ></resource>
-        <resource id="contacts" label="Contacts" ></resource>
-        <resource id="contact-groups" label="Contact Groups" ></resource>
-        <resource id="queues" label="Queues" ></resource>
-        <resource id="extensions-groups" label="Extension Groups" ></resource>
-        <resource id="pickup-groups" label="Pickup Groups" ></resource>
-        <resource id="extensions" label="Extensions" ></resource>
-        <resource id="conference-rooms" label="Conference Rooms" ></resource>
-        <resource id="trunks" label="Trunks" ></resource>
+        <resource id="cost-center" label="Cost Center"></resource>
+        <resource id="contacts" label="Contacts"></resource>
+        <resource id="contact-groups" label="Contact Groups"></resource>
+        <resource id="queues" label="Queues"></resource>
+        <resource id="extensions-groups" label="Extension Groups"></resource>
+        <resource id="pickup-groups" label="Pickup Groups"></resource>
+        <resource id="extensions" label="Extensions">
+            <resource id="permission"></resource>
+        </resource>
+        <resource id="conference-rooms" label="Conference Rooms"></resource>
+        <resource id="trunks" label="Trunks"></resource>
     </group>
     
-      <group id="reports" label="Reports">
+    <group id="reports" label="Reports">
 		<resource id="calls-report" label="Calls"></resource>
        	<resource id="ranking-report" label="Call Ranking"></resource>
         <resource id="services-report" label="Services Use"></resource>
@@ -58,20 +60,4 @@
         <resource id="errors-khomp" label="Errors Khomp Links"></resource>
         <resource id="logs" label="Logs"></resource>
     </group>
-
-    <!--
-    <item id="status" label="menu_status">
-        <item uri="src/sistema.php" label="menu_system"></item>
-        <item uri="gestao/links_load.php" label="menu_links"></item>
-        <item uri="src/database_load.php" label="menu_databaseshow"></item>
-        <item uri="gestao/links_errors_load.php" label="menu_links_erros"></item>
-        <item uri="gestao/sneplog.php" label="tit_logger"></item>
-    </item>
-
-    <item id="billing" label="menu_tarifas" resourceid="70">
-        <item uri="tarifas/rel_operadoras.php" label="menu_operadoras"></item>
-        <item uri="tarifas/rel_tarifas.php" label="menu_tarifas"></item>
-    </item>
-
-    -->
 </default>

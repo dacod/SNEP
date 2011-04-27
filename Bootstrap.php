@@ -45,6 +45,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $router->addRoute('route_delete',
                 new Zend_Controller_Router_Route('route/delete/:id', array('controller' => 'route', 'action' => 'delete'))
         );
+        $router->addRoute('route_permission',
+                new Zend_Controller_Router_Route('permission/:exten', array('controller' => 'permission', 'action' => 'index'))
+        );
     }
 
     protected function _initLocale() {

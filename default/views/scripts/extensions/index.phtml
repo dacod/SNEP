@@ -49,7 +49,7 @@ echo $this->render('filter.phtml');
                 <?php endif; ?>
             </td>
             <td class="action">
-                <a class="membros"  href='<?php echo $this->baseUrl(); ?>/configs/permissoes.php?id=<?php echo $val['id']?>&nome= <?php echo $val['name'] ?>&name=<?php echo $val['exten']?>' >
+                <a class="membros"  href='<?php echo $this->baseUrl(); ?>/index.php/permission/<?php echo $val['exten']?>' >
                     <?php echo $this->translate('Permissions')?>
                 </a>
             </td>

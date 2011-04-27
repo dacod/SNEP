@@ -1,0 +1,15 @@
+<h1><?php echo $this->translate("Editing permission for extension %s", $this->exten); ?></h1>
+
+<ul>
+    <li><input type="checkbox" id="default" /><label for="default">Default</label>
+        <ul>
+            <li><input type="checkbox" id="default_extensions" /><label for="default_extensions">Extensions</label>
+                <ul>
+                    <li><input type="checkbox" id="default_extensions_permission" /><label for="default_extensions_permission">Permissões</label></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><input type="checkbox" id="pbx" /><label for="pbx">Snep PBX</label></li>
+    <li><input type="checkbox" id="cc" /><label for="cc">Snep CC</label></li>
+</ul>

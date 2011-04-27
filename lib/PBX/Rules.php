@@ -17,16 +17,10 @@
  */
 
 /**
- * Classe que controla a persistencia em banco de dados das regras de negócio
- * do Snep.
+ * Rule Persistency Manager.
  *
- * Nota sobre a persistencia: O controle de persistencia é feito no snep em
- * classes separadas. Não no construtor da classe modelo como se ve em outros
- * frameworks e arquiteturas. O motivo disso é que se ocorrer uma mudança na
- * forma como é feita a persistencia desses objetos os mesmos não precisam ser
- * alterados. Isso aumenta a compactibilidade com código legado e facilita
- * migrações de código entre versões.
- * ~henrique
+ * Class responsible for managing the persistency for all routing rules of the
+ * system. It requires Snep_Db to be set and working.
  *
  * @category  Snep
  * @package   Snep
@@ -34,9 +28,8 @@
  * @author Henrique Grolli Bassotto
  */
 class PBX_Rules {
-    private function __construct() { /* Protegendo métodos dinâmicos */ }
-    private function __destruct() { /* Protegendo métodos dinâmicos */ }
-    private function __clone() { /* Protegendo métodos dinâmicos */ }
+    private function __construct() {}
+    private function __clone() {}
 
     /**
      * Remove uma regra do banco de dados baseado no ID dela.
@@ -44,7 +37,7 @@ class PBX_Rules {
      * @param int $id
      */
     public static function delete($id) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
         $db->delete("regras_negocio","id='{$id}'");
     }
 
@@ -58,7 +51,7 @@ class PBX_Rules {
      * @return PBX_Rule  $regra de negócio corresponde ao id da chamada
      */
     public static function get($id) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select()
                      ->from('regras_negocio')
@@ -75,7 +68,6 @@ class PBX_Rules {
         $regra->setDesc($regra_raw->desc);
         $regra->setId($id);
 
-        // Adicionando origens e destinos
         foreach (explode(',', $regra_raw->origem) as $src) {
             if(!strpos($src, ':')) {
                 $regra->addSrc(array("type" => $src, "value" => ""));
@@ -101,7 +93,6 @@ class PBX_Rules {
             }
         }
 
-        // Adicionando dias da semana
         $regra->cleanValidWeekList();
         foreach (explode(',', $regra_raw->diasDaSemana) as $diaDaSemana) {
             if($diaDaSemana != "") {
@@ -109,7 +100,6 @@ class PBX_Rules {
             }
         }
 
-        // Adicionando validade
         foreach (explode(',', $regra_raw->validade) as $time) {
             $regra->addValidTime($time);
         }
@@ -129,7 +119,7 @@ class PBX_Rules {
 
         $actions = $db->query($select)->fetchAll();
 
-        // Processando as ações das regras
+        // Processing rule actions
         if( count($actions) > 0 ) {
             $select = $db->select()
                      ->from('regras_negocio_actions_config')
@@ -138,7 +128,7 @@ class PBX_Rules {
 
             $configs_raw = $db->query($select)->fetchAll();
 
-            // reordenando as configurações
+            // Rearranging configuration array
             $configs = array();
             if( count($configs_raw) > 0 ) {
                 foreach( $configs_raw as $config ) {
@@ -147,11 +137,9 @@ class PBX_Rules {
             }
 
 
-            // Adicionando cada ação da regra a Regra de negócio.
             foreach($actions as $acao_raw) {
                 $acao = $acao_raw['action'];
                 if( class_exists($acao) ) {
-                    // Se existe configuração, pega, senão cria um array vazio.
                     $config = isset($configs[$acao_raw['prio']]) ? $configs[$acao_raw['prio']] : array();
                     $acao_object = new $acao();
                     $acao_object->setConfig($config);
@@ -171,7 +159,7 @@ class PBX_Rules {
      * @return array $regras com todas as regras de negócio
      */
     public static function getAll($where = null) {
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $select = $db->select()
                   ->from('regras_negocio')
@@ -233,7 +221,7 @@ class PBX_Rules {
             "validade" => $validade
         );
 
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $db->beginTransaction();
 
@@ -306,7 +294,7 @@ class PBX_Rules {
             "record"   => $rule->isRecording()
         );
 
-        $db = Zend_Registry::get('db');
+        $db = Snep_Db::getInstance();
 
         $db->beginTransaction();
 
