@@ -1,0 +1,28 @@
+<?php echo $this->form ?>
+
+<script>
+    function blockFields($id, $value) {
+	var form = $('create');
+
+	var radio = 'source[srctype]';
+	var text = 'source-groupSrc';
+
+	if ($id.include('destination')) {
+   	    var radio = 'destination[dsttype]';	
+	    var text  = 'destination-groupDst';
+	}
+
+	if ($value != '') { 
+	    var ns = form.getInputs('radio', radio);
+	    ns.invoke('disable');
+            $(text).disable();
+
+	} else {
+	    var ns = form.getInputs('radio', radio);
+	    ns.invoke('enable');
+            $(text).enable();
+
+	}
+    }
+</script>
+
