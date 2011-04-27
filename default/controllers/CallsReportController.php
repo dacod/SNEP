@@ -179,16 +179,10 @@ class CallsReportController extends Zend_Controller_Action {
 		$ordernar	= $formData['period']['order'];
 
 		$src 		= $formData['source']['groupSrc'];
-		Zend_Debug::Dump($src);
-
 		$groupsrc	= $formData['source']['selectSrc'];
-		Zend_Debug::Dump($groupsrc);
 
 		$dst 		= $formData['destination']['groupDst'];
-		Zend_Debug::Dump($dst);
-
 		$groupdst	= $formData['destination']['selectDst'];
-		Zend_Debug::Dump($groupdst);
 
 		if (isset($formData['calls']['costs_center'])) {
 			$contas		= $formData['calls']['costs_center'];
@@ -679,7 +673,6 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$defaultNS->row		  = $db->query($sql_chamadas)->fetchAll();
 		
-		Zend_Debug::Dump($defaultNS->row);
 		//Zend_Debug::Dump($sql_chamadas);
 		/*if (count($defaultNS->row) == 0) {
 			$this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
