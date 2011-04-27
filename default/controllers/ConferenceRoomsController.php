@@ -183,8 +183,8 @@ class ConferenceRoomsController extends Zend_Controller_Action {
                 }                
             }
 
-            Zend_Debug::dump($contentConfe) ;
-            Zend_Debug::dump($contentAuth) ;
+            //Zend_Debug::dump($contentConfe) ;
+            //Zend_Debug::dump($contentAuth) ;
 
             file_put_contents($file_conf, $contentConfe );
             file_put_contents($file_auth, $contentAuth );
