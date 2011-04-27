@@ -54,7 +54,7 @@
     <group id="status" label="Status">
         <resource id="index" label="System"></resource>
         <resource id="khomp-links" label="Khomp Links"></resource>
-        <resource id="ip-status" label="Extensions, IP trunks, queues"></resource>
+        <resource id="ip-status" label="IP Status"></resource>
         <resource id="errors-khomp" label="Errors Khomp Links"></resource>
         <resource id="logs" label="Logs"></resource>
     </group>
