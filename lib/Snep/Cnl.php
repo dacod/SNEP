@@ -234,4 +234,22 @@ class Snep_Cnl {
 
         return $registros;
     }
+
+	public function getCidade($prefixo) {
+
+		$db = Zend_Registry::get('db');
+
+		$select = $db->select()
+        ->from(array('cid' => 'ars_cidade'),array('name as municipio'))
+        ->join(array('pre' => 'ars_prefixo'), 'pre.cidade = cid.id' ,array('prefixo'))
+        ->join(array('ddd' => 'ars_ddd'), 'pre.cidade = ddd.cidade')
+        ->where("pre.prefixo = '$prefixo'");
+
+        $stmt = $db->query($select);
+        $registros = $stmt->fetchAll();
+
+		return $registros;
+
+
+	}
 }
