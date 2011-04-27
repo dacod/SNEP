@@ -31,7 +31,7 @@
                         <regex>
                             <validator>regex</validator>
                             <options>
-                                <pattern>/(\d{2}[:]?)$/i</pattern>
+                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
                                     <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
                                 </messages>
@@ -66,7 +66,7 @@
                         <regex>
                             <validator>regex</validator>
                             <options>
-                                <pattern>/(\d{2}[:]?)$/i</pattern>
+                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
                                     <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
                                 </messages>
@@ -153,6 +153,19 @@
                     </multioptions>
                 </options>
             </stat_select>
+            
+            <out_type>
+                <type>radio</type>
+                <options>
+                    <label>Tipo de Visualização</label>
+                    <value>lst</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <lst>Listagem</lst>
+                        <csv>CSV</csv>
+                    </multioptions>
+                </options>
+            </out_type>
             
         </elements>    
     </service>  

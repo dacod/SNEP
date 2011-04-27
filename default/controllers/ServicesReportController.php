@@ -37,7 +37,8 @@ class ServicesReportController extends Zend_Controller_Action {
             $formData = $this->_request->getParams();
 
             if ($formIsValid) {
-                if (key_exists('submit_csv', $formData)) {
+                $reportType = $formData['service']['out_type'];
+                if ($reportType == 'csv') {
                     $this->csvAction();
                 } else {
                     $this->viewAction();
@@ -56,8 +57,8 @@ class ServicesReportController extends Zend_Controller_Action {
         $form_xml = new Zend_Config_Xml('./default/forms/services_report.xml');
         $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
-        $validatorDate = new Zend_Validate_Date(array('locale' => $config->ambiente->language));
-
+        $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
+        
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
         $initDay->setValue(strtok($yesterday, ' '));
@@ -108,13 +109,6 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
         $form->removeElement("cancel");
-        $buttonCsv = new Zend_Form_Element_Submit("submit_csv", array("label" => $this->view->translate("Exportar CSV")));
-        $buttonCsv->setOrder(1001);
-        $buttonCsv->removeDecorator('DtDdWrapper');
-        $buttonCsv->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
-        $buttonCsv->addDecorator(array("closetr" => 'HtmlTag'), array('tag' => 'tr', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
-        $form->addElement($buttonCsv);
-
         return $form;
     }
 

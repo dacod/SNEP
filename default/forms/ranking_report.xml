@@ -22,11 +22,29 @@
                 </options>
             </init_day>
             
-            <init_hour>
+           <init_hour>
                 <type>text</type>
                 <options>
-                    <label>mm:hh</label>
+                    <label>hh:mm</label>
                     <value>00:00</value>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>4</min>
+                                <max>10</max>
+                            </options>
+                        </strlen>
+                    </validators>
                 </options>
             </init_hour>
             
@@ -39,11 +57,29 @@
                 </options>
             </till_day>
             
-            <till_hour>
+           <till_hour>
                 <type>text</type>
                 <options>
-                    <label>mm:hh</label>
+                    <label>hh:mm</label>
                     <value>23:59</value>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>4</min>
+                                <max>10</max>
+                            </options>
+                        </strlen>
+                    </validators>
                 </options>
             </till_hour>
             
@@ -72,6 +108,7 @@
                     <label>Exibir Ranking de 'n' Origens</label>
                     <value>10</value>
                     <description>Apenas números</description>
+                    <required>true</required>
                      <validators>
                         <alnum>
                             <validator>Alnum</validator>
@@ -96,6 +133,19 @@
                     <value>10</value>
                 </options>
             </view>
+            
+             <out_type>
+                <type>radio</type>
+                <options>
+                    <label>Tipo de Visualização</label>
+                    <value>lst</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <lst>Listagem</lst>
+                        <csv>CSV</csv>
+                    </multioptions>
+                </options>
+            </out_type>
             
         </elements>    
     </rank>  

@@ -37,14 +37,14 @@ class RankingReportController extends Zend_Controller_Action {
         if ($this->_request->getPost()) {
             $formIsValid = $form->isValid($_POST);
             $formData = $this->_request->getParams();
-
-            if ($formIsValid) {
-                if (key_exists('submit_csv', $formData)) {
+            
+            $reportType = $formData['rank']['out_type'];
+            if ($reportType == 'csv') {
                     $this->csvAction();
                 } else {
                     $this->viewAction();
                 }
-            }
+            
         }
     }
 
@@ -61,7 +61,7 @@ class RankingReportController extends Zend_Controller_Action {
         
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
-        $validatorDate = new Zend_Validate_Date(array('locale' => $config->ambiente->language));
+        $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
         $initDay->setValue(strtok($yesterday, ' '));
         $initDay->addValidator($validatorDate);
 
@@ -82,13 +82,6 @@ class RankingReportController extends Zend_Controller_Action {
 
         $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
         $form->removeElement("cancel");
-        $buttonCsv = new Zend_Form_Element_Submit("submit_csv", array("label" => $this->view->translate("Exportar CSV")));
-        $buttonCsv->setOrder(1001);
-        $buttonCsv->removeDecorator('DtDdWrapper');
-        $buttonCsv->addDecorator(array("closetd" => 'HtmlTag'), array('tag' => 'td', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
-        $buttonCsv->addDecorator(array("closetr" => 'HtmlTag'), array('tag' => 'tr', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
-        $form->addElement($buttonCsv);
-
         return $form;
     }
 
