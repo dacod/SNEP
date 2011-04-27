@@ -17,12 +17,15 @@
  */
 // Required for signal handling below
 declare(ticks = 1);
+
 /* Ignoring closing events, this should make the script works like
  * DeadAgi in newer asterisks.
  */
-pcntl_signal(SIGHUP, SIG_IGN);
-pcntl_signal(SIGTERM, SIG_IGN);
-pcntl_signal(SIGINT, SIG_IGN); // DO NOT FORK! Or the zombies will attack.
+if(function_exists("pcntl_signal")) {
+    pcntl_signal(SIGHUP, SIG_IGN);
+    pcntl_signal(SIGTERM, SIG_IGN);
+    pcntl_signal(SIGINT, SIG_IGN); // DO NOT FORK! Or the zombies will attack.
+}
 
 set_time_limit(0);
 
