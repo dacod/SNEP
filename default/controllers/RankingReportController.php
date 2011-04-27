@@ -67,7 +67,7 @@ class RankingReportController extends Zend_Controller_Action {
 
         $tillDay = $period->getElement('till_day');
         $tillDay->setValue(strtok(Zend_Date::now(), ' '));
-        $initDay->addValidator($validatorDate);
+        $tillDay->addValidator($validatorDate);
 
         $form->addSubForm($period, "period");
 

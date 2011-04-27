@@ -31,6 +31,19 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $form = $this->getForm();
         $this->view->form = $form;
+
+        if ($this->_request->getPost()) {
+            $formIsValid = $form->isValid($_POST);
+            $formData = $this->_request->getParams();
+
+            if ($formIsValid) {
+                if (key_exists('submit_csv', $formData)) {
+                    $this->csvAction();
+                } else {
+                    $this->viewAction();
+                }
+            }
+        }
     }
 
     protected function getForm() {
@@ -38,17 +51,21 @@ class ServicesReportController extends Zend_Controller_Action {
         $form = new Snep_Form();
 
         // Set form action
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/services-report/submit');
+        $form->setAction($this->getFrontController()->getBaseUrl() . '/services-report/index');
 
         $form_xml = new Zend_Config_Xml('./default/forms/services_report.xml');
+        $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
+        $validatorDate = new Zend_Validate_Date(array('locale' => $config->ambiente->language));
 
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
         $initDay->setValue(strtok($yesterday, ' '));
+        $initDay->addValidator($validatorDate);
 
         $tillDay = $period->getElement('till_day');
         $tillDay->setValue(strtok(Zend_Date::now(), ' '));
+        $tillDay->addValidator($validatorDate);
         $form->addSubForm($period, "period");
 
 
@@ -101,18 +118,6 @@ class ServicesReportController extends Zend_Controller_Action {
         return $form;
     }
 
-    protected function submitAction() {
-        
-        if ($this->_request->getPost()) {
-            $formData = $this->_request->getParams();
-           
-            if (key_exists('submit_csv', $formData))
-                $this->csvAction();
-            else
-                $this->viewAction();
-        }
-    }
-
     protected function getQuery($data, $ExportCsv = false) {
 
         $fromDay = $data["period"]["init_day"];
@@ -126,22 +131,15 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $configFile = "./includes/setup.conf";
         $config = new Zend_Config_Ini($configFile, null, true);
-        
-        if (Zend_Date::isDate($fromDay, 'dd/MM/yyyy', $config->ambiente->language) && Zend_Date::isDate($tillDay, 'dd/MM/yyyy', $config->ambiente->language)){
-            
-            $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy')));
-            $tillDay = $dayTmp;
-            
-             $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy')));
-            $fromDay = $dayTmp;
-            
-        }
-        else{
-            $this->view->error = $this->view->translate("Formato da data inválido!");
-            $this->view->back = $this->view->translate("Voltar");
-            $this->renderScript('services-report/error.phtml');
-            return;
-        }
+
+
+
+        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy')));
+        $tillDay = $dayTmp;
+
+        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy')));
+        $fromDay = $dayTmp;
+
 
         $srv = '';
         if (count($services) > 0) {
@@ -284,10 +282,6 @@ class ServicesReportController extends Zend_Controller_Action {
                 $this->_helper->viewRenderer('error');
             }
         }
-    }
-    
-    public function errorAction(){
-        
     }
 
 }

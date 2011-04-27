@@ -25,8 +25,26 @@
             <init_hour>
                 <type>text</type>
                 <options>
-                    <label>mm:hh</label>
+                    <label>hh:mm</label>
                     <value>00:00</value>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{2}[:]?)$/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>4</min>
+                                <max>10</max>
+                            </options>
+                        </strlen>
+                    </validators>
                 </options>
             </init_hour>
             
@@ -42,8 +60,26 @@
             <till_hour>
                 <type>text</type>
                 <options>
-                    <label>mm:hh</label>
+                    <label>hh:mm</label>
                     <value>23:59</value>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{2}[:]?)$/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>4</min>
+                                <max>10</max>
+                            </options>
+                        </strlen>
+                    </validators>
                 </options>
             </till_hour>
             
@@ -67,12 +103,14 @@
                     <description>
                     (separados com ';')
                     </description>
-                    <required>true</required>
                     <validators>
                         <regex>
                             <validator>regex</validator>
                             <options>
                                 <pattern>/(\d{4}[;]?)$/i</pattern>
+                                <messages>
+                                    <regexNotMatch>Os ramais devem ser compostos apenas de números. EX: 8000;8001</regexNotMatch>
+                                </messages>
                             </options>
                         </regex>
                         <strlen>
