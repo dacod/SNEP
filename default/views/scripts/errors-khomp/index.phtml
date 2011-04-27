@@ -1,0 +1,48 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<table>
+    <thead>
+        <tr>
+            <td class="esq" ><?php echo $this->translate("Tipo de Erro") ?></td>
+            <?php
+            $colunas = 1;
+            foreach ($this->canais as $board_key => $board_item) {
+                foreach ($this->canais[$board_key] as $link_key => $link_item) {
+                ?>
+                    <td>
+                    <?php echo $this->translate("Placa : ") . $this->translate($board_key) . $this->translate(", Link : ") . $this->translate($board_key) ?>
+                    <br />
+                    <?php echo $this->translate($link_item) ?>
+                    </td>
+                <?php
+                $colunas = $colunas + 1;
+                }
+            } ?>
+        </tr>
+    </thead>
+    <?php foreach ($this->status as $sts_key => $sts_item) : ?>
+        <tr>
+            <td><?php echo $this->translate($sts_key) ?></td>
+            <?php
+            foreach ($this->status[$sts_key] as $sb_key => $sb_item) {
+                foreach ($this->status[$sts_key][$sb_key] as $sl_key => $sl_item) {
+                ?>
+                    <td class="cen"><?php echo $this->translate($sl_item) ?></td>
+                <?php
+                }
+            }
+            ?>
+        </tr>
+    <?php endforeach ?>
+    <tr>
+        <td colspan="<?php echo $colunas ?>" class="subtable" align="center" height="38px" valign="middle">
+            <form  method="POST">
+                <center>
+                    <input class="button" type="submit" id="resetar"  value="<?php echo $this->translate("Zerar Contadores") ?>">
+                </center>
+            </form>
+        </td>
+    </tr>
+</table>
