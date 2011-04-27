@@ -100,22 +100,22 @@ class Snep_Manutencao {
 
                 // Se existir pasta com data, já organizado pelo movefiles.
                 if( file_exists($arquivos ."/". $userfield .".wav") ) {
-                    return "../arquivos/". $userfield .".wav";
+                    return "/snep/arquivos/". $userfield .".wav";
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".mp3") ) {
-                    return "../arquivos/". $userfield .".mp3";
+                    return "/snep/arquivos/". $userfield .".mp3";
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".WAV")) {
-                    return "../arquivos/". $userfield .".WAV";
+                    return "/snep/arquivos/". $userfield .".WAV";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".wav") ) {
-                    return "../arquivos/". $data ."/". $userfield .".wav";
+                    return "/snep/arquivos/". $data ."/". $userfield .".wav";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".mp3") ) {
-                    return "../arquivos/". $data ."/". $userfield .".mp3";
+                    return "/snep/arquivos/". $data ."/". $userfield .".mp3";
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".WAV")) {
-                    return "../arquivos/". $data ."/". $userfield .".WAV";
+                    return "/snep/arquivos/". $data ."/". $userfield .".WAV";
                     
                 }else{
 
@@ -124,13 +124,13 @@ class Snep_Manutencao {
                     foreach($storages as $storage) {
 
                         if( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".wav") ) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".wav";
+                            return "/snep/arquivos/". $storage ."/". $data ."/". $userfield .".wav";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3") ) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".mp3";
+                            return "/snep/arquivos/". $storage ."/". $data ."/". $userfield .".mp3";
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV")) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".WAV";
+                            return "/snep/arquivos/". $storage ."/". $data ."/". $userfield .".WAV";
                         }
                     }
 
@@ -152,6 +152,47 @@ class Snep_Manutencao {
         }       
 
     }
+
+    /**
+    * Compacta lista de arquivos
+    * @param <string> $arquivo
+    * @return <string> $file_path 
+    */
+	public function compactaArquivos($arquivos) {
+
+        $config = Zend_Registry::get('config');
+
+        $save_dir = $config->ambiente->path_voz_bkp;
+
+        $file_dir = $config->ambiente->path_voz;
+		
+		$strArquivos 		= substr($arquivos,0,strlen($arquivos)-1);
+		$strListaArquivos 	= str_replace(","," ",$strArquivos);
+		$strNomeArquivo 	= date("d-m-Y-h-i").".zip";
+
+		$strArquivo 		= $save_dir."/".$strNomeArquivo;
+
+		$zip = new ZipArchive();
+
+		if ($zip->open($strArquivo, ZipArchive::CREATE) !== TRUE) {
+			return 2;
+		} 
+
+		$arquivosLista = explode(",", trim($strArquivos));
+
+		foreach ($arquivosLista as $arquivo) {
+			$arq = $file_dir.$arquivo;
+
+			if (file_exists($arq)) {
+				$zip->addFile($arq);
+			}
+		}
+
+		$zip->close();
+
+		return "/snep/arquivos/".$strNomeArquivo;
+
+	}
 }
 
 ?>
