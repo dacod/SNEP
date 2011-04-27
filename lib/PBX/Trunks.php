@@ -16,6 +16,14 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
  */
 
+require_once "PBX/Asterisk/Interface/SIP.php";
+require_once "PBX/Asterisk/Interface/SIP/NoAuth.php";
+require_once "PBX/Asterisk/Interface/IAX2.php";
+require_once "PBX/Asterisk/Interface/IAX2/NoAuth.php";
+require_once "PBX/Asterisk/Interface/KHOMP.php";
+require_once "PBX/Asterisk/Interface/VIRTUAL.php";
+require_once "Snep/Trunk.php";
+
 /**
  * Classe que cuida da persistencia de troncos no banco de dados do snep.
  *
