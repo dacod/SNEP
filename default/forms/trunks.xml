@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : trunks.xml
+    Created on : 4 de Abril de 2011, 13:35
+    Author     : Rafael Bozzetti
+    Description:
+        Snep Form specification for trunks controller
+-->
+
+<form>
+    <trunks>
+        <elements>
+            <name>
+                <type>Text</type>
+                <options>
+                    <required>true</required>
+                    <label>Nome</label>
+                </options>
+            </name>            
+        </elements>
+    </trunks>
+    <technology>
+        <elements>
+            <type>
+                <type>Select</type>
+                <options>
+                    <label>Tipo de tronco</label>
+                    <multioptions>
+                        <sip>SIP</sip>
+                        <iax2>IAX2</iax2>
+                        <khomp>Khomp</khomp>
+                        <virtual>TDM/Virtual</virtual>
+                        <snep_sip>Snep SIP</snep_sip>
+                        <snep_iax2>Snep IAX2</snep_iax2>
+                    </multioptions>
+                </options>
+            </type>
+        </elements>
+    </technology>
+    <ip>
+        <elements>
+            <dial_method>
+                <type>radio</type>
+                <options>
+                    <label>Método de Discagem</label>
+                    <value>normal</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <normal>Normal</normal>
+                        <noauth>Sem autenticação</noauth>
+                    </multioptions>
+                </options>
+            </dial_method>
+            <username>
+                <type>Text</type>
+                <options>
+                    <label>Usuário</label>
+                </options>
+            </username>
+            <secret>
+                <type>password</type>
+                <options>
+                    <label>Senha</label>                    
+                </options>
+            </secret>
+            <host_trunk>
+                <type>Text</type>
+                <options>
+                    <label>Host Remoto</label>
+                    <multioptions>
+                        <option>Enable delay qualification</option>
+                    </multioptions>
+                </options>
+            </host_trunk>
+            <fromuser>
+                <type>text</type>
+                <options>
+                    <label>Especificar Usuário de Origem</label>
+                </options>
+            </fromuser>
+            <fromdomain>
+                <type>text</type>
+                <options>
+                    <label>Dominio de Origem</label>                    
+                </options>
+            </fromdomain>
+            <dtmfmode>
+                <type>radio</type>
+                <options>
+                    <label>DTMF Mode</label>
+                    <value>rfc2833</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <rfc2833>RFC-2833</rfc2833>
+                        <inband>Inband</inband>
+                        <info>Info</info>
+                    </multioptions>
+                </options>
+            </dtmfmode>
+            <qualify>
+                <type>radio</type>
+                <options>
+                    <label>Controle de Qualidade</label>
+                    <value>yes</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <yes>Sim</yes>
+                        <no>Não</no>
+                        <specify>Especificar</specify>
+                    </multioptions>
+                </options>                
+            </qualify>
+            <qualify_value>
+                <type>text</type>
+                <options>
+                    <separator> </separator>
+                </options>
+            </qualify_value>
+            <peer_type>
+                <type>radio</type>
+                <options>
+                    <label>Tipo de Peer (SIP)</label>
+                    <value>peer</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <peer>Peer</peer>
+                        <friend>Friend</friend>
+                    </multioptions>
+                </options>
+            </peer_type>
+            <reverseAuth>
+                <type>checkbox</type>
+                <options>
+                    <label>Força Autenticação Reversa</label>
+                    <description>Habilitar</description>
+                </options>
+            </reverseAuth>
+            <nat>
+                <type>checkbox</type>
+                <options>
+                    <label>Atravessa Nat</label>
+                    <description>Habilitar</description>
+                </options>
+            </nat>            
+            <domain>
+                <type>text</type>
+                <options>
+                    <label>Dominio</label>
+                </options>
+            </domain>
+            <insecure>
+                <type>text</type>
+                <options>
+                    <label>Insecure</label>
+                </options>
+            </insecure>
+            <port>
+                <type>text</type>
+                <options>
+                    <label>Porta</label>
+                </options>
+            </port>
+            <calllimit>
+                <type>text</type>
+                <options>
+                    <label>Limite de Canais</label>
+                </options>
+            </calllimit>
+        </elements>
+    </ip>
+    <iax2>
+        <elements>
+            <istrunk>
+                <type>select</type>
+                <options>
+                    <label>Trunk</label>
+                    <multioptions>
+                        <yes>Sim</yes>
+                        <no>Não</no>
+                    </multioptions>
+                </options>
+            </istrunk>
+        </elements>
+    </iax2>
+    <virtual>
+        <elements>
+            <channel>
+                <type>Text</type>
+                <options>
+                    <label>Tecnologia de Canais</label>
+                </options>
+            </channel>
+            <trunk_regex>
+                <type>Text</type>
+                <options>
+                    <label>Expressão de Identificação</label>
+                    <description></description>
+                </options>
+            </trunk_regex>
+        </elements>
+    </virtual>
+    <khomp>
+        <elements>
+            <board>
+                <type>Select</type>
+                <options>
+                    <label>Placa</label>
+                </options>
+            </board>
+            <channel>
+                <type>Select</type>
+                <options>
+                    <label>Canal</label>
+                </options>
+            </channel>
+        </elements>
+    </khomp>
+    <snep_sip>
+        <elements>
+            <snep_host>
+                <type>text</type>
+                <options>
+                    <label>Host Remoto</label>
+                    <multioptions>
+                        <rfc2833>RFC-2833</rfc2833>
+                        <inband>Inband</inband>
+                        <info>Info</info>
+                    </multioptions>
+                </options>
+            </snep_host>
+            <snep_dtmf>
+                <type>radio</type>
+                <options>
+                    <label>Modo de DTMF</label>
+                    <multioptions>
+                        <rfc2833>RFC-2833</rfc2833>
+                        <inband>Inband</inband>
+                        <info>Info</info>
+                    </multioptions>
+                </options>
+            </snep_dtmf>
+        </elements>
+    </snep_sip>
+    <snep_iax2>
+        <elements>
+            <snep_username>
+                <type>text</type>
+                <options>
+                    <label>Identificador</label>
+                    <description>O mesmo em ambas os servidores</description>
+                </options>
+            </snep_username>
+            <snep_nat>
+                <type>checkbox</type>
+                <options>
+                    <label>Atravessar NAT</label>
+                    <description>Habilitado</description>
+                </options>
+            </snep_nat>
+        </elements>
+    </snep_iax2>
+   <advanced>
+        <elements>
+            <extensionMapping>
+                <type>Checkbox</type>
+                <options>
+                    <label>Permitir mapeamento de ramais</label>
+                    <description>Habilitar</description>
+                </options>
+            </extensionMapping>
+            <dtmf_dial>
+                <type>Checkbox</type>
+                <options>
+                    <label>Modo de DTMF</label>
+                    <description>Habilitar</description>
+                </options>
+            </dtmf_dial>
+            <dtmf_dial_number>
+                <type>Text</type>                
+            </dtmf_dial_number>
+            <tempo>
+                <type>Checkbox</type>
+                <options>
+                    <label>Controle de Minutos</label>
+                    <description>Habilitar</description>
+                    <value>no</value>
+                    <separator> </separator>                    
+                </options>
+            </tempo>
+            <time_total>
+                <type>Text</type>
+                <options>
+
+                </options>
+            </time_total>
+            <time_chargeby>
+                <type>radio</type>
+                <options>
+                    <label>Tipo de Controle</label>
+                    <multioptions>
+                        <Y>Ano</Y>
+                        <M>Mês</M>
+                        <D>Dia</D>
+                    </multioptions>
+                </options>
+            </time_chargeby>
+        </elements>
+    </advanced>
+</form>

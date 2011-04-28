@@ -1,9 +1,6 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
-$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
-
 echo $this->render('filter.phtml');
 ?>
 
@@ -19,42 +16,44 @@ echo $this->render('filter.phtml');
       </tr>
    </thead>
    <tbody>
-
+       
     <?php
     $c = 0;
-    foreach($this->trunks as $cha => $val ): ?>
+    foreach($this->trunks as $id => $trunk ): ?>
+
         <?php ($c ? $c = 0 : $c = 1 ); ?>
         <tr class="c<?php echo $c ?>">
 
-            <td class="numeric"> <b> <?php echo $val['name'] ?> </b> </td>
-            <td> <?php echo $val['callerid'] ?> </td>
+            <td class="numeric"> <b> <?php echo $trunk['name'] ?> </b> </td>
+            <td> <?php echo $trunk['callerid'] ?> </td>
             <td>
-                <?php echo ( $val['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
+                <?php echo ( $trunk['trunktype'] == "T" ?  $this->translate("TDM") : $this->translate("IP") )  ?>
             </td>
-            <td> <?php echo $val['type'] ?> </td>
+            <td> <?php echo $trunk['type'] ?> </td>
             <td>
-                <?php
-                    if ($val['saldo'] == "Não Configurado") {
-
-                        echo "<span style='color:#888'>" . $val['saldo'] . "</spam>" ;
-
-                    } else {
-
-                        echo $val['saldo'] ;
-
-                    }
-                ?>
+                <?php if ($trunk['saldo']) : ?>
+                        <?php $date = new Zend_Date( $trunk['saldo'] ) ?>
+                         <span style='color:#888'> 
+                            <?php echo $date->toString('H:m:s') ?>
+                         </span>
+                    <?php else :  ?>
+                        <?php echo $this->translate('Não configurado') ?>
+                <?php endif ?>
             </td>
             <td class="action">
-                <a class="alterar" href='/snep/src/troncos.php?acao=alterar&id=<?php echo $val['id']; ?>'>
+                <a class="alterar" href="<?php echo $this->url ."/edit/id/".  $trunk['id'] ?>" >
                     <?php echo $this->translate('Edit')?>
                 </a>
             </td>
+
             <td class="action">
-                <span class="excluir" onclick="remove_item('/snep/src/troncos.php?acao=excluir&id=<?php echo $val['id']; ?>&name=<?php echo $val['name'] ?>','<?php echo $this->translate("Deseja realmente excluir o Tronco?"); ?>')" >
+                <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                <!--<span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $trunk['codigo'] ?>','<?php echo $this->remove_msg ?>')"> -->
+                <a class="alterar" href="<?php echo $this->url ."/remove/id/".  $trunk['id'] . "/name/" . $trunk['name'] ?>" >
                     <?php echo $this->translate('Delete')?>
-                </span>
+                </a>
             </td>
+
         </tr>
     <?php endforeach ?>
 </table>
