@@ -405,7 +405,12 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $advEmail = $formData["advanced"]["email"];
 
-        $allow = "all";
+        if($techType == "sip" || $techType == "iax2") {
+            $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
+        }
+        else {
+            $allow = "ulaw";
+        }
 
         if ($update) {
             $sql = "UPDATE peers ";

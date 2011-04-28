@@ -206,6 +206,28 @@
                     </multioptions>
                 </options>
             </dtmf>
+            <codec>
+                <type>codec</type>
+                <options>
+                    <value>ulaw</value>
+                    <label>Codec 1</label>
+                    <description>Prioritary</description>
+                </options>
+            </codec>
+            <codec1>
+                <type>codec</type>
+                <options>
+                    <value>alaw</value>
+                    <label>Codec 2</label>
+                </options>
+            </codec1>
+            <codec2>
+                <type>codec</type>
+                <options>
+                    <value>ilbc</value>
+                    <label>Codec 3</label>
+                </options>
+            </codec2>
         </elements>
     </ip>
     <manual>
