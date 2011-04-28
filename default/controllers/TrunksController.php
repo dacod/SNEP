@@ -22,8 +22,10 @@ class TrunksController extends Zend_Controller_Action {
     protected $boardData;
 
     public function indexAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Troncos");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Trunks")
+        ));
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -129,8 +131,10 @@ class TrunksController extends Zend_Controller_Action {
     }
 
     public function addAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Troncos » Cadastro");
+        $this->view->breadcrumb = $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Trunks")
+        ));
 
         $form = $this->getForm();
 
@@ -154,9 +158,12 @@ class TrunksController extends Zend_Controller_Action {
     }
 
     public function editAction() {
-
         $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Manage » Trunks » Edit » $id");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Trunks"),
+            $this->view->translate("Edit %s", $id)
+        ));
 
         $form = $this->getForm();
         if(!$this->view->all_writable) {
@@ -402,8 +409,8 @@ class TrunksController extends Zend_Controller_Action {
             $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/trunks.xml");
 
             $form = new Snep_Form();
-            $form->addSubForm( new Snep_Form_SubForm( null, $form_xml->trunks ), "trunks");
-            $form->addSubForm( new Snep_Form_SubForm( null, $form_xml->technology ), "technology");
+            $form->addSubForm( new Snep_Form_SubForm($this->view->translate("Trunk"), $form_xml->trunks ), "trunks");
+            $form->addSubForm( new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology ), "technology");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
 
             $ip = new Snep_Form_SubForm(null, $form_xml->ip, "iax2");
@@ -434,12 +441,7 @@ class TrunksController extends Zend_Controller_Action {
             // Monta informações para placas khomp
             $boardList = array();
 
-            try {
-                $khompInfo = new PBX_Khomp_Info();
-            } catch (Asterisk_Exception_CantConnect $ex) {
-                Zend_Debug::Dump($ex->getMessage());
-                exit;
-            }
+            $khompInfo = new PBX_Khomp_Info();
 
             if ($khompInfo->hasWorkingBoards()) {
                 foreach ($khompInfo->boardInfo() as $board) {
@@ -452,9 +454,7 @@ class TrunksController extends Zend_Controller_Action {
             } else {
                 $subFormKhomp->removeElement('board');
                 $subFormKhomp->removeElement('channel');
-                $noKhompText = new Zend_Form_Element_Hidden('textKhomp');
-                $noKhompText->setDescription($this->view->translate('Você não possui placas da Khomp.'));
-                $subFormKhomp->addElement($noKhompText);
+                $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
             }
  
             $form->addSubForm($subFormKhomp, "khomp");
@@ -657,7 +657,13 @@ class TrunksController extends Zend_Controller_Action {
          * 
          */
 
-        $allow = "xxx;sss;www;eee";
+        if($techType == "sip" || $techType == "iax2") {
+            $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
+        }
+        else {
+            $allow = "ulaw";
+        }
+
         $callerid = $trunk['trunks']['name'];
         
         if($trunk['advanced']['dtmf_dial']) {

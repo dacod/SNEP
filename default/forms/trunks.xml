@@ -233,6 +233,7 @@
                 <type>radio</type>
                 <options>
                     <label>Modo de DTMF</label>
+                    <value>rfc2833</value>
                     <multioptions>
                         <rfc2833>RFC-2833</rfc2833>
                         <inband>Inband</inband>

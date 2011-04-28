@@ -50,7 +50,10 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Manage » Extensions");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extensions")
+        ));
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -111,7 +114,11 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function addAction() {
-        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Extension");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extensions"),
+            $this->view->translate("Add Extension")
+        ));
         $this->view->form = $this->getForm();
         if(!$this->view->all_writable) {
             $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
@@ -139,7 +146,11 @@ class ExtensionsController extends Zend_Controller_Action {
 
     public function editAction() {
         $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Edit » $id");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extensions"),
+            $this->view->translate("Edit %s", $id)
+        ));
 
         $form = $this->getForm();
         if(!$this->view->all_writable) {
@@ -241,6 +252,11 @@ class ExtensionsController extends Zend_Controller_Action {
                 }
                 $form->getSubForm('sip')->getElement('type')->setValue($typeIp);
                 $form->getSubForm('sip')->getElement('dtmf')->setValue($dtmfMode);
+
+                $codecs = explode(";", $exten['allow']);
+                $form->getSubForm('sip')->getElement('codec')->setValue($codecs[0]);
+                $form->getSubForm('sip')->getElement('codec1')->setValue($codecs[1]);
+                $form->getSubForm('sip')->getElement('codec2')->setValue($codecs[2]);
                 break;
 
             case "iax2":
@@ -261,6 +277,11 @@ class ExtensionsController extends Zend_Controller_Action {
                 }
                 $form->getSubForm('iax2')->getElement('type')->setValue($typeIp);
                 $form->getSubForm('iax2')->getElement('dtmf')->setValue($dtmfMode);
+
+                $codecs = explode(";", $exten['allow']);
+                $form->getSubForm('iax2')->getElement('codec')->setValue($codecs[0]);
+                $form->getSubForm('iax2')->getElement('codec1')->setValue($codecs[1]);
+                $form->getSubForm('iax2')->getElement('codec2')->setValue($codecs[2]);
                 break;
 
             case "khomp":
