@@ -32,10 +32,19 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$form = $this->getForm();
 		$this->view->form = $form;
+
+		/*if ($this->_request->getPost()) {
+			$formIsValid = $form->isValid($_POST);
+			if ($formIsValid) {
+				$this->createAction();
+			}
+		}
+		*/
    }
 
    private function getForm() {
 
+        $config = Zend_Registry::get('config');
       	$db = Zend_Registry::get('db');
 
 		$form = new Snep_Form();	
@@ -49,10 +58,15 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$now = Zend_Date::now();
 
+		$validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
+
 		$initDay = $period->getElement('initDay');
 		$initDay->setValue($now->toString('01/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR));
+		$initDay->addValidator($validatorDate);
+
 		$finalDay = $period->getElement('finalDay');
 		$finalDay->setValue(strtok($now->subDate(1), ' '));
+		$finalDay->addValidator($validatorDate);
 
 		$order = $period->getElement('order');
 		$order->setValue('data');
@@ -178,11 +192,19 @@ class CallsReportController extends Zend_Controller_Action {
 		$hora_fim	= $formData['period']['finalHour'];
 		$ordernar	= $formData['period']['order'];
 
-		$src 		= $formData['source']['groupSrc'];
 		$groupsrc	= $formData['source']['selectSrc'];
+		if (isset($formData['source']['groupSrc'])) {
+			$src 		= $formData['source']['groupSrc'];
+		} else { 
+			$src = ""; 
+		}
 
-		$dst 		= $formData['destination']['groupDst'];
 		$groupdst	= $formData['destination']['selectDst'];
+		if (isset($formData['destination']['groupDst'])) {
+			$dst 		= $formData['destination']['groupDst'];
+		} else {
+			$dst = "";
+		}
 
 		if (isset($formData['calls']['costs_center'])) {
 			$contas		= $formData['calls']['costs_center'];
@@ -672,14 +694,13 @@ class CallsReportController extends Zend_Controller_Action {
 								");
 
 		$defaultNS->row		  = $db->query($sql_chamadas)->fetchAll();
-		
-		//Zend_Debug::Dump($sql_chamadas);
-		/*if (count($defaultNS->row) == 0) {
-			$this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
-	        $this->_helper->viewRenderer('error');
-			return;
-		} 
-		*/
+
+		if (count($defaultNS->row) == 0) {
+			 $this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
+		     $this->_helper->viewRenderer('error');
+			 return;
+		}
+	
 
 		switch ($acao) {
 			case 'csv':
@@ -779,6 +800,7 @@ class CallsReportController extends Zend_Controller_Action {
 
 			// Groups treatment 
             $sint_destino 		= $defaultNS->dst;
+
 			$sint_groupdst 		= $defaultNS->groupdst;
 
             if($sint_destino != '' && $sint_groupdst == '') {
