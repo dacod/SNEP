@@ -1,0 +1,116 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+?>
+<meta http-equiv="refresh" content="10" />
+<table align="center">
+    <tr>
+    <?php foreach ($this->dados as $board_key => $board_item): ?>
+        <td width="" valign="top">
+            <input type="hidden"  size="2" class="campos" id="status[<?php echo $board_key ?>]" name="<?php echo $board_key ?>" value="no" />
+            <table>
+                <tr>
+                    <td colspan="2" class="boards_khomp">
+                        <?php
+                            $adress = str_replace($board_key, 'B', '') ;
+
+                            echo $this->translate('Placa : ') . $board_key ;
+                            $adress = str_replace($board_key, 'B', '') ;
+
+                            if (count($this->gsm) > 0) {
+
+                                if ($this->gsm[$adress] == 'yes') {
+
+                                    echo $this->translate('(GSM)');
+                                }
+                            }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tb_tit2"><?php echo $this->translate('Status dos Links') ?></td>
+                    <td class="tb_tit2"><?php echo $this->translate('Resumo dos Status dos Canais') ?></td>
+                </tr>
+                <tr>
+                    <td class="links_khomp">
+                    <?php
+                        foreach ($this->dados[$board_key] as $link_key => $link_item) {
+
+                            echo $this->translate('Link') . '&nbsp;' . $this->translate($link_key) . ' : ' . $this->translate($link_item) . '<br />';
+                        }
+                    ?>
+                    </td>
+                    <td class="links_sint" width="50%">
+                    <?php
+                        foreach ($this->sintetic[$board_key] as $sint_key => $sint_item) {
+
+                            echo $this->translate($this->status_sintetic[$sint_key]) . ' : <strong>' . $this->translate($sint_item) . '</strong><br />';
+                        }
+                    ?>
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="2">
+                        <div id="channels[<?php echo $board_key ?>]">
+                            <?php if ($this->tiporel == "analitic") : ?>
+                                <table align="center"  width="100%">
+                                    <tr>
+                                        <td><strong><?php echo $this->translate('Canal') ?></strong></td>
+                                        <td><strong><?php echo $this->translate('Status do Asterisk') ?></strong></td>
+                                        <td><strong><?php echo $this->translate('Status do Canal') ?></strong></td>
+                                        <?php
+                                        if (count($this->gsm) > 0) {
+                                            if ($this->gsm[$adress] == 'yes') {
+                                        ?>
+                                                <td><strong><?php echo $this->translate('Intensidade do Sinal') ?></strong></td>
+                                                <td><strong><?php echo $this->translate('Chip / Operadora') ?></strong></td>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                        <?php if ($this->status === "yes") : ?>
+                                            <td><strong><?php echo $this->translate('Status do Canal') ?></strong></td>
+                                        <?php endif ?>
+                                    </tr>
+                                    <?php foreach ($this->canais[$board_key] as $canal_key => $canal_item) : ?>
+                                        <tr bgcolor=''>
+                                            <td style="width:20px;"><?php echo $this->translate($canal_key) ?></td>
+                                            <?php $cor_status = $canal_item['asterisk'] ; ?>
+                                            <td style="width:120px;color:#fff;background: <?php echo $this->status_canais[$cor_status] ?>;">
+                                                <strong><?php echo $this->translate($canal_item['asterisk'])?></strong>
+                                            </td>
+                                            <td style="width:120px;color:#fff;background: <?php echo $this->status_canais[$cor_status] ?>;">
+                                                <?php echo $this->translate($canal_item['k_call']) ?>
+                                            </td>
+                                            <?php if ($canal_item['k_gsm'] == 'k_gsm') : ?>
+                                                <td style="width:120px;color:#fff;background: <?php echo $this->status_canais[$cor_status] ?>;">
+                                                    <?php echo $this->translate($canal_item['k_signal']) ?>
+                                                </td>
+                                                <td style="width:120px;color:#fff;background: <?php echo $this->status_canais[$cor_status] ?>;">
+                                                    <?php echo $this->translate($canal_item['k_opera']) ?>
+                                                </td>
+                                            <?php endif ?>
+                                            <?php if ($this->status === "yes") : ?>
+                                                <td style="color:#fff;background: <?php echo $this->status_canais[$cor_status] ?>;">
+                                                    <?php echo $this->translate($canal_item['k_channel']) ?>
+                                                </td>
+                                            <?php endif ?>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </table>
+                            <?php endif ?>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    <?php endforeach ?>
+    </tr>
+    <tr>
+        <td colspan="3" align="center">
+            <center>
+                <?php echo $this->translate('Para manter a integridade das informações, esta página é automaticamente atualizada.') ?>
+            </center>
+        </td>
+    </tr>
+</table>
