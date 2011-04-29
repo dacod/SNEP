@@ -1,0 +1,56 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+
+echo $this->render('filter.phtml');
+
+if( $this->error['error'] ) : ?>
+    <div class="error_box"> <?php echo $this->error['message']  ?> </div>
+<?php endif ?>
+
+<table>
+   <thead>
+      <tr>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Localização') ?> </th>
+         <th> <?php echo $this->translate('Tipo') ?> </th>
+         <th colspan="4" class="action"> <?php echo $this->translate('Ações') ?> </th>
+      </tr>
+   </thead>   
+   <tbody>
+    <?php
+    $c = 0;
+    if($this->sections):
+        foreach($this->sections as $class ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td class="action">
+                    <b> <?php echo $class['name'] ?> </b>
+                </td>
+                <td> 
+                    <?php echo $class['directory'] ?>
+                </td>
+                <td> 
+                    <?php echo $this->modes[$class['mode']] ?>
+                </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/file/class/<?php echo $class['name'] ?>">
+                        <?php echo $this->translate('Arquivos de Som')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/file/<?php echo $class['name'] ?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <a class="alterar" href="<?php echo $this->url ?>/remove/file/<?php echo $class['name'] ?>">
+                        <?php echo $this->translate('Excluir')?>
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>

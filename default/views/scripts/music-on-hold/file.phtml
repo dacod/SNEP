@@ -1,0 +1,56 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/src/scriptaculous.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+
+echo $this->render('filter.phtml');
+
+if( $this->error['error'] ) : ?>
+    <div class="error_box"> <?php echo $this->error['message']  ?> </div>
+<?php endif ?>
+
+<table>
+   <thead>
+      <tr>
+         <th> <?php echo $this->translate('Nome') ?> </th>
+         <th> <?php echo $this->translate('Data') ?> </th>
+         <th> <?php echo $this->translate('Descrição') ?> </th>
+         <th> <?php echo $this->translate('Classe') ?> </th>
+         <th colspan="4" class="action"> <?php echo $this->translate('Ações') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    if( $this->files ):
+        foreach($this->files as $file ): ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+            <tr class="c<?php echo $c ?>">
+                <td>
+                    <b> <?php echo $file['arquivo'] ?> </b>
+                </td>
+                <td>
+                    <?php echo  ( $file['data'] ?  new Zend_Date( $file['data']) : '-' );  ?>
+                </td>
+                <td>
+                    <?php echo $file['descricao'] ?>
+                </td>
+                <td>
+                    <?php echo $file['secao'] ?>
+                </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/editfile/file/<?php echo $file['arquivo']?>/class/<?php echo $file['secao']?>">
+                        <?php echo $this->translate('Alterar')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <a class="alterar" href="<?php echo $this->url ?>/removefile/file/<?php echo $file['arquivo']?>/class/<?php echo $file['secao']?>">
+                        <?php echo $this->translate('Excluir')?>
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
