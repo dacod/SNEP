@@ -289,12 +289,8 @@ class ExtensionsController extends Zend_Controller_Action {
                 $khompBoard = substr($khompInfo, strpos($khompInfo, 'b') + 1, strpos($khompInfo, 'c') - 1);
                 $khompChannel = substr($khompInfo, strpos($khompInfo, 'c') + 1);
 
-                try {
-                    $khompInfo = new PBX_Khomp_Info();
-                } catch (Asterisk_Exception_CantConnect $ex) {
-                    Zend_Debug::Dump($ex->getMessage());
-                    exit;
-                }
+                $khompInfo = new PBX_Khomp_Info();
+                
                 if ($khompInfo->hasWorkingBoards()) {
                     foreach ($khompInfo->boardInfo() as $board) {
                         if (preg_match("/KFXS/", $board['model'])) {

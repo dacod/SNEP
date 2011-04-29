@@ -17,7 +17,7 @@
                     <required>true</required>
                     <label>Nome</label>
                 </options>
-            </name>            
+            </name>
         </elements>
     </trunks>
     <technology>
@@ -31,8 +31,8 @@
                         <iax2>IAX2</iax2>
                         <khomp>Khomp</khomp>
                         <virtual>TDM/Virtual</virtual>
-                        <snep_sip>Snep SIP</snep_sip>
-                        <snep_iax2>Snep IAX2</snep_iax2>
+                        <snepsip>Snep SIP</snepsip>
+                        <snepiax2>Snep IAX2</snepiax2>
                     </multioptions>
                 </options>
             </type>
@@ -68,9 +68,6 @@
                 <type>Text</type>
                 <options>
                     <label>Host Remoto</label>
-                    <multioptions>
-                        <option>Enable delay qualification</option>
-                    </multioptions>
                 </options>
             </host_trunk>
             <fromuser>
@@ -216,17 +213,12 @@
             </channel>
         </elements>
     </khomp>
-    <snep_sip>
+    <snepsip>
         <elements>
             <snep_host>
                 <type>text</type>
                 <options>
                     <label>Host Remoto</label>
-                    <multioptions>
-                        <rfc2833>RFC-2833</rfc2833>
-                        <inband>Inband</inband>
-                        <info>Info</info>
-                    </multioptions>
                 </options>
             </snep_host>
             <snep_dtmf>
@@ -242,8 +234,8 @@
                 </options>
             </snep_dtmf>
         </elements>
-    </snep_sip>
-    <snep_iax2>
+    </snepsip>
+    <snepiax2>
         <elements>
             <snep_username>
                 <type>text</type>
@@ -260,7 +252,7 @@
                 </options>
             </snep_nat>
         </elements>
-    </snep_iax2>
+    </snepiax2>
    <advanced>
         <elements>
             <extensionMapping>

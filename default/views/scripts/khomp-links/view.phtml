@@ -35,8 +35,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                     <td class="links_khomp">
                     <?php
                         foreach ($this->dados[$board_key] as $link_key => $link_item) {
-
-                            echo $this->translate('Link') . '&nbsp;' . $this->translate($link_key) . ' : ' . $this->translate($link_item) . '<br />';
+                            echo $this->translate('Link') . '&nbsp;' . $link_key . ' : ' . $link_item . '<br />';
                         }
                     ?>
                     </td>
