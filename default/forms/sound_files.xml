@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>    
+    <description>
+        <type>text</type>
+        <options>
+            <label>Descrição</label>
+            <required>true</required>           
+        </options>
+    </description>
+    <type>
+        <type>radio</type>
+        <options>
+            <label>Converte para GSM</label>    
+        </options>
+    </type>
+    <gsm>
+        <type>checkbox</type>
+        <options>
+           <label>Converte para GSM</label>
+           <description>Converter</description>
+        </options>
+    </gsm>
+</elements>
+</modelo>

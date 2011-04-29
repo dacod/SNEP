@@ -1,0 +1,110 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+
+?>
+<div class="snep_form" style="float:right;z-index:0;">
+
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="200" height="20" id="haxe" align="left">
+            <param name="movie" value="/snep/wavplayer.swf?gui=full&h=20&w=300&sound=/snep/sounds/pt_BR/<?php echo trim($this->file['arquivo'])."&" ?>"/>
+            <param name="allowScriptAccess" value="always" />
+            <param name="quality" value="high" />
+            <param name="scale" value="noscale" />
+            <param name="salign" value="lt" />
+            <param name="bgcolor" value="#ffffff"/>
+            <embed src="/snep/wavplayer.swf?gui=full&h=20&w=200&sound=/snep/sounds/pt_BR/<?php echo trim($this->file['arquivo']);?>&"
+                       bgcolor="#ffffff"
+                       width="200"
+                       height="20"
+                       name="haxe"
+                       quality="high"
+                       align="left"
+                       scale="noscale"
+                       allowScriptAccess="always"
+                       type="application/x-shockwave-flash"
+                       pluginspage="http://www.macromedia.com/go/getflashplayer"
+            />
+            </object>
+</div>
+
+<?php echo $this->form; ?>
+
+
+
+<script type="text/javascript">
+
+function getPlayer(pid) {
+        var obj = document.getElementById(pid);
+        if (obj.doPlay) return obj;
+        for(i=0; i<obj.childNodes.length; i++) {
+                var child = obj.childNodes[i];
+                if (child.tagName == "EMBED") return child;
+        }
+}
+function doPlay(fname) {
+        var player = getPlayer('haxe');
+        player.doPlay(fname);
+}
+function doStop() {
+        var player = getPlayer('haxe');
+        player.doStop();
+}
+var SoundLen = 0;
+var SoundPos = 0;
+var Last = undefined;
+var State = "STOPPED";
+var Timer = undefined;
+function getPerc(a, b) {
+        return ((b==0?0.0:a/b)*100).toFixed(2);
+}
+function FileLoad(bytesLoad, bytesTotal) {
+        document.getElementById('InfoFile').innerHTML = "Loaded "+bytesLoad+"/"+bytesTotal+" bytes ("+getPerc(BytesLoad,BytesTotal)+"%)";
+}
+function SoundLoad(secLoad, secTotal) {
+        document.getElementById('InfoSound').innerHTML = "Available "+secLoad.toFixed(2)+"/"+secTotal.toFixed(2)+" seconds ("+getPerc(secLoad,secTotal)+"%)";
+        SoundLen = secTotal;
+}
+var InfoState = undefined;
+function Inform() {
+        if (Last != undefined) {
+                var now = new Date();
+                var interval = (now.getTime()-Last.getTime())/1000;
+                SoundPos += interval;
+                Last = now;
+        }
+        InfoState.innerHTML = State + "("+SoundPos.toFixed(2)+"/"+SoundLen.toFixed(2)+" sec ("+getPerc(SoundPos,SoundLen)+"%)";
+}
+function SoundState(state, position) {
+        if (position != undefined) SoundPos = position;
+        if (State != "PLAYING" && state=="PLAYING") {
+                Last = new Date();
+                Timer = setInterval(Inform, 100);
+                Inform();
+        } else
+        if (State == "PLAYING" && state!="PLAYING") {
+                clearInterval(Timer);
+                Timer = undefined;
+                Inform();
+        }
+        State = state;
+        Inform();
+}
+function init() {
+        var player = getPlayer('haxe');
+        if (!player || !player.attachHandler) setTimeout(init, 100); // Wait for load
+        else {
+                player.attachHandler("progress", "FileLoad");
+                player.attachHandler("PLAYER_LOAD", "SoundLoad");
+                player.attachHandler("PLAYER_BUFFERING", "SoundState", "BUFFERING");
+                player.attachHandler("PLAYER_PLAYING", "SoundState", "PLAYING");
+                player.attachHandler("PLAYER_STOPPED", "SoundState", "STOPPED");
+                player.attachHandler("PLAYER_PAUSED", "SoundState", "PAUSED");
+                InfoState = document.getElementById('InfoState')
+                Inform();
+        }
+}
+
+
+
+
+</script>

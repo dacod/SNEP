@@ -33,6 +33,7 @@ class Snep_Billing_Manager {
 
     /**
      * Get all Billing
+     * @return array
      */
     public function getAll() {
 
@@ -69,7 +70,6 @@ class Snep_Billing_Manager {
         $billing = $stmt->fetch();
 
         return $billing;
-
     }
 
     /**
@@ -166,8 +166,6 @@ class Snep_Billing_Manager {
                 $db->rollBack();
                 
             }
-
-
     }
 
     /**

@@ -69,13 +69,13 @@ echo $this->render('filter.phtml');
                         <?php echo $billing['prefixo'] ?>
                 </td>
                 <td>
-                        <?php echo $billing['data'] ?>
+                        <?php echo new Zend_Date( $billing['data'] ) ?>
                 </td>
                 <td>
-                        <?php echo $billing['vcel'] ?>
+                        <?php echo new Zend_Currency(array('value' => $billing['vcel'] )) ?>
                 </td>
                 <td>
-                        <?php echo $billing['vfix'] ?>
+                        <?php echo new Zend_Currency(array('value' => $billing['vfix'] )) ?>
                 </td>
 
                 <?php if( $billing['codigo'] != $lst) : ?>
