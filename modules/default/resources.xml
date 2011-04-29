@@ -16,8 +16,8 @@
     
     <group id="configs" label="Configure" >
         <resource id="parameters" label="Parameters"></resource>
-       <!-- <item uri="src/rel_sounds.php" label="menu_sounds"></item> -->
-       <!-- <item uri="gestao/rel_musiconhold.php" label="menu_musiconhold"></item> -->
+        <resource id="sound-files" label="Sound Files"></resource>
+        <resource id="music-on-hold" label="Music on Hold"></resource>
         <resource id="inspector" label="System Status"></resource>
         <resource id="cnl" label="Cnl Update"></resource> -->
     </group>
