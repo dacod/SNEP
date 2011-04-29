@@ -65,3 +65,52 @@
     padding-right: 10px;
     padding-left: 5px;
 }
+
+.status_hard_block {
+    color: #333;
+    margin-top: 20px;
+}
+
+.status_hard_block p {
+    text-align: center;
+}
+
+.status_hard_block table {
+    width: 100%;
+}
+
+.status_hard_block  th, .status_hard_block td {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.status_hard_block th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.status_hard_block td {
+    text-align: left;
+    color: #444;
+    padding-left: 10px;
+    
+}
+
+.status_hard_block h2 {
+    background-image: url(../imagens/index/status_block_title_bg.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 12px;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.status_hard_block img {
+    float:left;
+    margin-top: -14px;
+    padding-right: 10px;
+    padding-left: 5px;
+}

@@ -14,17 +14,68 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
                 <table>
                     <tr>
                         <th><?php echo $this->translate("Distribution"); ?></th>
-                        <td>Windows 3.11 for Workgroups</td>
+                        <td> <?php echo $this->indexData["linux_ver"]; ?></td>
                     </tr>
                 </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("Kernel"); ?></th>
+                        <td> <?php echo $this->indexData['linux_kernel']; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("CPU"); ?></th>
+                        <td> <?php echo $this->indexData["hardware"]; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("Tempo ligado"); ?></th>
+                        <td> <?php echo $this->indexData["uptime"]; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("Asterisk"); ?></th>
+                        <td> <?php echo $this->indexData["asterisk"]; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("MySQL"); ?></th>
+                        <td> <?php echo $this->indexData["mysql"]; ?></td>
+                    </tr>
+                </table>
+
             </div>
             <div class="status_block">
                 <h2>
                     <img alt="" src="<?php echo $this->baseUrl(); ?>/imagens/index/modules_icon.png">
                     <?php echo $this->translate("Modules"); ?>
                 </h2>
-
-                <p><?php echo $this->translate("No modules instaled."); ?></p>
+                <?php
+                if (count($this->indexData["modules"]) > 0) {
+                    foreach ($this->indexData["modules"] as $key => $value) {
+                        ?>
+                        <table>
+                            <tr>
+                                <th><?php echo $value['name']; ?></th>
+                                <td> <?php echo $value['version']; ?></td>
+                                <td> <?php echo $value['description']; ?></td>
+                            </tr>
+                        </table>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <p><?php echo $this->translate("No modules instaled."); ?></p>
+                <?php } ?>
             </div>
         </td>
         <td>
@@ -36,22 +87,51 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Placeholder"); ?></th>
-                        <td>Placeholder</td>
+                        <th><?php echo $this->translate("Numero de Ramais"); ?></th>
+                        <td> <?php echo $this->indexData["num_peers"]; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("Numero de Troncos"); ?></th>
+                        <td> <?php echo $this->indexData["num_trunks"]; ?></td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th><?php echo $this->translate("Numero de Rotas"); ?></th>
+                        <td> <?php echo $this->indexData["num_routes"]; ?></td>
                     </tr>
                 </table>
             </div>
-            <div class="status_block">
+            <div class="status_hard_block">
                 <h2><img alt="" src="<?php echo $this->baseUrl(); ?>/imagens/index/memory_icon.png"><?php echo $this->translate("Memory Usage"); ?></h2>
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Placeholder"); ?></th>
-                        <td>Placeholder</td>
+                        <th><?php echo $this->translate("Tipo"); ?></th>
+                        <th><?php echo $this->translate("Total"); ?></th>
+                        <th><?php echo $this->translate("Livre"); ?></th>
+                        <th><?php echo $this->translate("Usado"); ?></th>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->translate("Memória Física"); ?></th>
+                        <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['ram']["total"] / 1024)); ?></td>
+                        <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['ram']["free"] / 1024)); ?></td>
+                        <td><?php echo $this->indexData["memory"]['ram']["percent"].'%'; ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->translate("Memória de Troca"); ?></th>
+                        <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['swap']["total"] / 1024)); ?></td>
+                        <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['swap']["free"] / 1024)); ?></td>
+                        <td><?php echo $this->indexData["memory"]['swap']["percent"].'%'; ?></td>
                     </tr>
                 </table>
+
             </div>
-            <div class="status_block">
+            <div class="status_hard_block">
                 <h2>
                     <img alt="" src="<?php echo $this->baseUrl(); ?>/imagens/index/storage_icon.png">
                     <?php echo $this->translate("Disk Usage"); ?>
@@ -59,9 +139,23 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Placeholder"); ?></th>
-                        <td>Placeholder</td>
+                        <th><?php echo $this->translate("Partição"); ?></th>
+                        <th><?php echo $this->translate("Tamanho"); ?></th>
+                        <th><?php echo $this->translate("Livre"); ?></th>
+                        <th><?php echo $this->translate("Usado"); ?></th>
                     </tr>
+                    <?php  
+                                    foreach ($this->indexData["space"] as $key => $value) {
+                             ?>             
+                                   
+                 <tr>
+                <th><?php echo $value["mount_point"]; ?></th>
+                 <td><?php echo sprintf("%.2f",($value["size"]/1048576)); ?></td>
+                 <td><?php echo sprintf("%.2f",($value["free"]/1048576)); ?></td>
+                 <td><?php echo $value["percent"]; ?></td>
+            </tr> 
+            
+             <?php } ?>
                 </table>
             </div>
         </td>
