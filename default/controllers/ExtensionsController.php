@@ -104,7 +104,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(
-            array("url" => "/snep/src/extensions.php?action=multiadd",
+            array("url" => $baseUrl . "/extensions/multiadd",
                 "display" => $this->view->translate("Add Multiple Extensions"),
                 "css" => "includes"),
             array("url" => $baseUrl . "/extensions/add",
@@ -481,8 +481,35 @@ class ExtensionsController extends Zend_Controller_Action {
         Snep_InterfaceConf::loadConfFromDb();
     }
 
-    public function multiAddAction() {
-        $this->__redirect("./ramais_varios.php");
+    public function multiaddAction() {
+        //$this->__redirect("./ramais_varios.php");
+
+        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Multiple Extension");
+
+        $this->view->form = $this->getmultiaddForm();
+        if(!$this->view->all_writable) {
+            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
+        }
+        $this->view->boardData = $this->boardData;
+
+        if ($this->getRequest()->isPost()) {
+
+            if ($this->view->form->isValid($_POST)) {
+                $postData = $this->_request->getParams();
+
+                $ret = $this->execAdd($postData);
+
+                if (!is_string($ret)) {
+                    $this->_redirect('/extensions/');
+                } else {
+                    $this->view->error = $ret;
+                    $this->view->form->valid(false);
+                }
+            }
+        }
+
+        //$this->renderScript("extensions/add_edit.phtml");
+
     }
 
     public function deleteAction() {
@@ -582,4 +609,46 @@ class ExtensionsController extends Zend_Controller_Action {
         return $this->form;
     }
 
+    protected function getmultiaddForm() {
+        if ($this->form === Null) {
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensionsMulti.xml");
+            $form = new Snep_Form();
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
+            //$form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
+            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
+            $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
+            $selectFill = $subFormKhomp->getElement('board');
+            $selectFill->addMultiOption(null, ' ');
+            // Monta informações para placas khomp
+            $boardList = array();
+
+            $khompInfo = new PBX_Khomp_Info();
+
+            if ($khompInfo->hasWorkingBoards()) {
+                foreach ($khompInfo->boardInfo() as $board) {
+                    if (preg_match("/KFXS/", $board['model'])) {
+                        $channels = range(0, $board['channels']);
+                        $selectFill->addMultiOption($board['id'], $board['id']);
+                        $boardList[$board['id']] = $channels;
+                    }
+                }
+                //$subFormKhomp->getElement('channel')->setRegisterInArrayValidator(false);
+                $boardTmp = Zend_Json_Encoder::encode($boardList);
+                $this->boardData = $boardTmp;
+
+            } else {
+                $subFormKhomp->removeElement('board');
+                $subFormKhomp->removeElement('channel');
+                $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
+            }
+            $form->addSubForm($subFormKhomp, "khomp");
+            //$form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
+            $this->form = $form;
+        }
+
+        return $this->form;
+    }
 }

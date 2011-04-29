@@ -18,7 +18,7 @@
  */
 
 /**
- * controller  extensions groups.
+ * controller  Conference Rooms.
  */
 class ConferenceRoomsController extends Zend_Controller_Action {
 
@@ -146,7 +146,6 @@ class ConferenceRoomsController extends Zend_Controller_Action {
             $contentConfe .= "\n";
 
             foreach ($activate as $idActivate => $valueActivate) {
-
 
                 foreach ($password as $idPassword => $valuePassword) {
 
