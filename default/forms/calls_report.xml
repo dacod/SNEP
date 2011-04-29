@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+
+    <period>
+        <elements>
+        	<initDay>
+            	     <type>text</type>
+            	     <options>
+                         <label>A partir de </label>
+						 <required>true</required>
+						 <description>dd/mm/aaaa</description>
+		   			  </options>
+	        </initDay>
+
+	        <initHour>
+				<type>text</type>
+                <options>
+					<value>00:00</value>
+                    <label>hh:mm</label>
+		       	    <validators>
+                    	<regex>
+                    		<validator>regex</validator>
+                           	<options>
+                               <pattern>/(\d{2}[:]?)$/i</pattern>
+                               <messages>
+                                   <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                               </messages>
+                            </options>
+                         </regex>
+						 <strlen>
+                        	<validator>StringLength</validator>
+                           		<options>
+                               		<min>4</min>
+                               		<max>10</max>
+                           		</options>
+                       	</strlen>
+                   	</validators> 
+                </options>
+            </initHour>
+
+                <finalDay>
+                    <type>text</type>
+                    <options>
+                        <label>Até</label>
+                        <description>dd/mm/aaaa</description>
+						<required>true</required>
+                    </options>
+                </finalDay>
+
+                <finalHour>
+                    <type>text</type>
+                    <options>
+	            		<value>23:59</value>
+                        <label>hh:mm</label>
+                    </options>
+                </finalHour>
+
+		<order>
+		    <type>radio</type>
+		    <options>
+		        <label>Ordenar Resultados</label>	
+				<separator></separator>
+				<multioptions>
+					<data>Ordenar por data</data>
+					<src>Ordenar por origem</src>
+					<dst>Ordenar por destino</dst>
+				</multioptions>
+		   </options>
+		</order>
+          </elements>
+    </period>
+
+    <source>
+	<elements>
+		<selectSrc>
+		    <type>select</type>
+		    <options>
+			<label>Origem(s)</label>
+		    </options>
+		</selectSrc>
+
+		<groupSrc>
+		    <type>text</type>
+		    <options>
+			<label></label>
+		    </options>
+		</groupSrc>
+
+		<srctype>
+		    <type>radio</type>
+		    <options>
+			<label></label>	
+			<separator></separator>
+			<multioptions>
+			    <src1>Igual</src1>
+			    <src2>Iniciar com</src2>
+			    <src3>Termina com</src3>
+			    <src4>Contém</src4>
+			</multioptions>
+		    </options>
+		</srctype>
+	</elements>
+    </source>
+
+    <destination>
+	<elements>
+		<selectDst>
+		    <type>select</type>
+		    <options>
+			<label>Destino(s)</label>
+		    </options>
+		</selectDst>
+
+		<groupDst>
+		    <type>text</type>
+		    <options>
+			<label></label>
+		    </options>
+		</groupDst>
+
+		<dsttype>
+		    <type>radio</type>
+		    <options>
+			<label></label>	
+			<separator></separator>
+			<multioptions>
+			    <dst1>Igual</dst1>
+			    <dst2>Iniciar com</dst2>
+			    <dst3>Termina com</dst3>
+			    <dst4>Contém</dst4>
+			</multioptions>
+		    </options>
+		</dsttype>
+	</elements>
+    </destination>
+
+    <calls>
+	<elements>
+		<costs_center>
+		    <type>select</type>
+		    <options>
+			<multiple>True</multiple>
+			<label>Centro de Custos</label>
+		    </options>
+		</costs_center>
+
+		<status>
+		    <type>MultiCheckbox</type>
+		    <options>
+			<label>Status da ligação</label>
+			<separator></separator>
+			<multioptions>
+				<ALL>Todas</ALL>
+				<ANSWERED>Atendidas</ANSWERED>
+				<NOANSWER>Não Atendidas</NOANSWER>
+				<BUSY>Ocupadas</BUSY>
+				<FAILED>Falharam</FAILED>
+			</multioptions>
+		    </options>
+		</status>
+
+		<duration_init>
+		    <type>text</type>
+		    <options>
+				<label>De</label>
+				<description>segundos</description>
+		    </options>
+		</duration_init>
+
+		<duration_end>
+		    <type>text</type>
+		    <options>
+				<label>Até</label>
+				<description>segundos</description>
+		    </options>
+		</duration_end>
+
+		<type>
+		    <type>radio</type>
+		    <options>
+			<label>Tipo de chamada</label>
+			<separator></separator>
+			<multioptions>
+				<T>Todas</T>
+				<S>Originadas</S>
+				<E>Recebidas</E>
+				<O>Outras</O>
+			</multioptions>
+		    </options>
+		</type>
+	</elements>
+    </calls>
+
+    <others>
+	<elements>
+		<charging>
+		    <type>Checkbox</type>
+		    <options>
+			<label>Ver tarifação</label>
+		    </options>
+		</charging>
+
+		<show_records>
+		    <type>Checkbox</type>
+		    <options>
+			<label>Exibir arquivos de gravação</label>
+		    </options>
+		</show_records>
+
+		<!--<graph_type>
+		    <type>radio</type>
+		    <options>
+			<label>Tipo de gráfico</label>
+			<separator></separator>
+			<multioptions>
+				<bars>Barras</bars>
+				<lines>Linhas</lines>
+			</multioptions>
+		    </options>
+		</graph_type>-->
+
+		<report_type>
+		    <type>radio</type>
+		    <options>
+			<label>Tipo de relatório</label>
+			<separator></separator>
+			<multioptions>
+				<analytical>Analítico</analytical>
+				<synth>Sintético</synth>
+			</multioptions>
+		    </options>
+		</report_type>
+        </elements>
+    </others>
+</form>
