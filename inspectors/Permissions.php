@@ -34,9 +34,9 @@ class Permissions extends Snep_Inspector_Test {
      * @var Array
      */
     public $paths = array('templates_c'         => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          'sounds/'             => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          /*'sounds/'             => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           'sounds/pt_BR'        => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          'sounds/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1),*/
                           'includes/setup.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
         );
 
