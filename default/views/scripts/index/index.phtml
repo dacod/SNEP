@@ -2,13 +2,18 @@
 $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css");
 ?>
 
+<p style="text-align:center;">
+    <strong style="color: red;"><?php echo $this->translate("ATTENTION"); ?>:</strong>
+    <?php echo $this->translate("This software is in Alpha stage. Its unstable and may contain defects."); ?>
+</p>
+
 <table id="columns">
     <tr>
         <td width="50%">
             <div class="status_block">
                 <h2>
                     <img alt="" src="<?php echo $this->baseUrl(); ?>/imagens/index/server_status_icon.png">
-                    <?php echo $this->translate("Server Status"); ?>
+                    <?php echo $this->translate("System Information"); ?>
                 </h2>
 
                 <table>
@@ -87,21 +92,21 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Numero de Ramais"); ?></th>
+                        <th><?php echo $this->translate("Registered Extensions"); ?></th>
                         <td> <?php echo $this->indexData["num_peers"]; ?></td>
                     </tr>
                 </table>
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Numero de Troncos"); ?></th>
+                        <th><?php echo $this->translate("Registered Trunks"); ?></th>
                         <td> <?php echo $this->indexData["num_trunks"]; ?></td>
                     </tr>
                 </table>
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Numero de Rotas"); ?></th>
+                        <th><?php echo $this->translate("Routes"); ?></th>
                         <td> <?php echo $this->indexData["num_routes"]; ?></td>
                     </tr>
                 </table>

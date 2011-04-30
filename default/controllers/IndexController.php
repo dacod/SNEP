@@ -5,7 +5,7 @@ require_once 'Zend/Controller/Action.php';
 class IndexController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Welcome to Snep PBX version %s", SNEP_VERSION);
+        $this->view->breadcrumb = $this->view->translate("Welcome to Snep version %s", SNEP_VERSION);
 
         // Direcionando para o "snep antigo"
         $config = Zend_Registry::get('config');
@@ -42,7 +42,7 @@ class IndexController extends Zend_Controller_Action {
                 $systemInfo['linux_ver'] = substr($linuxVer[0], 0, strpos($linuxVer[0], "\\"));
             }
 
-            $systemInfo['linux_kernel'] = exec("uname -rv");
+            $systemInfo['linux_kernel'] = exec("uname -sr");
 
             $hard1 = exec("cat /proc/cpuinfo | grep name |  awk -F: '{print $2}'");
             $hard2 = exec("cat /proc/cpuinfo | grep MHz |  awk -F: '{print $2}'");

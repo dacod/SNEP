@@ -102,7 +102,7 @@ class TrunksController extends Zend_Controller_Action {
                         }
                         break;
                 }
-                $trunks[$id]['saldo'] = $saldo; //sprintf("%d:%02d",floor($saldo/60), $saldo%60);
+                $trunks[$id]['saldo'] = $saldo;
             }
         }
 
@@ -322,9 +322,7 @@ class TrunksController extends Zend_Controller_Action {
         }
         $form->getSubForm('trunks')
                 ->getElement('name')
-                ->setValue($trunk['callerid'])
-                ->setAttrib('readonly', true)
-                ->setAttrib('disabled', true);
+                ->setValue($trunk['callerid']);
         $form->getSubForm('technology')
                 ->getElement('type')
                 ->setValue(strtolower($trunk['type']));
