@@ -18,7 +18,7 @@
  */
 
 /**
- * 
+ * Trunk management
  */
 class TrunksController extends Zend_Controller_Action {
 
@@ -27,10 +27,10 @@ class TrunksController extends Zend_Controller_Action {
 
     public function indexAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Trunks")
-        ));
-        
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Trunks")
+                ));
+
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -133,263 +133,9 @@ class TrunksController extends Zend_Controller_Action {
                 "css" => "include"));
     }
 
-    public function addAction() {
-        $this->view->breadcrumb = $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-                    $this->view->translate("Manage"),
-                    $this->view->translate("Trunks")
-                ));
-
-        $form = $this->getForm();
-
-        if ($this->getRequest()->isPost()) {
-
-            if ($this->form->isValid($_POST)) {
-                $postData = $this->_request->getParams();
-                $ret = $this->execAdd($postData);
-
-                if (!is_string($ret)) {
-                    $this->_redirect('/trunks/');
-                } else {
-                    $this->view->error = $ret;
-                    $this->view->form->valid(false);
-                }
-            }
-        }
-
-        $this->view->form = $form;
-        $this->renderScript("trunks/add_edit.phtml");
-    }
-
-    public function editAction() {
-        $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-                    $this->view->translate("Manage"),
-                    $this->view->translate("Trunks"),
-                    $this->view->translate("Edit %s", $id)
-                ));
-
-        $form = $this->getForm();
-        $this->view->form = $form;
-        $this->view->boardData = $this->boardData;
-
-        $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
-
-        $db = Zend_Registry::get('db');
-
-        $select = $db->select()
-                        ->from("trunks")
-                        ->where("trunks.id = '{$id}'");
-        $stmt = $db->query($select);
-        $trunk = $stmt->fetch();
-
-        $select = $db->select()
-                        ->from("peers")
-                        ->where("peers.name = '{$trunk['name']}'");
-        $stmt = $db->query($select);
-        $peer = $stmt->fetch();
-
-        if ($peer && $trunk) {
-            $trunk = array_merge($peer, $trunk);
-        }
-
-        switch ($trunk['type']) {
-            case 'SIP':
-                $form_sip = $form->getSubForm('sip');
-                $form_sip->getElement('dial_method')
-                        ->setValue(strtolower($trunk['method']));
-                $form_sip->getElement('username')
-                        ->setValue($trunk['username']);
-                $form_sip->getElement('secret')
-                        ->setValue($trunk['secret']);
-                $form_sip->getElement('host_trunk')
-                        ->setValue($trunk['host']);
-                $form_sip->getElement('fromuser')
-                        ->setValue($trunk['fromuser']);
-                $form_sip->getElement('fromdomain')
-                        ->setValue($trunk['fromdomain']);
-                $form_sip->getElement('fromdomain')
-                        ->setValue($trunk['fromdomain']);
-                $form_sip->getElement('dtmfmode')
-                        ->setValue($trunk['dtmf_mode']);
-                $form_sip->getElement('qualify')
-                        ->setValue($trunk['qualify']);
-                if ($trunk['qualify'] == 'spacify') {
-                    $form_sip->getElement('qualify_value')
-                            ->setValue($trunk['qualify_value']);
-                }
-                $form_sip->getElement('peer_type')
-                        ->setValue($trunk['type']);
-                $form_sip->getElement('reverseAuth')
-                        ->setValue($trunk['reverse_auth']);
-                $form_sip->getElement('nat')
-                        ->setValue($trunk['nat']);
-                $form_sip->getElement('domain')
-                        ->setValue($trunk['domain']);
-                $form_sip->getElement('insecure')
-                        ->setValue($trunk['insecure']);
-                $form_sip->getElement('port')
-                        ->setValue($trunk['port']);
-                break;
-            case 'IAX2':
-                $form_iax2 = $form->getSubForm('iax2');
-                $form_iax2->getElement('dial_method')
-                        ->setValue(strtolower($trunk['method']));
-                $form_iax2->getElement('username')
-                        ->setValue($trunk['username']);
-                $form_iax2->getElement('secret')
-                        ->setValue($trunk['secret']);
-                $form_iax2->getElement('host_trunk')
-                        ->setValue($trunk['host']);
-                $form_iax2->getElement('fromuser')
-                        ->setValue($trunk['fromuser']);
-                $form_iax2->getElement('fromdomain')
-                        ->setValue($trunk['fromdomain']);
-                $form_iax2->getElement('fromdomain')
-                        ->setValue($trunk['fromdomain']);
-                $form_iax2->getElement('dtmfmode')
-                        ->setValue($trunk['dtmf_mode']);
-                $form_iax2->getElement('qualify')
-                        ->setValue($trunk['qualify']);
-                if ($trunk['qualify'] == 'spacify') {
-                    $form_iax2->getElement('qualify_value')
-                            ->setValue($trunk['qualify_value']);
-                }
-                $form_iax2->getElement('peer_type')
-                        ->setValue($trunk['type']);
-                $form_iax2->getElement('reverseAuth')
-                        ->setValue($trunk['reverse_auth']);
-                $form_iax2->getElement('nat')
-                        ->setValue($trunk['nat']);
-                $form_iax2->getElement('domain')
-                        ->setValue($trunk['domain']);
-                $form_iax2->getElement('insecure')
-                        ->setValue($trunk['insecure']);
-                $form_iax2->getElement('port')
-                        ->setValue($trunk['port']);
-                $form_iax2->getElement('istrunk')
-                        ->setValue($trunk['trunk']);
-                break;
-            case 'KHOMP':
-
-                break;
-            case 'SNEPSIP':
-                $form_snepsip = $form->getSubForm('snepsip');
-                $form_snepsip->getElement('snep_host')
-                        ->setValue($trunk['host']);
-                $form_snepsip->getElement('snep_dtmf')
-                        ->setValue($trunk['dtmfmode']);
-                break;
-            case 'SNEPIAX2':
-                $form_snepiax2 = $form->getSubForm('snepiax2');
-                $form_snepiax2->getElement('snep_username')
-                        ->setValue($trunk['username']);
-                $form_snepiax2->getElement('snep_nat')
-                        ->setValue($trunk['nat']);
-                $form_snepiax2->getElement('snep_host')
-                        ->setValue($trunk['host']);
-                $form_snepiax2->getElement('snep_dtmf')
-                        ->setValue($trunk['dtmfmode']);
-                break;
-            case 'VIRTUAL':
-                $form_virtual = $form->getSubForm('virtual');
-                $form_virtual->getElement('channel')
-                        ->setValue($trunk['channel']);
-                $form_virtual->getElement('trunk_regex')
-                        ->setValue($trunk['id_regex']);
-                break;
-        }
-
-        // Fill advanced subForm
-        $form_advanced = $form->getSubForm('advanced');
-        $form_advanced->getElement('extensionMapping')
-                ->setValue($trunk['map_extensions']);
-        $form_advanced->getElement('dtmf_dial')
-                ->setValue($trunk['dtmf_dial']);
-        if ($trunk['dtmf_dial']) {
-            $form_advanced->getElement('dtmf_dial_number')
-                    ->setValue($trunk['dtmf_dial_number']);
-        }
-        if ($trunk['time_total']) {
-            $form_advanced->getElement('tempo')
-                    ->setValue(1);
-            $form_advanced->getElement('time_total')
-                    ->setValue($trunk['time_total']);
-            $form_advanced->getElement('time_chargeby')
-                    ->setValue($trunk['time_chargeby']);
-        } else {
-            $form_advanced->getElement('tempo')
-                    ->setValue(0);
-        }
-        $form->getSubForm('trunks')
-                ->getElement('name')
-                ->setValue($trunk['callerid']);
-        $form->getSubForm('technology')
-                ->getElement('type')
-                ->setValue(strtolower($trunk['type']));
-
-
-        if ($this->getRequest()->isPost()) {
-
-            if ($this->form->isValid($_POST)) {
-
-                $postData = $this->_request->getParams();
-                $ret = $this->execAdd($postData, true);
-
-                if (!is_string($ret)) {
-                    $this->_redirect('/trunks/');
-                } else {
-                    $this->view->error = $ret;
-                    $this->view->form->valid(false);
-                }
-            }
-        }
-
-        $this->renderScript("trunks/add_edit.phtml");
-    }
-
-    public function removeAction() {
-
-        $db = Zend_Registry::get('db');
-        $id = $this->_request->getParam("id");
-
-        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%T:$id,%' OR destino LIKE '%T:$id,%'";
-        $regras = $db->query($rules_query)->fetchAll();
-
-        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id' AND (rconf.key = 'tronco' OR rconf.key = 'trunk'))";
-        foreach ($db->query($rules_query)->fetchAll() as $rule) {
-            if (!in_array($rule, $regras)) {
-                $regras[] = $rule;
-            }
-        }
-
-        if (count($regras) > 0) {
-
-            $this->view->error = $this->view->translate("As seguintes Rotas fazem uso deste tronco, modifique entes de excluir: ") . "<br />";
-            foreach ($regras as $regra) {
-                $this->view->error .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
-            }
-
-            $this->_helper->viewRenderer('error');
-        } else {
-
-            try {
-                $sql = "DELETE FROM trunks WHERE id='$id'";
-                $db->beginTransaction();
-                $db->exec($sql);
-
-                $sql = "DELETE FROM peers WHERE name='$name'";
-                $db->exec($sql);
-                $db->commit();
-
-                Snep_InterfaceConf::loadConfFromDb();
-
-                $this->_redirect("default/trunks");
-            } catch (Exception $e) {
-                echo "erro";
-            }
-        }
-    }
-
+    /**
+     * @return Snep_Form
+     */
     protected function getForm() {
 
         $this->form = null;
@@ -420,33 +166,36 @@ class TrunksController extends Zend_Controller_Action {
             $form->addSubForm($snep_iax, "snepiax2");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
 
-            $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
-            $selectFill = $subFormKhomp->getElement('board');
-            $selectFill->addMultiOption(null, ' ');
+            /*
+              $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
+              $selectFill = $subFormKhomp->getElement('board');
+              $selectFill->addMultiOption(null, ' ');
 
 
-            // Monta informações para placas khomp
-            $boardList = array();
+              // Monta informações para placas khomp
+              $boardList = array();
 
-            $khompInfo = new PBX_Khomp_Info();
+              $khompInfo = new PBX_Khomp_Info();
 
-            if ($khompInfo->hasWorkingBoards()) {
-                foreach ($khompInfo->boardInfo() as $board) {
-                    if (preg_match("/KFXS/", $board['model'])) {
-                        $channels = range(0, $board['channels']);
-                        $selectFill->addMultiOption($board['id'], $board['id']);
-                        $boardList[$board['id']] = $channels;
-                    }
-                }
-            } else {
-                $subFormKhomp->removeElement('board');
-                $subFormKhomp->removeElement('channel');
-                $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
-            }
+              if ($khompInfo->hasWorkingBoards()) {
+              foreach ($khompInfo->boardInfo() as $board) {
+              if (preg_match("/KFXS/", $board['model'])) {
+              $channels = range(0, $board['channels']);
+              $selectFill->addMultiOption($board['id'], $board['id']);
+              $boardList[$board['id']] = $channels;
+              }
+              }
+              } else {
+              $subFormKhomp->removeElement('board');
+              $subFormKhomp->removeElement('channel');
+              $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
+              }
 
-            $form->addSubForm($subFormKhomp, "khomp");
+              $form->addSubForm($subFormKhomp, "khomp");
+             *
+             */
+
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
-
 
             $this->form = $form;
         }
@@ -454,231 +203,293 @@ class TrunksController extends Zend_Controller_Action {
         return $this->form;
     }
 
-    protected function execAdd($trunk, $update = false) {
-
-        $def_campos_troncos = array("accountcode" => "''", "amaflags" => "''",
-            "defaultip" => "''", "language" => "'pt_BR'",
-            "deny" => "''", "permit" => "''",
-            "mask" => "''", "restrictcid" => "''",
-            "rtptimeout" => "''", "rtpholdtimeout" => "''",
-            "musiconhold" => "'cliente'", "regseconds" => 0,
-            "ipaddr" => "''", "regexten" => "''",
-            "cancallforward" => "'yes'", "setvar" => "''",
-            "disallow" => "'all'", "mailbox" => "''",
-            "email" => "''", "vinculo" => "''",
-            "incominglimit" => 0, "outgoinglimit" => 0,
-            "usa_vc" => "'no'", "canreinvite" => "'no'",
-            "mailbox" => "''", "fullcontact" => "''",
-            "authenticate" => "''", "subscribecontext" => "''",
-            "incominglimit" => 0, "outgoinglimit" => 0,
-            "usa_vc" => "'no'", "email" => "''",
-            "vinculo" => "''"
+    protected function preparePost($post = null) {
+        $post = $post === null ? $_POST : $post;
+        $tech = $post['technology']['type'];
+        $trunktype = $post['technology']['type'] = strtoupper($tech);
+        $static_sections = array("trunks", "technology", "advanced", $tech);
+        $ip_trunks = array("sip", "iax2", "snepsip", "snepiax2");
+        $trunk_fields = array(// Only allowed fields for trunks table
+            "callerid",
+            "type",
+            "username",
+            "secret",
+            "host",
+            "dtmfmode",
+            "reverse_auth",
+            "domain",
+            "insecure",
+            "map_extensions",
+            "dtmf_dial",
+            "dtmf_dial_number",
+            "time_total",
+            "time_chargeby",
+            "dialmethod",
+            "trunktype",
+            "context",
+            "name",
+            "allow",
+            "id_regex",
+            "channel"
         );
 
+        $ip_fields = array(// Only allowed fields for peers table
+            "name",
+            "callerid",
+            "context",
+            "secret",
+            "type",
+            "allow",
+            "username",
+            "dtmfmode",
+            "fromdomain",
+            "fromuser",
+            "canal",
+            "host",
+            "peer_type",
+            "trunk",
+            "qualify",
+            "nat",
+            "call-limit",
+            "port"
+        );
 
-        $db = Zend_Registry::get('db');
+        $sql = "SELECT name FROM trunks ORDER BY CAST(name as DECIMAL) DESC LIMIT 1";
+        $row = Snep_Db::getInstance()->query($sql)->fetch();
 
-        if ($trunk['advanced']['tempo'] == 1) {
-            $time_chargeby = $trunk['advanced']['time_total'] > 0 ? "'{$trunk['advanced']['time_chargeby']}'" : "NULL";
-            $time_total = $trunk['advanced']['time_total'] * 60;
-            $time_total = $trunk['advanced']['time_total'] == 0 ? "NULL" : "'{$trunk['advanced']['time_total']}'";
-        } else {
-            $time_chargeby = "NULL";
-            $time_total = "NULL";
+        $trunk_data = array(
+            "name" => trim($row['name'] + 1),
+            "context" => "default",
+            "trunktype" => (in_array($tech, $ip_trunks) ? "I" : "T"),
+        );
+
+        foreach ($post as $section_name => $section) {
+            if (in_array($section_name, $static_sections)) {
+                $trunk_data = array_merge($trunk_data, $section);
+            }
         }
 
-        try {
-            $sql = "SELECT name FROM trunks ";
-            $sql.= " ORDER BY CAST(name as DECIMAL) DESC LIMIT 1";
-            $row = $db->query($sql)->fetch();
-        } catch (PDOException $e) {
-            display_error($LANG['error'] . $e->getMessage(), true);
-        }
+        if ($trunktype == "SIP" || $trunktype == "IAX2") {
+            $trunk_data['dialmethod'] = strtoupper($trunk_data['dialmethod']);
 
-        $name = trim($row['name'] + 1);
-        $type = $trunk['technology']['type'];
-
-        if ($trunk['technology']['type'] == "sip" ||
-                $trunk['technology']['type'] == "iax2") {
-
-            $peer_type = "peer";
-            $tech = trim($trunk['technology']['type']);
-            $fromdomain = $trunk[$tech]['fromdomain'];
-            $fromuser = $trunk[$tech]['fromuser'];
-
-            if ($trunk[$tech]['dial_method'] == 'noauth') {
-                $host_trunk = $trunk[$tech]['host_trunk'];
-                $channel = $trunk['technology']['type'] . "/@" . $trunk[$tech]['host_trunk'];
+            if ($trunk_data['dialmethod'] == 'NOAUTH') {
+                $trunk_data['channel'] = $trunktype . "/@" . $trunk_data['host'];
             } else {
-                $channel = $trunk['technology']['type'] . "/" . $trunk[$tech]['username'];
+                $trunk_data['channel'] = $trunktype . "/" . $trunk_data['username'];
             }
 
-            $dmfmode = $trunk[$tech]['dtmfmode'];
-            $domain = ( is_null(trim($trunk[$tech]['domain'])) ? null : $trunk[$tech]['domain']); //trunk
-            $insecure = ( is_null(trim($trunk[$tech]['insecure'])) ? null : $trunk[$tech]['insecure']); //trunk
-            $calllimit = ( is_null(trim($trunk[$tech]['calllimit'])) ? null : $trunk[$tech]['calllimit']); //peer
-            $port = ( is_null(trim($trunk[$tech]['port'])) ? null : $trunk[$tech]['port']); //peer
-            $id_regex = $trunk['technology']['type'] . "/" . $trunk[$tech]['username'];
-            $dtmfmode = $snep_dtmf;
-            $secret = $trunk[$tech]['secret'];
-            $username = $trunk[$tech]['username'];
-            $host_trunk = $trunk[$tech]['host_trunk'];
-            $dialmethod = $trunk[$tech]['dial_method'];
-            $reverseAuth = $trunk[$tech]['reverseAuth'] ? "True" : "False";
-
-            if ($trunk[$tech]['qualify']) {
-                if ($trunk[$tech]['qualify'] == 'specify') {
-                    $qualify = trim($trunk[$tech]['qualify_value']);
-                } else {
-                    $qualify = $trunk[$tech]['qualify'];
-                }
-            }
-
-            if ($tech == "iax2") {
-                $istrunk = $trunk[$tech]['istrunk'];
-            } else {
-                $istrunk = 'yes';
-            }
-
-            $sql_fields_default = "";
-            $sql_values_default = "";
-
-            if ($fromdomain != "") {
-                $sql_fields_default = ",fromdomain";
-                $sql_values_default = ",'$fromdomain'";
-            }
-            if ($fromuser != "") {
-                $sql_fields_default = ",fromuser";
-                $sql_values_default = ",'$fromuser'";
-            }
-            if ($trunk[$tech]['nat'] == 1) {
-                $nat = 'yes';
-            } else {
-                $nat = 'no';
-            }
-
-            foreach ($def_campos_troncos as $key => $value) {
-                $sql_fields_default .= ",$key";
-                $sql_values_default .= ",$value";
-            }
-            $trunktype = "I";
-        } else if ($trunk['technology']['type'] == "snepsip") {
-            $trunktype = 'SIP';
-            $peer_type = "peer";
-            $type = "peer";
-            $username = $trunk['snepsip']['snep_host'];
-            $host_trunk = $trunk['snepsip']['snep_host'];
-            $channel = $trunk['technology']['type'] . "/" . $trunk['snepsip']['snep_host'];
-            $id_regex = $trunk['technology']['type'] . "/" . $trunk['snepsip']['snep_host'];
-            $nat = "no";
-            $dtmfmode = $snep_dtmf;
-            $trunktype = "I";
-        } else if ($trunk['technology']['type'] == "snepiax2") {
-            $trunktype = 'IAX2';
-            $peer_type = "peer";
-            $type = "peer";
-            $username = $trunk['snepiax2']['snep_username'];
-            $host_trunk = $trunk['snepiax2']['snep_host'];
-            $channel = $trunk['technology']['type'] . "/" . $trunk['snepiax2']['snep_username'];
-            $id_regex = $trunk['technology']['type'] . "/" . $trunk['snepiax2']['snep_username'];
-            $nat = "no";
-            $dtmfmode = $snep_dtmf;
-            $trunktype = "I";
-        } else if ($trunk['technology']['type'] == "khomp") {
-
-            $channel = 'KHOMP/' . $trunk['khomp']['khomp_board'];
-            $b = substr($trunk['khomp']['khomp_board'], 1, 1);
-            if (substr($trunk['khomp']['khomp_board'], 2, 1) == 'c') {
+            $trunk_data['id_regex'] = $trunktype . "/" . $trunk_data['username'];
+            $trunk_data['allow'] = trim(sprintf("%s;%s;%s", $trunk_data['codec'], $trunk_data['codec1'], $trunk_data['codec2']), ";");
+        } else if ($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
+            $trunk_data['peer_type'] = $trunktype == "SNEPSIP" ? "peer" : "friend";
+            $trunk_data['username'] = $trunktype == "SNEPSIP" ? $trunk_data['host'] : $trunk_data['username'];
+            $trunk_data['channel'] = $trunk_data['id_regex'] = substr($trunktype, 4) . "/" . $trunk_data['username'];
+        } else if ($trunktype == "KHOMP") {
+            $channel = 'KHOMP/' . $khomp_board;
+            $b = substr($khomp_board, 1, 1);
+            if (substr($khomp_board, 2, 1) == 'c') {
                 $config = array(
                     "board" => $b,
-                    "channel" => substr($trunk['khomp']['khomp_board'], 3)
+                    "channel" => substr($khomp_board, 3)
                 );
-            } else if (substr($trunk['khomp']['khomp_board'], 2, 1) == 'l') {
+            } else if (substr($khomp_board, 2, 1) == 'l') {
                 $config = array(
                     "board" => $b,
-                    "link" => substr($trunk['khomp']['khomp_board'], 3)
+                    "link" => substr($khomp_board, 3)
                 );
             } else {
                 $config = array(
                     "board" => $b
                 );
             }
-            $_trunk = new PBX_Asterisk_Interface_KHOMP($config);
-            $id_regex = $_trunk->getIncomingChannel();
-            $trunktype = "T";
+            $trunk = new PBX_Asterisk_Interface_KHOMP($config);
+            $id_regex = $trunk->getIncomingChannel();
         } else { // VIRTUAL
-            $trunktype = "T";
-            $id_regex = $trunk['virtual']['trunk_regex'] == "" ? $channel : $trunk['virtual']['trunk_regex'];
-            $domain = null;
-            $secret = null;
-            $username = null;
-            $channel = null;
-            $dialmethod = null;
-            $reverseAuth = 0;
-            $insecure = null;
-            $dtmfmode = null;
+            $trunk_data['id_regex'] = $trunk_data['id_regex'] == "" ? $trunk_data['channel'] : $trunk_data['id_regex'];
         }
 
-        $dtmf_dial = $trunk['advanced']['dtmf_dial'] ? 'TRUE' : 'FALSE';
-        $context = "default";
-        $extensionMapping = $trunk['advanced']['extensionMapping'] ? 'True' : 'False';
-
-        /*
-          if($trunk['sip']['reverseAuth']) {
-          $reverseAuth = $trunk['sip']['reverseAuth'] ? "True": "False";
-          }elseif($trunk['iax2']['reverseAuth']){
-          $reverseAuth = $trunk['sip']['reverseAuth'] ? "True": "False";
-          }
-         *
-         */
-
-        if ($techType == "sip" || $techType == "iax2") {
-            $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
-        } else {
-            $allow = "ulaw";
-        }
-
-        $callerid = $trunk['trunks']['name'];
-
-        if ($trunk['advanced']['dtmf_dial']) {
-            $dtmf_dial_number = $trunk['advanced']['dtmf_dial_number'];
-        } else {
-            $dtmf_dial_number = null;
-        }
-
-        try {
-            $db->beginTransaction();
-            $sql = "INSERT INTO trunks (";
-            $sql.= "name, type, callerid, context, dtmfmode, insecure, domain, secret,id_regex,";
-            $sql.= "username, allow, channel, trunktype, host, trunk_redund, time_total,";
-            $sql.= "time_chargeby, dialmethod, map_extensions, reverse_auth, dtmf_dial, dtmf_dial_number) values (";
-            $sql.= "'$name','$type','$callerid','$context','$dtmfmode','$insecure', '$domain', ";
-            $sql.= "'$secret','$id_regex','$username','$allow','$channel','$trunktype',";
-            $sql.= "'$host_trunk','', $time_total, $time_chargeby, '$dialmethod',";
-            $sql.= "$extensionMapping, $reverseAuth, $dtmf_dial, '$dtmf_dial_number')";
-
-            $db->exec($sql);
-
-            if ($trunktype == "I") {
-                $sql = "INSERT INTO peers (";
-                $sql.= "name,callerid,context,secret,type,allow,username,";
-                $sql.= "dtmfmode,canal,host,peer_type, trunk, qualify, nat,`call-limit`,port " . $sql_fields_default;
-                $sql.= ") values (";
-                $sql.= "'$name','$callerid','$context','$secret','$peer_type','$allow',";
-                $sql.= "'$username','$dtmfmode','$channel','$host_trunk', 'T', '$istrunk', '$qualify', '$nat' ";
-                $sql.= ",'$calllimit', '$port' " . $sql_values_default . ")";
-
-                $db->exec($sql);
+        // Filter data and fields to allowed types
+        $ip_data = array(
+            "canal" => $trunk_data['channel'],
+            "type" => $trunk_data['peer_type'],
+        );
+        foreach ($trunk_data as $field => $value) {
+            if (in_array($field, $ip_fields) && $field != "type") {
+                $ip_data[$field] = $value;
             }
 
-            $db->commit();
-        } catch (Exception $ex) {
+            if (!in_array($field, $trunk_fields)) {
+                unset($trunk_data[$field]);
+            }
+        }
+        $ip_data["peer_type"] = "T";
 
-            $db->rollBack();
+        return array("trunk" => $trunk_data, "ip" => $ip_data);
+    }
+
+    public function addAction() {
+        $this->view->breadcrumb = $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Trunks"),
+                    $this->view->translate("Add")
+                ));
+
+        $form = $this->getForm();
+
+        if ($this->getRequest()->isPost()) {
+            if ($this->form->isValid($_POST)) {
+                $trunk_data = $this->preparePost();
+
+                $db = Snep_Db::getInstance();
+                $db->beginTransaction();
+                try {
+                    $db->insert("trunks", $trunk_data['trunk']);
+                    if ($trunk_data['trunk']['trunktype'] == "I") {
+                        $db->insert("peers", $trunk_data['ip']);
+                    }
+                    $db->commit();
+                } catch (Exception $ex) {
+                    $db->rollBack();
+                    throw $ex;
+                }
+                Snep_InterfaceConf::loadConfFromDb();
+                $this->_redirect("trunks");
+            }
         }
 
+        $this->view->form = $form;
+        $this->renderScript("trunks/add_edit.phtml");
+    }
 
-        Snep_InterfaceConf::loadConfFromDb();
+    protected function populateFromTrunk($form, $trunk_id) {
+        $db = Snep_Db::getInstance();
+        $info = $db->query("select * from trunks where id='$trunk_id'")->fetch();
+        Zend_Debug::dump($info);
+    }
+
+    public function editAction() {
+        $id = mysql_escape_string($this->getRequest()->getParam("trunk"));
+        $this->view->breadcrumb = $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Trunks"),
+                    $this->view->translate("Edit trunk %s", $id)
+                ));
+
+        $form = $this->getForm();
+        $form->setAction($this->view->baseUrl() . "/index.php/trunks/edit/trunk/$id");
+
+        $this->populateFromTrunk($form, $id);
+
+        if ($this->getRequest()->isPost()) {
+            if ($this->form->isValid($_POST)) {
+                $trunk_data = $this->preparePost();
+
+                $db = Snep_Db::getInstance();
+                $db->beginTransaction();
+                try {
+                    $db->insert("trunks", $trunk_data['trunk']);
+                    if ($trunk_data['trunk']['trunktype'] == "I") {
+                        $db->insert("peers", $trunk_data['ip']);
+                    }
+                    $db->commit();
+                } catch (Exception $ex) {
+                    $db->rollBack();
+                    throw $ex;
+                }
+                Snep_InterfaceConf::loadConfFromDb();
+                $this->_redirect("trunks");
+            }
+        }
+
+        $this->view->form = $form;
+        $this->renderScript("trunks/add_edit.phtml");
+    }
+
+    public function removeAction() {
+        $db = Zend_Registry::get('db');
+        $id = $this->_request->getParam("id");
+        $name = $this->_request->getParam("name");
+
+        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%T:$id,%' OR destino LIKE '%T:$id,%'";
+        $regras = $db->query($rules_query)->fetchAll();
+
+        $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id' AND (rconf.key = 'tronco' OR rconf.key = 'trunk'))";
+        foreach ($db->query($rules_query)->fetchAll() as $rule) {
+            if (!in_array($rule, $regras)) {
+                $regras[] = $rule;
+            }
+        }
+
+        if (count($regras) > 0) {
+
+            $this->view->error = $this->view->translate("As seguintes Rotas fazem uso deste tronco, modifique entes de excluir: ") . "<br />";
+            foreach ($regras as $regra) {
+                $this->view->error .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
+            }
+
+            $this->_helper->viewRenderer('error');
+        } else {
+            $db->beginTransaction();
+            $sql = "DELETE FROM trunks WHERE id='$id'";
+            $db->exec($sql);
+            $sql = "DELETE FROM peers WHERE name='$name'";
+            $db->exec($sql);
+            $db->commit();
+
+            Snep_InterfaceConf::loadConfFromDb();
+            $this->_redirect("trunks");
+        }
+    }
+
+    protected function execUpdate($trunk_data) {
+
+    }
+
+    protected function execAdd($trunk_data) {
+        $trunk_data = array(
+            "callerid",
+            "type",
+            "username",
+            "secret",
+            "host",
+            "dtmfmode",
+            "reverse_auth",
+            "domain",
+            "insecure",
+            "map_extensions",
+            "dtmf_dial",
+            "dtmf_dial_number",
+            "time_total",
+            "time_chargeby",
+            "dialmethod",
+            "trunktype",
+            "context",
+            "name",
+            "allow",
+            "id_regex",
+            "channel"
+        );
+
+        $ip_data = array(
+            "name",
+            "callerid",
+            "context",
+            "secret",
+            "type",
+            "allow",
+            "username",
+            "dtmfmode",
+            "fromdomain",
+            "fromuser",
+            "canal",
+            "host",
+            "peer_type",
+            "trunk",
+            "qualify",
+            "nat",
+            "call-limit",
+            "port"
+        );
     }
 
 }

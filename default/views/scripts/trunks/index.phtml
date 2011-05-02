@@ -41,15 +41,15 @@ echo $this->render('filter.phtml');
                 <?php endif ?>
             </td>
             <td class="action">
-                <a class="alterar" href="<?php echo $this->url ."/edit/id/".  $trunk['id'] ?>" >
+                <!--
+                <a class="alterar" href="<?php echo $this->url ."/edit/trunk/".  $trunk['id'] ?>" >
                     <?php echo $this->translate('Edit')?>
                 </a>
+                -->
             </td>
 
             <td class="action">
-                <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
-                <!--<span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $trunk['codigo'] ?>','<?php echo $this->remove_msg ?>')"> -->
-                <a class="alterar" href="<?php echo $this->url ."/remove/id/".  $trunk['id'] . "/name/" . $trunk['name'] ?>" >
+                <a class="excluir" href="<?php echo $this->url ."/remove/id/".  $trunk['id'] . "/name/" . $trunk['name'] ?>" >
                     <?php echo $this->translate('Delete')?>
                 </a>
             </td>

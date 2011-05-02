@@ -11,13 +11,13 @@
 <form>
     <trunks>
         <elements>
-            <name>
+            <callerid>
                 <type>Text</type>
                 <options>
                     <required>true</required>
                     <label>Nome</label>
                 </options>
-            </name>
+            </callerid>
         </elements>
     </trunks>
     <technology>
@@ -29,7 +29,7 @@
                     <multioptions>
                         <sip>SIP</sip>
                         <iax2>IAX2</iax2>
-                        <khomp>Khomp</khomp>
+                        <!-- <khomp>Khomp</khomp> -->
                         <virtual>TDM/Virtual</virtual>
                         <snepsip>Snep SIP</snepsip>
                         <snepiax2>Snep IAX2</snepiax2>
@@ -40,7 +40,7 @@
     </technology>
     <ip>
         <elements>
-            <dial_method>
+            <dialmethod>
                 <type>radio</type>
                 <options>
                     <label>Método de Discagem</label>
@@ -51,7 +51,7 @@
                         <noauth>Sem autenticação</noauth>
                     </multioptions>
                 </options>
-            </dial_method>
+            </dialmethod>
             <username>
                 <type>Text</type>
                 <options>
@@ -64,12 +64,12 @@
                     <label>Senha</label>                    
                 </options>
             </secret>
-            <host_trunk>
+            <host>
                 <type>Text</type>
                 <options>
                     <label>Host Remoto</label>
                 </options>
-            </host_trunk>
+            </host>
             <fromuser>
                 <type>text</type>
                 <options>
@@ -126,20 +126,45 @@
                     </multioptions>
                 </options>
             </peer_type>
-            <reverseAuth>
+            <reverse_auth>
                 <type>checkbox</type>
                 <options>
+                    <value>1</value>
                     <label>Força Autenticação Reversa</label>
                     <description>Habilitar</description>
                 </options>
-            </reverseAuth>
+            </reverse_auth>
             <nat>
                 <type>checkbox</type>
                 <options>
                     <label>Atravessa Nat</label>
                     <description>Habilitar</description>
                 </options>
-            </nat>            
+            </nat>  
+            
+            <codec>
+                <type>codec</type>
+                <options>
+                    <value>ulaw</value>
+                    <label>Codec 1</label>
+                    <description>Prioritary</description>
+                </options>
+            </codec>
+            <codec1>
+                <type>codec</type>
+                <options>
+                    <value>alaw</value>
+                    <label>Codec 2</label>
+                </options>
+            </codec1>
+            <codec2>
+                <type>codec</type>
+                <options>
+                    <value>ilbc</value>
+                    <label>Codec 3</label>
+                </options>
+            </codec2>
+
             <domain>
                 <type>text</type>
                 <options>
@@ -188,13 +213,13 @@
                     <label>Tecnologia de Canais</label>
                 </options>
             </channel>
-            <trunk_regex>
+            <id_regex>
                 <type>Text</type>
                 <options>
                     <label>Expressão de Identificação</label>
                     <description></description>
                 </options>
-            </trunk_regex>
+            </id_regex>
         </elements>
     </virtual>
     <khomp>
@@ -215,13 +240,13 @@
     </khomp>
     <snepsip>
         <elements>
-            <snep_host>
+            <host>
                 <type>text</type>
                 <options>
                     <label>Host Remoto</label>
                 </options>
-            </snep_host>
-            <snep_dtmf>
+            </host>
+            <dtmfmode>
                 <type>radio</type>
                 <options>
                     <label>Modo de DTMF</label>
@@ -232,36 +257,36 @@
                         <info>Info</info>
                     </multioptions>
                 </options>
-            </snep_dtmf>
+            </dtmfmode>
         </elements>
     </snepsip>
     <snepiax2>
         <elements>
-            <snep_username>
+            <username>
                 <type>text</type>
                 <options>
                     <label>Identificador</label>
                     <description>O mesmo em ambas os servidores</description>
                 </options>
-            </snep_username>
-            <snep_nat>
+            </username>
+            <nat>
                 <type>checkbox</type>
                 <options>
                     <label>Atravessar NAT</label>
                     <description>Habilitado</description>
                 </options>
-            </snep_nat>
+            </nat>
         </elements>
     </snepiax2>
    <advanced>
         <elements>
-            <extensionMapping>
+            <map_extensions>
                 <type>Checkbox</type>
                 <options>
                     <label>Permitir mapeamento de ramais</label>
                     <description>Habilitar</description>
                 </options>
-            </extensionMapping>
+            </map_extensions>
             <dtmf_dial>
                 <type>Checkbox</type>
                 <options>
@@ -291,6 +316,7 @@
                 <type>radio</type>
                 <options>
                     <label>Tipo de Controle</label>
+                    <separator> </separator>
                     <multioptions>
                         <Y>Ano</Y>
                         <M>Mês</M>
