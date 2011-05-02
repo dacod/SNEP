@@ -185,7 +185,9 @@ class TrunksController extends Zend_Controller_Action {
                     }
                 }
                 $subFormKhomp->getElement('board')->setMultiOptions($khomp_boards);
-            } else {
+            }
+            
+            if(count($khomp_boards) == 0) {
                 $subFormKhomp->removeElement('board');
                 $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
             }
