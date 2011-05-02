@@ -15,7 +15,7 @@
                 <type>Text</type>
                 <options>
                     <required>true</required>
-                    <label>Nome</label>
+                    <label>Name</label>
                 </options>
             </callerid>
         </elements>
@@ -25,7 +25,7 @@
             <type>
                 <type>Select</type>
                 <options>
-                    <label>Tipo de tronco</label>
+                    <label>Trunk type</label>
                     <multioptions>
                         <sip>SIP</sip>
                         <iax2>IAX2</iax2>
@@ -43,43 +43,43 @@
             <dialmethod>
                 <type>radio</type>
                 <options>
-                    <label>Método de Discagem</label>
+                    <label>Dial Method</label>
                     <value>normal</value>
                     <separator> </separator>
                     <multioptions>
                         <normal>Normal</normal>
-                        <noauth>Sem autenticação</noauth>
+                        <noauth>Without Authentication</noauth>
                     </multioptions>
                 </options>
             </dialmethod>
             <username>
                 <type>Text</type>
                 <options>
-                    <label>Usuário</label>
+                    <label>Username</label>
                 </options>
             </username>
             <secret>
                 <type>password</type>
                 <options>
-                    <label>Senha</label>                    
+                    <label>Password</label>
                 </options>
             </secret>
             <host>
                 <type>Text</type>
                 <options>
-                    <label>Host Remoto</label>
+                    <label>Remote Host</label>
                 </options>
             </host>
             <fromuser>
                 <type>text</type>
                 <options>
-                    <label>Especificar Usuário de Origem</label>
+                    <label>From user</label>
                 </options>
             </fromuser>
             <fromdomain>
                 <type>text</type>
                 <options>
-                    <label>Dominio de Origem</label>                    
+                    <label>From domain</label>
                 </options>
             </fromdomain>
             <dtmfmode>
@@ -98,7 +98,7 @@
             <qualify>
                 <type>radio</type>
                 <options>
-                    <label>Controle de Qualidade</label>
+                    <label>Delay Qualification</label>
                     <value>yes</value>
                     <separator> </separator>
                     <multioptions>
@@ -111,13 +111,13 @@
             <qualify_value>
                 <type>text</type>
                 <options>
-                    <separator> </separator>
+                    <label>Qualification time</label>
                 </options>
             </qualify_value>
             <peer_type>
                 <type>radio</type>
                 <options>
-                    <label>Tipo de Peer (SIP)</label>
+                    <label>Peer Type</label>
                     <value>peer</value>
                     <separator> </separator>
                     <multioptions>
@@ -130,15 +130,15 @@
                 <type>checkbox</type>
                 <options>
                     <value>1</value>
-                    <label>Força Autenticação Reversa</label>
-                    <description>Habilitar</description>
+                    <label>Force reverse authentication</label>
+                    <description>Enable</description>
                 </options>
             </reverse_auth>
             <nat>
                 <type>checkbox</type>
                 <options>
-                    <label>Atravessa Nat</label>
-                    <description>Habilitar</description>
+                    <label>NAT Optimization</label>
+                    <description>Enable</description>
                 </options>
             </nat>  
             
@@ -168,7 +168,7 @@
             <domain>
                 <type>text</type>
                 <options>
-                    <label>Dominio</label>
+                    <label>Domain</label>
                 </options>
             </domain>
             <insecure>
@@ -180,13 +180,13 @@
             <port>
                 <type>text</type>
                 <options>
-                    <label>Porta</label>
+                    <label>Port</label>
                 </options>
             </port>
             <calllimit>
                 <type>text</type>
                 <options>
-                    <label>Limite de Canais</label>
+                    <label>Channel Limit</label>
                 </options>
             </calllimit>
         </elements>
@@ -196,10 +196,10 @@
             <istrunk>
                 <type>select</type>
                 <options>
-                    <label>Trunk</label>
+                    <label>IAX2 Trunking</label>
                     <multioptions>
-                        <yes>Sim</yes>
-                        <no>Não</no>
+                        <yes>Yes</yes>
+                        <no>No</no>
                     </multioptions>
                 </options>
             </istrunk>
@@ -210,14 +210,13 @@
             <channel>
                 <type>Text</type>
                 <options>
-                    <label>Tecnologia de Canais</label>
+                    <label>Channel Technology</label>
                 </options>
             </channel>
             <id_regex>
                 <type>Text</type>
                 <options>
-                    <label>Expressão de Identificação</label>
-                    <description></description>
+                    <label>ID Regular Expression</label>
                 </options>
             </id_regex>
         </elements>
@@ -227,7 +226,7 @@
             <board>
                 <type>Select</type>
                 <options>
-                    <label>Placa</label>
+                    <label>Board</label>
                 </options>
             </board>
         </elements>
@@ -237,13 +236,13 @@
             <host>
                 <type>text</type>
                 <options>
-                    <label>Host Remoto</label>
+                    <label>Remote Host</label>
                 </options>
             </host>
             <dtmfmode>
                 <type>radio</type>
                 <options>
-                    <label>Modo de DTMF</label>
+                    <label>DTMF Mode</label>
                     <value>rfc2833</value>
                     <multioptions>
                         <rfc2833>RFC-2833</rfc2833>
@@ -259,15 +258,15 @@
             <username>
                 <type>text</type>
                 <options>
-                    <label>Identificador</label>
-                    <description>O mesmo em ambas os servidores</description>
+                    <label>Identifier</label>
+                    <description>Same on both servers</description>
                 </options>
             </username>
             <nat>
                 <type>checkbox</type>
                 <options>
-                    <label>Atravessar NAT</label>
-                    <description>Habilitado</description>
+                    <label>NAT optimization</label>
+                    <description>Enabled</description>
                 </options>
             </nat>
         </elements>
@@ -277,25 +276,28 @@
             <map_extensions>
                 <type>Checkbox</type>
                 <options>
-                    <label>Permitir mapeamento de ramais</label>
-                    <description>Habilitar</description>
+                    <label>Extension Mapping</label>
+                    <description>Enable</description>
                 </options>
             </map_extensions>
             <dtmf_dial>
                 <type>Checkbox</type>
                 <options>
-                    <label>Modo de DTMF</label>
-                    <description>Habilitar</description>
+                    <label>DTML dial mode</label>
+                    <description>Enable</description>
                 </options>
             </dtmf_dial>
             <dtmf_dial_number>
-                <type>Text</type>                
+                <type>Text</type>
+                <options>
+                    <label>DTML dial mode number</label>
+                </options>
             </dtmf_dial_number>
             <tempo>
                 <type>Checkbox</type>
                 <options>
-                    <label>Controle de Minutos</label>
-                    <description>Habilitar</description>
+                    <label>Minute Control</label>
+                    <description>Enable</description>
                     <value>no</value>
                     <separator> </separator>                    
                 </options>
@@ -303,18 +305,18 @@
             <time_total>
                 <type>Text</type>
                 <options>
-                    <label>Credito em Minutos</label>
+                    <label>Minutes</label>
                 </options>
             </time_total>
             <time_chargeby>
                 <type>radio</type>
                 <options>
-                    <label>Tipo de Controle</label>
+                    <label>Type of control</label>
                     <separator> </separator>
                     <multioptions>
-                        <Y>Ano</Y>
-                        <M>Mês</M>
-                        <D>Dia</D>
+                        <Y>Year</Y>
+                        <M>Month</M>
+                        <D>Day</D>
                     </multioptions>
                 </options>
             </time_chargeby>

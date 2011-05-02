@@ -114,12 +114,12 @@ class SimulatorController extends Zend_Controller_Action {
 
                     foreach ($rule->getAcoes() as $action) {
                         $config = $action->getConfigArray();
-                        if ($action instanceof PBX_Rule_Action_CCustos) {
+                        if ($action instanceof CCustos) {
                             $actions[] = $this->view->translate("Define Cost Center to ") . $config['ccustos'];
-                        } else if ($action instanceof PBX_Rule_Action_DiscarTronco) {
+                        } else if ($action instanceof DiscarTronco) {
                             $tronco = PBX_Trunks::get($config['tronco']);
                             $actions[] = $this->view->translate("Dial through Trunk ") . $tronco->getName();
-                        } else if ($action instanceof PBX_Rule_Action_DiscarRamal) {
+                        } else if ($action instanceof DiscarRamal) {
                             if (isset($config['ramal']) && $config['ramal'] != "") {
                                 $peer = $config['ramal'];
                             } else {
@@ -132,11 +132,11 @@ class SimulatorController extends Zend_Controller_Action {
                             } catch (PBX_Exception_NotFound $ex) {
                                 $actions[] = "<strong style='color:red'>" . $this->view->translate("Failure on trial to dial extension %: non existent extension", $extension) . "</strong>";
                             }
-                        } else if ($action instanceof PBX_Rule_Action_Queue) {
+                        } else if ($action instanceof Queue) {
                             $actions[] = $this->view->translate("Direct to queue %s", $config['queue']);
-                        } else if ($action instanceof PBX_Rule_Action_Cadeado) {
+                        } else if ($action instanceof Cadeado) {
                             $actions[] = $this->view->translate("Request password");
-                        } else if ($action instanceof PBX_Rule_Action_Context) {
+                        } else if ($action instanceof Context) {
                             $actions[] = $this->view->translate("Redirect to context %s", $config['context']);
                         }
                     }

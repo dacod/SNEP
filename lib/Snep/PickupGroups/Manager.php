@@ -17,16 +17,7 @@
  */
 
 /**
- *  Class that  controls  the  persistence  in  database  of business rules
- * the Snep.
- *
- * Note about  persistence: The  persistence  control  is  done  in  the  SNEP
- * separate classes. Not in the constructor of the class model as is seen in other
- * Frameworks and architectures. The reason is that if a change in
- * how it is made ​​the persistence of these objects need not be the same
- * changed. This increases the compactness with legacy code and facilitates
- * migration of code between versions.
- * ~henrique
+ *  Class that  controls  the  persistence  of pickup groups.
  *
  * @category  Snep
  * @package   Snep
@@ -128,8 +119,7 @@ class Snep_PickupGroups_Manager {
         catch(Exception $e) {
 
             $db->rollBack();
-            return $e;
+            throw $e;
         }
     }
 }
-?>

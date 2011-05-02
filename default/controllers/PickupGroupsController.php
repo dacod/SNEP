@@ -34,14 +34,15 @@ class PickupGroupsController extends Zend_Controller_Action {
     protected $forms;
 
     public function indexAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Captura");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Pickup Groups")
+        ));
 
         $db = Zend_Registry::get('db');
 
 
-        $select = $db->select()
-                        ->from("grupos");
+        $select = $db->select()->from("grupos");
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
@@ -76,15 +77,19 @@ class PickupGroupsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add",
-                "display" => $this->view->translate("Incluir Grupos de Captura"),
+                "display" => $this->view->translate("Add Pickup Group"),
                 "css" => "include")
         );
 
     }
 
     public function addAction() {
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Pickup Groups"),
+            $this->view->translate("Add Pickup Group")
+        ));
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Captura » Incluir Grupos de Captura");
         $form_xml = new Zend_Config_Xml("default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/add');
@@ -110,30 +115,28 @@ class PickupGroupsController extends Zend_Controller_Action {
     }
 
     public function editAction() {
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Pickup Groups"),
+            $this->view->translate("Edit Pickup Group")
+        ));
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Captura » Edit Grupos de Captura");
-
-        $id = $this->_request->getParam('id');
+        $id = $this->_request->getParam('group');
         $pickupgroup = Snep_PickupGroups_Manager::get($id);
 
         $form_xml = new Zend_Config_Xml("default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/edit');
+        $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName()."/edit/group/$id");
 
         $name = $form->getElement('name')->setValue($pickupgroup['nome']);
-        $id = $form->getElement('id')->setValue($pickupgroup['cod_grupo']);
         $name = $form->getElement('name')->setLabel($this->view->translate("Name"));
 
         if ($this->_request->getPost()) {
-
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
 
             if ($form_isValid) {
-
-                $pickupgroup = array('id' => $dados['id'],
-                    'name' => $dados['name']
-                );
+                $pickupgroup = array('id' => $id, 'name' => $dados['name']);
 
                 $this->view->Group = Snep_PickupGroups_Manager::edit($pickupgroup);
                 $this->_redirect($this->getRequest()->getControllerName());
@@ -144,7 +147,6 @@ class PickupGroupsController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-
         $id = mysql_escape_string($this->getRequest()->getParam('id'));
 
         try {

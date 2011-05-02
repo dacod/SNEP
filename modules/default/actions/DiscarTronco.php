@@ -312,10 +312,10 @@ XML;
                         break;
                     }
                     $cfg = $action->getConfigArray();
-                    if($action instanceof PBX_Rule_Action_DiscarTronco) {
+                    if($action instanceof DiscarTronco) {
                         $lastdialaction = PBX_Trunks::get($cfg['tronco']);
                     }
-                    else if($action instanceof PBX_Rule_Action_DiscarRamal) {
+                    else if($action instanceof DiscarRamal) {
                         $lastdialaction = $cfg['ramal'];
                     }
                 }

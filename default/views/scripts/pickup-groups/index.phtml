@@ -23,7 +23,7 @@ echo $this->render('filter.phtml');
                 <td class="numeric"> <b> <?php echo $pickupGroups['cod_grupo'] ?> </b> </td>
                 <td> <?php echo $pickupGroups['nome'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href='<?php echo $this->URL; ?>edit/id/<?php echo $pickupGroups['cod_grupo'] ?>'>
+                    <a class="alterar" href='<?php echo $this->URL; ?>edit/group/<?php echo $pickupGroups['cod_grupo'] ?>'>
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>

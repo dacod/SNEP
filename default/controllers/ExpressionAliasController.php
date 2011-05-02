@@ -30,14 +30,16 @@ class ExpressionAliasController extends Zend_Controller_Action {
     protected $form;
 
     public function indexAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Alias Expressão Regular");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Expression Alias"),
+        ));
 
         $aliases = PBX_ExpressionAliases::getInstance();
         $this->view->aliases = $aliases->getAll();
 
         $this->view->filter = array(array("url" => $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/add',
-                "display" => $this->view->translate("Incluir Alias"),
+                "display" => $this->view->translate("Add Expression Alias"),
                 "css" => "include"),
         );
     }
@@ -50,7 +52,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
 
 
             $exprField = new Snep_Form_Element_Html("expression-alias/elements/expr.phtml", "expr", false);
-            $exprField->setLabel($this->view->translate("Expressões"));
+            $exprField->setLabel($this->view->translate("Expressions"));
             $exprField->setOrder(1);
             $form->addElement($exprField);
 
@@ -61,8 +63,11 @@ class ExpressionAliasController extends Zend_Controller_Action {
     }
 
     public function addAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Alias Expressão Regular » Incluir");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Expression Alias"),
+            $this->view->translate("Add Expression Alias"),
+        ));
 
         $form = $this->getForm();
         $this->view->form = $form;
@@ -100,12 +105,15 @@ class ExpressionAliasController extends Zend_Controller_Action {
     }
 
     public function editAction() {
+        $id = (int) $this->getRequest()->getParam('id');
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Expression Alias"),
+            $this->view->translate("Edit Expression Alias %s", $id),
+        ));
 
         $form = $this->getForm();
         $this->view->form = $form;
-
-        $id = (int) $this->getRequest()->getParam('id');
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Alias Expressão Regular » Edit Alias $id");
         $aliasesPersistency = PBX_ExpressionAliases::getInstance();
 
         if ($this->getRequest()->isPost()) {

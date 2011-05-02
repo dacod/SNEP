@@ -116,8 +116,8 @@ class TrunksController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name" => $this->view->translate("Código"),
-            "callerid" => $this->view->translate("Nome"));
+        $opcoes = array("name" => $this->view->translate("Code"),
+            "callerid" => $this->view->translate("Name"));
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
@@ -129,7 +129,7 @@ class TrunksController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                "display" => $this->view->translate("Incluir Tronco"),
+                "display" => $this->view->translate("Add Trunk"),
                 "css" => "include"));
     }
 
@@ -137,7 +137,6 @@ class TrunksController extends Zend_Controller_Action {
      * @return Snep_Form
      */
     protected function getForm() {
-
         $this->form = null;
 
         if ($this->form === Null) {
@@ -279,11 +278,15 @@ class TrunksController extends Zend_Controller_Action {
 
             $trunk_data['id_regex'] = $trunktype . "/" . $trunk_data['username'];
             $trunk_data['allow'] = trim(sprintf("%s;%s;%s", $trunk_data['codec'], $trunk_data['codec1'], $trunk_data['codec2']), ";");
+            
         } else if ($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
+
             $trunk_data['peer_type'] = $trunktype == "SNEPSIP" ? "peer" : "friend";
             $trunk_data['username'] = $trunktype == "SNEPSIP" ? $trunk_data['host'] : $trunk_data['username'];
             $trunk_data['channel'] = $trunk_data['id_regex'] = substr($trunktype, 4) . "/" . $trunk_data['username'];
+
         } else if ($trunktype == "KHOMP") {
+            
             $khomp_board = $trunk_data['board'];
             $trunk_data['channel'] = 'KHOMP/' . $khomp_board;
             $b = substr($khomp_board, 1, 1);
@@ -304,6 +307,7 @@ class TrunksController extends Zend_Controller_Action {
             }
             $trunk = new PBX_Asterisk_Interface_KHOMP($config);
             $trunk_data['id_regex'] = $trunk->getIncomingChannel();
+            
         } else { // VIRTUAL
             $trunk_data['id_regex'] = $trunk_data['id_regex'] == "" ? $trunk_data['channel'] : $trunk_data['id_regex'];
         }
@@ -455,7 +459,7 @@ class TrunksController extends Zend_Controller_Action {
 
         if (count($regras) > 0) {
 
-            $this->view->error = $this->view->translate("As seguintes Rotas fazem uso deste tronco, modifique entes de excluir: ") . "<br />";
+            $this->view->error = $this->view->translate("Cannot remove. The following routes are using this trunk: ") . "<br />";
             foreach ($regras as $regra) {
                 $this->view->error .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
             }

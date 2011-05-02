@@ -9,9 +9,9 @@ echo $this->render('filter.phtml');
       <tr>
          <th class="action"> <?php echo $this->translate('Code') ?> </th>
          <th> <?php echo $this->translate('Name') ?> </th>
-         <th> <?php echo $this->translate('Tipo de Tronco') ?> </th>
-         <th> <?php echo $this->translate('Tecnologia de Canais') ?> </th>
-         <th> <?php echo $this->translate('Saldo de Tempo (min:seg)') ?> </th>
+         <th> <?php echo $this->translate('Type') ?> </th>
+         <th> <?php echo $this->translate('Interface Type') ?> </th>
+         <th> <?php echo $this->translate('Time Credit (min:sec)') ?> </th>
          <th colspan="2" class="action"> <?php echo $this->translate('Actions') ?>  </th>
       </tr>
    </thead>
@@ -37,7 +37,7 @@ echo $this->render('filter.phtml');
                             <?php echo $date->toString('H:m:s') ?>
                          </span>
                     <?php else :  ?>
-                        <?php echo $this->translate('Não configurado') ?>
+                        <?php echo $this->translate('Not configured') ?>
                 <?php endif ?>
             </td>
             <td class="action">

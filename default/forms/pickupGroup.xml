@@ -2,9 +2,6 @@
 <modelo>
     <general>
         <elements>
-            <id>
-                <type>hidden</type>
-            </id>
             <name>
                 <type>text</type>
             </name>

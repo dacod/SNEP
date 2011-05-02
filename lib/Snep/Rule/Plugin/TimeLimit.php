@@ -77,7 +77,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
     public function preExecute($index) {
         $action = $this->rule->getAction($index);
 
-        if ($action instanceof PBX_Rule_Action_DiscarTronco) {
+        if ($action instanceof DiscarTronco) {
             $log = Zend_Registry::get('log');
             $config = $action->getConfigArray();
             $allowed = $this->trunkIsAllowed($config['tronco']);
@@ -103,7 +103,7 @@ class Snep_Rule_Plugin_TimeLimit extends PBX_Rule_Plugin {
         $action = $this->rule->getAction($index);
 
         // Somente as  ligações feitas através de troncos são contabilizadas.
-        if ($action instanceof PBX_Rule_Action_DiscarTronco) {
+        if ($action instanceof DiscarTronco) {
             $log = Zend_Registry::get('log');
             $asterisk = $this->asterisk;
 
