@@ -17,6 +17,9 @@ from xml.etree.ElementTree import ElementTree
 def usage():
     print("usage: %s -s source_root_dir" % sys.argv[0])
 
+def escape(string):
+    return string.replace("\\", "\\\\").replace("\"", "\\\"").strip().replace("\n", "\\n");
+
 def parse(file):
     """Parses XML files for what we need"""
     file = os.path.realpath(file)
@@ -28,11 +31,11 @@ def parse(file):
         for child in element:
             if child.text != None and len(child.text.strip()) > 0:
                 print("#: %s" % file)
-                print('msgid "%s"\nmsgstr ""' % child.text)
+                print('msgid "%s"\nmsgstr ""' % escape(child.text))
                 print('')
             if "label" in child.attrib:
                 print("#: %s" % file)
-                print('msgid "%s"\nmsgstr ""' % child.attrib['label'])
+                print('msgid "%s"\nmsgstr ""' % escape(child.attrib['label']))
                 print('')
             _parse(child)
 
