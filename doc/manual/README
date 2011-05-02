@@ -1,6 +1,0 @@
-Instruções para adicionar uma página de manual.
-
-Crie um arquivo .html com o mesmo nome da pagina .php desejada. (ex: sistema.php crie um sistema.html)
-Use os outros arquivos de ajuda como modelo.
-
-Vá na página .php e clique no botão ajuda. Tudo pronto.
