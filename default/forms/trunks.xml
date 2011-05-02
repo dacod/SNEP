@@ -29,7 +29,7 @@
                     <multioptions>
                         <sip>SIP</sip>
                         <iax2>IAX2</iax2>
-                        <!-- <khomp>Khomp</khomp> -->
+                        <khomp>Khomp</khomp>
                         <virtual>TDM/Virtual</virtual>
                         <snepsip>Snep SIP</snepsip>
                         <snepiax2>Snep IAX2</snepiax2>
@@ -230,12 +230,6 @@
                     <label>Placa</label>
                 </options>
             </board>
-            <channel>
-                <type>Select</type>
-                <options>
-                    <label>Canal</label>
-                </options>
-            </channel>
         </elements>
     </khomp>
     <snepsip>
@@ -309,7 +303,7 @@
             <time_total>
                 <type>Text</type>
                 <options>
-
+                    <label>Credito em Minutos</label>
                 </options>
             </time_total>
             <time_chargeby>

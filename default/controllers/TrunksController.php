@@ -166,34 +166,31 @@ class TrunksController extends Zend_Controller_Action {
             $form->addSubForm($snep_iax, "snepiax2");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
 
-            /*
-              $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
-              $selectFill = $subFormKhomp->getElement('board');
-              $selectFill->addMultiOption(null, ' ');
+            $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
+            // Informações de placas khomp
+            $khomp_info = new PBX_Khomp_Info();
+            $khomp_boards = array();
+            if ($khomp_info->hasWorkingBoards()) {
+                foreach ($khomp_info->boardInfo() as $board) {
+                    if (!preg_match("/FXS/", $board['model'])) {
+                        $khomp_boards["b" . $board['id']] = "{$board['id']} - " . $this->view->translate("Board") . " {$board['model']}";
+                        $id = "b" . $board['id'];
+                        if (preg_match("/E1/", $board['model'])) {
+                            for ($i = 0; $i < $board['links']; $i++)
+                                $khomp_boards["b" . $board['id'] . "l$i"] = $board['model'] . " - " . $this->view->translate("Link") . " $i";
+                        } else {
+                            for ($i = 0; $i < $board['channels']; $i++)
+                                $khomp_boards["b" . $board['id'] . "c$i"] = $board['model'] . " - " . $this->view->translate("Channel") . " $i";
+                        }
+                    }
+                }
+                $subFormKhomp->getElement('board')->setMultiOptions($khomp_boards);
+            } else {
+                $subFormKhomp->removeElement('board');
+                $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
+            }
 
-
-              // Monta informações para placas khomp
-              $boardList = array();
-
-              $khompInfo = new PBX_Khomp_Info();
-
-              if ($khompInfo->hasWorkingBoards()) {
-              foreach ($khompInfo->boardInfo() as $board) {
-              if (preg_match("/KFXS/", $board['model'])) {
-              $channels = range(0, $board['channels']);
-              $selectFill->addMultiOption($board['id'], $board['id']);
-              $boardList[$board['id']] = $channels;
-              }
-              }
-              } else {
-              $subFormKhomp->removeElement('board');
-              $subFormKhomp->removeElement('channel');
-              $subFormKhomp->addElement(new Snep_Form_Element_Html("extensions/khomp_error.phtml", "err", false, null, "khomp"));
-              }
-
-              $form->addSubForm($subFormKhomp, "khomp");
-             *
-             */
+            $form->addSubForm($subFormKhomp, "khomp");
 
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Advanced"), $form_xml->advanced), "advanced");
 
@@ -285,7 +282,8 @@ class TrunksController extends Zend_Controller_Action {
             $trunk_data['username'] = $trunktype == "SNEPSIP" ? $trunk_data['host'] : $trunk_data['username'];
             $trunk_data['channel'] = $trunk_data['id_regex'] = substr($trunktype, 4) . "/" . $trunk_data['username'];
         } else if ($trunktype == "KHOMP") {
-            $channel = 'KHOMP/' . $khomp_board;
+            $khomp_board = $trunk_data['board'];
+            $trunk_data['channel'] = 'KHOMP/' . $khomp_board;
             $b = substr($khomp_board, 1, 1);
             if (substr($khomp_board, 2, 1) == 'c') {
                 $config = array(
@@ -303,7 +301,7 @@ class TrunksController extends Zend_Controller_Action {
                 );
             }
             $trunk = new PBX_Asterisk_Interface_KHOMP($config);
-            $id_regex = $trunk->getIncomingChannel();
+            $trunk_data['id_regex'] = $trunk->getIncomingChannel();
         } else { // VIRTUAL
             $trunk_data['id_regex'] = $trunk_data['id_regex'] == "" ? $trunk_data['channel'] : $trunk_data['id_regex'];
         }
@@ -361,10 +359,40 @@ class TrunksController extends Zend_Controller_Action {
         $this->renderScript("trunks/add_edit.phtml");
     }
 
-    protected function populateFromTrunk($form, $trunk_id) {
+    protected function populateFromTrunk(Snep_Form $form, $trunk_id) {
         $db = Snep_Db::getInstance();
         $info = $db->query("select * from trunks where id='$trunk_id'")->fetch();
-        Zend_Debug::dump($info);
+        $form->getSubForm("trunks")->getElement("callerid")->setValue($info['callerid']);
+        $form->getSubForm("technology")->getElement("type")->setValue(strtolower($info['type']));
+
+        foreach ($form->getSubForm("advanced")->getElements() as $element) {
+            if (key_exists($element->getName(), $info)) {
+                $element->setValue($info[$element->getName()]);
+            }
+        }
+
+        foreach ($form->getSubForm(strtolower($info['type']))->getElements() as $element) {
+            if (key_exists($element->getName(), $info)) {
+                $element->setValue($info[$element->getName()]);
+            }
+        }
+
+        if ($info['trunktype'] == "I") {
+            $ip_info = $db->query("select * from peers where name='{$info['name']}'")->fetch();
+            foreach ($form->getSubForm(strtolower($info['type']))->getElements() as $element) {
+                if (key_exists($element->getName(), $ip_info)) {
+                    $element->setValue($ip_info[$element->getName()]);
+                }
+            }
+            if ($info['type'] == "SIP" || $info['type'] == "IAX2") {
+                $form->getSubForm(strtolower($info['type']))->getElement("dialmethod")->setValue(strtolower($info['dialmethod']));
+                $form->getSubForm(strtolower($info['type']))->getElement("peer_type")->setValue($ip_info['type']);
+            }
+        }
+        else if ($info['type'] == "KHOMP") {
+            $form->getSubForm(strtolower("KHOMP"))->getElement("board")->setValue(substr($info['channel'], 6));
+        }
+
     }
 
     public function editAction() {
@@ -378,18 +406,20 @@ class TrunksController extends Zend_Controller_Action {
         $form = $this->getForm();
         $form->setAction($this->view->baseUrl() . "/index.php/trunks/edit/trunk/$id");
 
-        $this->populateFromTrunk($form, $id);
-
         if ($this->getRequest()->isPost()) {
             if ($this->form->isValid($_POST)) {
                 $trunk_data = $this->preparePost();
 
+                $sql = "SELECT name FROM trunks WHERE id='{$id}' LIMIT 1";
+                $name_data = Snep_Db::getInstance()->query($sql)->fetch();
+                $trunk_data['trunk']['name'] = $trunk_data['ip']['name'] = $name_data['name'];
+
                 $db = Snep_Db::getInstance();
                 $db->beginTransaction();
                 try {
-                    $db->insert("trunks", $trunk_data['trunk']);
+                    $db->update("trunks", $trunk_data['trunk'], "id='$id'");
                     if ($trunk_data['trunk']['trunktype'] == "I") {
-                        $db->insert("peers", $trunk_data['ip']);
+                        $db->update("peers", $trunk_data['ip'], "name='{$trunk_data['trunk']['name']}' and peer_type='T'");
                     }
                     $db->commit();
                 } catch (Exception $ex) {
@@ -401,6 +431,7 @@ class TrunksController extends Zend_Controller_Action {
             }
         }
 
+        $this->populateFromTrunk($form, $id);
         $this->view->form = $form;
         $this->renderScript("trunks/add_edit.phtml");
     }
@@ -439,57 +470,6 @@ class TrunksController extends Zend_Controller_Action {
             Snep_InterfaceConf::loadConfFromDb();
             $this->_redirect("trunks");
         }
-    }
-
-    protected function execUpdate($trunk_data) {
-
-    }
-
-    protected function execAdd($trunk_data) {
-        $trunk_data = array(
-            "callerid",
-            "type",
-            "username",
-            "secret",
-            "host",
-            "dtmfmode",
-            "reverse_auth",
-            "domain",
-            "insecure",
-            "map_extensions",
-            "dtmf_dial",
-            "dtmf_dial_number",
-            "time_total",
-            "time_chargeby",
-            "dialmethod",
-            "trunktype",
-            "context",
-            "name",
-            "allow",
-            "id_regex",
-            "channel"
-        );
-
-        $ip_data = array(
-            "name",
-            "callerid",
-            "context",
-            "secret",
-            "type",
-            "allow",
-            "username",
-            "dtmfmode",
-            "fromdomain",
-            "fromuser",
-            "canal",
-            "host",
-            "peer_type",
-            "trunk",
-            "qualify",
-            "nat",
-            "call-limit",
-            "port"
-        );
     }
 
 }
