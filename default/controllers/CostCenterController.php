@@ -100,6 +100,13 @@ class CostCenterController extends Zend_Controller_Action {
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
 
+                $newId = Snep_CostCenter_Manager::get($dados['id']);
+
+                if( count( $newId ) ) {
+                    $form_isValid = false;
+                    $form->getElement('id')->addError( $this->view->translate('Code already exists.') );
+                }
+
                 if($form_isValid){
                     $dados = $this->_request->getParams();
                     Snep_CostCenter_Manager::add($dados);                    
