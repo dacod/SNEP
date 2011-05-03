@@ -28,10 +28,6 @@ td, th {
     text-align: left;
 }
 
-#content tbody tr:hover {
-    background-color: #d2d2d2;
-}
-
 #content {
     padding: 0px;
     border: none;
@@ -85,4 +81,47 @@ td, th {
     margin: 0px;
     padding: 5px 5px 0px 5px;
     height: 37px;
+}
+
+.boards_khomp {
+   font-size: 18px;
+   font-variant: small-caps ;
+   text-align: left;
+   color: #000000 ;
+   font-weight: bolder ;
+   font-family: Verdana, Arial, Helvetica,sans-serif;
+   border: 1px solid #a4a7ab;
+   background-color : #FFD202;
+   padding-left: 20px;
+}
+.links_khomp {
+   font-size: 12px;
+   font-variant: small-caps ;
+   color: #000000 ;
+   font-weight: bolder ;
+   font-family: Verdana, Arial, Helvetica,sans-serif;
+   border: 1px solid #a4a7ab;
+   text-align: center ;
+   background-color : #FFFFFF;
+   line-height: 20px;
+
+}
+.links_sint {
+   font-size: 11px;
+   font-variant: small-caps ;
+   color: #000 ;
+   font-weight: lighter ;
+   font-family: Verdana, Arial, Helvetica,sans-serif;
+   border: 1px solid #a4a7ab;
+   text-align: center ;
+   background-color: #fff9c4 !important;
+   line-height: 20px;
+}
+
+.tb_tit2 {
+   border: 1px solid #a4a7ab;
+   font-weight: bold ;
+   position: static ;
+   background-color : #fffa7c ;
+   text-align : center;
 }
