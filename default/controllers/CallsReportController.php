@@ -16,9 +16,6 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 include ("includes/functions.php");
-include ("includes/jpgraph/src/jpgraph.php");
-include ("includes/jpgraph/src/jpgraph_line.php"); 
-
 
 class CallsReportController extends Zend_Controller_Action {
 
@@ -33,13 +30,12 @@ class CallsReportController extends Zend_Controller_Action {
 		$form = $this->getForm();
 		$this->view->form = $form;
 
-		/*if ($this->_request->getPost()) {
+		if ($this->_request->getPost()) {
 			$formIsValid = $form->isValid($_POST);
 			if ($formIsValid) {
 				$this->createAction();
 			}
 		}
-		*/
    }
 
    private function getForm() {
@@ -102,7 +98,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$sourceElement->setAttrib('onChange','blockFields($(this).id, $(this).value);');
 
 		$srcType = $source->getElement('srctype');
-		$srcType->setValue('a');
+		$srcType->setValue('src1');
 		$form->addSubForm($source, "source");
 
 
@@ -114,7 +110,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$destinationElement->setAttrib('onChange','blockFields($(this).id, $(this).value);');
 
 		$dstType= $destination->getElement('dsttype');
-		$dstType->setValue('a');
+		$dstType->setValue('dst1');
 
 		$form->addSubForm($destination, "destination");
 
@@ -173,9 +169,6 @@ class CallsReportController extends Zend_Controller_Action {
 
     public function createAction() {
 
-        global $srctype, $dsttype, $dst_exceptions, $status_ans, $status_noa, $status_bus,
-		$status_all, $status_fai, $prefix_inout;
-
 		$my_object = new Formata;
 
         $formData = $this->_request->getParams();
@@ -198,12 +191,22 @@ class CallsReportController extends Zend_Controller_Action {
 		} else { 
 			$src = ""; 
 		}
+		if (isset($formData['source']['srctype'])) {
+			$srctype 	= $formData['source']['srctype'];
+		} else {
+			$srctype = "";
+		}
 
 		$groupdst	= $formData['destination']['selectDst'];
 		if (isset($formData['destination']['groupDst'])) {
 			$dst 		= $formData['destination']['groupDst'];
 		} else {
 			$dst = "";
+		}
+		if (isset($formData['destination']['dsttype'])) {
+		    $dsttype    = $formData['destination']['dsttype'];
+		} else {
+			$dsttype = "";
 		}
 
 		if (isset($formData['calls']['costs_center'])) {
@@ -214,6 +217,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$duration2 	= $formData['calls']['duration_end'];
 
 		$status		= $formData['calls']['status'];
+		$status_ans =  $status_noa = $status_fai = $status_bus =  $status_all = '';
 
 		foreach ($status as $stat) {
 				switch ($stat) {
@@ -290,109 +294,105 @@ class CallsReportController extends Zend_Controller_Action {
 		}
 
 		/* Verificando existencia de vinculos no ramal */
-			$name = $_SESSION['name_user'];
-			$sql = "SELECT id_peer, id_vinculado FROM permissoes_vinculos WHERE id_peer ='$name'";
-			$result = $db->query($sql)->fetchObject();
+		$name = $_SESSION['name_user'];
+		$sql = "SELECT id_peer, id_vinculado FROM permissoes_vinculos WHERE id_peer ='$name'";
+		$result = $db->query($sql)->fetchObject();
 
-			$vinculo_table = "";
-			$vinculo_where = "";
-			if($result) {
-				$vinculo_table = " ,permissoes_vinculos ";
-				$vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) ) AND ";
-			}
+		$vinculo_table = "";
+		$vinculo_where = "";
+		if($result) {
+			$vinculo_table = " ,permissoes_vinculos ";
+			$vinculo_where = " ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (cdr.src = permissoes_vinculos.id_vinculado OR cdr.dst = permissoes_vinculos.id_vinculado) ) AND ";
+		}
 
-			/* Clausula do where: periodos inicial e final                                */
-			$dia_inicial = substr($dia_ini,6,4)."-".substr($dia_ini,3,2)."-".substr($dia_ini,0,2);
-			$dia_final = substr($dia_fim,6,4)."-".substr($dia_fim,3,2)."-".substr($dia_fim,0,2);
-			$date_clause =" ( calldate >= '$dia_inicial'";
-			$date_clause .=" AND calldate <= '$dia_final 23:59:59'"; //'
-			$date_clause .=" AND DATE_FORMAT(calldate,'%T') >= '$hora_ini:00'";
-			$date_clause .=" AND DATE_FORMAT(calldate,'%T') <= '$hora_fim:59') ";
-			$CONDICAO = $date_clause;
+		/* Clausula do where: periodos inicial e final                                */
+		$dia_inicial = substr($dia_ini,6,4)."-".substr($dia_ini,3,2)."-".substr($dia_ini,0,2);
+		$dia_final = substr($dia_fim,6,4)."-".substr($dia_fim,3,2)."-".substr($dia_fim,0,2);
+		$date_clause =" ( calldate >= '$dia_inicial'";
+		$date_clause .=" AND calldate <= '$dia_final 23:59:59'"; //'
+		$date_clause .=" AND DATE_FORMAT(calldate,'%T') >= '$hora_ini:00'";
+		$date_clause .=" AND DATE_FORMAT(calldate,'%T') <= '$hora_fim:59') ";
+		$CONDICAO = $date_clause;
 
-			$ORIGENS = '';
+		$ORIGENS = '';
 
-			// Clausula do where: Origens
-			if($src !== "") {
-				if(strpos($src, ",")) {
-					$SRC = '';
-					$arrSrc = explode(",", $src);
-					foreach($arrSrc as $srcs) {
-						$SRC .= ' OR src LIKE \''.$srcs.'\' ';
-					}
-					$SRC = " AND (". substr($SRC, 3) .")";
-				} else {
-					$ORIGENS.= ' AND src LIKE \''.$src.'\' ';
+		// Clausula do where: Origens
+		if($src !== "") {
+			if(strpos($src, ",")) {
+				$SRC = '';
+				$arrSrc = explode(",", $src);
+				foreach($arrSrc as $srcs) {
+					$SRC .= ' OR src LIKE \''.$srcs.'\' ';
 				}
-        	}
-
-			// Clausula do where: Destinos
-			if($dst !== "") {
-				if(strpos($dst, ",")) {
-					$DST = '';
-					$arrDst = explode(",", $dst);
-					foreach($arrDst as $dsts) {
-						$DST .= ' OR dst LIKE \''.$dsts.'\' ';
-					}
-					$DST = " AND (". substr($DST, 3) .")";
-				} else {
-					$ORIGENS .= ' AND dst LIKE \''.$dst.'\' ';
-				}
-			}
-
-			if(isset($ORIGENS)) {
-				$CONDICAO .= $ORIGENS;
-			}
-			if(isset($DST)) {
-				$CONDICAO .= $DST;
-			}
-			if(isset($SRC)) {
-				if(isset($DST)) {
-					$CONDICAO .= " OR " . $SRC = substr($SRC, 4);
-				}else{
-					$CONDICAO .= $SRC;
-				}
-			}
-
-			/* Compara campos src e dst                                                   */
-			$CONDICAO = do_field($CONDICAO,$src,$srctype,'src') ;
-			$CONDICAO = do_field($CONDICAO,$dst,$dsttype,'dst') ;
-
-			/* Clausula do where: Duracao da Chamada                                      */
-			if ($duration1) {
-				$CONDICAO .= " AND duration >= $duration1 ";
+				$SRC = " AND (". substr($SRC, 3) .")";
 			} else {
-				$CONDICAO .= " AND duration > 0 " ;
+				$CONDICAO = $this->do_field($CONDICAO,$src,substr($srctype,3),'src') ;
 			}
-			if ($duration2) {
-				$CONDICAO .= " AND duration <= $duration2 " ;
+		}
+
+		// Clausula do where: Destinos
+		if($dst !== "") {
+			if(strpos($dst, ",")) {
+				$DST = '';
+				$arrDst = explode(",", $dst);
+				foreach($arrDst as $dsts) {
+					$DST .= ' OR dst LIKE \''.$dsts.'\' ';
+				}
+				$DST = " AND (". substr($DST, 3) .")";
+			} else {
+				$CONDICAO = $this->do_field($CONDICAO,$dst,substr($dsttype,3),'dst') ;
 			}
+		}
 
-        /* Clausula do where:  Filtro de desccarte                                    */
-        $TMP_COND = "" ;
-        $dst_exceptions = explode(";", $dst_exceptions) ;
-        foreach ($dst_exceptions as $valor) {
-            $TMP_COND .= " dst != '$valor' " ;
-            $TMP_COND .= " AND " ;
-        }
-        $CONDICAO .= " AND ( ".substr($TMP_COND, 0, strlen($TMP_COND) - 4). " ) " ;
+		if(isset($ORIGENS)) {
+			$CONDICAO .= $ORIGENS;
+		}
+		if(isset($DST)) {
+			$CONDICAO .= $DST;
+		}
+		if(isset($SRC)) {
+			if(isset($DST)) {
+				$CONDICAO .= " OR " . $SRC = substr($SRC, 4);
+			}else{
+				$CONDICAO .= $SRC;
+			}
+		}
 
-        /* Clausula do where: // Centro de Custos Selecionado(s)                      */
-        if (isset($contas) && count($contas) > 0) {
-            $TMP_COND = "" ;
-            foreach( $contas as $valor ) {
-                $TMP_COND .= " accountcode like '".$valor."%'";
-                $TMP_COND .= " OR " ;
-            }
-            $contas = implode(",",$contas);
-            if ($TMP_COND != "")
-                $CONDICAO .= " AND ( ".substr($TMP_COND, 0, strlen($TMP_COND) - 3). " ) " ;
-    	}
+		/* Clausula do where: Duracao da Chamada                                      */
+		if ($duration1) {
+			$CONDICAO .= " AND duration >= $duration1 ";
+		} else {
+			$CONDICAO .= " AND duration > 0 " ;
+		}
+		if ($duration2) {
+			$CONDICAO .= " AND duration <= $duration2 " ;
+		}
+
+		/* Clausula do where:  Filtro de desccarte                                    */
+		$TMP_COND = "" ;
+		$dst_exceptions = explode(";", $dst_exceptions) ;
+		foreach ($dst_exceptions as $valor) {
+			$TMP_COND .= " dst != '$valor' " ;
+			$TMP_COND .= " AND " ;
+		}
+		$CONDICAO .= " AND ( ".substr($TMP_COND, 0, strlen($TMP_COND) - 4). " ) " ;
+
+		/* Clausula do where: // Centro de Custos Selecionado(s)                      */
+		if (isset($contas) && count($contas) > 0) {
+			$TMP_COND = "" ;
+			foreach( $contas as $valor ) {
+				$TMP_COND .= " accountcode like '".$valor."%'";
+				$TMP_COND .= " OR " ;
+			}
+			$contas = implode(",",$contas);
+			if ($TMP_COND != "")
+				$CONDICAO .= " AND ( ".substr($TMP_COND, 0, strlen($TMP_COND) - 3). " ) " ;
+		}
 
 		/* Clausula do where: Status/Tipo Ligacao                                     */
 		if (($status_all) || ($status_ans && $status_noa && $status_bus && $status_fai)) {
 				$CONDICAO .= "";
-		}else {
+		} else {
 			if ($status_ans && $status_noa && $status_bus) {
 				$CONDICAO .= " AND ( disposition = '$status_ans' OR disposition = '$status_noa' ";
 				$CONDICAO .= " OR disposition = '$status_bus' ) ";
@@ -425,44 +425,43 @@ class CallsReportController extends Zend_Controller_Action {
 			} elseif ($status_fai ) {
 				$CONDICAO .= " AND ( disposition = '$status_fai' ) ";
 			}
-			}
-	 
-      	/* Clausula do where: Tipo de Chamada (Originada/Recebida/Outra))             */
-        if ($call_type == "S") {                                                      // Chamadas Originadas
-            $CONDICAO .= " AND (ccustos.tipo = 'S')" ;
-        } elseif  ($call_type == "E") {  // Chamadas Recebidas
-            $CONDICAO .= " AND (ccustos.tipo = 'E')" ;
-        } elseif  ($call_type == "O") {  // Chamadas Outras
-            $CONDICAO .= " AND (ccustos.tipo = 'O')" ;
-        }
+		}
+ 
+		/* Clausula do where: Tipo de Chamada (Originada/Recebida/Outra))             */
+		if ($call_type == "S") {                                                      // Chamadas Originadas
+			$CONDICAO .= " AND (ccustos.tipo = 'S')" ;
+		} elseif  ($call_type == "E") {  // Chamadas Recebidas
+			$CONDICAO .= " AND (ccustos.tipo = 'E')" ;
+		} elseif  ($call_type == "O") {  // Chamadas Outras
+			$CONDICAO .= " AND (ccustos.tipo = 'O')" ;
+		}
 
-        /* Clausula do where: Prefixos de Login/Logout                                */
-        if ( strlen( $prefix_inout ) > 3 ) {
-            $COND_PIO = "" ;
-            $array_prefixo = explode(";", $prefix_inout) ;
-            foreach ($array_prefixo as $valor) {
-                 $par = explode("/", $valor);
-                 $pio_in = $par[0];
+		/* Clausula do where: Prefixos de Login/Logout                                */
+		if ( strlen( $prefix_inout ) > 3 ) {
+			$COND_PIO = "" ;
+			$array_prefixo = explode(";", $prefix_inout) ;
+			foreach ($array_prefixo as $valor) {
+				 $par = explode("/", $valor);
+				 $pio_in = $par[0];
 				 if (!empty($par[1])) {
-                 	$pio_out = $par[1];
+					$pio_out = $par[1];
 				 }
-                 $t_pio_in = strlen($pio_in) ;
-                 $t_pio_out = strlen($pio_out) ;
-                 $COND_PIO .= " substr(dst,1,$t_pio_in) != '$pio_in' ";
-                 if (! $pio_out == '') {
-                     $COND_PIO .= " AND substr(dst,1,$t_pio_out) != '$pio_out' ";
-                 }
-                 $COND_PIO .= " AND " ;
-            }
-            if ($COND_PIO != "")
-                $CONDICAO .= " AND ( ".substr($COND_PIO, 0, strlen($COND_PIO) - 4). " ) " ;
-        }
-        $CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
+				 $t_pio_in = strlen($pio_in) ;
+				 $t_pio_out = strlen($pio_out) ;
+				 $COND_PIO .= " substr(dst,1,$t_pio_in) != '$pio_in' ";
+				 if (! $pio_out == '') {
+					 $COND_PIO .= " AND substr(dst,1,$t_pio_out) != '$pio_out' ";
+				 }
+				 $COND_PIO .= " AND " ;
+			}
+			if ($COND_PIO != "")
+				$CONDICAO .= " AND ( ".substr($COND_PIO, 0, strlen($COND_PIO) - 4). " ) " ;
+		}
+		$CONDICAO .= " AND ( locate('ZOMBIE',channel) = 0 ) ";
 
-        /* Montagem do SELECT de Consulta */
+		/* Montagem do SELECT de Consulta */
         $SELECT  = "ccustos.codigo,ccustos.tipo,ccustos.nome, date_format(calldate,\"%d/%m/%Y\") AS key_dia, date_format(calldate,\"%d/%m/%Y %H:%i:%s\") AS dia, src, dst, disposition, duration, billsec, accountcode, userfield, dcontext, amaflags, uniqueid, calldate " ;
         $tot_tarifado = 0 ;
-
 
         /* Consulta de sql para verificar quantidade de registros selecionados e
            Montar lista de Totais por tipo de Status                                  */
@@ -485,81 +484,87 @@ class CallsReportController extends Zend_Controller_Action {
 			$userfield = "XXXXXXX";  // Flag para controle do Userfield
 			unset($result);
 
-	    foreach ($db->query($sql_ctds) as $row) {
-		   	/* Incializa array se tipo = grafico                                   */
-		 	$key_dia = $row['key_dia'] ;
-			if ($acao == "grafico") {
-				$tot_dias[$key_dia] = $key_dia ;
-				$tot_ans[$key_dia] = (!array_key_exists($key_dia,$tot_ans)) ? 0 : $tot_ans[$key_dia];
-				$tot_noa[$key_dia] = (!array_key_exists($key_dia,$tot_noa)) ? 0 : $tot_noa[$key_dia];
-				$tot_bus[$key_dia] = (!array_key_exists($key_dia,$tot_bus)) ? 0 : $tot_bus[$key_dia] ;
-				$tot_fai[$key_dia] = (!array_key_exists($key_dia,$tot_fai)) ? 0 : $tot_fai[$key_dia] ;
-				$tot_oth[$key_dia] = (!array_key_exists($key_dia,$tot_oth)) ? 0 : $tot_oth[$key_dia] ;
-			}
+		    foreach ($db->query($sql_ctds) as $row) {
+				/* Incializa array se tipo = grafico                                   */
+				$key_dia = $row['key_dia'] ;
+				if ($acao == "grafico") {
+					$tot_dias[$key_dia] = $key_dia ;
+					$tot_ans[$key_dia] = (!array_key_exists($key_dia,$tot_ans)) ? 0 : $tot_ans[$key_dia];
+					$tot_noa[$key_dia] = (!array_key_exists($key_dia,$tot_noa)) ? 0 : $tot_noa[$key_dia];
+					$tot_bus[$key_dia] = (!array_key_exists($key_dia,$tot_bus)) ? 0 : $tot_bus[$key_dia] ;
+					$tot_fai[$key_dia] = (!array_key_exists($key_dia,$tot_fai)) ? 0 : $tot_fai[$key_dia] ;
+					$tot_oth[$key_dia] = (!array_key_exists($key_dia,$tot_oth)) ? 0 : $tot_oth[$key_dia] ;
+				}
 
-		/*  Faz verificacoes para contabilizar valores dentro do mesmo userfield
-			So vai contabilziar resultados por userfield                        */
-		if ( $userfield != $row['userfield'] ) {
-		    if ($flag_ini) {
-		        $result[$row['uniqueid']] = $row ;
+				/*  Faz verificacoes para contabilizar valores dentro do mesmo userfield
+					So vai contabilziar resultados por userfield                        */
+				if ( $userfield != $row['userfield'] ) {
+					if ($flag_ini) {
+						$result[$row['uniqueid']] = $row ;
+					$userfield = $row['userfield'] ;
+					$flag_ini = False ;
+					continue;
+					}
+				} else {
+					$result[$row['uniqueid']] = $row ;
+					continue ;
+				}
+
+				/* Varre o array da chamada com mesmo userfield                        */
+				foreach ($result as $val) {
+					switch ($val['disposition']) {
+					case "ANSWERED":
+						if ($acao == 'grafico')
+							$tot_ans[$key_dia] ++ ;
+						else 
+							$tot_ans ++ ;
+						$tot_bil += $val['billsec'] ;
+						$tot_dur += $val['duration'] ;
+						if ($view_tarif) {
+							$valor = money_format('%.2n', 
+										$my_object->fmt_tarifa(
+													array("a"=>$val['dst'],
+														  "b"=>$val['billsec'],
+														  "c"=>$val['accountcode'],
+														  "d"=>$val['calldate']),"A")
+										);
+							$tot_tarifado += $valor ;
+						}
+						break ;
+					case "NO ANSWER":
+						if ($acao == 'grafico') {
+							$tot_noa[$key_dia] ++ ;
+						} else {
+							$tot_noa ++ ;
+						}
+						break ;
+					case "BUSY" :
+						if ($acao == 'grafico') {
+							$tot_bus[$key_dia] ++;
+						} else {
+							$tot_bus ++ ;
+						}
+						break ;
+					case "FAILED" :
+						if ($acao == 'grafico') {
+							$tot_fai[$key_dia] ++;
+						} else {
+							$tot_fai ++ ;
+						}
+						break ;
+					default :
+						if ($acao == 'grafico') {
+							$tot_oth[$key_dia] ++;
+						} else {
+							$tot_oth ++ ;
+						}
+						break ;
+					} // Fim do Switch
+				}  
+			// Fim do Foreach do array "result"
+			unset($result) ;
+			$result[$row['uniqueid']] = $row ;
 			$userfield = $row['userfield'] ;
-			$flag_ini = False ;
-			continue;
-		    }
-		} else {
-		    $result[$row['uniqueid']] = $row ;
-		    continue ;
-		}
-
-		/* Varre o array da chamada com mesmo userfield                        */
-		foreach ($result as $val) {
-		    switch ($val['disposition']) {
-			case "ANSWERED":
-			    if ($acao == 'grafico')
-					$tot_ans[$key_dia] ++ ;
-				else 
-					$tot_ans ++ ;
-			    $tot_bil += $val['billsec'] ;
-			    $tot_dur += $val['duration'] ;
-				if ($view_tarif) {
-					$valor = $my_object->fmt_tarifa(array("a"=>$val['dst'],"b"=>$val['billsec'],"c"=>$val['accountcode'],"d"=>$val['calldate']),"A") ;
-				    $tot_tarifado += $valor ;
-				}
-				break ;
-			case "NO ANSWER":
-				if ($acao == 'grafico') {
-				    $tot_noa[$key_dia] ++ ;
-				} else {
-				    $tot_noa ++ ;
-				}
-				break ;
-			case "BUSY" :
-				if ($acao == 'grafico') {
-				    $tot_bus[$key_dia] ++;
-				} else {
-				    $tot_bus ++ ;
-				}
-				break ;
-			case "FAILED" :
-				if ($acao == 'grafico') {
-				    $tot_fai[$key_dia] ++;
-				} else {
-				    $tot_fai ++ ;
-				}
-				break ;
-			default :
-				if ($acao == 'grafico') {
-				    $tot_oth[$key_dia] ++;
-				} else {
-				    $tot_oth ++ ;
-				}
-				break ;
-			} // Fim do Switch
-		}  
-		// Fim do Foreach do array "result"
-		unset($result) ;
-		$result[$row['uniqueid']] = $row ;
-		$userfield = $row['userfield'] ;
 	    }                                        
 
 	    	/* Switch a seguir é para pegar um possível último registro               */
@@ -574,7 +579,13 @@ class CallsReportController extends Zend_Controller_Action {
 						$tot_bil += $val['billsec'] ;
 						$tot_dur += $val['duration'] ;
 						if ($view_tarif) {
-							$valor = $my_object->fmt_tarifa(array("a"=>$val['dst'],"b"=>$val['billsec'],"c"=>$val['accountcode'],"d"=>$val['calldate']),"A") ;
+							$valor = money_format('%.2n', 
+										$my_object->fmt_tarifa(	
+											array("a"=>$val['dst'],
+												  "b"=>$val['billsec'],
+												  "c"=>$val['accountcode'],
+												  "d"=>$val['calldate']),"A")
+									 );
 							$tot_tarifado += $valor ;
 						}
 					}
@@ -701,7 +712,6 @@ class CallsReportController extends Zend_Controller_Action {
 			 return;
 		}
 	
-
 		switch ($acao) {
 			case 'csv':
 				$this->csvAction();
@@ -715,9 +725,41 @@ class CallsReportController extends Zend_Controller_Action {
 		}
     }
 
+	public function do_field($sql, $fld, $fldtype, $nmfld="", $tpcomp="AND") {
+		if (isset($fld) && ($fld!='')) {
+			$sql = "$sql $tpcomp";
+
+			if ($nmfld == "") {
+				$sql = "$sql $fld";
+			} else {
+				$sql = "$sql $nmfld";
+			}
+
+			if (isset($fldtype)) {
+				switch ($fldtype) {
+					case 1:
+						$sql = "$sql='".$fld."'";
+						break;
+					case 2:
+						$sql = "$sql LIKE '".$fld."%'";
+						break;
+					case 3:
+						$sql = "$sql LIKE '%".$fld."'";
+						break;
+					case 4:
+						$sql = "$sql LIKE '%".$fld."%'";
+						break;
+				}
+			} else {
+				$sql = "$sql LIKE '%".$fld."%'";
+			}
+		}
+		return $sql;
+	}
+
     public function reportAction() {
 		$db		= Zend_Registry::get('db');	
-        $config = Zend_Registry::get('config');
+		$config = Zend_Registry::get('config');
 		$format = new Formata;
 
 		// View labels
@@ -783,9 +825,6 @@ class CallsReportController extends Zend_Controller_Action {
 			$cc = $defaultNS->contas;
 			if ($cc != '') {
 				$valores = '';
-				foreach($cc as $value) {
-					$valores .= "'$value'".",";
-				}
 				$sqlcc = "select nome from ccustos where codigo IN (" .$cc. ")";
 				$ccs = $db->query($sqlcc)->fetchAll(PDO::FETCH_ASSOC);
 				$ccusto_sintetic = '';
@@ -800,7 +839,6 @@ class CallsReportController extends Zend_Controller_Action {
 
 			// Groups treatment 
             $sint_destino 		= $defaultNS->dst;
-
 			$sint_groupdst 		= $defaultNS->groupdst;
 
             if($sint_destino != '' && $sint_groupdst == '') {
@@ -842,8 +880,6 @@ class CallsReportController extends Zend_Controller_Action {
 		} else {
 
 			// Analytical Report 
-			//TODO - [8] form validation
-
 			$paginatorAdapter 		= new Zend_Paginator_Adapter_Array($row);
 			$paginator 		  		= new Zend_Paginator($paginatorAdapter);
 
