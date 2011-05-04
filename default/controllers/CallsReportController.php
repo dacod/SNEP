@@ -20,7 +20,7 @@ include ("includes/functions.php");
 class CallsReportController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Relatórios » Chamadas do Período");
+        $this->view->breadcrumb = $this->view->translate(" Reports » Calls ");
         $config = Zend_Registry::get('config');
 
         include( $config->system->path->base . "/inspectors/Permissions.php" );
@@ -50,7 +50,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$form_xml = new Zend_Config_Xml('./default/forms/calls_report.xml');
 
 		// --- Subsection - Periods
-		$period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
+		$period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
 
 		$now = Zend_Date::now();
 
@@ -77,13 +77,13 @@ class CallsReportController extends Zend_Controller_Action {
         foreach ($groupsTmp as $key => $group) {
             switch ($group['name']) {
                 case 'administrator':
-                    $groupsData[$this->view->translate('Administradores')] = $group['name'];
+                    $groupsData[$this->view->translate('Administrators')] = $group['name'];
                     break;
                 case 'users':
-                    $groupsData[$this->view->translate('Usuários')] = $group['name'];
+                    $groupsData[$this->view->translate('Users')] = $group['name'];
                     break;
                 case 'all':
-                    $groupsData[$this->view->translate('Todos')] = $group['name'];
+                    $groupsData[$this->view->translate('All')] = $group['name'];
                     break;
                 default:
                     $groupsData[$group['name']] = $group['name'];
@@ -91,7 +91,7 @@ class CallsReportController extends Zend_Controller_Action {
         }
 
 		// --- Subsection -- Source
-		$source = new Snep_Form_SubForm($this->view->translate("Origem"), $form_xml->source);
+		$source = new Snep_Form_SubForm($this->view->translate("Source"), $form_xml->source);
 
 		$sourceElement = $source->getElement('selectSrc');
 		$sourceElement->addMultiOption(null, '');
@@ -103,7 +103,7 @@ class CallsReportController extends Zend_Controller_Action {
 
 
 		// --- Subsection -- Destination
-		$destination = new Snep_Form_SubForm($this->view->translate("Destino"), $form_xml->destination);
+		$destination = new Snep_Form_SubForm($this->view->translate("Destination"), $form_xml->destination);
 
 		$destinationElement = $destination->getElement('selectDst');
         $destinationElement->addMultiOption(null, '');
@@ -120,7 +120,7 @@ class CallsReportController extends Zend_Controller_Action {
         }
 
 		// --- Subsection - Calls related options
-		$calls= new Snep_Form_SubForm($this->view->translate("Chamadas"), $form_xml->calls);
+		$calls= new Snep_Form_SubForm($this->view->translate("Calls"), $form_xml->calls);
 
 		// List Cost Centers and populate select
 		$select = $db->select()
@@ -141,14 +141,14 @@ class CallsReportController extends Zend_Controller_Action {
 		$form->addSubForm($calls, "calls");
 
 		// --- Subsection - Other options
-		$other = new Snep_Form_SubForm($this->view->translate("Outras Opções"), $form_xml->others);
+		$other = new Snep_Form_SubForm($this->view->translate("Other Options"), $form_xml->others);
 
 		//$other->getElement('graph_type')->setValue('bars');
 		$other->getElement('report_type')->setValue('analytical');
 
 		$form->addSubForm($other, "others");
 
-		$form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
+		$form->getElement('submit')->setLabel($this->view->translate("Show Report"));
 		$form->removeElement('cancel');
 		/*
 		$form->addElement(new Zend_Form_Element_Submit("submit_graph", 
@@ -243,7 +243,7 @@ class CallsReportController extends Zend_Controller_Action {
 		// $graph_type	= $formData['others']['graph_type'];
 		$rel_type	= $formData['others']['report_type'];
 
-		$this->view->back           = $this->view->translate("Voltar"); 
+		$this->view->back           = $this->view->translate("Back"); 
 
 		// Default submit
 		$acao = 'relatorio';
@@ -259,7 +259,7 @@ class CallsReportController extends Zend_Controller_Action {
 			$origens = PBX_Usuarios::getByGroup($groupsrc);
 
 			if( count($origens) == 0 ) {
-				$this->view->error = $this->view->translate("Não existem ramais no grupo escolhido.");
+				$this->view->error = $this->view->translate("There are no extensions in the selected group.");
 				$this->_helper->viewRenderer('error');
 			} else {
 				$ramalsrc = "";
@@ -279,7 +279,7 @@ class CallsReportController extends Zend_Controller_Action {
 			$destinos = PBX_Usuarios::getByGroup($groupdst);
 
 			if ( count($destinos) == 0 ) {
-				$this->view->error = $this->view->translate("Não existem ramais no grupo escolhido.");
+				$this->view->error = $this->view->translate("There are no extensions in the selected group.");
 				$this->_helper->viewRenderer('error');
 			} else {
 				$ramaldst = "";
@@ -629,7 +629,7 @@ class CallsReportController extends Zend_Controller_Action {
 
 		if ( $acao == "relatorio") {
 			if ( ($tot_fai+$tot_bus+$tot_ans+$tot_noa) == 0) {
-           		$this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
+           		$this->view->error = $this->view->translate("No entries found!.");
 				$this->_helper->viewRenderer('error');
 			}
 			$tot_wait = $tot_dur - $tot_bil ;
@@ -648,7 +648,7 @@ class CallsReportController extends Zend_Controller_Action {
 			 if ( count($tot_fai) == 0 && count($tot_bus) == 0 &&
 				  count($tot_ans) == 0 && count($tot_noa) == 0 &&
 				  count($tot_oth) == 0 ) {
-            	 	$this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
+            	 	$this->view->error = $this->view->translate("No entries found!");
 		         	$this->_helper->viewRenderer('error');
 					return;
 	     	 }
@@ -701,13 +701,13 @@ class CallsReportController extends Zend_Controller_Action {
 		$defaultNS->groupdst	= $groupdst;
 
 		$defaultNS->sub_title = $this->view->translate(
-									"<br>Período: ".$dia_ini." (".$hora_ini.") a ".$dia_fim." (".$hora_fim.")
+									"<br>Period: ".$dia_ini." (".$hora_ini.") - ".$dia_fim." (".$hora_fim.")
 								");
 
 		$defaultNS->row		  = $db->query($sql_chamadas)->fetchAll();
 
 		if (count($defaultNS->row) == 0) {
-			 $this->view->error = $this->view->translate("Não existem dados para a seleção informada.");
+			 $this->view->error = $this->view->translate("No entries found!");
 		     $this->_helper->viewRenderer('error');
 			 return;
 		}
@@ -764,39 +764,39 @@ class CallsReportController extends Zend_Controller_Action {
 
 		// View labels
 		$this->view->seq		  = $this->view->translate("SEQ");
-		$this->view->calldate 	  = $this->view->translate("Data da Chamada");
-		$this->view->origin		  = $this->view->translate("Origem");
+		$this->view->calldate 	  = $this->view->translate("Call's date");
+		$this->view->origin		  = $this->view->translate("Source");
 		$this->view->destination  = $this->view->translate("Destination");
 		$this->view->callstatus	  = $this->view->translate("Status");
-		$this->view->duration     = $this->view->translate("Duração");
-		$this->view->conversation = $this->view->translate("Conversação");
-		$this->view->cost_center  = $this->view->translate("Centro de Custos");
-		$this->view->city 		  = $this->view->translate("Cidade");
-		$this->view->state 		  = $this->view->translate("Estado");
+		$this->view->duration     = $this->view->translate("Duration");
+		$this->view->conversation = $this->view->translate("Conversation");
+		$this->view->cost_center  = $this->view->translate("Cost Center");
+		$this->view->city 		  = $this->view->translate("City");
+		$this->view->state 		  = $this->view->translate("State");
 		
-		$this->view->filter		  = $this->view->translate("Filtro");
-		$this->view->calls		  = $this->view->translate("Chamadas");
-		$this->view->totals_sub   = $this->view->translate("Totais");
-		$this->view->times		  = $this->view->translate("Tempos");
-		$this->view->tot_tariffed = $this->view->translate("Total Tarifado");
+		$this->view->filter		  = $this->view->translate("Filter");
+		$this->view->calls		  = $this->view->translate("Calls");
+		$this->view->totals_sub   = $this->view->translate("Totals");
+		$this->view->times		  = $this->view->translate("Times");
+		$this->view->tot_tariffed = $this->view->translate("Total tariffed");
 
-		$this->view->answered	  = $this->view->translate("Atendidas");
-		$this->view->nanswered	  = $this->view->translate("Não Atendidas");
-		$this->view->busy		  = $this->view->translate("Ocupadas");
-		$this->view->failure	  = $this->view->translate("Falharam");
+		$this->view->answered	  = $this->view->translate("Answered");
+		$this->view->nanswered	  = $this->view->translate("Not Answered");
+		$this->view->busy		  = $this->view->translate("Busy");
+		$this->view->failure	  = $this->view->translate("Failed");
 		$this->view->other		  = $this->view->translate("Other");
 
-		$this->view->tarrifation  = $this->view->translate("Tarifação");
-		$this->view->wait		  = $this->view->translate("Espera");
-		$this->view->sub_total    = $this->view->translate("Sub-Totais");
-		$this->view->gravation	  = $this->view->translate("Gravação");
+		$this->view->tarrifation  = $this->view->translate("Charging");
+		$this->view->wait		  = $this->view->translate("Waiting");
+		$this->view->sub_total    = $this->view->translate("Subtotal");
+		$this->view->gravation	  = $this->view->translate("Records");
 
-		$this->view->back		  = $this->view->translate("Voltar");
+		$this->view->back		  = $this->view->translate("Back");
 		
 		
 		$defaultNS = new Zend_Session_Namespace('call_sql');
 
-        $this->view->breadcrumb   = $this->view->translate("Relatórios » Chamadas do Período").
+        $this->view->breadcrumb   = $this->view->translate(" Reports » Calls ").
 								  	$defaultNS->sub_title;
 
 
@@ -805,8 +805,8 @@ class CallsReportController extends Zend_Controller_Action {
 		$this->view->tariffed     = $defaultNS->view_tarif;
 		$this->view->files		  = $defaultNS->view_files;
 		$this->view->status 	  = $defaultNS->status;
+			$this->view->compress_files = $this->view->translate("Compress selected files");
 
-		// TOOD - verify if information is correctl
 		$this->view->duration_call	  =	$format->fmt_segundos(
 											array("a"=>$defaultNS->totais['duration'],"b"=>'hms')
 										);
@@ -832,7 +832,7 @@ class CallsReportController extends Zend_Controller_Action {
 					$ccusto_sintetic .= $ccs[$id]['nome'].", ";
 				}
 			} else {
-				$ccusto_sintetic = $this->view->translate("Qualquer");
+				$ccusto_sintetic = $this->view->translate("Any");
 			}
 			
 			$this->view->cost_center_res	= $ccusto_sintetic;
@@ -902,19 +902,19 @@ class CallsReportController extends Zend_Controller_Action {
 				// Status
 				switch ($item['disposition']) {
 					case 'ANSWERED':
-						$item['disposition'] =  $this->view->translate('Atendido');
+						$item['disposition'] =  $this->view->translate('Answered');
 						break;
 					case 'NO ANSWER':
-						$item['disposition'] =  $this->view->translate('Não Atendida');
+						$item['disposition'] =  $this->view->translate('Not Answered');
 						break;
 					case 'FAILED':
-						$item['disposition'] =  $this->view->translate('Falhou');
+						$item['disposition'] =  $this->view->translate('Failed');
 						break;
 					case 'BUSY':
-						$item['disposition'] =  $this->view->translate('Ocupado');
+						$item['disposition'] =  $this->view->translate('Busy');
 						break;
 					case 'OTHER':
-						$item['disposition'] =  $this->view->translate('Outras');
+						$item['disposition'] =  $this->view->translate('Others');
 						break;
 				}
 				// Search for a city or format the telephone type
@@ -956,7 +956,7 @@ class CallsReportController extends Zend_Controller_Action {
 			}
 
 			$this->view->call_list = $listItems;
-			$this->view->compact_success = $this->view->translate("Os arquivos foram compactados com sucesso. Aguarde o download.");
+			$this->view->compact_success = $this->view->translate("The files were compressed successfully! Wait for the download start.");
 			$this->renderScript('calls-report/analytical-report.phtml');
 		}
 
@@ -978,7 +978,7 @@ class CallsReportController extends Zend_Controller_Action {
 		}
 
       	if (!is_numeric($prefixo)) {
-         	$cidade = $this->view->translate('Desconhecido');
+         	$cidade = $this->view->translate('Unknown');
 		}
 
 	    try {
@@ -991,7 +991,7 @@ class CallsReportController extends Zend_Controller_Action {
 			
 			if (strlen($cidade) <= 3) {
 				if (strlen($telefone) >= 8 && substr($prefixo,-4,1) > 6)
-					$cidade = $this->view->translate('Celular');
+					$cidade = $this->view->translate('Cellphone');
 				else
 					if ( strlen($telefone) >= 14 )
 						$cidade = $this->view->translate('D.D.I');
