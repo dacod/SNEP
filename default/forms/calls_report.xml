@@ -6,7 +6,7 @@
         	<initDay>
             	     <type>text</type>
             	     <options>
-                         <label>A partir de </label>
+                         <label>From:</label>
 						 <required>true</required>
 						 <description>dd/mm/aaaa</description>
 		   			  </options>
@@ -41,7 +41,7 @@
                 <finalDay>
                     <type>text</type>
                     <options>
-                        <label>Até</label>
+                        <label>To:</label>
                         <description>dd/mm/aaaa</description>
 						<required>true</required>
                     </options>
@@ -58,12 +58,12 @@
 		<order>
 		    <type>radio</type>
 		    <options>
-		        <label>Ordenar Resultados</label>	
+		        <label>Sort Results</label>	
 				<separator></separator>
 				<multioptions>
-					<data>Ordenar por data</data>
-					<src>Ordenar por origem</src>
-					<dst>Ordenar por destino</dst>
+					<data>by data</data>
+					<src>by source</src>
+					<dst>by destination</dst>
 				</multioptions>
 		   </options>
 		</order>
@@ -75,14 +75,15 @@
 		<selectSrc>
 		    <type>select</type>
 		    <options>
-			<label>Origem(s)</label>
+			<label>Source Group</label>
 		    </options>
 		</selectSrc>
 
 		<groupSrc>
 		    <type>text</type>
 		    <options>
-			<label></label>
+			<label>Source Extensions</label>
+		    <description>Separated by a comma</description>
 		    </options>
 		</groupSrc>
 
@@ -92,10 +93,10 @@
 			<label></label>	
 			<separator></separator>
 			<multioptions>
-			    <src1>Igual</src1>
-			    <src2>Iniciar com</src2>
-			    <src3>Termina com</src3>
-			    <src4>Contém</src4>
+			    <src1>Equal</src1>
+			    <src2>Init with</src2>
+			    <src3>End with</src3>
+			    <src4>Contains</src4>
 			</multioptions>
 		    </options>
 		</srctype>
@@ -107,14 +108,15 @@
 		<selectDst>
 		    <type>select</type>
 		    <options>
-			<label>Destino(s)</label>
+			<label>Destination Group</label>
 		    </options>
 		</selectDst>
 
 		<groupDst>
 		    <type>text</type>
 		    <options>
-			<label></label>
+			<label>Destination Extensions</label>
+		    <description>Separated by a comma</description>
 		    </options>
 		</groupDst>
 
@@ -124,10 +126,10 @@
 			<label></label>	
 			<separator></separator>
 			<multioptions>
-			    <dst1>Igual</dst1>
-			    <dst2>Iniciar com</dst2>
-			    <dst3>Termina com</dst3>
-			    <dst4>Contém</dst4>
+			    <dst1>Equal</dst1>
+			    <dst2>Init with</dst2>
+			    <dst3>End with</dst3>
+			    <dst4>Contains</dst4>
 			</multioptions>
 		    </options>
 		</dsttype>
@@ -140,21 +142,21 @@
 		    <type>select</type>
 		    <options>
 			<multiple>True</multiple>
-			<label>Centro de Custos</label>
+			<label>Cost Center</label>
 		    </options>
 		</costs_center>
 
 		<status>
 		    <type>MultiCheckbox</type>
 		    <options>
-			<label>Status da ligação</label>
+			<label>Status</label>
 			<separator></separator>
 			<multioptions>
-				<ALL>Todas</ALL>
-				<ANSWERED>Atendidas</ANSWERED>
-				<NOANSWER>Não Atendidas</NOANSWER>
-				<BUSY>Ocupadas</BUSY>
-				<FAILED>Falharam</FAILED>
+				<ALL>All</ALL>
+				<ANSWERED>Answered</ANSWERED>
+				<NOANSWER>Not Answered</NOANSWER>
+				<BUSY>Busy</BUSY>
+				<FAILED>Failed</FAILED>
 			</multioptions>
 		    </options>
 		</status>
@@ -162,29 +164,29 @@
 		<duration_init>
 		    <type>text</type>
 		    <options>
-				<label>De</label>
-				<description>segundos</description>
+				<label>From</label>
+				<description>seconds</description>
 		    </options>
 		</duration_init>
 
 		<duration_end>
 		    <type>text</type>
 		    <options>
-				<label>Até</label>
-				<description>segundos</description>
+				<label>To</label>
+				<description>seconds</description>
 		    </options>
 		</duration_end>
 
 		<type>
 		    <type>radio</type>
 		    <options>
-			<label>Tipo de chamada</label>
+			<label>Call Type</label>
 			<separator></separator>
 			<multioptions>
-				<T>Todas</T>
-				<S>Originadas</S>
-				<E>Recebidas</E>
-				<O>Outras</O>
+				<T>All</T>
+				<S>Originated</S>
+				<E>Received</E>
+				<O>Others</O>
 			</multioptions>
 		    </options>
 		</type>
@@ -196,14 +198,14 @@
 		<charging>
 		    <type>Checkbox</type>
 		    <options>
-			<label>Ver tarifação</label>
+			<label>View Charging</label>
 		    </options>
 		</charging>
 
 		<show_records>
 		    <type>Checkbox</type>
 		    <options>
-			<label>Exibir arquivos de gravação</label>
+			<label>View recording files</label>
 		    </options>
 		</show_records>
 
@@ -222,11 +224,11 @@
 		<report_type>
 		    <type>radio</type>
 		    <options>
-			<label>Tipo de relatório</label>
+			<label>Report Type</label>
 			<separator></separator>
 			<multioptions>
-				<analytical>Analítico</analytical>
-				<synth>Sintético</synth>
+				<analytical>Analytic</analytical>
+				<synth>Synthetic</synth>
 			</multioptions>
 		    </options>
 		</report_type>
