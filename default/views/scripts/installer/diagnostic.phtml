@@ -1,30 +1,34 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/diagnostic.css"); ?>
-<p>
-    <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
-</p>
+<div class="snep_form">
+    <p>
+        <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
+    </p>
 
-<div class="inspect">
-    <ol>    
-        <ul>
-           <?php foreach( $this->testResult as $chave => $valor ): ?>
+    <div class="inspect">
+        <ol>    
+            <ul>
+               <?php foreach( $this->testResult as $chave => $valor ): ?>
 
-               <?php $style = ( $valor['error'] ? 'list_error' : 'list_no_error' ); ?>
+                   <?php $style = ( $valor['error'] ? 'list_error' : 'list_no_error' ); ?>
+                    <li class='<?php echo $style?>'><h2> <?php echo $valor['name'] ?> </h2> </li>
+                    <?php if ($valor['error']): ?>
+                        <li style="background-color:#FFEDED"> <pre> <?php echo $valor['message'] ?> </pre> </li>
+                    <?php endif ?>
 
-                <li class='<?php echo $style?>'><h2> <?php echo $valor['name'] ?> </h2> </li>
-                <?php if ($valor['error']): ?>
-                    <li style="background-color:#FFEDED"> <pre> <?php echo $valor['message'] ?> </pre> </li>
-                <?php endif ?>
-
-            <?php endforeach ?>
-        </ul>
-    </ol>
+                <?php endforeach ?>
+            </ul>
+        </ol>
+    </div>    
 </div>
 
-<p class="installer_buttons">
-<?php if($this->errored): ?>
-    <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>
-    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Continuar assim mesmo"); ?></button>
-<?php else: ?>
-    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Próximo"); ?></button>
-<?php endif;?>
-</p>
+
+<div class="zend_form_submit" style="width: 460px;margin: 0 auto; padding: 10px 0px;">
+    <?php if($this->errored): ?>
+        <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>        
+        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Continuar assim mesmo"); ?>"  />
+        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
+    <?php else: ?>
+        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Próximo"); ?>">
+        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
+    <?php endif;?>
+</div>

@@ -13,13 +13,14 @@
     <resource id="auth" order="allow">
         <resource id="logout" label="Logout"></resource>
     </resource>
+    <resource id="installer" order="allow"></resource>
     
     <group id="configs" label="Configure" >
         <resource id="parameters" label="Parameters"></resource>
         <resource id="sound-files" label="Sound Files"></resource>
         <resource id="music-on-hold" label="Music on Hold"></resource>
         <resource id="inspector" label="System Status"></resource>
-        <resource id="cnl" label="Cnl Update"></resource> -->
+        <resource id="cnl" label="Cnl Update"></resource>
     </group>
 
     <group id="routing" label="Routing">

@@ -1,15 +1,23 @@
-<h1> <?php echo $this->translate("Bem vindo ao SNEP Livre!"); ?> </h1>
+<div class="snep_form">
+<?php
+    if( $this->error['error'] ) : ?>
+        <div class="error_box"> <?php echo $this->error['message']  ?> </div>
+    <?php endif ?>
 
-<p>
-<?php echo $this->translate("Você será conduzido na instalação do SNEP."); ?>
-</p>
+    <div class="info_box">
+        <h1> <?php echo $this->translate("Bem vindo ao SNEP!"); ?> </h1>
 
-<ul>
-    <li><?php echo $this->translate("Diagnóstico do Sistema") ?></li>
-    <li><?php echo $this->translate("Configuração do acesso a Banco de Dados, Asterisk"); ?></li>
-    <li><?php echo $this->translate("Definição da senha do Administrador"); ?></li>
-</ul>
+        <p>
+        <?php echo $this->translate("Você será conduzido na instalação do SNEP."); ?>
+        </p>
+        <ul>
+            <li><?php echo $this->translate("Seleção de idioma e localização") ?></li>
+            <li><?php echo $this->translate("Diagnóstico do Sistema") ?></li>
+            <li><?php echo $this->translate("Configuração do acesso a Banco de Dados, Asterisk"); ?></li>
+            <li><?php echo $this->translate("Definição da senha do Administrador"); ?></li>
+        </ul>
+    </div>
+</div>
 
-<p class="installer_buttons">
-    <button onclick="location.href='<?php echo $this->next;?>'"><?php echo $this->translate("Iniciar a Instalação"); ?></button>
-</p>
+<?php echo $this->form ?>
+

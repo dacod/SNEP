@@ -125,19 +125,19 @@ input[type=text], input[type=password] {
 
 
 button {
-    border: 1px solid #FDB712;
+    border: 1px solid #C49C00;
     _display: table-cell;
     padding: 4px 10px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     cursor: pointer;
-    color: #666;
+    color: #FFF;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 11px;
-    background: url("../imagens/botao.png");
-    background-position: bottom;
+    font-size: 12px;
+    background: url("../imagens/button_important.png");
+    background-position: top;
     background-repeat: repeat-x;
     background-color: #fff;
 }
@@ -186,7 +186,7 @@ button:disabled:hover {
 }
 
 button:hover {
-    color: #FDB712;
+ /*   color: #FDB712; */
 }
 
 /* Formulários */
@@ -688,7 +688,7 @@ ul#navmenu ul ul li.iehover ul {
     padding: 5px 5px 5px 24px;
     background-image: url(../imagens/ico_info.png);
     background-repeat: no-repeat;
-    background-position: left center;
+    background-position: 2px 4px;
     background-color: #eeeeff;
     border: 1px solid #ccc;
 }

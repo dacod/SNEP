@@ -30,6 +30,12 @@ require_once 'Snep/Inspector.php';
 class InstallerController extends Zend_Controller_Action {
 
     public function  preDispatch() {
+
+        $config = Zend_Registry::get('config');
+        if( trim ( $config->ambiente->db->host ) != "" ) {
+            $this->_redirect("auth/login/");
+        }
+
         parent::preDispatch();
         $this->view->hideMenu = true;
         // Fazer checagem futura se o sistema está instalado ou não.
@@ -40,7 +46,73 @@ class InstallerController extends Zend_Controller_Action {
 
     public function indexAction() {
         $this->view->breadcrumb = $this->view->translate("Instalador do SNEP");
-        $this->view->next = $this->view->url(array("controller"=>"installer", "action"=>"diagnostic"), null, true);
+        //$this->view->next = $this->view->url(array("controller"=>"installer", "action"=>"diagnostic"), null, true);
+
+        $objInspector = new Snep_Inspector('Permissions');
+        $inspect = $objInspector->getInspects();
+
+        $this->view->error = $inspect['Permissions'];
+
+        $form = new Snep_Form();
+        $form_xml = new Zend_Config_Xml('./default/forms/setup.conf.xml');
+
+        $locale_form = new Snep_Form_SubForm($this->view->translate("Locale Configuration"), $form_xml->locale);
+        $locale = Snep_Locale::getInstance()->getZendLocale();
+
+        $locales = array();
+        foreach ($locale->getTranslationList("territory", Snep_Locale::getInstance()->getLanguage(), 2) as $ccode => $country) {
+            $locales[$country] = $locale->getLocaleToTerritory($ccode);
+        }
+        ksort($locales, SORT_LOCALE_STRING);
+        foreach ($locales as $country => $ccode) {
+            $locale_form->getElement("locale")->addMultiOption($ccode, $country);
+        }
+        $locale_form->getElement("locale")->setValue(Snep_Locale::getInstance()->getLocale());
+
+        foreach ($locale->getTranslationList("territorytotimezone", Snep_Locale::getInstance()->getLanguage()) as $timezone => $territory) {
+            $locale_form->getElement("timezone")->addMultiOption($timezone, $timezone);
+        }
+        $locale_form->getElement("timezone")->setValue(Snep_Locale::getInstance()->getTimezone());
+
+        $languages = array();
+        $languageElement = $locale_form->getElement("language");
+        $available_languages = Snep_Locale::getInstance()->getAvailableLanguages();
+        foreach ($locale->getTranslationList("language", Snep_Locale::getInstance()->getLanguage()) as $lcode => $language) {
+            if (in_array($lcode, $available_languages)) {
+                $languageElement->addMultiOption($lcode, ucfirst($language));
+            }
+        }
+        $languageElement->setValue(Snep_Locale::getInstance()->getLanguage());        
+        
+
+        if($this->getRequest()->isPost()) {
+            
+            $form_isValid = $form->isValid($_POST);
+
+            $configFile = APPLICATION_PATH . "/includes/setup.conf";
+            $config = new Zend_Config_Ini( $configFile, null, true );
+
+            $config->system->locale = $_POST['locale']['locale'];
+            $config->system->timezone = $_POST['locale']['timezone'];
+            $config->system->language = $_POST['locale']['language'];
+
+            if($form_isValid) {
+                $writer = new Zend_Config_Writer_Ini(array('config' => $config,
+                                                       'filename' => $configFile));
+                $writer->write();
+                $this->_redirect('installer/diagnostic/');
+            }
+        }
+
+        $submit_button = $form->getElement('submit');
+        $submit_button->setLabel('Iniciar a Instalar');
+        
+        if( $this->view->error['error'] ) {
+            $submit_button->setAttrib('disabled', true);
+        }
+
+        $this->view->form = $form->addSubForm($locale_form, "locale");
+
     }
 
     public function diagnosticAction() {
@@ -50,6 +122,7 @@ class InstallerController extends Zend_Controller_Action {
         $inspector = new Snep_Inspector();
         $this->view->errored = $inspector->errored();
         $this->view->testResult = $inspector->getInspects();
+        
     }
 
     protected function install(Zend_Db_Adapter_Abstract $db) {
@@ -96,6 +169,11 @@ class InstallerController extends Zend_Controller_Action {
     }
 
     public function configureAction() {
+
+        $objInspector = new Snep_Inspector('Permissions');
+        $inspect = $objInspector->getInspects();
+        $this->view->error = $inspect['Permissions'];
+
         $this->view->hideMenu = true;
         $this->view->breadcrumb = $this->view->translate("Instalador » Configuração");
         $form_config = new Zend_Config_Xml("./default/forms/installer.xml");
@@ -111,7 +189,11 @@ class InstallerController extends Zend_Controller_Action {
         $form->addSubForm($asterisk_form, "asterisk");
         $form->addSubForm($snep_form, "snep");
 
-        $form->addElement(new Zend_Form_Element_Submit("submit", array("label" => "Enviar")));
+        $submit_button = $form->getElement('submit');
+        if( $this->view->error['error'] ) {
+            $submit_button->setAttrib('disabled', true);
+        }
+
 
         if($this->getRequest()->isPost()) {
             $form_isValid = $form->isValid($_POST);

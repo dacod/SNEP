@@ -31,12 +31,14 @@ class AuthController extends Zend_Controller_Action {
         $this->view->headTitle($this->view->translate("Login"));
         $this->view->breadcrumb = $this->view->translate("Login");
         $this->view->hideMenu = true;
+
         $config = Zend_Registry::get('config');
-
         if( trim ( $config->ambiente->db->host ) == "" ) {
-            $this->_redirect("/installer/");
-
-        }        
+            if(Zend_Auth::getInstance()->hasIdentity()) {
+                Zend_Auth::getInstance()->clearIdentity();
+            }
+            $this->_redirect("installer/");
+        }
         
         // Não precisamos fazer login se ja estamos logados
         $auth = Zend_Auth::getInstance();

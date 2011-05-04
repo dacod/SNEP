@@ -144,6 +144,9 @@ class Snep_Modules {
             if($element->getName() == "resource") {
                 $resname = $parent . "_" . $id;
                 $acl->addResource($resname, $parent);
+                if($element->attributes()->order == "allow") {
+                    $acl->allow(null, $resname);
+                }
             }
             else {
                 $resname = $parent;
