@@ -943,6 +943,7 @@ class CallsReportController extends Zend_Controller_Action {
 			
 				if ($defaultNS->view_files) {
 					$filePath = Snep_Manutencao::arquivoExiste($item['calldate'], $item['userfield']);
+					$item['file_name'] = $item['userfield'].".wav";
 
 					if ($filePath) {
 						$item['file_path'] = $filePath;
@@ -955,6 +956,7 @@ class CallsReportController extends Zend_Controller_Action {
 			}
 
 			$this->view->call_list = $listItems;
+			$this->view->compact_success = $this->view->translate("Os arquivos foram compactados com sucesso. Aguarde o download.");
 			$this->renderScript('calls-report/analytical-report.phtml');
 		}
 
@@ -1003,6 +1005,30 @@ class CallsReportController extends Zend_Controller_Action {
 		return $cidade;
 	}
 
+	public function compactAction() {
+        $config = Zend_Registry::get('config');
+		$this->_helper->layout->disableLayout();
+
+		$zip 	  = new ZipArchive();
+
+		$path     = $config->ambiente->path_voz;
+		$fileName = date("d-m-Y-h-i").".zip";
+
+		$zip->open($path.$fileName, ZIPARCHIVE::CREATE);
+
+		$files = $this->_request->getParam('files');
+		$arrFiles = explode(',', $files);
+
+		foreach ($arrFiles as $file) {
+			$zip->addFile($path.$file, $file);
+		}
+
+		$zip->close();
+
+		$this->view->path  = '/snep/arquivos/'.$fileName;
+		
+	}
+	
     public function csvAction() {
     }
 
