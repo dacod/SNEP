@@ -5,15 +5,16 @@
             <init_day>
                 <type>text</type>
                 <options>
-                    <label>A partir de</label>
+                    <label>From:</label>
                     <required>true</required>
+                    <description>dd/mm/YYYY</description>
                 </options>
             </init_day>
             <init_hour>
                 <type>text</type>
                 <options>
                     <label>mm:hh</label>
-		    <value>00:00</value>
+				    <value>00:00</value>
                     <required></required>
                 </options>
             </init_hour>
@@ -22,8 +23,8 @@
                 <type>text</type>
                 <options>
                     <required>true</required>
-                    <label>Até</label>                    
-                    <description></description>
+                    <label>To:</label>                    
+                    <description>dd/mm/YYYY</description>
                 </options>
             </end_day>
  
@@ -40,10 +41,10 @@
 		<options>
 		   <separator></separator>
 	           <multioptions>
-			   <ALL>Todos</ALL>
-			   <ALERT>Alert</ALERT>
-			   <CRI>Critico</CRI>
-			   <ERR>Erro</ERR>
+			   <ALL>All</ALL>
+			   <ALERT>Warning</ALERT>
+			   <CRI>Critical</CRI>
+			   <ERR>Error</ERR>
 			   <INF>Info</INF>
 			   <DEB>Debug</DEB>
 		   </multioptions>
@@ -53,7 +54,7 @@
             <source>
                 <type>text</type>
                 <options>
-                    <label>Origem</label>
+                    <label>Source</label>
                     <description></description>
                     <required></required>
                 </options>
@@ -62,7 +63,7 @@
             <dest>
                 <type>text</type>
                 <options>
-		    <label>Destino</label>
+		    		<label>Destination</label>
                     <description> </description>
                     <required></required>
                 </options>
