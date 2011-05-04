@@ -35,10 +35,6 @@ class AGI extends Snep_Inspector_Test {
      * @var Array
      */
     public $paths = array('/var/lib/asterisk/agi-bin/snep' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/backup' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/tmp' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          '/var/lib/asterisk/sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           '/var/lib/asterisk/moh' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           '/etc/asterisk/snep/snep-agentes.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
                           '/etc/asterisk/snep/snep-agents.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
@@ -74,7 +70,7 @@ class AGI extends Snep_Inspector_Test {
             if ($agi['exists']) {
                 if (!file_exists($path)) {
                     // Não existindo o arquivo registra concatena mensagem de erro.
-                    Zend_Registry::get("Zend_Translate")->translate(" $path não existe.") ."\n";
+                    $result['agi']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" $path não existe.") ."\n";
                     // Seta erro com verdadeiro.
                     $result['agi']['error'] = 1;
 
@@ -85,7 +81,7 @@ class AGI extends Snep_Inspector_Test {
                     if ($agi['writable']) {
                         if (!is_writable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
-                            Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de escrita.") ."\n";
+                            $result['agi']['message'] .=  Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de escrita.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['agi']['error'] = 1;
                         }
@@ -95,7 +91,7 @@ class AGI extends Snep_Inspector_Test {
                     if ($agi['readable']) {
                         if (!is_readable($path)) {
                             // Não existindo permissão de gravação concatena mensagem de erro.
-                            Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de leitura.") ."\n";
+                            $result['agi']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" $path não possue permissão de leitura.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['agi']['error'] = 1;
                         }
