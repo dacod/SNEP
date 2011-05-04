@@ -3,56 +3,59 @@
 class LogsController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Status » Logs do Sistema");
-	$config = Zend_Registry::get('config');
+        $this->view->breadcrumb = $this->view->translate("Status » System Logs ");
+		$config = Zend_Registry::get('config');
 
-	include( $config->system->path->base . "/inspectors/Permissions.php" );
-	$test = new Permissions();
+		include( $config->system->path->base . "/inspectors/Permissions.php" );
+		$test = new Permissions();
         $response = $test->getTests();
    
         $form = new Snep_Form(new Zend_Config_Xml('./default/forms/logs.xml', 'general', true));
 	
         $form->setAction($this->getFrontController()->getBaseUrl() . '/logs/view');
 	
-	$yesterday = Zend_Date::now()->subDate(1);
-	$initDay = $form->getElement('init_day');
-	$initDay->setValue(strtok($yesterday, ' '));
+		$yesterday = Zend_Date::now()->subDate(1);
+		$initDay = $form->getElement('init_day');
+		$initDay->setValue(strtok($yesterday, ' '));
 
-	$endDay = $form->getElement('end_day');
-	$endDay->setValue(strtok(Zend_Date::now(), ' '));
+		$endDay = $form->getElement('end_day');
+		$endDay->setValue(strtok(Zend_Date::now(), ' '));
 
-	$submit = $form->getElement("submit");
-	$submit->setLabel("Pesquisar Log");
+		$status = $form->getElement('status');
+		$status->setValue('ALL');
 
-        /*
-	$tail = $form->getElement("cancel");	
-	$tail->setLabel("Em tempo real");
-	$tail->setAttrib("onclick", "location.href='view/mode/tail/lines/30'");
-         * 
-         */
+		$submit = $form->getElement("submit");
+		$submit->setLabel("Log Search");
+
+			/*
+		$tail = $form->getElement("cancel");	
+		$tail->setLabel("Em tempo real");
+		$tail->setAttrib("onclick", "location.href='view/mode/tail/lines/30'");
+			 * 
+			 */
 
         $this->initLogFile();	
 
-	$this->view->form = $form;	
+		$this->view->form = $form;	
     }
  
     private function initLogFile() {
-	$log = new Snep_Log(Zend_Registry::get('config')->system->path->log, 'agi.log');
+		$log = new Snep_Log(Zend_Registry::get('config')->system->path->log, 'agi.log');
 
-	return $log;
+		return $log;
     }
 
     public function viewAction() {
 
-	$log = $this->initLogFile();
+		$log = $this->initLogFile();
 
-        $this->view->breadcrumb = $this->view->translate("Status » Logs do Sistema");
+        $this->view->breadcrumb = $this->view->translate("Status » System Logs ");
 
-	$this->view->back           = $this->view->translate("Voltar");
-	$this->view->exibition_mode = $this->view->translate("Modo de exibição:");
+	$this->view->back           = $this->view->translate("Back");
+	$this->view->exibition_mode = $this->view->translate("Exibition mode:");
 	$this->view->normal         = $this->view->translate("Normal");
 	$this->view->terminal       = $this->view->translate("Terminal");
-	$this->view->contrast       = $this->view->translate("Constraste");
+	$this->view->contrast       = $this->view->translate("Contrast");
 	
 	if ($log != 'error') {
 
@@ -75,7 +78,7 @@ class LogsController extends Zend_Controller_Action {
 	            $this->view->result = $result;
                 } else {
 
-		    $this->view->error = $this->view->translate("Nenhum resultado encontrado!");
+		    $this->view->error = $this->view->translate("No entries found!");
     		    $this->_helper->viewRenderer('error');
 	        }
 	
@@ -85,11 +88,11 @@ class LogsController extends Zend_Controller_Action {
  		 $this->view->mode   = 'tail';
 		 $this->view->location = '../../../../index';
 
-	         $this->view->lines = $this->view->translate("Número de linhas");
+	         $this->view->lines = $this->view->translate("Line numbers");
 	    }
 	} else {
 
-            $this->view->error = $this->view->translate("Arquivo de log não pode ser aberto!");
+		$this->view->error = $this->view->translate("The log file cannot be open!");
 	    $this->_helper->viewRenderer('error');
 	}
 
