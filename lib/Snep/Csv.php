@@ -39,8 +39,8 @@ class Snep_Csv {
      */
     public function generate($data, $header = true, $title = null) {
 
-        $indexes = null;
-        $values = null;
+        $indexes = array();
+        $values = "";
         foreach($data as $k => $registers) {
 
             if(is_null($indexes)) {
