@@ -45,7 +45,7 @@ class CarrierController extends Zend_Controller_Action {
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("n.`$field` like '%$query%'");
+            $select->where("`$field` like '%$query%'");
         }
 
         $page = $this->_request->getParam('page');
