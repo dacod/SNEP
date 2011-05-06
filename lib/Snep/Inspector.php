@@ -43,26 +43,43 @@ class Snep_Inspector {
      * Construcao do objeto, onde a pasta /inspectors/ é percorrida e suas
      * classes pertencentes instanciadas.
      */
-    public function __construct() {
+    public function __construct($inspect = false) {
 
-        $config = Zend_Registry::get('config');
-        $path = $config->system->path->base . "/inspectors/";
-        $classes = array();
+        if(! $inspect ) {
+            $config = Zend_Registry::get('config');
+            $path = $config->system->path->base . "/inspectors/";
+            $classes = array();
 
-        foreach( scandir($path) as $file ) {
-            if( preg_match("/.*\.php$/", $file) ) {
-                include $path ."/". $file ;
-                $class = basename($file, ".php");
-                $obj = new $class;
+            foreach( scandir($path) as $file ) {
+                if( preg_match("/.*\.php$/", $file) ) {
+                    include $path ."/". $file ;
+                    $class = basename($file, ".php");
+                    $obj = new $class;
 
-                $testData = $obj->getTests();
-                $testData["name"] = $obj->getTestName();
-                $this->inspected[$class] = $testData;
-                if($testData["error"] == true) {
-                    $this->errored = true;
+                    $testData = $obj->getTests();
+                    $testData["name"] = $obj->getTestName();
+                    $this->inspected[$class] = $testData;
+                    if($testData["error"] == true) {
+                        $this->errored = true;
+                    }
                 }
             }
+        }else{
+
+            $config = Zend_Registry::get('config');
+            $path = $config->system->path->base . "/inspectors/";
+            include $path ."/". $inspect .".php" ;
+            $obj = new $inspect;
+
+            $testData = $obj->getTests();
+            $this->inspected[$inspect] = $testData;
+            
+            if($testData["error"] == true) {
+                $this->errored = true;
+            }
+
         }
+        
     }
 
     public function errored() {

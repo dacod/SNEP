@@ -33,12 +33,9 @@ class Permissions extends Snep_Inspector_Test {
      * Array de arquivos a serem verificados.
      * @var Array
      */
-    public $paths = array('templates_c'         => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          /*'sounds/'             => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          'sounds/pt_BR'        => array('exists' => 1, 'writable' => 1, 'readable' => 1),
-                          'sounds/moh'          => array('exists' => 1, 'writable' => 1, 'readable' => 1),*/
-                          'includes/setup.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1)
-        );
+    public $paths = array('includes/setup.conf' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/moh' => array('exists' => 1, 'writable' => 1, 'readable' => 1),
+                          'sounds/pt_BR' => array('exists' => 1, 'writable' => 1, 'readable' => 1) );
 
     /**
      * Executa teste na criação do objeto.
