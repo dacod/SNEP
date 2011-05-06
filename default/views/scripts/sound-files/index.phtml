@@ -5,93 +5,20 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
 
 echo $this->render('filter.phtml');
-?>
-<!--
 
-<script type="text/javascript">
+if( $this->error['error'] ) : ?>
+    <div class="error_box"> <?php echo $this->error['message']  ?> </div>
+<?php endif ?>
 
-function getPlayer(pid) {
-        var obj = document.getElementById(pid);
-        if (obj.doPlay) return obj;
-        for(i=0; i<obj.childNodes.length; i++) {
-                var child = obj.childNodes[i];
-                if (child.tagName == "EMBED") return child;
-        }
-}
-function doPlay(fname) {
-        var player = getPlayer('haxe');
-        player.doPlay(fname);
-}
-function doStop() {
-        var player = getPlayer('haxe');
-        player.doStop();
-}
-var SoundLen = 0;
-var SoundPos = 0;
-var Last = undefined;
-var State = "STOPPED";
-var Timer = undefined;
-function getPerc(a, b) {
-        return ((b==0?0.0:a/b)*100).toFixed(2);
-}
-function FileLoad(bytesLoad, bytesTotal) {
-        document.getElementById('InfoFile').innerHTML = "Loaded "+bytesLoad+"/"+bytesTotal+" bytes ("+getPerc(BytesLoad,BytesTotal)+"%)";
-}
-function SoundLoad(secLoad, secTotal) {
-        document.getElementById('InfoSound').innerHTML = "Available "+secLoad.toFixed(2)+"/"+secTotal.toFixed(2)+" seconds ("+getPerc(secLoad,secTotal)+"%)";
-        SoundLen = secTotal;
-}
-var InfoState = undefined;
-function Inform() {
-        if (Last != undefined) {
-                var now = new Date();
-                var interval = (now.getTime()-Last.getTime())/1000;
-                SoundPos += interval;
-                Last = now;
-        }
-        InfoState.innerHTML = State + "("+SoundPos.toFixed(2)+"/"+SoundLen.toFixed(2)+" sec ("+getPerc(SoundPos,SoundLen)+"%)";
-}
-function SoundState(state, position) {
-        if (position != undefined) SoundPos = position;
-        if (State != "PLAYING" && state=="PLAYING") {
-                Last = new Date();
-                Timer = setInterval(Inform, 100);
-                Inform();
-        } else
-        if (State == "PLAYING" && state!="PLAYING") {
-                clearInterval(Timer);
-                Timer = undefined;
-                Inform();
-        }
-        State = state;
-        Inform();
-}
-function init() {
-        var player = getPlayer('haxe');
-        if (!player || !player.attachHandler) setTimeout(init, 100); // Wait for load
-        else {
-                player.attachHandler("progress", "FileLoad");
-                player.attachHandler("PLAYER_LOAD", "SoundLoad");
-                player.attachHandler("PLAYER_BUFFERING", "SoundState", "BUFFERING");
-                player.attachHandler("PLAYER_PLAYING", "SoundState", "PLAYING");
-                player.attachHandler("PLAYER_STOPPED", "SoundState", "STOPPED");
-                player.attachHandler("PLAYER_PAUSED", "SoundState", "PAUSED");
-                InfoState = document.getElementById('InfoState')
-                Inform();
-        }
-}
-
-
-</script>
--->
 <table>
    <thead>
       <tr>
          <!-- <th> <?php echo $this->translate('Áudio') ?> </th> -->
-         <th class="numeric"> <?php echo $this->translate('Arquivo') ?> </th>
-         <th> <?php echo $this->translate('Descrição') ?> </th>
-         <th> <?php echo $this->translate('Tipo') ?> </th>
-         <th colspan="3" class="action"> <?php echo $this->translate('Ações') ?> </th>
+         <th> <?php echo $this->translate('Filename') ?> </th>
+         <th> <?php echo $this->translate('Description') ?> </th>
+         <th class="numeric"> <?php echo $this->translate('File') ?> </th>
+         <th class="numeric"> <?php echo $this->translate('Backup') ?> </th>
+         <th colspan="4" class="action"> <?php echo $this->translate('Actions') ?> </th>
       </tr>
    </thead>   
    <tbody>
@@ -101,56 +28,40 @@ function init() {
         foreach($this->files as $file ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <!--
-                <td class="action">
-
-
-                    <object    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-                                    width="100"
-                            height="10"
-                            id="haxe"
-                            align="middle">
-                    <param name="movie" value="/snep/wavplayer.swf?gui=full&h=20&w=300&sound=/snep/sounds/pt_BR/<?php echo trim($file['arquivo'])."&" ?>"/>
-                    <param name="allowScriptAccess" value="always" />
-                    <param name="quality" value="high" />
-                    <param name="scale" value="noscale" />
-                    <param name="salign" value="lt" />
-                    <param name="bgcolor" value="#dddddd"/>
-                    <embed src="/snep/wavplayer.swf?gui=full&h=20&w=100&sound=/snep/sounds/pt_BR/<?php echo trim($file['arquivo']);?>&"
-                               bgcolor="#dddddd"
-                               width="100"
-                               height="20"
-                               name="haxe"
-                               quality="high"
-                               align="middle"
-                               scale="noscale"
-                               allowScriptAccess="always"
-                               type="application/x-shockwave-flash"
-                               pluginspage="http://www.macromedia.com/go/getflashplayer"
-                    />
-                    </object>
-
-                </td>
-                -->
                 <td> 
                     <b> <?php echo $file['arquivo'] ?> </b>
                 </td>
                 <td> 
                     <?php echo $file['descricao'] ?>
                 </td>
-                <td>
-                    <?php echo $this->types[$file['tipo']] ?>
+                <td class="action">
+                    <?php $fullpath = ( isset( $file['fullpath'] ) ? $file['fullpath']  :  false ); ?>
+                    <?php if( $fullpath ) : ?>
+                        <a class="arquivo" href="<?php echo $fullpath ?>"></a>
+                    <?php endif ?>
                 </td>
-
+                <td class="action">
+                    <?php $fullpath = ( isset( $file['backuppath'] ) ? $file['backuppath']  :  false ); ?>
+                    <?php if( $fullpath ) : ?>
+                        <a class="arquivo" href="<?php echo $fullpath ?>"></a>
+                    <?php endif ?>
+                </td>
+                <td class="action">
+                    <?php if( isset( $file['backuppath'] ) ) : ?>
+                        <a class="backup" href="<?php echo $this->url ?>/restore/file/<?php echo $file['arquivo'] ?>">
+                            <?php echo $this->translate('Restore')?>
+                        </a>
+                    <?php endif ?>
+                </td>
                 <td class="action">
                     <a class="alterar" href="<?php echo $this->url ?>/edit/file/<?php echo $file['arquivo'] ?>">
-                        <?php echo $this->translate('Alterar')?>
+                        <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
                     <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
                     <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $file['arquivo'] ?>','<?php echo $this->remove_msg ?>')">
-                        <?php echo $this->translate('Excluir')?>
+                        <?php echo $this->translate('Delete')?>
                     </span>
                 </td>
             </tr>
