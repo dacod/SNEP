@@ -130,10 +130,10 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
          </table>
       </form>
 
-<?php echo $this->render('pagination.phtml'); ?>
+<?php echo $this->render('pagination.phtml'); 
 
-<? if ($this->files): ?>
-	<input type="button" value="Comprimir arquivos" OnClick="compactCheckeds();">
+if ($this->files): ?>
+	<input class="button" type="button" value="<?php echo $this->compress_files ?>" OnClick="compactCheckeds();">
 
 	<script>
     function compactCheckeds() {
@@ -161,12 +161,12 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
         var arq = arq.responseText;
         if(arq == 0) {
             alert("Erro");
-        }else{
+        } else {
             alert("<?php echo $this->compact_success?>");
 			window.location=arq;
         }
     }
  
 </script> 
-<? endif ?>
+<?php endif ?>
 </div>
