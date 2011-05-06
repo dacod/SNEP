@@ -90,6 +90,7 @@ class Snep_SoundFiles_Manager {
         return $db->lastInsertId();
    
     }
+    
 
     /**
      * Remove a Sound File register
@@ -474,18 +475,14 @@ class Snep_SoundFiles_Manager {
      * Update a carrier data
      * @param Array $data
      */
-    public function edit($carrier) {
+    public function edit($file) {
 
         $db = Zend_Registry::get('db');
 
-        $update_data = array('nome'     => $carrier['name'],
-                             'tpm'      => $carrier['ta'],
-                             'tdm'      => $carrier['tf'],
-                             'tbf'      => $carrier['tbf'],
-                             'tbc'      => $carrier['tbc'] );
-
-
-        $db->update("operadoras", $update_data, "codigo = '{$carrier['id']}'");
+        $update_data = array('descricao' => $file['description'],
+                             'tipo'      => 'AST' );
+                             
+        $db->update("sounds", $update_data, "arquivo = '{$file['filename']}'");
 
     }
 
@@ -508,9 +505,34 @@ class Snep_SoundFiles_Manager {
         $locale = Zend_Registry::get('config')->system->language;
         $sound_path = Zend_Registry::get('config')->path->asterisk->sounds;
 
-        
-        
+    }
 
+    public function verifySoundFiles($name, $full = false) {
+
+        $sound_path = Zend_Registry::get('config')->system->path->asterisk->sounds;
+        $web_path = Zend_Registry::get('config')->system->path->web;
+
+        $result = array();
+        if( file_exists( $sound_path ) ) {
+
+            if( file_exists( $sound_path .'/'. $name ) ) {
+                if($full) {
+                    $result['fullpath'] = $sound_path .'/'. $name;
+                }else{
+                    $result['fullpath'] = $web_path .'/sounds/pt_BR/'. $name;
+                }
+            }
+            if( file_exists( $sound_path .'/backup/'. $name ) ) {
+                if($full) {
+                    $result['backuppath'] = $sound_path .'/backup/'. $name;
+                }else{
+                    $result['backuppath'] = $web_path .'/sounds/pt_BR/backup/'. $name;
+                }
+            }
+
+        }
+
+        return $result;
     }
 
 }

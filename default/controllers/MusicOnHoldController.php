@@ -306,15 +306,16 @@ class MusicOnHoldController extends Zend_Controller_Action {
 
                     exec("mv $uploadName $arq_tmp");
 
-                    $fileNe = basename($arq_dst, '.wav');
-
                     if( $_POST['gsm'] ) {
+                        $fileNe = basename($arq_dst, '.wav');
                         exec( "sox $arq_tmp -r 8000 {$fileNe}.gsm" );
+                        $originalName = basename($originalName, '.wav') . ".gsm";
+                        
                     }else{
                         exec( "sox $arq_tmp -r 8000 -c 1 -e signed-integer -b 16 $arq_dst" );
                     }
 
-                    if( file_exists($arq_dst) ) {
+                    if( file_exists($arq_dst) || file_exists($fileNe) ) {
                         Snep_SoundFiles_Manager::
                                     addClassFile(array('arquivo'   => $originalName,
                                                        'descricao' => $dados['description'],
@@ -464,8 +465,12 @@ class MusicOnHoldController extends Zend_Controller_Action {
 
          foreach($files as $name =>$path) {
              if($file == $name) {
+
                  exec("rm {$path['full']} ");
-                 Snep_SoundFiles_Manager::remove($name, $path['secao']);
+
+                 if(! file_exists( $path['full'] ) ) {
+                    Snep_SoundFiles_Manager::remove($name, $path['secao']);
+                 }
              }
          }
 
