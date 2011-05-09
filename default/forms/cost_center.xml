@@ -7,6 +7,24 @@
             <label>Code</label>
             <required>true</required>
             <description>Numbers only</description>
+            <validators>
+                <regex>
+                    <validator>regex</validator>
+                    <options>
+                        <pattern>/[[:digit:]]/</pattern>
+                        <messages>
+                            <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                        </messages>
+                    </options>
+                </regex>
+                <strlen>
+                    <validator>StringLength</validator>
+                    <options>
+                        <min>1</min>
+                        <max>7</max>
+                    </options>
+                </strlen>
+            </validators>
         </options>
     </id>
     <name>
@@ -14,14 +32,14 @@
         <options>
             <label>Name</label>
             <required>true</required>
-            <validators>
-                <alnum>
-                    <validator>Alnum</validator>
-                    <options>
-                        <allowWhiteSpace>true</allowWhiteSpace>
-                    </options>
-                </alnum>
-            </validators>
+                <validators>
+                    <alnum>
+                        <validator>Alnum</validator>
+                        <options>
+                            <allowWhiteSpace>true</allowWhiteSpace>
+                        </options>
+                    </alnum>
+                </validators>
         </options>
     </name>
     <description>

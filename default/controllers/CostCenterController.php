@@ -97,22 +97,24 @@ class CostCenterController extends Zend_Controller_Action {
         $form = new Snep_Form( new Zend_Config_Xml( "default/forms/cost_center.xml" ) );
         
         if($this->_request->getPost()) {
+            
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
 
                 $newId = Snep_CostCenter_Manager::get($dados['id']);
 
-                if( count( $newId ) ) {
+                if( count( $newId ) > 1) {
                     $form_isValid = false;
                     $form->getElement('id')->addError( $this->view->translate('Code already exists.') );
                 }
 
-                if($form_isValid){
+                if( $form_isValid ){
                     $dados = $this->_request->getParams();
                     Snep_CostCenter_Manager::add($dados);                    
                     $this->_redirect( $this->getRequest()->getControllerName() );
                 }
-        }        
+        }
+
         $this->view->form = $form;
     }
 
