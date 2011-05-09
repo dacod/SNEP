@@ -70,7 +70,8 @@ class CnlController extends Zend_Controller_Action {
 
         $element = new Zend_Form_Element_File('cnl');
         $element->setLabel($this->view->translate('CNL File'))
-                ->setDestination('/tmp/');
+                ->setDestination('/tmp/')
+                ->setRequired(true) ;
 
         $element->addValidator('Extension', false, array('bz2','tar.bz2'));
         $element->removeDecorator('DtDdWrapper');
@@ -80,7 +81,6 @@ class CnlController extends Zend_Controller_Action {
 
         $form->setAttrib('enctype', 'multipart/form-data');
 
-        $this->view->form = $form;
         $this->view->valid = true;
 
         if ($this->_request->getPost()) {
@@ -136,14 +136,12 @@ class CnlController extends Zend_Controller_Action {
                     }
                 } else {
 
-                    if ($adapter->getFileName()) {
-
-                        throw new ErrorException( $this->view->translate("File format is not valid") );
-                    }
+                    throw new ErrorException( $this->view->translate("File format is not valid") );
                 }
-                $this->_forward('index', "cnl");
+                $this->_redirect ($this->getRequest()->getControllerName());
             }
         }
+        $this->view->form = $form;
     }
 
 }
