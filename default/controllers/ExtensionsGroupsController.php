@@ -35,13 +35,14 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups");
 
         $db = Zend_Registry::get('db');
 
-        $this->view->tra = array("admin" => $this->view->translate("Administradores"),
-            "users" => $this->view->translate("Usuários"),
-            "all" => $this->view->translate("Todos"));
+        $this->view->tra = array("admin" => $this->view->translate("Administrators"),
+            "users" => $this->view->translate("Users"),
+            "all" => $this->view->translate("All"));
+        
 
         $select = $db->select()
                         ->from("groups", array("name", "inherit"))
@@ -81,7 +82,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add",
-                "display" => $this->view->translate("Incluir Grupo de Ramal"),
+                "display" => $this->view->translate("Add Extension Group"),
                 "css" => "include"),
         );
     }
@@ -92,7 +93,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais » Incluir Grupos de Ramais");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Add Extension Group");
 
         $form_xml = new Zend_Config_Xml("default/forms/extensions_groups.xml");
         $form = new Snep_Form($form_xml);
@@ -103,9 +104,9 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
         $form->getElement('type')
             ->setRequired(true)
-             ->setLabel($this->view->translate('Tipo'))
-             ->setMultiOptions(array('administrator' => $this->view->translate('Administrador'),
-                                     'users' => $this->view->translate('Usuário')) );
+             ->setLabel($this->view->translate('Type'))
+             ->setMultiOptions(array('administrator' => $this->view->translate('Administrator'),
+                                     'users' => $this->view->translate('User')) );
         
         try {
             $extensionsAllGroup = Snep_ExtensionsGroups_Manager::getExtensionsAllGroup();
@@ -123,7 +124,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
         $this->view->objSelectBox = "extensions";
 
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Ramais'), $extensions);
+        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Extensions'), $extensions);
 
         if ($this->getRequest()->getPost()) {
 
@@ -162,7 +163,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais » Edit Grupos de Ramais");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Edit Extension Group");
 
         $xml = new Zend_Config_Xml( "default/forms/extensions_groups.xml" );
         $form = new Snep_Form( $xml );
@@ -176,10 +177,10 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
         $groupName = $form->getElement('name')->setValue($group['name'])->setLabel($this->view->translate('Name'));;
 
         $groupType = $form->getElement('type');
-        $groupType->setRequired(true)
-             ->setLabel($this->view->translate('Tipo'))
-             ->setMultiOptions(array('administrator' => $this->view->translate('Administrador'),
-                                     'users' => $this->view->translate('Usuário')) )
+        $groupType ->setRequired(true)
+             ->setLabel($this->view->translate('Type'))
+             ->setMultiOptions(array('administrator' => $this->view->translate('Administrator'),
+                                     'users' => $this->view->translate('User')) )
              ->setValue($group['inherit']);
 
         $groupExtensions = array();
@@ -199,7 +200,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
         $this->view->objSelectBox = "extensions";
 
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Ramais'), $groupAllExtensions, $groupExtensions);
+        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Extensions'), $groupAllExtensions, $groupExtensions);
 
         if($this->_request->getPost()) {
 
@@ -235,7 +236,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function deleteAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Grupos de Ramais » Remover Grupos de Ramais");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Delete Extension Group");
 
         $id = $this->_request->getParam('id');
         $confirm = $this->_request->getParam('confirm');
@@ -252,11 +253,11 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
         }else{
 
-            $this->view->message = $this->view->translate("O Grupo de Ramais será removido. Se estiver certo disto, clique em 'Confirmar'.");
+            $this->view->message = $this->view->translate("The extension group will be deleted. Are you sure?.");
             $form = new Snep_Form();
             $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/delete/id/'.$id.'/confirm/1');
 
-            $form->getElement('submit')->setLabel($this->view->translate('Confirmar'));
+            $form->getElement('submit')->setLabel($this->view->translate('Yes'));
 
             $this->view->form = $form;
         }
@@ -267,7 +268,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function migrationAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Grupos de Ramais » Migrar ramais do grupo");
+        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Migrate Extension Group");
 
         $id = $this->_request->getParam('id');
 
@@ -288,16 +289,16 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
             $groupSelect = new Zend_Form_Element_Select('select');
             $groupSelect->setMultiOptions( $allGroups );
-            $groupSelect->setLabel( $this->view->translate( $this->view->translate("Novo Grupo")  ) );
+            $groupSelect->setLabel( $this->view->translate( $this->view->translate("New Group")  ) );
             $form->addElement($groupSelect);
-            $this->view->message = $this->view->translate("O grupo excluído possue ramais associados a ele. Selecione um novo grupo para os ramais. ");
+            $this->view->message = $this->view->translate("This groups has extensions associated. Select another group for these extensions. ");
 
         }else{
 
             $groupName = new Zend_Form_Element_Text('new_group');
-            $groupName->setLabel( $this->view->translate( $this->view->translate("Novo Grupo")  ) );
+            $groupName->setLabel( $this->view->translate( $this->view->translate("New Group")  ) );
             $form->addElement($groupName);
-            $this->view->message = $this->view->translate("O grupo excluído é único e possue ramais associados a ele. Você pode migrar os ramais para um novo grupo. ");
+            $this->view->message = $this->view->translate("This is the only group and it has extensions associated. You can migrate these extensions to a new group.");
         }
 
         $id_exclude = new Zend_Form_Element_Hidden("id");

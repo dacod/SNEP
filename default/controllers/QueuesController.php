@@ -33,7 +33,7 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function indexAction() {
         
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Filas");
+        $this->view->breadcrumb = $this->view->translate("Manage » Queues");
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -61,10 +61,10 @@ class QueuesController extends Zend_Controller_Action {
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array("name"      => $this->view->translate("Name"),
-                        "musiconhold"      => $this->view->translate("Classe de Áudio"),
-                        "strategy"    => $this->view->translate("Estratégia"),
+                        "musiconhold"      => $this->view->translate("Audio Class"),
+                        "strategy"    => $this->view->translate("Strategy"),
                         "sla"    => $this->view->translate("SLA"),
-                        "timeout"    => $this->view->translate("Tempo Limite"));
+                        "timeout"    => $this->view->translate("Timeout"));
                         
 
         $filter = new Snep_Form_Filter();
@@ -76,7 +76,7 @@ class QueuesController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url"     => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                                          "display" => $this->view->translate("Incluir Fila"),
+                                          "display" => $this->view->translate("Add Queue"),
                                           "css"     => "include"));
     }
 
@@ -85,7 +85,7 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Filas » Cadastro");
+        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Add Queue");
 
         $sections = new Zend_Config_Ini('/etc/asterisk/snep/snep-musiconhold.conf');
         $_section = array_keys( $sections->toArray() );
@@ -117,7 +117,7 @@ class QueuesController extends Zend_Controller_Action {
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
         $essentialData = new Zend_Config_Xml('./default/forms/queues.xml', 'essential', true);
-        $essential = new Snep_Form_SubForm( $this->view->translate("Configurações Gerais"), $essentialData );
+        $essential = new Snep_Form_SubForm( $this->view->translate("General Configuration"), $essentialData );
 
         $essential->getElement('musiconhold')->setMultiOptions($section);
         $essential->getElement('timeout')->setValue(0);                
@@ -125,20 +125,20 @@ class QueuesController extends Zend_Controller_Action {
         $essential->getElement('retry')->setValue(0);
         $essential->getElement('wrapuptime')->setValue(0);
         $essential->getElement('servicelevel')->setValue(0);
-        $essential->getElement('strategy')->setMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
-                                                                   'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
-                                                                   'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
-                                                                   'random'    => $this->view->translate('Aleatoriamente (random)'),
-                                                                   'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
-                                                                   'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ));
+        $essential->getElement('strategy')->setMultiOptions( array('ringall' => $this->view->translate('For all agents available (ringall)'),
+                                                                   'roundrobin' => $this->view->translate('Search for a available agent (roundrobin)'),
+                                                                   'leastrecent' => $this->view->translate('For the agent idle for the most time (leastrecent)'),
+                                                                   'random'    => $this->view->translate('Randomly (random)'),
+                                                                   'fewestcalls' => $this->view->translate('For the agent that answerd less calls (fewestcalls)'),
+                                                                   'rrmemory' => $this->view->translate('Equally (rrmemory)') ));
 
         $form->addSubForm($essential, "essential");
         
         $advancedData =  new Zend_Config_Xml('./default/forms/queues.xml', 'advanced', true);
-        $advanced = new Snep_Form_SubForm( $this->view->translate("Configurações Avançadas"), $advancedData );
+        $advanced = new Snep_Form_SubForm( $this->view->translate("Advanced Configuration"), $advancedData );
         
-        $boolOptions = array(1 => $this->view->translate('Sim'),
-                             0 => $this->view->translate('Não') );
+        $boolOptions = array(1 => $this->view->translate('Yes'),
+                             0 => $this->view->translate('No') );
 
         $advanced->getElement('announce')->setMultiOptions($sounds);
         $advanced->getElement('queue_youarenext')->setMultiOptions($sounds);
@@ -149,9 +149,9 @@ class QueuesController extends Zend_Controller_Action {
         $advanced->getElement('reportholdtime')->setMultiOptions( $boolOptions )->setValue(0);
         $advanced->getElement('memberdelay')->setValue(0);
         $advanced->getElement('joinempty')
-                 ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
-                                          'no' => $this->view->translate('Não'),
-                                          'strict' => $this->view->translate('Restrito')) )
+                 ->setMultiOptions( array('yes' => $this->view->translate('Yes') ,
+                                          'no' => $this->view->translate('No'),
+                                          'strict' => $this->view->translate('Restrict')) )
                  ->setValue('no');         
 /*
         $autofill  = $advanced->getElement('autofill');
@@ -167,7 +167,7 @@ class QueuesController extends Zend_Controller_Action {
         $form->addSubForm($advanced, "advanced");
 
         $alertsData =  new Zend_Config_Xml('./default/forms/queues.xml', 'alerts', true);
-        $alerts = new Snep_Form_SubForm( $this->view->translate("Configuração de Alertas"), $alertsData);
+        $alerts = new Snep_Form_SubForm( $this->view->translate("Alert Configuration"), $alertsData);
         
         $alerts->getElement('valueMail')
                ->addValidator('NotEmpty')
@@ -266,7 +266,7 @@ class QueuesController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Filas » Edit » $id");
+        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Edit » $id");
 
         $queue = Snep_Queues_Manager::get($id);
 
@@ -301,7 +301,7 @@ class QueuesController extends Zend_Controller_Action {
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
 
         $essentialData = new Zend_Config_Xml('./default/forms/queues.xml', 'essential', true);
-        $essential = new Snep_Form_SubForm( $this->view->translate("Configurações Gerais"), $essentialData );
+        $essential = new Snep_Form_SubForm( $this->view->translate("General Configuration"), $essentialData );
 
         $essential->getElement('name')->setValue( $queue['name'] )->setAttrib('readonly', true);
         $essential->getElement('musiconhold')->setMultiOptions($section)->setValue( $queue['musiconhold'] );
@@ -312,22 +312,22 @@ class QueuesController extends Zend_Controller_Action {
         $essential->getElement('maxlen')->setValue( $queue['maxlen']);
         $essential->getElement('servicelevel')->setValue( $queue['servicelevel'] );
         $essential->getElement('strategy')
-                  ->addMultiOptions( array('ringall' => $this->view->translate('Para todos agentes disponíveis (ringall)'),
-                                           'roundrobin' => $this->view->translate('Procura por um agente disponível (roundrobin)'),
-                                           'leastrecent' => $this->view->translate('Para o agente ocioso há mais tempo (leastrecent)'),
-                                           'random'    => $this->view->translate('Aleatoriamente (random)'),
-                                           'fewestcalls' => $this->view->translate('Para o agente que atendeu menos ligações (fewestcalls)'),
-                                           'rrmemory' => $this->view->translate('Igualmente (rrmemory)') ) )
+                  ->addMultiOptions(  array('ringall' => $this->view->translate('For all agents available (ringall)'),
+                                                                   'roundrobin' => $this->view->translate('Search for a available agent (roundrobin)'),
+                                                                   'leastrecent' => $this->view->translate('For the agent idle for the most time (leastrecent)'),
+                                                                   'random'    => $this->view->translate('Randomly (random)'),
+                                                                   'fewestcalls' => $this->view->translate('For the agent that answerd less calls (fewestcalls)'),
+                                                                   'rrmemory' => $this->view->translate('Equally (rrmemory)') ))
                   ->setValue( $queue['strategy'] );
                  
 
         $form->addSubForm($essential, "essential");
 
         $advancedData =  new Zend_Config_Xml('./default/forms/queues.xml', 'advanced', true);
-        $advanced = new Snep_Form_SubForm( $this->view->translate("Configurações Avançadas"), $advancedData );
+        $advanced = new Snep_Form_SubForm( $this->view->translate("Advanced Configuration"), $advancedData );
 
-        $boolOptions = array(1 => $this->view->translate('Sim'),
-                             0 => $this->view->translate('Não') );
+        $boolOptions = array(1 => $this->view->translate('Yes'),
+                             0 => $this->view->translate('No') );
 
         $advanced->getElement('announce')->setMultiOptions($sounds)->setValue( $queue['announce'] );
         $advanced->getElement('context')->setValue( $queue['context'] );
@@ -336,9 +336,9 @@ class QueuesController extends Zend_Controller_Action {
         $advanced->getElement('queue_callswaiting')->setMultiOptions($sounds)->setValue( $queue['queue_callswaiting'] );
         $advanced->getElement('queue_thankyou')->setMultiOptions($sounds)->setValue( $queue['queue_thankyou'] );
         $advanced->getElement('joinempty')
-                 ->setMultiOptions( array('yes' => $this->view->translate('Sim') ,
-                                          'no' => $this->view->translate('Não'),
-                                          'strict' => $this->view->translate('Restrito')) )
+                 ->setMultiOptions( array('yes' => $this->view->translate('Yes') ,
+                                          'no' => $this->view->translate('No'),
+                                          'strict' => $this->view->translate('Restrict')) )
                  ->setValue( $queue['joinempty']);
         $advanced->getElement('leavewhenempty')->setMultiOptions( $boolOptions )->setValue($queue['leavewhenempty']);
         $advanced->getElement('reportholdtime')->setMultiOptions( $boolOptions )->setValue( $queue['reportholdtime']);
@@ -359,7 +359,7 @@ class QueuesController extends Zend_Controller_Action {
         $form->addSubForm($advanced, "advanced");
 
         $alertsData =  new Zend_Config_Xml('./default/forms/queues.xml', 'alerts', true);
-        $alerts = new Snep_Form_SubForm( $this->view->translate("Configurações de Alerta"), $alertsData);
+        $alerts = new Snep_Form_SubForm( $this->view->translate("Alert Configuration"), $alertsData);
         $queueAlerts = Snep_Alerts::getAlert( $id );
 
         foreach($queueAlerts as $queueAlert) {
@@ -479,7 +479,7 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Filas » Remover");
+       $this->view->breadcrumb = $this->view->translate("Manage » Queues » Delete");
        $id = $this->_request->getParam('id');
 
        Snep_Queues_Manager::remove($id);
@@ -496,7 +496,7 @@ class QueuesController extends Zend_Controller_Action {
     public function membersAction () {
 
         $queue = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Filas » Membros da Fila » ". $queue);
+        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Queue Members » ". $queue);
 
         $members = Snep_Queues_Manager::getMembers($queue);
         $mem = array();
@@ -520,7 +520,7 @@ class QueuesController extends Zend_Controller_Action {
         $form = new Snep_Form();
 
         $this->view->objSelectBox = 'members';
-        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate("Adicionar membro"), $notMem, $mem);
+        $form->setSelectBox( $this->view->objSelectBox, $this->view->translate("Add Member"), $notMem, $mem);
 
         $queueId = new Zend_Form_Element_hidden('id');
         $queueId->setvalue($queue);

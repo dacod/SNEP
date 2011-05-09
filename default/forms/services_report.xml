@@ -16,7 +16,7 @@
             <init_day>
                 <type>text</type>
                 <options>
-                    <label>A partir de</label>
+                    <label>From:</label>
                     <description>dd/mm/aaaa</description>
                     <required>true</required>
                 </options>
@@ -33,7 +33,7 @@
                             <options>
                                 <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
                                 </messages>
                             </options>
                         </regex>
@@ -51,7 +51,7 @@
             <till_day>
                 <type>text</type>
                 <options>
-                    <label>Até</label>
+                    <label>To:</label>
                     <description>dd/mm/aaaa</description>
                     <required>true</required>
                 </options>
@@ -68,7 +68,7 @@
                             <options>
                                 <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
                                 </messages>
                             </options>
                         </regex>
@@ -92,16 +92,16 @@
             <group_select>
                 <type>select</type>
                 <options>
-                    <label>Grupo</label>
+                    <label>Group</label>
                 </options>
             </group_select>
             
             <exten_select>
                 <type>text</type>
                 <options>
-                    <label>Ramais</label>
+                    <label>Extensions</label>
                     <description>
-                    (separados com ';')
+                   Separate with ;
                     </description>
                     <validators>
                         <regex>
@@ -109,7 +109,7 @@
                             <options>
                                 <pattern>/(\d{4}[;]?)$/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Os ramais devem ser compostos apenas de números. EX: 8000;8001</regexNotMatch>
+                                    <regexNotMatch>The extension list must follow the format from this example. EX: 8000;8001</regexNotMatch>
                                 </messages>
                             </options>
                         </regex>
@@ -134,7 +134,7 @@
                 <type>MultiCheckbox</type>
                 <separator>' '</separator>
                 <options>
-                    <label>Especifique os serviços</label>
+                    <label>Choose the services</label>
                     <multioptions>
                         <SIGAME>SIGAME</SIGAME>
                         <DND>DND</DND>
@@ -146,10 +146,10 @@
                 <type>MultiCheckbox</type>
                 <separator>' '</separator>
                 <options>
-                    <label>Estado atual do serviço</label>                    
+                    <label>Service State</label>                    
                     <multioptions>
-                        <A>Serviços - Ativados/Desativados </A>
-                        <D>Serviços Desabilitados</D>
+                        <A>Activated/Deactivated</A>
+                        <D>Disabled</D>
                     </multioptions>
                 </options>
             </stat_select>
@@ -157,11 +157,11 @@
             <out_type>
                 <type>radio</type>
                 <options>
-                    <label>Tipo de Visualização</label>
+                    <label>Report Type</label>
                     <value>lst</value>
                     <separator> </separator>
                     <multioptions>
-                        <lst>Listagem</lst>
+                        <lst>Analytic</lst>
                         <csv>CSV</csv>
                     </multioptions>
                 </options>

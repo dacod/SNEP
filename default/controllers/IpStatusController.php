@@ -99,27 +99,27 @@ class IpStatusController extends Zend_Controller_Action {
 
                     case strpos($vall, "Not in use") > 1 :
 
-                        $queues[$strFila]['status'] .= $this->view->translate('Fora de uso') . "<br> ";
+                        $queues[$strFila]['status'] .= $this->view->translate('Unused') . "<br> ";
                         break;
 
                     case strpos($vall, "Unknown") > 1 :
 
-                        $queues[$strFila]['status'] .= $this->view->translate('Desconhecido') . "<br> ";
+                        $queues[$strFila]['status'] .= $this->view->translate('Unknown') . "<br> ";
                         break;
 
                     case strpos($vall, "In use") > 1 :
 
-                        $queues[$strFila]['status'] .= $this->view->translate('Em uso') . "<br> ";
+                        $queues[$strFila]['status'] .= $this->view->translate('In Use') . "<br> ";
                         break;
 
                     case strpos($vall, "paused") > 1 :
 
-                        $queues[$strFila]['status'] .= $this->view->translate('Em Pausa') . "<br> ";
+                        $queues[$strFila]['status'] .= $this->view->translate('Paused') . "<br> ";
                         break;
 
                     case strpos($vall, "Unavailable") > 1 :
 
-                        $queues[$strFila]['status'] .= $this->view->translate('Indispon&iacute;vel') . "<br> ";
+                        $queues[$strFila]['status'] .= $this->view->translate('Unavailable') . "<br> ";
                         break;
                 }
             }
@@ -167,11 +167,11 @@ class IpStatusController extends Zend_Controller_Action {
                             $status = $match[5][0];
 
                             if (!strcmp("UNREACHABLE ", $status)) {
-                                $status = "Não Registrado";
+                                $status = $this->view->translate("Not Registered");
                             } elseif (!strcmp("Unmonitored ", $status)) {
-                                $status = "N/A";
+                                $status = $this->view->translate("N/A");
                             } elseif (!strcmp("OK ", $status)) {
-                                $status = "Registrado";
+                                $status = $this->view->translate("Registered");
                             }
                             array_push($trunk_tmp, $status);
 
@@ -221,7 +221,7 @@ class IpStatusController extends Zend_Controller_Action {
                 $return['ramal'] = $matches[0];
             }
             else
-                $return['ramal'] = 'Indeterminado';
+                $return['ramal'] = $this->view->translate('Undefined');
 
             $return['tipo'] = 'SIP';
 
@@ -230,7 +230,7 @@ class IpStatusController extends Zend_Controller_Action {
                 $return['ip'] = $matches[0];
             }
             else
-                $return['ip'] = 'Indeterminado';
+                $return['ip'] = $this->view->translate('Undefined');
 
             $tmp = substr($info, strpos($info, 'Status'), +40);
             if (preg_match("#\((.*?)\)#", $tmp, $matches))

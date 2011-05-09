@@ -32,58 +32,57 @@ class KhompLinksController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Status » Links Khomp");
+        $this->view->breadcrumb = $this->view->translate("Status » Khomp Links");
 
         $form = new Snep_Form( new Zend_Config_Xml( "default/forms/khomp_links.xml" ) );
-        //$form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/view');
-        $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
+        $form->getElement('submit')->setLabel($this->view->translate("Show Report"));
 
         require_once "includes/AsteriskInfo.php";
         $astinfo = new AsteriskInfo();
 
-        $khomp_signal = array(  "kesOk (sync)" => $this->view->translate('Ativado'),
-                "kesOk" => $this->view->translate('Ativado'),
-                "kes{SignalLost} (sync)" => $this->view->translate('Sem Sinal'),
-                "kes{SignalLost},sync" => $this->view->translate('signallost'),
-                "kes{SignalLost}" => $this->view->translate('Sem Sinal'),
-                "[ksigInactive]" => $this->view->translate('Desativado'),
-                "NoLinksAvailable" => $this->view->translate('Sem Links dispon&iacute;veis'),
-                "ringing" => $this->view->translate('Chamando'),
-                "ongoing"=> $this->view->translate('Em Curso'),
-                "unused"=> $this->view->translate('Sem Uso'),
-                "dialing"=> $this->view->translate('Discando'),
-                "kcsFree"=> $this->view->translate('Canal Livre'),
-                "kcsFail"=> $this->view->translate('Falha Canal'),
-                "kcsIncoming"=> $this->view->translate('Liga&ccedil;&atilde;o de Entrada'),
-                "kcsOutgoing"=> $this->view->translate('Liga&ccedil;&atilde;o saida'),
-                "kecsFree"=> $this->view->translate('Livre'),
-                "kecsBusy"=> $this->view->translate('Ocupado'),
-                "kecsOutgoing"=> $this->view->translate('Sa&iacute;da'),
-                "kecsIncoming"=> $this->view->translate('Entrada'),
-                "kecsLocked"=> $this->view->translate('Bloqueado'),
-                "kecs{SignalLost}" => $this->view->translate('Sem Sinal'),
-                "kecs{Busy}"=> $this->view->translate('Falha'),
-                "kecs{Busy,Locked,RemoteLock}"=> $this->view->translate('Ocupado Sa&iacute;da'),
-                "kecs{Busy,Outgoing}"=> $this->view->translate('Ocupado Sa&iacute;da'),
-                "kecs{Busy,Incoming}"=> $this->view->translate('Ocupado Entrada'),
-                "kgsmIdle"=> $this->view->translate('Livre'),
-                "kgsmCallInProgress"=> $this->view->translate('Ocupado'),
-                "kgsmSMSInProgress"=> $this->view->translate('Enviando SMS'),
-                "kgsmNetworkError"=> $this->view->translate('Erro Comunica&ccedil;&atilde;o'),
-                "kfxsOnHook"=> $this->view->translate('Livre'),
-                "kfxsOffHook"=> $this->view->translate('Ocupado'),
-                "offhook" => $this->view->translate('Ocupado'),
-                "kfxsRinging"=> $this->view->translate('Chamando'),
-                "kfxsFail"=> $this->view->translate('Falha'),
-                "kfxsDisabled"=> $this->view->translate('Desabilitado'),
-                "kfxsEnable"=> $this->view->translate('Habilitado'),
-                "reserved"=> $this->view->translate('Reservado'),
-                "ring"=> $this->view->translate('Chamando')
+        $khomp_signal = array(  "kesOk (sync)" => $this->view->translate('Activated'),
+                "kesOk" => $this->view->translate('Activated'),
+                "kes{SignalLost} (sync)" => $this->view->translate('Signal Lost'),
+                "kes{SignalLost},sync" => $this->view->translate('Signal Lost'),
+                "kes{SignalLost}" => $this->view->translate('Signal Lost'),
+                "[ksigInactive]" => $this->view->translate('Deactivated'),
+                "NoLinksAvailable" => $this->view->translate('No Link Available'),
+                "ringing" => $this->view->translate('Ringing'),
+                "ongoing"=> $this->view->translate('On going'),
+                "unused"=> $this->view->translate('Unused'),
+                "dialing"=> $this->view->translate('Dialing'),
+                "kcsFree"=> $this->view->translate('Channel Free'),
+                "kcsFail"=> $this->view->translate('Channel Fail'),
+                "kcsIncoming"=> $this->view->translate('Incoming Call'),
+                "kcsOutgoing"=> $this->view->translate('Outgoing Call'),
+                "kecsFree"=> $this->view->translate('Free'),
+                "kecsBusy"=> $this->view->translate('Busy'),
+                "kecsOutgoing"=> $this->view->translate('Outgoing'),
+                "kecsIncoming"=> $this->view->translate('Incoming'),
+                "kecsLocked"=> $this->view->translate('Locked'),
+                "kecs{SignalLost}" => $this->view->translate('Signal Lost'),
+                "kecs{Busy}"=> $this->view->translate('Fail'),
+                "kecs{Busy,Locked,RemoteLock}"=> $this->view->translate('Busy Outgoing'),
+                "kecs{Busy,Outgoing}"=> $this->view->translate('Busy Outgoing'),
+                "kecs{Busy,Incoming}"=> $this->view->translate('Busy Incoming'),
+                "kgsmIdle"=> $this->view->translate('Free'),
+                "kgsmCallInProgress"=> $this->view->translate('Busy'),
+                "kgsmSMSInProgress"=> $this->view->translate('Sending SMS'),
+                "kgsmNetworkError"=> $this->view->translate('Communication Error'),
+                "kfxsOnHook"=> $this->view->translate('Free'),
+                "kfxsOffHook"=> $this->view->translate('Busy'),
+                "offhook" => $this->view->translate('Busy'),
+                "kfxsRinging"=> $this->view->translate('Ringing'),
+                "kfxsFail"=> $this->view->translate('Fail'),
+                "kfxsDisabled"=> $this->view->translate('Disabled'),
+                "kfxsEnable"=> $this->view->translate('Enabled'),
+                "reserved"=> $this->view->translate('Reserved'),
+                "ring"=> $this->view->translate('Ringing')
         );
 
         if (!$data = $astinfo->status_asterisk("khomp links show concise", "", True)) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
 
         $lines = explode("\n", $data);
@@ -93,7 +92,7 @@ class KhompLinksController extends Zend_Controller_Action {
 
         if (trim(substr($lines['1'], 10, 16)) === "Error" || strpos($lines['1'], "such command") > 0) {
 
-            throw new ErrorException( $this->view->translate("Nenhum hardware Khomp foi encontrado"));
+            throw new ErrorException( $this->view->translate("No Khomp board installed"));
         }
 
         while (list($key, $val) = each($lines)) {
@@ -147,62 +146,63 @@ class KhompLinksController extends Zend_Controller_Action {
 
         $config = Zend_Registry::get('config');
 
-        $khomp_signal = array(  "kesOk (sync)" => $this->view->translate('Ativado'),
-                                "kesOk" => $this->view->translate('Ativado'),
-                                "kes{SignalLost} (sync)" => $this->view->translate('Sem Sinal'),
-                                "kes{SignalLost},sync" => $this->view->translate('signallost'),
-                                "kes{SignalLost}" => $this->view->translate('Sem Sinal'),
-                                "[ksigInactive]" => $this->view->translate('Desativado'),
-                                "NoLinksAvailable" => $this->view->translate('Sem Links dispon&iacute;veis'),
-                                "ringing" => $this->view->translate('Chamando'),
-                                "ongoing"=> $this->view->translate('Em Curso'),
-                                "unused"=> $this->view->translate('Sem Uso'),
-                                "dialing"=> $this->view->translate('Discando'),
-                                "kcsFree"=> $this->view->translate('Canal Livre'),
-                                "kcsFail"=> $this->view->translate('Falha Canal'),
-                                "kcsIncoming"=> $this->view->translate('Liga&ccedil;&atilde;o de Entrada'),
-                                "kcsOutgoing"=> $this->view->translate('Liga&ccedil;&atilde;o saida'),
-                                "kecsFree"=> $this->view->translate('Livre'),
-                                "kecsBusy"=> $this->view->translate('Ocupado'),
-                                "kecsOutgoing"=> $this->view->translate('Saída'),
-                                "kecsIncoming"=> $this->view->translate('Entrada'),
-                                "kecsLocked"=> $this->view->translate('Bloqueado'),
-                                "kecs{SignalLost}" => $this->view->translate('Sem Sinal'),
-                                "kecs{Busy}"=> $this->view->translate('Falha'),
-                                "kecs{Busy,Locked,RemoteLock}"=> $this->view->translate('Ocupado Saída'),
-                                "kecs{Busy,Outgoing}"=> $this->view->translate('Ocupado Saída'),
-                                "kecs{Busy,Incoming}"=> $this->view->translate('Ocupado Entrada'),
-                                "kgsmIdle"=> $this->view->translate('Livre'),
-                                "kgsmCallInProgress"=> $this->view->translate('Ocupado'),
-                                "kgsmSMSInProgress"=> $this->view->translate('Enviando SMS'),
-                                "kgsmNetworkError"=> $this->view->translate('Erro Comunica&ccedil;&atilde;o'),
-                                "kfxsOnHook"=> $this->view->translate('Livre'),
-                                "kfxsOffHook"=> $this->view->translate('Ocupado'),
-                                "offhook" => $this->view->translate('Ocupado'),
-                                "kfxsRinging"=> $this->view->translate('Chamando'),
-                                "kfxsFail"=> $this->view->translate('Falha'),
-                                "kfxsDisabled"=> $this->view->translate('Desabilitado'),
-                                "kfxsEnable"=> $this->view->translate('Habilitado'),
-                                "reserved"=> $this->view->translate('Reservado'),
-                                "ring"=> $this->view->translate('Chamando'));
+        $khomp_signal = array(  "kesOk (sync)" => $this->view->translate('Activated'),
+                "kesOk" => $this->view->translate('Activated'),
+                "kes{SignalLost} (sync)" => $this->view->translate('Signal Lost'),
+                "kes{SignalLost},sync" => $this->view->translate('Signal Lost'),
+                "kes{SignalLost}" => $this->view->translate('Signal Lost'),
+                "[ksigInactive]" => $this->view->translate('Deactivated'),
+                "NoLinksAvailable" => $this->view->translate('No Link Available'),
+                "ringing" => $this->view->translate('Ringing'),
+                "ongoing"=> $this->view->translate('On going'),
+                "unused"=> $this->view->translate('Unused'),
+                "dialing"=> $this->view->translate('Dialing'),
+                "kcsFree"=> $this->view->translate('Channel Free'),
+                "kcsFail"=> $this->view->translate('Channel Fail'),
+                "kcsIncoming"=> $this->view->translate('Incoming Call'),
+                "kcsOutgoing"=> $this->view->translate('Outgoing Call'),
+                "kecsFree"=> $this->view->translate('Free'),
+                "kecsBusy"=> $this->view->translate('Busy'),
+                "kecsOutgoing"=> $this->view->translate('Outgoing'),
+                "kecsIncoming"=> $this->view->translate('Incoming'),
+                "kecsLocked"=> $this->view->translate('Locked'),
+                "kecs{SignalLost}" => $this->view->translate('Signal Lost'),
+                "kecs{Busy}"=> $this->view->translate('Fail'),
+                "kecs{Busy,Locked,RemoteLock}"=> $this->view->translate('Busy Outgoing'),
+                "kecs{Busy,Outgoing}"=> $this->view->translate('Busy Outgoing'),
+                "kecs{Busy,Incoming}"=> $this->view->translate('Busy Incoming'),
+                "kgsmIdle"=> $this->view->translate('Free'),
+                "kgsmCallInProgress"=> $this->view->translate('Busy'),
+                "kgsmSMSInProgress"=> $this->view->translate('Sending SMS'),
+                "kgsmNetworkError"=> $this->view->translate('Communication Error'),
+                "kfxsOnHook"=> $this->view->translate('Free'),
+                "kfxsOffHook"=> $this->view->translate('Busy'),
+                "offhook" => $this->view->translate('Busy'),
+                "kfxsRinging"=> $this->view->translate('Ringing'),
+                "kfxsFail"=> $this->view->translate('Fail'),
+                "kfxsDisabled"=> $this->view->translate('Disabled'),
+                "kfxsEnable"=> $this->view->translate('Enabled'),
+                "reserved"=> $this->view->translate('Reserved'),
+                "ring"=> $this->view->translate('Ringing')
+        );
 
-        $status_sintetico_khomp = array("unused"   => $this->view->translate('Sem Uso'),
-                                        "ongoing"  => $this->view->translate('Em Curso'),
-                                        "ringing"  => $this->view->translate('Chamando'),
-                                        "dialing"  => $this->view->translate('Discando'),
-                                        "reserved" => $this->view->translate('Reservado'),
-                                        "offhook"  => $this->view->translate('Ocupado'),
-                                        "ring"     => $this->view->translate('Chamando'),
-                                        "prering"  => $this->view->translate('Chamando'),
-                                        "none"     => $this->view->translate('Nenhum'),
-                                        "down"     => $this->view->translate('Desligando'));
+        $status_sintetico_khomp = array("unused"   => $this->view->translate('Unused'),
+                                        "ongoing"  => $this->view->translate('On Going'),
+                                        "ringing"  => $this->view->translate('Ringing'),
+                                        "dialing"  => $this->view->translate('Dialing'),
+                                        "reserved" => $this->view->translate('Reserved'),
+                                        "offhook"  => $this->view->translate('Busy'),
+                                        "ring"     => $this->view->translate('Ringing'),
+                                        "prering"  => $this->view->translate('Ringing'),
+                                        "none"     => $this->view->translate('None'),
+                                        "down"     => $this->view->translate('Hanging Up'));
 
-        $status_canais_khomp = array("Sem Uso"  => "#00A651",
-                                    "Em Curso" => "#ED1C24",
-                                    "Chamando" => "#ff9c00",
-                                    "Discando" => "#ff9c00",
-                                    "Reservado" => "#ff9c00",
-                                    "Ocupado" => "#ED1C24" );
+        $status_canais_khomp = array("Unused"  => "#00A651",
+                                    "On Going" => "#ED1C24",
+                                    "Ringing" => "#ff9c00",
+                                    "Dialing" => "#ff9c00",
+                                    "Reserved" => "#ff9c00",
+                                    "Busy" => "#ED1C24" );
 
         $linksKhomp = array ("0" => "B00", "1" => "B01", "3" => "B02", "4" => "B03",
                              "5" => "B04", "6" => "B05", "7" => "B06", "8" => "B07");
@@ -213,7 +213,7 @@ class KhompLinksController extends Zend_Controller_Action {
 
         if (!$data = $astinfo->status_asterisk("khomp summary concise", "", True)) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
 
         $sumary = explode("\n", $data);
@@ -232,7 +232,7 @@ class KhompLinksController extends Zend_Controller_Action {
 
         if (!$data = $astinfo->status_asterisk("khomp links show concise", "", True)) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
 
         $lines = explode("\n",$data);
@@ -327,7 +327,7 @@ class KhompLinksController extends Zend_Controller_Action {
         }
 
         $this->view->linksKhomp = $linksKhomp;
-        $this->view->breadcrumb = $this->view->translate("Status » Links Khomp");
+        $this->view->breadcrumb = $this->view->translate("Status » Khomp Links");
         $this->view->gsm = $gsm;
         $this->view->dados = $links;
         $this->view->canais = $channels;

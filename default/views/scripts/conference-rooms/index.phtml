@@ -7,8 +7,8 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
    <thead>
       <tr>
          <th class="action"> <?php echo $this->translate('Code') ?> </th>
-         <th> <?php echo $this->translate('Restrição de Acesso') ?> </th>
-         <th> <?php echo $this->translate('Centro de Custos') ?> </th>
+         <th> <?php echo $this->translate('Restricted Access') ?> </th>
+         <th> <?php echo $this->translate('Cost Center') ?> </th>
          <th class="action"> <?php echo $this->translate('Actions') ?> </th>
       </tr>
    </thead>
@@ -36,10 +36,10 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                         }
                     ?>                    
                     <input type='checkbox' <?php echo $checked ?> name='authenticate[<?php echo $conferenceRooms['id'] ?>]' onclick="pass('<?php echo $conferenceRooms['id'] ?>');">
-                    <?php echo $this->translate('Autenticação por Senha') ?>
+                    <?php echo $this->translate('Password Authentication') ?>
                     <div id="box_<?php echo $conferenceRooms['id'] ?>"  <?php echo $display ?> >                        
                         <input type="password" name="password[<?php echo $conferenceRooms['id'] ?>]"  value="<?php echo $conferenceRooms['authenticate'] ?>">
-                        <small> <?php echo $this->translate('( Use somente números)') ?></small>
+                        <small> <?php echo $this->translate('( Only numbers)') ?></small>
                     </div>
 
                 </td>
@@ -57,7 +57,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                 <td class="action">
                     <?php ( $conferenceRooms['status'] ? $chek = 'checked' : $chek = '') ?>
                     <input type="checkbox" <?php echo $chek ?> value="<?php $conferenceRooms['status'] ?>"  name="activate[<?php echo $conferenceRooms['id'] ?>]">
-                    <?php echo $this->translate('Ativar') ?>
+                    <?php echo $this->translate('Active') ?>
                 </td>
             </tr>
         <?php endforeach ?>
@@ -65,7 +65,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
             <tr>
                 <td height="40" valign="middle" colspan="4">
                     <center>
-                        <input type="submit" class="button" name="conference" value="Salvar" />
+                        <input type="submit" class="button" name="conference" value='<?php echo $this->translate('Save')?>'/>
                     </center>
                 </td>
             </tr>

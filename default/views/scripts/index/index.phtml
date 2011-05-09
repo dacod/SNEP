@@ -39,7 +39,7 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Tempo ligado"); ?></th>
+                        <th><?php echo $this->translate("Turn-on Time"); ?></th>
                         <td> <?php echo $this->indexData["uptime"]; ?></td>
                     </tr>
                 </table>
@@ -116,19 +116,19 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Tipo"); ?></th>
+                        <th><?php echo $this->translate("Type"); ?></th>
                         <th><?php echo $this->translate("Total"); ?></th>
-                        <th><?php echo $this->translate("Livre"); ?></th>
-                        <th><?php echo $this->translate("Usado"); ?></th>
+                        <th><?php echo $this->translate("Free"); ?></th>
+                        <th><?php echo $this->translate("Used"); ?></th>
                     </tr>
                     <tr>
-                        <th><?php echo $this->translate("Memória Física"); ?></th>
+                        <th><?php echo $this->translate("Fisical Memory"); ?></th>
                         <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['ram']["total"] / 1024)); ?></td>
                         <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['ram']["free"] / 1024)); ?></td>
                         <td><?php echo $this->indexData["memory"]['ram']["percent"].'%'; ?></td>
                     </tr>
                     <tr>
-                        <th><?php echo $this->translate("Memória de Troca"); ?></th>
+                        <th><?php echo $this->translate("Swap Memory"); ?></th>
                         <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['swap']["total"] / 1024)); ?></td>
                         <td><?php echo sprintf("%.2f", ($this->indexData["memory"]['swap']["free"] / 1024)); ?></td>
                         <td><?php echo $this->indexData["memory"]['swap']["percent"].'%'; ?></td>
@@ -144,10 +144,10 @@ $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css")
 
                 <table>
                     <tr>
-                        <th><?php echo $this->translate("Partição"); ?></th>
-                        <th><?php echo $this->translate("Tamanho"); ?></th>
-                        <th><?php echo $this->translate("Livre"); ?></th>
-                        <th><?php echo $this->translate("Usado"); ?></th>
+                        <th><?php echo $this->translate("Partition"); ?></th>
+                        <th><?php echo $this->translate("Size"); ?></th>
+                        <th><?php echo $this->translate("Free"); ?></th>
+                        <th><?php echo $this->translate("Used"); ?></th>
                     </tr>
                     <?php  
                                     foreach ($this->indexData["space"] as $key => $value) {

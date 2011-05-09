@@ -106,7 +106,8 @@ class SoundFilesController extends Zend_Controller_Action {
         $file->setLabel( $this->view->translate('Select the file'))
              ->addValidator(new Zend_Validate_File_Extension(array('wav', 'gsm')))
              ->removeDecorator('DtDdWrapper')
-             ->setIgnore(true);
+             ->setIgnore(true)
+            ->setRequired(true);
         $form->addElement($file);
 
         $form->removeElement('filename');

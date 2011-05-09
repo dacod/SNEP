@@ -20,7 +20,7 @@ class ServicesReportController extends Zend_Controller_Action {
 
     public function indexAction() {
         // Title
-        $this->view->breadcrumb = $this->view->translate("Relatórios » Serviços Utilizados");
+        $this->view->breadcrumb = $this->view->translate("Reports » Services Use");
 
         $config = Zend_Registry::get('config');
 
@@ -56,7 +56,7 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $form_xml = new Zend_Config_Xml('./default/forms/services_report.xml');
         $config = Zend_Registry::get('config');
-        $period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
+        $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
         $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
         
         $yesterday = Zend_Date::now()->subDate(1);
@@ -70,7 +70,7 @@ class ServicesReportController extends Zend_Controller_Action {
         $form->addSubForm($period, "period");
 
 
-        $exten = new Snep_Form_SubForm($this->view->translate("Ramais"), $form_xml->exten);
+        $exten = new Snep_Form_SubForm($this->view->translate("Extensions"), $form_xml->exten);
         $groupLib = new Snep_GruposRamais();
         $groupsTmp = $groupLib->getAll();
 
@@ -103,11 +103,11 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $form->addSubForm($exten, "exten");
 
-        $service = new Snep_Form_SubForm($this->view->translate("Serviços"), $form_xml->service);
+        $service = new Snep_Form_SubForm($this->view->translate("Services"), $form_xml->service);
 
         $form->addSubForm($service, "service");
 
-        $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
+        $form->getElement('submit')->setLabel($this->view->translate("Show Report"));
         $form->removeElement("cancel");
         return $form;
     }
@@ -197,16 +197,16 @@ class ServicesReportController extends Zend_Controller_Action {
             if (!$ExportCsv) {
 
                 if ($value['state'] == 1) {
-                    $dataTmp[$key]['state'] = ' - Ativado';
+                    $dataTmp[$key]['state'] = $this->view->translate(' - Activated');
                 } else {
-                    $dataTmp[$key]['state'] = ' - Desativado';
+                    $dataTmp[$key]['state'] =  $this->view->translate(' - Deactivated');
                 }
             } else {
 
                 if ($value['state'] == 1) {
-                    $dataTmp[$key]['state'] = 'Ativado';
+                    $dataTmp[$key]['state'] =  $this->view->translate('Activated');
                 } else {
-                    $dataTmp[$key]['state'] = 'Desativado';
+                    $dataTmp[$key]['state'] =  $this->view->translate('Deactivated');
                 }
 
                 $dataTmp[$key]['status'] = '"' . $value['status'] . '"';
@@ -228,7 +228,7 @@ class ServicesReportController extends Zend_Controller_Action {
         }
 
         if ($reportData) {
-            $this->view->breadcrumb = $this->view->translate("Relatórios » Serviços Utilizados <br/> Periodo: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) a {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
+            $this->view->breadcrumb = $this->view->translate("Reports » Services Use <br/> Period: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) to {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
 
             $paginatorAdapter = new Zend_Paginator_Adapter_Array($reportData);
             $paginator = new Zend_Paginator($paginatorAdapter);
@@ -245,8 +245,8 @@ class ServicesReportController extends Zend_Controller_Action {
             $this->view->PAGE_URL = "/snep/index.php/{$this->getRequest()->getControllerName()}/view/";
             $this->_helper->viewRenderer('view');
         } else {
-            $this->view->error = $this->view->translate("Nenhum registro encontrado.");
-            $this->view->back = $this->view->translate("Voltar");
+            $this->view->error = $this->view->translate("No records found.");
+            $this->view->back = $this->view->translate("Back");
             $this->_helper->viewRenderer('error');
         }
     }
@@ -264,15 +264,15 @@ class ServicesReportController extends Zend_Controller_Action {
                 $csvData = $csv->generate($reportData, true);
 
                 $dateNow = new Zend_Date();
-                $fileName = $this->view->translate('relatorio_servicos_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
+                $fileName = $this->view->translate('services_report_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
 
                 header('Content-type: application/octet-stream');
                 header('Content-Disposition: attachment; filename="' . $fileName . '"');
 
                 echo $csvData;
             } else {
-                $this->view->error = $this->view->translate("Nenhum registro encontrado.");
-                $this->view->back = $this->view->translate("Voltar");
+                $this->view->error = $this->view->translate("No records found.");
+                $this->view->back = $this->view->translate("Back");
                 $this->_helper->viewRenderer('error');
             }
         }

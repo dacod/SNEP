@@ -33,7 +33,7 @@ class CarrierController extends Zend_Controller_Action {
      */
     public function indexAction() {
         
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Operadoras");
+        $this->view->breadcrumb = $this->view->translate("Carrier » Carrier");
 
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
@@ -73,7 +73,7 @@ class CarrierController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url"     => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                                          "display" => $this->view->translate("Incluir Operadora"),
+                                          "display" => $this->view->translate("Add Carrier"),
                                           "css"     => "include"));
     }
 
@@ -94,7 +94,7 @@ class CarrierController extends Zend_Controller_Action {
             $idleCostCenter[$idle['codigo']] = $idle['codigo'] ." : ". $idle['tipo'] ." - ". $idle['nome'];
         }
         if($idleCostCenter) {
-            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Centro de Custos'), $idleCostCenter);
+            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Cost Center'), $idleCostCenter);
         }
 
         if($this->_request->getPost()) {
@@ -120,7 +120,7 @@ class CarrierController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Operadoras » Cadastro");
+        $this->view->breadcrumb = $this->view->translate("Carrier » Edit");
         $this->view->objSelectBox = "carrier";
         $id = $this->_request->getParam("id");
 
@@ -149,7 +149,7 @@ class CarrierController extends Zend_Controller_Action {
         }
 
         $form->setSelectBox( $this->view->objSelectBox,
-                             $this->view->translate('Centro de Custos'),
+                             $this->view->translate('Cost Center'),
                              $idleCostCenter,                             
                              $selectedCostCenter );
 

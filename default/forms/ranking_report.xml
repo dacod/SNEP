@@ -16,13 +16,13 @@
             <init_day>
                 <type>text</type>
                 <options>
-                    <label>A partir de</label>
+                    <label>From:</label>
                     <description>dd/mm/aaaa</description>
                     <required>true</required>
                 </options>
             </init_day>
             
-           <init_hour>
+            <init_hour>
                 <type>text</type>
                 <options>
                     <label>hh:mm</label>
@@ -33,7 +33,7 @@
                             <options>
                                 <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
                                 </messages>
                             </options>
                         </regex>
@@ -51,13 +51,13 @@
             <till_day>
                 <type>text</type>
                 <options>
-                    <label>Até</label>
+                    <label>To:</label>
                     <description>dd/mm/aaaa</description>
                     <required>true</required>
                 </options>
             </till_day>
             
-           <till_hour>
+            <till_hour>
                 <type>text</type>
                 <options>
                     <label>hh:mm</label>
@@ -68,7 +68,7 @@
                             <options>
                                 <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
+                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
                                 </messages>
                             </options>
                         </regex>
@@ -92,12 +92,12 @@
             <type>
                 <type>radio</type>
                 <options>
-                    <label>Tipo de Ranking</label>
+                    <label>Ranking Type</label>
                     <value>num</value>
                     <separator> </separator>
                     <multioptions>
-                        <num>Quantidade</num>
-                        <time>Tempo</time>
+                        <num>Quantity</num>
+                        <time>Time</time>
                     </multioptions>
                 </options>
             </type>
@@ -105,9 +105,9 @@
             <origin>
                 <type>text</type>
                 <options>
-                    <label>Exibir Ranking de 'n' Origens</label>
+                    <label>Show 'n' source ranking</label>
                     <value>10</value>
-                    <description>Apenas números</description>
+                    <description>Just numbers</description>
                     <required>true</required>
                      <validators>
                         <alnum>
@@ -118,7 +118,7 @@
                             <options>
                                 <pattern>/[[:digit:]]/i</pattern>
                                 <messages>
-                                    <regexNotMatch>Este campo deve conter apenas números</regexNotMatch>
+                                    <regexNotMatch>This field shoud contain only numbers</regexNotMatch>
                                 </messages>                     
                             </options>
                         </regex>
@@ -129,7 +129,7 @@
             <view>
                 <type>select</type>
                 <options>
-                    <label>Exibir os TOP 'n' por Origem</label>
+                    <label>Show TOP 'n' by source</label>
                     <value>10</value>
                 </options>
             </view>
@@ -137,11 +137,11 @@
              <out_type>
                 <type>radio</type>
                 <options>
-                    <label>Tipo de Visualização</label>
+                    <label>Report Type</label>
                     <value>lst</value>
                     <separator> </separator>
                     <multioptions>
-                        <lst>Listagem</lst>
+                        <lst>Analytic</lst>
                         <csv>CSV</csv>
                     </multioptions>
                 </options>

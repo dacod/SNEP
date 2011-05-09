@@ -102,9 +102,9 @@
                     <value>yes</value>
                     <separator> </separator>
                     <multioptions>
-                        <yes>Sim</yes>
-                        <no>Não</no>
-                        <specify>Especificar</specify>
+                        <yes>Yes</yes>
+                        <no>No</no>
+                        <specify>Specify</specify>
                     </multioptions>
                 </options>                
             </qualify>

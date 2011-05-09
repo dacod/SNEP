@@ -24,7 +24,7 @@ class ParametersController extends Zend_Controller_Action {
 
     public function indexAction() {
         // Title
-        $this->view->breadcrumb = $this->view->translate("Configurações » Parâmetros");
+        $this->view->breadcrumb = $this->view->translate("Configure » Parameters");
         // Get configuration properties from Zend_Registry
         $config = Zend_Registry::get('config');
 
@@ -36,7 +36,7 @@ class ParametersController extends Zend_Controller_Action {
         // Verify if there's any error, and if it's related to the setup.conf file
         if ($response['error'] && strpos($response['message'], "setup.conf") > 0) {
             // seta variavel verificada no template
-            $this->view->error = $this->view->translate("O arquivo includes/setup.conf não possui permissão de escrita.");
+            $this->view->error = $this->view->translate("The File includes/setup.conf does not have permission to be modified.");
         }
         // Create object Snep_Form
         $form = new Snep_Form();
@@ -47,7 +47,7 @@ class ParametersController extends Zend_Controller_Action {
         $form_xml = new Zend_Config_Xml('./default/forms/setup.conf.xml');
 
         // Section General
-        $general = new Snep_Form_SubForm($this->view->translate("Configurações Gerais"), $form_xml->general);
+        $general = new Snep_Form_SubForm($this->view->translate("General Configuration"), $form_xml->general);
 
         // Setting propoertie values
         $empName = $general->getElement('emp_nome');
@@ -113,7 +113,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($locale_form, "locale");
 
         // Section Recording
-        $recording = new Snep_Form_SubForm($this->view->translate("Configurações de Gravação"), $form_xml->recording);
+        $recording = new Snep_Form_SubForm($this->view->translate("Call Recording Configuration"), $form_xml->recording);
 
         // Setting propoertie values
         $application = $recording->getElement('application');
@@ -133,7 +133,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($recording, "gravacao");
 
         // Section Extensions
-        $peers = new Snep_Form_SubForm($this->view->translate("Configurações de Ramais e Agentes"), $form_xml->extensions);
+        $peers = new Snep_Form_SubForm($this->view->translate("Extensions and Agents Configuration"), $form_xml->extensions);
 
         // Setting propoertie values
         $peersRange = $peers->getElement('peers_range');
@@ -142,7 +142,7 @@ class ParametersController extends Zend_Controller_Action {
         $form->addSubForm($peers, "ramais");
 
         // Section Trunks
-        $trunks = new Snep_Form_SubForm($this->view->translate("Configurações de Troncos"), $form_xml->trunks);
+        $trunks = new Snep_Form_SubForm($this->view->translate("Trunks Configuration"), $form_xml->trunks);
 
         // Setting propoertie values
         $qualControlValue = $trunks->getElement('valor_controle_qualidade');
@@ -157,7 +157,7 @@ class ParametersController extends Zend_Controller_Action {
 
             // Specific verification for propertie path_voice
             if (!file_exists($formData['gravacao']['path_voz'])) {
-                $recording->getElement('path_voz')->addError($this->view->translate("Caminho inválido ou inexistente."));
+                $recording->getElement('path_voz')->addError($this->view->translate("Invalid path"));
                 $formIsValid = false;
             }
 

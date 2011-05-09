@@ -39,9 +39,9 @@
 	    <status>
 		<type>MultiCheckbox</type>
 		<options>
+                                <checked>checked</checked>
 		   <separator></separator>
 	           <multioptions>
-			   <ALL>All</ALL>
 			   <ALERT>Warning</ALERT>
 			   <CRI>Critical</CRI>
 			   <ERR>Error</ERR>

@@ -35,7 +35,7 @@ class ConferenceRoomsController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Salas de Conferência");
+        $this->view->breadcrumb = $this->view->translate("Manage » Conference Rooms");
 
         $config = Zend_Registry::get('config');
 
@@ -89,7 +89,7 @@ class ConferenceRoomsController extends Zend_Controller_Action {
 
             if (!is_writable($file_conf) || !is_writable($file_auth)) {
                 
-                echo $this->translate('Arquivo sem permissão de escrita');
+                echo $this->translate('File does not have editing permission');
                 return False ;
             }
 

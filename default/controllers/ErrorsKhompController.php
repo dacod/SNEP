@@ -32,7 +32,7 @@ class ErrorsKhompController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Status » Errors Links Khomp");
+        $this->view->breadcrumb = $this->view->translate("Status » Errors Khomp Links");
 
         require_once "includes/AsteriskInfo.php";
         $astinfo = new AsteriskInfo();
@@ -41,14 +41,14 @@ class ErrorsKhompController extends Zend_Controller_Action {
 
         if (!isset($data)) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
 
         $data = $astinfo->status_asterisk("khomp summary concise","",True);
 
         if (!isset($data)) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
 
         $lines = explode("\n",$data);
@@ -98,7 +98,7 @@ class ErrorsKhompController extends Zend_Controller_Action {
 
         if (!$data = $astinfo->status_asterisk("khomp links errors concise","",True )) {
 
-            throw new ErrorException( $this->view->translate("Conexão com o servidor via socket não disponivel no momento."));
+            throw new ErrorException( $this->view->translate("Socket connection to the server is not available at the moment."));
         }
         
         $lines = explode("\n",$data);

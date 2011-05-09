@@ -394,7 +394,7 @@ function sql_vinculos($src,$dst,$orides,$srctype,$dsttype) {
          $vinculos = explode(",",monta_vinculo($_SESSION['vinculos_user'],"L"));
          foreach($vinculos as $i => $v) {
              $retorno .= " AND src='$v' OR dst='$v' ";
-         }
+        }
      }
 
      if($src == '' && $dst == '') {

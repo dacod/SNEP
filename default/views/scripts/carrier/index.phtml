@@ -10,8 +10,8 @@ echo $this->render('filter.phtml');
       <tr>
          <th class="numeric"> <?php echo $this->translate('Code') ?> </th>
          <th> <?php echo $this->translate('Name') ?> </th>
-         <th> <?php echo $this->translate('Tempo de Arranque') ?> </th>
-         <th> <?php echo $this->translate('Tempo de Fracionamento') ?> </th>
+         <th> <?php echo $this->translate('Startup Time') ?> </th>
+         <th> <?php echo $this->translate('Fragmentation Time') ?> </th>
          <th colspan="2" class="action"> <?php echo $this->translate('Actions') ?> </th>
       </tr>
    </thead>
@@ -40,7 +40,7 @@ echo $this->render('filter.phtml');
                     </a>
                 </td>
                 <td class="action">
-                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <?php $this->remove_msg = $this->translate("Do you wish to remove this record?");?>
                     <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $carrier['codigo'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>

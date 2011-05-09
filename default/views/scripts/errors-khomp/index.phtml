@@ -5,14 +5,14 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
 <table>
     <thead>
         <tr>
-            <td class="esq" ><?php echo $this->translate("Tipo de Erro") ?></td>
+            <td class="esq" ><?php echo $this->translate("Error Type") ?></td>
             <?php
             $colunas = 1;
             foreach ($this->canais as $board_key => $board_item) {
                 foreach ($this->canais[$board_key] as $link_key => $link_item) {
                 ?>
                     <td>
-                    <?php echo $this->translate("Placa : ") . $this->translate($board_key) . $this->translate(", Link : ") . $this->translate($board_key) ?>
+                    <?php echo $this->translate("Board : ") . $this->translate($board_key) . $this->translate(", Link : ") . $this->translate($board_key) ?>
                     <br />
                     <?php echo $this->translate($link_item) ?>
                     </td>
@@ -40,7 +40,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
         <td colspan="<?php echo $colunas ?>" class="subtable" align="center" height="38px" valign="middle">
             <form  method="POST">
                 <center>
-                    <input class="button" type="submit" id="resetar"  value="<?php echo $this->translate("Zerar Contadores") ?>">
+                    <input class="button" type="submit" id="resetar"  value="<?php echo $this->translate("Reset Counters") ?>">
                 </center>
             </form>
         </td>

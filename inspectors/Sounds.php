@@ -72,21 +72,21 @@ class Sounds extends Snep_Inspector_Test {
                 // Verifica existência do arquivo.
                 if( ! file_exists( $path ) ) {
                     // Não existindo concatena mensagem de erro.
-                    $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} não existe.") ."\n";
+                    $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} does not exists.") ."\n";
                     // Seta erro como verdadeiro.
                     $result['logs']['error'] = 1;
                     // Existindo arquivo
                 }else{
 
                     if( ! file_exists($path . '/backup') || ! file_exists($path . '/tmp')) {
-                        $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" Sub diretórios não encontrados ") ." tmp/ e backup/". Zend_Registry::get("Zend_Translate")->translate(" em ") . $path ."\n"  ;
+                        $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" Subfolders not found ") ." tmp/ and backup/". Zend_Registry::get("Zend_Translate")->translate(" in ") . $path ."\n"  ;
                         $result['logs']['error'] = 1;
                     }
                     // Verifica se existe exigência de verificação de escrita.
                     if($logs['writable']) {
                         if( ! is_writable( $path) ) {
                             // Não existindo concatena mensagem de erro.
-                            $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} não possue permissão de escrita.") ."\n";
+                            $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} does not have permition to be modified.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['logs']['error'] = 1;
                         }
@@ -96,7 +96,7 @@ class Sounds extends Snep_Inspector_Test {
                         if( ! is_readable( $path ) ) {
                             // Não existindo concatena mensagem de erro.
 
-                            $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} não possue permissão de leitura.") ."\n";
+                            $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" {$path} does not have permition to be viewed.") ."\n";
                             // Seta erro como verdadeiro.
                             $result['logs']['error'] = 1;
                         }
@@ -111,6 +111,6 @@ class Sounds extends Snep_Inspector_Test {
     }
 
     public function getTestName() {
-        return Zend_Registry::get("Zend_Translate")->translate("Classes de música de espera");
+        return Zend_Registry::get("Zend_Translate")->translate("Music on Hold class");
     }
 }

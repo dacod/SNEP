@@ -14,7 +14,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                         <?php
                             $adress = str_replace($board_key, 'B', '') ;
 
-                            echo $this->translate('Placa : ') . $board_key ;
+                            echo $this->translate('Board : ') . $board_key ;
                             $adress = str_replace($board_key, 'B', '') ;
 
                             if (count($this->gsm) > 0) {
@@ -28,8 +28,8 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                     </td>
                 </tr>
                 <tr>
-                    <td class="tb_tit2"><?php echo $this->translate('Status dos Links') ?></td>
-                    <td class="tb_tit2"><?php echo $this->translate('Resumo dos Status dos Canais') ?></td>
+                    <td class="tb_tit2"><?php echo $this->translate('Link Status') ?></td>
+                    <td class="tb_tit2"><?php echo $this->translate('Channel Status Summary') ?></td>
                 </tr>
                 <tr>
                     <td class="links_khomp">
@@ -54,21 +54,21 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
                             <?php if ($this->tiporel == "analitic") : ?>
                                 <table align="center"  width="100%">
                                     <tr>
-                                        <td><strong><?php echo $this->translate('Canal') ?></strong></td>
-                                        <td><strong><?php echo $this->translate('Status do Asterisk') ?></strong></td>
-                                        <td><strong><?php echo $this->translate('Status do Canal') ?></strong></td>
+                                        <td><strong><?php echo $this->translate('Channel') ?></strong></td>
+                                        <td><strong><?php echo $this->translate('Asterisk Status') ?></strong></td>
+                                        <td><strong><?php echo $this->translate('Channel Status') ?></strong></td>
                                         <?php
                                         if (count($this->gsm) > 0) {
                                             if ($this->gsm[$adress] == 'yes') {
                                         ?>
-                                                <td><strong><?php echo $this->translate('Intensidade do Sinal') ?></strong></td>
-                                                <td><strong><?php echo $this->translate('Chip / Operadora') ?></strong></td>
+                                                <td><strong><?php echo $this->translate('Signal Strength') ?></strong></td>
+                                                <td><strong><?php echo $this->translate('Carrier') ?></strong></td>
                                         <?php
                                             }
                                         }
                                         ?>
                                         <?php if ($this->status === "yes") : ?>
-                                            <td><strong><?php echo $this->translate('Status do Canal') ?></strong></td>
+                                            <td><strong><?php echo $this->translate('Channel Status') ?></strong></td>
                                         <?php endif ?>
                                     </tr>
                                     <?php foreach ($this->canais[$board_key] as $canal_key => $canal_item) : ?>
@@ -108,7 +108,7 @@ $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scripta
     <tr>
         <td colspan="3" align="center">
             <center>
-                <?php echo $this->translate('Para manter a integridade das informações, esta página é automaticamente atualizada.') ?>
+                <?php echo $this->translate('To mantain this data accurate, this page is automatically refreshed') ?>
             </center>
         </td>
     </tr>

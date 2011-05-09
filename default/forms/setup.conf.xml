@@ -5,7 +5,7 @@
             <emp_nome>
                 <type>text</type>
                 <options>
-                    <label>Name da Empresa</label>
+                    <label>Company Name</label>
                     <required>true</required>
                 </options>
             </emp_nome>
@@ -13,9 +13,9 @@
             <debug>
                 <type>checkbox</type>
                 <options>
-                    <value>Ativar / Desativar</value>
-                    <label>Debug do Snep</label>                    
-                    <description>Habilita eventuais mensagens de erro da aplicação.</description>
+                    <value>On / Off</value>
+                    <label>Snep Debug</label>                    
+                    <description>Show error message events if activated</description>
                 </options>
             </debug>
             
@@ -23,7 +23,7 @@
                 <type>text</type>
                 <options>
                     <label>Hostname</label>                    
-                    <description>Endereço ou Ip de conexão via socket com Asterisk</description>
+                    <description>Asterisk Socket IP</description>
                     <required>true</required>
                 </options>
             </ip_sock>
@@ -31,8 +31,8 @@
             <user_sock>
                 <type>text</type>
                 <options>
-                    <label>Usuário</label>
-                    <description>Name do usuário da conexão via socket com Asterisk</description>
+                    <label>Username</label>
+                    <description>Asterisk Socket IP username</description>
                     <required>true</required>
                 </options>
             </user_sock>
@@ -40,8 +40,8 @@
             <pass_sock>
                 <type>password</type>
                 <options>
-                    <label>Senha</label>
-                    <description>Senha do usuário da conexão via socket com Asterisk</description>
+                    <label>Password</label>
+                    <description>Asterisk Socket IP password</description>
                     <required>true</required>
                     <renderpassword>true</renderpassword>
                 </options>
@@ -50,8 +50,8 @@
             <mail>
                 <type>text</type>
                 <options>
-                    <label>E-mail padrão</label>
-                    <description>Email padrão para envio de alertas.</description>
+                    <label>Default E-mail</label>
+                    <description>Default e-mail where the alerts will be sent to</description>
                     <required>true</required>
                     <validators>
                         <EmailAddress>EmailAddress</EmailAddress>
@@ -62,8 +62,8 @@
             <linelimit>
                 <type>text</type>
                 <options>
-                    <label>Número de linhas padrão</label>
-                    <description>Define o número de linhas por página de relatório.</description>
+                    <label>Number of Lines</label>
+                    <description>Defines how many lines you want per page of report</description>
                     <required>true</required>
                     <validators>
                         <alnum>
@@ -90,8 +90,8 @@
             <dst_exceptions>
                 <type>text</type>
                 <options>
-                    <label>Exceções para Destinos</label>
-                    <description> Define quais destinos devem ser desprezados por relatórios (Sintaxe: nono ; nonono ; nono) </description>
+                    <label>Destination Exceptions</label>
+                    <description> Defines what destinations will be excluded from reports (Sintax: nono ; nonono ; nono) </description>
                     <required>true</required>
                 </options>
             </dst_exceptions>
@@ -99,13 +99,13 @@
             <conference_app>
                 <type>select</type>
                 <options>
-                    <label>Aplicação de Conferências</label>
+                    <label>Conference Application</label>
                     <multiOptions>
                         <C> Conference </C>
                         <M> Meetme </M>
                     </multiOptions>
                     <descriptions>
-                     Aplicação responsável pelas Salas de Conferência do.
+                     Application responsable of the conference rooms on Snep.
                     </descriptions>
                 </options>
             </conference_app>
@@ -141,14 +141,14 @@
             <application>
              <type>select</type>
                 <options>
-                    <label>Aplicação de Gravação</label>
+                    <label>Recording Application</label>
                     <multiOptions>
                         <monitor> Monitor </monitor>
                         <mixmonitor> MixMonitor </mixmonitor>
                         <krecord> Krecord </krecord>
                     </multiOptions>
                     <descriptions>
-                     Aplicação responsável pelas gravações das ligações.
+                     Application responsable of call recording 
                     </descriptions>
 
                 </options>
@@ -156,27 +156,27 @@
             <flag>
                  <type>text</type>
                  <options>
-                     <label>Parâmetro de gravação</label>
+                     <label>Recording Parameters</label>
                  </options>
-                 <description>Opções da aplicação de gravação</description>
+                 <description>Options to the recording application</description>
             </flag>
              <record_mp3>
                  <type>radio</type>
                  <options>                     
-                     <label>Arquivos de Gravação</label>
+                     <label>Audio Files Format</label>
                         <multiOptions>
-                            <true> Formato mp3 </true>
-                            <false> Formato wav </false>
+                            <true>mp3</true>
+                            <false>wav</false>
                         </multiOptions>
-                        <description>Formato em que as gravações serão mantidas</description>
+                        <description>Format witch the recorded files will be stored</description>
                  </options>
              </record_mp3>
 
              <path_voz>
                  <type>text</type>
                  <options>
-                     <label>Arquivos de Gravação</label>
-                     <description>Local dos arquivos de gravação de chamadas</description>
+                     <label>Recorded Files Path</label>
+                     <description>Path where to store the audio files</description>
                      <required>true</required>
                      
                  </options>
@@ -185,8 +185,8 @@
              <path_voz_bkp>
                  <type>text</type>
                  <options>
-                     <label>Arquivos de Backup</label>
-                     <description>Local do BACKUP Compactado dos arquivos de gravação</description>
+                     <label>Backup Files Path</label>
+                     <description>Path where to store the backup audio files</description>
                  </options>
              </path_voz_bkp>
              
@@ -198,10 +198,10 @@
             <peers_range>
                 <type>text</type>
                 <options>
-                    <label>Ranges de Ramais</label>
+                    <label>Extensions Range</label>
                     <description>
-                        Sintaxe: ramal_inicial-ramal_final ; ramal_inicial-ramal_final
-                        Exemplo: 300-312 ; 333-335
+                        Sintax:Init_Exten-Final_Exten ; Init_Exten-Final_Exten
+                        Example: 300-312 ; 333-335
                     </description>
                     <required>true</required>
                     <validators>
@@ -230,8 +230,8 @@
             <valor_controle_qualidade>
                 <type>text</type>
                 <options>
-                    <label>Controle de Qualidade</label>
-                    <description>Valor padrão para controle de qualidade</description>
+                    <label>Qualify</label>
+                    <description>Default value for Qualify</description>
                 </options>
             </valor_controle_qualidade>
         </elements>
@@ -242,24 +242,24 @@
             <menu_status_1>              
                 <type>text</type>
                 <options>
-                    <label>Aba do Painel 1</label>
-                    <description>(depende de: /op-panel/ index1.php)</description>
+                    <label>Panel 1 Tab</label>
+                    <description>(depends on: /op-panel/ index1.php)</description>
                 </options>
             </menu_status_1>
             
             <menu_status_2>
                 <type>text</type>
                 <options>
-                    <label>Aba do Painel 2 </label>
-                    <description>(depende de: /op-panel/ index2.php)</description>
+                    <label>Panel 2 Tab</label>
+                    <description>(depends on: /op-panel/ index2.php)</description>
                 </options>
             </menu_status_2>
 
             <menu_status_3>
                 <type>text</type>
                 <options>
-                    <label>Aba do Painel 3 </label>
-                    <description>(depende de: /op-panel/ index3.php)</description>
+                    <label>Panel 3 Tab</label>
+                    <description>(depends on: /op-panel/ index3.php)</description>
                 </options>
             </menu_status_3>
         </elements>

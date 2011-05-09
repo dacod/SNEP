@@ -235,7 +235,7 @@ class Snep_Cnl {
         return $registros;
     }
 
-	public function getCidade($prefixo) {
+    public function getCidade($prefixo) {
 
 		$db = Zend_Registry::get('db');
 

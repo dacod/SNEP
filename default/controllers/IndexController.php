@@ -22,11 +22,11 @@ class IndexController extends Zend_Controller_Action {
                 $systemInfo['uptime'] = substr($uptimeRaw, 0, strpos($uptimeRaw, "min") + 3);
             } elseif (strpos($uptimeRaw, ":") > 0) {
                 $uptimeTmp = explode(":", $uptimeRaw);
-                $systemInfo['uptime'] = $uptimeTmp[0] . $this->view->translate(' hora(s), ') . $uptimeTmp[1] . $this->view->translate(' minutos');
+                $systemInfo['uptime'] = $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
             } else {
                 $systemInfo['uptime'] = substr($uptimeRaw, 0, strpos($uptimeRaw, "day")) . $this->view->translate(' dias, ');
                 $uptimeTmp = explode(":", $up[1]);
-                $systemInfo['uptime'].= $uptimeTmp[0] . $this->view->translate(' hora(s), ') . $uptimeTmp[1] . $this->view->translate(' minutos');
+                $systemInfo['uptime'].= $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
             }
             $systemInfo['uptime'] = trim($systemInfo['uptime']);
 

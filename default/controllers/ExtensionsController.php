@@ -334,7 +334,7 @@ class ExtensionsController extends Zend_Controller_Action {
         $resultGetId = $selectValidName->fetch();
 
         if ($resultGetId && !$update) {
-            return $this->view->translate('Ramal utilizado. Por favos, escolha outra denominação.');
+            return $this->view->translate('Extension already taken. Please, choose another denomination.');
         } else if ($update) {
             $idExt = $resultGetId['id'];
         }
@@ -371,10 +371,10 @@ class ExtensionsController extends Zend_Controller_Action {
             $khompBoard = $formData[$techType]['board'];
             $khompChannel = $formData[$techType]['channel'];
             if ($khompBoard == null || $khompBoard == '') {
-                return $this->view->translate('Selecione uma placa Khomp da lista');
+                return $this->view->translate('Select a Khomp board from the list');
             }
             if ($khompChannel == null || $khompChannel == '') {
-                return $this->view->translate('Selecione uma canal Khomp da lista');
+                return $this->view->translate('Select a Khomp channel from the list');
             }
             $channel .= "/b" . $khompBoard . 'c' . $khompChannel;
         } else if ($channel == "VIRTUAL") {
@@ -521,7 +521,7 @@ class ExtensionsController extends Zend_Controller_Action {
         $rules = array_merge($rules, $db->query($rulesQuery)->fetchAll());
 
         if (count($rules) > 0) {
-            $errMsg = $this->view->translate('As seguintes regras fazem uso desse ramal, modifique antes de excluir') . ":<br />\n";
+            $errMsg = $this->view->translate('The following routes use this extension, modify them prior to remove this extension') . ":<br />\n";
             foreach ($rules as $regra) {
                 $errMsg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
             }
@@ -543,8 +543,8 @@ class ExtensionsController extends Zend_Controller_Action {
             $db->commit();
         } catch (PDOException $e) {
             $db->rollBack();
-            $this->view->error = $this->view->translate("Erro ao excluir do BD: ") . $e->getMessage();
-            $this->view->back = $this->view->translate("Voltar");
+            $this->view->error = $this->view->translate("DB Delete Error: ") . $e->getMessage();
+            $this->view->back = $this->view->translate("Back");
             $this->_helper->viewRenderer('error');
         }
 
@@ -552,7 +552,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
         If ($return != true) {
             $this->view->error = $return;
-            $this->view->back = $this->view->translate("Voltar");
+            $this->view->back = $this->view->translate("Back");
             $this->_helper->viewRenderer('error');
         }
 

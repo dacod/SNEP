@@ -1,20 +1,20 @@
 <form enctype="multipart/form-data" action="<?php echo $this->formAction; ?>" method="post">
     <div class="zend_form" style="text-align:center; padding-top: 20px;">
-        <label for="cnl" class="optional"><?php echo $this->translate("Arquivo CNL"); ?></label>
+        <label for="cnl" class="optional"><?php echo $this->translate("CNL File"); ?></label>
         <input type="hidden" name="MAX_FILE_SIZE" value="2097152" id="MAX_FILE_SIZE">
         <input type="file" name="cnl" id="cnl">
         <?php if(!$this->valid): ?>
         <ul class="errors">
-            <li style="display:inline-block;"><?php echo $this->translate("Arquivo inválido."); ?></li>
+            <li style="display:inline-block;"><?php echo $this->translate("File is not valid"); ?></li>
         </ul>
         <?php endif; ?>
         <div class="menus" style="margin-top:15px; padding: 15px;">
-            <input type="submit" name="submit" id="submit" value="Salvar">
+            <input type="submit" name="submit" id="submit" value="Save">
         </div>
     </div>
 </form>
 
 <div align="center" id="frescura" style="display:none;">
     <img src="<?php echo $this->pathweb ?>/imagens/ajax-loader2.gif" width="256" height="24" /><br />
-    <?php echo $this->translate("Processando..."); ?>
+    <?php echo $this->translate("Please Wait..."); ?>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -19,24 +20,24 @@ class CnlController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configurações » Atualização CNL");
+        $this->view->breadcrumb = $this->view->translate("Configure » CNL Update");
 
         $config = Zend_Registry::get('config');
-        $this->view->pathweb =  $config->system->path->web;
-        
+        $this->view->pathweb = $config->system->path->web;
+
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . "/default/cnl/index");
         $this->view->formAction = $this->getFrontController()->getBaseUrl() . "/default/cnl/index";
 
         $element = new Zend_Form_Element_File('cnl');
-        $element->setLabel( $this->view->translate('Arquivo CNL') )
+        $element->setLabel($this->view->translate('CNL File'))
                 ->setDestination('/tmp/');
-        
+
         $element->addValidator('Extension', false, 'bz2');
         $element->removeDecorator('DtDdWrapper');
         $form->addElement($element, 'cnl');
 
-        $form->getElement("submit")->setLabel($this->view->translate("Enviar"));
+        $form->getElement("submit")->setLabel($this->view->translate("Save"));
 
         $form->setAttrib('enctype', 'multipart/form-data');
 
@@ -44,7 +45,7 @@ class CnlController extends Zend_Controller_Action {
         $this->view->valid = true;
 
         if ($this->_request->getPost()) {
-           
+
             $form_isValid = $form->isValid($_POST);
             $this->view->valid = $form_isValid;
 
@@ -54,7 +55,7 @@ class CnlController extends Zend_Controller_Action {
                 $adapter = new Zend_File_Transfer_Adapter_Http();
 
                 if (!$adapter->isValid()) {
-                    echo  $this->view->translate("Formato de arquivo invalido");
+                    echo $this->view->translate("File format is not valid");
                     exit;
                 } else {
                     $adapter->receive();
@@ -62,7 +63,7 @@ class CnlController extends Zend_Controller_Action {
                     $fileName = $adapter->getFileName();
                     exec("tar xjvf {$fileName} -C /tmp");
 
-                    $json = file_get_contents(substr($fileName,0,-8));
+                    $json = file_get_contents(substr($fileName, 0, -8));
                     $cnl = (Zend_Json_Decoder::decode($json, Zend_Json::TYPE_ARRAY));
 
                     $data = $cnl["operadoras"];
@@ -74,12 +75,11 @@ class CnlController extends Zend_Controller_Action {
                     Snep_Cnl::delOperadora();
 
                     foreach ($data as $carrier => $id) {
-
-                        Snep_Cnl::addOperadora($id,$carrier);
+                            Snep_Cnl::addOperadora($id, $carrier);
 
                     }
 
-                    foreach ($cnl as $data => $id ) {
+                    foreach ($cnl as $data => $id) {
 
                         foreach ($id as $state => $es) {
 
@@ -87,13 +87,12 @@ class CnlController extends Zend_Controller_Action {
 
                                 foreach ($d as $city => $pre) {
 
-                                    $cityId= Snep_Cnl::addCidade($city);
-                                    Snep_Cnl::addDDD($ddd,$state,$cityId);
+                                        $cityId = Snep_Cnl::addCidade($city);
+                                        Snep_Cnl::addDDD($ddd, $state, $cityId);
+
 
                                     foreach ($pre as $prefix => $op) {
-
-                                        Snep_Cnl::addPrefixo($prefix,$idCidade,$op);
-
+                                        Snep_Cnl::addPrefixo($prefix, $cityId, $op);
                                     }
                                 }
                             }
@@ -102,7 +101,6 @@ class CnlController extends Zend_Controller_Action {
 
                     $this->_forward('index', "cnl");
                 }
-                    
             }
         }
     }
