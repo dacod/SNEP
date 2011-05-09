@@ -93,10 +93,7 @@ class CnlController extends Zend_Controller_Action {
 
                 $adapter = new Zend_File_Transfer_Adapter_Http();
 
-                if (!$adapter->isValid()) {
-
-                    throw new ErrorException( $this->view->translate("File format is not valid") );
-                } else {
+                if ($adapter->isValid()) {
 
                     $adapter->receive();
 
@@ -137,9 +134,11 @@ class CnlController extends Zend_Controller_Action {
                             }
                         }
                     }
+                } else {
 
-                    $this->_forward('index', "cnl");
+                    throw new ErrorException( $this->view->translate("File format is not valid") );
                 }
+                $this->_forward('index', "cnl");
             }
         }
     }
