@@ -168,7 +168,6 @@ class CallsReportController extends Zend_Controller_Action {
 	}
 
     public function createAction() {
-
 		$my_object = new Formata;
 
         $formData = $this->_request->getParams();
@@ -368,6 +367,7 @@ class CallsReportController extends Zend_Controller_Action {
 			$CONDICAO .= " AND duration <= $duration2 " ;
 		}
 
+
 		/* Clausula do where:  Filtro de desccarte                                    */
 		$TMP_COND = "" ;
 		$dst_exceptions = explode(";", $dst_exceptions) ;
@@ -518,6 +518,7 @@ class CallsReportController extends Zend_Controller_Action {
 							$tot_ans[$key_dia] ++ ;
 						else 
 							$tot_ans ++ ;
+
 						$tot_bil += $val['billsec'] ;
 						$tot_dur += $val['duration'] ;
 						if ($view_tarif) {
@@ -663,9 +664,8 @@ class CallsReportController extends Zend_Controller_Action {
 			 }
          }
 
-
 	 	/* Define um SQL de Exibicao no Template, agrupado e com ctdor de agrupamentos */
-		$sql_chamadas = "SELECT count(userfield) as qtdade,".$SELECT." FROM cdr, ccustos $vinculo_table ";
+		$sql_chamadas = "SELECT @rn := @rn+1 as id, count(userfield) as qtdade,".$SELECT." FROM cdr, ccustos, (SELECT @rn := 0) as id $vinculo_table ";
    	 	$sql_chamadas .= " WHERE (cdr.accountcode = ccustos.codigo) AND $vinculo_where " . $CONDICAO;
 	 	$sql_chamadas .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
 
@@ -713,15 +713,16 @@ class CallsReportController extends Zend_Controller_Action {
 		}
 	
 		switch ($acao) {
-			case 'csv':
-				$this->csvAction();
-				break;
 			case 'relatorio':
 				$this->reportAction();
 				break;
-			case 'grafico':
-				//$this->graphAction();
+			/*case 'grafico':
+				$this->graphAction();
 				break;
+			case 'csv':
+				$this->csvAction();
+				break;
+			*/
 		}
     }
 
@@ -793,7 +794,6 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$this->view->back		  = $this->view->translate("Back");
 		
-		
 		$defaultNS = new Zend_Session_Namespace('call_sql');
 
         $this->view->breadcrumb   = $this->view->translate(" Reports » Calls ").
@@ -805,7 +805,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$this->view->tariffed     = $defaultNS->view_tarif;
 		$this->view->files		  = $defaultNS->view_files;
 		$this->view->status 	  = $defaultNS->status;
-			$this->view->compress_files = $this->view->translate("Compress selected files");
+		$this->view->compress_files = $this->view->translate("Compress selected files");
 
 		$this->view->duration_call	  =	$format->fmt_segundos(
 											array("a"=>$defaultNS->totais['duration'],"b"=>'hms')
@@ -887,18 +887,15 @@ class CallsReportController extends Zend_Controller_Action {
 			$paginator->setItemCountPerPage(Zend_Registry::get('config')->ambiente->linelimit);
 
 			$items = $paginator->getCurrentItems();
-
-			$this->view->pages 		= $paginator->getPages();
+			
+			$this->view->pages 	  = $paginator->getPages();
 
 			$this->view->PAGE_URL = "/snep/index.php/calls-report/report/";
+
 			$listItems = array();	
 	
 			// Format fields on page
-			$i = 0;
 			foreach ($items as $item) {
-				$i++;
-				$item['id']	= $i;
-
 				// Status
 				switch ($item['disposition']) {
 					case 'ANSWERED':
@@ -1006,12 +1003,13 @@ class CallsReportController extends Zend_Controller_Action {
 	}
 
 	public function compactAction() {
+
         $config = Zend_Registry::get('config');
 		$this->_helper->layout->disableLayout();
 
 		$zip 	  = new ZipArchive();
-
 		$path     = $config->ambiente->path_voz;
+
 		$fileName = date("d-m-Y-h-i").".zip";
 
 		$zip->open($path.$fileName, ZIPARCHIVE::CREATE);
@@ -1032,6 +1030,6 @@ class CallsReportController extends Zend_Controller_Action {
     public function csvAction() {
     }
 
-    protected function errorAction() {
+	public function errorAction() {
     }
 }
