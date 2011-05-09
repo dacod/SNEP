@@ -136,7 +136,10 @@ class CnlController extends Zend_Controller_Action {
                     }
                 } else {
 
-                    throw new ErrorException( $this->view->translate("File format is not valid") );
+                    if ($adapter->getFileName()) {
+
+                        throw new ErrorException( $this->view->translate("File format is not valid") );
+                    }
                 }
                 $this->_forward('index', "cnl");
             }
