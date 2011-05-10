@@ -104,9 +104,9 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(
-            array("url" => $baseUrl . "/extensions/multiadd",
+            /*array("url" => $baseUrl . "/extensions/multiadd",
                 "display" => $this->view->translate("Add Multiple Extensions"),
-                "css" => "includes"),
+                "css" => "includes"),*/
             array("url" => $baseUrl . "/extensions/add",
                 "display" => $this->view->translate("Add Extension"),
                 "css" => "include")
@@ -114,6 +114,7 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function addAction() {
+
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
             $this->view->translate("Extensions"),
@@ -326,6 +327,9 @@ class ExtensionsController extends Zend_Controller_Action {
 
     protected function execAdd($postData, $update = false) {
         $formData = $postData;
+
+        Zend_Debug::dump($formData);
+        die;
         $db = Zend_Registry::get('db');
 
         $exten = $formData["extension"]["exten"];
@@ -459,7 +463,14 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= ")";
         }
 
+        //Zend_Debug::dump($sql                                                                                                                                                                                   ) ;
+        //die;
         $stmt = $db->query($sql);
+
+        //Zend_Debug::dump($stmt);
+        //die;
+
+
         $idExten = $db->lastInsertId();
 
 
@@ -475,37 +486,6 @@ class ExtensionsController extends Zend_Controller_Action {
         }
 
         Snep_InterfaceConf::loadConfFromDb();
-    }
-
-    public function multiaddAction() {
-        //$this->__redirect("./ramais_varios.php");
-
-        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Multiple Extension");
-
-        $this->view->form = $this->getmultiaddForm();
-        if(!$this->view->all_writable) {
-            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
-        }
-        $this->view->boardData = $this->boardData;
-
-        if ($this->getRequest()->isPost()) {
-
-            if ($this->view->form->isValid($_POST)) {
-                $postData = $this->_request->getParams();
-
-                $ret = $this->execAdd($postData);
-
-                if (!is_string($ret)) {
-                    $this->_redirect('/extensions/');
-                } else {
-                    $this->view->error = $ret;
-                    $this->view->form->valid(false);
-                }
-            }
-        }
-
-        //$this->renderScript("extensions/add_edit.phtml");
-
     }
 
     public function deleteAction() {
@@ -619,6 +599,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $selectFill = $subFormKhomp->getElement('board');
             $selectFill->addMultiOption(null, ' ');
             // Monta informações para placas khomp
+
             $boardList = array();
 
             $khompInfo = new PBX_Khomp_Info();
@@ -646,5 +627,127 @@ class ExtensionsController extends Zend_Controller_Action {
         }
 
         return $this->form;
+    }
+
+    public function multiaddAction() {
+        //$this->__redirect("./ramais_varios.php");
+
+        $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Multiple Extension");
+
+        $this->view->form = $this->getmultiaddForm();
+        if(!$this->view->all_writable) {
+            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
+        }
+        $this->view->boardData = $this->boardData;
+
+        if ($this->getRequest()->isPost()) {
+
+            if ($this->view->form->isValid($_POST)) {
+
+                $postData = $this->_request->getParams();
+
+                $range = explode(";", $postData["extension"]["exten"]);
+
+                $dataForm = array();
+                $dataForm["controller"] = $postData["controller"];
+                $dataForm["action"] = $postData["action"];
+                $dataForm["module"] = $postData["module"];
+                $dataForm["extension"]["exten_group"] = $postData["extension"]["exten_group"];
+                $dataForm["extension"]["pickup_group"] = $postData["extension"]["pickup_group"];
+                $dataForm["technology"]["type"] = $postData["technology"]["type"];
+                $dataForm["sip"]["calllimit"] = "";
+                $dataForm["sip"]["nat"] = "no";
+                $dataForm["sip"]["qualify"] = "no";
+                $dataForm["sip"]["type"] = "peer";
+                $dataForm["sip"]["dtmf"] = $postData["sip"]["dtmf"];
+                $dataForm["sip"]["codec"] = $postData["sip"]["codec"];
+                $dataForm["sip"]["codec1"] = $postData["sip"]["codec1"];
+                $dataForm["sip"]["codec2"] = $postData["sip"]["codec2"];
+                $dataForm["iax2"]["calllimit"] = "";
+                $dataForm["iax2"]["nat"] = "no";
+                $dataForm["iax2"]["qualify"] = "no";
+                $dataForm["iax2"]["type"] = "peer";
+                $dataForm["iax2"]["dtmf"] = $postData["iax2"]["dtmf"];
+                $dataForm["iax2"]["codec"] = $postData["iax2"]["codec"];
+                $dataForm["iax2"]["codec1"] = $postData["iax2"]["codec1"];
+                $dataForm["iax2"]["codec2"] = $postData["iax2"]["codec2"];
+
+                if ( isset($postData["manual"]["manual"]) ) {
+
+                    $dataForm["manual"]["manual"] = $postData["manual"]["manual"];
+                } else {
+
+                    $dataForm["manual"]["manual"] = "1";
+                }
+
+                $dataForm["virtual"]["virtual"] = $postData["virtual"]["virtual"];
+
+                $dataForm["khomp"]["board"] = $postData["khomp"]["board"];
+
+                if ( isset($postData["advanced"]["voicemail"]) ) {
+
+                    $dataForm["advanced"]["voicemail"] = $postData["advanced"]["voicemail"];
+                } else {
+
+                    $dataForm["advanced"]["voicemail"] = "";
+                }
+
+                if ( isset($postData["advanced"]["email"]) ) {
+
+                    $dataForm["advanced"]["email"] = $postData["advanced"]["email"];
+                } else {
+
+                    $dataForm["advanced"]["email"] = "";
+                }
+
+                foreach ($range as $exten) {
+
+                    if ( is_numeric($exten)) {
+
+                        $dataForm["extension"]["exten"] = $exten;
+                        $dataForm["extension"]["password"] = $exten.$exten;
+                        $dataForm["extension"]["name"] = 'Ramal'.$exten.'<'.$exten.'>';
+                        $dataForm["sip"]["password"] = $exten;
+                        $dataForm["iax"]["password"] = $exten;
+                        
+                        $ret = $this->execAdd($dataForm);
+
+                        if (!is_string($ret)) {
+                            $this->_redirect('/extensions/');
+                        } else {
+                            $this->view->error = $ret;
+                            $this->view->form->valid(false);
+                        }
+
+                    } else {
+
+                        $exten = explode("-",$exten);
+
+                        foreach (range($exten[0], $exten[1]) as $exten) {
+
+                            $dataForm["id"] = $exten;
+                            $dataForm["extension"]["exten"] = $exten;
+                            $dataForm["extension"]["password"] = $exten.$exten;
+                            $dataForm["extension"]["name"] = 'Ramal'.$exten.'<'.$exten.'>';
+                            $dataForm["sip"]["password"] = $exten.$exten;
+                            $dataForm["iax2"]["password"] = $exten.$exten;
+
+                            //Zend_Debug::dump($dataForm);
+                            //die;
+                            $ret = $this->execAdd($dataForm);
+
+                            if (!is_string($ret)) {
+                                $this->_redirect('/extensions/');
+                            } else {
+                                $this->view->error = $ret;
+                                $this->view->form->valid(false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //$this->renderScript("extensions/add_edit.phtml");
     }
 }
