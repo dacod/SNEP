@@ -52,7 +52,7 @@ class Snep_Rest_Controller extends Zend_Controller_Action {
             default:
                 header("Content-Type: text/plain");
                 header("HTTP/1.1 405 Method Not Allowed");
-                echo "Method $method Not Allowed";
+                echo "Method '$method' Not Allowed";
                 exit(1);
         }
 
