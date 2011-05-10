@@ -98,7 +98,7 @@ class Snep_ContactGroups_Manager {
             $db->rollBack();
         }
     }
-
+   
     /**
      * Method to update a contact group data
      * @param int $id

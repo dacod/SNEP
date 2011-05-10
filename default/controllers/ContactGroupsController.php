@@ -95,22 +95,19 @@ class ContactGroupsController extends Zend_Controller_Action {
             $sql = "SELECT c.id as id, c.name as name, g.name as `group` FROM contacts_names as c, contacts_group as g  WHERE (c.group = g.id) ";
             $contacts_result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            display_error($LANG['error'] . $e->getMessage(), true);
         }
-        if (count($contacts_result) > 0) {
             $contact = array();
             foreach ($contacts_result as $key => $val) {
                 $contact[$val['id']] = $val['name'] . " (" . $val['group'] . ")";
             }
             $this->view->objSelectBox = "contacts";
             $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $contact, false);
-        }
 
         if ($this->_request->getPost()) {
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
-
-            $groupId = Snep_ContactGroups_Manager::add(array('group' => $dados['group']));
+             if($form_isValid){
+                    $groupId = Snep_ContactGroups_Manager::add(array('group' => $dados['group']));
 
             if ($dados['box_add']) {
                 foreach ($dados['box_add'] as $id => $idContact) {
@@ -118,6 +115,8 @@ class ContactGroupsController extends Zend_Controller_Action {
                 }
             }
             $this->_redirect($this->getRequest()->getControllerName());
+             }
+         
         }
 
         $this->view->form = $form;
@@ -144,7 +143,7 @@ class ContactGroupsController extends Zend_Controller_Action {
         foreach (Snep_ContactGroups_Manager::getGroupContacts($id) as $contact) {
             $groupContacts[$contact['id']] = "{$contact['name']} ({$contact['group']})";
         }
-        if (count($groupContacts) > 0) {
+
 
             $noGroupContacts = array();
             foreach (Snep_Contacts_Manager::getAll() as $contact) {
@@ -154,7 +153,6 @@ class ContactGroupsController extends Zend_Controller_Action {
             }
             $this->view->objSelectBox = "contacts";
             $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $noGroupContacts, $groupContacts);
-        }
 
         $hiddenId = new Zend_Form_Element_Hidden('id');
         $hiddenId->setValue($id);
@@ -164,15 +162,18 @@ class ContactGroupsController extends Zend_Controller_Action {
 
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
-
-            $groupId = Snep_ContactGroups_Manager::edit(array('group' => $dados['group'], 'id' => $dados['id']));
-
+            
+            if ($form_isValid){
+                $groupId = Snep_ContactGroups_Manager::edit(array('group' => $dados['group'], 'id' => $dados['id']));
             if ($dados['box_add']) {
                 foreach ($dados['box_add'] as $id => $idContact) {
                     Snep_ContactGroups_Manager::insertContactOnGroup($dados['id'], $idContact);
                 }
             }
             $this->_redirect($this->getRequest()->getControllerName());
+            }
+
+            
         }
 
         $this->view->form = $form;

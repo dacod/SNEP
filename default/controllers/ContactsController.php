@@ -25,7 +25,6 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Rafael Pereira Bozzetti
  */
-
 class ContactsController extends Zend_Controller_Action {
 
     /**
@@ -33,17 +32,17 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function indexAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Contacts")
-        ));
-        $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts")
+                ));
+        $this->view->url = $this->getFrontController()->getBaseUrl() . "/" . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                        ->from( array("n" => "contacts_names"), array("id as ide", "name as nome", "city", "state", "cep", "phone_1", "cell_1"))
-                        ->join( array("g" => "contacts_group"), 'n.group = g.id')
-                        ->order('nome');
-                 
+                ->from(array("n" => "contacts_names"), array("id as ide", "name as nome", "city", "state", "cep", "phone_1", "cell_1"))
+                ->join(array("g" => "contacts_group"), 'n.group = g.id')
+                ->order('nome');
+
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
@@ -63,12 +62,12 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name"    => $this->view->translate("Name"),
-                        "city"    => $this->view->translate("City"),
-                        "state"   => $this->view->translate("State"),
-                        "cep"     => $this->view->translate("ZIP Code"),
-                        "phone_1" => $this->view->translate("Phone"),
-                        "cell_1"  => $this->view->translate("Cellphone"));
+        $opcoes = array("name" => $this->view->translate("Name"),
+            "city" => $this->view->translate("City"),
+            "state" => $this->view->translate("State"),
+            "cep" => $this->view->translate("ZIP Code"),
+            "phone_1" => $this->view->translate("Phone"),
+            "cell_1" => $this->view->translate("Cellphone"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -79,11 +78,11 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                                          "display" => $this->view->translate("Add Contact"),
-                                          "css" => "include"),
-                                    array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/import/",
-                                          "display" => $this->view->translate("Import CSV"),
-                                          "css" => "includes")
+                "display" => $this->view->translate("Add Contact"),
+                "css" => "include"),
+            array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/import/",
+                "display" => $this->view->translate("Import CSV"),
+                "css" => "includes")
         );
     }
 
@@ -92,51 +91,53 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function addAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Contacts"),
-            $this->view->translate("Add")
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Add")
+                ));
 
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/contacts.xml" ) );
+        $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
 
-        $form->getElement('id')->setValue( Snep_Contacts_Manager::getLastId() );
+        $form->getElement('id')->setValue(Snep_Contacts_Manager::getLastId());
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();
-        foreach($_allGroups as $group) {            
-                $allGroups[$group['id']] = $group['name'];            
+        foreach ($_allGroups as $group) {
+            $allGroups[$group['id']] = $group['name'];
         }
 
-        if(count($_allGroups)) {
-            $form->getElement('group')->setMultiOptions( $allGroups );
+        if (count($_allGroups)) {
+            $form->getElement('group')->setMultiOptions($allGroups);
         }
 
-        if($this->_request->getPost()) {
+        if ($this->_request->getPost()) {
 
-                if( empty( $_POST['cell']) ) {
-                    $form->getElement('phone')->setRequired(true);
-                }
-                if( empty( $_POST['phone']) ) {
-                    $form->getElement('cell')->setRequired(true);
-                }
+            if (empty($_POST['cell'])) {
+                $form->getElement('phone')->setRequired(true);
+            }
+            if (empty($_POST['phone'])) {
+                $form->getElement('cell')->setRequired(true);
+            }
 
-                $form_isValid = $form->isValid($_POST);
+            $form_isValid = $form->isValid($_POST);
 
-                if( empty( $_POST['group'] ) ) {
-                    $form->getElement('group')->addError($this->view->translate('No group selected'));
-                    $form_isValid = false;
-                }
-                if( Snep_Contacts_Manager::get( $_POST['id'] ) ) {
-                    $form->getElement('id')->addError( $this->view->translate('Code already exists') );
-                }
+            if (empty($_POST['group'])) {
+                $form->getElement('group')->addError($this->view->translate('No group selected'));
+                $form_isValid = false;
+            }
+            if (Snep_Contacts_Manager::get($_POST['id'])) {
+                $form->getElement('id')->addError($this->view->translate('Code already exists'));
+                $form_isValid = false;
+            }
 
-                $dados = $this->_request->getParams();
+            $dados = $this->_request->getParams();
 
-                if($form_isValid) {
-                    Snep_Contacts_Manager::add($dados);
-                    $this->_redirect( $this->getRequest()->getControllerName() );
-                }
+
+            if ($form_isValid) {
+                Snep_Contacts_Manager::add($dados);
+                $this->_redirect($this->getRequest()->getControllerName());
+            }
         }
-        
+
         $this->view->form = $form;
     }
 
@@ -145,28 +146,28 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function editAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Contacts"),
-            $this->view->translate("Edit")
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Edit")
+                ));
 
         $id = $this->_request->getParam('id');
 
         $contact = Snep_Contacts_Manager::get($id);
-        
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/contacts.xml" ) );
 
-        $form->getElement('id')->setValue( $contact['id'] )->setAttrib('readonly', true);
-        $form->getElement('name')->setValue( $contact['name'] );
+        $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
+
+        $form->getElement('id')->setValue($contact['id'])->setAttrib('readonly', true);
+        $form->getElement('name')->setValue($contact['name']);
 
         $_allGroups = Snep_ContactGroups_Manager::getAll();
-        foreach($_allGroups as $group) {
-                $allGroups[$group['id']] = $group['name'];
+        foreach ($_allGroups as $group) {
+            $allGroups[$group['id']] = $group['name'];
         }
 
-        $group = $form->getElement('group')->setMultiOptions( $allGroups );
+        $group = $form->getElement('group')->setMultiOptions($allGroups);
         ( isset($contact['group']) ? $group->setValue($contact['group']) : null );
-        
+
         $address = $form->getElement('address');
         ( isset($contact['address']) ? $address->setValue($contact['address']) : null );
 
@@ -185,15 +186,15 @@ class ContactsController extends Zend_Controller_Action {
         $cell = $form->getElement('cell');
         ( isset($contact['cell_1']) ? $cell->setValue($contact['cell_1']) : null );
 
-        if($this->_request->getPost()) {
-                $form_isValid = $form->isValid($_POST);
-                $dados = $this->_request->getParams();
+        if ($this->_request->getPost()) {
+            $form_isValid = $form->isValid($_POST);
+            $dados = $this->_request->getParams();
 
-                if($form_isValid) {
-                    
-                    Snep_Contacts_Manager::edit($dados);
-                    $this->_redirect( $this->getRequest()->getControllerName() );
-                }
+            if ($form_isValid) {
+
+                Snep_Contacts_Manager::edit($dados);
+                $this->_redirect($this->getRequest()->getControllerName());
+            }
         }
         $this->view->form = $form;
     }
@@ -202,29 +203,28 @@ class ContactsController extends Zend_Controller_Action {
      * Remove a Contact
      */
     public function removeAction() {
-       $id = $this->_request->getParam('id');
+        $id = $this->_request->getParam('id');
 
-       Snep_Contacts_Manager::remove($id);
-       $this->_redirect( $this->getRequest()->getControllerName() );
-
+        Snep_Contacts_Manager::remove($id);
+        $this->_redirect($this->getRequest()->getControllerName());
     }
 
     /**
      * Import contacts from CSV file
      */
     public function importAction() {
-       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Contacts"),
-            $this->view->translate("Import CSV")
-        ));
-       $this->view->message = $this->view->translate("The file must be separated by commas. Header is optional and columns can be associated in the next screen.");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Import CSV")
+                ));
+        $this->view->message = $this->view->translate("The file must be separated by commas. Header is optional and columns can be associated in the next screen.");
 
-       $form = new Snep_Form();
-       $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/csv/');
-       $form->addElement( new Zend_Form_Element_File('file') );
+        $form = new Snep_Form();
+        $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/csv/');
+        $form->addElement(new Zend_Form_Element_File('file'));
 
-       $this->view->form = $form;
+        $this->view->form = $form;
     }
 
     /**
@@ -232,18 +232,17 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function csvAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Contacts"),
-            $this->view->translate("Import CSV"),
-            $this->view->translate("Column Association"),
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Import CSV"),
+                    $this->view->translate("Column Association"),
+                ));
         $adapter = new Zend_File_Transfer_Adapter_Http();
 
-        $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
+        $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         if (!$adapter->isValid()) {
             $this->view->invalid = true;
-
         } else {
 
             $this->view->invalid = false;
@@ -264,8 +263,9 @@ class ContactsController extends Zend_Controller_Action {
                 if (strpos($line, ",")) {
                     $row = explode(",", preg_replace("/[^a-zA-Z0-9,\._\*#]/", "", $line));
 
+
                     if (count($row) != $column_count) {
-                        throw new ErrorException( $this->view->translate("Invalid column count on line %d", $row_number));
+                        throw new ErrorException($this->view->translate("Invalid column count on line %d", $row_number));
                     }
                     $csv[] = $row;
                     $row_number++;
@@ -274,31 +274,30 @@ class ContactsController extends Zend_Controller_Action {
             fclose($handle);
 
             $standard_fields = array("discard" => $this->view->translate("Discard"),
-                                     "name"    => $this->view->translate("Name"),
-                                     "address" => $this->view->translate("Address"),
-                                     "city"    => $this->view->translate("City"),
-                                     "state"   => $this->view->translate("State"),
-                                     "zipcode" => $this->view->translate("Zip Code"),
-                                     "phone" =>   $this->view->translate("Phone"),
-                                     "cell"  =>   $this->view->translate("Cellphone") );
+                "name" => $this->view->translate("Name"),
+                "address" => $this->view->translate("Address"),
+                "city" => $this->view->translate("City"),
+                "state" => $this->view->translate("State"),
+                "zipcode" => $this->view->translate("Zip Code"),
+                "phone" => $this->view->translate("Phone"),
+                "cell" => $this->view->translate("Cellphone"));
 
             $session = new Zend_Session_Namespace('csv');
             $session->data = $csv;
 
-            $_groups = Snep_ContactGroups_Manager::getAll();            
-            foreach($_groups as $group) {
+            $_groups = Snep_ContactGroups_Manager::getAll();
+            foreach ($_groups as $group) {
                 $groups[$group['id']] = $group['name'];
             }
 
-            if( ! count($_groups) > 0) {
+            if (!count($_groups) > 0) {
                 $this->view->error = $this->view->translate('There is no contacts group registered.');
             }
 
             $this->view->csvprocess = array_slice($csv, 0, 10);
             $this->view->fields = $standard_fields;
-            ( isset($groups) ? $this->view->group = $groups : $this->view->group = false) ;
+            ( isset($groups) ? $this->view->group = $groups : $this->view->group = false);
         }
-
     }
 
     /**
@@ -309,35 +308,37 @@ class ContactsController extends Zend_Controller_Action {
             $session = new Zend_Session_Namespace('csv');
             $fields = $_POST['field'];
             $skipped = false;
+            $validateEmpty = new Zend_Validate_NotEmpty();
+            $validateAlnum = new Zend_Validate_Alnum();
 
             foreach ($session->data as $contact) {
 
-                if(isset($_POST['discard_first_row']) && $_POST['discard_first_row'] == "on" && $skipped == false) {
+                if (isset($_POST['discard_first_row']) && $_POST['discard_first_row'] == "on" && $skipped == false) {
                     $skipped = true;
                     continue;
                 }
                 $contactData = array("discard" => "",
-                                     "name"    => "",
-                                     "address" => "",
-                                     "city"    => "",
-                                     "state"   => "",
-                                     "zipcode" => "",
-                                     "phone"   => "",
-                                     "cell"    => "");
-                
+                    "name" => "",
+                    "address" => "",
+                    "city" => "",
+                    "state" => "",
+                    "zipcode" => "",
+                    "phone" => "",
+                    "cell" => "");
+
                 foreach ($contact as $column => $data) {
                     if ($fields[$column] != "discard") {
-                            $contactData[$fields[$column]] = $data;
+                        $contactData[$fields[$column]] = $data;
                     }
                 }
-                
-                $contactData['group'] = $_POST['group'];                
+
+                $contactData['group'] = $_POST['group'];
                 $contactData['id'] = Snep_Contacts_Manager::getLastId();
-        
+
                 Snep_Contacts_Manager::add($contactData);
-                
             }
         }
-        $this->_redirect( $this->getRequest()->getControllerName() );
+        $this->_redirect($this->getRequest()->getControllerName());
     }
+
 }

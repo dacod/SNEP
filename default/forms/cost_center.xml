@@ -6,7 +6,7 @@
         <options>
             <label>Code</label>
             <required>true</required>
-            <description>Numbers only</description>
+            <description>Numbers separated by ( . ). EX: 5.04</description>
             <validators>
                 <regex>
                     <validator>regex</validator>

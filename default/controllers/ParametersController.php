@@ -132,15 +132,6 @@ class ParametersController extends Zend_Controller_Action {
         $pathVoiceBkp->setValue($config->ambiente->path_voz_bkp);
         $form->addSubForm($recording, "gravacao");
 
-        // Section Extensions
-        $peers = new Snep_Form_SubForm($this->view->translate("Extensions and Agents Configuration"), $form_xml->extensions);
-
-        // Setting propoertie values
-        $peersRange = $peers->getElement('peers_range');
-        $peersRange->setValue($config->canais->peers_range);
-
-        $form->addSubForm($peers, "ramais");
-
         // Section Trunks
         $trunks = new Snep_Form_SubForm($this->view->translate("Trunks Configuration"), $form_xml->trunks);
 
@@ -189,8 +180,6 @@ class ParametersController extends Zend_Controller_Action {
 
                 $config->ambiente->path_voz = $formData['gravacao']['path_voz'];
                 $config->ambiente->path_voz_bkp = $formData['gravacao']['path_voz_bkp'];
-
-                $config->canais->peers_range = $formData['ramais']['peers_range'];
 
                 $config->ambiente->valor_controle_qualidade = $formData['troncos']['valor_controle_qualidade'];
 

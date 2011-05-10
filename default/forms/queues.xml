@@ -187,12 +187,34 @@
                     <label>Maximum wait time</label>
                      <value>1</value>
                     <description>in seconds</description>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </tmeMail>
             <nmlMail>
                 <type>text</type>
                 <options>
                     <label>Maximum number waiting</label>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </nmlMail>
             <checkSound>
@@ -208,12 +230,34 @@
                     <label>Maximum wait time</label>
                     <value>1</value>
                     <description>in seconds</description>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </tmeSound>
             <nmlSound>
                 <type>text</type>
                 <options>
                     <label>Maximum number waiting</label>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </nmlSound>
             <checkVisual>
@@ -229,12 +273,34 @@
                     <label>Maximum wait time</label>
                      <value>1</value>
                     <description>in seconds</description>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </tmeVisual>
             <nmlVisual>
                 <type>text</type>
                 <options>
                     <label>Maximum number waiting</label>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
+                                </messages>
+                            </options>
+                        </regex>
+                    </validators>
                 </options>
             </nmlVisual>
         </elements>

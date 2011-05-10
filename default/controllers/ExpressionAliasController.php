@@ -91,7 +91,6 @@ class ExpressionAliasController extends Zend_Controller_Action {
                 $this->view->dataExprAlias = $expr;
                 $form = $this->getForm();
                 $form->getElement('name')->setValue($_POST['name']);
-                $form->getElement('cancel')->setAttrib('onclick', "location.href='../expression-alias/'");
                 
             } catch (Exception $ex) {
                 throw new PBX_Exception_BadArg("Invalid Argument");
