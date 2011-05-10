@@ -470,7 +470,7 @@ class CallsReportController extends Zend_Controller_Action {
             $sql_ctds = "SELECT ".$SELECT." FROM cdr, ccustos $vinculo_table ";
             $sql_ctds .= " WHERE (cdr.accountcode = ccustos.codigo) AND $vinculo_where " . $CONDICAO ;
             $sql_ctds .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
-            $sql_ctds .= " ORDER BY calldate, userfield" ;
+            $sql_ctds .= " GROUP BY userfield ORDER BY calldate, userfield" ;
 
             if ($acao == "grafico") {
                 $tot_fai = $tot_bus = $tot_ans = $tot_noa = $tot_oth = array();
@@ -485,8 +485,10 @@ class CallsReportController extends Zend_Controller_Action {
 			unset($result);
 
 		    foreach ($db->query($sql_ctds) as $row) {
+
 				/* Incializa array se tipo = grafico                                   */
 				$key_dia = $row['key_dia'] ;
+
 				if ($acao == "grafico") {
 					$tot_dias[$key_dia] = $key_dia ;
 					$tot_ans[$key_dia] = (!array_key_exists($key_dia,$tot_ans)) ? 0 : $tot_ans[$key_dia];
@@ -509,6 +511,10 @@ class CallsReportController extends Zend_Controller_Action {
 					$result[$row['uniqueid']] = $row ;
 					continue ;
 				}
+				if ($row['uniqueid'] == '') {
+					continue;
+				}
+
 
 				/* Varre o array da chamada com mesmo userfield                        */
 				foreach ($result as $val) {
@@ -665,7 +671,7 @@ class CallsReportController extends Zend_Controller_Action {
          }
 
 	 	/* Define um SQL de Exibicao no Template, agrupado e com ctdor de agrupamentos */
-		$sql_chamadas = "SELECT @rn := @rn+1 as id, count(userfield) as qtdade,".$SELECT." FROM cdr, ccustos, (SELECT @rn := 0) as id $vinculo_table ";
+		$sql_chamadas = "SELECT count(userfield) as qtdade,".$SELECT." FROM cdr, ccustos $vinculo_table ";
    	 	$sql_chamadas .= " WHERE (cdr.accountcode = ccustos.codigo) AND $vinculo_where " . $CONDICAO;
 	 	$sql_chamadas .= ($ramaissrc === null ? '' : $ramaissrc) . ($ramaisdst === null ? '' : $ramaisdst);
 
@@ -704,7 +710,14 @@ class CallsReportController extends Zend_Controller_Action {
 									"<br>Period: ".$dia_ini." (".$hora_ini.") - ".$dia_fim." (".$hora_fim.")
 								");
 
-		$defaultNS->row		  = $db->query($sql_chamadas)->fetchAll();
+		$row		  		    = $db->query($sql_chamadas)->fetchAll();
+
+
+		for ($i = 0; $i <= count($row)-1; $i++) {
+			$row[$i]['id'] = $i+1;
+		}
+
+		$defaultNS->row 	= $row;
 
 		if (count($defaultNS->row) == 0) {
 			 $this->view->error = $this->view->translate("No entries found!");
@@ -877,6 +890,7 @@ class CallsReportController extends Zend_Controller_Action {
 			}
 
 			$this->renderScript('calls-report/synthetic-report.phtml');
+
 		} else {
 
 			// Analytical Report 
@@ -894,8 +908,8 @@ class CallsReportController extends Zend_Controller_Action {
 
 			$listItems = array();	
 	
-			// Format fields on page
 			foreach ($items as $item) {
+
 				// Status
 				switch ($item['disposition']) {
 					case 'ANSWERED':
@@ -914,6 +928,7 @@ class CallsReportController extends Zend_Controller_Action {
 						$item['disposition'] =  $this->view->translate('Others');
 						break;
 				}
+
 				// Search for a city or format the telephone type
 				if (strlen($item['src']) > 7 && strlen($item['dst']) < 5) {
 					$item['city'] = $this->telType($item['src']);
@@ -922,6 +937,7 @@ class CallsReportController extends Zend_Controller_Action {
 				}
 
 				$item['nome'] = $item['tipo']." : ".$item['codigo']." - ".$item['nome'];
+
 				if ($defaultNS->view_tarif) {
 					 $item['rate'] = $format->fmt_tarifa(array("a"=>$item['dst'],
 										  "b"=>$item['billsec'], 
@@ -962,17 +978,14 @@ class CallsReportController extends Zend_Controller_Action {
 
 	private function telType($telefone) {
 		$prefixo = 0;	
-      	if (strlen($telefone)==6) {
+      	if (strlen($telefone)==6)
          	$prefixo = $telefone;
-		} elseif (strlen($telefone) > 6) {
+		elseif (strlen($telefone) > 6) {
          	$prefixo = substr($telefone,0,strlen($telefone)-4) ;
-
-			if (strlen($prefixo) > 6) {
+			if (strlen($prefixo) > 6) 
    	        	$prefixo=substr($prefixo,-6) ;
-      		} else {
-         		$prefixo = $telefone ;
-			}
-		}
+		} else
+			$prefixo = $telefone ;
 
       	if (!is_numeric($prefixo)) {
          	$cidade = $this->view->translate('Unknown');
