@@ -5,41 +5,25 @@
             <init_day>
                 <type>text</type>
                 <options>
-                    <label>From:</label>
+                    <label>Period from:</label>
                     <required>true</required>
-                    <description>dd/mm/YYYY</description>
+                    <description>dd/mm/YYYY hh:mm</description>
                 </options>
             </init_day>
-            <init_hour>
-                <type>text</type>
-                <options>
-                    <label>mm:hh</label>
-				    <value>00:00</value>
-                    <required></required>
-                </options>
-            </init_hour>
 
             <end_day>
                 <type>text</type>
                 <options>
                     <required>true</required>
                     <label>To:</label>                    
-                    <description>dd/mm/YYYY</description>
+                    <description>dd/mm/YYYY hh:mm</description>
                 </options>
             </end_day>
- 
-            <end_hour>
-                <type>text</type>
-                <options>
-                    <label>mm:hh</label>
-		    <value>23:59</value>
-                </options>
-            </end_hour>
-
 	    <status>
 		<type>MultiCheckbox</type>
 		<options>
-                                <checked>checked</checked>
+                    <label>Status</label>
+                    <checked>checked</checked>
 		   <separator></separator>
 	           <multioptions>
 			   <ALERT>Warning</ALERT>
