@@ -10,28 +10,31 @@ echo $this->render('filter.phtml');
    <thead>
       <tr>
          <th class="numeric"> 
-            <?php echo $this->translate('Operadora') ?>
+            <?php echo $this->translate('Carrier') ?>
          </th>
          <th> 
-            <?php echo $this->translate('País') ?>
+            <?php echo $this->translate('Country') ?>
          </th>
          <th>
-            <?php echo $this->translate('Estado') ?>
+            <?php echo $this->translate('State') ?>
          </th>
          <th>
-            <?php echo $this->translate('Cidade') ?>
+            <?php echo $this->translate('City') ?>
          </th>
          <th>
-            <?php echo $this->translate('Prefixo') ?>
+            <?php echo $this->translate('City Code') ?>
+         </th>
+         <th>
+            <?php echo $this->translate('Prefix') ?>
+         </th>
+          <th width="15%">
+            <?php echo $this->translate('Starts from') ?>
          </th>
           <th>
-            <?php echo $this->translate('Valida à partir de') ?>
+            <?php echo $this->translate('Minute Fee for Mobile') ?>
          </th>
           <th>
-            <?php echo $this->translate('Tarifa base celular') ?>
-         </th>
-          <th>
-            <?php echo $this->translate('Tarifa base telefone') ?>
+            <?php echo $this->translate('Minute Fee for Residencial') ?>
          </th>
          <th colspan="2" class="action"> 
             <?php echo $this->translate('Actions') ?>
@@ -40,7 +43,6 @@ echo $this->render('filter.phtml');
    </thead>
    <tbody>
     <?php
-
     $c = 0;
     if($this->billing):
             
@@ -64,6 +66,9 @@ echo $this->render('filter.phtml');
                 </td>
                 <td>
                         <?php echo $billing['cidade'] ?>
+                </td>
+                <td>
+                        <?php echo $billing['ddd'] ?>
                 </td>
                 <td>
                         <?php echo $billing['prefixo'] ?>

@@ -4,104 +4,152 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/functions_smarty.js');
 $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
 ?>
-<div class="zend_form workaround">
+<div class="snep_form workaround ">
+<?php if( $this->message ) : ?>
+            <div class="error_box"> <?php echo $this->message  ?> </div>
+<?php endif ?>
 
-<form name="formulario"  method="POST" action="<?php echo $this->url . "/add/" ?>" onsubmit="return check_form();">
+
+<form name="formulario"  method="POST" action="<?php echo $this->url . "/add/" ?>" >
 
 <table cellspacing="0" align="center">
    <tr>
       <td valign="top">          
          <table class="subtable" style="width: 350px;">
             <tr>
-               <td class="formlabel" width="130px"> <?php echo $this->translate("Operadora") ?> </td>
+                <td class="formlabel" width="150px" style="vertical-align:top;">
+                    <label class="required"> <?php echo $this->translate("Carrier") ?> :</label>
+                </td>
                <td class="subtable" >
 
                   <input type="hidden" name="data" id="data" value="<?php echo Zend_Date::now() ?>" />
 
-                  <select name="operadora" id="operadora">
+                  <select name="operadora" id="operadora" style="width:220px;">
                      <?php if($this->carriers): ?>
                          <?php foreach ( $this->carriers as $idCarrier => $carrier ) : ?>
-                            <?php echo "<option value=\"$idCarrier\">" . $carrier; ?>
+                            <?php if( isset($this->dados['operadora']) ) : ?>
+                                <?php if( $idCarrier == $this->dados['operadora'] ) : ?>
+                                    <option selected=selected value="<?php echo $idCarrier ?>"> <?php echo  $carrier ?>
+                                 <?php else : ?>
+                                    <option value="<?php echo $idCarrier ?>"> <?php echo  $carrier ?>
+                               <?php  endif ?>
+                            <?php else : ?>
+                                    <option value="<?php echo $idCarrier ?>">  <?php echo $carrier ?>
+                            <?php endif ?>
                          <?php endforeach ?>
                      <?php endif ?>
                   </select>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"><?php echo $this->translate("País") ?>:</td>
+               <td class="formlabel"  style="vertical-align:top;">
+                   <label class="required"> <?php echo $this->translate("Country") ?>:</label>
+               </td>
                <td class="subtable" >
-                   <select id="pais" name="pais">
+                   <select id="pais" name="pais"  style="width:220px;">
                        <option value="BRASIL">BRASIL
                    </select>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Estado") ?>:</td>
+               <td class="formlabel"  style="vertical-align:top;">
+                    <label class="required">  <?php echo $this->translate("State") ?>:</label>
+               </td>
                <td class="subtable" >
-                  <select onchange="cidades(this.value)" name="estado" id="estado">
+                  <select onchange="cidades(this.value)" name="estado" id="estado"  style="width:220px;">
                      <?php if($this->states): ?>
                          <?php foreach ( $this->states as $idState => $state ) : ?>
-                            <?php echo "<option value=\"$idState\">" . $state; ?>
+                            <?php if( isset($this->dados['estado']) ) : ?>
+                                <?php if( $idState == $this->dados['estado'] ) : ?>
+                                    <option selected=selected value="<?php echo $idState ?>"> <?php echo  $state ?>
+                                 <?php else : ?>
+                                    <option value="<?php echo $idState ?>"> <?php echo $state ?>
+                               <?php  endif ?>
+                            <?php else : ?>
+                                    <option value="<?php echo $idState ?>"> <?php echo $state ?>
+                            <?php endif ?>
                          <?php endforeach ?>
                      <?php endif ?>
-                  </select>  *                  
+                  </select>             
                   <div class="waiting" id="wait_estado" style="display:none;">
 
                   </div>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Cidade") ?>:</td>
+               <td class="formlabel"  style="vertical-align:top;">
+               <label class="required">  <?php echo $this->translate("City") ?>:</label>
+               </td>
                <td class="subtable" >
-                    <select name="cidade" id="cidade" > </select> *
+                    <select name="cidade" id="cidade"  style="width:220px;" >
+                         <?php if( $this->cities ): ?>
+                             <?php foreach ( $this->cities as $idCity => $city ) : ?>
+                                <?php echo "<option value=\"$idCity\">" . $city; ?>
+                             <?php endforeach ?>
+                         <?php endif ?>
+                    </select>
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Code País") ?> :</td>
-               <td class="subtable" >
-                  <input name="ddi" id="ddi" type="text" size="3" maxlength="4" value="55" /> *
+               <td class="formlabel"  style="vertical-align:top;">
+                     <label class="required">  <?php echo $this->translate("Country Code") ?>:</label>
+               </td>
+               <td class="subtable"  style="vertical-align:top;" >
+                  <input name="ddi" id="ddi" type="text" size="5" maxlength="4" value="55" />
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Code Cidade") ?> :</td>
+               <td class="formlabel"  style="vertical-align:top;">
+                     <label class="required">  <?php echo $this->translate("City Code") ?>:</label>
+               </td>
                <td class="subtable" >
-                  <input name="ddd" id="ddd" type="text" size="2" maxlength="3" /> *
+                  <input name="ddd" id="ddd" type="text" value="<?php echo ( isset($this->dados['ddd'] ) ?  $this->dados['ddd'] : "" ) ?>" size="5" maxlength="2" />
+                  <?php if ( isset( $this->error['ddd'] ) ) :  ?>
+                      <ul class="errors">
+                          <li>
+                            <?php echo $this->error['ddd']; ?>
+                          </li>
+                      </ul>
+                  <?php endif ?>
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Prefixo") ?> :</td>
+               <td class="formlabel"  style="vertical-align:top;">
+                    <label class="required">  <?php echo $this->translate("Prefix") ?>:</label>
+               </td>
                <td class="subtable" >
-                  <input name="prefixo" id="prefixo" type="text" size="3" maxlength="4" /> *
+                  <input name="prefixo" id="prefixo" type="text" value="<?php echo ( isset($this->dados['prefixo'] ) ?  $this->dados['prefixo'] : "" ) ?>" size="5" maxlength="4" />
+                  <?php if ( isset( $this->error['prefixo'] ) ) :  ?>
+                       <ul class="errors">
+                           <li>
+                             <?php echo $this->error['prefixo']; ?>
+                           </li>
+                       </ul>
+                  <?php endif ?>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Tarifa Base Fixo") ?>:</td>
+               <td class="formlabel"> <?php echo $this->translate("Minute Fee for Residencial") ?>:</td>
                <td class="subtable" >
-                  <input name="vfix" id="vfix" class="campos" type="text" size="5"  value="0"  style="text-align: right;" /> 
-                  <small> <?php echo $this->translate("Use . (ponto) p/ decimais)"); ?> </small>
+                  <input name="vfix" id="vfix" class="campos" type="text" value="<?php echo ( isset($this->dados['vfix'] ) ?  $this->dados['vfix'] : "" ) ?>" size="5"  value="0"  style="text-align: right;" />
+                  <small> <?php echo $this->translate("Use dot for decimal"); ?> </small>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Tarifa Base Celular") ?>:</td>
+               <td class="formlabel"> <?php echo $this->translate("Minute Fee for Mobile") ?>:</td>
                <td class="subtable" >
-                  <input name="vcel" id="vcel" class="campos" type="text" size="5"  value="0" style="text-align: right;" />
-                  <small> <?php echo $this->translate("Use . (ponto) p/ decimais)"); ?> </small>
+                  <input name="vcel" id="vcel" class="campos" value="<?php echo ( isset($this->dados['vcel'] ) ?  $this->dados['vcel'] : "" ) ?>" type="text" size="5"  value="0" style="text-align: right;" />
+                  <small> <?php echo $this->translate("Use dot for decimal"); ?> </small>
                </td>
             </tr>
 
-            <tr>
-               <td colspan="2" class="subtable">
-                 <br />
-                 * <?php echo $this->translate('Campos Obrigatórios');  ?>
-               </td>
-            </tr>
          </table>
       </td>
       <td valign="top">
-          <ul> <b> <?php echo $this->translate("Regras Gerais");?></b>
+          <ul> <b> <?php echo $this->translate("General Rules");?></b>
             <li>
                 <?php echo $this->translate("Os valores PADRÃO (fixo e celular) para cada Operadora é informado no cadastro da Operadora."); ?>
             </li>
@@ -111,16 +159,16 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
             <li>
                 <ul>
                     <li>
-                        <strong><?php echo $this->translate('Estado'); ?>:</strong> <i>---</i>
+                        <strong><?php echo $this->translate('State'); ?>:</strong> <i>---</i>
                     </li>
                     <li>
-                        <strong><?php echo $this->translate('Cidade'); ?>:</strong> <i><?php echo $this->translate('Selecionar'); ?></i>
+                        <strong><?php echo $this->translate('City'); ?>:</strong> <i><?php echo $this->translate('Selecionar'); ?></i>
                     </li>
                     <li>
-                        <strong><?php echo $this->translate('DDD'); ?>:</strong> <i> 0 </i>
+                        <strong><?php echo $this->translate('City Code'); ?>:</strong> <i> 0 </i>
                     </li>
                     <li>
-                        <strong><?php echo $this->translate('Prefixo'); ?>:</strong> <i>0000</i>
+                        <strong><?php echo $this->translate('Prefix'); ?>:</strong> <i>0000</i>
                     </li>
                 </ul>
             </li>
@@ -160,10 +208,12 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 </table>
 
 <div class="menus">
+    <div style="margin:0 auto; width: 200px;padding: 10px;">
          <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Salvar"); ?>">
-         <button name="buttom" id="buttom" type="button" onclick="location.href='javascript:history.back();'">
+         <button name="buttom" id="buttom" type="button" onclick="location.href=' <?php echo $this->url ?>'">
              <?php echo $this->translate("Cancelar");?>
          </button>
+    </div>
 </div>
 
 </form>
@@ -171,45 +221,11 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 
 <script language="javascript" type="text/javascript">
 
- function check_form() {
-
-    ret  = false;
-
-    if($F('ddi')) {
-        if ( $F('ddi').match(/^\d+$/) || $F('ddi').length != 0) {
-                ret = true;
-        }
-    }
-    if($F('ddd')) {
-        if ( $F('ddd').match(/^\d+$/) || $F('ddd').length != 0) {
-                ret = true;
-        }
-    }
-    if( $F('estado') || $F('cidade')  || $F('prefixo') || $F('operadora')) {
-        ret = true;
-    }    
-    if($F('tbf')) {
-        if ( $F('tbf').match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/) || $F('tbf').length != 0) {
-                ret = true;
-        }
-    }
-    if($F('tbc')) {
-        if ( $F('tbc').match(/^((\d+(\.\d*)?)|((\d*\.)?\d+))$/) || $F('tbc').length != 0) {
-                ret = true;
-        }
-    }
-
-    if(!ret) {
-        return true;
-    }else{
-        alert('<?php echo $this->translate('Verifique os dados cadastrados.');?>')
-        return false;
-    }
-  }
+ document.forms[0].elements[0].focus() ;
 
   function cidades(uf) {
 
-       $('wait_estado').show();
+        $('wait_estado').show();
 
         var url = '<?php echo $this->url?>/cidade/';
         var params = 'uf='+uf;
@@ -223,39 +239,16 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 
   }
 
-   function ret_cidade(ret) {
+  function ret_cidade(ret) {
        $('cidade').innerHTML = "";
        $('cidade').insert(ret.responseText);
        $('wait_estado').hide();
   }
- 
 
-</script>
-
-<?php
-/*
-$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/updateItem.js');
-
-echo $this->form;
-?>
-
-<script type="text/javascript">
-
-
-Event.observe(window, 'load', function() {
-    $('state').observe('change', init, false);
-});
-
-
-
-
-
-function init() {
-    updateItem = new updateItem('state', 'city', '<?php echo $this->url?>/data/');
-    
+<?php 
+if( isset($this->dados['estado'])) {
+    echo "cidades('{$this->dados['estado']}');";
 }
+?>
+  
 </script>
- * 
- */

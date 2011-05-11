@@ -1,11 +1,15 @@
 <?php
-$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/main.css" );
-$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/functions_smarty.js');
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
+    $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
+    $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
 ?>
-<div class="zend_form workaround">
-<form name="formulario"  method="POST" action="<?php echo $this->url . "/edit/" ?>" onSubmit="return check_form('grava_alterar');">
+
+<div class="snep_form workaround ">
+<?php if( $this->message ) : ?>
+            <div class="error_box"> <?php echo $this->message  ?> </div>
+<?php endif ?>
+           
+
+<form name="formulario"  method="POST" action="<?php echo $this->url . "/edit/" ?>" >
 
 <table cellspacing="0" align="center">
    <tr>
@@ -15,9 +19,9 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
          
          <table class="subtable" style="width: 350px;">
             <tr>
-               <td class="formlabel" width="130px"> <?php echo $this->translate("Operadora") ?> </td>
+               <td class="formlabel" width="130px"> <?php echo $this->translate("Carrier") ?> </td>
                <td class="subtable" >
-                  <select name="operadora" disabled >
+                  <select name="operadora" disabled  style="width:220px;" >
                      <?php if($this->carriers): ?>
                          <?php foreach ( $this->carriers as $idCarrier => $_carrier ) : ?>
                             <?php if( $idCarrier == $this->Carrier['operadora'] ) : ?>
@@ -29,88 +33,83 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("País") ?>:</td>
+               <td class="formlabel"> <?php echo $this->translate("Country") ?>:</td>
                <td class="subtable" >
-                  <select id="pais" name="pais" disabled >
+                  <select id="pais" name="pais" disabled  style="width:220px;" >
                        <option value="<?php echo $this->Carrier['pais'] ?>"><?php echo $this->Carrier['pais'] ?>
                    </select>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Estado") ?>:</td>
+               <td class="formlabel"> <?php echo $this->translate("State") ?>:</td>
                <td class="subtable" >
-                  <select disabled onchange="cidades(this.value)" name="estado">
+                  <select disabled onchange="cidades(this.value)" name="estado"  style="width:220px;">
                       <option value="<?php echo $this->billingState['cod'] ?>"> <?php echo $this->billingState['name'] ?>
-                  </select>  *
+                  </select>
                   <div class="waiting" id="wait_estado" style="display:none;">
 
                   </div>
                </td>
             </tr>
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Cidade") ?>:</td>
+               <td class="formlabel"> <?php echo $this->translate("City") ?>:</td>
                <td class="subtable" >
-                    <select name="cidade" id="cidade" disabled >
+                    <select name="cidade" id="cidade" disabled  style="width:220px;">
                         <option value="<?php echo $this->Carrier['cidade']?>">  <?php echo $this->Carrier['cidade']?>
-                    </select> *
+                    </select>
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Code País") ?> :</td>
+               <td class="formlabel"> <?php echo $this->translate("Country Code") ?> :</td>
                <td class="subtable" >
-                  <input name="ddi" type="text" disabled size="3" maxlength="4" value="<?php echo $this->Carrier['ddi']?>" /> *
+                  <input name="ddi" type="text" disabled size="5" maxlength="4" value="<?php echo $this->Carrier['ddi']?>" />
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Code Cidade") ?> :</td>
+               <td class="formlabel"> <?php echo $this->translate("City Code") ?> :</td>
                <td class="subtable" >
-                  <input name="ddd" id="ddd" disabled type="text" size="2" maxlength="3" value="<?php echo $this->Carrier['ddd']?>" /> *
+                  <input name="ddd" id="ddd" disabled type="text" size="5" maxlength="3" value="<?php echo $this->Carrier['ddd']?>" />
                </td>
             </tr>
 
             <tr>
-               <td class="formlabel"> <?php echo $this->translate("Prefixo") ?> :</td>
+               <td class="formlabel"> <?php echo $this->translate("Prefix") ?> :</td>
                <td class="subtable" >
-                  <input name="prefixo" disabled id="prefixo" type="text" size="3" maxlength="4" value="<?php echo $this->Carrier['prefixo']?>" /> *
+                  <input name="prefixo" disabled id="prefixo" type="text" size="5" maxlength="4" value="<?php echo $this->Carrier['prefixo']?>" />
                </td>
             </tr>
-            
             <tr>
-               <td colspan="2" class="subtable">
-                 <br />
-                 * <?php echo $this->translate('Campos Obrigatórios');  ?>
+               <td colspan="4" >
+                    <div class="info_box"> <?php echo $this->translate("Atenção: A alteração das tarifas já existentes, influencia a tarifação em relatório.") ?>  </div>
                </td>
             </tr>
+
          </table>
       </td>
 
       <td valign="top">
-          <table align="center" id="billList">
-
-              
+          <table id="billList">
            <thead>
               <tr>
-                 <td class="cen" width="20%"> <?php echo $this->translate('Válido à partir de') ?> </td>
-                 <td class="dir"> <?php echo $this->translate('Tarifa Base para Fixo') ?> </td>
-                 <td class="dir"> <?php echo $this->translate('Tarifa base para Celular') ?> </td>
-                 <td class="cen" width="10%"> <?php echo $this->translate('Actions') ?> </td>
+                 <td class="cen" width="30%"> <?php echo $this->translate('Starts from') ?> </td>
+                 <td class="dir"> <?php echo $this->translate('Minute Fee for Residencial') ?> </td>
+                 <td class="dir"> <?php echo $this->translate('Minute Fee for Mobile') ?> </td>
+                 <td class="cen" width="15%"> <?php echo $this->translate('Actions') ?> </td>
               </tr>
            </thead>
-           <tr>
-               <td colspan="4" >
-                    <div class="info_box"> <small><?php echo $this->translate("Atenção: A alteração das tarifas já existentes, influencia a tarifação em relatório.") ?> </small> </div>
-               </td>
-           </tr>
 
            <?php
            $cnt = 0;
+           $c = 0;           
            foreach($this->billingValues as $idBill => $bill) : ?>
-                 <tr>
+               <?php ($c ? $c = 0 : $c = 1 ); ?>
+                 <tr  class="c<?php echo $c ?>">
                      <input type="hidden" name="data[<?php echo $idBill ?>]" id="data" value="<?php echo $bill['data'] ?>" />
-
-                     <td class="cen"> <?php echo new Zend_Date($bill['data']); ?> </td>
+                     <td class="numeric">
+                        <?php echo new Zend_Date($bill['data']); ?>
+                     </td>
                      <td class="dir">
                         <input type="text" name="vfix[<?php echo $idBill ?>]" id="vfix" value="<?php echo $bill['vfix'] ?>"  class="campos" style="text-align:right;"  size="8"  onChange="this.form.elements['action[{$key}]'].checked=true;;" />
                      </td>
@@ -122,7 +121,6 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                          <?php echo $this->translate('Edit') ?>
                      </td>
                  </tr>
-
            <?php
            $cnt = $idBill;
            
@@ -145,11 +143,9 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
               <td class="dir">
                  <input type="text" name="vcel[<?php echo $cnt ?>]" id="vcel" class="campos" style="text-align:right;" size="8" value="0"  onChange="this.form.elements['action[<?php echo $cnt ?>]'].checked=true;;"/>
               </td>
-              <td class="txt_incluir">
+              <td class="txt_alterar">
                   <input class="campos" type="checkbox" name="action[<?php echo $cnt ?>]" value="<?php echo $cnt ?>" />
-                  <strong>
-                        <?php echo $this->translate('Incluir'); ?>
-                  </strong>
+                  <?php echo $this->translate('Incluir'); ?>
               </td>
            </tr>
         </table>
@@ -159,10 +155,12 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 </table>
 
 <div class="menus">
+    <div style="margin:0 auto; width: 200px;padding: 10px;">
          <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Salvar"); ?>">
          <button name="buttom" id="buttom" type="button" onclick="location.href=' <?php echo $this->url ?>'">
              <?php echo $this->translate("Cancelar");?>
          </button>
+    </div>
 </div>
 
 </form>
@@ -251,26 +249,3 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
    }
 
 </script>
-
-
-
-<?php
-/* View padrão
- *
-$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/add.css" );
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/selectBox.js');
-
-echo $this->form;
-?>
-
-<script type="text/javascript">
-Event.observe(window, 'load', init, false);
-
-function init() {
-     select = new SelectBox('<?php echo $this->objSelectBox ?>');
-}
-</script>
- *
- */
-

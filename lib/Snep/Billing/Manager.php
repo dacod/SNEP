@@ -72,6 +72,29 @@ class Snep_Billing_Manager {
         return $billing;
     }
 
+
+    public function getPrefix($data) {
+
+        $db = Zend_Registry::get('db');
+
+        $select = $db->select()
+            ->from('tarifas')
+            ->where("tarifas.ddd = ?", $data['ddd'])
+            ->where("tarifas.estado = ?", $data['estado'])
+            ->where("tarifas.cidade = ?", $data['cidade'])
+            ->where("tarifas.prefixo = ?", $data['prefixo']);
+
+        $stmt = $db->query($select);
+        $billing = $stmt->fetch();
+
+        if(count($billing) > 1) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     /**
      * Add a Billing.
      * @param array $billing

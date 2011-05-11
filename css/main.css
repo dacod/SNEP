@@ -580,6 +580,30 @@ ul#navmenu ul ul li.iehover ul {
     text-decoration:underline;
     color:#000;
 }
+.arquivo {
+    padding-left:20px;
+    background: url("../imagens/listsounds.png") no-repeat center left;
+    cursor:pointer;
+    font-size: 10px;
+    color: #696969;
+    text-decoration: none;
+}
+.arquivo:hover {
+    text-decoration:underline;
+    color:#000;
+}
+.backup {
+    padding-left:20px;
+    background: url("../imagens/refresh.png") no-repeat center left;
+    cursor:pointer;
+    font-size: 10px;
+    color: #696969;
+    text-decoration: none;
+}
+.backup:hover {
+    text-decoration:underline;
+    color:#000;
+}
 .zend_form  dd {
     vertical-align: text-top;
     padding-left: 4px;
@@ -735,10 +759,6 @@ ul#navmenu ul ul li.iehover ul {
 
 .snep_form th label:after {
     content: ':';
-}
-
-.snep_form tr:hover {
-    background-color: #fff !important;
 }
 
 .snep_form input:disabled {

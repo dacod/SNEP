@@ -33,7 +33,7 @@ class BillingController extends Zend_Controller_Action {
      */
     public function indexAction() {
         
-        $this->view->breadcrumb = $this->view->translate("Cadastro » Tarifas");
+        $this->view->breadcrumb = $this->view->translate("Carrier » Billing");
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -44,8 +44,7 @@ class BillingController extends Zend_Controller_Action {
                         ->from("operadoras", array('nome'))                        
                         ->where("operadoras.codigo = tarifas.operadora")
                         ->where("tarifas_valores.codigo = tarifas.codigo");
-         
-
+      
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
@@ -65,12 +64,12 @@ class BillingController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("nome"      => $this->view->translate("Operadora"),
-                        "pais"      => $this->view->translate("Pais"),
-                        "estado"    => $this->view->translate("Estado"),
-                        "cidade"    => $this->view->translate("Cidade"),
-                        "prefixo"    => $this->view->translate("Prefixo"),
-                        "ddd"       => $this->view->translate("DDD") );
+        $opcoes = array("nome"      => $this->view->translate("Carrier"),
+                        "pais"      => $this->view->translate("Country"),
+                        "estado"    => $this->view->translate("State"),
+                        "cidade"    => $this->view->translate("City"),
+                        "prefixo"   => $this->view->translate("Prefix"),
+                        "ddd"       => $this->view->translate("City Code") );
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -90,105 +89,89 @@ class BillingController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Filas » Cadastro");
+        $this->view->breadcrumb = $this->view->translate("Billing » Add");
 
-        $xml = new Zend_Config_Xml( "default/forms/queues.xml" );
-        $form = new Snep_Form( $xml );
+        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/queues.xml" ) );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
 
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
-
-        $_carriers = Snep_Carrier_Manager::getAll();
-        foreach($_carriers as $_carrier) {
+        
+        foreach(Snep_Carrier_Manager::getAll() as $_carrier) {
                 $carriers[$_carrier['codigo']] = $_carrier['nome'];
         }
         $this->view->carriers = $carriers;
 
-        $_states = Snep_Billing_Manager::getStates();
-        foreach($_states as $state) {
+        $states['--'] = '--';
+        foreach(Snep_Billing_Manager::getStates() as $state) {
             $states[$state['cod']] = $state['name'];
         }
         $this->view->states = $states;
 
-        /* Formulário Snep_Form.
-         *
-         *
-        if($_carriers) {
-            foreach($_carriers as $_carrier) {
-                $carriers[$_carrier['codigo']] = $_carrier['nome'];
-            }
-            $carrier->setMultiOptions( $carriers );
-        }else{
-            $carrier->setDescription( $this->view->translate('Não existem operadoras.') );
-            $carrier->setAttrib('readonly', true);            
+        $cities['--'] = '--';
+        foreach(Snep_Billing_Manager::getCity('AC') as $city) {
+            $cities[$city['name']] = $city['name'];
         }
-
-        $country = $form->getElement('country');
-        $country->setLabel( $this->view->translate('País') );
-
-        $_states = Snep_Billing_Manager::getStates();
-
-        foreach($_states as $state) {
-            $states[$state['cod']] = $state['name'];
-        }
-        $state = $form->getElement('state');
-        $state->setLabel( $this->view->translate('Estado') );
-        $state->setMultiOptions($states);
-
-        $city = $form->getElement('city');
-        $city->setLabel( $this->view->translate('Cidade') );
-        $city->setRegisterInArrayValidator(false);
-
-        $country_code = $form->getElement('country_code');
-        $country_code->setLabel( $this->view->translate('Code País') );
-
-        $city_code = $form->getElement('city_code');
-        $city_code->setLabel( $this->view->translate('Code Cidade') );
-
-        $prefix = $form->getElement('prefix');
-        $prefix->setLabel( $this->view->translate('Prefixo') );
-
-        $tbf = $form->getElement('tbf');
-        $tbf->setLabel( $this->view->translate('Tarifa Base Fixo') );
-
-        $tbc = $form->getElement('tbc');
-        $tbc->setLabel( $this->view->translate('Tarifa Base Celular') );
-        
-        $form->setButtom();
-        */
+        $this->view->cities = $cities;
+        $dados = $this->_request->getParams();
 
         if($this->_request->getPost()) {
 
-            $dados = array('data'         => $_POST['data'],
-                           'carrier'      => $_POST['operadora'],
-                           'country_code' => $_POST['ddi'],
-                           'country'      => $_POST['pais'],
-                           'city_code'    => $_POST['ddd'],
-                           'city'         => $_POST['cidade'],
-                           'state'        => $_POST['estado'],
-                           'prefix'       => $_POST['prefixo'],
-                           'tbf'          => $_POST['vfix'],
-                           'tbc'          => $_POST['vcel'] );
+            $form_isValid = true;
+            
+            $this->view->error = array();
 
-            Snep_Billing_Manager::add( $dados );
+            if( ! preg_match( '/[0-9]+$/', $dados['ddd'] ) || $dados['ddd'] == "" ) {
+                $form_isValid = false;
+                $this->view->error['ddd'] = $this->view->translate("City Code not numeric") ;
+            }
 
-            $this->_redirect( $this->getRequest()->getControllerName() );
+            if( ! preg_match( '/[0-9]+$/', $dados['ddi'] ) || $dados['ddi'] == "" ) {
+                $form_isValid = false;
+                $this->view->error['ddi'] = $this->view->translate("Country Code not numeric") ;
+            }
+            
+            if( ! preg_match( '/[0-9]+$/', $dados['prefixo'] ) || $dados['prefixo'] == ""  ) {
+                $form_isValid = true;
+                $this->view->error['prefixo'] = $this->view->translate("Prefix not numeric");
+            }
+            
+            if ( $form_isValid ) {
 
-            /*  Snep_form
-             *
-                $form_isValid = $form->isValid($_POST);
-                $dados = $this->_request->getParams();
-
-                if( $form_isValid ) {
-                    $idCarrier = Snep_Billing_Manager::add( $dados );
-                    $this->_redirect( $this->getRequest()->getControllerName() );
+                if( $_POST['ddd'] == "" ) {
+                    $_POST['ddd'] = 0;
+                }
+                if( $_POST['ddi'] == "" ) {
+                    $_POST['ddi'] = 0;
                 }
 
-             */
-        }
+                $billing = Snep_Billing_Manager::getPrefix( $_POST );
 
-        //$this->view->form = $form;
+                if( $billing ) {
+                    $form_isValid = false;
+                    $this->view->message = $this->view->translate("This bill is already set");
+                }
+            }
+            
+            if( $form_isValid ) {
+
+                $xdados = array('data'         => $_POST['data'],
+                               'carrier'      => $_POST['operadora'],
+                               'country_code' => $_POST['ddi'],
+                               'country'      => $_POST['pais'],
+                               'city_code'    => $_POST['ddd'],
+                               'city'         => $_POST['cidade'],
+                               'state'        => $_POST['estado'],
+                               'prefix'       => $_POST['prefixo'],
+                               'tbf'          => $_POST['vfix'],
+                               'tbc'          => $_POST['vcel'] );
+
+                Snep_Billing_Manager::add( $xdados );
+                $this->_redirect( $this->getRequest()->getControllerName() );
+            }
+
+            $this->view->dados = ( isset($dados) ? $dados : null);
+        }
 
     }
 
@@ -197,7 +180,7 @@ class BillingController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Tarifas » Edit");
+        $this->view->breadcrumb = $this->view->translate("Billing » Edit");
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
@@ -344,7 +327,7 @@ class BillingController extends Zend_Controller_Action {
                 * */
      
         }
-        //$this->view->form = $form;
+        
     }
 
     /**
@@ -352,7 +335,7 @@ class BillingController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Tarifas » Remover");
+       $this->view->breadcrumb = $this->view->translate("Billing » Delete");
        $id = $this->_request->getParam('id');
 
        Snep_Billing_Manager::remove($id);
