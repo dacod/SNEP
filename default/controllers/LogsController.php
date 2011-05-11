@@ -24,15 +24,11 @@ class LogsController extends Zend_Controller_Action {
 		$status = $form->getElement('status');
 		$status->setValue('ALL');
 
+		$realtime = $form->getElement('real_time');
+		$realtime->setValue('no');
+
 		$submit = $form->getElement("submit");
 		$submit->setLabel("Log Search");
-
-			/*
-		$tail = $form->getElement("cancel");	
-		$tail->setLabel("Em tempo real");
-		$tail->setAttrib("onclick", "location.href='view/mode/tail/lines/30'");
-			 * 
-			 */
 
         $this->initLogFile();	
 
@@ -51,63 +47,66 @@ class LogsController extends Zend_Controller_Action {
 
         $this->view->breadcrumb = $this->view->translate("Status » System Logs ");
 
-	$this->view->back           = $this->view->translate("Back");
-	$this->view->exibition_mode = $this->view->translate("Exibition mode:");
-	$this->view->normal         = $this->view->translate("Normal");
-	$this->view->terminal       = $this->view->translate("Terminal");
-	$this->view->contrast       = $this->view->translate("Contrast");
-	
-	if ($log != 'error') {
+		$this->view->back           = $this->view->translate("Back");
+		$this->view->exibition_mode = $this->view->translate("Exibition mode:");
+		$this->view->normal         = $this->view->translate("Normal");
+		$this->view->terminal       = $this->view->translate("Terminal");
+		$this->view->contrast       = $this->view->translate("Contrast");
+		
+		if ($log != 'error') {
 
-	    // Normal search mode
-	    if (strcmp($this->_request->getParam('mode'), 'tail')) {
+			// Normal search mode
+			if (strcmp($this->_request->getParam('real_time'), 'yes')) {
 
- 		 $this->view->mode   = 'normal';
-		 $this->view->location = 'index';
+			 $this->view->mode   = 'normal';
+			 $this->view->location = 'index';
 
-	         $result = $log->getLog($this->_request->getPost('init_day'), 
-		                 $this->_request->getPost('end_day'),
-				 $this->_request->getPost('init_hour'),
-				 $this->_request->getPost('end_hour'),
-				 $this->_request->getPost('status'),
-				 $this->_request->getPost('source'),
-				 $this->_request->getPost('dest'));
-	
-	        if (count($result) > 0) {
+				 $result = $log->getLog($this->_request->getPost('init_day'), 
+							 $this->_request->getPost('end_day'),
+					 $this->_request->getPost('init_hour'),
+					 $this->_request->getPost('end_hour'),
+					 $this->_request->getPost('status'),
+					 $this->_request->getPost('source'),
+					 $this->_request->getPost('dest'));
+		
+				if (count($result) > 0) {
 
-	            $this->view->result = $result;
-                } else {
+					$this->view->result = $result;
+					} else {
 
-		    $this->view->error = $this->view->translate("No entries found!");
-    		    $this->_helper->viewRenderer('error');
-	        }
-	
-	    // Tail log mode
-	    } else {
+				$this->view->error = $this->view->translate("No entries found!");
+					$this->_helper->viewRenderer('error');
+				}
+		
+			// Tail log mode
+	    	} else {
+				$this->view->mode   = 'tail';
+				$this->view->location = '../../../index';
 
- 		 $this->view->mode   = 'tail';
-		 $this->view->location = '../../../../index';
+				$this->view->lines = $this->view->translate("Line numbers");
+		    }
 
-	         $this->view->lines = $this->view->translate("Line numbers");
-	    }
-	} else {
+		} else {
 
-		$this->view->error = $this->view->translate("The log file cannot be open!");
-	    $this->_helper->viewRenderer('error');
-	}
+			$this->view->error = $this->view->translate("The log file cannot be open!");
+	    	$this->_helper->viewRenderer('error');
+		}
 
     }
   
     public function tailAction() {
-	$this->_helper->layout->disableLayout();
+		$this->_helper->layout->disableLayout();
 
-	$log = $this->initLogFile();
-	$lines = $this->_request->getParam('lines');
+		$this->view->lines = $this->view->translate("Line numbers");
 
-	$this->view->lines = $lines;
-	$result = $log->getTail($lines);
 
-	$this->view->result = $result;
+		$log 	= $this->initLogFile();
+		$lines = $this->_request->getParam('lines');
+
+		$this->view->lines = $lines;
+		$result 		   = $log->getTail($lines);
+
+		$this->view->result = $result;
     }
 
     public function errorAction() {
