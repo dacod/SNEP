@@ -1,9 +1,8 @@
 <?php
 $this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
-$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
-$this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
-$this->headScript()->appendFile('/snep/includes/javascript/regras.js');
+$this->headScript()->appendFile( $this->baseUrl() .'/includes/javascript/scriptaculous/src/scriptaculous.js');
 echo $this->render('filter.phtml');
+
 ?>
 <table>
    <thead>
@@ -51,7 +50,6 @@ echo $this->render('filter.phtml');
 </table>
 <script type="text/javascript">
 
-    /* Confirmacao e remocao de regras de negocio */
     function remove_regra(id) {
         var url = '<?php echo $this->baseUrl(); ?>/index.php/route/delete/' + id;
 
@@ -73,8 +71,8 @@ echo $this->render('filter.phtml');
     }
 
     function troca_status(id) {
-        var url = '<?php echo $this->baseUrl(); ?>/includes/troca_status.php';
-        var params = 'id='+id;
+        var url = '<?php echo $this->baseUrl(); ?>/index.php/route/toogle/';
+        var params = 'route='+id;
 
         var retorno = new Ajax.Request (
             url, {

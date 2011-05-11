@@ -578,4 +578,20 @@ class RouteController extends Zend_Controller_Action {
         $this->_redirect("route");
     }
 
+    public function toogleAction() {
+
+        $route = $this->getRequest()->getParam('route');
+
+        $regras = PBX_Rules::get($route);
+
+        if($regras->isActive()) {
+            $regras->disable();
+        }else{
+            $regras->enable();
+        }
+
+        PBX_Rules::update($regras);
+    }
+
+
 }
