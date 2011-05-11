@@ -60,7 +60,9 @@ td, th {
 
 .links .include {
     background: url("../imagens/include.png") no-repeat center left;
-
+}
+.links .back {
+    background: url("../imagens/back.png") no-repeat center left;
 }
 
 .links .includes {

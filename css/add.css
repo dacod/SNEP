@@ -96,7 +96,7 @@
     padding: 2px !important;
 }
 .snep_form table {
-    border-collapse:separate !important;
+    border-collapse: collapse;
 }
 
 /*

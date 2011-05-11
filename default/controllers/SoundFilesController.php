@@ -77,9 +77,8 @@ class SoundFilesController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("arquivo"    => $this->view->translate("Code"),
-                        "descricao"  => $this->view->translate("Name"),
-                        "tipo"       => $this->view->translate("Type") );
+        $opcoes = array("arquivo"    => $this->view->translate("Filename"),
+                        "descricao"  => $this->view->translate("Description") );
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -162,9 +161,14 @@ class SoundFilesController extends Zend_Controller_Action {
                             Snep_SoundFiles_Manager::add(array('arquivo' => $originalName,
                                                                'descricao' => $description,
                                                                'tipo' => 'AST'));
+                            $this->_redirect( $this->getRequest()->getControllerName() );
+                        }else{
+
+                            $this->view->error = array('error' => 1,
+                                                       'message' => $this->view->translate('Inválid format') );
+
                         }
 
-                        $this->_redirect( $this->getRequest()->getControllerName() );
                     }                    
                 }
         }
