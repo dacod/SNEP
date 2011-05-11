@@ -8,27 +8,38 @@
     <?php echo $this->headScript() . "\n"; ?>
 </head>
 <body>
-    <div id="header">
-        <a href="<?php echo Zend_Registry::get('config')->system->path->web; ?>/index.php/" alt="inicio" title="inicio">
-            <img src="<?php echo $this->baseUrl(); ?>/imagens/snep_logo.png" alt="SNEP" id="snep_logo" />
-        </a>
-    </div>
-    <?php if(!$this->hideMenu): ?>
-    <div id="menu">
-        <ul id="navmenu">
-            <?php echo Snep_Menu::getMasterInstance()->renderChildren(); ?>
-        </ul>
-    </div>
-    <?php endif; ?>
-    <div id="breadcrumb">
-        <?php echo $this->breadcrumb; ?>
-    </div>
-    <div id="content">
-        <?php echo $this->layout()->content; ?>
+    <!-- ugly markup for footer pindown -->
+    <div id="wrapper">
+        <div id="header">
+            <a href="<?php echo Zend_Registry::get('config')->system->path->web; ?>/index.php/" alt="inicio" title="inicio">
+                <img src="<?php echo $this->baseUrl(); ?>/imagens/snep_logo.png" alt="SNEP" id="snep_logo" />
+            </a>
+        </div>
+        <?php if(!$this->hideMenu): ?>
+        <div id="menus">
+            <ul class="navmenu rightmenu">
+                <li>
+                    <a href="<?php echo $this->baseUrl(); ?>/index.php/default/auth/logout"><?php echo $this->translate("Logout"); ?></a>
+                </li>
+            </ul>
+            <ul class="navmenu">
+                <?php echo Snep_Menu::getMasterInstance()->renderChildren(); ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+        <div id="breadcrumb">
+            <?php echo $this->breadcrumb; ?>
+        </div>
+        <div id="content">
+            <?php echo $this->layout()->content; ?>
+        </div>
+        <div class="push"></div>
     </div>
     <div id="footer">
-        <p id="footer_vendor""><?php echo SNEP_VENDOR; ?></p>
-        <p id="footer_version">Snep <?php echo SNEP_VERSION?></p>
+        <div id="footer_content">
+            <p id="footer_vendor""><?php echo SNEP_VENDOR; ?></p>
+            <p id="footer_version">Snep <?php echo SNEP_VERSION?></p>
+        </div>
     </div>
 </body>
 </html>

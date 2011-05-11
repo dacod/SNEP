@@ -10,22 +10,77 @@ root {
     display: block;
 }
 
-body {
-    width: 975px;
-    margin-left: auto;
-    margin-right: auto;
+html, body {
+    height: 100%;
+}
+
+#wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -34px;
+}
+
+#footer, .push {
+    height: 32px;
+}
+
+#footer {
+    padding: 0px;
+    clear: both;
+
     margin-top: 0px;
-    margin-bottom: 0px;
+    border-top: 2px solid #F0C600;
+
+    background-image: url('../imagens/footer_bg.png');
+    color: #696969;
+
+    line-height: 2em;
+
+    font-weight: bold;
+    font-size: 10px;
+
+    height: 32px;
+}
+
+#footer p {
+    margin: 0px;
+    padding: 6px;
+}
+
+#footer_vendor {
+    float:left;
+}
+
+#footer_version {
+    float:right;
+}
+
+body {
+    margin: 0px;
     padding: 0px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+
+    background-image: url('../imagens/header_bg.png');
+    background-repeat: repeat-x;
+    background-position: top;
+}
+
+#header, #menus, #breadcrumb, #content, #footer_content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 975px;
 }
 
 #header {
-    border-bottom: 2px solid #FFD10D;
-    padding: 12px 10px 2px 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 52px;
+    padding-top: 20px;
+    padding-left: 20px;
     background-image: url('../imagens/vendor_logo.png');
     background-repeat: no-repeat;
-    background-position: right center;
+    background-position: 98% center;
 }
 
 #header img {
@@ -33,6 +88,7 @@ body {
 }
 
 #breadcrumb {
+    width: 955px;
     color: #808080;
     font-size: 14px;
     padding-top: 17px;
@@ -49,40 +105,9 @@ body {
     border: 1px solid #a4a7ab;
     font-size: 12px;
     display: table;
-    width: 975px;
     height: auto;
     padding: 10px 0px 0px 0px;
-}
-
-#footer {
-    border-top: none;
-    border-left: 1px solid #a4a7ab;
-    border-right: 1px solid #a4a7ab;
-    border-bottom:1px solid #a4a7ab;
-
-    padding: 0px;
-    height: 25px;
-    clear: both;
-
-    background-color: #EEE;
-    background-image: url('../imagens/menu.png');
-    color: #808080;
-
-    font-weight: bold;
-    font-size: 10px;
-}
-
-#footer p {
-    margin: 0px;
-    padding: 6px;
-}
-
-#footer_vendor {
-    float:left;
-}
-
-#footer_version {
-    float:right;
+    margin-bottom: 30px;
 }
 
 #login_form {
@@ -285,53 +310,44 @@ select
     padding: 10px;
 }
 
-/* Menu snep */
-#menu {
-   position: relative;
-   text-align: left;
-   width: 975px;
-   height: 24px;
-   border: 1px solid #FFF;
-   border-left: none;
-   background-color: #EEE;
-   background-image: url('../imagens/menu.png');
-   z-index: 20 ; /*Mantem os Menus acima de outros objetos da Pagina */
+.rightmenu {
+    float: right;
 }
 
+.rightmenu a {
+    border: none !important;
+}
 
 /* Root = Horizontal, Secondary = Vertical */
-ul#navmenu {
-  margin: 0;
-  border: 0 none;
-  padding: 0;
-  list-style: none;
-  height: 24px;
+.navmenu {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0;
+    list-style: none;
+    height: 32px;
+    
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-ul#navmenu li {
+.navmenu li {
   margin: 0;
-  border: 0 none;
   padding: 0;
-  float: right; /*For Gecko*/
-  display: inline;
-  list-style: none;
-  position: relative;
-  height: 24px;
+  display: inline-block;
 }
 
-ul#navmenu ul {
-  margin: 0;
+.navmenu ul {
   border: 0 none;
   padding: 0;
   width: 190px;
   list-style: none;
   display: none;
   position: absolute;
-  top: 24px;
-  left: 0;
+  height: 32px;
 }
 
-ul#navmenu ul:after /*From IE 7 lack of compliance*/{
+.navmenu ul:after /*From IE 7 lack of compliance*/{
   clear: both;
   display: block;
   font: 1px/0px serif;
@@ -340,43 +356,54 @@ ul#navmenu ul:after /*From IE 7 lack of compliance*/{
   visibility: hidden;
 }
 
-ul#navmenu ul li {
+.navmenu ul li {
   width: 160px;
   float: left; /*For IE 7 lack of compliance*/
   display: block !important;
   display: inline; /*For IE*/
-
 }
 
-/* Root Menu */
-ul#navmenu a {
-  border-left: 1px solid #CCC;
-  /*border-bottom-color: #CCC;*/
-  padding: 0 6px;
+.navmenu li:first-child a {
+    border-left: none;
+}
+
+.navmenu li:first-child a:hover {
+    border-left: none;
+}
+
+.navmenu li:last-child a {
+    border-right: none;
+}
+
+.navmenu a {
+  border-right: 1px solid #CCC;
+  border-left: 1px solid #FFF;
+  padding: 0 20px;
   float: none !important; /*For Opera*/
   float: left; /*For IE*/
   display: block;
   /*background: #EEE;*/
   color: #666;
-  font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif;
   text-decoration: none;
-  height: auto !important;
   height: 1%; /*For IE*/
-
+  height: 32px;
+  line-height: 32px;
 }
 
 /* Root Menu Hover Persistence */
-ul#navmenu a:hover,
-ul#navmenu li:hover a,
-ul#navmenu li.iehover a {
+.navmenu a:hover,
+.navmenu li:hover a,
+.navmenu li.iehover a {
   background: #CCC;
+  border-left: 1px solid #CCC;
   color: #FFF;
   z-index: 2;
 }
 
+
 /* 2nd Menu */
-ul#navmenu li:hover li a,
-ul#navmenu li.iehover li a {
+.navmenu li:hover li a,
+.navmenu li.iehover li a {
   float: none;
   background: #EEE;
   color: #666;
@@ -386,47 +413,47 @@ ul#navmenu li.iehover li a {
 }
 
 /* 2nd Menu Hover Persistence */
-ul#navmenu li:hover li a:hover,
-ul#navmenu li:hover li:hover a,
-ul#navmenu li.iehover li a:hover,
-ul#navmenu li.iehover li.iehover a {
+.navmenu li:hover li a:hover,
+.navmenu li:hover li:hover a,
+.navmenu li.iehover li a:hover,
+.navmenu li.iehover li.iehover a {
   background: #CCC;
   color: #FFF;
 
 }
 
 /* 3rd Menu */
-ul#navmenu li:hover li:hover li a,
-ul#navmenu li.iehover li.iehover li a {
+.navmenu li:hover li:hover li a,
+.navmenu li.iehover li.iehover li a {
   background: #EEE;
   color: #666;
 }
 
 /* 3rd Menu Hover Persistence */
-ul#navmenu li:hover li:hover li a:hover,
-ul#navmenu li:hover li:hover li:hover a,
-ul#navmenu li.iehover li.iehover li a:hover,
-ul#navmenu li.iehover li.iehover li.iehover a {
+.navmenu li:hover li:hover li a:hover,
+.navmenu li:hover li:hover li:hover a,
+.navmenu li.iehover li.iehover li a:hover,
+.navmenu li.iehover li.iehover li.iehover a {
   background: #CCC;
   color: #FFF;
 }
 
 /* 4th Menu */
-ul#navmenu li:hover li:hover li:hover li a,
-ul#navmenu li.iehover li.iehover li.iehover li a {
+.navmenu li:hover li:hover li:hover li a,
+.navmenu li.iehover li.iehover li.iehover li a {
   background: #EEE;
   color: #666;
 }
 
 /* 4th Menu Hover */
-ul#navmenu li:hover li:hover li:hover li a:hover,
-ul#navmenu li.iehover li.iehover li.iehover li a:hover {
+.navmenu li:hover li:hover li:hover li a:hover,
+.navmenu li.iehover li.iehover li.iehover li a:hover {
   background: #CCC;
   color: #FFF;
 }
 
-ul#navmenu ul ul,
-ul#navmenu ul ul ul {
+.navmenu ul ul,
+.navmenu ul ul ul {
   display: none;
   position: absolute;
   top: 0;
@@ -434,19 +461,19 @@ ul#navmenu ul ul ul {
 }
 
 /* Do Not Move - Must Come Before display:block for Gecko */
-ul#navmenu li:hover ul ul,
-ul#navmenu li:hover ul ul ul,
-ul#navmenu li.iehover ul ul,
-ul#navmenu li.iehover ul ul ul {
+.navmenu li:hover ul ul,
+.navmenu li:hover ul ul ul,
+.navmenu li.iehover ul ul,
+.navmenu li.iehover ul ul ul {
   display: none;
 }
 
-ul#navmenu li:hover ul,
-ul#navmenu ul li:hover ul,
-ul#navmenu ul ul li:hover ul,
-ul#navmenu li.iehover ul,
-ul#navmenu ul li.iehover ul,
-ul#navmenu ul ul li.iehover ul {
+.navmenu li:hover ul,
+.navmenu ul li:hover ul,
+.navmenu ul ul li:hover ul,
+.navmenu li.iehover ul,
+.navmenu ul li.iehover ul,
+.navmenu ul ul li.iehover ul {
   display: block;
 }
 

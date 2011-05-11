@@ -10,28 +10,20 @@
 
 <default>
     <resource id="error" order="allow"></resource>
-    <resource id="auth" order="allow">
-        <resource id="logout" label="Logout"></resource>
-    </resource>
     <resource id="installer" order="allow"></resource>
-    
-    <group id="configs" label="Configure" >
-        <resource id="parameters" label="Parameters"></resource>
-        <resource id="sound-files" label="Sound Files"></resource>
-        <resource id="music-on-hold" label="Music on Hold"></resource>
-        <resource id="inspector" label="System Status"></resource>
-        <resource id="cnl" label="Cnl Update"></resource>
+
+    <group id="status" label="Status">
+        <resource id="index" label="System"></resource>
+        <resource id="khomp-links" label="Khomp Links"></resource>
+        <resource id="ip-status" label="IP Status"></resource>
+        <resource id="errors-khomp" label="Errors Khomp Links"></resource>
+        <resource id="logs" label="Logs"></resource>
     </group>
 
-    <group id="routing" label="Routing">
-        <resource id="route" label="Routes"></resource>
-        <resource id="action-configs" label="Default Config"></resource>
-        <resource id="expression-alias" label="Expression Alias"></resource>
-    </group>
-
-    <group id="carrier" label="Carrier">
-        <resource id="carrier" label="Carrier"></resource>
-        <resource id="billing" label="Billing"></resource>
+    <group id="reports" label="Reports">
+		<resource id="calls-report" label="Calls"></resource>
+       	<resource id="ranking-report" label="Call Ranking"></resource>
+        <resource id="services-report" label="Services Use"></resource>
     </group>
 
     <group id="manage" label="Manage">
@@ -47,18 +39,27 @@
         <resource id="conference-rooms" label="Conference Rooms"></resource>
         <resource id="trunks" label="Trunks"></resource>
     </group>
-    
-    <group id="reports" label="Reports">
-		<resource id="calls-report" label="Calls"></resource>
-       	<resource id="ranking-report" label="Call Ranking"></resource>
-        <resource id="services-report" label="Services Use"></resource>
+
+    <group id="carrier" label="Carrier">
+        <resource id="carrier" label="Carrier"></resource>
+        <resource id="billing" label="Billing"></resource>
     </group>
 
-    <group id="status" label="Status">
-        <resource id="index" label="System"></resource>
-        <resource id="khomp-links" label="Khomp Links"></resource>
-        <resource id="ip-status" label="IP Status"></resource>
-        <resource id="errors-khomp" label="Errors Khomp Links"></resource>
-        <resource id="logs" label="Logs"></resource>
+    <group id="routing" label="Routing">
+        <resource id="route" label="Routes"></resource>
+        <resource id="action-configs" label="Default Config"></resource>
+        <resource id="expression-alias" label="Expression Alias"></resource>
     </group>
+
+    <group id="configs" label="Configure" >
+        <resource id="parameters" label="Parameters"></resource>
+        <resource id="sound-files" label="Sound Files"></resource>
+        <resource id="music-on-hold" label="Music on Hold"></resource>
+        <resource id="inspector" label="System Status"></resource>
+        <resource id="cnl" label="Cnl Update"></resource>
+    </group>
+
+    <resource id="auth" order="allow">
+        <resource id="logout"></resource>
+    </resource>
 </default>
