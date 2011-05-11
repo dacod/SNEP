@@ -29,7 +29,7 @@
 				var periodicalExecuter = new PeriodicalExecuter(status, 1);
 
 				function status() {
-					new Ajax.Updater("tail", "../../../../tail/",
+					new Ajax.Updater("tail", "../logs/tail/",
 						{ parameters: { lines: $F('n') } });
 				}
 		</script>
