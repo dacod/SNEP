@@ -53,6 +53,18 @@
                 </options>
             </dest>
 
+		<real_time>
+			<type>radio</type>
+			<options>
+				<separator></separator>
+				<label>Real time</label>
+				<multioptions>
+					<yes>Yes</yes>
+					<no>No</no>
+				</multioptions>
+			</options>
+		</real_time>
+
         </elements>
     </general>
 </modelo>
