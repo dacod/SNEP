@@ -151,10 +151,10 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
       <td valign="top">
           <ul> <b> <?php echo $this->translate("General Rules");?></b>
             <li>
-                <?php echo $this->translate("Os valores PADRÃO (fixo e celular) para cada Operadora é informado no cadastro da Operadora."); ?>
+                <?php echo $this->translate("The default values (Residencial and Mobile) for each carrier is informed on the carrier's."); ?>
             </li>
             <li>
-                <?php echo $this->translate("Para reajuste de uma tarifa PADRÃO existente, mantenha os campos com os seguintes dados:"); ?>
+                <?php echo $this->translate("To ajust the default values, keep the fields with the following data:"); ?>
             </li>
             <li>
                 <ul>
@@ -162,7 +162,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                         <strong><?php echo $this->translate('State'); ?>:</strong> <i>---</i>
                     </li>
                     <li>
-                        <strong><?php echo $this->translate('City'); ?>:</strong> <i><?php echo $this->translate('Selecionar'); ?></i>
+                        <strong><?php echo $this->translate('City'); ?>:</strong> <i><?php echo $this->translate('Select'); ?></i>
                     </li>
                     <li>
                         <strong><?php echo $this->translate('City Code'); ?>:</strong> <i> 0 </i>
@@ -173,28 +173,28 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                 </ul>
             </li>
             <li>
-                <?php echo $this->translate("O cadastro de uma Tarifa obedece 3 regras:") ?>
+                <?php echo $this->translate("This billing registration must follow this 3 rules:") ?>
                 <ul>
                     <li>
-                        1 - <?php echo $this->translate('Se determinadas cidades tem valor de tarifa diferenciado, independente do PREFIXO de destino, uma Tarifa Individual deverá ser cadastrada, atentando para informar corretamente o DDD da cidade e o PREFIXO');?>
+                        1 - <?php echo $this->translate("If different cities have different values, independently of the destination PREFIX, one billing must be created, informing the city's correct DDD and PREFIX");?>
                         <strong>'0000'</strong>
                     </li>
                     <li>
-                        2 - <?php echo $this->translate('Se a Operadora tiver valor diferenciado para determinados PREFIXOS de uma mesma CIDADE, uma Tarifa Individual deverá ser cadastrada para cada PREFIXO');?>
+                        2 - <?php echo $this->translate('If the carrier have a different value for some PREFIXES of a same CITY, a individual billing must be created for each PREFIX');?>
                     </li>
                     <li>
-                        3 - <?php echo $this->translate('Para');?>
-                        <strong> <?php echo $this->translate('Tarifas INTERNACIONAIS');?>, </strong>
-                        <?php echo $this->translate('uma Tarifa Individual deverá ser cadastrada para cada PAIS, atentando para os seguintes detalhes');?>:
+                        3 - <?php echo $this->translate('For');?>
+                        <strong> <?php echo $this->translate('INTERNATIONAL Billing');?>, </strong>
+                        <?php echo $this->translate('one individual billing must be created for each COUNTRY, paying attention to the following details');?>:
                         <ul>
                             <li>
-                               a) <?php echo $this->translate('Informar o Code'); ?>
+                               a) <?php echo $this->translate('Inform the Code'); ?>
                             </li>
                             <li>
-                               b) <?php echo $this->translate('Informar o Code da Cidade'); ?> = 000
+                               b) <?php echo $this->translate('Inform the DDD'); ?> = 000
                             </li>
                             <li>
-                               c) <?php echo $this->translate('Informar o PREFIXO') ?> = 0000
+                               c) <?php echo $this->translate('Inform the PREFIX') ?> = 0000
                             </li>
                         </ul>
 
@@ -209,7 +209,7 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
 
 <div class="menus">
     <div style="margin:0 auto; width: 200px;padding: 10px;">
-         <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Salvar"); ?>">
+         <input class="submit" type="submit" id="submit" value="<?php echo $this->translate("Save"); ?>">
          <a class="snep_form_cancel" href="<?php echo $this->url ?>"> <?php echo $this->translate('Cancel'); ?> </a>
     </div>
 </div>

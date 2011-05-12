@@ -29,7 +29,9 @@ class AuthController extends Zend_Controller_Action {
 
     public function loginAction() {
         $this->view->headTitle($this->view->translate("Login"));
-        $this->view->breadcrumb = $this->view->translate("Login");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Login")
+        ));
         $this->view->hideMenu = true;
 
         $config = Zend_Registry::get('config');

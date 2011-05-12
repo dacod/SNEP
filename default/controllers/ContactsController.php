@@ -310,6 +310,7 @@ class ContactsController extends Zend_Controller_Action {
             $skipped = false;
             $validateEmpty = new Zend_Validate_NotEmpty();
             $validateAlnum = new Zend_Validate_Alnum();
+            $error = array();
 
             foreach ($session->data as $contact) {
 
@@ -325,7 +326,8 @@ class ContactsController extends Zend_Controller_Action {
                     "zipcode" => "",
                     "phone" => "",
                     "cell" => "");
-
+               
+                $addEntry = true;
                 foreach ($contact as $column => $data) {
                     if ($fields[$column] != "discard") {
                         $contactData[$fields[$column]] = $data;
@@ -334,8 +336,27 @@ class ContactsController extends Zend_Controller_Action {
 
                 $contactData['group'] = $_POST['group'];
                 $contactData['id'] = Snep_Contacts_Manager::getLastId();
-
-                Snep_Contacts_Manager::add($contactData);
+                
+                if (!array_key_exists('name', $contactData) || !$validateEmpty->isValid($contactData['name'])){
+                    $addEntry = false;
+                    $error[] = $contactData;
+                }
+                else if ((!array_key_exists('phone', $contactData) || !$validateEmpty->isValid($contactData['phone']))&&
+                        (!array_key_exists('cell', $contactData) || !$validateEmpty->isValid($contactData['cell']))){
+                     $addEntry = false;
+                    $error[] = $contactData;
+                }
+                
+                if ($addEntry){
+                     Snep_Contacts_Manager::add($contactData);
+                }      
+            }
+            if (count($error)>0){
+                $errorString = $this->view->translate('Os seguintes registros do CSV contem dados nulos::<br/>');
+                foreach ($error as $value) {
+                    $errorString.= implode(',',$value).'<br/>';
+                }
+                throw new ErrorException($errorString);
             }
         }
         $this->_redirect($this->getRequest()->getControllerName());

@@ -32,7 +32,10 @@ class ErrorsKhompController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Status » Errors Khomp Links");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Status"),
+                    $this->view->translate("Errors Khomp Links")
+                ));
 
         require_once "includes/AsteriskInfo.php";
         $astinfo = new AsteriskInfo();
