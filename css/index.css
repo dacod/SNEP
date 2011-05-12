@@ -70,12 +70,13 @@ td, th {
 }
 
 .filtros {
-    background-image: url(../imagens/bg_filtro.png);
-    background-repeat: repeat-x;
-    background-color: #fff;
-    border: 1px solid #A4A7AB;
+    background-color: #F8F8F8;
+    border: 1px solid #CDCDCD;
     padding: 0px 4px 0px 4px;
-    margin-bottom: 0px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-bottom: 10px;
     height:37px;
 }
 
