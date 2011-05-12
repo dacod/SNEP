@@ -32,8 +32,11 @@ class CarrierController extends Zend_Controller_Action {
      * List all Carrier
      */
     public function indexAction() {
-        
-        $this->view->breadcrumb = $this->view->translate("Carrier » Carrier");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Carrier")
+        ));
 
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
@@ -82,7 +85,11 @@ class CarrierController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Operadoras » Cadastro");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Add")
+        ));
+
         $this->view->objSelectBox = "carrier";
 
         $xml = new Zend_Config_Xml( "default/forms/carrier.xml" );
@@ -120,7 +127,11 @@ class CarrierController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Carrier » Edit");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Edit")
+        ));
+
         $this->view->objSelectBox = "carrier";
         $id = $this->_request->getParam("id");
 
@@ -183,7 +194,11 @@ class CarrierController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Operadoras » Remover");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Delete")
+       ));
+
        $id = $this->_request->getParam('id');
 
        Snep_Carrier_Manager::remove($id);

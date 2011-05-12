@@ -19,7 +19,11 @@
 class ActionConfigsController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Regras de Negócio » Configurações Padrão");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Routing"),
+            $this->view->translate("Default Configs")
+        ));
 
         $actionsDisp = PBX_Rule_Actions::getInstance();
         $infoActions = array();
