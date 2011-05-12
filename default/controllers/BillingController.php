@@ -32,8 +32,12 @@ class BillingController extends Zend_Controller_Action {
      * List all Billing
      */
     public function indexAction() {
-        
-        $this->view->breadcrumb = $this->view->translate("Carrier » Billing");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Billing")
+        ));
+
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -89,7 +93,10 @@ class BillingController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Billing » Add");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Add")
+        ));
 
         $form = new Snep_Form( new Zend_Config_Xml( "default/forms/queues.xml" ) );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
@@ -180,7 +187,10 @@ class BillingController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Billing » Edit");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Carrier"),
+            $this->view->translate("Edit")
+        ));
 
         $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
 
@@ -335,7 +345,11 @@ class BillingController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Billing » Delete");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Billing"),
+            $this->view->translate("Delete")
+       ));
+
        $id = $this->_request->getParam('id');
 
        Snep_Billing_Manager::remove($id);
