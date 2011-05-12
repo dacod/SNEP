@@ -11,13 +11,15 @@ table td, th {
 }
 </style>
 <meta http-equiv="refresh" content="10" />
-<table cellpadding="0" cellspacing="0" border="0" align="center">
-   <thead>
-      <tr>
-         <td><?php echo $this->translate("IP Extensions") ?></td>
-         <td><?php echo $this->translate("Queues") ?></td>
-      </tr>
-   </thead>
+
+
+<table cellpadding="0" cellspacing="0" align="center">
+    <thead>
+    <tr>
+        <td><?php echo $this->translate("IP Extensions") ?></td>
+        <td><?php echo $this->translate("Queues") ?></td>
+    </tr>
+    </thead>
    <tr>
      <!-- Extensions -->
      <td valign="top" width="60%">
@@ -32,6 +34,7 @@ table td, th {
               </tr>
            </thead>
            <?php
+           if ($this->ramais) {
                 foreach ($this->ramais as $key => $value) {
             ?>
               <tr bgcolor=''>
@@ -41,7 +44,16 @@ table td, th {
                  <td class="esq"><?php echo $value['delay'] ?></td>
                  <td class="esq"><?php echo $value['codec'] ?></td>
               </tr>
-           <?php } ?>
+           <?php
+                }
+           } else {
+           ?>
+              <tr bgcolor=''>
+                 <td class="esq" colspan="5"><?php echo $this->translate("no extension available") ?></td>
+              </tr>
+           <?php
+           }
+           ?>
         </table>
      </td>
 
@@ -55,6 +67,8 @@ table td, th {
               </tr>
            </thead>
            <?php
+
+           if ($this->filas) {
                 foreach ($this->filas as $key => $value) {
             ?>
               <tr bgcolor=''>
@@ -62,7 +76,16 @@ table td, th {
                  <td class="esq"><?php echo $value['agent'] ?></td>
                  <td class="esq"><?php echo $value['status'] ?></td>
               </tr>
-           <?php } ?>
+           <?php
+                }
+           } else {
+           ?>
+              <tr bgcolor=''>
+                 <td class="esq" colspan="3"><?php echo $this->translate("no queue available") ?></td>
+              </tr>
+           <?php
+           }
+           ?>
         </table>
         <br />
         <table>
@@ -81,7 +104,15 @@ table td, th {
                  <td class="esq"><?php echo $this->codecs[1] ?></td>
                  <td class="esq"><?php echo $this->codecs[2] ?></td>
               </tr>
-           <?php } ?>
+           <?php
+                }else{
+            ?>
+              <tr bgcolor=''>
+                 <td class="esq" colspan="3"><?php echo $this->translate("no data available") ?></td>
+              </tr>
+           <?php    
+                }
+           ?>
         </table>
         <br />
 
@@ -99,6 +130,7 @@ table td, th {
           </tr>
        </thead>
            <?php
+           if ($this->troncos) {
                 foreach ($this->troncos as $key => $value) {
             ?>
           <tr>
@@ -108,7 +140,16 @@ table td, th {
                     <td class="esq" style="vertical-align: top;"><?php echo $peersvalue ?><br/></td>
                 <?php } ?>
           </tr>
-           <?php } ?>
+           <?php
+                }
+           } else {
+           ?>
+              <tr bgcolor=''>
+                 <td class="esq" colspan="4"><?php echo $this->translate("no trunk available") ?></td>
+              </tr>
+           <?php
+           }
+           ?>
     </table>
      </td>
    </tr>

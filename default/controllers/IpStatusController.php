@@ -61,10 +61,12 @@ class IpStatusController extends Zend_Controller_Action {
         $queues = array();
         $fila = explode("\n", $filas);
         unset($fila['0']);
+        if ($fila['1'] == 'No queues.') {
+            unset($fila['1']);
+            unset($fila['2']);
+        }
         $strFila = '';
 
-        //Zend_Debug::dump($fila);
-        //die;
 
         foreach ($fila as $keyl => $vall) {
 
