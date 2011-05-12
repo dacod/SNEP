@@ -17,9 +17,7 @@
  */
 
 /**
- * Discar para Ramal
- *
- * Ação snep para Regras de Negócio que disca para ramais internos.
+ * Dials to an Extension
  *
  * @see PBX_Rule
  * @see PBX_Rule_Action
@@ -29,21 +27,25 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class DiscarRamal extends PBX_Rule_Action {
+class DialExtension extends PBX_Rule_Action {
 
     /**
-     * Parametros do Dial do asterisk
-     * @var string $dial_flags parametros da app_dial do asterisk
+     * Dial flags
+     * @var string $dial_flags parameters passed to asterisk Dial app.
      */
     private $dial_flags;
 
     /**
-     * @var int $dial_timeout Tempo limite de chamada (ring)
+     * Consider timeout after X seconds of ringing.
+     *
+     * @var int $dial_timeout Timeout in seconds
      */
     private $dial_timeout;
 
     /**
-     * @var int $dial_limit Tempo limite da ligação
+     * Time limit for the call after answer.
+     *
+     * @var int $dial_limit Limit in milliseconds
      */
     private $dial_limit;
 
@@ -85,7 +87,7 @@ class DiscarRamal extends PBX_Rule_Action {
         $this->i18n = Zend_Registry::get("i18n");
     }
 
-    /**
+    /**Tempo limite da ligação
      * Define as configurações da ação
      * @param array $config
      */
@@ -106,27 +108,24 @@ class DiscarRamal extends PBX_Rule_Action {
     }
 
     /**
-     * Retorna o nome da Ação. Geralmente o nome da classe.
-     * @return Name da Ação
+     * @return string
      */
     public function getName() {
-        return $this->i18n->translate("Discar para Ramal");
+        return $this->i18n->translate("Dial Extension");
     }
 
     /**
-     * Retorna o numero da versão da classe.
-     * @return Versão da classe
+     * @return string
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
-     * Retorna uma breve descrição de funcionamento da ação.
-     * @return Descrição de funcionamento ou objetivo
+     * @return string
      */
     public function getDesc() {
-        return $this->i18n->translate("Disca para um ramal cadastrado no banco de dados do SNEP");
+        return $this->i18n->translate("Dial to a snep extension.");
     }
 
     /**
@@ -157,11 +156,6 @@ class DiscarRamal extends PBX_Rule_Action {
      */
     public function getConfig() {
         $i18n = $this->i18n;
-        /* Descomente para geração de tradução. Parser ruim do poedit
-        $i18n->translate("Dial Flags");
-        $i18n->translate("Dial Timeout");
-        $i18n->translate("segundos");
-         */
         $ramal           = (isset($this->config['ramal']))?"<value>{$this->config['ramal']}</value>":"";
         $dial_timeout    = (isset($this->config['dial_timeout']))?"<value>{$this->config['dial_timeout']}</value>":"";
         $dial_flags      = (isset($this->config['dial_flags']))?"<value>{$this->config['dial_flags']}</value>":"";
@@ -182,7 +176,7 @@ class DiscarRamal extends PBX_Rule_Action {
         <id>dial_timeout</id>
         <default>$default_dial_timeout</default>
         <label>{$i18n->translate("Dial Timeout")}</label>
-        <unit>{$i18n->translate("segundos")}</unit>
+        <unit>{$i18n->translate("in seconds")}</unit>
         <size>2</size>
         $dial_timeout
     </int>
@@ -196,19 +190,19 @@ class DiscarRamal extends PBX_Rule_Action {
     <boolean>
         <id>diff_ring</id>
         <default>false</default>
-        <label>{$i18n->translate("Diferenciar toque")}</label>
+        <label>{$i18n->translate("Differ ring")}</label>
         $diff_ring
     </boolean>
     <boolean>
         <id>allow_voicemail</id>
         <default>false</default>
-        <label>{$i18n->translate("Permitir Voicemail")}</label>
+        <label>{$i18n->translate("Allow voicemail")}</label>
         $allow_voicemail
     </boolean>
     <boolean>
         <id>dont_overflow</id>
         <default>false</default>
-        <label>{$i18n->translate("Não Transbordar (ocupado e não atende)")}</label>
+        <label>{$i18n->translate("Do not overflow (busy and no answer)")}</label>
         $dont_overflow
     </boolean>
 </params>
@@ -216,13 +210,6 @@ XML;
     }
 
     /**
-     * Configurações padrão para todas as ações dessa classe. Essas possuem uma
-     * tela de configuração separada.
-     *
-     * Os campos descritos aqui podem ser usados para controle de timout,
-     * valores padrão e informações que não pertencem exclusivamente a uma
-     * instancia da ação em uma regra de negócio.
-     *
      * @return string XML com as configurações default para as classes
      */
     public function getDefaultConfigXML() {
@@ -236,7 +223,7 @@ XML;
         <id>dial_timeout</id>
         <default>$dial_timeout</default>
         <label>{$i18n->translate("Dial Timeout")}</label>
-        <unit>{$i18n->translate("segundos")}</unit>
+        <unit>{$i18n->translate("in seconds")}</unit>
         <size>2</size>
     </int>
 </params>
@@ -265,10 +252,10 @@ XML;
         }
 
         if($ramal->isDNDActive()) {
-            $log->info("Ramal $ramal esta com nao perturbe habilitado.");
+            $log->info("Extension $ramal have do not disturb enabled.");
         }
         else if($ramal->getFollowMe() != null) {
-            $log->info("Siga-me, tentando encontrar: " . $ramal->getFollowMe());
+            $log->info("Follow-me, trying to find: " . $ramal->getFollowMe());
             $fake_request = $asterisk->request;
             $fake_request['agi_callerid'] = $ramal->getNumero();
             $fake_request['agi_extension'] = $ramal->getFollowMe();
@@ -295,10 +282,10 @@ XML;
             switch($dialstatus['data']) {
                 case 'ANSWER':
                 case 'CANCEL':
-                    throw new PBX_Rule_Action_Exception_StopExecution("Fim de ligacao detectado");
+                    throw new PBX_Rule_Action_Exception_StopExecution("End of call detected");
                     break;
                 case 'CHANUNAVAIL':
-                    $log->warn($dialstatus['data'] . " ao discar para o ramal $ramal");
+                    $log->warn($dialstatus['data'] . " dialing to extension $ramal");
             }
         }
         else {
@@ -324,25 +311,24 @@ XML;
             $log->debug("DIALSTATUS: " . $dialstatus['data']);
 
             if($dialstatus['data'] != "ANSWER" && $dialstatus['data'] != "CANCEL" && $this->allow_voicemail && $ramal->hasVoiceMail()) {
-                $log->info("Executando voicemail para ramal $ramal devido a {$dialstatus['data']}");
+                $log->info("Executing voicemail to extension $ramal due to {$dialstatus['data']}");
                 $vm_params = array(
                     $ramal->getMailBox(),
                     "u"
                 );
                 $asterisk->exec('voicemail', $vm_params);
-                // Nada mais deve ser executado depois do voicemail
-                throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
+                throw new PBX_Rule_Action_Exception_StopExecution("End of call");
             }
 
             switch($dialstatus['data']) {
                 case 'ANSWER':
                 case 'CANCEL':
-                    throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
+                    throw new PBX_Rule_Action_Exception_StopExecution("End of call");
                     break;
                 case 'NOANSWER':
                 case 'BUSY':
                     if( $this->dont_overflow ) {
-                        throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
+                        throw new PBX_Rule_Action_Exception_StopExecution("End of call");
                     }
                     break;
                 default:

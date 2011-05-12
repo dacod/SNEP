@@ -17,11 +17,7 @@
  */
 
 /**
- * ActionLooop Loop em Actions
- *
- * Ação que faz possível um loop finito na execução de ações nas regras de
- * negócio.
- *
+ * Used to make loop in actions.
  *
  * @category  Snep
  * @package   PBX_Rule_Action
@@ -31,20 +27,19 @@
 class ActionLoop extends PBX_Rule_Action {
 
     /**
-     * Contagem de vezes em que essa ação foi chamada.
+     * Number of times we passed through this action
      *
      * @var int loop count
      */
     private $count;
     
     /**
-     * @var Internacionalização
+     * @var Internacionalization
      */
     private $i18n;
 
     /**
      * Construtor
-     * @param array $config configurações da ação
      */
     public function __construct() {
         $this->count = 0;
@@ -52,31 +47,30 @@ class ActionLoop extends PBX_Rule_Action {
     }
 
     /**
-     * Retorna o nome da Ação. Geralmente o nome da classe.
-     * @return Name da Ação
+     * Action name
+     * @return action name
      */
     public function getName() {
         return $this->i18n->translate("Loop");
     }
 
     /**
-     * Retorna o numero da versão da classe.
-     * @return Versão da classe
+     * Version number
+     * @return action version
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
-     * Retorna uma breve descrição de funcionamento da ação.
-     * @return Descrição de funcionamento ou objetivo
+     * Action description
+     * @return Action description
      */
     public function getDesc() {
-        return $this->i18n->translate("Faz um loop na execução de ações.");
+        return $this->i18n->translate("Does a loop in actions.");
     }
 
     /**
-     * Devolve um XML com as configurações requeridas pela ação
      * @return String XML
      */
     public function getConfig() {
@@ -84,8 +78,8 @@ class ActionLoop extends PBX_Rule_Action {
         $loopcount  = (isset($this->config['loopcount']))?"<value>{$this->config['loopcount']}</value>":"";
         $actionindex = (isset($this->config['actionindex']))?"<value>{$this->config['actionindex']}</value>":"";
 
-        $lbl_loopcount = $i18n->translate("Repetir:");
-        $lbl_actionindex = $i18n->translate("Indice da ação:");
+        $lbl_loopcount = $i18n->translate("Repeat:");
+        $lbl_actionindex = $i18n->translate("Action index:");
 
         $unit = $i18n->translate("vezes");
         return <<<XML
@@ -108,7 +102,8 @@ XML;
     }
 
     /**
-     * Executa a ação.
+     * Execute the action
+     * 
      * @param Asterisk_AGI $asterisk
      * @param Asterisk_AGI_Request $request
      */

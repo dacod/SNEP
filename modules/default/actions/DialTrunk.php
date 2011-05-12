@@ -17,27 +17,20 @@
  */
 
 /**
- * Discar para Tronco
- *
- * Ação de Regra de Negócio do snep que controla a lógica de discagem para
- * troncos.
+ * Dial trunk
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class DiscarTronco extends PBX_Rule_Action {
+class DialTrunk extends PBX_Rule_Action {
 
     /**
-     * @var Internacionalização
+     * @var Zend_Translate
      */
     private $i18n;
 
-    /**
-     * Construtor
-     * @param array $config configurações da ação
-     */
     public function __construct() {
         $this->i18n = Zend_Registry::get("i18n");
     }
@@ -48,16 +41,14 @@ class DiscarTronco extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Discar para Tronco");
+        return $this->i18n->translate("Dial Trunk");
     }
 
     /**
-     * Retorna o numero da versão da classe.
-     *
-     * @return Versão da classe
+     * @return string
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -82,18 +73,18 @@ class DiscarTronco extends PBX_Rule_Action {
             $mail->addTo($addresses);
         }
 
-        $mail->setSubject('[snep] Alerta de uso de Tronco Redundante');
+        $mail->setSubject($this->i18n->translate('[snep] Warning of trunk usage'));
 
         $tronco = PBX_Trunks::get($this->config['tronco']);
-        $msg = "Sr. Administrador,\n\tEste é um alerta de que o SNEP identificou o uso de um tronco marcado para enviar email caso utilizado.\n";
-        $msg .= "Alerta para tronco $tronco, as seguintes informações foram registradas pelo sistema:\n";
+        $msg = $this->i18n->translate("\tThis warning is being delivered to you because Snep detected the usage of a trunk marked with your email.\n");
+        $msg .= $this->i18n->translate("Warning to trunk $tronco, the following information where gathered by the system:\n");
 
         foreach ($informations as $info => $message) {
             $msg .= "$info: $message\n";
         }
 
         $mail->setBodyText($msg);
-        $log->info("Enviando email de alerta para {$this->config['alertEmail']}");
+        $log->info("Sending email to '{$this->config['alertEmail']}'");
         $mail->send();
     }
 
@@ -119,7 +110,7 @@ class DiscarTronco extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Disca para um tronco");
+        return $this->i18n->translate("Dial to a Trunk");
     }
 
     /**
@@ -155,9 +146,9 @@ class DiscarTronco extends PBX_Rule_Action {
     <int>
         <id>dial_limit</id>
         <default>0</default>
-        <label>{$i18n->translate("Limite da chamada")}</label>
+        <label>{$i18n->translate("Call Duration Limit")}</label>
         <size>4</size>
-        <unit>{$i18n->translate("milisegundos")}</unit>
+        <unit>{$i18n->translate("in milliseconds")}</unit>
         $dial_limit
     </int>
 
@@ -172,13 +163,13 @@ class DiscarTronco extends PBX_Rule_Action {
     <boolean>
         <id>omit_kgsm</id>
         <default>false</default>
-        <label>{$i18n->translate("Omitir origem (somente KGSM)")}</label>
+        <label>{$i18n->translate("Ommit origin (only for Khomp KGSM)")}</label>
         $omit_kgsm
     </boolean>
 
     <string>
         <id>alertEmail</id>
-        <label>{$i18n->translate("Emails para alerta")}</label>
+        <label>{$i18n->translate("Alert email")}</label>
         <size>50</size>
         $alertEmail
     </string>
@@ -187,13 +178,6 @@ XML;
     }
 
     /**
-     * Configurações padrão para todas as ações dessa classe. Essas possuem uma
-     * tela de configuração separada.
-     *
-     * Os campos descritos aqui podem ser usados para controle de timout,
-     * valores padrão e informações que não pertencem exclusivamente a uma
-     * instancia da ação em uma regra de negócio.
-     *
      * @return string XML com as configurações default para as classes
      */
     public function getDefaultConfigXML() {
@@ -207,22 +191,22 @@ XML;
 <params>
     <int>
         <id>play_warning</id>
-        <label>{$i18n->translate("Tempo restante para alerta")}</label>
-        <unit>{$i18n->translate("milisegundos")}</unit>
+        <label>{$i18n->translate("Seconds left to alert")}</label>
+        <unit>{$i18n->translate("in milliseconds")}</unit>
         <size>5</size>
         $play_warning_value
     </int>
     <int>
         <id>warning_freq</id>
-        <label>{$i18n->translate("Frequencia de repetição do alerta")}</label>
-        <unit>{$i18n->translate("milisegundos")}</unit>
+        <label>{$i18n->translate("Alert repetition rate")}</label>
+        <unit>{$i18n->translate("in milliseconds")}</unit>
         <size>5</size>
         $warning_freq_value
     </int>
     <string>
         <id>warning_sound</id>
         <default>beep</default>
-        <label>{$i18n->translate("Som do Alerta")}</label>
+        <label>{$i18n->translate("Alert sound")}</label>
         $warning_sound_value
     </string>
 </params>
@@ -237,6 +221,7 @@ XML;
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
+        $trs = $this->i18n;
 
         $tronco = PBX_Trunks::get($this->config['tronco']);
 
@@ -276,7 +261,7 @@ XML;
             $destiny = $tronco->getInterface()->getCanal() . "/" . $dst_number . $postfix;
         }
 
-        $log->info("Discando para $request->destino atraves do tronco {$tronco->getName()}($destiny)");
+        $log->info("Dialing to $request->destino through trunk {$tronco->getName()}($destiny)");
 
         $dialstatus = $asterisk->get_variable("DIALSTATUS");
         $lastdialstatus = $dialstatus['data'];
@@ -295,14 +280,14 @@ XML;
         // Enviar email de alerta.
         if(isset($this->config['alertEmail']) && $this->config['alertEmail'] != "") {
             $informations = array(
-                'Regra'             => $this->getRule(),
-                'Hora da chamada'   => date('H:i'),
-                'Data da chamada'   => date('d/m/Y'),
-                'Origem Original'   => $request->getOriginalCallerid(),
-                'Destino original'  => $request->getOriginalExtension(),
-                'Origem'            => $request->origem,
-                'Destino'           => $request->destino,
-                'Status da Ligação' => $dialstatus['data']
+                $trs->translate('Rule')             => $this->getRule(),
+                $trs->translate('Call Time')        => date('H:i'),
+                $trs->translate('Call Date')        => date('d/m/Y'),
+                $trs->translate('Original Source')  => $request->getOriginalCallerid(),
+                $trs->translate('Original Destination') => $request->getOriginalExtension(),
+                $trs->translate('Source')           => $request->origem,
+                $trs->translate('Destination')      => $request->destino,
+                $trs->translate('Call status')      => $dialstatus['data']
             );
 
             if($lastdialstatus != "") {
@@ -319,9 +304,9 @@ XML;
                         $lastdialaction = $cfg['ramal'];
                     }
                 }
-                $informations["\nHouve uma tentativa de ligação anterior"] = "";
-                $informations["Ultima ligação para"] = $lastdialaction;
-                $informations["Estado da ultima ligação"] = $lastdialstatus;
+                $informations[$trs->translate("\nThere were a previous call attempt")] = "";
+                $informations[$trs->translate("Last call to")] = $lastdialaction;
+                $informations[$trs->translate("Status of last call")] = $lastdialstatus;
             }
 
             $this->sendMailAlert(explode(",",$this->config['alertEmail']), $informations);
@@ -332,10 +317,10 @@ XML;
             case 'CANCEL':
             case 'NOANSWER':
             case 'BUSY':
-                throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
+                throw new PBX_Rule_Action_Exception_StopExecution("Call end");
                 break;
             default:
-                $log->err($dialstatus['data'] . " ao discar para $request->destino pelo tronco $tronco");
+                $log->err($dialstatus['data'] . " dialing to $request->destino through trunk $tronco");
         }
     }
 }

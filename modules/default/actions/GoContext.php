@@ -50,7 +50,7 @@ class GoContext extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Desviar para Contexto");
+        return $this->i18n->translate("Go to a Context");
     }
 
     /**
@@ -59,7 +59,7 @@ class GoContext extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -76,7 +76,7 @@ class GoContext extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Envia a ligação para um contexto");
+        return $this->i18n->translate("Send call to an Asterisk context");
     }
 
     /**
@@ -85,11 +85,12 @@ class GoContext extends PBX_Rule_Action {
      */
     public function getConfig() {
         $context = (isset($this->config['context']))?"<value>{$this->config['context']}</value>":"";
+        $trs = Zend_Registry::get("i18n");
 
         return <<<XML
 <params>
     <string>
-        <label>Contexto</label>
+        <label>{$trs->translate("Context")}</label>
         <id>context</id>
         <default>default</default>
         $context

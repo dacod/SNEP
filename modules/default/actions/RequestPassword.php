@@ -30,7 +30,7 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Cadeado extends PBX_Rule_Action {
+class RequestPassword extends PBX_Rule_Action {
 
     /**
      * @var Internacionalização
@@ -64,7 +64,7 @@ class Cadeado extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Cadeado");
+        return $this->i18n->translate("Request Password");
     }
 
     /**
@@ -72,7 +72,7 @@ class Cadeado extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -80,7 +80,7 @@ class Cadeado extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Trava a execução de acoes posteriores por senha.");
+        return $this->i18n->translate("Block the execution of the action until password is given.");
     }
 
     /**
@@ -93,12 +93,9 @@ class Cadeado extends PBX_Rule_Action {
         $senha = (isset($this->config['senha']))?"<value>{$this->config['senha']}</value>":"";
         $ask_peer = isset($this->config['ask_peer']) ? "<value>{$this->config['ask_peer']}</value>":"";
 
-        $lbl_radio = $i18n->translate("Usar:");
-        $lbl_ramal = $i18n->translate("Senha do Ramal");
-        $lbl_static = $i18n->translate("Senha Estática (digite a seguir):");
-        $lbl_senha = $i18n->translate("Senha Estática:");
-        $lbl_desc = $i18n->translate("Em branco para usar padrão do ramal.");
-        $lbl_ask_peer = $i18n->translate("Requisitar e substituir ramal de origem");
+        $lbl_senha = $i18n->translate("Static Password:");
+        $lbl_desc = $i18n->translate("Leave blank to use extensions password.");
+        $lbl_ask_peer = $i18n->translate("Replace source extension with requested");
         return <<<XML
 <params>
     <boolean>
@@ -134,7 +131,7 @@ XML;
                 $ramal = PBX_Usuarios::get($ramal['data']);
             }
             catch( PBX_Exception_NotFound $ex ) {
-                throw new PBX_Exception_AuthFail("Ramal invalido");
+                throw new PBX_Exception_AuthFail("Ivalid Extension");
             }
 
             $request->setSrcObj($ramal);
@@ -150,7 +147,6 @@ XML;
             $senha = $this->config['senha'];
         }
         else {
-            $log->warn("Impossivel determinar qual senha usar para a regra");
             return;
         }
 

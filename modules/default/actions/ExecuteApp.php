@@ -34,7 +34,7 @@ class ExecuteApp extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return "Executar Aplicação";
+        return Zend_Registry::get("i18n")->translate("Execute Application");
     }
 
     /**
@@ -42,7 +42,7 @@ class ExecuteApp extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return Zend_Registry::get("snep_version");
+        return SNEP_VERSION;
     }
 
     /**
@@ -50,7 +50,7 @@ class ExecuteApp extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return "Executa uma aplicação do Asterisk";
+        return Zend_Registry::get("i18n")->translate("Execute an Asterisk Application.");
     }
 
     /**
@@ -58,6 +58,7 @@ class ExecuteApp extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
+        $trs = Zend_Registry::get("i18n");
         $application  = (isset($this->config['application']))?"<value>{$this->config['application']}</value>":"";
         if( isset($this->config['parameters']) ) {
             $parameters = str_replace(array("<",">"), array("&lt;", "&gt;"), $this->config['parameters']);
@@ -70,12 +71,12 @@ class ExecuteApp extends PBX_Rule_Action {
         return <<<XML
 <params>
     <string>
-        <label>Aplicação</label>
+        <label>{$trs->translate("Application")}</label>
         <id>application</id>
         $application
     </string>
     <string>
-        <label>Parâmetros</label>
+        <label>{$trs->translate("Parameters")}</label>
         <id>parameters</id>
         $parameters
     </string>
@@ -97,7 +98,7 @@ XML;
         $log->info("Executing application: $application($parameters)");
         $return = $asterisk->exec($application, $parameters);
         if($return['result'] == "-2") {
-            $log->err("Falha ao executar aplicacao $application. Retorno: {$return['data']}");
+            $log->err("Failure to execute application $application. Returned: {$return['data']}");
         }
     }
 }

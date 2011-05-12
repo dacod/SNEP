@@ -55,7 +55,7 @@ class Restore extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Restaurar Requisição");
+        return $this->i18n->translate("Restore Request");
     }
 
     /**
@@ -63,7 +63,7 @@ class Restore extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -71,7 +71,7 @@ class Restore extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Restaura a origem ou destino da ligação.");
+        return $this->i18n->translate("Restore the original source or destination of a call.");
     }
 
     /**
@@ -86,13 +86,13 @@ class Restore extends PBX_Rule_Action {
 <params>
     <boolean>
         <id>origem</id>
-        <label>{$i18n->translate("Restaurar Origem")}</label>
+        <label>{$i18n->translate("Restore Source")}</label>
         <default>false</default>
         $origem
     </boolean>
     <boolean>
         <id>destino</id>
-        <label>{$i18n->translate("Restaurar Destino")}</label>
+        <label>{$i18n->translate("Restore Destination")}</label>
         <default>false</default>
         $destino
     </boolean>
@@ -108,12 +108,12 @@ XML;
         $log = Zend_Registry::get('log');
         $i18n = $this->i18n;
         if(isset($this->config['origem']) && $this->config['origem']) {
-            $log->info(sprintf($i18n->translate("Restaurando origem para %s"), $request->getOriginalCallerid()));
+            $log->info(sprintf($i18n->translate("Restoring source to %s"), $request->getOriginalCallerid()));
             $request->origem = $request->getOriginalCallerid();
             $asterisk->set_callerid($request->origem);
         }
         if(isset($this->config['destino']) && $this->config['destino']) {
-            $log->info(sprintf($i18n->translate("Restaurando destino para %s"), $request->getOriginalExtension()));
+            $log->info(sprintf($i18n->translate("Restoring destination to %s"), $request->getOriginalExtension()));
             $request->destino = $request->getOriginalExtension();
         }
     }

@@ -47,7 +47,7 @@ class Queue extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Enviar para Fila");
+        return $this->i18n->translate("Send to Queue");
     }
 
     /**
@@ -56,7 +56,7 @@ class Queue extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -73,7 +73,7 @@ class Queue extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Envia a ligação para uma fila");
+        return $this->i18n->translate("Send call to an answering queue");
     }
 
     /**
@@ -89,16 +89,16 @@ class Queue extends PBX_Rule_Action {
 <params>
     <queue>
         <id>queue</id>
-        <label>{$i18n->translate("Fila")}</label>
+        <label>{$i18n->translate("Queue")}</label>
         $queue
     </queue>
 
     <int>
         <id>timeout</id>
         <default>180</default>
-        <label>{$i18n->translate("Timeout na fila")}</label>
+        <label>{$i18n->translate("Timeout")}</label>
         <size>4</size>
-        <unit>{$i18n->translate("segundos")}</unit>
+        <unit>{$i18n->translate("in seconds")}</unit>
         $timeout
     </int>
 </params>
@@ -117,7 +117,6 @@ XML;
         $asterisk->answer();
         $result = $asterisk->exec('Queue', array($this->config['queue'],'t','','',$this->config['timeout']));
         if($result['result'] == -1) {
-            $log->debug("Resultado do queue -1, Ligacao atendida ou cancelada.");
             throw new PBX_Rule_Action_Exception_StopExecution();
         }
     }

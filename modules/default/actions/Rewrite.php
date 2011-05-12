@@ -55,7 +55,7 @@ class Rewrite extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Reescrever Requisição");
+        return $this->i18n->translate("Rewrite Request");
     }
 
     /**
@@ -63,7 +63,7 @@ class Rewrite extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -71,7 +71,7 @@ class Rewrite extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Reescreve Origem/Destino da ligação.");
+        return $this->i18n->translate("Rewrite requests source or destination.");
     }
 
     /**
@@ -89,47 +89,47 @@ class Rewrite extends PBX_Rule_Action {
 <params>
     <radio>
         <id>type</id>
-        <label>{$i18n->translate("Tipo de edição")}</label>
+        <label>{$i18n->translate("Edit")}</label>
         <default>dst</default>
         $type
         <option>
-            <label>{$i18n->translate("Origem")}</label>
+            <label>{$i18n->translate("Source")}</label>
             <value>src</value>
         </option>
         <option>
-            <label>{$i18n->translate("Destino")}</label>
+            <label>{$i18n->translate("Destination")}</label>
             <value>dst</value>
         </option>
     </radio>
     <radio>
         <id>cut</id>
-        <label>{$i18n->translate("Corte")}</label>
+        <label>{$i18n->translate("Cut")}</label>
         <default>nocut</default>
         $cut
         <option>
-            <label>{$i18n->translate("Não cortar")}</label>
+            <label>{$i18n->translate("Do not cut")}</label>
             <value>nocut</value>
         </option>
         <option>
-            <label>{$i18n->translate("Cortar no pipe '|'")}</label>
+            <label>{$i18n->translate("Cut on pipe '|'")}</label>
             <value>pipecut</value>
         </option>
     </radio>
     <string>
         <id>replace</id>
-        <label>{$i18n->translate("Substituir por")}</label>
+        <label>{$i18n->translate("Replace for")}</label>
         <size>10</size>
         $replace
     </string>
     <string>
         <id>prefix</id>
-        <label>{$i18n->translate("Prefixo")}</label>
+        <label>{$i18n->translate("Prefix")}</label>
         <size>10</size>
         $prefix
     </string>
     <string>
         <id>suffix</id>
-        <label>{$i18n->translate("suffixo")}</label>
+        <label>{$i18n->translate("Suffix")}</label>
         <size>10</size>
         $suffix
     </string>
@@ -208,12 +208,6 @@ XML;
                     }
 
                 }
-                else {
-                    $log->debug(sprintf($i18n->translate("Tipo de expressao que casa com essa regra nao permite corte por |, esta casa com: %s"), $expr['type'] . '-' . $expr['value']));
-                }
-            }
-            else {
-                $log->err($i18n->translate("Erro ao processar instrucao para corte em |, impossivel encontrar Regra que executa esta acao."));
             }
         }
 
@@ -234,12 +228,12 @@ XML;
 
         // Aplicando modificações no callerid/extension do asterisk
         if(isset($this->config['type']) && $this->config['type'] == 'src') {
-            $log->info(sprintf($i18n->translate("Reescrevendo origem para %s"), $num));
+            $log->info(sprintf($i18n->translate("Rewriting source to %s"), $num));
             $request->origem = $num;
             $asterisk->set_callerid($num);
         }
         else {
-            $log->info(sprintf($i18n->translate("Reescrevendo destino para %s"), $num));
+            $log->info(sprintf($i18n->translate("Rewriting destination to %s"), $num));
             $request->destino = $num;
             $asterisk->set_extension($request->destino);
         }

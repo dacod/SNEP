@@ -17,69 +17,46 @@
  */
 
 /**
- * Setar Centro de Custos.
+ * Set a cost center to the call
  *
- * Ação das regras do snep que define um centro de cusos para classificar a
- * ligação.
+ * Marks the call with a Cost Center for CDR management.
  *
  * @category  Snep
  * @package   PBX_Rule_Action
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class CCustos extends PBX_Rule_Action {
+class CostCenter extends PBX_Rule_Action {
 
-    /**
-     * @var Internacionalização
-     */
     private $i18n;
 
-    /**
-     * Construtor
-     * @param array $config configurações da ação
-     */
     public function __construct() {
         $this->i18n = Zend_Registry::get("i18n");
     }
 
     /**
-     * Retorna o nome da Ação. Geralmente o nome da classe.
-     *
-     * @return Name da Ação
+     * @return string
      */
     public function getName() {
-        return $this->i18n->translate("Definir Centro de Custos");
+        return $this->i18n->translate("Define Cost Center");
     }
 
     /**
-     * Retorna o numero da versão da classe.
-     *
-     * @return Versão da classe
+     * @return string
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
-     * Seta as configurações da ação.
-     *
-     * @param array $config configurações da ação
-     */
-    public function setConfig($config) {
-        $this->config = $config;
-    }
-
-    /**
-     * Retorna uma breve descrição de funcionamento da ação.
-     * @return Descrição de funcionamento ou objetivo
+     * @return string
      */
     public function getDesc() {
-        return $this->i18n->translate("Define um centro de custos para classificação da ligação");
+        return $this->i18n->translate("Marks the call with a cost center.");
     }
 
     /**
-     * Devolve um XML com as configurações requeridas pela ação
-     * @return String XML
+     * @return string XML
      */
     public function getConfig() {
         $ccustos = (isset($this->config['ccustos']))?"<value>{$this->config['ccustos']}</value>":"";
@@ -95,12 +72,7 @@ XML;
     }
 
     /**
-     * Executa a ação. É chamado dentro de uma instancia usando AGI.
-     *
-     * @param AGI $asterisk
-     * @param int $rule - A regra que chamou essa ação. É passado pra que
-     * a ação possa restaurar as configurações dela para essa regra. Esse parametro
-     * á opcional.
+     * Execute the action
      */
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');

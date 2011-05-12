@@ -47,7 +47,7 @@ class Playback extends PBX_Rule_Action {
      * @return Name da Ação
      */
     public function getName() {
-        return $this->i18n->translate("Tocar Audio");
+        return $this->i18n->translate("Play Audio");
     }
 
     /**
@@ -56,7 +56,7 @@ class Playback extends PBX_Rule_Action {
      * @return Versão da classe
      */
     public function getVersion() {
-        return "1.0";
+        return SNEP_VERSION;
     }
 
     /**
@@ -73,7 +73,7 @@ class Playback extends PBX_Rule_Action {
      * @return Descrição de funcionamento ou objetivo
      */
     public function getDesc() {
-        return $this->i18n->translate("Toca um arquivo de som cadastrado no Snep.");
+        return $this->i18n->translate("Play an audio file.");
     }
 
     /**
@@ -81,12 +81,13 @@ class Playback extends PBX_Rule_Action {
      * @return String XML
      */
     public function getConfig() {
+        $trs = Zend_Registry::get("i18n");
         $file = (isset($this->config['file']))?"<value>{$this->config['file']}</value>":"";
 
         return <<<XML
 <params>
     <audio>
-        <label>Arquivo de Som</label>
+        <label>{$trs->translate("File")}</label>
         <id>file</id>
         $file
     </audio>
@@ -103,8 +104,8 @@ XML;
     public function execute($asterisk, $request) {
         $log = Zend_Registry::get('log');
 
+        $log->info("Answering and playing audio file: " . $this->config['file']);
         $asterisk->answer();
-        $log->info("Atendendo e tocando: " . $this->config['file']);
         $asterisk->stream_file($this->config['file']);
     }
 }
