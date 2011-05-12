@@ -27,7 +27,7 @@
             </ul>
         </div>
         <?php endif; ?>
-        <div id="breadcrumb">
+        <div id="breadcrumb" <?php if($this->hideMenu) { echo 'class="fullbreadcrumb"'; } ?>>
             <?php echo $this->breadcrumb; ?>
         </div>
         <div id="content">

@@ -1,12 +1,24 @@
-<h1><?php echo $this->title ?></h1>
-<p><?php echo $this->message ?></p>
+<style type="text/css">
+#content {
+    padding: 20px;
+}
+</style>
+
+<h1><?php printf("%d - %s", $this->code, $this->title); ?></h1>
+<p style="font-size: 14px;"><?php echo $this->message ?></p>
+
+<?php if ($this->code != 404): ?>
+<p><strong>Server Message:</strong> <?php echo $this->exception->getMessage(); ?></p>
+<p style="text-align: center;"><button onclick="location.href='<?php echo $this->baseUrl(); ?>'"><?php echo $this->translate("Get me out of here"); ?></button></p>
+<?php else: ?>
+<p style="text-align: center;"><button onclick="location.href='javascript:history.back();'"><?php echo $this->translate("Go back to the last page"); ?></button></p>
+<?php endif; ?>
 
 <?php if ('development' == APPLICATION_ENV): ?>
-
 <h3>Exception information:</h3>
 <p>
-    <b>Classe:</b> <?php echo get_class($this->exception); ?><br />
-    <b>Message:</b> <?php echo $this->exception->getMessage(); ?>
+    <strong>Classe:</strong> <?php echo get_class($this->exception); ?><br />
+    <strong>Message:</strong> <?php echo $this->exception->getMessage(); ?>
 </p>
 
 <h3>Stack trace:</h3>

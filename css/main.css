@@ -14,6 +14,11 @@ html, body {
     height: 100%;
 }
 
+pre {
+    max-width: 975px;
+    overflow: auto;
+}
+
 #wrapper {
     min-height: 100%;
     height: auto !important;
@@ -87,7 +92,11 @@ body {
     border:none;
 }
 
-#breadcrumb {
+.fullbreadcrumb {
+    margin-top: 30px;
+}
+
+#breadcrumb{
     width: 955px;
     color: #808080;
     font-size: 14px;
@@ -194,7 +203,7 @@ input[type=submit]:active {
 }
 
 button:active {
-    background: url("../imagens/button_clicked.png");
+    background: url("../imagens/button_important_clicked.png");
     background-position: top;
     background-repeat: repeat-x;
     background-color: #fff;
@@ -312,6 +321,7 @@ select
 
 .rightmenu {
     float: right;
+    margin-right: 0px !important;
 }
 
 .rightmenu a {
@@ -329,6 +339,10 @@ select
     font-size: 12px;
     font-weight: bold;
     font-family: Verdana, Arial, Helvetica, sans-serif;
+
+    position: relative;
+    z-index: 1000;
+    margin-right: 100px;
 }
 
 .navmenu li {
