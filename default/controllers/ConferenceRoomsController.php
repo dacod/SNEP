@@ -35,7 +35,10 @@ class ConferenceRoomsController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Conference Rooms");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Conference Rooms")
+        ));
 
         $config = Zend_Registry::get('config');
 
