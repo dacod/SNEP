@@ -883,3 +883,30 @@ select
     background-color: #000; 
     font-weight: bolder;
 }
+
+.add_item {
+    width: 94px;
+    background: #d2d2d2 url(../imagens/bg_add.png)  no-repeat ;
+    background-position: -103px 0px;
+    padding-right: 30px;
+    color: #696969;
+    font-weight: lighter;
+    border: 1px solid #696969;
+}
+.add_item:active {
+    background: #d2d2d2 url(../imagens/bg_add.png)  no-repeat ;
+    background-position: -103px 0px;
+}
+.remove_item {
+    width: 94px;
+    background: #d2d2d2 url(../imagens/bg_remove.png)  no-repeat ;
+    background-position: 0px 0px;
+    padding-left: 30px;
+    color: #696969;
+    font-weight: lighter;
+    border: 1px solid #696969;
+}
+.remove_item:active {
+    background: #d2d2d2 url(../imagens/bg_remove.png)  no-repeat ;
+    background-position: 0px 0px;
+}
