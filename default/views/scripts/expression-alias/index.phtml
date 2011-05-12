@@ -16,9 +16,11 @@ echo $this->render('filter.phtml')
     </thead>
     <tbody>
       <?php
+        $c = 0;
         foreach ($this->aliases as $value) {
+        ($c ? $c = 0 : $c = 1 );
         ?>
-        <tr>
+        <tr class="c<?php echo $c ?>">
             <td align="center"><?php echo $value['id'] ?></td>
             <td><?php echo $value['name'] ?></td>
             <td valign="middle" align="center" width="20px">
