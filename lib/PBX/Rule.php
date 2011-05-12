@@ -468,12 +468,12 @@ class PBX_Rule {
     }
 
     /**
-     * Executa Actions das Regras
+     * Execute the rule
      *
-     * Este método inicia a execução das ações que a regra deve efetuar.
+     * This method is meant to be executed exclusively within AGI context.
      */
     public function execute() {
-        $asterisk = $this->asterisk; // facilitando o trabalho
+        $asterisk = $this->asterisk;
         $log = Zend_Registry::get('log');
 
         $to_execute = true;
@@ -481,52 +481,48 @@ class PBX_Rule {
             $this->plugins->startup();
         }
         catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-            $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
+            $log->info("Stopping rule execution by plugin request: {$ex->getMessage()}");
             $to_execute = false;
         }
 
         if(count($this->acoes) == 0) {
-            $log->warn("A regra nao possui nenhuma acao");
+            $log->warn("Rule does not have any actions.");
         }
         else {
             $requester = $this->request->getSrcObj();
-            // Verificando se o telefone for um ramal e se ele não está bloqueado (cadeado).
             if($requester instanceof Snep_Exten && $requester->isLocked()) {
-                $log->info("Usuario $requester esta com cadeado habilitado");
+                $log->info("User $requester have padlock enabled");
                 $asterisk->stream_file('ext-disabled');
             }
             else {
                 if( $this->isRecording() ) {
                     $recordApp = $this->getRecordApp();
-                    $log->info("Executando aplicacao de gravacao '{$recordApp['application']}'");
+                    $log->info("Recording with '{$recordApp['application']}'");
                     $this->asterisk->exec($recordApp['application'], $recordApp['options']);
-                    // Usando função que corrige gravação em transferências quando não feitas pelo originador da ligação
-                    // $this->asterisk->set_variable("AUDIOHOOK_INHERIT({$recordApp['application']})", "yes");
                 }
 
-                // A foreach don't do it because of PBX_Rule_Action_Exception_GoTo
                 for($priority=0; $priority < count($this->acoes) && $to_execute; $priority++) {
                     $acao = $this->acoes[$priority];
 
-                    $log->debug("Executando acao $priority-" . get_class($acao));
+                    $log->debug(sprintf("Executing action %d-%s", $priority, get_class($acao)));
                     try {
                         $this->plugins->preExecute($priority);
                         $acao->execute($asterisk, $this->request);
                     }
                     catch(PBX_Exception_AuthFail $ex) {
-                        $log->info("Parando execucao devido a falha na autenticacao do ramal em $priority-" . get_class($acao) . ". Retorno: {$ex->getMessage()}");
+                        $log->info("Stopping rule. Failed to authenticate extension $priority-" . get_class($acao) . ". Response: {$ex->getMessage()}");
                         $to_execute = false;
                     }
                     catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-                        $log->info("Parando execucao das acoes a pedido de: $priority-" . get_class($acao));
+                        $log->info("Stopping rule execution by action request: $priority-" . get_class($acao));
                         $to_execute = false;
                     }
                     catch(PBX_Rule_Action_Exception_GoTo $goto) {
                         $priority = $goto->getIndex() -1;
-                        $log->info("Desviando fluxo para acao {$goto->getIndex()}.");
+                        $log->info("Deviating to action {$goto->getIndex()}.");
                     }
                     catch(Exception $ex) {
-                        $log->crit("Problema ao processar acao $priority-" . get_class($acao) ." da regra $this->id-$this");
+                        $log->crit("Failure on execute action $priority-" . get_class($acao) ." of rule $this->id-$this");
                         $log->crit($ex);
                     }
                     
@@ -534,7 +530,7 @@ class PBX_Rule {
                         $this->plugins->postExecute($priority);
                     }
                     catch(PBX_Rule_Action_Exception_StopExecution $ex) {
-                        $log->info("Interrompendo execução a pedido de plugin: {$ex->getMessage()}");
+                        $log->info("Stopping execution by plugin request: {$ex->getMessage()}");
                         $to_execute = false;
                     }
                 }

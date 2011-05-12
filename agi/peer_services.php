@@ -17,20 +17,14 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * @file Script agi que faz a resolução do canal (interface) de um ramal do snep
- */
-
-// Importando as configurações para AGI's
 require_once("agi_base.php");
 
 if($argc != 2) {
-    $asterisk->verbose("Este scripts aceita somente um ramal como parametro");
+    $asterisk->verbose("This agi script requires one extension as parameter.");
     exit(1);
 }
 
 $sigame = "";
-// Procurando no banco pelo canal do peer
 try {
     $ramal = PBX_Usuarios::get($argv[1]);
 
@@ -40,7 +34,7 @@ try {
     }
 
 } catch (Exception $e) {
-    $asterisk->verbose("[$requestid] Erro na resolucao de ramal: " . $e->getMessage(), 1);
+    $asterisk->verbose("[$requestid] Failure to resolv extension: " . $e->getMessage(), 1);
     exit(1);
 }
 

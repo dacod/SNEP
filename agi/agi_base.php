@@ -30,7 +30,7 @@ $config_file = "/var/www/snep/includes/setup.conf";
 
 //encontrado diretórios do sistema
 if(!file_exists($config_file)) {
-    echo "VERBOSE \"FATAL ERROR: arquivo $config_file nao encontrado\" 1\n";
+    echo "VERBOSE \"FATAL ERROR: config file '$config_file' not found\" 1\n";
     exit(1);
 }
 $config = parse_ini_file($config_file,true);

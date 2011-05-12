@@ -139,7 +139,7 @@ class PBX_Asterisk_AGI_Request extends Asterisk_AGI_Request {
 
         if( is_object($object) ) {
             $classname = get_class($this->getSrcObj());
-            $log->debug("Econtrado objeto para originador: {$this->getSrcObj()} ($classname)");
+            $log->info("Identified source: {$this->getSrcObj()} ($classname)");
         }
     }
 }
