@@ -32,6 +32,7 @@ class CostCenterController extends Zend_Controller_Action {
      * List all Cost Center's
      */
     public function indexAction() {
+
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
             $this->view->translate("Cost Center")

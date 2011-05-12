@@ -35,7 +35,10 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extension Groups")
+        ));
 
         $db = Zend_Registry::get('db');
 
@@ -93,7 +96,11 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Add Extension Group");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extension Groups"),
+            $this->view->translate("Add Extension Groups"),
+        ));
 
         $form_xml = new Zend_Config_Xml("default/forms/extensions_groups.xml");
         $form = new Snep_Form($form_xml);
@@ -163,7 +170,11 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Edit Extension Group");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extension Groups"),
+            $this->view->translate("Edit Extension Groups"),
+        ));
 
         $xml = new Zend_Config_Xml( "default/forms/extensions_groups.xml" );
         $form = new Snep_Form( $xml );
@@ -236,7 +247,12 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function deleteAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Delete Extension Group");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extension Groups"),
+            $this->view->translate("Delete Extension Groups"),
+        ));
+
 
         $id = $this->_request->getParam('id');
         $confirm = $this->_request->getParam('confirm');
@@ -268,7 +284,12 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
      */
     public function migrationAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Extension Groups » Migrate Extension Group");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Extension Groups"),
+            $this->view->translate("Migrate Extension Group"),
+        ));
+
 
         $id = $this->_request->getParam('id');
 

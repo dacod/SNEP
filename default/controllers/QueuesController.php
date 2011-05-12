@@ -32,7 +32,11 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Queues");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Queues")
+        ));
+
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
@@ -84,7 +88,11 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Add Queue");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Queues"),
+            $this->view->translate("Add Queues")
+        ));
 
         $sections = new Zend_Config_Ini('/etc/asterisk/snep/snep-musiconhold.conf');
         $_section = array_keys($sections->toArray());
@@ -275,7 +283,12 @@ class QueuesController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         $id = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Edit » $id");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Queues"),
+            $this->view->translate("Edit $id")
+        ));
 
         $queue = Snep_Queues_Manager::get($id);
 
@@ -496,7 +509,12 @@ class QueuesController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Delete");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Queues"),
+            $this->view->translate("Delete")
+        ));
+
         $id = $this->_request->getParam('id');
 
         Snep_Queues_Manager::remove($id);
@@ -512,7 +530,12 @@ class QueuesController extends Zend_Controller_Action {
     public function membersAction() {
 
         $queue = $this->_request->getParam("id");
-        $this->view->breadcrumb = $this->view->translate("Manage » Queues » Queue Members » " . $queue);
+        
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Manage"),
+            $this->view->translate("Queues"),
+            $this->view->translate("Members $queue")
+        ));
 
         $members = Snep_Queues_Manager::getMembers($queue);
         $mem = array();
