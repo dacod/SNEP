@@ -338,6 +338,7 @@ class TrunksController extends Zend_Controller_Action {
                     $this->view->translate("Add")
                 ));
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
 
         if ($this->getRequest()->isPost()) {
@@ -409,6 +410,7 @@ class TrunksController extends Zend_Controller_Action {
                     $this->view->translate("Edit trunk %s", $id)
                 ));
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
         $form->setAction($this->view->baseUrl() . "/index.php/trunks/edit/trunk/$id");
 

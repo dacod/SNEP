@@ -153,6 +153,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $this->view->translate("Edit %s", $id)
         ));
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
         if(!$this->view->all_writable) {
             $form->getElement("submit")->setAttrib("disabled", "disabled");
@@ -544,6 +545,7 @@ class ExtensionsController extends Zend_Controller_Action {
      */
     protected function getForm() {
         if ($this->form === Null) {
+            Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
             $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensions.xml");
             $form = new Snep_Form();
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
