@@ -7,29 +7,29 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 <table>
     <thead>
         <tr>
-            <th rowspan="2"> <?php echo $this->translate('Seq') ?> </th>
-            <th rowspan="2"> <?php echo $this->translate('Destino') ?> 
+            <th rowspan="2"> <?php echo $this->translate('Order') ?> </th>
+            <th rowspan="2"> <?php echo $this->translate('Destination') ?> 
             <?php
             if ($this->type == 'num') {
                 ?>
-                <th colspan="3"> <?php echo $this->translate('Quantidade') ?> </th>
-                <th colspan="3"> <?php echo $this->translate('Tempo') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Quantity') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Total Time') ?> </th>
                 <?php
             } else {
                 ?>
-                <th colspan="3"> <?php echo $this->translate('Tempo') ?> </th>
-                <th colspan="3"> <?php echo $this->translate('Quantidade') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Total Time') ?> </th>
+                <th colspan="3"> <?php echo $this->translate('Quantity') ?> </th>
 
                 <?php
             }
             ?>
         </tr>
         <tr>
-            <th> <?php echo $this->translate('Atendidas') ?> </th>
-            <th> <?php echo $this->translate('Não Atendida') ?> </th>
+            <th> <?php echo $this->translate('Answerd') ?> </th>
+            <th> <?php echo $this->translate('Unanswerd') ?> </th>
             <th> <?php echo $this->translate('Total') ?> </th>
-            <th> <?php echo $this->translate('Atendidas') ?> </th>
-            <th> <?php echo $this->translate('Não Atendida') ?> </th>
+            <th> <?php echo $this->translate('Answerd') ?> </th>
+            <th> <?php echo $this->translate('Unanswerd') ?> </th>
             <th> <?php echo $this->translate('Total') ?> </th>
         </tr>
     </thead>
@@ -44,7 +44,7 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
                         <h3>
                     <div>
                         <?php
-                        echo $count . $this->translate(". Origem: ") . $source;
+                        echo $count . $this->translate(". Source: ") . $source;
                         if ($this->type == 'num')
                             echo '&nbsp;&nbsp;&nbsp;&nbsp;Total: <span class="textocampos">[' . $this->countData[$source] . ']</span>';
                         else
