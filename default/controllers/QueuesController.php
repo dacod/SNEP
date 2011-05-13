@@ -120,6 +120,7 @@ class QueuesController extends Zend_Controller_Action {
             }
         }
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form();
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
@@ -319,6 +320,7 @@ class QueuesController extends Zend_Controller_Action {
             }
         }
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/edit/id/' . $id);
 
@@ -556,6 +558,7 @@ class QueuesController extends Zend_Controller_Action {
             }
         }
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form();
 
         $this->view->objSelectBox = 'members';
