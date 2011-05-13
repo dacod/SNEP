@@ -25,7 +25,7 @@ class IndexController extends Zend_Controller_Action {
                 $systemInfo['uptime'] = $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
             } else {
                 $systemInfo['uptime'] = substr($uptimeRaw, 0, strpos($uptimeRaw, "day")) . $this->view->translate(' dias, ');
-                $uptimeTmp = explode(":", $up[1]);
+                $uptimeTmp = explode(":", $uptimeRaw[1]);
                 $systemInfo['uptime'].= $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
             }
             $systemInfo['uptime'] = trim($systemInfo['uptime']);
