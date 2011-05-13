@@ -42,7 +42,7 @@ class CallsReportController extends Zend_Controller_Action {
 
         $config = Zend_Registry::get('config');
       	$db = Zend_Registry::get('db');
-
+        
 		$form = new Snep_Form();	
 		$form->setAction($this->getFrontController()->getBaseUrl() . '/calls-report/create/');
 		$form->setName('create');
@@ -57,11 +57,12 @@ class CallsReportController extends Zend_Controller_Action {
 		$validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
 
 		$initDay = $period->getElement('initDay');
-		$initDay->setValue($now->toString('01/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR));
+		$initDay->setValue($now->toString('01/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR . ' 00:00'));
 		$initDay->addValidator($validatorDate);
 
-		$finalDay = $period->getElement('finalDay');
-		$finalDay->setValue(strtok($now->subDate(1), ' '));
+		$finalDay = $period->getElement('finalDay');		
+                $finalDay->setValue( $now->toString( Zend_Date::DAY.'/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR . ' 00:00') );
+                
 		$finalDay->addValidator($validatorDate);
 
 		$order = $period->getElement('order');
@@ -74,21 +75,21 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$groupsData = array();
 
-        foreach ($groupsTmp as $key => $group) {
-            switch ($group['name']) {
-                case 'administrator':
-                    $groupsData[$this->view->translate('Administrators')] = $group['name'];
-                    break;
-                case 'users':
-                    $groupsData[$this->view->translate('Users')] = $group['name'];
-                    break;
-                case 'all':
-                    $groupsData[$this->view->translate('All')] = $group['name'];
-                    break;
-                default:
-                    $groupsData[$group['name']] = $group['name'];
-            }
-        }
+                foreach ($groupsTmp as $key => $group) {
+                    switch ($group['name']) {
+                        case 'administrator':
+                            $groupsData[$this->view->translate('Administradores')] = $group['name'];
+                            break;
+                        case 'users':
+                            $groupsData[$this->view->translate('Usuários')] = $group['name'];
+                            break;
+                        case 'all':
+                            $groupsData[$this->view->translate('Todos')] = $group['name'];
+                            break;
+                        default:
+                            $groupsData[$group['name']] = $group['name'];
+                    }
+                }
 
 		// --- Subsection -- Source
 		$source = new Snep_Form_SubForm($this->view->translate("Source"), $form_xml->source);
@@ -106,7 +107,7 @@ class CallsReportController extends Zend_Controller_Action {
 		$destination = new Snep_Form_SubForm($this->view->translate("Destination"), $form_xml->destination);
 
 		$destinationElement = $destination->getElement('selectDst');
-        $destinationElement->addMultiOption(null, '');
+                $destinationElement->addMultiOption(null, '');
 		$destinationElement->setAttrib('onChange','blockFields($(this).id, $(this).value);');
 
 		$dstType= $destination->getElement('dsttype');
@@ -114,10 +115,10 @@ class CallsReportController extends Zend_Controller_Action {
 
 		$form->addSubForm($destination, "destination");
 
-        foreach ($groupsData as $key => $value) {
-            $sourceElement->addMultiOption($value, $key);
-            $destinationElement->addMultiOption($value, $key);
-        }
+                foreach ($groupsData as $key => $value) {
+                    $sourceElement->addMultiOption($value, $key);
+                    $destinationElement->addMultiOption($value, $key);
+                }
 
 		// --- Subsection - Calls related options
 		$calls= new Snep_Form_SubForm($this->view->translate("Calls"), $form_xml->calls);
@@ -168,20 +169,28 @@ class CallsReportController extends Zend_Controller_Action {
 	}
 
     public function createAction() {
-		$my_object = new Formata;
+        $my_object = new Formata;
 
         $formData = $this->_request->getParams();
 
-		$db		 	 = Zend_Registry::get('db');	
-        $config 	 = Zend_Registry::get('config');
+        $db = Zend_Registry::get('db');
+        $config = Zend_Registry::get('config');
 
         $prefix_inout    = $config->ambiente->prefix_inout;
         $dst_exceptions   = $config->ambiente->dst_exceptions;
 
-		$dia_ini 	= $formData['period']['initDay'];
-		$dia_fim  	= $formData['period']['finalDay'];
-		$hora_ini	= $formData['period']['initHour'];
-		$hora_fim	= $formData['period']['finalHour'];
+        $init_day = explode(" ", $formData['period']['initDay'] );
+        $final_day = explode(" ", $formData['period']['finalDay']);
+
+        $formated_init_day = new Zend_Date( $init_day[0] );
+        $formated_init_day =  $formated_init_day->toString('yyyy-MM-dd');
+        $formated_init_time = $init_day[1];
+
+        $formated_final_day = new Zend_Date( $final_day[0] );
+        $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
+        $formated_final_time = $final_day[1];
+
+
 		$ordernar	= $formData['period']['order'];
 
 		$groupsrc	= $formData['source']['selectSrc'];
@@ -305,12 +314,12 @@ class CallsReportController extends Zend_Controller_Action {
 		}
 
 		/* Clausula do where: periodos inicial e final                                */
-		$dia_inicial = substr($dia_ini,6,4)."-".substr($dia_ini,3,2)."-".substr($dia_ini,0,2);
-		$dia_final = substr($dia_fim,6,4)."-".substr($dia_fim,3,2)."-".substr($dia_fim,0,2);
+		$dia_inicial =  "$formated_init_day $formated_init_time:00";
+		$dia_final = "$formated_final_day $formated_final_time:59";
+
 		$date_clause =" ( calldate >= '$dia_inicial'";
-		$date_clause .=" AND calldate <= '$dia_final 23:59:59'"; //'
-		$date_clause .=" AND DATE_FORMAT(calldate,'%T') >= '$hora_ini:00'";
-		$date_clause .=" AND DATE_FORMAT(calldate,'%T') <= '$hora_fim:59') ";
+		$date_clause .=" AND calldate <= '$dia_final' )  ";
+                
 		$CONDICAO = $date_clause;
 
 		$ORIGENS = '';
@@ -706,11 +715,9 @@ class CallsReportController extends Zend_Controller_Action {
 		$defaultNS->dst			= $dst;
 		$defaultNS->groupdst	= $groupdst;
 
-		$defaultNS->sub_title = $this->view->translate(
-									"<br>Period: ".$dia_ini." (".$hora_ini.") - ".$dia_fim." (".$hora_fim.")
-								");
+		$defaultNS->sub_title = $this->view->translate( $formData['period']['initDay'] ." - ". $formData['period']['initDay'] );
 
-		$row		  		    = $db->query($sql_chamadas)->fetchAll();
+		$row = $db->query($sql_chamadas)->fetchAll();
 
 
 		for ($i = 0; $i <= count($row)-1; $i++) {
@@ -809,8 +816,11 @@ class CallsReportController extends Zend_Controller_Action {
 		
 		$defaultNS = new Zend_Session_Namespace('call_sql');
 
-        $this->view->breadcrumb   = $this->view->translate(" Reports » Calls ").
-								  	$defaultNS->sub_title;
+                $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Reports"),
+                    $this->view->translate("Calls"),
+                    $defaultNS->sub_title
+                ));
 
 
 		$this->view->totals 	  = $defaultNS->totais;

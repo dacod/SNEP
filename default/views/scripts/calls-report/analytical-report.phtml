@@ -42,8 +42,10 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 
                </tr>
             </thead>
+            <?php $c = 0; ?>
 			<?php foreach( $this->call_list as $id => $callsList ): ?>
-				<tr>
+                        <?php ( $c ? $c = 0 : $c = 1 ); ?>
+				<tr  class="c<?php echo $c ?>" >
 					<td>
 					  <?php echo $callsList['id']; ?>
 					</td>
