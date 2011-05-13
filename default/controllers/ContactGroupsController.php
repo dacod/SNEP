@@ -87,7 +87,9 @@ class ContactGroupsController extends Zend_Controller_Action {
                     $this->view->translate("Contact Group"),
                     $this->view->translate("Add")
                 ));
-        
+
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+
         $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups.xml") );
         $db = Zend_Registry::get('db');
 
@@ -133,6 +135,8 @@ class ContactGroupsController extends Zend_Controller_Action {
                 ));
 
         $id = $this->_request->getParam('id');
+
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
 
         $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups.xml") );
 
@@ -233,6 +237,7 @@ class ContactGroupsController extends Zend_Controller_Action {
             }
         }
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form( new Zend_Config_Xml("default/forms/contact_groups_migration.xml") );
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contact-groups/migration/stage/2' );
 
