@@ -1,21 +1,23 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css");
 ?>
+<div class="snep_form">
+    <p style="text-align:center;">
+        <strong style="color: red;"><?php echo $this->translate("ATTENTION"); ?>:</strong>
+        <?php echo $this->translate("This software is in Alpha stage. Its unstable and may contain defects."); ?>
+    </p>
 
-<p style="text-align:center;">
-    <strong style="color: red;"><?php echo $this->translate("ATTENTION"); ?>:</strong>
-    <?php echo $this->translate("This software is in Alpha stage. Its unstable and may contain defects."); ?>
-</p>
+    <?php if( $this->error  ) : ?>
+            <div class="error_box" >
+                <?php echo $this->translate("Errors were detected in the configuration of SNEP, click ");  ?>
+                <a href="<?php echo $this->inspector; ?>">
+                    <?php echo $this->translate("here"); ?>
+                </a>
+                    <?php echo $this->translate(" for more information"); ?>
+            </div>
+    <?php endif ?>
+</div>
 
-<?php if( $this->error  ) : ?>
-        <div class="error_box" >
-            <?php echo $this->translate("Errors were detected in the configuration of SNEP, click ");  ?>
-            <a href="<?php echo $this->inspector; ?>">  
-                <?php echo $this->translate("here"); ?>
-            </a>
-                <?php echo $this->translate(" for more information"); ?>
-        </div>
-<?php endif ?>
 
 <table id="columns">
     <tr>
