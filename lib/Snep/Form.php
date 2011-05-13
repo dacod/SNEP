@@ -68,12 +68,14 @@ class Snep_Form extends Zend_Form {
         $add_action->removeDecorator("DtDdWrapper")
                 ->addDecorator('HtmlTag', array('tag' => 'li'))
                 ->setAttrib('id', $name . '_add_bt')
+                ->setAttrib('class', 'add_item')
                 ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selectActions', 'openOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::PREPEND));
                 
         $remove_action = new Zend_Form_Element_Button($i18n->translate('Remove'));
         $remove_action->removeDecorator("DtDdWrapper")
                 ->addDecorator('HtmlTag', array('tag' => 'li'))
                 ->setAttrib('id', $name . '_remove_bt')
+                ->setAttrib('class', 'remove_item')
                 ->addDecorator('HtmlTag', array('tag' => 'div', 'id' => 'selectActions', 'closeOnly' => true, 'placement' => Zend_Form_Decorator_Abstract::APPEND));
 
         $this->addElements(array($header,
