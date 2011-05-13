@@ -18,13 +18,16 @@
  */
 
 ini_set("max_execution_time", 180);
-//ini_set("memory_limit","128M");
 
 class CnlController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configure » CNL Update");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Configure"),
+            $this->view->translate("CNL Update"),
+            $className
+        ));
 
         $config = Zend_Registry::get('config');
         $this->view->pathweb = $config->system->path->web;

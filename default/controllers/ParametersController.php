@@ -24,7 +24,11 @@ class ParametersController extends Zend_Controller_Action {
 
     public function indexAction() {
         // Title
-        $this->view->breadcrumb = $this->view->translate("Configure » Parameters");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Configure"),
+            $this->view->translate("Parameters")
+        ));
+
         // Get configuration properties from Zend_Registry
         $config = Zend_Registry::get('config');
 

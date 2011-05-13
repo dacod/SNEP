@@ -22,7 +22,10 @@ class InspectorController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configure » System Status");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Configure"),
+            $this->view->translate("System Status")
+        ));
 
         // Creates Snep_Inspector Object
         $objInspector = new Snep_Inspector();

@@ -34,8 +34,11 @@ class SoundFilesController extends Zend_Controller_Action {
      * List all sound files
      */
     public function indexAction() {
-        
-        $this->view->breadcrumb = $this->view->translate("Configure » Sound Files");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Configure"),
+            $this->view->translate("Sound Files")
+        ));
 
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
@@ -98,7 +101,11 @@ class SoundFilesController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Sound Files » Add");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Sound Files"),
+            $this->view->translate("Add")
+        ));
+
         $form = new Snep_Form( new Zend_Config_Xml( "default/forms/sound_files.xml" ) );
 
         $file = new Zend_Form_Element_File('file');
@@ -180,8 +187,11 @@ class SoundFilesController extends Zend_Controller_Action {
      * Edit Carrier
      */
     public function editAction() {
-
-        $this->view->breadcrumb = $this->view->translate("Sound Files » Edit");
+        
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Sound Files"),
+            $this->view->translate("Edit")
+        ));
 
         $file = $this->_request->getParam("file");
         $data = Snep_SoundFiles_Manager::get($file);
@@ -233,7 +243,10 @@ class SoundFilesController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Sound Files » Delete");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Sound Files"),
+            $this->view->translate("Delete")
+        ));
        $id = $this->_request->getParam('id');
 
        Snep_SoundFiles_Manager::remove($id);

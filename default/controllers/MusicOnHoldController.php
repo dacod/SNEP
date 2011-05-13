@@ -36,7 +36,10 @@ class MusicOnHoldController extends Zend_Controller_Action {
         $objInspector = new Snep_Inspector('Sounds');
         $this->view->error = array_pop( $objInspector->getInspects() );
 
-        $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Configure"),
+            $this->view->translate("Music on Hold Sessions")
+        ));
 
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/".
                            $this->getRequest()->getControllerName();
@@ -62,7 +65,10 @@ class MusicOnHoldController extends Zend_Controller_Action {
      */
     public function addAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » Add");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("Add")
+        ));
 
         $form = new Snep_Form( new Zend_Config_Xml( "default/forms/music_on_hold.xml" ) );       
         $form->getElement('base')->setAttrib('readonly', true );
@@ -122,7 +128,10 @@ class MusicOnHoldController extends Zend_Controller_Action {
      */
     public function editAction() {
 
-        $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » Edit");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("Edit")
+        ));
 
         $file = $this->_request->getParam("file");
         $data = Snep_SoundFiles_Manager::getClasse($file);
@@ -179,7 +188,10 @@ class MusicOnHoldController extends Zend_Controller_Action {
      */
     public function removeAction() {
 
-       $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » Remove");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("Remove")
+        ));
 
        $file = $this->_request->getParam('file');
 
@@ -222,7 +234,11 @@ class MusicOnHoldController extends Zend_Controller_Action {
        $this->view->url = $this->getFrontController()->getBaseUrl() ."/".
                           $this->getRequest()->getControllerName();
 
-       $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » File » $file ");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("File"),
+            $file
+        ));
 
        $class = Snep_SoundFiles_Manager::getClasse($file);
 
@@ -260,7 +276,11 @@ class MusicOnHoldController extends Zend_Controller_Action {
 
        $class = Snep_SoundFiles_Manager::getClasse($className);
 
-       $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » Add File » $className ");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("Add File"),
+            $className
+        ));
 
        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/sound_files.xml" ) );
 
@@ -351,7 +371,11 @@ class MusicOnHoldController extends Zend_Controller_Action {
            }
        }
 
-       $this->view->breadcrumb = $this->view->translate("Configure » Music on Hold Sessions » Edit File » $fileName ");
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Music on Hold Sessions"),
+            $this->view->translate("Edit File"),
+            $className
+        ));
 
        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/sound_files.xml" ) );
        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . "/editfile/file/$fileName/class/$class");
