@@ -100,7 +100,7 @@ class AGI extends Snep_Inspector_Test {
             }
         }
         // Transforma newline em br
-        $result['agi']['message'] = nl2br($result['agi']['message']);
+        $result['agi']['message'] = $result['agi']['message'];
 
         // Retorna array.
         return $result['agi'];

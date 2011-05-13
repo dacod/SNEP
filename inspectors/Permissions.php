@@ -103,7 +103,7 @@ class Permissions extends Snep_Inspector_Test {
         }
 
         // Transforma newline em br
-        $result['permissions']['message'] = nl2br( $result['permissions']['message'] );
+        $result['permissions']['message'] = $result['permissions']['message'] ;
 
         // Retorna Array
         return $result['permissions'];

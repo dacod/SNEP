@@ -104,7 +104,7 @@ class Sounds extends Snep_Inspector_Test {
 
                 }
                 // Transforma newline em br
-                $result['logs']['message'] = nl2br( $result['logs']['message'] );
+                $result['logs']['message'] =$result['logs']['message'] ;
             }
         }
         return $result['logs'];

@@ -67,7 +67,7 @@ class PHPExtensions extends Snep_Inspector_Test {
         }
 
         // Transforma newline em br
-        $result['extension']['message'] = nl2br( $result['extension']['message'] );
+        $result['extension']['message'] = $result['extension']['message'] ;
 
         // Retorna Array
         return $result['extension'];

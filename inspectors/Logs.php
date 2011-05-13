@@ -46,7 +46,7 @@ class Logs extends Snep_Inspector_Test {
     }
 
     /**
-     * Executa testes de dono de arquivo e permissão de escrita e leitura.
+     * Testes de dono de arquivo e permissão de escrita e leitura.
      * @return Array
      */
     public function getTests() {
@@ -99,7 +99,7 @@ class Logs extends Snep_Inspector_Test {
             }
 
             // Transforma newline em br
-            $result['logs']['message'] = nl2br( $result['logs']['message'] );
+            $result['logs']['message'] = $result['logs']['message'];
 
             // Retorna Array
             return $result['logs'];
