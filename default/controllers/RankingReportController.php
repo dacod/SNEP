@@ -22,7 +22,10 @@ class RankingReportController extends Zend_Controller_Action {
 
     public function indexAction() {
         // Title
-        $this->view->breadcrumb = $this->view->translate("Relatórios » Ranking das Ligações");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+			$this->view->translate("Reports"),
+			$this->view->translate("Call Rankings"))
+		);
 
         $config = Zend_Registry::get('config');
 
@@ -376,7 +379,13 @@ class RankingReportController extends Zend_Controller_Action {
 
 
         if ($reportData) {
-            $this->view->breadcrumb = $this->view->translate("Relatórios » Ranking de Ligações <br/> Periodo: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) a {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
+        	$this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+				$this->view->translate("Reports"),
+				$this->view->translate("Call Ranking"),
+				$this->view->translate("{$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) - {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})"))
+			);
+
+
             $this->view->PAGE_URL = "/snep/index.php/{$this->getRequest()->getControllerName()}/view/";
             $this->view->rank = $reportData["rank"];
             $this->view->type = $reportData["type"];
