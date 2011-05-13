@@ -20,7 +20,10 @@ class ServicesReportController extends Zend_Controller_Action {
 
     public function indexAction() {
         // Title
-        $this->view->breadcrumb = $this->view->translate("Reports » Services Use");
+         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Reports"),
+            $this->view->translate("Services Use")
+        ));
 
         $config = Zend_Registry::get('config');
 
@@ -116,8 +119,6 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $fromDay = $data["period"]["init_day"];
         $tillDay = $data["period"]["till_day"];
-        $fromHour = $data["period"]["init_hour"];
-        $tillHour = $data["period"]["till_hour"];
         $extenList = $data["exten"]["exten_select"];
         $extenGroup = $data["exten"]["group_select"];
         $services = $data["service"]["serv_select"];
@@ -128,10 +129,10 @@ class ServicesReportController extends Zend_Controller_Action {
 
 
 
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy')));
+        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy h:m:s')));
         $tillDay = $dayTmp;
 
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy')));
+        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy h:m:s')));
         $fromDay = $dayTmp;
 
 
@@ -178,10 +179,8 @@ class ServicesReportController extends Zend_Controller_Action {
             }
         }
 
-        $dateClause = " ( date >= '{$fromDay->get('yyyy-MM-dd')}'";
-        $dateClause.=" AND date <= '{$tillDay->get('yyyy-MM-dd')} 23:59:59'"; //'
-        $dateClause.=" AND DATE_FORMAT(date,'%T') >= '$fromHour:00'";
-        $dateClause.=" AND DATE_FORMAT(date,'%T') <= '$tillHour:59') ";
+        $dateClause = " ( date >= '{$fromDay->get('yyyy-MM-dd h:m:s')}'";
+        $dateClause.=" AND date <= '{$tillDay->get('yyyy-MM-dd h:m:s')}') "; //'
         $cond .= " $dateClause ";
 
         $sql = " SELECT *, DATE_FORMAT(date,'%d/%m/%Y %T') as date FROM services_log WHERE ";
@@ -228,7 +227,7 @@ class ServicesReportController extends Zend_Controller_Action {
         }
 
         if ($reportData) {
-            $this->view->breadcrumb = $this->view->translate("Reports » Services Use <br/> Period: {$formData["period"]["init_day"]} ({$formData["period"]["init_hour"]}) to {$formData["period"]["till_day"]} ({$formData["period"]["till_hour"]})");
+            $this->view->breadcrumb = $this->view->translate("Reports » Services Use <br/> Period: {$formData["period"]["init_day"]} to {$formData["period"]["till_day"]} ");
 
             $paginatorAdapter = new Zend_Paginator_Adapter_Array($reportData);
             $paginator = new Zend_Paginator($paginatorAdapter);

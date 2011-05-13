@@ -13,75 +13,25 @@
     <period>
         <elements>
             
-            <init_day>
+           <init_day>
                 <type>text</type>
                 <options>
-                    <label>From:</label>
-                    <description>dd/mm/aaaa</description>
+                    <label>Period from:</label>
                     <required>true</required>
+                    <description>dd/mm/YYYY hh:mm</description>
                 </options>
             </init_day>
             
-            <init_hour>
-                <type>text</type>
-                <options>
-                    <label>hh:mm</label>
-                    <value>00:00</value>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
-                                <messages>
-                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>4</min>
-                                <max>10</max>
-                            </options>
-                        </strlen>
-                    </validators>
-                </options>
-            </init_hour>
             
             <till_day>
                 <type>text</type>
                 <options>
-                    <label>To:</label>
-                    <description>dd/mm/aaaa</description>
-                    <required>true</required>
+                   <required>true</required>
+                    <label>To:</label>                    
+                    <description>dd/mm/YYYY hh:mm</description>
                 </options>
             </till_day>
             
-            <till_hour>
-                <type>text</type>
-                <options>
-                    <label>hh:mm</label>
-                    <value>23:59</value>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
-                                <messages>
-                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>4</min>
-                                <max>10</max>
-                            </options>
-                        </strlen>
-                    </validators>
-                </options>
-            </till_hour>
             
         </elements>    
     </period>  

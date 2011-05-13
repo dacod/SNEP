@@ -60,7 +60,7 @@ class RankingReportController extends Zend_Controller_Action {
 
         $form_xml = new Zend_Config_Xml('./default/forms/ranking_report.xml');
         $config = Zend_Registry::get('config');
-        $period = new Snep_Form_SubForm($this->view->translate("Período"), $form_xml->period);
+        $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
         
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
@@ -74,7 +74,7 @@ class RankingReportController extends Zend_Controller_Action {
 
         $form->addSubForm($period, "period");
 
-        $rank = new Snep_Form_SubForm($this->view->translate("Opções do Ranking"), $form_xml->rank);
+        $rank = new Snep_Form_SubForm($this->view->translate("Ranking Options"), $form_xml->rank);
         $selectNumView = $rank->getElement('view');
 
         for ($index = 1; $index <= 30; $index++) {
@@ -83,7 +83,7 @@ class RankingReportController extends Zend_Controller_Action {
 
         $form->addSubForm($rank, "rank");
 
-        $form->getElement('submit')->setLabel($this->view->translate("Exibir Relatório"));
+        $form->getElement('submit')->setLabel($this->view->translate("Show Report"));
         $form->removeElement("cancel");
         return $form;
     }
@@ -348,12 +348,12 @@ class RankingReportController extends Zend_Controller_Action {
                 }
             }
             $titulo = array(
-                "origem" => $this->view->translate("ORIGEM"),
-                "destino" => $this->view->translate("DESTINO"),
-                "QA" => $this->view->translate("QTD. ATENDIDAS"),
-                "QN" => $this->view->translate('QTD. Ñ ATENDIDAS'),
-                "TA" => $this->view->translate('TMP. ATENDIDAS'),
-                "TN" => $this->view->translate('TMP. Ñ ATENDIDAS')
+                "origem" => $this->view->translate("SOURCE"),
+                "destino" => $this->view->translate("DESTINATION"),
+                "QA" => $this->view->translate("N. ANSWERD"),
+                "QN" => $this->view->translate('N. UNANSWERD'),
+                "TA" => $this->view->translate('TIME TOTAL ANSWERD'),
+                "TN" => $this->view->translate('TIME TOTAL UNANSWERD')
             );
             
             $result = array(
@@ -393,8 +393,8 @@ class RankingReportController extends Zend_Controller_Action {
             $this->view->countData = $reportData["countTotal"];
             $this->_helper->viewRenderer('view');
         } else {
-            $this->view->error = $this->view->translate("Nenhum registro encontrado.");
-            $this->view->back = $this->view->translate("Voltar");
+            $this->view->error = $this->view->translate("No records found.");
+            $this->view->back = $this->view->translate("Back");
             $this->_helper->viewRenderer('error');
         }
     }
@@ -419,8 +419,8 @@ class RankingReportController extends Zend_Controller_Action {
 
                 echo $csvData;
             } else {
-                $this->view->error = $this->view->translate("Nenhum registro encontrado.");
-                $this->view->back = $this->view->translate("Voltar");
+            $this->view->error = $this->view->translate("No records found.");
+            $this->view->back = $this->view->translate("Back");
                 $this->_helper->viewRenderer('error');
             }
         }
