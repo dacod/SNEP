@@ -91,8 +91,8 @@ class ConferenceRoomsController extends Zend_Controller_Action {
             $file_auth = "/etc/asterisk/snep/snep-authconferences.conf" ;
 
             if (!is_writable($file_conf) || !is_writable($file_auth)) {
-                
-                echo $this->translate('File does not have editing permission');
+
+                throw new ErrorException( $this->view->translate("File does not have editing permission"));
                 return False ;
             }
 
