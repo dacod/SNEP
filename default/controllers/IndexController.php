@@ -76,7 +76,25 @@ class IndexController extends Zend_Controller_Action {
                     "description" => $module->getDescription()
                 );
             }
+
             $this->view->indexData = $systemInfo;
+
+            // Creates Snep_Inspector Object
+            $objInspector = new Snep_Inspector();
+
+            // Get array with status of inspected system requirements
+            $inspect = $objInspector->getInspects();
+
+            // Verify errors
+            $this->view->error = false;
+            foreach( $inspect as $log => $message ) {
+                if( $message['error'] == 1 ) {
+                    $this->view->error = true;
+                }
+            }
+
+            // Inspector url
+            $this->view->inspector = $this->getFrontController()->getBaseUrl() . '/inspector/';
         }
     }
 
