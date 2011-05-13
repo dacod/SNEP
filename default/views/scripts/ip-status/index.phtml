@@ -1,18 +1,13 @@
-<?php
-$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-?>
-<style type="text/css">
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-table td, th {
-    border: 1px solid #ccc;
-}
-</style>
 <meta http-equiv="refresh" content="10" />
+<?php $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js'); ?>
 
+<style type="text/css">
+.snep_form table { width: 100%; border-collapse: collapse; }
+.snep_form table td, th {border: 1px solid #ccc; }
+.snep_form table thead td {padding-left: 10px !important; }
+</style>
 
+<div class="snep_form">
 <table cellpadding="0" cellspacing="0" align="center">
     <thead>
     <tr>
@@ -110,7 +105,7 @@ table td, th {
               <tr bgcolor=''>
                  <td class="esq" colspan="3"><?php echo $this->translate("no data available") ?></td>
               </tr>
-           <?php    
+           <?php
                 }
            ?>
         </table>
@@ -154,3 +149,7 @@ table td, th {
      </td>
    </tr>
 </table>
+<br />
+</div>
+
+
