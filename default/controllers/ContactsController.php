@@ -96,6 +96,7 @@ class ContactsController extends Zend_Controller_Action {
                     $this->view->translate("Add")
                 ));
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
 
         $form->getElement('id')->setValue(Snep_Contacts_Manager::getLastId());
@@ -155,6 +156,7 @@ class ContactsController extends Zend_Controller_Action {
 
         $contact = Snep_Contacts_Manager::get($id);
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
 
         $form->getElement('id')->setValue($contact['id'])->setAttrib('readonly', true);
@@ -220,6 +222,7 @@ class ContactsController extends Zend_Controller_Action {
                 ));
         $this->view->message = $this->view->translate("The file must be separated by commas. Header is optional and columns can be associated in the next screen.");
 
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/csv/');
         $form->addElement(new Zend_Form_Element_File('file'));
