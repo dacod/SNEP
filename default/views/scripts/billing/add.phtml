@@ -39,6 +39,13 @@ $this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/script
                          <?php endforeach ?>
                      <?php endif ?>
                   </select>
+                  <?php if ( isset( $this->error['operadora'] ) ) :  ?>
+                       <ul class="errors">
+                           <li>
+                             <?php echo $this->error['operadora']; ?>
+                           </li>
+                       </ul>
+                  <?php endif ?>
                </td>
             </tr>
             <tr>

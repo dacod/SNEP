@@ -142,6 +142,10 @@ class BillingController extends Zend_Controller_Action {
                 $form_isValid = true;
                 $this->view->error['prefixo'] = $this->view->translate("Prefix not numeric");
             }
+            if( $dados['operadora'] == "" ) {
+                $form_isValid = false;
+                $this->view->error['operadora'] = $this->view->translate("Carrier not selected ");
+            }
             
             if ( $form_isValid ) {
 
