@@ -14,12 +14,20 @@ class LogsController extends Zend_Controller_Action {
 
         $form->setAction($this->getFrontController()->getBaseUrl() . '/logs/view');
 
-        $yesterday = Zend_Date::now()->subDate(1);
+        $locale = Snep_Locale::getInstance()->getLocale();
+        $now = Zend_Date::now();
+
+        if($locale == 'en_US') {
+            $now = $now->toString('YYYY-MM-dd HH:mm');
+        }else{
+            $now = $now->toString('dd/MM/YYYY HH:mm');
+        }
+
         $initDay = $form->getElement('init_day');
-        $initDay->setValue(strtok($yesterday, ' '));
+        $initDay->setValue( $now );
 
         $endDay = $form->getElement('end_day');
-        $endDay->setValue(strtok(Zend_Date::now(), ' '));
+        $endDay->setValue( $now );
 
         $status = $form->getElement('status');
         $status->setValue('ALL');

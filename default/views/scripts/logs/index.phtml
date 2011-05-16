@@ -2,7 +2,10 @@
 $this->headLink()->appendStylesheet($this->baseUrl() . "/css/datepicker.css");
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/datepicker.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/prototype-date-extensions.js", 'text/javascript');
+
 $locale = str_replace("_", "-", Snep_Locale::getInstance()->getLocale());
+if( $locale == "en-US") { $locale = 'en_US'; }
+
 echo $this->form;
 ?>
 <script type="text/javascript"> 
