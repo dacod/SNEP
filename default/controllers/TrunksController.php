@@ -396,8 +396,8 @@ class TrunksController extends Zend_Controller_Action {
                 $form->getSubForm(strtolower($info['type']))->getElement("peer_type")->setValue($ip_info['type']);
             }
         }
-        else if ($info['type'] == "KHOMP") {
-            $form->getSubForm(strtolower("KHOMP"))->getElement("board")->setValue(substr($info['channel'], 6));
+        else if ($info['type'] == "KHOMP" && $form->getSubForm("khomp")->getElement("board")!=NULL) {
+            $form->getSubForm("khomp")->getElement("board")->setValue(substr($info['channel'], 6));
         }
 
     }
