@@ -25,8 +25,7 @@ class CnlController extends Zend_Controller_Action {
 
        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Configure"),
-            $this->view->translate("CNL Update"),
-            $className
+            $this->view->translate("CNL Update")
         ));
 
         $config = Zend_Registry::get('config');
