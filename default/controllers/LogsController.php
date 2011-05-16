@@ -69,10 +69,6 @@ class LogsController extends Zend_Controller_Action {
                 $this->view->mode = 'normal';
                 $this->view->location = 'index';
                 
-                echo "<pre>";
-                print_r($_POST);
-                exit;
-
                 $init_day = explode(" ", $formData['init_day'] );
                 $final_day = explode(" ", $formData['end_day']);
 
