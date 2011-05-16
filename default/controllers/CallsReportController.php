@@ -202,13 +202,6 @@ class CallsReportController extends Zend_Controller_Action {
         $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
         $formated_final_time = $final_day[1];
 
-
-        echo $formated_init_day . "<br />";
-        echo $formated_final_day ;
-        exit;
-
-
-
 		$ordernar	= $formData['period']['order'];
 
 		$groupsrc	= $formData['source']['selectSrc'];

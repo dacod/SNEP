@@ -68,8 +68,23 @@ class LogsController extends Zend_Controller_Action {
 
                 $this->view->mode = 'normal';
                 $this->view->location = 'index';
+                
+                echo "<pre>";
+                print_r($_POST);
+                exit;
 
-                $result = $log->getLog($this->_request->getPost('init_day'), $this->_request->getPost('end_day'), $this->_request->getPost('init_hour'), $this->_request->getPost('end_hour'), $this->_request->getPost('status'), $this->_request->getPost('source'), $this->_request->getPost('dest'));
+                $init_day = explode(" ", $formData['init_day'] );
+                $final_day = explode(" ", $formData['end_day']);
+
+                $formated_init_day = new Zend_Date( $init_day[0] );
+                $formated_init_day =  $formated_init_day->toString('yyyy-MM-dd');
+                $formated_init_time = $init_day[1];
+
+                $formated_final_day = new Zend_Date( $final_day[0] );
+                $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
+                $formated_final_time = $final_day[1];
+
+                $result = $log->getLog($formated_init_day, $formated_final_day, $formated_init_time, $formated_final_time , $this->_request->getPost('status'), $this->_request->getPost('source'), $this->_request->getPost('dest'));
 
                 if (count($result) > 0) {
 
