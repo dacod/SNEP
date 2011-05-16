@@ -61,15 +61,24 @@ class RankingReportController extends Zend_Controller_Action {
         $form_xml = new Zend_Config_Xml('./default/forms/ranking_report.xml');
         $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
-        
+
+        $locale = Snep_Locale::getInstance()->getLocale();
+        $now = Zend_Date::now();
+
+        if($locale == 'en_US') {
+            $now = $now->toString('YYYY-MM-dd HH:mm');
+        }else{
+            $now = $now->toString('dd/MM/YYYY HH:mm');
+        }
+
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
         $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
-        $initDay->setValue(strtok($yesterday, ' '));
+        $initDay->setValue( $now );
         $initDay->addValidator($validatorDate);
 
         $tillDay = $period->getElement('till_day');
-        $tillDay->setValue(strtok(Zend_Date::now(), ' '));
+        $tillDay->setValue( $now );
         $tillDay->addValidator($validatorDate);
 
         $form->addSubForm($period, "period");
@@ -90,10 +99,24 @@ class RankingReportController extends Zend_Controller_Action {
 
     protected function getQuery($data, $exportCsv = false) {
 
-        $fromDay = $data["period"]["init_day"];
-        $tillDay = $data["period"]["till_day"];
-        $fromHour = $data["period"]["init_hour"];
-        $tillHour = $data["period"]["till_hour"];
+
+        $init_day = explode(" ", $formData['period']['init_day'] );
+        $final_day = explode(" ", $formData['period']['till_day']);
+
+        $formated_init_day = new Zend_Date( $init_day[0] );
+        $formated_init_day =  $formated_init_day->toString('yyyy-MM-dd');
+        $formated_init_time = $init_day[1];
+
+        $formated_final_day = new Zend_Date( $final_day[0] );
+        $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
+        $formated_final_time = $final_day[1];
+
+
+        $fromDay =  $formated_init_day;
+        $tillDay =  $formated_final_day;
+        $fromHour = $formated_init_time;
+        $tillHour = $formated_final_time;
+        
         $rankType = $data["rank"]["type"];
         $rankOrigins = $data["rank"]["origin"];
         $rankView = $data["rank"]["view"];
@@ -102,13 +125,6 @@ class RankingReportController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $db = Zend_Registry::get('db');
 
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy')));
-        $tillDay = $dayTmp;
-
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy')));
-        $fromDay = $dayTmp;
-
-        $dateFormat = 'yyyy-MM-dd';
 
         $dateClause = " ( calldate >= '{$fromDay->get($dateFormat)}'";
         $dateClause.=" AND calldate <= '{$tillDay->get($dateFormat)} 23:59:59'"; //'
