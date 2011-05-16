@@ -190,8 +190,8 @@ Control.DatePicker.i18n = Class.create();
 Object.extend(Control.DatePicker.i18n, {
 	baseLocales: {
 		'us': {
-			dateTimeFormat: 'MM-dd-yyyy HH:mm',
-			dateFormat: 'MM-dd-yyyy',
+			dateTimeFormat: 'yyyy-MM-dd HH:mm',
+			dateFormat: 'yyyy-MM-dd',
 			firstWeekDay: 0,
 			weekend: [0,6],
 			timeFormat: 'HH:mm'

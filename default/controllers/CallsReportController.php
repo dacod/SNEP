@@ -20,7 +20,12 @@ include ("includes/functions.php");
 class CallsReportController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate(" Reports » Calls ");
+
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Reports"),
+            $this->view->translate("Calls")
+        ));
+
         $config = Zend_Registry::get('config');
 
         include( $config->system->path->base . "/inspectors/Permissions.php" );
@@ -52,16 +57,23 @@ class CallsReportController extends Zend_Controller_Action {
 		// --- Subsection - Periods
 		$period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
 
-		$now = Zend_Date::now();
+                $locale = Snep_Locale::getInstance()->getLocale();
+                $now = Zend_Date::now();
+
+                if($locale == 'en_US') {
+                    $now = $now->toString('YYYY-MM-dd HH:mm');
+                }else{
+                    $now = $now->toString('dd/MM/YYYY HH:mm');
+                }
 
 		$validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
 
 		$initDay = $period->getElement('initDay');
-		$initDay->setValue($now->toString('01/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR . ' 00:00'));
+		$initDay->setValue( $now );
 		$initDay->addValidator($validatorDate);
 
 		$finalDay = $period->getElement('finalDay');		
-                $finalDay->setValue( $now->toString( Zend_Date::DAY.'/'.Zend_Date::MONTH.'/'.Zend_Date::YEAR . ' 00:00') );
+                $finalDay->setValue( $now );
                 
 		$finalDay->addValidator($validatorDate);
 
@@ -189,6 +201,12 @@ class CallsReportController extends Zend_Controller_Action {
         $formated_final_day = new Zend_Date( $final_day[0] );
         $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
         $formated_final_time = $final_day[1];
+
+
+        echo $formated_init_day . "<br />";
+        echo $formated_final_day ;
+        exit;
+
 
 
 		$ordernar	= $formData['period']['order'];
