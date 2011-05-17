@@ -35,20 +35,50 @@ class RankingReportController extends Zend_Controller_Action {
         $response = $test->getTests();
 
         $form = $this->getForm();
-        $this->view->form = $form;
 
         if ($this->_request->getPost()) {
+
             $formIsValid = $form->isValid($_POST);
             $formData = $this->_request->getParams();
-            
+
+            $locale = Snep_Locale::getInstance()->getLocale();
+
+            if($locale == 'en_US')  {
+                $format = 'yyyy-MM-dd';
+            }else{
+                $format = Zend_Locale_Format::getDateFormat( $locale );
+            }
+
+            $ini_date = explode(" ", $formData['period']['init_day']);
+            $final_date = explode(" ", $formData['period']['till_day']);
+
+            $ini_date_valid = Zend_Date::isDate($ini_date[0], $format);
+            $final_date_valid = Zend_Date::isDate($final_date[0], $format);
+
+            if( ! $ini_date_valid ) {
+                $iniDateElem = $form->getSubForm('period')->getElement('init_day');
+                $iniDateElem->addError( $this->view->translate('Invalid Date') );
+                $formIsValid = false;
+            }
+            if( ! $final_date_valid ) {
+                $finalDateElem = $form->getSubForm('period')->getElement('till_day');
+                $finalDateElem->addError( $this->view->translate('Invalid Date') );
+                $formIsValid = false;
+            }
+
             $reportType = $formData['rank']['out_type'];
-            if ($reportType == 'csv') {
+
+            if($formIsValid) {
+                if ($reportType == 'csv') {
                     $this->csvAction();
                 } else {
                     $this->viewAction();
                 }
-            
+            }
         }
+
+        $this->view->form = $form;
+
     }
 
     protected function getForm() {
@@ -73,13 +103,13 @@ class RankingReportController extends Zend_Controller_Action {
 
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
-        $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
+        //$validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
         $initDay->setValue( $now );
-        $initDay->addValidator($validatorDate);
+        //$initDay->addValidator($validatorDate);
 
         $tillDay = $period->getElement('till_day');
         $tillDay->setValue( $now );
-        $tillDay->addValidator($validatorDate);
+        //$tillDay->addValidator($validatorDate);
 
         $form->addSubForm($period, "period");
 
@@ -99,7 +129,6 @@ class RankingReportController extends Zend_Controller_Action {
 
     protected function getQuery($data, $exportCsv = false) {
 
-
         $init_day = explode(" ", $formData['period']['init_day'] );
         $final_day = explode(" ", $formData['period']['till_day']);
 
@@ -110,7 +139,6 @@ class RankingReportController extends Zend_Controller_Action {
         $formated_final_day = new Zend_Date( $final_day[0] );
         $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
         $formated_final_time = $final_day[1];
-
 
         $fromDay =  $formated_init_day;
         $tillDay =  $formated_final_day;
