@@ -329,8 +329,6 @@ class ExtensionsController extends Zend_Controller_Action {
     protected function execAdd($postData, $update = false) {
         $formData = $postData;
 
-        Zend_Debug::dump($formData);
-        die;
         $db = Zend_Registry::get('db');
 
         $exten = $formData["extension"]["exten"];
@@ -464,13 +462,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= ")";
         }
 
-        //Zend_Debug::dump($sql                                                                                                                                                                                   ) ;
-        //die;
         $stmt = $db->query($sql);
-
-        //Zend_Debug::dump($stmt);
-        //die;
-
 
         $idExten = $db->lastInsertId();
 
@@ -632,7 +624,6 @@ class ExtensionsController extends Zend_Controller_Action {
     }
 
     public function multiaddAction() {
-        //$this->__redirect("./ramais_varios.php");
 
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Multiple Extension");
 
@@ -734,8 +725,6 @@ class ExtensionsController extends Zend_Controller_Action {
                             $dataForm["sip"]["password"] = $exten.$exten;
                             $dataForm["iax2"]["password"] = $exten.$exten;
 
-                            //Zend_Debug::dump($dataForm);
-                            //die;
                             $ret = $this->execAdd($dataForm);
 
                             if (!is_string($ret)) {
@@ -749,7 +738,5 @@ class ExtensionsController extends Zend_Controller_Action {
                 }
             }
         }
-
-        //$this->renderScript("extensions/add_edit.phtml");
     }
 }
