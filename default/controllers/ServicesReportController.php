@@ -33,11 +33,36 @@ class ServicesReportController extends Zend_Controller_Action {
         $response = $test->getTests();
 
         $form = $this->getForm();
-        $this->view->form = $form;
+
 
         if ($this->_request->getPost()) {
             $formIsValid = $form->isValid($_POST);
             $formData = $this->_request->getParams();
+
+            $locale = Snep_Locale::getInstance()->getLocale();
+
+            if($locale == 'en_US')  {
+                $format = 'yyyy-MM-dd';
+            }else{
+                $format = Zend_Locale_Format::getDateFormat( $locale );
+            }
+
+            $ini_date = explode(" ", $formData['period']['init_day']);
+            $final_date = explode(" ", $formData['period']['till_day']);
+
+            $ini_date_valid = Zend_Date::isDate($ini_date[0], $format);
+            $final_date_valid = Zend_Date::isDate($final_date[0], $format);
+
+            if( ! $ini_date_valid ) {
+                $iniDateElem = $form->getSubForm('period')->getElement('init_day');
+                $iniDateElem->addError( $this->view->translate('Invalid Date') );
+                $formIsValid = false;
+            }
+            if( ! $final_date_valid ) {
+                $finalDateElem = $form->getSubForm('period')->getElement('till_day');
+                $finalDateElem->addError( $this->view->translate('Invalid Date') );
+                $formIsValid = false;
+            }
 
             if ($formIsValid) {
                 $reportType = $formData['service']['out_type'];
@@ -48,6 +73,7 @@ class ServicesReportController extends Zend_Controller_Action {
                 }
             }
         }
+        $this->view->form = $form;
     }
 
     protected function getForm() {
@@ -61,17 +87,26 @@ class ServicesReportController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
         $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
-        
+
+
+        $locale = Snep_Locale::getInstance()->getLocale();
+        $now = Zend_Date::now();
+
+        if($locale == 'en_US') {
+            $now = $now->toString('YYYY-MM-dd HH:mm');
+        }else{
+            $now = $now->toString('dd/MM/YYYY HH:mm');
+        }
+
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
-        $initDay->setValue(strtok($yesterday, ' '));
-        $initDay->addValidator($validatorDate);
+        $initDay->setValue( $now );
+        //$initDay->addValidator($validatorDate);
 
         $tillDay = $period->getElement('till_day');
-        $tillDay->setValue(strtok(Zend_Date::now(), ' '));
-        $tillDay->addValidator($validatorDate);
+        $tillDay->setValue( $now );
+        //$tillDay->addValidator($validatorDate);
         $form->addSubForm($period, "period");
-
 
         $exten = new Snep_Form_SubForm($this->view->translate("Extensions"), $form_xml->exten);
         $groupLib = new Snep_GruposRamais();
@@ -119,6 +154,7 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $fromDay = $data["period"]["init_day"];
         $tillDay = $data["period"]["till_day"];
+
         $extenList = $data["exten"]["exten_select"];
         $extenGroup = $data["exten"]["group_select"];
         $services = $data["service"]["serv_select"];
@@ -126,15 +162,6 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $configFile = "./includes/setup.conf";
         $config = new Zend_Config_Ini($configFile, null, true);
-
-
-
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($tillDay, array('date_format' => 'dd/MM/yyyy h:m:s')));
-        $tillDay = $dayTmp;
-
-        $dayTmp = new Zend_Date(Zend_Locale_Format::getDate($fromDay, array('date_format' => 'dd/MM/yyyy h:m:s')));
-        $fromDay = $dayTmp;
-
 
         $srv = '';
         if (count($services) > 0) {
@@ -179,8 +206,8 @@ class ServicesReportController extends Zend_Controller_Action {
             }
         }
 
-        $dateClause = " ( date >= '{$fromDay->get('yyyy-MM-dd h:m:s')}'";
-        $dateClause.=" AND date <= '{$tillDay->get('yyyy-MM-dd h:m:s')}') "; //'
+        $dateClause = " ( date >= '{$fromDay}'";
+        $dateClause.=" AND date <= '{$tillDay}') "; //'
         $cond .= " $dateClause ";
 
         $sql = " SELECT *, DATE_FORMAT(date,'%d/%m/%Y %T') as date FROM services_log WHERE ";
