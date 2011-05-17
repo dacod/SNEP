@@ -33,14 +33,42 @@ class CallsReportController extends Zend_Controller_Action {
         $response = $test->getTests();
 
 		$form = $this->getForm();
-		$this->view->form = $form;
 
 		if ($this->_request->getPost()) {
+
 			$formIsValid = $form->isValid($_POST);
+                        $locale = Snep_Locale::getInstance()->getLocale();
+
+                        if($locale == 'en_US')  {
+                            $format = 'yyyy-MM-dd';
+                        }else{
+                            $format = Zend_Locale_Format::getDateFormat( $locale );
+                        }
+
+                        $ini_date = explode(" ", $_POST['period']['initDay']);
+                        $final_date = explode(" ", $_POST['period']['finalDay']);
+
+                        $ini_date_valid = Zend_Date::isDate($ini_date[0], $format);
+                        $final_date_valid = Zend_Date::isDate($final_date[0], $format);
+
+                        if( ! $ini_date_valid ) {
+                            $iniDateElem = $form->getSubForm('period')->getElement('initDay');
+                            $iniDateElem->addError( $this->view->translate('Invalid Date') );
+                            $formIsValid = false;
+                        }
+                        if( ! $final_date_valid ) {
+                            $finalDateElem = $form->getSubForm('period')->getElement('finalDay');
+                            $finalDateElem->addError( $this->view->translate('Invalid Date') );
+                            $formIsValid = false;
+                        }
+
 			if ($formIsValid) {
 				$this->createAction();
 			}
 		}
+
+                $this->view->form = $form;
+                
    }
 
    private function getForm() {
@@ -49,7 +77,7 @@ class CallsReportController extends Zend_Controller_Action {
       	$db = Zend_Registry::get('db');
         
 		$form = new Snep_Form();	
-		$form->setAction($this->getFrontController()->getBaseUrl() . '/calls-report/create/');
+		$form->setAction($this->getFrontController()->getBaseUrl() . '/calls-report/');
 		$form->setName('create');
 
 		$form_xml = new Zend_Config_Xml('./default/forms/calls_report.xml');
@@ -1062,8 +1090,11 @@ class CallsReportController extends Zend_Controller_Action {
 	}
 	
     public function csvAction() {
+
+
     }
 
-	public function errorAction() {
+    public function errorAction() {
+        
     }
 }
