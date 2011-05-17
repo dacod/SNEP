@@ -456,12 +456,12 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "'$exten','$extenPass','$extenName','$context','$exten','$qualify',";
             $sql.= "'$secret','$type','$allow','$exten','$exten','$fullcontact',";
             $sql.= "'$dtmfmode','$advEmail','$callLimit','1',";
-            $sql.= "'1', '$advVoiceMail', $extenloadconfPickGrp ,'$channel','$nat', '$peerType',";
+            $sql.= "'1', '$advVoiceMail', $extenPickGrp ,'$channel','$nat', '$peerType',";
             $sql.= "$advPadLock,'no','$extenGroup',";
             $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
             $sql.= ")";
         }
-
+        
         $stmt = $db->query($sql);
 
         $idExten = $db->lastInsertId();

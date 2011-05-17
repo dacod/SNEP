@@ -101,6 +101,20 @@ class Snep_ExtensionsGroups_Manager {
 
         return $extensionsGroup;
     }
+    
+    public function getExtensionsOnlyGroup($id) {
+
+        $db = Zend_Registry::get('db');
+
+        $select = $db->select()
+                     ->from('peers',array('id','name','group'))
+                     ->where('peers.group = ?', $id);
+
+        $stmt = $db->query($select);
+        $extensionsGroup = $stmt->fetchAll();
+
+        return $extensionsGroup;
+    }
 
     /**
      * Returns all groups and extensions of the database.
@@ -121,7 +135,20 @@ class Snep_ExtensionsGroups_Manager {
 
         return $extensionsGroup;
     }
+    
+        public function getExtensionsAll() {
 
+        $db = Zend_Registry::get('db');
+
+        $select = $db->select()
+                     ->from('peers',array('id','name','group'));
+
+        $stmt = $db->query($select);
+        $extensionsGroup = $stmt->fetchAll();
+
+        return $extensionsGroup;
+    }
+    
     /**
      * Adds the group to the database based on the value reported.
      * Adiciona o grupo no banco de dados com base no valor informado.

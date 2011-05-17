@@ -112,7 +112,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         }
 
         $this->view->form = $form;
-
+        $this->renderScript("pickup-groups/add_edit.phtml");
     }
 
     public function editAction() {
@@ -145,7 +145,7 @@ class PickupGroupsController extends Zend_Controller_Action {
             }
         }
         $this->view->form = $form;
-
+        $this->renderScript("pickup-groups/add_edit.phtml");
     }
 
     public function deleteAction() {

@@ -117,7 +117,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
                                      'users' => $this->view->translate('User')) );
         
         try {
-            $extensionsAllGroup = Snep_ExtensionsGroups_Manager::getExtensionsAllGroup();
+            $extensionsAllGroup = Snep_ExtensionsGroups_Manager::getExtensionsAll();
 
         }catch(Exception $e) {
 
@@ -197,13 +197,13 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
              ->setValue($group['inherit']);
 
         $groupExtensions = array();
-        foreach(Snep_ExtensionsGroups_Manager::getExtensionsGroup($id) as $data) {
+        foreach(Snep_ExtensionsGroups_Manager::getExtensionsOnlyGroup($id) as $data) {
 
             $groupExtensions[$data['name']] = "{$data['name']}";
         }
 
         $groupAllExtensions = array();
-        foreach(Snep_ExtensionsGroups_Manager::getExtensionsAllGroup() as $data) {
+        foreach(Snep_ExtensionsGroups_Manager::getExtensionsAll() as $data) {
 
                 if( ! isset($groupExtensions[$data['name']]) ) {
 
@@ -224,7 +224,7 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
 
                 $this->view->group = Snep_ExtensionsGroups_Manager::editGroup(array('name' => $dados['name'],'type' => $dados['type'],'id' => $idGroup));
 
-                foreach(Snep_ExtensionsGroups_Manager::getExtensionsGroup($id) as $extensionsGroup) {
+                foreach(Snep_ExtensionsGroups_Manager::getExtensionsOnlyGroup($id) as $extensionsGroup) {
 
                     Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extensionsGroup['name'], 'group' => 'all'));
                 }
@@ -342,10 +342,9 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
                     $toGroup = Snep_ExtensionsGroups_Manager::addGroup( $new_group );
                 }
 
-                $extensions = Snep_ExtensionsGroups_Manager::getExtensionsGroup($id);
+                $extensions = Snep_ExtensionsGroups_Manager::getExtensionsOnlyGroup($id);
 
                 foreach($extensions as $extension) {
-
                     Snep_ExtensionsGroups_Manager::addExtensionsGroup(array('extensions' => $extension['name'], 'group' => $toGroup));
                 }
 

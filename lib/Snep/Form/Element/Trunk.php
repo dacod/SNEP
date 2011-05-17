@@ -5,7 +5,12 @@ class Snep_Form_Element_Trunk extends Zend_Form_Element_Select {
         foreach (PBX_Trunks::getAll() as $trunk) {
             $data[$trunk->getId()] = $trunk->getName();
         }
-        $this->addMultiOptions($data);
+        if ($data != null){
+            $this->addMultiOptions($data);
+        }else{
+            $this->addMultiOption(null, '');
+        }
+        
         parent::__construct($spec, $options);
     }
 }
