@@ -21,7 +21,7 @@
                     <required>true</required>
                 </options>
             </init_day>
-            
+            <!--
             <init_hour>
                 <type>text</type>
                 <options>
@@ -47,7 +47,7 @@
                     </validators>
                 </options>
             </init_hour>
-            
+            -->
             <till_day>
                 <type>text</type>
                 <options>
@@ -56,7 +56,7 @@
                     <required>true</required>
                 </options>
             </till_day>
-            
+            <!--
             <till_hour>
                 <type>text</type>
                 <options>
@@ -82,7 +82,7 @@
                     </validators>
                 </options>
             </till_hour>
-            
+            -->
         </elements>    
     </period>  
     
