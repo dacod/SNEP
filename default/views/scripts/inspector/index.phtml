@@ -1,20 +1,24 @@
-<div class="inspect">
-<?php
-        echo "<ul>";
-            foreach( $this->inspect as $key => $value ) {
+<div class="snep_form">
+    
+    <div class="inspect">
+    <?php
+            echo "<ul>";
+                foreach( $this->inspect as $key => $value ) {
 
-                $style = ( $value['error'] ? 'list_error' : 'list_no_error' );
+                    $style = ( $value['error'] ? 'list_error' : 'list_no_error' );
 
-                echo " <li class='$style' > {$value['name']} </li> ";
+                    echo " <li class='$style' > {$value['name']} </li> ";
 
-                if ($value['error']) {
-                    echo "<li style=\"background-color: #FFEDED\"> <pre> {$value['message']} </pre> </li>";
+                    if ($value['error']) {
+                        echo "<li style=\"background-color: #FFEDED\"> <pre> {$value['message']} </pre> </li>";
+                    }
                 }
-            }
-        echo "</ul>";
-?>
-</div>
+            echo "</ul>";
+    ?>
+    </div>
 
-<div style="width:170px; margin:0 auto;">
-    <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>
+    <div style="width:170px; margin:0 auto;">
+        <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>
+    </div>
+
 </div>
