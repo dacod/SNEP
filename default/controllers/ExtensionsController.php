@@ -153,7 +153,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $this->view->translate("Edit %s", $id)
         ));
 
-        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        Zend_Registry::set('cancel_url', $this->getFrontControlbelezaler()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
         if(!$this->view->all_writable) {
             $form->getElement("submit")->setAttrib("disabled", "disabled");
@@ -545,7 +545,12 @@ class ExtensionsController extends Zend_Controller_Action {
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
-            $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
+            $subFormVirtual = new Snep_Form_SubForm(null, $form_xml->virtual, "virtual");
+            if(PBX_Trunks::getAll() == null){
+                $subFormVirtual->removeElement('virtual');
+                $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "virtual"));
+            }
+            $form->addSubForm($subFormVirtual, "virtual");
             $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
             $selectFill = $subFormKhomp->getElement('board');
             $selectFill->addMultiOption(null, ' ');
