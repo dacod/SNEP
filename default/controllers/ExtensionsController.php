@@ -159,7 +159,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $this->view->translate("Edit %s", $id)
         ));
 
-        Zend_Registry::set('cancel_url', $this->getFrontControlbelezaler()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
         if(!$this->view->all_writable) {
             $form->getElement("submit")->setAttrib("disabled", "disabled");
