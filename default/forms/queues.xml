@@ -70,8 +70,7 @@
                 <type>select</type>
                 <options>
                     <label>Queue notice audio</label>
-                    <description>sound file played for the agent to indicate him about a new call</description>
-                    <required>true</required>
+                    <description>sound file played for the agent to indicate him about a new call</description>                    
                 </options>
             </announce>
 
