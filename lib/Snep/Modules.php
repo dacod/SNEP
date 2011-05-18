@@ -169,7 +169,7 @@ class Snep_Modules {
                 $menu_id = $menu_parent;
             }
 
-            if($element->count() > 0) {
+            if( count( $element ) > 0) {
                 $this->loadResources($element, $resname, $menu_id);
             }
         }
