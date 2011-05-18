@@ -127,16 +127,16 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->view->boardData = $this->boardData;
 
         if ($this->getRequest()->isPost()) {
+            
+             if (key_exists('virtual_error', $postData)){
+                    $this->view->error = "There's no trunks registered on the system. Try a different technology";
+                    $this->view->form->valid(false);
+                    }
+                    
 
             if ($this->view->form->isValid($_POST)) {
                 $postData = $this->_request->getParams();
                 
-                if (key_exists('virtual', $postData)){
-                    if (!key_exists('virtual', $postData['virtual'])){
-                    $this->view->error = "There's no trunks registered on the system. Try a different technology";
-                    $this->view->form->valid(false);
-                    }
-                }
                 $ret = $this->execAdd($postData);
 
                 if (!is_string($ret)) {
@@ -554,7 +554,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $subFormVirtual = new Snep_Form_SubForm(null, $form_xml->virtual, "virtual");
             if(PBX_Trunks::getAll() == null){
                 $subFormVirtual->removeElement('virtual');
-                $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "error"));
+                $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "virtual_error"));
             }
             $form->addSubForm($subFormVirtual, "virtual");
             $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
