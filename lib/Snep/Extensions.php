@@ -117,7 +117,7 @@ class Snep_Extensions {
             $exten->setPickupGroup($data->pickupgroup);
         }
 
-        if($data->usa_vc) {
+        if($data->usa_vc == 'yes') {
             $exten->setMailBox($data->mailbox);
             $exten->setEmail($data->email);
         }
