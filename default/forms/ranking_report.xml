@@ -8,11 +8,9 @@
        Zend  Form XML with parameters for the Services Report 
 -->
 
-<form>
-    
+<form>    
     <period>
-        <elements>
-            
+        <elements>            
             <init_day>
                 <type>text</type>
                 <options>
@@ -21,33 +19,6 @@
                     <required>true</required>
                 </options>
             </init_day>
-            <!--
-            <init_hour>
-                <type>text</type>
-                <options>
-                    <label>hh:mm</label>
-                    <value>00:00</value>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
-                                <messages>
-                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>4</min>
-                                <max>10</max>
-                            </options>
-                        </strlen>
-                    </validators>
-                </options>
-            </init_hour>
-            -->
             <till_day>
                 <type>text</type>
                 <options>
@@ -56,39 +27,10 @@
                     <required>true</required>
                 </options>
             </till_day>
-            <!--
-            <till_hour>
-                <type>text</type>
-                <options>
-                    <label>hh:mm</label>
-                    <value>23:59</value>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/^(([1-9]|[01][0-9]|[012][0-3]):([0-5][0-9]))*$/i</pattern>
-                                <messages>
-                                    <regexNotMatch>Time must follow the default format. EX: 23:50</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>4</min>
-                                <max>10</max>
-                            </options>
-                        </strlen>
-                    </validators>
-                </options>
-            </till_hour>
-            -->
         </elements>    
-    </period>  
-    
+    </period>    
     <rank>
-        <elements>
-            
+        <elements>            
             <type>
                 <type>radio</type>
                 <options>
@@ -100,8 +42,7 @@
                         <time>Time</time>
                     </multioptions>
                 </options>
-            </type>
-            
+            </type>            
             <origin>
                 <type>text</type>
                 <options>
@@ -124,16 +65,14 @@
                         </regex>
                         </validators>
                 </options>
-            </origin>
-            
+            </origin>            
             <view>
                 <type>select</type>
                 <options>
                     <label>Show TOP 'n' by source</label>
                     <value>10</value>
                 </options>
-            </view>
-            
+            </view>            
              <out_type>
                 <type>radio</type>
                 <options>
@@ -145,9 +84,7 @@
                         <csv>CSV</csv>
                     </multioptions>
                 </options>
-            </out_type>
-            
+            </out_type>            
         </elements>    
-    </rank>  
-
+    </rank>
 </form>

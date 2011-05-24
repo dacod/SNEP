@@ -28,12 +28,6 @@ class RankingReportController extends Zend_Controller_Action {
 		);
 
         $config = Zend_Registry::get('config');
-
-        // Include Inpector class, for permission test
-        include_once( $config->system->path->base . "/inspectors/Permissions.php" );
-        $test = new Permissions();
-        $response = $test->getTests();
-
         $form = $this->getForm();
 
         if ($this->_request->getPost()) {
@@ -103,13 +97,10 @@ class RankingReportController extends Zend_Controller_Action {
 
         $yesterday = Zend_Date::now()->subDate(1);
         $initDay = $period->getElement('init_day');
-        //$validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));
         $initDay->setValue( $now );
-        //$initDay->addValidator($validatorDate);
 
         $tillDay = $period->getElement('till_day');
         $tillDay->setValue( $now );
-        //$tillDay->addValidator($validatorDate);
 
         $form->addSubForm($period, "period");
 

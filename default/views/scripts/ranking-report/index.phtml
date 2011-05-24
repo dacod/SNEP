@@ -1,24 +1,23 @@
 <?php
-$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/scriptaculous/lib/prototype.js');
-$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/enableField.js');
+$this->headLink()->appendStylesheet($this->baseUrl() . "/css/datepicker.css");
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/prototype-date-extensions.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/datepicker.js", 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/enableField.js');
 
 $locale = str_replace("_", "-", Snep_Locale::getInstance()->getLocale());
 if( $locale == "en-US") { $locale = 'en_US'; }
 
-?>
+if( isset( $this->error ) ): ?>
+    <div class="error_box" > 
+        <?php echo  $this->error ?>
+    </div>
+<?php endif ?>
 
 <?php
-if( isset( $this->error ) ) {
-    echo "<div class=\"error_box\" > {$this->error} </div>";
-}
-    echo $this->form;
+echo $this->form;
 ?>
-
 <script type="text/javascript">
-  new Control.DatePicker('period-initDay', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
-  new Control.DatePicker('period-finalDay', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-init_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-till_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
 </script>
-
 
