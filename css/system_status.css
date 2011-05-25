@@ -92,7 +92,7 @@
     text-align: left;
     color: #444;
     padding-left: 10px;
-    
+
 }
 
 .status_hard_block h2 {
@@ -113,4 +113,40 @@
     margin-top: -14px;
     padding-right: 10px;
     padding-left: 5px;
+}
+
+.bar_chart {
+    position: relative; 
+    margin: auto;
+    background-color: #BBBBBB; 
+    border-radius: 3px;
+    border-width: 2px;
+}
+.bar_inner {
+    border-radius: 3px;
+    -moz-border-radius: 2px;
+    height: 18px;
+}
+.bar_text { 
+    position: absolute;
+    line-height: 18px;
+    font-size: 12px;
+    text-indent: 2px; 
+    font-weight: bold;
+    text-align: center;
+    width: 100%; 
+    color: white;
+}
+
+.bar_color_red { 
+    background-color: #CE0000;
+}
+
+.bar_color_green { 
+    background-color: #9EB326; 
+}
+
+.bar_color_yellow { 
+    background-color: #DC8A0D ; 
+
 }

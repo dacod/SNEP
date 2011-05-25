@@ -11,45 +11,76 @@ class IndexController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $db = Zend_Registry::get('db');
 
+        $linfoData = new Zend_Http_Client('http://localhost/snep/lib/linfo/index.php?out=xml');
+        try {
+            $linfoData->request();
+            $sysInfo = $linfoData->getLastResponse()->getBody();
+            $sysInfo = simplexml_load_string($sysInfo);
+        } catch (HttpException $ex) {
+            echo $ex;
+        }
+
         if (trim($config->ambiente->db->host) == "") {
             $this->_redirect("/installer/");
         } else {
+
             $systemInfo = array();
-            $uptimeRaw = explode(",", exec("uptime"));
-            $uptimeRaw = substr($uptimeRaw[0], strpos($uptimeRaw[0], "up") + 2);
+            $uptimeRaw = explode(';', $sysInfo->core->uptime);
+            $systemInfo['uptime'] = $uptimeRaw[0];
 
-            if (strpos($uptimeRaw, "min") > 0) {
-                $systemInfo['uptime'] = substr($uptimeRaw, 0, strpos($uptimeRaw, "min") + 3);
-            } elseif (strpos($uptimeRaw, ":") > 0) {
-                $uptimeTmp = explode(":", $uptimeRaw);
-                $systemInfo['uptime'] = $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
-            } else {
-                $systemInfo['uptime'] = substr($uptimeRaw, 0, strpos($uptimeRaw, "day")) . $this->view->translate(' dias, ');
-                $uptimeTmp = explode(":", $uptimeRaw[1]);
-                $systemInfo['uptime'].= $uptimeTmp[0] . $this->view->translate(' hour(s), ') . $uptimeTmp[1] . $this->view->translate(' minutes');
-            }
-            $systemInfo['uptime'] = trim($systemInfo['uptime']);
+            require_once "includes/AsteriskInfo.php";
+            $astinfo = new AsteriskInfo();
 
-            $systemInfo['asterisk'] = exec("/usr/sbin/asterisk -V ");
+            $astVersionRaw = explode('@', $astinfo->status_asterisk("core show version", "", True));
+
+            preg_match('/Asterisk (.*) built/', $astVersionRaw[0], $astVersion);
+
+            $systemInfo['asterisk'] = $astVersion[1];
 
             $systemInfo['mysql'] = trim(exec("mysql -V | awk -F, '{ print $1 }' | awk -F'mysql' '{ print $2 }'"));
 
-            if (file_exists("/etc/slackware-version")) {
-                exec("cat /etc/slackware-version", $linuxVer);
-                $systemInfo['linux_ver'] = $linuxVer[0];
-            } else {
-                exec("cat /etc/issue", $linuxVer);
-                $systemInfo['linux_ver'] = substr($linuxVer[0], 0, strpos($linuxVer[0], "\\"));
-            }
+            $systemInfo['linux_ver'] = $sysInfo->core->os . ' / ' . $sysInfo->core->Distribution;
 
-            $systemInfo['linux_kernel'] = exec("uname -sr");
+            $systemInfo['linux_kernel'] = $sysInfo->core->kernel;
 
-            $hard1 = exec("cat /proc/cpuinfo | grep name |  awk -F: '{print $2}'");
-            $hard2 = exec("cat /proc/cpuinfo | grep MHz |  awk -F: '{print $2}'");
-            $systemInfo['hardware'] = trim($hard1 . " , " . $hard2 . " Mhz");
+            $cpuRaw = explode('-', $sysInfo->core->CPU);
+            $systemInfo['hardware'] = $cpuRaw[1];
 
-            $systemInfo['memory'] = $this->sys_meminfo();
-            $systemInfo['space'] = $this->sys_fsinfo();
+            $cpuNumber = count(explode('<br />', $sysInfo->core->CPU));
+
+            $cpuUsageRaw = explode(' ', $sysInfo->core->load);
+            $loadAvarege = ($cpuUsageRaw[0] + $cpuUsageRaw[1] + $cpuUsageRaw[2]) / 3;
+
+            $systemInfo['usage'] = round(($loadAvarege * 100) / ($cpuNumber - 1));
+
+            $systemInfo['memory']['ram'] = array('total' => $this->byte_convert(floatval($sysInfo->memory->Physical->total)), 
+                                                                       'free' =>  $this->byte_convert(floatval($sysInfo->memory->Physical->free)), 
+                                                                       'used' => $this->byte_convert(floatval($sysInfo->memory->Physical->used)), 
+                                                                       'percent' => round(floatval($sysInfo->memory->Physical->used) / floatval($sysInfo->memory->Physical->total)*100));
+            $systemInfo['memory']['swap'] = array('total' => $this->byte_convert(floatval($sysInfo->memory->swap->core->free)), 
+                                                                         'free' => $this->byte_convert(floatval($sysInfo->memory->swap->core->total)), 
+                                                                         'used' => $this->byte_convert(floatval($sysInfo->memory->swap->core->used)), 
+                                                                         'percent' => round(floatval($sysInfo->memory->swap->core->used) / floatval($sysInfo->memory->swap->core->total)*100));
+            
+            $deviceArray = $sysInfo->mounts->mount;
+            foreach ($deviceArray as $mount) {
+                 $systemInfo['space'][] = array('mount_point' =>$mount["mountpoint"], 
+                                                          'size' => $this->byte_convert(floatval($mount["size"])), 
+                                                          'free' => $this->byte_convert(floatval($mount["free"])), 
+                                                          'percent' => round((floatval($mount["used"])/floatval($mount["size"]))*100));
+            }    
+            
+            $netArray = $sysInfo->net->interface;
+            $count = 0;
+            
+            foreach ($netArray as $board) {
+                if ($count < 6){
+                 $systemInfo['net'][] = array(
+                                                          'device' => $board["device"], 
+                                                          'up' => $board["state"]);
+                 $count++;
+                }
+            }           
 
             $sqlN = "select count(*) from";
             $select = $db->query($sqlN . ' peers');
@@ -87,8 +118,8 @@ class IndexController extends Zend_Controller_Action {
 
             // Verify errors
             $this->view->error = false;
-            foreach( $inspect as $log => $message ) {
-                if( $message['error'] == 1 ) {
+            foreach ($inspect as $log => $message) {
+                if ($message['error'] == 1) {
                     $this->view->error = true;
                 }
             }
@@ -97,128 +128,23 @@ class IndexController extends Zend_Controller_Action {
             $this->view->inspector = $this->getFrontController()->getBaseUrl() . '/inspector/';
         }
     }
+    
+    function byte_convert($size, $precision = 2) {
 
-    private function sys_meminfo() {
-        $results['ram'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
-        $results['swap'] = array('total' => 0, 'free' => 0, 'used' => 0, 'percent' => 0);
-        $results['devswap'] = array();
 
-        $bufr = $this->rfts('/proc/meminfo');
+	// Sanity check
+	if (!is_numeric($size))
+		return '?';
+	
+	// Get the notation
+	$notation = 1024;
 
-        if ($bufr != "ERROR") {
-            $bufe = explode("\n", $bufr);
-            foreach ($bufe as $buf) {
-                if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-                    $results['ram']['total'] = $ar_buf[1];
-                } else if (preg_match('/^MemFree:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-                    $results['ram']['free'] = $ar_buf[1];
-                } else if (preg_match('/^Cached:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-                    $results['ram']['cached'] = $ar_buf[1];
-                } else if (preg_match('/^Buffers:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
-                    $results['ram']['buffers'] = $ar_buf[1];
-                }
-            }
-            $results['ram']['used'] = $results['ram']['total'] - $results['ram']['free'];
-            $results['ram']['percent'] = round(($results['ram']['used'] * 100) / $results['ram']['total']);
-            // values for splitting memory usage
-            if (isset($results['ram']['cached']) && isset($results['ram']['buffers'])) {
-                $results['ram']['app'] = $results['ram']['used'] - $results['ram']['cached'] - $results['ram']['buffers'];
-                $results['ram']['app_percent'] = round(($results['ram']['app'] * 100) / $results['ram']['total']);
-                $results['ram']['buffers_percent'] = round(($results['ram']['buffers'] * 100) / $results['ram']['total']);
-                $results['ram']['cached_percent'] = round(($results['ram']['cached'] * 100) / $results['ram']['total']);
-            }
-
-            $bufr = $this->rfts('/proc/swaps');
-            if ($bufr != "ERROR") {
-                $swaps = explode("\n", $bufr);
-                for ($i = 1; $i < (sizeof($swaps)); $i++) {
-                    if (trim($swaps[$i]) != "") {
-                        $ar_buf = preg_split('/\s+/', $swaps[$i], 6);
-                        $results['devswap'][$i - 1] = array();
-                        $results['devswap'][$i - 1]['dev'] = $ar_buf[0];
-                        $results['devswap'][$i - 1]['total'] = $ar_buf[2];
-                        $results['devswap'][$i - 1]['used'] = $ar_buf[3];
-                        $results['devswap'][$i - 1]['free'] = ($results['devswap'][$i - 1]['total'] - $results['devswap'][$i - 1]['used']);
-                        $results['devswap'][$i - 1]['percent'] = round(($ar_buf[3] * 100) / $ar_buf[2]);
-                        $results['swap']['total'] += $ar_buf[2];
-                        $results['swap']['used'] += $ar_buf[3];
-                        $results['swap']['free'] = $results['swap']['total'] - $results['swap']['used'];
-                        $results['swap']['percent'] = round(($results['swap']['used'] * 100) / $results['swap']['total']);
-                    }
-                }
-            }
-        }
-        return $results;
-    }
-
-    private function rfts($strFileName, $intLines = 0, $intBytes = 4096) {
-        $strFile = "";
-        $intCurLine = 1;
-        if (file_exists($strFileName)) {
-            if ($fd = fopen($strFileName, 'r')) {
-                while (!feof($fd)) {
-                    $strFile .= fgets($fd, $intBytes);
-                    if ($intLines <= $intCurLine && $intLines != 0) {
-                        break;
-                    } else {
-                        $intCurLine++;
-                    }
-                }
-                fclose($fd);
-            } else {
-                return "ERROR";
-            }
-        } else {
-            return "ERROR";
-        }
-        return $strFile;
-    }
-
-    private function sys_fsinfo() {
-        $df = $this->execute_program('df', '-kP');
-        $mounts = explode("\n", $df);
-        $fstype = array();
-        if ($fd = fopen('/proc/mounts', 'r')) {
-            while ($buf = fgets($fd, 4096)) {
-                list($dev, $mpoint, $type) = preg_split('/\s+/', trim($buf), 4);
-                $fstype[$mpoint] = $type;
-                $fsdev[$dev] = $type;
-            }
-            fclose($fd);
-        }
-
-        for ($i = 1; $i < sizeof($mounts); $i++) {
-            $ar_buf = preg_split('/\s+/', $mounts[$i], 6);
-            if ($fstype[$ar_buf[5]] == "tmpfs")
-                continue;
-            $results[$i - 1] = array();
-
-            $results[$i - 1]['disk'] = $ar_buf[0];
-            $results[$i - 1]['size'] = $ar_buf[1];
-            $results[$i - 1]['used'] = $ar_buf[2];
-            $results[$i - 1]['free'] = $ar_buf[3];
-            $results[$i - 1]['percent'] = round(($results[$i - 1]['used'] * 100) / $results[$i - 1]['size']) . '%';
-            $results[$i - 1]['mount_point'] = $ar_buf[5];
-            ($fstype[$ar_buf[5]]) ? $results[$i - 1]['fstype'] = $fstype[$ar_buf[5]] : $results[$i - 1]['fstype'] = $fsdev[$ar_buf[0]];
-        }
-
-        return $results;
-    }
-
-    private function execute_program($program, $params) {
-        $path = array('/bin/', '/sbin/', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
-        $buffer = '';
-        while ($cur_path = current($path)) {
-            if (is_executable("$cur_path/$program")) {
-                if ($fp = popen("$cur_path/$program $params", 'r')) {
-                    while (!feof($fp)) {
-                        $buffer .= fgets($fp, 4096);
-                    }
-                    return trim($buffer);
-                }
-            }
-            next($path);
-        }
-    }
+	// Fixes large disk size overflow issue
+	// Found at http://www.php.net/manual/en/function.disk-free-space.php#81207
+	$types = array('B', 'KB', 'MB', 'GB', 'TB');
+	$types_i = array('B', 'KiB', 'MiB', 'GiB', 'TiB');
+	for($i = 0; $size >= $notation && $i < (count($types) -1 ); $size /= $notation, $i++);
+	return(round($size, $precision) . ' ' . ($notation == 1000 ? $types[$i] : $types_i[$i]));
+}
 
 }

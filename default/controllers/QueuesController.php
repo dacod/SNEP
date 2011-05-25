@@ -161,17 +161,6 @@ class QueuesController extends Zend_Controller_Action {
                     'no' => $this->view->translate('No'),
                     'strict' => $this->view->translate('Restrict')))
                 ->setValue('no');
-        /*
-          $autofill  = $advanced->getElement('autofill');
-          $autofill->setLabel($this->view->translate("Distribuir chamadas simultaneamente na fila até que não existam mais agentes disponíveis ou chamadas na fila") )
-          ->setMultiOptions( $boolOptions )
-          ->setValue('no');
-
-          $autopause  = $advanced->getElement('autopause');
-          $autopause->setLabel($this->view->translate("Pausar automaticamente um agente quando ele não atender uma chamada") )
-          ->setMultiOptions( $boolOptions )
-          ->setValue('no');
-         */
         $form->addSubForm($advanced, "advanced");
 
         $alertsData = new Zend_Config_Xml('./default/forms/queues.xml', 'alerts', true);
@@ -215,10 +204,6 @@ class QueuesController extends Zend_Controller_Action {
                 'reportholdtime' => $_POST['advanced']['reportholdtime'],
                 'memberdelay' => $_POST['advanced']['memberdelay'],
                 'weight' => $_POST['advanced']['weight'],
-                    /*
-                      'autofill'          => $_POST['advanced']['autofill'],
-                      'autopause'         => $_POST['advanced']['autopause']
-                     */
             );
 
             $form_isValid = $form->isValid($_POST);

@@ -889,6 +889,7 @@ function showInfoHTML($info, $settings) {
 				$nic = $net->addChild('interface');
 				$nic->addAttribute('device', $device);
 				$nic->addAttribute('type', $stats['type']);
+				$nic->addAttribute('state', $stats['state']);
 				$nic->addAttribute('sent', $stats['sent']['bytes']);
 				$nic->addAttribute('recieved', $stats['recieved']['bytes']);
 			}

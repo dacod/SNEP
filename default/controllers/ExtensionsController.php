@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  This file is part of SNEP.
  *
@@ -35,35 +36,35 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $config = Zend_Registry::get('config');
         $asteriskDirectory = $config->system->path->asterisk->conf;
-        
+
         foreach ($files as $file => $status) {
             $files[$file] = is_writable($asteriskDirectory . "/snep/" . $file);
-            if($files[$file] === false && $all_writable === true) {
+            if ($files[$file] === false && $all_writable === true) {
                 $all_writable = false;
             }
         }
 
         $this->view->all_writable = $all_writable;
-        if(!$all_writable) {
+        if (!$all_writable) {
             $this->view->writable_files = $files;
         }
     }
 
     public function indexAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Extensions")
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Extensions")
+                ));
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
         $select = $db->select()->from("peers", array(
-            "id"      => "id",
-            "exten"   => "name",
-            "name"    => "callerid",
-            "channel" => "canal",
-            "group"
-        ));
+                    "id" => "id",
+                    "exten" => "name",
+                    "name" => "callerid",
+                    "channel" => "canal",
+                    "group"
+                ));
         $select->where("peer_type='R'");
 
         if ($this->_request->getPost('filtro')) {
@@ -104,9 +105,9 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(
-            /*array("url" => $baseUrl . "/extensions/multiadd",
-                "display" => $this->view->translate("Add Multiple Extensions"),
-                "css" => "includes"),*/
+            /* array("url" => $baseUrl . "/extensions/multiadd",
+              "display" => $this->view->translate("Add Multiple Extensions"),
+              "css" => "includes"), */
             array("url" => $baseUrl . "/extensions/add",
                 "display" => $this->view->translate("Add Extension"),
                 "css" => "include")
@@ -116,34 +117,33 @@ class ExtensionsController extends Zend_Controller_Action {
     public function addAction() {
 
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Extensions"),
-            $this->view->translate("Add Extension")
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Extensions"),
+                    $this->view->translate("Add Extension")
+                ));
         $this->view->form = $this->getForm();
-        if(!$this->view->all_writable) {
-            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
-        }
+//        if(!$this->view->all_writable) {
+//            $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
+//        }
         $this->view->boardData = $this->boardData;
 
         if ($this->getRequest()->isPost()) {
-            
-             if (key_exists('virtual_error', $postData)){
-                    $this->view->error = "There's no trunks registered on the system. Try a different technology";
-                    $this->view->form->valid(false);
+            $postData = $this->_request->getParams();
+
+            if ($postData["technology"]['type'] == "virtual" && !key_exists('virtual', $postData)) {
+                $this->view->error = $this->view->translate("There's no trunks available in the system. Try a different technology");
+                $this->view->form->valid(false);
+            } else {
+                if ($this->view->form->isValid($_POST)) {
+
+                    $ret = $this->execAdd($postData);
+
+                    if (!is_string($ret)) {
+                        $this->_redirect('/extensions/');
+                    } else {
+                        $this->view->error = $ret;
+                        $this->view->form->valid(false);
                     }
-                    
-
-            if ($this->view->form->isValid($_POST)) {
-                $postData = $this->_request->getParams();
-                
-                $ret = $this->execAdd($postData);
-
-                if (!is_string($ret)) {
-                    $this->_redirect('/extensions/');
-                } else {
-                    $this->view->error = $ret;
-                    $this->view->form->valid(false);
                 }
             }
         }
@@ -154,14 +154,14 @@ class ExtensionsController extends Zend_Controller_Action {
     public function editAction() {
         $id = $this->_request->getParam("id");
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
-            $this->view->translate("Manage"),
-            $this->view->translate("Extensions"),
-            $this->view->translate("Edit %s", $id)
-        ));
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Extensions"),
+                    $this->view->translate("Edit %s", $id)
+                ));
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = $this->getForm();
-        if(!$this->view->all_writable) {
+        if (!$this->view->all_writable) {
             $form->getElement("submit")->setAttrib("disabled", "disabled");
         }
         $this->view->form = $form;
@@ -170,9 +170,15 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
         if ($this->getRequest()->isPost()) {
-
+             $postData = $this->_request->getParams();
+            if ($postData["technology"]['type'] == "virtual" && !key_exists('virtual', $postData)) {
+                $this->view->error = $this->view->translate("There's no trunks available in the system. Try a different technology");
+                $this->view->form->valid(false);
+            } else {
             if ($this->view->form->isValid($_POST)) {
-                $postData = $this->_request->getParams();
+               
+                
+                
                 $postData["extension"]["exten"] = $this->_request->getParam("id");
 
                 $ret = $this->execAdd($postData, true);
@@ -184,6 +190,7 @@ class ExtensionsController extends Zend_Controller_Action {
                     $this->view->form->valid(false);
                 }
             }
+        }
         }
 
         $extenUtil = new Snep_Extensions();
@@ -298,7 +305,7 @@ class ExtensionsController extends Zend_Controller_Action {
                 $khompChannel = substr($khompInfo, strpos($khompInfo, 'c') + 1);
 
                 $khompInfo = new PBX_Khomp_Info();
-                
+
                 if ($khompInfo->hasWorkingBoards()) {
                     foreach ($khompInfo->boardInfo() as $board) {
                         if (preg_match("/KFXS/", $board['model'])) {
@@ -431,10 +438,9 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $advEmail = $formData["advanced"]["email"];
 
-        if($techType == "sip" || $techType == "iax2") {
+        if ($techType == "sip" || $techType == "iax2") {
             $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
-        }
-        else {
+        } else {
             $allow = "ulaw";
         }
 
@@ -467,7 +473,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
             $sql.= ")";
         }
-        
+
         $stmt = $db->query($sql);
 
         $idExten = $db->lastInsertId();
@@ -552,9 +558,9 @@ class ExtensionsController extends Zend_Controller_Action {
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
             $subFormVirtual = new Snep_Form_SubForm(null, $form_xml->virtual, "virtual");
-            if(PBX_Trunks::getAll() == null){
+            if (PBX_Trunks::getAll() == null) {
                 $subFormVirtual->removeElement('virtual');
-                $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "virtual_error"));
+                $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "virtual"));
             }
             $form->addSubForm($subFormVirtual, "virtual");
             $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
@@ -576,7 +582,6 @@ class ExtensionsController extends Zend_Controller_Action {
                 $subFormKhomp->getElement('channel')->setRegisterInArrayValidator(false);
                 $boardTmp = Zend_Json_Encoder::encode($boardList);
                 $this->boardData = $boardTmp;
-                
             } else {
                 $subFormKhomp->removeElement('board');
                 $subFormKhomp->removeElement('channel');
@@ -620,7 +625,6 @@ class ExtensionsController extends Zend_Controller_Action {
                 //$subFormKhomp->getElement('channel')->setRegisterInArrayValidator(false);
                 $boardTmp = Zend_Json_Encoder::encode($boardList);
                 $this->boardData = $boardTmp;
-
             } else {
                 $subFormKhomp->removeElement('board');
                 $subFormKhomp->removeElement('channel');
@@ -639,7 +643,7 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->view->breadcrumb = $this->view->translate("Manage » Extensions » Add Multiple Extension");
 
         $this->view->form = $this->getmultiaddForm();
-        if(!$this->view->all_writable) {
+        if (!$this->view->all_writable) {
             $this->view->form->getElement("submit")->setAttrib("disabled", "disabled");
         }
         $this->view->boardData = $this->boardData;
@@ -676,7 +680,7 @@ class ExtensionsController extends Zend_Controller_Action {
                 $dataForm["iax2"]["codec1"] = $postData["iax2"]["codec1"];
                 $dataForm["iax2"]["codec2"] = $postData["iax2"]["codec2"];
 
-                if ( isset($postData["manual"]["manual"]) ) {
+                if (isset($postData["manual"]["manual"])) {
 
                     $dataForm["manual"]["manual"] = $postData["manual"]["manual"];
                 } else {
@@ -688,7 +692,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
                 $dataForm["khomp"]["board"] = $postData["khomp"]["board"];
 
-                if ( isset($postData["advanced"]["voicemail"]) ) {
+                if (isset($postData["advanced"]["voicemail"])) {
 
                     $dataForm["advanced"]["voicemail"] = $postData["advanced"]["voicemail"];
                 } else {
@@ -696,7 +700,7 @@ class ExtensionsController extends Zend_Controller_Action {
                     $dataForm["advanced"]["voicemail"] = "";
                 }
 
-                if ( isset($postData["advanced"]["email"]) ) {
+                if (isset($postData["advanced"]["email"])) {
 
                     $dataForm["advanced"]["email"] = $postData["advanced"]["email"];
                 } else {
@@ -706,14 +710,14 @@ class ExtensionsController extends Zend_Controller_Action {
 
                 foreach ($range as $exten) {
 
-                    if ( is_numeric($exten)) {
+                    if (is_numeric($exten)) {
 
                         $dataForm["extension"]["exten"] = $exten;
-                        $dataForm["extension"]["password"] = $exten.$exten;
-                        $dataForm["extension"]["name"] = 'Ramal'.$exten.'<'.$exten.'>';
+                        $dataForm["extension"]["password"] = $exten . $exten;
+                        $dataForm["extension"]["name"] = 'Ramal' . $exten . '<' . $exten . '>';
                         $dataForm["sip"]["password"] = $exten;
                         $dataForm["iax"]["password"] = $exten;
-                        
+
                         $ret = $this->execAdd($dataForm);
 
                         if (!is_string($ret)) {
@@ -722,19 +726,18 @@ class ExtensionsController extends Zend_Controller_Action {
                             $this->view->error = $ret;
                             $this->view->form->valid(false);
                         }
-
                     } else {
 
-                        $exten = explode("-",$exten);
+                        $exten = explode("-", $exten);
 
                         foreach (range($exten[0], $exten[1]) as $exten) {
 
                             $dataForm["id"] = $exten;
                             $dataForm["extension"]["exten"] = $exten;
-                            $dataForm["extension"]["password"] = $exten.$exten;
-                            $dataForm["extension"]["name"] = 'Ramal'.$exten.'<'.$exten.'>';
-                            $dataForm["sip"]["password"] = $exten.$exten;
-                            $dataForm["iax2"]["password"] = $exten.$exten;
+                            $dataForm["extension"]["password"] = $exten . $exten;
+                            $dataForm["extension"]["name"] = 'Ramal' . $exten . '<' . $exten . '>';
+                            $dataForm["sip"]["password"] = $exten . $exten;
+                            $dataForm["iax2"]["password"] = $exten . $exten;
 
                             $ret = $this->execAdd($dataForm);
 
@@ -750,4 +753,5 @@ class ExtensionsController extends Zend_Controller_Action {
             }
         }
     }
+
 }
