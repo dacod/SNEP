@@ -332,11 +332,9 @@ XML;
         switch($dialstatus['data']) {
             case 'ANSWER':
             case 'CANCEL':
-                throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
-                break;
             case 'NOANSWER':
             case 'BUSY':
-                $log->info($dialstatus['data'] . " ao discar para $request->destino pelo tronco $tronco");
+                throw new PBX_Rule_Action_Exception_StopExecution("Fim da ligacao");
                 break;
             default:
                 $log->err($dialstatus['data'] . " ao discar para $request->destino pelo tronco $tronco");
