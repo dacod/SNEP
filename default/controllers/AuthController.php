@@ -104,6 +104,10 @@ class AuthController extends Zend_Controller_Action {
                 }
             }
         }
+
+        $layout = Zend_Layout::getMvcInstance();        
+        $layout->setLayout('login');
+        
     }
 
     public function logoutAction() {

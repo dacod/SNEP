@@ -1,0 +1,22 @@
+<?php echo $this->doctype(); ?>
+<html>
+<head>
+    <?php echo $this->headTitle() . "\n"; ?>
+    <?php echo $this->headLink() . "\n"; ?>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headStyle() . "\n"; ?>
+    <?php echo $this->headScript() . "\n"; ?>
+</head>
+<body style="background-color: #e2e2e2; background-image: none;">
+    <div id="loginLayout">
+        <div id="wrapper">
+            <div class="logo"></div>
+            <div class="content">
+                <?php echo $this->layout()->content; ?>
+                <div class="logo_opens"></div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

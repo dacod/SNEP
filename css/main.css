@@ -65,7 +65,6 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-
     background-image: url('../imagens/header_bg.png');
     background-repeat: repeat-x;
     background-position: top;
@@ -119,16 +118,68 @@ body {
     margin-bottom: 30px;
 }
 
-#login_form {
-    margin-top: 50px;
-    margin-bottom: 50px;
+#login {
+
+}
+
+#login_form {    
     margin-left: auto;
     margin-right: auto;
     display:table;
+    background: url("../imagens/bg_login.png") no-repeat;
+    width: 520px;
+    height: 253px;
 }
 
 #login_form dt {
     font-weight: bold;
+}
+#loginLayout {
+    background: #3d3d3d url(../imagens/background.png)  bottom no-repeat ;
+    width: 1000px;
+    height:600px;
+    margin: 0px auto;
+}
+#loginLayout #login_form  {
+    padding: 10px;
+
+}
+#loginLayout .logo{
+    background: transparent url(../imagens/logo_snep.png)  0px 100px no-repeat ;
+    width: 254px;
+    height:69px;
+    margin: 0 auto;
+    padding-top: 150px;
+}
+#loginLayout .logo_opens{
+    background: transparent url(../imagens/logo_opens.png)  no-repeat ;
+    width: 108px;
+    height:42px;
+    margin: 0 auto;
+}
+#loginLayout h1 {
+    color: #696969;
+    font-size: 14px;
+    padding-left: 40px;
+    padding-top: 5px;
+    border-bottom: 1px solid #f5d17c;
+    height: 30px;
+    background: transparent url(../imagens/user_icon.png)  no-repeat ;
+    margin-bottom: 30px;
+    
+}
+#loginLayout span {
+    font-size: 10px;
+    margin-top: 16px;    
+}
+#loginLayout dt {
+    font-size: 12px;
+    padding-top: 4px;
+    min-width: 130px;
+}
+
+#loginLayout .login_box {    
+        width: 496px;
 }
 
 input[type=text], input[type=password] {
@@ -915,3 +966,4 @@ select
     border: 1px solid #A4A7AB;
     padding-left: 30px;
  }
+
