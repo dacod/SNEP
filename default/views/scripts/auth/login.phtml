@@ -1,22 +1,31 @@
-<form  action="<?php echo $this->url(array("controller"=>"auth", "action"=>"login"), null, true); ?>" METHOD="post">
-    <?php if($this->message): ?>
+<?php if($this->message): ?>
     <span class="<?php echo $this->msgclass; ?>"><?php echo $this->message; ?></span>
-    <?php endif; ?>
-    <dl id="login_form">
-        
-        <div class="form_element">
-            <dt><?php echo $this->translate("Usuário / Ramal"); ?>:</dt>
-            <dd><input type="text" size="30" id="exten" name="exten"></dd>
-        </div>
+<?php endif; ?>
 
-        <div class="form_element">
-            <dt><?php echo $this->translate("Senha"); ?>:</dt>
-            <dd><input type="password" size="30" name="password" /></dd>
-        </div>
 
-        <div class="form_element">
-            <dt></dt>
-            <dd><input type="submit" value="<?php echo $this->translate("Entrar"); ?>" /></dd>
-        </div>
-    </dl>
+<form  action="<?php echo $this->url(array("controller"=>"auth", "action"=>"login"), null, true); ?>" METHOD="post">
+    <div id="login">
+        <dl id="login_form">
+            <div class="login_box">
+                <span style="float:right;">  <?php echo $this->translate('Versão'); ?> <?php echo SNEP_VERSION ?> </span>
+
+                <h1> <?php echo $this->translate('Login'); ?>  </h1>
+
+                <div class="form_element">
+                    <dt><?php echo $this->translate("Usuário/Ramal"); ?>:</dt>
+                    <dd><input type="text" size="30" id="exten" name="exten"></dd>
+                </div>
+
+                <div class="form_element">
+                    <dt><?php echo $this->translate("Senha"); ?>:</dt>
+                    <dd><input type="password" size="30" name="password" /></dd>
+                </div>
+
+                <div class="form_element">
+                    <dt></dt>
+                    <dd><input type="submit" value="<?php echo $this->translate("Entrar"); ?>" /></dd>
+                </div>
+            </div>
+        </dl>
+    </div>
 </form>
