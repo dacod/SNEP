@@ -118,10 +118,6 @@ body {
     margin-bottom: 30px;
 }
 
-#login {
-
-}
-
 #login_form {    
     margin-left: auto;
     margin-right: auto;
@@ -180,6 +176,10 @@ body {
 
 #loginLayout .login_box {    
         width: 496px;
+}
+#loginLayout .failure {
+        width: 508px;
+        margin: 0px auto;
 }
 
 input[type=text], input[type=password] {
