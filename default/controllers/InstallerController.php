@@ -38,14 +38,13 @@ class InstallerController extends Zend_Controller_Action {
 
         parent::preDispatch();
         $this->view->hideMenu = true;
-        // Fazer checagem futura se o sistema está instalado ou não.
         if(Zend_Auth::getInstance()->hasIdentity() && $this->getRequest()->getActionName() == "installed") {
             $this->_redirect("index");
         }
     }
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Instalador do SNEP");
+        $this->view->breadcrumb = $this->view->translate("SNEP Installer");
         //$this->view->next = $this->view->url(array("controller"=>"installer", "action"=>"diagnostic"), null, true);
 
         $objInspector = new Snep_Inspector('Permissions');
@@ -116,7 +115,7 @@ class InstallerController extends Zend_Controller_Action {
     }
 
     public function diagnosticAction() {
-        $this->view->breadcrumb = $this->view->translate("Instalador » Diagnóstico");
+        $this->view->breadcrumb = $this->view->translate("Installer » Diagnostic");
         $this->view->next = $this->view->url(array("controller"=>"installer", "action"=>"configure"), null, true);
 
         $inspector = new Snep_Inspector();
@@ -151,7 +150,7 @@ class InstallerController extends Zend_Controller_Action {
     }
 
     public function installedAction() {
-        $this->view->breadcrumb = $this->view->translate("Instalação Concluida");
+        $this->view->breadcrumb = $this->view->translate("Installation finished");
         $this->view->hideMenu = true;
 
         $db = Zend_Registry::get('db');
@@ -175,15 +174,15 @@ class InstallerController extends Zend_Controller_Action {
         $this->view->error = $inspect['Permissions'];
 
         $this->view->hideMenu = true;
-        $this->view->breadcrumb = $this->view->translate("Instalador » Configuração");
+        $this->view->breadcrumb = $this->view->translate("Installer » Configuration");
         $form_config = new Zend_Config_Xml("./default/forms/installer.xml");
 
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . '/installer/configure');
 
-        $asterisk_form = new Snep_Form_SubForm($this->view->translate("Configuração do Asterisk"), $form_config->asterisk);
-        $database_form = new Snep_Form_SubForm($this->view->translate("Configuração do Banco de Dados"), $form_config->database);
-        $snep_form = new Snep_Form_SubForm($this->view->translate("Senha do Administrador"), $form_config->snep);
+        $asterisk_form = new Snep_Form_SubForm($this->view->translate("Asterisk Configuration"), $form_config->asterisk);
+        $database_form = new Snep_Form_SubForm($this->view->translate("Database Configuration"), $form_config->database);
+        $snep_form = new Snep_Form_SubForm($this->view->translate("Admin Password"), $form_config->snep);
 
         $form->addSubForm($database_form, "database");
         $form->addSubForm($asterisk_form, "asterisk");
@@ -200,7 +199,7 @@ class InstallerController extends Zend_Controller_Action {
 
             $snep_data = $form->getValue("snep");
             if($snep_data['password'] !== $snep_data['confirmpassword']) {
-                $snep_form->getElement('confirmpassword')->addError($this->view->translate("A confirmação de senha não é igual a senha informada"));
+                $snep_form->getElement('confirmpassword')->addError($this->view->translate("The password confirmation is different from the original"));
                 $form_isValid = false;
             }
 
@@ -212,11 +211,11 @@ class InstallerController extends Zend_Controller_Action {
                     $asterisk->connect();
                 }
                 catch(Asterisk_Exception_Auth $ex) {
-                    $asterisk_form->getElement('secret')->addError($this->view->translate("Usuário ou senha recusada pelo servidor Asterisk"));
+                    $asterisk_form->getElement('secret')->addError($this->view->translate("User and/or password rejected by Asterisk"));
                     $form_isValid = false;
                 }
                 catch(Asterisk_Exception_CantConnect $ex) {
-                    $asterisk_form->getElement('server')->addError($this->view->translate("Falha ao conectar: %s", $ex->getMessage()));
+                    $asterisk_form->getElement('server')->addError($this->view->translate("Unable to connect: %s", $ex->getMessage()));
                     $form_isValid = false;
                 }
             }
@@ -228,7 +227,7 @@ class InstallerController extends Zend_Controller_Action {
                     $db->getConnection();
                 }
                 catch(Zend_Db_Exception $ex) {
-                    $database_form->getElement('hostname')->addError($this->view->translate("Falha ao conectar: %s", $ex->getMessage()));
+                    $database_form->getElement('hostname')->addError($this->view->translate("Unable to connect: %s", $ex->getMessage()));
                     $form_isValid = false;
                 }
             }

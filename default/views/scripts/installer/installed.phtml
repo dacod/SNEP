@@ -1,23 +1,23 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/agi_rules.css"); ?>
 
-<h1><?php echo $this->translate("O SNEP foi instalado com sucesso."); ?></h1>
+<h1><?php echo $this->translate("SNEP was successfully installed."); ?></h1>
 
 <p>
-    <?php echo $this->translate("O SNEP foi instalado com sucesso em seu sistema, clique no botão abaixo para ir a tela de login."); ?>
+    <?php echo $this->translate("SNEP was successfully installed in your system, click on the button below to go to the login page."); ?>
 </p>
 
 <p>
-    <?php echo $this->translate("A senha para o usuário Admin foi redefinida na instalação, guarde-a com segurança."); ?>
+    <?php echo $this->translate("The admin password was redefined on the installation, keep it safe."); ?>
 </p>
 
 <div class="info_box">
     <ul>
-        <li> <b> <?php echo $this->translate("Usuário"); ?> :</b> <?php echo $this->secret['name'] ?> </li>
-        <li> <b> <?php echo $this->translate("Senha"); ?> :</b> <?php echo $this->secret['password'] ?> </li>
+        <li> <b> <?php echo $this->translate("User"); ?> :</b> <?php echo $this->secret['name'] ?> </li>
+        <li> <b> <?php echo $this->translate("Password"); ?> :</b> <?php echo $this->secret['password'] ?> </li>
     </ul>
 </div>
 
 
 <p class="installer_buttons">
-    <button onclick="location.href='<?php echo $this->baseUrl();?>'"><?php echo $this->translate("Ir para o SNEP"); ?></button>
+    <button onclick="location.href='<?php echo $this->baseUrl();?>'"><?php echo $this->translate("Go to SNEP"); ?></button>
 </p>

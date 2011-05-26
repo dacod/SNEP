@@ -14,7 +14,7 @@
             <options>
                 <label>Report Type</label>
                 <multioptions>
-                    <analitic>Analitic</analitic>
+                    <analitic>Analytic</analitic>
                     <synthetic>Synthetic</synthetic>
                 </multioptions>
                 <value>analitic</value>

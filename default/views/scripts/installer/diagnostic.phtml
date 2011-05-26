@@ -1,7 +1,7 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/diagnostic.css"); ?>
 <div class="snep_form">
     <p>
-        <?php echo $this->translate("Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
+        <?php echo $this->translate("You must correct possible errors highlighted in red on this step of installation. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
     </p>
 
     <div class="inspect">
@@ -24,11 +24,11 @@
 
 <div class="zend_form_submit" style="width: 460px;margin: 0 auto; padding: 10px 0px;">
     <?php if($this->errored): ?>
-        <button onclick="location.reload(true)"><?php echo $this->translate("Testar Novamente"); ?></button>        
-        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Continuar assim mesmo"); ?>"  />
+        <button onclick="location.reload(true)"><?php echo $this->translate("Test Again"); ?></button>        
+        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Continue anyway"); ?>"  />
         <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
     <?php else: ?>
-        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Próximo"); ?>">
+        <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Next"); ?>">
         <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
     <?php endif;?>
 </div>

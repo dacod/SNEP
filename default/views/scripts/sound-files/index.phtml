@@ -59,7 +59,7 @@ if( $this->error['error'] ) : ?>
                     </a>
                 </td>
                 <td class="action">
-                    <?php $this->remove_msg = $this->translate("Deseja remover este item?");?>
+                    <?php $this->remove_msg = $this->translate("Are you sure you want to delete this item?");?>
                     <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $file['arquivo'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>

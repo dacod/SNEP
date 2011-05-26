@@ -118,13 +118,13 @@ class CallsReportController extends Zend_Controller_Action {
                 foreach ($groupsTmp as $key => $group) {
                     switch ($group['name']) {
                         case 'administrator':
-                            $groupsData[$this->view->translate('Administradores')] = $group['name'];
+                            $groupsData[$this->view->translate('Administrators')] = $group['name'];
                             break;
                         case 'users':
-                            $groupsData[$this->view->translate('Usuários')] = $group['name'];
+                            $groupsData[$this->view->translate('Users')] = $group['name'];
                             break;
                         case 'all':
-                            $groupsData[$this->view->translate('Todos')] = $group['name'];
+                            $groupsData[$this->view->translate('All')] = $group['name'];
                             break;
                         default:
                             $groupsData[$group['name']] = $group['name'];

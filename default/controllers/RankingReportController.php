@@ -24,7 +24,7 @@ class RankingReportController extends Zend_Controller_Action {
         // Title
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
 			$this->view->translate("Reports"),
-			$this->view->translate("Call Rankings"))
+			$this->view->translate("Call Ranking"))
 		);
 
         $config = Zend_Registry::get('config');

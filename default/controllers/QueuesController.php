@@ -137,7 +137,7 @@ class QueuesController extends Zend_Controller_Action {
             'roundrobin' => $this->view->translate('Search for a available agent (roundrobin)'),
             'leastrecent' => $this->view->translate('For the agent idle for the most time (leastrecent)'),
             'random' => $this->view->translate('Randomly (random)'),
-            'fewestcalls' => $this->view->translate('For the agent that answerd less calls (fewestcalls)'),
+            'fewestcalls' => $this->view->translate('For the agent that answered less calls (fewestcalls)'),
             'rrmemory' => $this->view->translate('Equally (rrmemory)')));
 
         $form->addSubForm($essential, "essential");

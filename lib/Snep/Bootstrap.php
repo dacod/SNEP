@@ -144,7 +144,7 @@ abstract class Snep_Bootstrap {
             $db->getConnection();
         }
         catch(Zend_Db_Adapter_Exception $ex ) {
-            echo "Falha ao inicializar banco de dados: " . $ex->getMessage();
+            echo $this->view->translate("Failed to start database: ") . $ex->getMessage();
             exit(1);
         }
     }

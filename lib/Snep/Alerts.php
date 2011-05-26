@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *
@@ -29,27 +30,35 @@
  */
 class Snep_Alerts {
 
-    public function __construct() {}
-    public function __destruct() {}
-    public function __clone() {}
+    public function __construct() {
+        
+    }
+
+    public function __destruct() {
+        
+    }
+
+    public function __clone() {
+        
+    }
 
     /**
      * Define a alert
      * @param string $alert     
      */
     public function setAlert($alert) {
-        
+
         $db = Zend_Registry::get('db');
 
-        $insert_data = array("recurso"  =>  $alert['queue'],
-                             "tipo"     =>  $alert['type'],
-                             "tme"      =>  $alert['tme'],
-                             "sla"      =>  $alert['sla'],
-                             "item"     =>  $alert['queue'],
-                             "alerta"   =>  'alert',
-                             "destino"  =>  $alert['destino'],
-                             "ativo"    =>  $alert['check'] );
-        
+        $insert_data = array("recurso" => $alert['queue'],
+            "tipo" => $alert['type'],
+            "tme" => $alert['tme'],
+            "sla" => $alert['sla'],
+            "item" => $alert['queue'],
+            "alerta" => 'alert',
+            "destino" => $alert['destino'],
+            "ativo" => $alert['check']);
+
         $db->insert('alertas', $insert_data);
     }
 
@@ -63,8 +72,8 @@ class Snep_Alerts {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('alertas')
-        ->where("recurso = '$name'");
+                ->from('alertas')
+                ->where("recurso = '$name'");
 
         $stmt = $db->query($select);
         $alertas = $stmt->fetchAll();
@@ -79,15 +88,13 @@ class Snep_Alerts {
     public function resetAlert($name) {
         $db = Zend_Registry::get('db');
 
-        $db->beginTransaction() ;
+        $db->beginTransaction();
         try {
             $db->delete('alertas', "recurso = '$name'");
             $db->commit();
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $db->rollBack();
         }
-
     }
 
     /**
@@ -99,15 +106,15 @@ class Snep_Alerts {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-        ->from('queues', array('name','servicelevel') )
-        ->order('name');
+                ->from('queues', array('name', 'servicelevel'))
+                ->order('name');
 
         $stmt = $db->query($select);
         $timeout = $stmt->fetchAll();
 
         $ret = array();
-        foreach($timeout as $x) {
-            if($x['servicelevel'] > 0) {
+        foreach ($timeout as $x) {
+            if ($x['servicelevel'] > 0) {
                 $ret[$x['name']] = $x['servicelevel'];
             }
         }
@@ -122,33 +129,31 @@ class Snep_Alerts {
 
         $config = Zend_Registry::get('config');
 
-        if(is_null($alerta['destino'])) {
+        if (is_null($alerta['destino'])) {
             $alerta['destino'] = $config->system->mail;
+        } elseif (strpos($alerta['destino'], ",") > 0) {
 
-        }
-        elseif( strpos($alerta['destino'], ",") > 0 ) {
-            
             $email = explode(",", $alerta['destino']);
-            foreach($email as $mail) {
-                
-                $msg = $this->translate("SNEP - A fila ") . $alerta['recurso'];
-                $mail = new Zend_Mail();
-                $mail->setBodyText( $alerta['message'] );
-                $mail->setFrom( $mail );
-                $mail->addTo( $alerta['destino'] );
-                $mail->setSubject( $this->translate('Alerta de Fila') );
-                $mail->send();                                 
-                
-            }            
-        }else{
+            foreach ($email as $mail) {
 
-            $msg = $this->translate("SNEP - A fila") . $alerta['recurso'];
+                $msg = $this->translate("SNEP - The queue") . $alerta['recurso'];
+                $mail = new Zend_Mail();
+                $mail->setBodyText($alerta['message']);
+                $mail->setFrom($mail);
+                $mail->addTo($alerta['destino']);
+                $mail->setSubject($this->translate('Queue Alert'));
+                $mail->send();
+            }
+        } else {
+
+            $msg = $this->translate("SNEP - The queue") . $alerta['recurso'];
             $mail = new Zend_Mail();
-            $mail->setBodyText( $alerta['message'] );
-            $mail->setFrom( $config->system->mail );
-            $mail->addTo( $alerta['destino'] );
-            $mail->setSubject( $this->translate('Alerta de Fila') );
-            $mail->send();            
+            $mail->setBodyText($alerta['message']);
+            $mail->setFrom($config->system->mail);
+            $mail->addTo($alerta['destino']);
+            $mail->setSubject($this->translate('Queue Alert'));
+            $mail->send();
         }
     }
+
 }
