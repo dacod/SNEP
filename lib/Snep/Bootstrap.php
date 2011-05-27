@@ -134,21 +134,6 @@ abstract class Snep_Bootstrap {
         $this->registerNameSpaces();
     }
 
-    protected function startDatabase() {
-        $config = $this->config->ambiente->db->toArray();
-        $config["driver_options"] = array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true);
-        $db = Zend_Db::factory('Pdo_Mysql', $config);
-        Zend_Db_Table::setDefaultAdapter($db);
-        Zend_Registry::set('db', $db);
-        try {
-            $db->getConnection();
-        }
-        catch(Zend_Db_Adapter_Exception $ex ) {
-            echo $this->view->translate("Failed to start database: ") . $ex->getMessage();
-            exit(1);
-        }
-    }
-
     protected function startModules() {
         $modules_dir = $this->config->system->path->base . "/modules/";
 
