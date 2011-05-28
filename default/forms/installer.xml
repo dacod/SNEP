@@ -91,11 +91,6 @@
                     <label>Password</label>
                     <required>true</required>
                     <renderpassword>true</renderpassword>
-                    <validators>
-                        <alnum>
-                            <validator>Alnum</validator>
-                        </alnum>
-                    </validators>
                 </options>
             </password>
             <confirmpassword>
@@ -103,11 +98,6 @@
                 <options>
                     <label>Confirm Password</label>
                     <required>true</required>
-                    <validators>
-                        <alnum>
-                            <validator>Alnum</validator>
-                        </alnum>
-                    </validators>
                 </options>
             </confirmpassword>
         </elements>
