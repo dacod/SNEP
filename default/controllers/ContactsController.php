@@ -355,7 +355,7 @@ class ContactsController extends Zend_Controller_Action {
                 }      
             }
             if (count($error)>0){
-                $errorString = $this->view->translate('Os seguintes registros do CSV contem dados nulos::<br/>');
+                $errorString = $this->view->translate('The following entries of the CSV file have null data:<br/>');
                 foreach ($error as $value) {
                     $errorString.= implode(',',$value).'<br/>';
                 }

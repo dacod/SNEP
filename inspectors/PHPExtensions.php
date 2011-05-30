@@ -74,7 +74,7 @@ class PHPExtensions extends Snep_Inspector_Test {
     }
 
     public function getTestName() {
-        return Zend_Registry::get("Zend_Translate")->translate("Extensões PHP");
+        return Zend_Registry::get("Zend_Translate")->translate("PHP Extensions");
     }
     
 }

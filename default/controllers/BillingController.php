@@ -84,7 +84,7 @@ class BillingController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url"     => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                                          "display" => $this->view->translate("Incluir Tarifa"),
+                                          "display" => $this->view->translate("Add Billing"),
                                           "css"     => "include"));
     }
 

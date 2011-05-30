@@ -55,7 +55,7 @@ class AuthController extends Zend_Controller_Action {
             $password = $this->_request->getPost('password');
 
             if (empty($username)) {
-                $this->view->message = $this->view->translate("Por favor insira um nome de usuário");
+                $this->view->message = $this->view->translate("Please insert a username");
                 $this->view->msgclass = 'failure';
             }
             else {
@@ -81,7 +81,7 @@ class AuthController extends Zend_Controller_Action {
                 switch ($result->getCode()) {
                     case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:
                     case Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID:
-                        $this->view->message = $this->view->translate('Usuário ou senha inválida');
+                        $this->view->message = $this->view->translate('User or password invalid');
                         $this->view->msgclass = 'failure';
                         break;
                     case Zend_Auth_Result::SUCCESS:
@@ -98,7 +98,7 @@ class AuthController extends Zend_Controller_Action {
                         $this->_redirect('/');
                         break;
                     default:
-                        $this->view->message = $this->view->translate('Falha na autenticação');
+                        $this->view->message = $this->view->translate('Failed to authenticate');
                         $this->view->msgclass = 'failure';
                         break;
                 }

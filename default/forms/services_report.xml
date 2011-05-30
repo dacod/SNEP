@@ -96,7 +96,7 @@
                 <type>MultiCheckbox</type>
                 <separator>' '</separator>
                 <options>
-                    <label>Service State</label>                    
+                    <label>Service Status</label>                    
                     <multioptions>
                         <A>Activated/Deactivated</A>
                         <D>Disabled</D>

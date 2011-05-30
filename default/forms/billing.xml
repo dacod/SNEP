@@ -4,7 +4,7 @@
     <carrier>
         <type>select</type>
         <options>
-            <label>Operadora</label>
+            <label>Carrier</label>
             <required>true</required>            
         </options>
     </carrier>

@@ -172,7 +172,7 @@ class SoundFilesController extends Zend_Controller_Action {
                         }else{
 
                             $this->view->error = array('error' => 1,
-                                                       'message' => $this->view->translate('Inválid format') );
+                                                       'message' => $this->view->translate('Invalid Format') );
 
                         }
 

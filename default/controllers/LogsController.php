@@ -3,7 +3,11 @@
 class LogsController extends Zend_Controller_Action {
 
     public function indexAction() {
-        $this->view->breadcrumb = $this->view->translate("Status » System Logs ");
+        
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Status"),
+            $this->view->translate("System Logs")
+        ));
         $config = Zend_Registry::get('config');
 
         include( $config->system->path->base . "/inspectors/Permissions.php" );
@@ -53,7 +57,10 @@ class LogsController extends Zend_Controller_Action {
 
         $log = $this->initLogFile();
 
-        $this->view->breadcrumb = $this->view->translate("Status » System Logs ");
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+            $this->view->translate("Status"),
+            $this->view->translate("System Logs")
+        ));
 
         $this->view->back = $this->view->translate("Back");
         $this->view->exibition_mode = $this->view->translate("Exibition mode:");

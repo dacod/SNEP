@@ -49,9 +49,9 @@ class CostCenterController extends Zend_Controller_Action {
             $select->where("`$field` like '%$query%'");
         }
 
-        $this->view->types = array('E' => $this->view->translate('Entrada'),
-                                   'S' => $this->view->translate('Saída'),
-                                   'O' => $this->view->translate('Outras'));
+        $this->view->types = array('E' => $this->view->translate('Incoming'),
+                                   'S' => $this->view->translate('Outgoing'),
+                                   'O' => $this->view->translate('Others'));
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );

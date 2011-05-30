@@ -163,7 +163,7 @@ class PBX_Rule_ActionConfig {
      */
     protected function parseRamal($element) {
         $i18n = Zend_Registry::get('i18n');
-        $element->addChild('label', $i18n->translate("Ramal"));
+        $element->addChild('label', $i18n->translate("Extension"));
         $element->addChild('size', '4');
         $element = $this->parseString($element);
         $element->addValidator(new PBX_Validate_Extension());
@@ -270,7 +270,7 @@ class PBX_Rule_ActionConfig {
         $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
-        $form_element->setLabel( (string)$i18n->translate("Fila") );
+        $form_element->setLabel( (string)$i18n->translate("Queue") );
 
         foreach(Snep_Queues::getInstance()->getQueues() as $queue) {
             $form_element->addMultiOption($queue, $queue);
