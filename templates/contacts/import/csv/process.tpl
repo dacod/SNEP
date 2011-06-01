@@ -17,29 +17,35 @@
 *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file="cabecalho.tpl"}
+
+
+
 <form name="formulario" method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?action=finish">
-    <table>
-        <thead>
-          <tr>
-              {section name=field loop=$fields}
-              <td class="cen">
-                  <select name="assoc[{$smarty.section.field.index}]">
-                      {html_options options=$contacts_fields}
-                  </select>
-              </td>
+    <div style="overflow: auto;">
+        <table>
+            <thead>
+              <tr>
+                  {section name=field loop=$fields}
+                  <td class="cen">
+                      <select name="assoc[{$smarty.section.field.index}]">
+                          {html_options options=$contacts_fields}
+                      </select>
+                  </td>
+                  {/section}
+              </tr>
+           </thead>
+           <tbody id="tbody">
+               {section name=row loop=$sample_data}
+               <tr>
+                   {section name=col loop=$sample_data[row]}
+                   <td>{$sample_data[row][col]}</td>
+                   {/section}
+               </tr>
               {/section}
-          </tr>
-       </thead>
-       <tbody id="tbody">
-           {section name=row loop=$sample_data}
-           <tr>
-               {section name=col loop=$sample_data[row]}
-               <td>{$sample_data[row][col]}</td>
-               {/section}
-           </tr>
-          {/section}
-       </tbody>
-    </table>
+           </tbody>
+        </table>
+    </div>
+
     <div id="main_container" style="border-top: none;">
     <p style="text-align: center; margin: 0px; padding: 5px;">
         <label for="group">Grupo:</label> <select id="group" name="group" class="campos">
@@ -51,4 +57,6 @@
     </p>
     </div>
 </form>
+
+
 { include file="rodape.tpl }
