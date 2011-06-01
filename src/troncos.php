@@ -392,6 +392,8 @@ function alterar() {
     }
     $trunk['qualify'] = $peer['qualify'];
 
+    $trunk['fromdomain'] = $peer['fromdomain'];
+
     $trunk['peer_type'] = $peer['type'];
     
     $trunk['nat'] = $peer['nat'] == "yes" ? true : false;
