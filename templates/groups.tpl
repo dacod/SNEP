@@ -22,13 +22,14 @@
 <table cellspacing="0" align="center" class="contorno">
    <form name="formulario"  method="POST" enctype="multipart/form-data" action="{$smarty.server.SCRIPT_NAME}?acao={$ACAO}"  onSubmit="return check_form();">
    <tr>
-      <td colspan="2" class="subtable"></td>
+      <td colspan="3" class="subtable"></td>
    </tr>
    <tr>
       <td class="formlabel" >{$LANG.name}:</td>
       <td class="subtable" >
         <input name="nome" type="text" size="30" maxlength="50"  class="campos" value="{$dt_grupos.name}" >
       </td>
+      <td class="subtable" ></td>
    </tr>
    <tr>
       <td class="formlabel" >{$LANG.type}:</td>
@@ -36,6 +37,7 @@
         <input type="radio" name="type" value="admin" id="admin_type" {if $dt_grupos.inherit == 'admin'}checked="checked"{/if} /><label for="admin_type">{$LANG.admin}</label>
         <input type="radio" name="type" value="users" id="user_type" {if $dt_grupos.inherit == 'users' || !$dt_grupos.inherit}checked="checked"{/if} /><label for="user_type">{$LANG.user}</label>
        </td>
+       <td class="subtable" ></td>
    </tr>
 
     <tr>
