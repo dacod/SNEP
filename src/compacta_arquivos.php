@@ -23,12 +23,12 @@ $save_dir = $SETUP['ambiente']['path_voz_bkp'];
 if(strlen($_REQUEST['arquivos']) > 1) {
     $strArquivos = substr($_REQUEST['arquivos'],0,strlen($_REQUEST['arquivos'])-1);
     $strListaArquivos = str_replace(","," ",$strArquivos);
-    $strNomeArquivo = date("d-m-Y-h-i").".zip";
+    $strNomeArquivo = date("d-m-Y-h-i").".tar.bz2";
     $strArquivo = $save_dir."/".$strNomeArquivo;
     // Grava arquivo em arquivos/backup !! verifique as permissões desta pasta.
-    exec("zip $strArquivo $strListaArquivos");
+    exec("tar -jcvf $strArquivo $strListaArquivos");
 
-    echo $SETUP['system']['path.web']."/arquivos/backup/".$strNomeArquivo;
+    echo $SETUP['system']['path.web']."/arquivos/".$strNomeArquivo;
 }else{
     echo '0';
 }
