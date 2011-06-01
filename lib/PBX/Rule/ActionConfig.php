@@ -178,7 +178,7 @@ class PBX_Rule_ActionConfig {
         $i18n = Zend_Registry::get('i18n');
 
         $form_element = new Zend_Form_Element_Select((string)$element->id);
-        $form_element->setLabel( (string)$i18n->translate("Tronco") );
+        $form_element->setLabel( (string)$i18n->translate("Trunk") );
 
         foreach(PBX_Trunks::getAll() as $tronco) {
             $form_element->addMultiOption($tronco->getId(), $tronco->getName());

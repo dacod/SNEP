@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-25 14:45-0300\n"
-"PO-Revision-Date: 2011-05-30 13:07-0300\n"
+"POT-Creation-Date: 2011-05-31 16:29-0300\n"
+"PO-Revision-Date: 2011-05-31 17:24-0300\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -44,10 +44,37 @@ msgstr " - Desativado"
 msgid " Subfolders not found "
 msgstr "Subpastas não encontradas"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:450
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:293
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:450
 msgid " dd-MM-yyyy_hh'h'mm'm' "
 msgstr "dd/MM/yyyy_hh'h'mm'm'"
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/AGI.php:73
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Permissions.php:74
+msgid " does not exists. "
+msgstr " não existe."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/AGI.php:84
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Permissions.php:85
+msgid " does not have permition to be modified. "
+msgstr " não tem permissão de escita."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/AGI.php:94
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Permissions.php:96
+msgid " does not have permition to be viewed. "
+msgstr " não tem permissão de leitura."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Logs.php:72
+msgid " doesn't exist. "
+msgstr " não existe."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Logs.php:83
+msgid " doesn't have editing permissions. "
+msgstr " não tem permissão de escita."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Logs.php:93
+msgid " doesn't have reading permissions. "
+msgstr " não tem permissão de leitura."
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:16
 msgid " for more information"
@@ -55,7 +82,7 @@ msgstr "para mais informações"
 
 #: /home/lucasseid/work/snepLivre1.4/inspectors/Sounds.php:82
 msgid " in "
-msgstr ""
+msgstr " em "
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "' '"
@@ -98,10 +125,10 @@ msgid "/(\\d{4}[;]?)$/i"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "/[[:digit:]]/i"
 msgstr ""
 
@@ -113,16 +140,16 @@ msgstr ""
 msgid "/var/lib/asterisk/moh/"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "0"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "1"
 msgstr ""
@@ -143,8 +170,8 @@ msgstr ""
 msgid "200"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "3"
 msgstr ""
 
@@ -169,13 +196,9 @@ msgstr ""
 msgid "7"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:203
-msgid "A confirmação de senha não é igual a senha informada"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:10
-msgid "A senha para o usuário Admin foi redefinida na instalação, guarde-a com segurança."
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/inspectors/AGI.php:110
+msgid "AGI SNEP Environment"
+msgstr "Ambiente AGI SNEP"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:6
 msgid "ATTENTION"
@@ -193,25 +216,25 @@ msgstr "Ação"
 msgid "Action index:"
 msgstr "Indice de ações:"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:26
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:22
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:20
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:18
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/elements/actions.phtml:23
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:20
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:16
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:14
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:19
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/elements/actions.phtml:23
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:22
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:16
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:14
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:15
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:21
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:15
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:19
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:26
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:14
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:14
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:40
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:99
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:15
 msgid "Actions"
 msgstr "Ações"
 
@@ -236,22 +259,26 @@ msgstr "Ativado/Desativado"
 msgid "Active"
 msgstr "Ativo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:90
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:96
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:338
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:70
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:106
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:88
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:95
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:98
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:148
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form.php:67
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:148
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:88
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:338
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:106
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:70
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:90
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:98
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:96
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:95
 msgid "Add"
 msgstr "Adicionar"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/elements/actions.phtml:15
 msgid "Add Action"
 msgstr "Adicionar Ação"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:87
+msgid "Add Billing"
+msgstr "Adicionar Tarifas"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:79
 msgid "Add Carrier"
@@ -334,16 +361,17 @@ msgstr "Adicionar Tronco"
 msgid "Address"
 msgstr "Endereço"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:120
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:121
-msgid "Administradores"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:185
+msgid "Admin Password"
+msgstr "Senha do Admin"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:116
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:195
 msgid "Administrator"
 msgstr "Administrador"
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:120
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:121
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:45
 msgid "Administrators"
 msgstr "Administradores"
@@ -363,15 +391,12 @@ msgstr "Configuração Avançada"
 msgid "Alert Configuration"
 msgstr "Configuração de Alerta"
 
-#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:139
-#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:150
-msgid "Alerta de Fila"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/configs/menu.xml
 msgid "Alias de Expressão Regular"
 msgstr ""
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:126
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:127
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:47
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "All"
@@ -382,36 +407,25 @@ msgid "All Files"
 msgstr "Todos os Arquivos"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Alnum"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/inspectors/AGI.php:110
-msgid "Ambiente para o AGI SNEP"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
-msgid "Analitic"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "Analytic"
 msgstr "Analítico"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:28
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:31
-msgid "Answerd"
-msgstr "Atendida"
-
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:843
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:965
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
@@ -422,9 +436,9 @@ msgstr "Atendida"
 msgid "Anually"
 msgstr "Anualmente"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:58
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:897
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:10
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:897
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:58
 msgid "Any"
 msgstr "Qualquer"
 
@@ -440,22 +454,27 @@ msgstr "Aplicação responsavel pelas salas de conferência do Snep."
 msgid "Are you sure you want to delete this extension?"
 msgstr "Você tem certeza que deseja apagar esse ramal?"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:62
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:94
+msgid "Are you sure you want to delete this item?"
+msgstr "Você tem certeza que deseja apagar esse registro?"
+
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:37
 msgid "Are you sure you want to delete this record?"
 msgstr "Você tem certeza que deseja apagar esse registro?"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:48
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:48
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:48
 msgid "Are you sure you want to remove this record?"
 msgstr "Você tem certeza que deseja apagar esse registro?"
-
-#: /home/lucasseid/work/snepLivre1.4/inspectors/Logs.php:111
-msgid "Arquivos de log"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:88
 msgid "Asterisk"
 msgstr ""
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:183
+msgid "Asterisk Configuration"
+msgstr "Configuração do Asterisk"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Asterisk Socket IP"
@@ -473,20 +492,21 @@ msgstr "Usuário do Socket IP Asterisk"
 msgid "Asterisk Status"
 msgstr "Status do Asterisk"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/edit.phtml:10
-msgid "Atualizado com sucesso"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:16
+msgid "Asterisk and Database Access information"
+msgstr "Informação de Acesso ao Asterisk e Database"
 
 #: /home/lucasseid/work/snepLivre1.4/configs/menu.xml
 msgid "Atualização Cnl"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:204
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:16
 msgid "Audio"
-msgstr ""
+msgstr "Áudio"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:67
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:67
 msgid "Audio Class"
 msgstr "Classe de Audio"
 
@@ -510,19 +530,21 @@ msgstr "Audio: Você está aqui"
 msgid "Audio: You're next"
 msgstr "Audio: Você é o proximo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:61
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:95
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:432
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:458
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:58
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/error.phtml:4
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:14
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:265
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:275
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:301
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:532
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:540
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:265
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:293
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:854
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:14
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:432
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:458
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:65
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:514
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:532
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:540
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:61
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:95
 msgid "Back"
 msgstr "Voltar"
 
@@ -533,14 +555,6 @@ msgstr ""
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Backup Files Path"
 msgstr "Caminho dos Arquivos de Backup"
-
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-msgid "Banco de Dados"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:8
-msgid "Bem vindo ao SNEP!"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:38
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:353
@@ -553,14 +567,14 @@ msgid "Block the execution of the action until password is given."
 msgstr "Bloquear a execução de ações até a senha ser informada"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:175
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Board"
 msgstr "Placa"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/errors-khomp/index.phtml:22
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:17
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/errors-khomp/index.phtml:22
 msgid "Board : "
 msgstr "Placa : "
 
@@ -572,6 +586,8 @@ msgstr "Placas"
 msgid "Brasil"
 msgstr ""
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:845
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:974
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:60
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:70
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:74
@@ -581,8 +597,6 @@ msgstr ""
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:180
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:181
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:195
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:845
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:974
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "Busy"
 msgstr "Ocupado"
@@ -599,8 +613,8 @@ msgstr "Ocupado Entrada"
 msgid "Busy Outgoing"
 msgstr "Ocupado Saída"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CnlController.php:74
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cnl/index.phtml:3
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CnlController.php:74
 msgid "CNL File"
 msgstr "Arquivo CNL"
 
@@ -625,14 +639,11 @@ msgstr ""
 msgid "Call Date"
 msgstr "Data da Ligação"
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:27
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:419
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Call Ranking"
 msgstr "Ranking de Ligação"
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:27
-msgid "Call Rankings"
-msgstr "Rankings de Ligação"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:120
 msgid "Call Recording Configuration"
@@ -674,12 +685,14 @@ msgstr "Chamadas do Período"
 msgid "Can users join this queue even if there's no agents online?"
 msgstr "Usuários podem entrar nessa fila mesmo que ela não tenha nenhum agente online?"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:64
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:52
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:160
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:220
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form/Element/Submit.php:58
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form/Filter.php:33
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:52
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:64
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:29
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:32
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:220
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:160
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -687,6 +700,10 @@ msgstr "Cancelar"
 msgid "Cannot remove. The following routes are using this trunk: "
 msgstr "Não é possivel apagar. As seguinte rotas estão utilizando este tronco:"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:65
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:21
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:13
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:22
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:37
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:38
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:89
@@ -696,11 +713,8 @@ msgstr "Não é possivel apagar. As seguinte rotas estão utilizando este tronco
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:71
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:97
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:195
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:65
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:22
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:21
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
 msgid "Carrier"
 msgstr "Operadoras"
 
@@ -708,21 +722,17 @@ msgstr "Operadoras"
 msgid "Carrier not selected "
 msgstr "Operadora não selecionada"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:18
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:1053
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:70
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:286
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:1053
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:18
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "Cellphone"
 msgstr "Celular"
 
-#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:253
-msgid "Centro de Custos"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:182
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:24
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:57
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:24
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:182
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Channel"
 msgstr "Canal"
@@ -767,24 +777,24 @@ msgstr ""
 msgid "Choose the services"
 msgstr "Escolha os Serviços"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:66
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:282
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:834
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:74
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:14
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:22
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:55
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:88
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:172
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:22
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:55
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:834
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:74
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:66
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:282
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "City"
 msgstr "Cidade"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:76
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:25
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:71
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:112
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:175
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:25
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:71
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:76
 msgid "City Code"
 msgstr "Codigo da Cidade"
 
@@ -800,22 +810,22 @@ msgstr "Classe"
 msgid "Cnl Update"
 msgstr "Atualização da CNL"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:67
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:110
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:119
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:64
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:67
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:69
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:10
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:10
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:9
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:90
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:10
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:9
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:64
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:119
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:67
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:110
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:67
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:69
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Code"
@@ -829,20 +839,20 @@ msgstr "Codigo ja existe"
 msgid "Code already exists."
 msgstr "Codigo ja existe."
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Codec 1"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Codec 2"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Codec 3"
 msgstr ""
@@ -881,38 +891,26 @@ msgstr "Aplicação de Conferência"
 msgid "Conference Rooms"
 msgstr "Salas de Conferência"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:184
-msgid "Configuração do Asterisk"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:185
-msgid "Configuração do Banco de Dados"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:16
-msgid "Configuração do acesso a Banco de Dados, Asterisk"
-msgstr ""
-
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:26
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:39
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:40
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InspectorController.php:26
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CnlController.php:27
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:28
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InspectorController.php:26
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:40
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:39
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:26
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Configure"
 msgstr "Configurar"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-msgid "Confirmação de Senha"
-msgstr ""
+msgid "Confirm Password"
+msgstr "Confirmar Senha"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:36
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:87
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:133
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:192
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:227
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:13
 msgid "Contact Group"
 msgstr "Grupo de Contato"
 
@@ -920,13 +918,13 @@ msgstr "Grupo de Contato"
 msgid "Contact Groups"
 msgstr "Grupos de Contato"
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:106
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:159
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:36
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:95
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:151
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:220
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:239
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:106
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:159
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Contacts"
 msgstr "Contatos"
@@ -936,10 +934,10 @@ msgid "Contains"
 msgstr "Contem"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:28
-msgid "Continuar assim mesmo"
-msgstr ""
+msgid "Continue anyway"
+msgstr "Continue assim mesmo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:62
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:69
 msgid "Contrast"
 msgstr "Contraste"
 
@@ -960,27 +958,28 @@ msgstr "Converter para GSM"
 msgid "Copy of %s"
 msgstr "Copia de %s"
 
+#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:253
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:11
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:104
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:163
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:833
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:38
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:94
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:138
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "Cost Center"
 msgstr "Centro de Custo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:72
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:53
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:16
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:36
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:53
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:72
 msgid "Country"
 msgstr "País"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:64
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:103
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:64
 msgid "Country Code"
 msgstr "Código do País"
 
@@ -1013,8 +1012,8 @@ msgstr "DESTINO"
 msgid "DND"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "DTMF Mode"
 msgstr "Modo DTMF"
@@ -1030,6 +1029,14 @@ msgstr "Numero do modo de discagem DTMF"
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Daily"
 msgstr "Diariamente"
+
+#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
+msgid "Database"
+msgstr ""
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:184
+msgid "Database Configuration"
+msgstr "Configuração de Database"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:17
 msgid "Date"
@@ -1066,6 +1073,7 @@ msgid "Default Config"
 msgstr "Configuração Padrão"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ActionConfigsController.php:25
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ActionConfigsController.php:82
 msgid "Default Configs"
 msgstr "Configurações Padrão"
 
@@ -1097,6 +1105,10 @@ msgstr "Defina Centro de Custo"
 msgid "Define Cost Center to "
 msgstr "Definir Centro de Custo para "
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:17
+msgid "Define administrator password"
+msgstr "Defina senha do admin"
+
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Defines how many lines you want per page of report"
 msgstr "Defina quantas linhas você quer por pagina de relatório"
@@ -1105,34 +1117,30 @@ msgstr "Defina quantas linhas você quer por pagina de relatório"
 msgid "Defines what destinations will be excluded from reports (Sintax: nono ; nonono ; nono)"
 msgstr "Define quais destinos vão ser excluídos dos relatórios (Sintaxe: nono ; nonono ; nono)"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:17
-msgid "Definição da senha do Administrador"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Delay Qualification"
 msgstr "Controle de Qualidade"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:199
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:248
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:193
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:354
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:502
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:47
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:46
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:32
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:51
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:50
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:50
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:50
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:45
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:33
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:49
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:46
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:39
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:45
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:49
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:37
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:64
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:51
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:49
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:47
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:33
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:49
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:32
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:96
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:45
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:193
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:248
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:502
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:199
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:354
 msgid "Delete"
 msgstr "Apagar"
 
@@ -1144,30 +1152,25 @@ msgstr "Apagar Grupos de Ramal"
 msgid "Delete Sound Files?"
 msgstr "Apagar Arquivos de Som?"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:113
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:84
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:213
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:72
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:18
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:14
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:11
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:14
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:18
-#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:84
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:213
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:113
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:72
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Description"
 msgstr "Descrição"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:62
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:94
-msgid "Deseja remover este item?"
-msgstr ""
-
+#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:289
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:11
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:147
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:829
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:289
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
 msgid "Destination"
 msgstr "Destino"
@@ -1184,11 +1187,11 @@ msgstr "Ramais Destino"
 msgid "Destination Group"
 msgstr "Grupo Destino"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:112
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:164
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:43
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:60
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:112
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:164
 msgid "Destiny"
 msgstr "Destino"
 
@@ -1197,7 +1200,6 @@ msgstr "Destino"
 msgid "Destiny: %s"
 msgstr "Destino: %s"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:15
 #: /home/lucasseid/work/snepLivre1.4/configs/menu.xml
 msgid "Diagnóstico do Sistema"
 msgstr ""
@@ -1278,8 +1280,8 @@ msgstr "Uso de Disco"
 msgid "Distribution"
 msgstr "Distribuição"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:47
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:35
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:47
 msgid "Do you really wish to remove this item?"
 msgstr "Você tem certeza que deseja apagar este item?"
 
@@ -1324,29 +1326,29 @@ msgstr ""
 msgid "E-mail Alert"
 msgstr "Alerta de Email"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:132
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:152
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:133
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:193
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:134
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:139
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:196
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:41
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:41
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:27
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:45
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:44
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:44
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:44
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:35
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:28
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:43
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:41
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:33
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:39
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:44
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:31
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:58
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:45
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:43
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:41
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:28
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:44
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:27
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:90
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:121
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:39
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:134
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:193
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:133
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:132
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:196
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:152
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:139
 msgid "Edit"
 msgstr "Editar"
 
@@ -1387,8 +1389,8 @@ msgstr "Editar Tronco %s"
 msgid "Editing permission for extension %s"
 msgstr "Editar permissões para o ramal %s"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "EmailAddress"
 msgstr "Endereço de Email"
 
@@ -1431,14 +1433,6 @@ msgstr "Fim"
 msgid "End with"
 msgstr "Termina com"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:52
-msgid "Entrada"
-msgstr "Incoming"
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:19
-msgid "Entrar"
-msgstr "Enter"
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "Equal"
 msgstr "Igual"
@@ -1449,12 +1443,9 @@ msgid "Equally (rrmemory)"
 msgstr "Igualmente (rrmemory)"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/error.phtml:3
-msgid "Erro"
-msgstr ""
-
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:681
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ErrorsKhompController.php:99
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ErrorController.php:34
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:681
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
 msgid "Error"
 msgstr "Erro"
@@ -1464,8 +1455,8 @@ msgid "Error Type"
 msgstr "Tipo de Erro"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:9
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/multiadd.phtml:8
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/add_edit.phtml:8
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/multiadd.phtml:8
 msgid "Error: The following files are not writable by the system:"
 msgstr "Erro: Os arquivos a seguir não tem permissão de escrita pelo sistema:"
 
@@ -1490,14 +1481,14 @@ msgstr "Executar Aplicação"
 msgid "Execute an Asterisk Application."
 msgstr "Executar uma aplicação Asterisk."
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:59
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:66
 msgid "Exibition mode:"
 msgstr "Modo de exibição:"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:18
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:35
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:68
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:110
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:18
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Expression Alias"
 msgstr "Alias de Expressão Regular"
@@ -1506,15 +1497,16 @@ msgstr "Alias de Expressão Regular"
 msgid "Expressions"
 msgstr "Expressões"
 
+#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:166
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:15
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/services-report/view.phtml:10
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:31
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:24
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:22
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:61
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:91
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:555
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:602
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:22
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:31
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:24
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/services-report/view.phtml:10
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Extension"
@@ -1525,8 +1517,8 @@ msgstr "Ramal"
 msgid "Extension %s does not exists."
 msgstr "Ramal %s não existe."
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:25
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/index.phtml:25
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Extension Group"
@@ -1560,18 +1552,14 @@ msgstr "GrupoDeRamal"
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:158
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:135
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:216
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "Extensions"
 msgstr "Ramais"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Extensions Range"
 msgstr "Faixa de Ramais"
-
-#: /home/lucasseid/work/snepLivre1.4/inspectors/PHPExtensions.php:77
-msgid "Extensões PHP"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:65
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:77
@@ -1586,6 +1574,14 @@ msgstr "Falha"
 msgid "Failed"
 msgstr "Falhou"
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:101
+msgid "Failed to authenticate"
+msgstr "Falha na autenticação"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/error.phtml:1
+msgid "Failed to install SNEP"
+msgstr "Falha ao instalar o SNEP"
+
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/InterfaceConf.php:43
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/InterfaceConf.php:46
 #, php-format
@@ -1596,26 +1592,8 @@ msgstr "Fala ao abrir arquivo %s com permissão de escrita."
 msgid "Failure on trial to dial extension %: non existent extension"
 msgstr "Falha na tentativa de discar para ramal %: ramal não existente"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/error.phtml:1
-msgid "Falha ao Instalar o SNEP"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:219
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:231
-#, php-format
-msgid "Falha ao conectar: %s"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:101
-msgid "Falha na autenticação"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:273
-msgid "Fila"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:239
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:19
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:239
 msgid "File"
 msgstr "Arquivo"
 
@@ -1623,8 +1601,8 @@ msgstr "Arquivo"
 msgid "File Permissions"
 msgstr "Permissões de Arquivo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:315
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:149
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:315
 msgid "File already exists"
 msgstr "Arquivo "
 
@@ -1640,14 +1618,14 @@ msgstr "Formato do arquivo não é válido"
 msgid "File is not valid"
 msgstr "Arquivo inválido"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:83
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:17
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:83
 #: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
 msgid "Filename"
 msgstr "Nome do arquivo"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:837
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form/Filter.php:28
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:837
 #: /home/lucasseid/work/snepLivre1.4/default/forms/filter.xml
 msgid "Filter"
 msgstr "Filtro"
@@ -1674,9 +1652,12 @@ msgstr "Para todos os agente disponíveis (ringall)"
 msgid "For the agent idle for the most time (leastrecent)"
 msgstr "Para o agente ocioso por mais tempo (leastrecent)"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:140
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:328
 msgid "For the agent that answerd less calls (fewestcalls)"
+msgstr "Para o agente que atendeu menos chamadas (fewestcalls)"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:140
+msgid "For the agent that answered less calls (fewestcalls)"
 msgstr "Para o agente que atendeu menos chamadas (fewestcalls)"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
@@ -1692,14 +1673,14 @@ msgstr "Formato no qual os arquivos gravados serão gravados"
 msgid "Fragmentation Time"
 msgstr "Valor Controle de Qualidade"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:193
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:260
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:59
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:69
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:73
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:165
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:175
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:179
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:193
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:260
 msgid "Free"
 msgstr "Livre"
 
@@ -1724,14 +1705,14 @@ msgstr "Do domínio"
 msgid "From user"
 msgstr "de usuário"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "From:"
 msgstr "De:"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:54
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:128
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:313
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:54
 msgid "General Configuration"
 msgstr "Configurações Gerais"
 
@@ -1751,15 +1732,19 @@ msgstr "Voltar para a ultima pagina"
 msgid "Go to Context"
 msgstr "Desviar para Contexto"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:22
+msgid "Go to SNEP"
+msgstr "Vá para o SNEP"
+
 #: /home/lucasseid/work/snepLivre1.4/modules/default/actions/GoContext.php:53
 msgid "Go to a Context"
 msgstr "Desviar para Contexto"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:19
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:50
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:56
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:93
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:19
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:50
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "Group"
@@ -1782,8 +1767,8 @@ msgstr ""
 msgid "Hostname"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "IAX2"
 msgstr ""
@@ -1800,8 +1785,8 @@ msgstr "ID da Expressão Regular"
 msgid "INTERNATIONAL Billing"
 msgstr "Tarifação INTERNACIONAL"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:30
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:122
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:30
 msgid "IP"
 msgstr ""
 
@@ -1844,18 +1829,15 @@ msgstr "Em Uso"
 msgid "In seconds"
 msgstr "Em Segundos"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Inband"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:87
-msgid "Incluir Tarifa"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:62
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:168
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:52
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Incoming"
 msgstr "Entrada"
@@ -1865,10 +1847,10 @@ msgstr "Entrada"
 msgid "Incoming Call"
 msgstr "Ligação de Entrada"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Info"
 msgstr "Informação"
 
@@ -1892,21 +1874,17 @@ msgstr "Começa com"
 msgid "Insecure"
 msgstr "Não Seguro"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:48
-msgid "Instalador do SNEP"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:153
+msgid "Installation finished"
+msgstr "Instalação concluída"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:178
-msgid "Instalador » Configuração"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:177
+msgid "Installer » Configuration"
+msgstr "Instalador » Configuração"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:119
-msgid "Instalador » Diagnóstico"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:154
-msgid "Instalação Concluida"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:118
+msgid "Installer » Diagnostic"
+msgstr "Instalador » Diagnóstico"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:148
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:556
@@ -1922,18 +1900,26 @@ msgstr "Tipo de Interface"
 msgid "Internal Error"
 msgstr "Erro Interno"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:54
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:59
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:58
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:63
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:56
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:61
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:54
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:59
 msgid "Invalid Date"
 msgstr "Data Inválida"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:13
 msgid "Invalid File"
 msgstr "Arquivo Inválido"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:175
+msgid "Invalid Format"
+msgstr "Formato Inválido"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:85
+msgid "Invalid Path"
+msgstr "Caminho Inválido"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:271
 #, php-format
@@ -1944,18 +1930,6 @@ msgstr "Contagem inválida de colunas na linha %d"
 msgid "Invalid path"
 msgstr "Caminho Inválido"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:85
-msgid "Inválid Path"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:175
-msgid "Inválid format"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:22
-msgid "Ir para o SNEP"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "Just numbers"
 msgstr "Apenas Números"
@@ -1964,8 +1938,8 @@ msgstr "Apenas Números"
 msgid "Kernel"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Khomp"
 msgstr ""
@@ -1979,6 +1953,10 @@ msgstr "Links Khomp"
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Krecord"
 msgstr ""
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:14
+msgid "Language and Locale selection"
+msgstr "Seleção de Língua e Localização"
 
 #: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:308
 msgid "Last call to"
@@ -1997,13 +1975,13 @@ msgstr "Deixe vazio para usar a senha dos ramais."
 msgid "Licenses (g729)"
 msgstr "Licensas (g729)"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:98
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:110
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:105
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:117
 msgid "Line numbers"
 msgstr "Numero de Linhas"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:179
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:38
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:179
 msgid "Link"
 msgstr ""
 
@@ -2019,8 +1997,8 @@ msgstr "Carregando"
 msgid "Local"
 msgstr ""
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:58
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:87
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:59
 msgid "Locale Configuration"
 msgstr "Configuração de Localização"
 
@@ -2029,6 +2007,11 @@ msgstr "Configuração de Localização"
 msgid "Locked"
 msgstr "Bloqueado"
 
+#: /home/lucasseid/work/snepLivre1.4/inspectors/Logs.php:111
+msgid "Log Files"
+msgstr "Arquivos de Log"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:12
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:31
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:33
 msgid "Login"
@@ -2050,15 +2033,25 @@ msgstr "Laço"
 msgid "MP3"
 msgstr ""
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:35
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:86
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:132
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:191
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:226
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:30
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:336
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:408
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:36
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:92
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:274
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:500
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:522
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ConferenceRoomsController.php:39
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:35
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:94
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:150
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:219
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:238
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:30
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:336
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:408
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:55
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:120
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:157
@@ -2067,22 +2060,12 @@ msgstr ""
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:175
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:253
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:290
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:35
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:86
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:132
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:191
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:226
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:38
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:88
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:120
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:37
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:93
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:137
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:36
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:92
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:274
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:500
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:522
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Manage"
 msgstr "Administrar"
@@ -2137,16 +2120,16 @@ msgstr "Migrar Grupo de Ramais"
 msgid "Minute Control"
 msgstr "Controle de Minutos"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:149
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:34
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:98
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:149
 #: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
 msgid "Minute Fee for Mobile"
 msgstr "Tarifa para Celular"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:142
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:37
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:97
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:142
 #: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
 msgid "Minute Fee for Residencial"
 msgstr "Tarifa para Fixo"
@@ -2188,13 +2171,13 @@ msgstr "Mensalmente"
 msgid "Mp3"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "MultiCheckbox"
 msgstr ""
 
@@ -2257,41 +2240,41 @@ msgstr "Otimização de NAT"
 msgid "NAT optimization"
 msgstr "Otimização de NAT"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:15
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:16
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:16
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:121
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:11
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:13
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:10
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:65
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:120
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:66
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CarrierController.php:68
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:65
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:280
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:120
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:92
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:76
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:111
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:190
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:65
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:68
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:98
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/PickupGroupsController.php:134
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:71
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:66
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contact-groups/index.phtml:16
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/pickup-groups/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/file.phtml:16
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/expression-alias/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:11
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/index.phtml:10
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/carrier/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:121
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Name"
 msgstr "Nome"
 
@@ -2308,18 +2291,22 @@ msgstr "Novos Ajustes"
 msgid "New Group"
 msgstr "Novo Grupo"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:31
+msgid "Next"
+msgstr "Proximo"
+
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:149
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:161
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:339
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:349
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "No"
 msgstr "Não"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:57
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:17
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:57
 msgid "No Destiny"
 msgstr "Sem Destino"
 
@@ -2332,9 +2319,9 @@ msgstr "Nenhuma placa Khomp instalada"
 msgid "No Link Available"
 msgstr "Nenhum link disponível."
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:90
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:706
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:769
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:97
 msgid "No entries found!"
 msgstr "Nenhum registo encontrado!"
 
@@ -2350,10 +2337,10 @@ msgstr "Nenhum grupo selecionado"
 msgid "No modules instaled."
 msgstr "Nenhum módulo instalado."
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:431
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:457
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:274
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:300
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:431
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:457
 msgid "No records found."
 msgstr "Nenhum registro encontrado."
 
@@ -2365,8 +2352,8 @@ msgstr "Nenhuma regra encontrada."
 msgid "None"
 msgstr "Nenhum"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:60
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:49
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:67
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
 msgid "Normal"
@@ -2407,20 +2394,6 @@ msgstr "Apenas Numeros"
 msgid "Numbers separated by ( . ). EX: 5.04"
 msgstr "Numeros separados por ( . ). EX: 5.04"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:6
-msgid "O SNEP foi instalado com sucesso em seu sistema, clique no botão abaixo para ir a tela de login."
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:3
-msgid "O SNEP foi instalado com sucesso."
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-msgid ""
-"O usuário informado deverá ter a permissão de criar\n"
-"                        tabelas no banco de dados informado."
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "On / Off"
 msgstr "Ligado / Desligado"
@@ -2436,10 +2409,6 @@ msgstr "Em Ligação"
 
 #: /home/lucasseid/work/snepLivre1.4/modules/default/info.xml
 msgid "OpenS Tecnologia"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
-msgid "Operadora"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
@@ -2462,10 +2431,6 @@ msgstr "Origem Original"
 msgid "Originated"
 msgstr "Originada"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:358
-msgid "Os seguintes registros do CSV contem dados nulos::<br/>"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:847
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Other"
@@ -2476,12 +2441,14 @@ msgid "Other Options"
 msgstr "Outras Opções"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:977
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:54
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "Others"
 msgstr "Outros"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:61
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:167
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:53
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "Outgoing"
 msgstr "Saida"
@@ -2491,13 +2458,13 @@ msgstr "Saida"
 msgid "Outgoing Call"
 msgstr "Ligações de Saída"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:54
-msgid "Outras"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:162
 msgid "PBX Statistics"
 msgstr "Estatísticas de PBX"
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/PHPExtensions.php:77
+msgid "PHP Extensions"
+msgstr "Extensões PHP"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Padlock"
@@ -2524,9 +2491,12 @@ msgstr "Parâmetros"
 msgid "Partition"
 msgstr "Partição"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:16
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:20
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Password"
 msgstr "Senha"
 
@@ -2559,14 +2529,14 @@ msgstr ""
 msgid "Peer Type"
 msgstr "Tipo de Peer"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:87
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:88
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:86
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:87
 msgid "Period"
 msgstr "Período"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "Period from:"
 msgstr "Período de:"
 
@@ -2574,9 +2544,9 @@ msgstr "Período de:"
 msgid "Permissions"
 msgstr "Permissões"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:17
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:69
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:285
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:17
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "Phone"
 msgstr "Telefone"
@@ -2611,18 +2581,18 @@ msgid "Please Wait..."
 msgstr "Por Favor, Aguarde..."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:58
-msgid "Por favor insira um nome de usuário"
-msgstr ""
+msgid "Please insert a username"
+msgstr "Por favor, insira um nome de usuário"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Port"
 msgstr "Porta"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:75
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:28
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:78
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:128
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:178
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:28
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:78
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:75
 msgid "Prefix"
 msgstr "Prefixo"
 
@@ -2630,8 +2600,8 @@ msgstr "Prefixo"
 msgid "Prefix not numeric"
 msgstr "Prefixo não numérico"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Prioritary"
 msgstr "Prioritário"
@@ -2641,17 +2611,13 @@ msgstr "Prioritário"
 msgid "Priority"
 msgstr "Prioridade"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:31
-msgid "Próximo"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Qualification time"
 msgstr "Tempo do Controle de Qualidade"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Qualify"
 msgstr "Controle de Qualidade"
 
@@ -2661,9 +2627,15 @@ msgstr "Controle de Qualidade"
 msgid "Quantity"
 msgstr "Quantidade"
 
+#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:273
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:59
 msgid "Queue"
 msgstr "Fila"
+
+#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:144
+#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:154
+msgid "Queue Alert"
+msgstr "Aleta de Fila"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "Queue Name"
@@ -2681,24 +2653,20 @@ msgstr "SLA da FIla (Usado para estatísticas e monitoramento)"
 msgid "Queue notice audio"
 msgstr "Audio de anúncio da fila"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:15
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:37
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:93
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:275
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:501
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:523
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:15
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Queues"
 msgstr "Filas"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "RFC-2833"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:166
-msgid "Ramal"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:139
@@ -2763,10 +2731,6 @@ msgstr "Ramais Registrados"
 msgid "Registered Trunks"
 msgstr "Trocos Registrados"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ActionConfigsController.php:80
-msgid "Regras de Negócio » Configurações Padrão » "
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:11
 msgid "Regular Expression"
 msgstr "Expressão Regular"
@@ -2775,8 +2739,8 @@ msgstr "Expressão Regular"
 msgid "Remote Host"
 msgstr "Host Remoto"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:193
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form.php:74
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:193
 msgid "Remove"
 msgstr "Apagar"
 
@@ -2793,17 +2757,17 @@ msgid "Replace source extension with requested"
 msgstr "Substitui o ramal de origem com o escolhido"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "Report Type"
 msgstr "Tipo de Relatório"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:26
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:418
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:24
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:25
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:859
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:26
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:418
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Reports"
 msgstr "Relatórios"
@@ -2895,25 +2859,26 @@ msgstr "Tempo de toque por agente"
 msgid "Ringing"
 msgstr "Chamando"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:33
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:181
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:82
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:220
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:275
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:324
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:181
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:33
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Routes"
 msgstr "Rotas"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ActionConfigsController.php:24
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:32
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ActionConfigsController.php:81
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:34
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:67
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:109
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:81
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:219
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:274
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:323
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:34
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:67
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExpressionAliasController.php:109
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:32
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Routing"
 msgstr "Regras de Negócio"
@@ -2947,8 +2912,8 @@ msgstr ""
 msgid "SIGAME"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "SIP"
 msgstr ""
@@ -2957,26 +2922,31 @@ msgstr ""
 msgid "SIP Trunks"
 msgstr "Troco SIP"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:69
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:14
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:69
 msgid "SLA"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:145
-msgid "SNEP - A fila"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:139
+#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:149
+msgid "SNEP - The queue"
+msgstr "SNEP - A fila"
 
-#: /home/lucasseid/work/snepLivre1.4/lib/Snep/Alerts.php:134
-msgid "SNEP - A fila "
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:47
+msgid "SNEP Installer"
+msgstr "Instalador SNEP"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:6
+msgid "SNEP was successfully installed in your system, click on the button below to go to the login page."
+msgstr "O SNEP foi instalado em seu sistema com sucesso, click no botão abaixo para ir para a pagina de login."
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:3
+msgid "SNEP was successfully installed."
+msgstr "O SNEP foi instalado com sucesso."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:386
 msgid "SOURCE"
 msgstr "ORIGEM"
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:159
-msgid "Salvar"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Same on both servers"
@@ -2986,17 +2956,15 @@ msgstr "O mesmo em todos os servidores"
 msgid "Saturday"
 msgstr "Sabado"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CnlController.php:82
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:68
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:63
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:219
 #: /home/lucasseid/work/snepLivre1.4/lib/Snep/Form.php:27
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cnl/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/csv.phtml:63
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/conference-rooms/index.phtml:68
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:219
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:159
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CnlController.php:82
 msgid "Save"
 msgstr "Salvar"
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:53
-msgid "Saída"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:137
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:325
@@ -3004,12 +2972,12 @@ msgid "Search for a available agent (roundrobin)"
 msgstr "Buscar um agente disponível (roundrobin)"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:172
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Select"
 msgstr "Selecione"
 
@@ -3024,10 +2992,6 @@ msgstr "Selecione um canal Khomp da lista"
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:112
 msgid "Select the file"
 msgstr "Selecione o arquivo"
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:14
-msgid "Seleção de idioma e localização"
-msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/modules/default/actions/GoContext.php:79
 msgid "Send call to an Asterisk context"
@@ -3046,16 +3010,6 @@ msgstr "Enviar para Fila"
 msgid "Sending SMS"
 msgstr "Enviando SMS"
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:16
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-msgid "Senha"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:186
-msgid "Senha do Administrador"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "Separate with ;"
 msgstr "Separado com ;"
@@ -3068,11 +3022,8 @@ msgstr "Separado por virgula"
 msgid "Service - Activated/Deactivated"
 msgstr "Serviço - Ativado/Desativado"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-msgid "Service State"
-msgstr "Status do Serviço"
-
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/services-report/view.phtml:13
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "Service Status"
 msgstr "Status do Serviço"
 
@@ -3093,10 +3044,10 @@ msgstr "Ligações devem ser ejetadas da fila se todos os agentes fizerem logout
 msgid "Show 'n' source ranking"
 msgstr "Exibir ranking de 'n' origens"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:116
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:148
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:39
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:192
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:39
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:116
 msgid "Show Report"
 msgstr "Mostrar Relatório"
 
@@ -3107,6 +3058,10 @@ msgstr "Exibir os TOP 'n' por origem"
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Show error message events if activated"
 msgstr "Mostra eventuais mensagens de erro se ativado"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:26
+msgid "Sign in"
+msgstr "Entrar"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:46
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:47
@@ -3127,16 +3082,12 @@ msgstr "Força do Sinal"
 msgid "Silent time before connecting the agent to a caller"
 msgstr "Tempo entre a identificação de um agente livre e o envio da chamada para ele"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:209
-msgid "Sim"
-msgstr ""
-
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:51
 msgid "Simulate"
 msgstr "Simular"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:34
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:128
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/SimulatorController.php:34
 msgid "Simulator"
 msgstr "Simulador"
 
@@ -3203,14 +3154,14 @@ msgstr "Arquivo de Som"
 msgid "Sound Files"
 msgstr "Arquivos de Som"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:111
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:159
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:135
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:828
+#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:288
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/index.phtml:12
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:29
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:59
-#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:288
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:135
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:828
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:111
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:159
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
 msgid "Source"
 msgstr "Origem"
@@ -3250,15 +3201,15 @@ msgstr "Valida a partir de"
 msgid "Startup Time"
 msgstr "Tempo de Arranque"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:67
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:283
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:835
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:73
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:19
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:44
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:63
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:169
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/index.phtml:19
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:44
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:835
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:73
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:67
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:283
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "State"
 msgstr "Estado"
@@ -3267,16 +3218,18 @@ msgstr "Estado"
 msgid "Static Password:"
 msgstr "Senha Estática:"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:61
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:123
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:23
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:830
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ErrorsKhompController.php:36
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:35
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:331
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:23
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:830
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:61
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:123
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:8
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:61
+#: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
-#: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Status"
 msgstr ""
 
@@ -3284,15 +3237,10 @@ msgstr ""
 msgid "Status of last call"
 msgstr "Status da ultima chamada"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:6
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:56
-msgid "Status » System Logs "
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:68
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:13
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:68
 msgid "Strategy"
-msgstr ""
+msgstr "Estratégia"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
@@ -3306,37 +3254,46 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:223
 msgid "Swap Memory"
-msgstr ""
+msgstr "Memória Swap"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "Synthetic"
-msgstr ""
+msgstr "Sintético"
 
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:28
 msgid "System Information"
-msgstr ""
+msgstr "Informações do Sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "System Language"
-msgstr ""
+msgstr "Linguagem do Sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "System Locale"
-msgstr ""
+msgstr "Localidade do Sistema"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:9
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:62
+msgid "System Logs"
+msgstr "Logs do Sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/InspectorController.php:27
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "System Status"
-msgstr ""
+msgstr "Status do Sistema"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:15
+msgid "System diagnostic"
+msgstr "Diagnóstico do Sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:30
 msgid "TDM"
@@ -3348,364 +3305,388 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:390
 msgid "TIME TOTAL ANSWERD"
-msgstr ""
+msgstr "TEMPO TOTAL ATENDIDAS"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:391
 msgid "TIME TOTAL UNANSWERD"
-msgstr ""
+msgstr "TEMPO TOTAL Ñ ATENDIDAS"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:61
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:68
 msgid "Terminal"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:27
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/inspector/index.phtml:21
-msgid "Testar Novamente"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:27
+msgid "Test Again"
+msgstr "Teste Novamente"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:43
 msgid "The File includes/setup.conf does not have permission to be modified."
-msgstr ""
+msgstr "O arquivo includes/setup.conf não tem permissão de escita."
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:10
+msgid "The admin password was redefined on the installation, keep it safe."
+msgstr "A senha do admin foi redefinida na instalação, mantenha esta informação segura."
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:161
 msgid "The default values (Residencial and Mobile) for each carrier is informed on the carrier's."
-msgstr ""
+msgstr "Os valores padrão (Fixo e Móvel) para casa operadora é informado em seu cadastro."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:254
 msgid "The excluded group has associated contacts."
-msgstr ""
+msgstr "O grupo apagado tem contatos associados."
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/PHPExtensions.php:63
+msgid "The extension"
+msgstr "O ramal"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:274
 msgid "The extension group will be deleted. Are you sure?."
-msgstr ""
+msgstr "O grupo de ramais será apagado. Deseja continuar?"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "The extension list must follow the format from this example. EX: 8000;8001"
-msgstr ""
+msgstr "A lista de ramais deve seguir o formato do exemplo a seguir. EX: 8000;8001"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:426
 msgid "The file already exists"
-msgstr ""
+msgstr "O arquivo ja existe"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:223
 msgid "The file must be separated by commas. Header is optional and columns can be associated in the next screen."
-msgstr ""
+msgstr "O arquivo deve ser separado por virgula. Cabeçalho é opcional e as colunar poderão ser associadas na próxima tela."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:1021
 msgid "The files were compressed successfully! Wait for the download start."
-msgstr ""
+msgstr "Os arquivos foram comprimidos com sucesso! Espere o download começar."
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:358
+msgid "The following entries of the CSV file have null data:<br/>"
+msgstr "As seguintes entradas do CSV tem dados nulos:<br/>"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:509
 msgid "The following routes use this extension, modify them prior to remove this extension"
-msgstr ""
+msgstr "As seguintes rotas usam este ramal, modifique elas antes de apaga-lo."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactGroupsController.php:213
 msgid "The group will be removed. After that you can't go back."
-msgstr ""
+msgstr "O grupo será apagado. Depois disso, você não tem como recupera-lo."
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:102
-msgid "The log file cannot be open!"
+#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
+msgid ""
+"The informed user must have permission to create tables\n"
+"                        on the Database informed."
 msgstr ""
+"O usuário informado deve ter permissão para criar tabelas\n"
+"                        na base de dados informada."
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/LogsController.php:109
+msgid "The log file cannot be open!"
+msgstr "O arquivo de log não pode ser aberto!"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ErrorController.php:20
 msgid "The page you are looking for was not found or does not exists."
-msgstr ""
+msgstr "A pagina que você está procurando não foi encontrada ou não existe."
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:202
+msgid "The password confirmation is different from the original"
+msgstr "A senha de confirmação é diferente da original"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:309
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:329
 msgid "There are no extensions in the selected group."
-msgstr ""
+msgstr "O grupo selecionado não contem ramais associados."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:297
 msgid "There is no contacts group registered."
-msgstr ""
+msgstr "Não existem grupos de contatos registrados."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:134
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:175
 msgid "There's no trunks available in the system. Try a different technology"
-msgstr ""
+msgstr "Não existem troncos disponíveis no sistema. Tente utilizar uma outra tecnologia."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/BillingController.php:163
 msgid "This bill is already set"
-msgstr ""
+msgstr "Esta tarifa já esta sendo utilizada"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:183
 msgid "This billing registration must follow this 3 rules:"
-msgstr ""
+msgstr "O cadastro de tarifação deve seguir estas 3 regras:"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "This field shoud contain only numbers"
-msgstr ""
+msgstr "Este campo deve conter apenas números"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "This field should contain numbers only"
-msgstr ""
+msgstr "Este campo deve conter apenas números"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:318
 msgid "This groups has extensions associated. Select another group for these extensions. "
-msgstr ""
+msgstr "Estr grupo tem ramais associados. Selecione outro grupo para estes ramais."
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:325
 msgid "This is the only group and it has extensions associated. You can migrate these extensions to a new group."
-msgstr ""
+msgstr "Este é o único grupo e tem ramais associados a ele. Você pode migrar estes ramais para um novo grupo."
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:7
 msgid "This software is in Alpha stage. Its unstable and may contain defects."
-msgstr ""
+msgstr "Este software está em estágio Alpha. Por isso, permanece instável e pode contem defeitos."
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
 msgid "Thursday"
-msgstr ""
+msgstr "Quinta-feira"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:45
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:61
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:14
 msgid "Time Credit (min:sec)"
-msgstr ""
+msgstr "Saldo de Tempo (min:seg)"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Time Total"
-msgstr ""
+msgstr "Tempo Total"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:70
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/queues/index.phtml:15
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:70
 msgid "Timeout"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:840
 msgid "Times"
-msgstr ""
+msgstr "Tempos"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Timezone"
-msgstr ""
+msgstr "Fuso Horário"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "To"
-msgstr ""
+msgstr "Até"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:164
 msgid "To ajust the default values, keep the fields with the following data:"
-msgstr ""
+msgstr "Para ajustar os valores padrão, deixe os campos com os seguintes dados:"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
 msgid "To group"
-msgstr ""
+msgstr "Para o grupo"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/khomp-links/view.phtml:111
 msgid "To mantain this data accurate, this page is automatically refreshed"
-msgstr ""
+msgstr "Para manter os dados corretos, esta página é atualizada automaticamente."
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "To witch context the call must go when the caller dial any number while waiting"
-msgstr ""
+msgstr "Para qual contexto a ligação deve ir quando uma tecla de qualquer numero for digitada enquanto espera"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "To:"
-msgstr ""
+msgstr "Até:"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:126
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:127
-msgid "Todos"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:192
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:30
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:33
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:192
 msgid "Total"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:16
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:20
 msgid "Total Time"
-msgstr ""
+msgstr "Tempo Total"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:841
 msgid "Total tariffed"
-msgstr ""
+msgstr "Total tarifado"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:839
 msgid "Totals"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:181
-msgid "Tronco"
-msgstr ""
+msgstr "Totais"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "True"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:59
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:147
+#: /home/lucasseid/work/snepLivre1.4/lib/PBX/Rule/ActionConfig.php:181
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/route/add_edit.phtml:16
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:32
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:147
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:59
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Trunk"
-msgstr ""
+msgstr "Tronco"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Trunk type"
-msgstr ""
+msgstr "Tipo de tronco"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:31
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:337
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/TrunksController.php:409
 #: /home/lucasseid/work/snepLivre1.4/modules/default/resources.xml
 msgid "Trunks"
-msgstr ""
+msgstr "Troncos"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ParametersController.php:140
 msgid "Trunks Configuration"
-msgstr ""
+msgstr "Configuração dos Troncos"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
 msgid "Tuesday"
-msgstr ""
+msgstr "Terça-feira"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:17
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:191
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:25
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:13
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:12
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:115
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:194
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CostCenterController.php:70
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:191
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/index.phtml:12
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/music-on-hold/index.phtml:17
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:25
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions-groups/index.phtml:13
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/cost-center/index.phtml:13
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Type of control"
-msgstr ""
+msgstr "Tipo de controle"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:218
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:230
+#, php-format
+msgid "Unable to connect: %s"
+msgstr "Incapaz de conectar: %s"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:155
 msgid "Unable to move file"
-msgstr ""
+msgstr "Incapaz de mover o arquivo"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/SoundFilesController.php:272
 msgid "Unable to restore file"
-msgstr ""
+msgstr "Incapaz de restaurar o arquivo"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:29
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ranking-report/view.phtml:32
-msgid "Unanswerd"
-msgstr ""
+msgid "Unanswered"
+msgstr "Não Atendidas"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:124
 msgid "Unavailable"
-msgstr ""
+msgstr "Indisponível"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:33
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:226
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:235
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:33
 msgid "Undefined"
-msgstr ""
+msgstr "Indefinido"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:109
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:1040
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:104
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:53
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:159
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/KhompLinksController.php:190
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/IpStatusController.php:104
 msgid "Unused"
-msgstr ""
+msgstr "Não Utilizado"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/action-configs/edit.phtml:10
+msgid "Update with success"
+msgstr "Atualizado com sucesso"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:81
 msgid "Uptime"
-msgstr ""
+msgstr "Tempo Ligado"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:145
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:152
 msgid "Use dot for decimal"
-msgstr ""
+msgstr "Use ponto para decimal"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:194
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:261
 msgid "Used"
-msgstr ""
+msgstr "Usado"
 
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:15
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:117
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:196
+#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
 msgid "User"
-msgstr ""
+msgstr "Usuário"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:214
+msgid "User and/or password rejected by Asterisk"
+msgstr "Usuário e/ou senha rejeitados pelo Asterisk"
+
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:84
+msgid "User or password invalid"
+msgstr "Usuário ou senha invalido"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:15
+msgid "User/Extension"
+msgstr "Ramal"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "Username"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:46
-msgid "Users"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/installed.phtml:15
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-msgid "Usuário"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:8
-msgid "Usuário / Ramal"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/AuthController.php:84
-msgid "Usuário ou senha inválida"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/InstallerController.php:215
-msgid "Usuário ou senha recusada pelo servidor Asterisk"
-msgstr ""
+msgstr "Usuário"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:123
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:124
-msgid "Usuários"
-msgstr ""
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:46
+msgid "Users"
+msgstr "Usuários"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/RouteController.php:170
 msgid "Valid times"
-msgstr ""
+msgstr "Tempos válidos"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/simulator/index.phtml:82
 #, php-format
 msgid "Validity: %s"
-msgstr ""
+msgstr "Validade: %s"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/auth/login.phtml:10
+msgid "Version"
+msgstr "Versão"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "View Charging"
-msgstr ""
+msgstr "Ver Tarifação"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "View recording files"
-msgstr ""
+msgstr "Ver arquivos de gravação"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "View status of the channel?"
-msgstr ""
+msgstr "Ver status do canal?"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
@@ -3714,36 +3695,23 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "Visual Alert"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:4
-msgid "Você deve corrigir possíveis erros destacados em vermelho por esse passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:11
-msgid "Você será conduzido na instalação do SNEP."
-msgstr ""
+msgstr "Alerta Visual"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "Voicemail"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsController.php:514
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/trunks/error.phtml:4
-msgid "Voltar"
-msgstr ""
+msgstr "Correio de Voz"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "Wait time until ringing all agents again"
-msgstr ""
+msgstr "Tempo de espera para tocar todos os agentes novamente"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/CallsReportController.php:850
 msgid "Waiting"
-msgstr ""
+msgstr "Esperando"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "Warn agent the time that call waited in queue"
-msgstr ""
+msgstr "Notificar agente o tempo que a chamada esperou na fila"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
 msgid "Warning"
@@ -3751,109 +3719,122 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/edit.phtml:85
 msgid "Warning: Changes to existing fees, influence on the report."
-msgstr ""
+msgstr "Atenção: Alterações foram feitas as tarifas existentes, isso afeta os valores nos relatórios."
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
 msgid "Wednesday"
-msgstr ""
+msgstr "Quarta-feira"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
 msgid "Week Days"
-msgstr ""
+msgstr "Dias da Semana"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:8
+msgid "Welcome to SNEP!"
+msgstr "Bem-vindo ao SNEP!"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/IndexController.php:8
 #, php-format
 msgid "Welcome to Snep version %s"
-msgstr ""
+msgstr "Bem-vindo ao Snep versão %s"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Without Authentication"
-msgstr ""
+msgstr "Sem Autenticação"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:50
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
 msgid "Without buffer"
-msgstr ""
+msgstr "Sem buffer"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:51
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
 msgid "Without buffer quiet"
-msgstr ""
+msgstr "Sem buffer silencioso"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "Year"
-msgstr ""
+msgstr "Ano"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:278
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:209
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:148
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:160
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:338
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/QueuesController.php:348
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ExtensionsGroupsController.php:278
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/MusicOnHoldController.php:200
 msgid "You are removing a music on hold class, it has some audio files attached to it."
-msgstr ""
+msgstr "Você esta removendo uma classe de Musicas em Espera, esta classe tem alguns arquivos de áudio associados a ela."
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/khomp_error.phtml:1
 msgid "You don't have khomp boards configured in your system."
-msgstr ""
+msgstr "Você não tem placas Khomp configuradas em seu sistema"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/extensions/trunk_error.phtml:1
 msgid "You don't have trunks registered in your system."
-msgstr ""
+msgstr "Você não tem troncos registrados em seu sistema"
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/diagnostic.phtml:4
+msgid "You must correct possible errors highlighted in red on this step of installation. It's important that all errors get corrected for SNEP to work properly. Advanced users may skip this part of the install if they wish , this diagnostic can be runned from inside the system on the menu <strong>Configure</strong> > <strong>System Status</strong>."
+msgstr "Você deve corrigir possiveis erros destacados em vermelho neste passo da instalação. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."
+
+#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/installer/index.phtml:11
+msgid "You will be redirected to the SNEP Installer"
+msgstr "Você será redirecionado ao instalador do SNEP"
 
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:68
 msgid "ZIP Code"
-msgstr ""
+msgstr "CEP"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:284
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/contacts/index.phtml:16
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/ContactsController.php:284
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
 msgid "Zip Code"
-msgstr ""
+msgstr "CEP"
 
 #: /home/lucasseid/work/snepLivre1.4/modules/default/actions/DialTrunk.php:76
 msgid "[snep] Warning of trunk usage"
-msgstr ""
+msgstr "[snep] Aviso de uso do tronco"
 
-#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:420
 #: /home/lucasseid/work/snepLivre1.4/default/controllers/ServicesReportController.php:257
+#: /home/lucasseid/work/snepLivre1.4/default/controllers/RankingReportController.php:420
 msgid "]["
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "alaw"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "analitic"
-msgstr ""
+msgstr "Analítico"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "by data"
-msgstr ""
+msgstr "pelos dados"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "by destination"
-msgstr ""
+msgstr "por destino"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "by source"
-msgstr ""
+msgstr "por origem"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "checkbox"
 msgstr ""
 
@@ -3862,19 +3843,19 @@ msgstr ""
 msgid "checked"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "codec"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 msgid "dd/mm/YYYY hh:mm"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 msgid "dd/mm/aaaa"
 msgstr ""
 
@@ -3888,22 +3869,26 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/index/index.phtml:14
 msgid "here"
-msgstr ""
+msgstr "aqui"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 msgid "hidden"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "ilbc"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "in seconds"
-msgstr ""
+msgstr "em segundos"
+
+#: /home/lucasseid/work/snepLivre1.4/inspectors/PHPExtensions.php:63
+msgid "is not present on the system, check it. "
+msgstr "não está presente no sistema, verifique."
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
@@ -4021,23 +4006,23 @@ msgstr ""
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
 msgid "no"
-msgstr ""
+msgstr "não"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:106
 msgid "no data available"
-msgstr ""
+msgstr "sem dados disponíveis"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:47
 msgid "no extension available"
-msgstr ""
+msgstr "sem ramais disponíveis"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:79
 msgid "no queue available"
-msgstr ""
+msgstr "sem filas disponíveis"
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/ip-status/index.phtml:143
 msgid "no trunk available"
-msgstr ""
+msgstr "sem troncos disponíveis"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 msgid "normal"
@@ -4049,7 +4034,7 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/views/scripts/billing/add.phtml:195
 msgid "one individual billing must be created for each COUNTRY, paying attention to the following details"
-msgstr ""
+msgstr "uma tarifa individual deve ser criada para cada PAÍS, prestando atenção aos seguintes detalhes"
 
 #: /home/lucasseid/work/snepLivre1.4/nbproject/project.xml
 msgid "org.netbeans.modules.php.project"
@@ -4059,36 +4044,36 @@ msgstr ""
 #: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 msgid "password"
-msgstr ""
+msgstr "Senha"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "peer"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "radio"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "regex"
 msgstr ""
 
@@ -4096,8 +4081,8 @@ msgstr ""
 msgid "relatorio_ranking_csv_"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "rfc2833"
 msgstr ""
@@ -4112,18 +4097,18 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 msgid "seconds"
-msgstr ""
+msgstr "segundos"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/filter.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/filter.xml
 msgid "select"
 msgstr ""
 
@@ -4145,73 +4130,73 @@ msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
 msgid "sound file played for the agent to indicate him about a new call"
-msgstr ""
+msgstr "Arquivo de som tocado para o agente para notifica-lo sobre uma nova chamada"
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/filter.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/pickupGroup.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/filter.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/pickupGroup.xml
 msgid "text"
 msgstr ""
+
+#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/ActionLoop.php:84
+msgid "times"
+msgstr "Tempos"
 
 #: /home/lucasseid/work/snepLivre1.4/configs/menu.xml
 msgid "tit_logger"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
-#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/route.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/logs.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/expression_alias.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/services_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/calls_report.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/ranking_report.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/queues.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/billing.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/khomp_links.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/installer.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups_migration.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contacts.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/contact_groups.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/music_on_hold.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/sound_files.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensions_groups.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/cost_center.xml
 msgid "true"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/trunks.xml
+#: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "ulaw"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/carrier.xml
 msgid "use dot for decimal"
-msgstr ""
+msgstr "use ponto para decimal"
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensionsMulti.xml
 #: /home/lucasseid/work/snepLivre1.4/default/forms/extensions.xml
 msgid "users"
-msgstr ""
-
-#: /home/lucasseid/work/snepLivre1.4/modules/default/actions/ActionLoop.php:84
-msgid "vezes"
 msgstr ""
 
 #: /home/lucasseid/work/snepLivre1.4/default/forms/setup.conf.xml
@@ -4226,7 +4211,14 @@ msgstr ""
 msgid "yes"
 msgstr ""
 
-#: /home/lucasseid/work/snepLivre1.4/default/views/scripts/sound-files/index.phtml:16
-msgid "Áudio"
-msgstr ""
+#~ msgid "Answerd"
+#~ msgstr "Atendida"
+#~ msgid "Call Rankings"
+#~ msgstr "Rankings de Ligação"
+#~ msgid "Entrada"
+#~ msgstr "Incoming"
+#~ msgid "Entrar"
+#~ msgstr "Enter"
+#~ msgid "Service State"
+#~ msgstr "Status do Serviço"
 

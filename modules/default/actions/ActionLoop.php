@@ -81,7 +81,7 @@ class ActionLoop extends PBX_Rule_Action {
         $lbl_loopcount = $i18n->translate("Repeat:");
         $lbl_actionindex = $i18n->translate("Action index:");
 
-        $unit = $i18n->translate("vezes");
+        $unit = $i18n->translate("times");
         return <<<XML
 <params>
     <int>

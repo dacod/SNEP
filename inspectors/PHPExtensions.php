@@ -60,7 +60,7 @@ class PHPExtensions extends Snep_Inspector_Test {
         foreach($this->extensions as $extension) {
             if( ! extension_loaded( $extension ) ) {
                 // Não estando carregada e extensão, concatena mensagem de erro.
-                $result['extension']['message'] .= Zend_Registry::get("Zend_Translate")->translate("A extensão $extension não está presente no sistema, verifique. ") ."\n";
+                $result['extension']['message'] .= Zend_Registry::get("Zend_Translate")->translate("The extension") .$extension.Zend_Registry::get("Zend_Translate")->translate("is not present on the system, check it. ") ."\n";
                 // Seta erro como verdadeiro.
                 $result['extension']['error'] = 1;
             }

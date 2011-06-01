@@ -69,7 +69,7 @@ class Logs extends Snep_Inspector_Test {
             // Verifica existência do arquivo.
             if( ! file_exists( $core_path . $path ) ) {
                 // Não existindo concatena mensagem de erro.
-                Zend_Registry::get("Zend_Translate")->translate(" $core_path$path doesn't exist.") ."\n";
+               $core_path.$path.Zend_Registry::get("Zend_Translate")->translate(" doesn't exist. ") ."\n";
                 // Seta erro como verdadeiro.
                 $result['logs']['error'] = 1;
 
@@ -80,7 +80,7 @@ class Logs extends Snep_Inspector_Test {
                 if($logs['writable']) {
                     if( ! is_writable($core_path . $path) ) {
                         // Não existindo concatena mensagem de erro.
-                        $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" $core_path$path doesn't have editing permissions.") ."\n";
+                        $result['logs']['message'] .= $core_path.$path.Zend_Registry::get("Zend_Translate")->translate(" doesn't have editing permissions. ") ."\n";
                         // Seta erro como verdadeiro.
                         $result['logs']['error'] = 1;
                     }
@@ -90,7 +90,7 @@ class Logs extends Snep_Inspector_Test {
                 if($logs['readable']) {
                     if( ! is_readable($core_path . $path) ) {
                         // Não existindo concatena mensagem de erro.
-                        $result['logs']['message'] .= Zend_Registry::get("Zend_Translate")->translate(" $core_path$path doesn't have reading permissions.") ."\n";
+                        $result['logs']['message'] .=$core_path.$path.Zend_Registry::get("Zend_Translate")->translate(" doesn't have reading permissions. ") ."\n";
                         // Seta erro como verdadeiro.
                         $result['logs']['error'] = 1;
                     }

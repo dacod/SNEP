@@ -1,7 +1,7 @@
 <?php $this->headLink()->appendStylesheet($this->baseUrl() . "/css/diagnostic.css"); ?>
 <div class="snep_form">
     <p>
-        <?php echo $this->translate("You must correct possible errors highlighted in red on this step of installation. É importante que todos os erros sejam corrigidos para que o SNEP funcione corretamente. Usuários avançados podem pular essa parte da instalação se desejarem, esse diagnóstico pode ser acessado de dentro do sistema pelo menu <strong>Configurações</strong> > <strong>Diagnóstico </strong>."); ?>
+        <?php echo $this->translate("You must correct possible errors highlighted in red on this step of installation. It's important that all errors get corrected for SNEP to work properly. Advanced users may skip this part of the install if they wish , this diagnostic can be runned from inside the system on the menu <strong>Configure</strong> > <strong>System Status</strong>."); ?>
     </p>
 
     <div class="inspect">
@@ -26,9 +26,9 @@
     <?php if($this->errored): ?>
         <button onclick="location.reload(true)"><?php echo $this->translate("Test Again"); ?></button>        
         <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Continue anyway"); ?>"  />
-        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
+        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'"><?php echo $this->translate("Cancel"); ?></a>
     <?php else: ?>
         <input type="submit" onclick="location.href='<?php echo $this->next;?>'" value="<?php echo $this->translate("Next"); ?>">
-        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'">Cancel</a>
+        <a class="snep_form_cancel" href="javascript:location.href='javascript:history.back();'"><?php echo $this->translate("Cancel"); ?></a>
     <?php endif;?>
 </div>

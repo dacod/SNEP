@@ -511,7 +511,7 @@ class ExtensionsController extends Zend_Controller_Action {
                 $errMsg .= $regra['id'] . " - " . $regra['desc'] . "<br />\n";
             }
             $this->view->error = $errMsg;
-            $this->view->back = $this->view->translate("Voltar");
+            $this->view->back = $this->view->translate("Back");
             $this->_helper->viewRenderer('error');
         }
         $sql = "DELETE FROM peers WHERE name='" . $id . "'";
