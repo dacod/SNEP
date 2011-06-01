@@ -36,14 +36,27 @@ class ContactsgroupsController extends Zend_Controller_Action {
             $select->where("`$field` like '%$query%'");
         }
 
+        $stmt = $db->query($select);
+        $resultado = $stmt->fetchAll();
 
+        echo "<pre>";
+        $final = array();
+        foreach($resultado as $num => $grupo) {
+
+            $final[$num] = $grupo;
+            $select = $db->select()
+                    ->from('contacts_names', 'count(id) as numContacts')
+                    ->where("contacts_names.group = '{$grupo['id']}'");
+                    $result = $db->query($select)->fetch();
+                    $final[$num]['numContacts'] = $result['numContacts'];
+        }
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page)  ? $page : 1 );
 
         $this->view->filtro = $this->_request->getParam('filtro');
         
-        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
+        $paginatorAdapter = new Zend_Paginator_Adapter_Array($final);
         $paginator = new Zend_Paginator($paginatorAdapter);
 
         $paginator->setCurrentPageNumber( $this->view->page );

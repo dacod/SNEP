@@ -66,11 +66,14 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "/snep/src/cont_names.php",
-                "display" => $this->view->translate("Incluir Contato"),
-                "css" => "include"),
-            array("url" => "/snep/src/import_contacts_csv.php",
-                "display" => $this->view->translate("Importar CSV"),
-                "css" => "includes")
+                                          "display" => $this->view->translate("Incluir Contato"),
+                                          "css" => "include"),
+                                    array("url" => "/snep/src/import_contacts_csv.php",
+                                          "display" => $this->view->translate("Importar CSV"),
+                                          "css" => "includes"),
+                                    array("url" => "/snep/src/export_contacts_csv.php",
+                                          "display" => $this->view->translate("Exportar CSV"),
+                                          "css" => "includes")
         );
     }
 }

@@ -11,8 +11,8 @@ echo $this->render('filter.phtml')
       <tr>
          <th class="action"> <?php echo $this->translate('Código') ?></th>
          <th> <?php echo $this->translate('Nome') ?></th>
-         <th> <?php echo $this->translate('Grupo') ?></th>
-         <th class="action" colspan="2"> <?php echo $this->translate('Ações') ?></th>
+         <th> <?php echo $this->translate('Número de Contatos') ?></th>
+         <th class="action" colspan="3"> <?php echo $this->translate('Ações') ?></th>
       </tr>
    </thead>
    <tbody>
@@ -24,6 +24,12 @@ echo $this->render('filter.phtml')
             <tr class="c<?php echo $c ?>">
                 <td class="numeric"> <b> <?php echo $val['id'] ?> </b> </td>
                 <td> <?php echo $val['name'] ?> </td>
+                <td> <?php echo $val['numContacts'] ?> </td>
+                <td class="action" style="width:120px;">
+                    <span class="excluir"  onclick="remove_item('/snep/src/contacts_group.php?acao=excluir_contatos&cod_grupo=<?php echo $val['id'] ?>', '<?php echo $this->translate('Deseja realmente excluir os contatos do Grupo?')?>')" >
+                        <?php echo $this->translate('Excluir Contatos')?>
+                    </span>
+                </td>
                 <td class="action">
                     <a class="alterar" href='/snep/src/contacts_group.php?acao=alterar&cod_grupo=<?php echo $val['id'] ?>'>
                         <?php echo $this->translate('Alterar')?>

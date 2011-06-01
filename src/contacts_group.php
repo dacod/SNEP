@@ -37,6 +37,8 @@ if ($acao == "cadastrar") {
     incluir();
 } elseif ($acao ==  "excluir_def") {
     excluir_def();
+} elseif ($acao == "excluir_contatos") {
+    excluir_contatos();
 } else {
     $titulo = $LANG['menu_register']." » ".$LANG['contacts_group']." » ".$LANG['include'];
     principal();
@@ -53,7 +55,6 @@ function principal() {
     }catch(Exception $e) {
         display_error($LANG['error'].$e->getMessage(),true);
     }
-
     $contacts = array();
     foreach($contacts_result as $key => $val) {
         $contacts[$val['id']] = $val['name'] ." (". $val['group'] .")";
@@ -207,6 +208,30 @@ function excluir() {
     $smarty->assign ('name',$id);
     $smarty->assign ('dt_grupos',$grupos);
     display_template("groups_delete.tpl",$smarty,$titulo);
+}
+
+function excluir_contatos() {
+
+    global $db, $LANG;
+    $codigo = isset($_POST['cod_grupo']) ? $_POST['cod_grupo'] : $_GET['cod_grupo'];
+    if (!$codigo) {
+        display_error($LANG['msg_notselect'],true);
+        exit;
+    }
+
+    $db->beginTransaction();
+
+    $sql = "DELETE FROM contacts_names WHERE contacts_names.group='".$codigo."'";
+    $db->exec($sql);
+
+    try {
+        $db->commit();
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/contactsgroups'>\n";
+    } catch (PDOException $e) {
+        $db->rollBack();
+        display_error($LANG['error'].$e->getMessage(),true);
+    }
+
 }
 
 /*------------------------------------------------------------------------------
