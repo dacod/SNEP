@@ -472,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `alertas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS ars_operadora (
-    `id` integer primary key auto_increment,
+    `id` integer primary key,
     `name` varchar(30) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

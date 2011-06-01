@@ -60,9 +60,7 @@ class CnlController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $this->view->pathweb =  $config->system->path->web;
         
-        $form = new Snep_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . "/default/cnl/index");
-        $this->view->formAction = $this->getFrontController()->getBaseUrl() . "/default/cnl/index";
+        
 
         $element = new Zend_Form_Element_File('cnl');
         $element->setLabel( $this->view->translate('Arquivo CNL') )
@@ -70,11 +68,13 @@ class CnlController extends Zend_Controller_Action {
         
         $element->addValidator('Extension', false, array('tar.bz2', 'bz2'));
         $element->removeDecorator('DtDdWrapper');
+        
+        $form = new Snep_Form();
+        $form->setAction($this->getFrontController()->getBaseUrl() . "/default/cnl/index");
+        $this->view->formAction = $this->getFrontController()->getBaseUrl() . "/default/cnl/index";
+
         $form->addElement($element, 'cnl');
-
-        $form->setButton();
-        $form->getElement("submit")->setLabel($this->view->translate("Enviar"));
-
+        //$form->getElement("submit")->setLabel($this->view->translate("Enviar"));
         $form->setAttrib('enctype', 'multipart/form-data');
 
         $this->view->valid = true;
@@ -110,26 +110,21 @@ class CnlController extends Zend_Controller_Action {
                     foreach ($carriers as $carrier => $idCarr) {
                         Snep_Cnl::addOperadora($idCarr, $carrier );
                     }
-
-                    /*
+                    
                     foreach ($cnl as $data => $id ) {
                         foreach ($id as $estado => $es) {
                             foreach ($es as $ddd => $d) {
                                 foreach ($d as $cidade => $pre) {
-                                   // $idCidade = Snep_Cnl::addCidade($cidade);
-                                   // Snep_Cnl::addDDD($ddd,$estado,$idCidade);
+                                    $idCidade = Snep_Cnl::addCidade($cidade);
+                                    Snep_Cnl::addDDD($ddd,$estado,$idCidade);
                                     foreach ($pre as $prefixo => $op) {
-                                     //   Snep_Cnl::addPrefixo($prefixo,$idCidade,$op);
+                                        Snep_Cnl::addPrefixo($prefixo,$idCidade,$op);
                                     }
                                 }
                             }
                         }
                     }
-                     * 
-                     */
-
-                    exit;
-
+    
                     $this->_redirect("/default/cnl/");
                 }
             }
