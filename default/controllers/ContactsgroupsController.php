@@ -39,7 +39,6 @@ class ContactsgroupsController extends Zend_Controller_Action {
         $stmt = $db->query($select);
         $resultado = $stmt->fetchAll();
 
-        echo "<pre>";
         $final = array();
         foreach($resultado as $num => $grupo) {
 
