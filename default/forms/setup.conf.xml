@@ -192,7 +192,7 @@
                             <validator>StringLength</validator>
                             <options>
                                 <min>1</min>
-                                <max>100</max>
+                                <max>200</max>
                             </options>
                         </strlen>
                     </validators>
@@ -218,7 +218,7 @@
                             <validator>StringLength</validator>
                             <options>
                                 <min>1</min>
-                                <max>100</max>
+                                <max>200</max>
                             </options>
                         </strlen>
                     </validators>
