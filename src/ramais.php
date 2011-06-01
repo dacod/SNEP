@@ -85,7 +85,6 @@ if ($khompInfo->hasWorkingBoards()) {
     foreach ($khompInfo->boardInfo() as $board) {
         if (preg_match("/KFXS/", $board['model'])) {
             $channels = range(0, $board['channels']);
-
             $khomp_boards_list[$board['id']] = $channels;
         }
     }
@@ -199,6 +198,10 @@ function principal() {
 
 function cadastrar() {
     global $LANG, $type, $password, $manual, $db, $trunk, $name, $group, $vinc, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal, $nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
+
+    if($name == "") {
+        display_error("É necessário definir o ramal a ser criado." , true);
+    }
 
     $context = "default";
 
