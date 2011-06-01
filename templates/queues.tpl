@@ -28,13 +28,13 @@
     </tr>
     <tr>
        <td class="formlabel" style="width: 50%;">{$LANG.q_name}:</td>
-       <td class="subtable" >
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
          <input name="name" id="name" type="text" size="20" maxlength="20"   value="{$dt_queues.name}" {if $ACAO == "grava_alterar"} readonly="true"  class="campos_disable" {else}  class="campos" {/if} />
        </td>
     </tr>
     <tr>
        <td class="formlabel">{$LANG.q_musiconhold}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
         <select name="musiconhold" class="campos">
              {html_options selected=$dt_queues.musiconhold options=$OPCOES_SECAO}
           </select>
@@ -42,7 +42,7 @@
     </tr>
     <tr>
        <td class="formlabel">{$LANG.q_announce}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="announce" id="announce" class="campos">
              {html_options selected=$dt_queues.announce options=$OPCOES_SONS}
           </select>
@@ -55,20 +55,20 @@
     </tr>   
     <tr>
        <td class="formlabel">{$LANG.q_context}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input type="text" name="context" class="campos" value="{$dt_queues.context}" />
        </td>
     </tr>
     <tr>
        <td class="formlabel">{$LANG.q_timeout}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="timeout" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.timeout|default:0}" />
           {$LANG.time_secs}
        </td>
     </tr>
     <tr>
        <td class="formlabel">{$LANG.q_queue_youarenext}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="queue_youarenext" class="campos">
              {html_options selected=$dt_queues.queue_youarenext options=$OPCOES_SONS}
           </select>      
@@ -76,7 +76,7 @@
     </tr>    
     <tr>
        <td class="formlabel">{$LANG.q_queue_thereare}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="queue_thereare" class="campos">
              {html_options selected=$dt_queues.queue_thereare options=$OPCOES_SONS}
           </select>
@@ -84,7 +84,7 @@
     </tr>    
     <tr>
        <td class="formlabel">{$LANG.q_queue_callswaiting}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="queue_callswaiting" class="campos">
              {html_options selected=$dt_queues.queue_callswaiting options=$OPCOES_SONS}
           </select>
@@ -156,7 +156,7 @@
     -->
     <tr>
        <td class="formlabel">{$LANG.q_queue_thankyou}:</td>
-       <td class="subtable">
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="queue_thankyou" class="campos">
              {html_options selected=$dt_queues.queue_thankyou options=$OPCOES_SONS}
           </select>
@@ -164,41 +164,41 @@
     </tr>     
     <tr>
        <td class="formlabel">{$LANG.q_announce_frequency}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="announce_frequency" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.announce_frequency|default:0}" />
           {$LANG.time_secs}
        </td>
     </tr>        
     <tr>
        <td class="formlabel">{$LANG.q_retry}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="retry" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.retry|default:0}" /> 
           {$LANG.time_secs}
        </td>
     </tr>          
     <tr>
        <td class="formlabel">{$LANG.q_wrapuptime}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="wrapuptime" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.wrapuptime|default:0}" /> 
           {$LANG.time_secs}
        </td>
     </tr>            
     <tr>
        <td class="formlabel">{$LANG.q_maxlen}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="maxlen" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.maxlen|default:0}"  />
        </td>
     </tr>                
     <tr>
        <td class="formlabel">{$LANG.q_servicelevel}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="servicelevel" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.servicelevel|default:0}"  /> 
           {$LANG.time_secs}
        </td>
     </tr>                
     <tr>
        <td class="formlabel">{$LANG.q_strategy}:</td>
-       <td class="subtable" >   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <select name="strategy" class="campos">
              {html_options selected=$dt_queues.strategy options=$OPCOES_STRATEGY}
           </select>
@@ -206,33 +206,33 @@
     </tr>      
     <tr>
        <td class="formlabel">{$LANG.q_joinempty}:</td>
-       <td class="subtable" >   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           {html_radios name="joinempty" selected=$dt_queues.joinempty options=$OPCOES_JOINEMPTY}
        </td>
     </tr>     
     <tr>
        <td class="formlabel">{$LANG.q_leavewhenempty}:</td>
-       <td class="subtable">  
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           {html_radios name="leavewhenempty" selected=$dt_queues.leavewhenempty options=$OPCOES_TRUEFALSE}
        </td>
     </tr>      
         
     <tr>
        <td class="formlabel">{$LANG.q_reportholdtime}:</td>
-       <td class="subtable" >   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           {html_radios name="reportholdtime" selected=$dt_queues.reportholdtime options=$OPCOES_TRUEFALSE}
        </td>
     </tr>
     <tr>
        <td class="formlabel">{$LANG.q_memberdelay}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="memberdelay" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.memberdelay|default:0}"  /> 
           {$LANG.time_secs}
        </td>
     </tr>      
     <tr>
        <td class="formlabel">{$LANG.q_weight}:</td>
-       <td class="subtable">   
+       <td class="subtable" style="border-right:1px solid #A4A7AB;" >
           <input name="weight" type="text" size="3" maxlength="3"  class="campos" value="{$dt_queues.weight|default:0}"  />
        </td>
     </tr>

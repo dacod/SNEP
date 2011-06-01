@@ -56,8 +56,12 @@
       unset($files[$i]);
       continue ;
    }
-   $sounds[$value] = $value;
+
+   $name = substr($value, 0, strpos($value, '.'));
+
+   $sounds[$name] = $value;
  }
+
  
  // Variaveis de ambiente do form
  $tipos_holdtime = array("yes"  => $LANG['yes'],
@@ -135,7 +139,7 @@ function cadastrar()  {
    $eventwhencalled = True ;
    $monitor_type = False ;
    $monitor_format = "";
-   $timeoutrestart = "";   
+   $timeoutrestart = "";
    
    //Desabilitados
    $announce_round_seconds = 0;
@@ -170,18 +174,7 @@ function cadastrar()  {
                                                'destino' => 'tela',
                                                'ativo'   => $_POST['a_visual_ativo'] ) );
    }
-/*
-   if($_POST['a_sms_ativo'] != 0) {
-       Snep_Alertas::setAlerta($name,   array('tipo'    => 'sms',
-                                              'tme'     => $_POST['a_sms_tme'],
-                                              'sla'     => $_POST['a_sms_sla'],
-                                              'item'    => $name,
-                                              'alerta'  => 'alerta',
-                                              'destino' => $_POST['a_sms_celular'],
-                                              'ativo'   => $_POST['a_sms_ativo'] ) );
-   }
-*/
-   $announce = substr($announce, 0, strpos($announce, "."));
+
    $sql  = "INSERT INTO queues " ;
    $sql .= " VALUES ('$name', '$musiconhold', '$announce', '$context', $timeout, '$monitor_type', '$monitor_format', '$queue_youarenext', '$queue_thereare', '$queue_callswaiting', '$queue_holdtime', '$queue_minutes', '$queue_seconds', '$queue_lessthan', '$queue_thankyou', '$queue_reporthold', $announce_frequency, $announce_round_seconds, '$announce_holdtime', $retry, $wrapuptime, $maxlen, $servicelevel, '$strategy', '$joinempty', '$leavewhenempty', '$eventmemberstatus', '$eventwhencalled', '$reportholdtime', $memberdelay, $weight, '$timeoutrestart', '$periodic_announce', $periodic_announce_frequency,'0','0','$alert_mail')" ;
    
@@ -277,17 +270,7 @@ function grava_alterar()  {
                                                'destino' => 'tela',
                                                'ativo'   => $_POST['a_visual_ativo'] ) );
    }
-/*
-   if($_POST['a_sms_ativo'] != 0) {
-       Snep_Alertas::setAlerta($name,   array('tipo'    => 'sms',
-                                              'tme'     => $_POST['a_sms_tme'],
-                                              'sla'     => $_POST['a_sms_sla'],
-                                              'item'    => $name,
-                                              'alerta'  => 'alerta',
-                                              'destino' => $_POST['a_sms_celular'],
-                                              'ativo'   => $_POST['a_sms_ativo'] ) );
-   }
-*/
+
    // Campos desabilitados
    $announce_round_seconds = 0;
    $periodic_announce_frequency = 0 ;
