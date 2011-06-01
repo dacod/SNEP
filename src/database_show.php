@@ -53,8 +53,7 @@ $lista = array();
             }
             
             $return = null;
-           
-                
+                           
                 $return = array();
                
                 if (preg_match("/(\d+)/" , $info, $matches)){
@@ -171,6 +170,26 @@ $lista = array();
 			   array_push($trunk_all, $trunk_val);		
     	}
     }
+    
+    // IAX2 TRUNK
+    if (!$iax_trunk = ast_status("iax2 show peers","",True )) {
+       display_error($LANG['msg_nosocket'],true) ;
+       exit;
+    }
+
+    $trunk_val = '';
+    $iax_trunks = explode("\n", $iax_trunk);
+    $iax_all_trunks = array();
+
+    foreach($iax_trunks as $t_key => $t_val) {
+        if( ! preg_match("/\[+.*/", $t_val) && $t_key > 1) {
+            $t_val = preg_replace("'\s+'", ' ', $t_val);
+            $iax_all_trunks[] = explode(" ", $t_val );
+        }
+    }
+    echo "<pre>";
+    print_r($iax_all_trunks);
+
     // SIP Trunks from Peer list
     foreach ($peers as $p_key => $p_val) {
     	if ($p_key > 1) {
@@ -201,6 +220,7 @@ $lista = array();
         	}
      	}
      }
+    
       
 	$smarty->assign ('TRONCOS', $trunk_ret) ;
 

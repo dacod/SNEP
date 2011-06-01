@@ -106,6 +106,23 @@
               </tr>
            {/foreach}
         </table>
+        <!-- Tabela de Troncos IAX-->
+        <table>
+           <thead>
+              <th colspan='5'>
+                 Troncos IAX
+              </th>
+              <tr>
+	        <td>Nome</td>
+              	<td>{$LANG.ip}</td>
+              	<td>{$LANG.status}</td>
+              	<td>{$LANG.latencia}</td>
+              </tr>
+           </thead>
+              <tr>
+                <td class="esq" style="vertical-align: top;"> <br/></td>
+              </tr>
+        </table>
      </td>
    </tr>   
 </table>
