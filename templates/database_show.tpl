@@ -106,6 +106,7 @@
               </tr>
            {/foreach}
         </table>
+<br/>
         <!-- Tabela de Troncos IAX-->
         <table>
            <thead>
@@ -119,9 +120,13 @@
               	<td>{$LANG.latencia}</td>
               </tr>
            </thead>
+                 {foreach name=IAX2 from=$IAX2 key=iax2_key item=iax2_val}
               <tr>
-                <td class="esq" style="vertical-align: top;"> <br/></td>
+              	{foreach name=PEERS from=$iax2_val key=peer_key item=peer_val }
+                 	<td class="esq" style="vertical-align: top;">{$peer_val}<br/></td>
+                {/foreach}
               </tr>
+           {/foreach}
         </table>
      </td>
    </tr>   
