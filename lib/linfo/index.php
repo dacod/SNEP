@@ -107,14 +107,6 @@ runExtensions($info, $settings);
 $info['contains'] = array_key_exists('contains', $info) ? (array) $info['contains'] : array();
 
 
-// From the command prompt? Ncurses motha fucka!
-if (defined('LINFO_CLI')) {
-	$out = new out_ncurses();
-	$out->work($info, $settings, $getter);
-}
-
-// Coming from a web server
-else {
 	// Decide what web format to output in
 	switch (array_key_exists('out', $_GET) ? $_GET['out'] : 'html') {
 
@@ -151,7 +143,7 @@ else {
 				exit('Cannot generate XML. Install either php\'s SimpleXML or XMLWriter extension');
 		break;
 	}
-}
+
 // "This is where it ends, Commander"
 
 
