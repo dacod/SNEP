@@ -106,7 +106,7 @@
               </tr>
            {/foreach}
         </table>
-<br/>
+        <br/>
         <!-- Tabela de Troncos IAX-->
         <table>
            <thead>
