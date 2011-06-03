@@ -1,3 +1,17 @@
+1.3.5:
+- 0000176: [Feature Request] Adicionar monitoramento de status de troncos IAX (lucasseid) - resolved.
+- 0000175: [Bug] Problemas na compactação de audio no relatório de chamadas do período. (lucasseid) - resolved.
+- 0000117: [Feature Request] Status Links Khomp - Versão 3.0 channel Khomp (rafaelbozzetti) - resolved.
+- 0000166: [Bug] Rotina de atualização da CNL (rafaelbozzetti) - closed.
+- 0000159: [Bug] Interface - Cadastros >> Contatos >> Importar CSV rotina não respeita limites da tela (rafaelbozzetti) - closed.
+- 0000169: [Bug] Cadastro de Tronco SIP não grava campo "Dominio de Origem" (rafaelbozzetti) - closed.
+- 0000170: [Bug] Cadastro de Filas - nao mostra configurações salvas (rafaelbozzetti) - closed.
+- 0000167: [Bug] Inclusão de ramal/usuário versão 1.3.4 (rafaelbozzetti) - closed.
+- 0000161: [Bug] Tamanho do campo Range de agentes pequeno (rafaelbozzetti) - closed.
+- 0000158: [Bug] Interface - cadastros >> grupos de ramais - falta um pedaço (rafaelbozzetti) - closed.
+- 0000100: [Feature Request] Exclusão de Contatos em Massa (rafaelbozzetti) - closed.
+- 0000101: [Feature Request] Cadastro de Contatos - Exportar para CSV (rafaelbozzetti) - closed.
+
 1.3.4:
 - Correção menor de bug em centro de custos
 - Correção na identificação de ramais do tipo Manual

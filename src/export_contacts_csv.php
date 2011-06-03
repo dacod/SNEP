@@ -83,9 +83,11 @@ class ExportContactsController {
         if(count($contacts) < 1 ) {
              display_error("Nenhum registro encontrado.", true);
         }else{
-
+            $dateNow = new Zend_Date();
+            $fileName = 'contacts_csv_' . $dateNow->toString(" dd-MM-yyyy_hh'h'mm'm' ") . '.csv';
             $csv_output = Snep_Csv::generate($contacts, true);
-            header("Content-Type: application/csv") ;
+             header('Content-type: application/octet-stream');
+             header('Content-Disposition: attachment; filename="' . $fileName . '"');
             echo $csv_output;
 
         }
