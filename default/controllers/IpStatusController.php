@@ -187,6 +187,57 @@ class IpStatusController extends Zend_Controller_Action {
 
         $this->view->troncos = $trunk_ret;
 
+        // IAX2 TRUNK
+        if (!$iax_trunk =$astinfo->status_asterisk("iax2 show peers", "", True)) {
+           $this->view->iax2 = NULL;
+        }
+        else{
+        $trunk_val = '';
+        $iax_trunks = explode("\n", $iax_trunk);
+        $iax_all_trunks = array();
+
+        foreach ($iax_trunks as $t_key => $t_val) {
+            if (!preg_match("/\[+.*/", $t_val) && $t_key > 1) {
+                $t_val = preg_replace("'\s+'", ' ', $t_val);
+                $iax_all_trunks[] = explode(")", $t_val);
+            }
+        }
+
+        $iax2TrunksFormat = '';
+        foreach ($iax_all_trunks as $value) {
+
+            $tempIax1 = explode(' ', $value[0]);
+            $nameIax = trim($tempIax1[0]);
+
+            if (!empty($nameIax)) {
+                $ipIax = $tempIax1[1];
+                $tempIax2 = explode(' ', $value[1]);
+                $stateIax = trim($tempIax2[3]);
+                $latIax = '';
+                if ($stateIax == "UNREACHABLE") {
+                    $stateIax = "Não Registrado";
+                } elseif ($stateIax == "Unmonitored") {
+                    $stateIax = "N/A";
+                } elseif ($stateIax == 'OK') {
+                    $stateIax = "Registrado";
+                    $latIaxTemp = explode('(', $tempIax2[4]);
+                    $latIax = trim($latIaxTemp[1]);
+                    if ($latIax != '') {
+                        $latIax .= ' ms';
+                    } else {
+                        $latIax = '';
+                    }
+                }
+                $iax2TrunksFormat[] = array('name' => $nameIax,
+                    'ip' => $ipIax,
+                    'status' => $stateIax,
+                    'lat' => $latIax);
+            }
+        }
+
+        $this->view->iax2 =  $iax2TrunksFormat;
+        }
+
         /* -------------------------------------------------------------------------------------- */
 
         $codecs = $astinfo->status_asterisk("g729 show licenses", "", True);
