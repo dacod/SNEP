@@ -2,7 +2,7 @@
 Alias /snep "/var/www/snep"
 <Directory "/var/www/snep">
           Options Indexes FollowSymLinks
-          AllowOverride None
+          AllowOverride All
           Order deny,allow
           Allow from 127.0.0.0/255.0.0.0 192.168.0.0/255.255.0.0 201.47.74.147/255.255.255.255
           Deny from all

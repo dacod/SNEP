@@ -1,0 +1,4 @@
+<Files ~ "\.conf$">
+Order Deny,Allow
+Deny from all
+</Files>
