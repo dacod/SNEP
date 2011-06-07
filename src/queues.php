@@ -44,24 +44,23 @@
     }
  }
  // Sons que estao no diretorio de sons
- $sounds=array(""=>"");
+ $sounds=array("" => "");
  $files = scandir( SNEP_PATH_SOUNDS );
 
- foreach($files as $i => $value) {
-   if (substr($value, 0, 1) == '.') {
-      unset($files[$i]);
-      continue ;
-   }
-   if (is_dir(SNEP_PATH_SOUNDS.$value)) {
-      unset($files[$i]);
-      continue ;
-   }
+foreach($files as $i => $value) {
+    if (substr($value, 0, 1) == '.') {
+        unset($files[$i]);
+        continue ;
+    }
+    if (is_dir(SNEP_PATH_SOUNDS.$value)) {
+        unset($files[$i]);
+        continue ;
+    }
 
    $name = substr($value, 0, strpos($value, '.'));
 
    $sounds[$name] = $value;
  }
-
  
  // Variaveis de ambiente do form
  $tipos_holdtime = array("yes"  => $LANG['yes'],
@@ -133,8 +132,10 @@ function principal()  {
  * Funcao CADASTRAR - Inclui um novo registro
  *-----------------------------------------------------------------------------*/
 function cadastrar()  {
-   global $LANG, $db, $name, $musiconhold, $announce, $context, $timeout, $monitor_type, $monitor_format, $queue_youarenext, $queue_thereare, $queue_callswaiting, $queue_holdtime, $queue_minutes, $queue_seconds, $queue_lessthan, $queue_thankyou, $queue_reporthold, $announce_frequency, $announce_round_seconds, $announce_holdtime, $retry, $wrapuptime, $maxlen, $servicelevel, $strategy, $joinempty, $leavewhenempty, $eventmemberstatus, $eventwhencalled, $reportholdtime, $memberdelay, $weight, $periodic_announce, $periodic_announce_frequency,$max_call_queue, $max_time_call,$alert_mail;
+   global $LANG, $db, $musiconhold, $announce, $context, $timeout, $monitor_type, $monitor_format, $queue_youarenext, $queue_thereare, $queue_callswaiting, $queue_holdtime, $queue_minutes, $queue_seconds, $queue_lessthan, $queue_thankyou, $queue_reporthold, $announce_frequency, $announce_round_seconds, $announce_holdtime, $retry, $wrapuptime, $maxlen, $servicelevel, $strategy, $joinempty, $leavewhenempty, $eventmemberstatus, $eventwhencalled, $reportholdtime, $memberdelay, $weight, $periodic_announce, $periodic_announce_frequency,$max_call_queue, $max_time_call,$alert_mail;
 
+   $name = $_POST['name'];
+   
    // Campos Default
    $eventwhencalled = True ;
    $monitor_type = False ;
@@ -177,7 +178,7 @@ function cadastrar()  {
 
    $sql  = "INSERT INTO queues " ;
    $sql .= " VALUES ('$name', '$musiconhold', '$announce', '$context', $timeout, '$monitor_type', '$monitor_format', '$queue_youarenext', '$queue_thereare', '$queue_callswaiting', '$queue_holdtime', '$queue_minutes', '$queue_seconds', '$queue_lessthan', '$queue_thankyou', '$queue_reporthold', $announce_frequency, $announce_round_seconds, '$announce_holdtime', $retry, $wrapuptime, $maxlen, $servicelevel, '$strategy', '$joinempty', '$leavewhenempty', '$eventmemberstatus', '$eventwhencalled', '$reportholdtime', $memberdelay, $weight, '$timeoutrestart', '$periodic_announce', $periodic_announce_frequency,'0','0','$alert_mail')" ;
-   
+
    try {
       $db->beginTransaction() ;
       $db->exec($sql) ;
