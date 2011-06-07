@@ -137,6 +137,8 @@ function cadastrar() {
     global $nat, $peer_type, $snep_cod1, $dtmf_dial_number, $snep_cod2, $snep_cod3, $snep_cod4, $snep_cod5, $snep_dtmf, $snep_username, $reverseAuth, $qualify, $qualify_time, $trunk_regex;
     global $domain, $calllimit, $port, $insecure, $istrunk;
 
+    $fromdomain = $_POST['fromdomain'];
+    
     if($trunktype == "SNEPSIP" || $trunktype == "SNEPIAX2") {
         $cod1 = $snep_cod1;
         $cod2 = $snep_cod2;
@@ -221,8 +223,8 @@ function cadastrar() {
             $sql_values_default = ",'$fromdomain'";
         }
         if($fromuser != "") {
-            $sql_fields_default = ",fromuser";
-            $sql_values_default = ",'$fromuser'";
+            $sql_fields_default .= ",fromuser";
+            $sql_values_default .= ",'$fromuser'";
         }
 
         // Monta lista campos Default
@@ -391,8 +393,6 @@ function alterar() {
         $smarty->assign('qualify', 'e');
     }
     $trunk['qualify'] = $peer['qualify'];
-
-    $trunk['fromdomain'] = $peer['fromdomain'];
 
     $trunk['peer_type'] = $peer['type'];
     
