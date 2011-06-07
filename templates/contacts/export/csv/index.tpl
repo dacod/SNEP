@@ -43,7 +43,7 @@
         </tr>
 
         <tr>
-            <td colspan="2" class="subtable" align="center" height="32px" valign="top">
+            <td colspan="2" class="subtable" align="center" height="32px" valign="top" style="border-top: 1px solid #d2d2d2;padding-top: 8px;">
                 <input class="new_button" type="submit" id="enviar" value="Exportar">
                 <input class="new_button" type="button" id="voltar" value="Cancelar" onClick="location.href='../index.php/contacts/'" />
             </td>
