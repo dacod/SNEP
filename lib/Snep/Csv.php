@@ -45,16 +45,24 @@ class Snep_Csv {
         $values = null;
         foreach($data as $k => $registers) {
 
-            if(is_null($indexes)) {
+            if(is_array($header)) {
+                $indexes = $header;
+            }else{
                 $indexes = array_keys($registers);
             }
+
             $values .= preg_replace("/(\r|\n)+/", "", implode(",", $registers) ) ;
             $values .= "\n";
         }
 
         $headers = array();
         foreach($indexes as $i => $v) {
-            $headers[$v] = $v;
+
+            if( is_array( $header )) {
+                $headers[$v] = $v;
+            }else{
+                $headers[$i] = $i;
+            }
         }
 
         if($header) {
