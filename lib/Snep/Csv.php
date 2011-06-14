@@ -1,6 +1,8 @@
 <?php
 /**
  *  This file is part of SNEP.
+ *  Para território Brasileiro leia LICENCA_BR.txt
+ *  All other countries read the following disclaimer
  *
  *  SNEP is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as
@@ -33,30 +35,34 @@ class Snep_Csv {
 
     /**
      *
-     * @param array $data
-     * @param bool $header
+     * @param <array> $data
+     * @param <bool> $header
      * @return string 
      */
-    public function generate($data, $header = true, $title = null) {
+    public function generate($data, $header = true) {
 
-        $indexes = array();
-        $values = "";
+        $indexes = null;
+        $values = null;
         foreach($data as $k => $registers) {
 
-            if(is_null($indexes)) {
+            if(is_array($header)) {
+                $indexes = $header;
+            }else{
                 $indexes = array_keys($registers);
             }
+
             $values .= preg_replace("/(\r|\n)+/", "", implode(",", $registers) ) ;
             $values .= "\n";
         }
 
         $headers = array();
         foreach($indexes as $i => $v) {
-             if ($title){
-                 $headers[$v] = $title[$v];
-             }else{
-                 $headers[$v] = $v;
-             }
+
+            if( is_array( $header )) {
+                $headers[$v] = $v;
+            }else{
+                $headers[$i] = $i;
+            }
         }
 
         if($header) {
@@ -67,4 +73,6 @@ class Snep_Csv {
         return $output;
     }
 
+
 }
+?>
