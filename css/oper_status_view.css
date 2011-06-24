@@ -1,0 +1,12 @@
+#titulo {
+    color: #808080;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+#totais {
+    background-color:  #FFE400;
+    font-size: 14px;
+    padding: 4px;
+}
