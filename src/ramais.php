@@ -202,7 +202,15 @@ function cadastrar() {
     if($name == "") {
         display_error("É necessário definir o ramal a ser criado." , true);
     }
-
+    $select = $db->select()
+                 ->from('peers', array('name'))
+                 ->where("name = ?", $name);
+    $stmt = $db->query($select);
+    $result =  $stmt->fetchAll();
+    if(count($result) > 0) {
+        display_error($LANG['error'] . 'Ramal Existente', true);
+    }
+    
     $context = "default";
 
     // Campos com dados identicos ao outros
