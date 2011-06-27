@@ -65,7 +65,7 @@ if (!isset($grupos) || count($grupos) == 0) {
         display_error($LANG['error'] . $e->getMessage(), true);
     }
     unset($val);
-    $grupos = array("" => $LANG['undef']);
+    $grupos = array('null' => $LANG['undef']);
     foreach ($row_grp as $val) {
         $grupos[$val['cod_grupo']] = $val['nome'];
     }
@@ -437,6 +437,8 @@ function alterar() {
             }
         }
     }
+
+    $row['pickupgroup'] = ( is_null($row['pickupgroup']) ? 'null' : $row['pickupgroup'] );
     $row['time'] = isset($row['time_total']) ? "s" : "n";
     $row['time_total'] = round($row['time_total'] / 60);
 
@@ -455,6 +457,7 @@ function grava_alterar() {
     global $LANG, $manual, $db, $type, $id, $trunk, $name, $password, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $email, $call_limit, $calllimit, $usa_vc, $old_name, $pickupgroup, $nat, $canal, $old_vinculo, $vinculo, $authenticate, $old_authenticate, $usa_auth, $filas_selec, $group, $time_total, $time_chargeby, $tempo, $khomp_boards, $khomp_links, $khomp_channels;
 
     $context = "default";
+    $pickupgroup = ( $pickupgroup == "null" ? 'NULL' : $pickupgroup ) ;
 
     // Campos com dados identicos ao outros
     $fromuser = $name;
@@ -463,7 +466,7 @@ function grava_alterar() {
     $fullcontact = "";
     $call_limit = $calllimit;
     $callgroup = $pickupgroup;
-    $pickupgroup = $pickupgroup == "" ? 'null' : "'$pickupgroup'";
+    
     $peer_type = 'R';
 
     if ($tempo == "n") {
@@ -546,6 +549,7 @@ function grava_alterar() {
         $db->rollBack();
         display_error($LANG['error'] . $ex->getMessage(), true);
     }
+    
     $pag = ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
     echo "<meta http-equiv='refresh' content='0;url=../index.php/extensions/'>\n";
 }
