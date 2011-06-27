@@ -56,11 +56,9 @@ foreach($files as $i => $value) {
         unset($files[$i]);
         continue ;
     }
-
-   $name = substr($value, 0, strpos($value, '.'));
-
-   $sounds[$name] = $value;
- }
+    $name = substr($value, 0, strpos($value, '.'));
+    $sounds[$name] = $value;
+}
  
  // Variaveis de ambiente do form
  $tipos_holdtime = array("yes"  => $LANG['yes'],
@@ -92,7 +90,9 @@ foreach($files as $i => $value) {
     cadastrar();
 
  } elseif ($acao ==  "alterar") {
-    $titulo = $LANG['menu_register'] ." » ". $LANG['menu_queues'] ." » ". $LANG['change'];
+    $titulo = $LANG['menu_register'] ." » ". 
+              $LANG['menu_queues'] ." » ".
+              $LANG['change'];
     alterar() ;
 
  } elseif ($acao ==  "grava_alterar") {
@@ -102,7 +102,9 @@ foreach($files as $i => $value) {
     excluir() ;
 
  } else {
-   $titulo = $LANG['menu_register'] ." » ". $LANG['menu_queues'] ." » ". $LANG['include'];
+   $titulo = $LANG['menu_register'] ." » ". 
+             $LANG['menu_queues'] ." » ".
+             $LANG['include'];
    principal() ;
    
  }
@@ -113,15 +115,13 @@ function principal()  {
 
    global $smarty,$titulo, $SETUP ;
 
-   /* $alert_sms['ativo'] = 0; */
    $alert_visual['ativo'] = 0;
    $alert_sonoro['ativo'] = 0;
    $alert_email['ativo'] = 0;
    $dt_queues['max_time_call'] = $SETUP['ambiente']['max_time_call'];
    $dt_queues['max_call_queue'] = $SETUP['ambiente']['max_call_queue'];
 
-   $smarty->assign('ACAO', "cadastrar");
-   /*$smarty->assign('alert_sms',    $alert_sms ); */
+   $smarty->assign('ACAO', "cadastrar");   
    $smarty->assign('alert_visual', $alert_visual );
    $smarty->assign('alert_sonoro', $alert_sonoro );
    $smarty->assign('alert_email',  $alert_email );
@@ -223,10 +223,25 @@ function alterar()  {
 
    }
 
+   if( strpos( $row['announce'], '.') > 1 ) {
+       $row['announce'] = substr($row['announce'], 0 , strpos($row['announce'], '.') );
+   }
+   if( strpos( $row['queue_youarenext'], '.') > 1 ) {
+       $row['queue_youarenext'] = substr($row['queue_youarenext'], 0 , strpos($row['queue_youarenext'], '.') );
+   }
+   if( strpos( $row['queue_thereare'], '.') > 1 ) {
+       $row['queue_thereare'] = substr($row['queue_thereare'], 0 , strpos($row['queue_thereare'], '.') );
+   }
+   if( strpos( $row['queue_callswaiting'], '.') > 1 ) {
+       $row['queue_callswaiting'] = substr($row['queue_callswaiting'], 0 , strpos($row['queue_callswaiting'], '.') );
+   }
+   if( strpos( $row['queue_thankyou'], '.') > 1 ) {
+       $row['queue_thankyou'] = substr($row['queue_thankyou'], 0 , strpos($row['queue_thankyou'], '.') );
+   }
+
    $smarty->assign('alert_sonoro', ( isset( $arr_Alertas['sonoro']) ? $arr_Alertas['sonoro'] : '' ) );
    $smarty->assign('alert_visual', ( isset( $arr_Alertas['visual']) ? $arr_Alertas['sonoro'] : '' ) );
    $smarty->assign('alert_email',  ( isset( $arr_Alertas['email']) ? $arr_Alertas['email'] : '' ) );
-   /*$smarty->assign('alert_sms',    ( isset( $arr_Alertas['sms']) ? $arr_Alertas['sms'] : '' ) );*/
    $smarty->assign('ACAO',"grava_alterar") ;
    $smarty->assign('dt_queues',$row);
    display_template("queues.tpl",$smarty,$titulo);
@@ -239,44 +254,47 @@ function grava_alterar()  {
     
    global $LANG, $db, $name, $musiconhold, $announce, $context, $timeout, $monitor_type, $monitor_format, $queue_youarenext, $queue_thereare, $queue_callswaiting, $queue_holdtime, $queue_minutes, $queue_seconds, $queue_lessthan, $queue_thankyou, $queue_reporthold, $announce_frequency, $announce_round_seconds, $announce_holdtime, $retry, $wrapuptime, $maxlen, $servicelevel, $strategy, $joinempty, $leavewhenempty, $eventmemberstatus, $eventwhencalled, $reportholdtime, $memberdelay, $weight, $periodic_announce, $periodic_announce_frequency,$max_call_queue, $max_time_call, $alert_mail;
 
+   $name = $_POST['name'];
+   
    // Limpa alertas desta fila e os recria.
    Snep_Alertas::resetAlertas($name);
 
    if($_POST['a_email_ativo'] != 0) {
        Snep_Alertas::setAlerta($name, array('tipo'    => 'email',
-                                              'tme'     => $_POST['a_email_tme'],
-                                              'sla'     => $_POST['a_email_sla'],
-                                              'item'    => $name,
-                                              'alerta'  => 'alerta',
-                                              'destino' => $_POST['a_email_emails'],
-                                              'ativo'   => $_POST['a_email_ativo'] ) );
+                                            'tme'     => $_POST['a_email_tme'],
+                                            'sla'     => $_POST['a_email_sla'],
+                                            'item'    => $name,
+                                            'alerta'  => 'alerta',
+                                            'destino' => $_POST['a_email_emails'],
+                                            'ativo'   => $_POST['a_email_ativo'] ) );
    }
 
    if($_POST['a_sonoro_ativo'] != 0) {
        Snep_Alertas::setAlerta($name, array('tipo'    => 'sonoro',
-                                               'tme'     => $_POST['a_sonoro_tme'],
-                                               'sla'     => $_POST['a_sonoro_sla'],
-                                               'item'    => $name,
-                                               'alerta'  => 'alerta',
-                                               'destino' => 'tela',
-                                               'ativo'   => $_POST['a_sonoro_ativo'] ) );
+                                            'tme'     => $_POST['a_sonoro_tme'],
+                                            'sla'     => $_POST['a_sonoro_sla'],
+                                            'item'    => $name,
+                                            'alerta'  => 'alerta',
+                                            'destino' => 'tela',
+                                            'ativo'   => $_POST['a_sonoro_ativo'] ) );
    }
 
    if($_POST['a_visual_ativo'] != 0) {
        Snep_Alertas::setAlerta($name, array('tipo'    => 'visual',
-                                               'tme'     => $_POST['a_visual_tme'],
-                                               'sla'     => $_POST['a_visual_sla'],
-                                               'item'    => $name,
-                                               'alerta'  => 'alerta',
-                                               'destino' => 'tela',
-                                               'ativo'   => $_POST['a_visual_ativo'] ) );
+                                            'tme'     => $_POST['a_visual_tme'],
+                                            'sla'     => $_POST['a_visual_sla'],
+                                            'item'    => $name,
+                                            'alerta'  => 'alerta',
+                                            'destino' => 'tela',
+                                            'ativo'   => $_POST['a_visual_ativo'] ) );
    }
 
    // Campos desabilitados
    $announce_round_seconds = 0;
    $periodic_announce_frequency = 0 ;
-
-   $announce = substr($announce, 0, strpos($announce, "."));
+   if( strpos( $row['announce'], '.') > 1 ) {
+        $announce = substr($announce, 0, strpos($announce, "."));
+   }
     
    $sql =  " UPDATE queues SET " ;
    $sql.=  " musiconhold='$musiconhold', announce='$announce', context='$context', ";
@@ -328,16 +346,16 @@ function excluir()  {
    Snep_Alertas::resetAlertas($name);
 
    try {
-      $sql = "DELETE FROM queues WHERE name='".mysql_escape_string($name)."'";
+        $sql = "DELETE FROM queues WHERE name='".mysql_escape_string($name)."'";
 
-      $db->beginTransaction() ;
-      $db->exec($sql) ;
-      $db->commit();
-      // Executa comando do Asterisk para recarregar as Filas
-      ast_status("module reload app_queue.so", "" ) ;
-     // display_error($LANG['msg_excluded'],true) ;
-     echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
- } catch (PDOException $e) {
-    display_error($LANG['error'].$e->getMessage(),true);
- }  
+        $db->beginTransaction() ;
+        $db->exec($sql) ;
+        $db->commit();
+        // Executa comando do Asterisk para recarregar as Filas
+        ast_status("module reload app_queue.so", "" ) ;
+        // display_error($LANG['msg_excluded'],true) ;
+        echo "<meta http-equiv='refresh' content='0;url=../index.php/queues'>\n" ;
+     } catch (PDOException $e) {
+        display_error($LANG['error'].$e->getMessage(),true);
+     }
 }
