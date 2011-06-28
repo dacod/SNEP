@@ -154,6 +154,9 @@ class ServicesReportController extends Zend_Controller_Action {
 
         $fromDay = $data["period"]["init_day"];
         $tillDay = $data["period"]["till_day"];
+        
+        $fromDay = new Zend_Date($fromDay);
+        $tillDay = new Zend_Date($tillDay);
 
         $extenList = $data["exten"]["exten_select"];
         $extenGroup = $data["exten"]["group_select"];
@@ -206,8 +209,8 @@ class ServicesReportController extends Zend_Controller_Action {
             }
         }
 
-        $dateClause = " ( date >= '{$fromDay}'";
-        $dateClause.=" AND date <= '{$tillDay}') "; //'
+        $dateClause = " ( date >= '{$fromDay->toString('yyyy-MM-dd hh:mm')}'";
+        $dateClause.=" AND date <= '{$tillDay->toString('yyyy-MM-dd hh:mm')}') "; //'
         $cond .= " $dateClause ";
 
         $sql = " SELECT *, DATE_FORMAT(date,'%d/%m/%Y %T') as date FROM services_log WHERE ";

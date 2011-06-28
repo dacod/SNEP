@@ -387,7 +387,7 @@ select
     list-style: none;
     height: 32px;
     
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     font-family: Verdana, Arial, Helvetica, sans-serif;
 
@@ -422,7 +422,7 @@ select
 }
 
 .navmenu ul li {
-  width: 160px;
+  width: 180px;
   float: left; /*For IE 7 lack of compliance*/
   display: block !important;
   display: inline; /*For IE*/
@@ -443,7 +443,7 @@ select
 .navmenu a {
   border-right: 1px solid #CCC;
   border-left: 1px solid #FFF;
-  padding: 0 20px;
+  padding: 0 13px;
   float: none !important; /*For Opera*/
   float: left; /*For IE*/
   display: block;

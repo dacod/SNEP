@@ -224,8 +224,9 @@ class ContactsController extends Zend_Controller_Action {
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form();
+        $form->addSubForm(new Snep_Form_SubForm(NULL, NULL, "file"),'file');
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/csv/');
-        $form->addElement(new Zend_Form_Element_File('file'));
+        $form->getSubForm('file')->addElement(new Zend_Form_Element_File('file'));
 
         $this->view->form = $form;
     }

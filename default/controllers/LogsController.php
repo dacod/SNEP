@@ -72,23 +72,26 @@ class LogsController extends Zend_Controller_Action {
 
             // Normal search mode
             if (strcmp($this->_request->getParam('real_time'), 'yes')) {
+                
+                $formData = $this->_request->getParams();
 
                 $this->view->mode = 'normal';
                 $this->view->location = 'index';
                 
-                $init_day = explode(" ", $formData['init_day'] );
-                $final_day = explode(" ", $formData['end_day']);
-
-                $formated_init_day = new Zend_Date( $init_day[0] );
+                $init_day = $formData['init_day'];
+                $final_day =  $formData['end_day'];
+                
+                $formated_init_day = new Zend_Date( $init_day );
+                $formated_init_time =$formated_init_day->toString('hh:mm');
                 $formated_init_day =  $formated_init_day->toString('yyyy-MM-dd');
-                $formated_init_time = $init_day[1];
+                
 
-                $formated_final_day = new Zend_Date( $final_day[0] );
+                $formated_final_day = new Zend_Date( $final_day );
+                $formated_final_time =$formated_final_day->toString('hh:mm');
                 $formated_final_day =  $formated_final_day->toString('yyyy-MM-dd');
-                $formated_final_time = $final_day[1];
-
-                $result = $log->getLog($formated_init_day, $formated_final_day, $formated_init_time, $formated_final_time , $this->_request->getPost('status'), $this->_request->getPost('source'), $this->_request->getPost('dest'));
-
+                
+                $result = $log->getLog($formated_init_day, $formated_final_day, $formated_init_time, $formated_final_time ,$formData['status'], $formData['source'], $formData['dest']);
+                
                 if (count($result) > 0) {
 
                     $this->view->result = $result;

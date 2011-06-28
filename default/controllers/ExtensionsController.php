@@ -105,9 +105,9 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(
-            /* array("url" => $baseUrl . "/extensions/multiadd",
+            array("url" => $baseUrl . "/extensions/multiadd",
               "display" => $this->view->translate("Add Multiple Extensions"),
-              "css" => "includes"), */
+              "css" => "includes"), 
             array("url" => $baseUrl . "/extensions/add",
                 "display" => $this->view->translate("Add Extension"),
                 "css" => "include")
@@ -603,7 +603,6 @@ class ExtensionsController extends Zend_Controller_Action {
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
-            //$form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->virtual, "virtual"), "virtual");
             $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
             $selectFill = $subFormKhomp->getElement('board');
@@ -622,7 +621,7 @@ class ExtensionsController extends Zend_Controller_Action {
                         $boardList[$board['id']] = $channels;
                     }
                 }
-                //$subFormKhomp->getElement('channel')->setRegisterInArrayValidator(false);
+               // $subFormKhomp->getElement('channel')->setRegisterInArrayValidator(false);
                 $boardTmp = Zend_Json_Encoder::encode($boardList);
                 $this->boardData = $boardTmp;
             } else {
@@ -728,16 +727,19 @@ class ExtensionsController extends Zend_Controller_Action {
                         }
                     } else {
 
-                        $exten = explode("-", $exten);
-
-                        foreach (range($exten[0], $exten[1]) as $exten) {
-
-                            $dataForm["id"] = $exten;
-                            $dataForm["extension"]["exten"] = $exten;
-                            $dataForm["extension"]["password"] = $exten . $exten;
-                            $dataForm["extension"]["name"] = 'Ramal' . $exten . '<' . $exten . '>';
-                            $dataForm["sip"]["password"] = $exten . $exten;
-                            $dataForm["iax2"]["password"] = $exten . $exten;
+                        $exten = explode(";", $exten);
+                        
+                        foreach ($exten as $range) {
+                            
+                            $rangeToAdd= explode('-', $range);
+                            
+                            if (count($rangeToAdd) == 1){
+                            $dataForm["id"] = $rangeToAdd[0];
+                            $dataForm["extension"]["exten"] =  $rangeToAdd[0];
+                            $dataForm["extension"]["password"] =  $rangeToAdd[0] .$rangeToAdd[0];
+                            $dataForm["extension"]["name"] = 'Ramal ' .  $rangeToAdd[0] . '<' .  $rangeToAdd[0] . '>';
+                            $dataForm["sip"]["password"] =  $rangeToAdd[0] .$rangeToAdd[0];
+                            $dataForm["iax2"]["password"] =  $rangeToAdd[0] .$rangeToAdd[0];
 
                             $ret = $this->execAdd($dataForm);
 
@@ -747,6 +749,12 @@ class ExtensionsController extends Zend_Controller_Action {
                                 $this->view->error = $ret;
                                 $this->view->form->valid(false);
                             }
+                            }
+                            else{
+                                
+                            }
+
+                            
                         }
                     }
                 }

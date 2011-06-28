@@ -11,33 +11,7 @@
                          <description>dd/mm/aaaa</description>
                      </options>
 	        </initDay>
-<!--
-            <initHour>
-                <type>text</type>
-                <options>
-                    <value>00:00</value>
-                    <label>hh:mm</label>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/(\d{2}[:]?)$/i</pattern>
-                                <messages>
-                                    <regexNotMatch>Horário deve seguir o formato do exemplo. EX: 23:50</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                        <strlen>
-                            <validator>StringLength</validator>
-                            <options>
-                                <min>4</min>
-                                <max>10</max>
-                            </options>
-                        </strlen>
-                    </validators> 
-                </options>
-            </initHour>
--->
+
             <finalDay>
                 <type>text</type>
                 <options>
@@ -46,15 +20,7 @@
                     <required>true</required>
                 </options>
             </finalDay>
-<!--
-            <finalHour>
-                <type>text</type>
-                <options>
-                    <value>23:59</value>
-                    <label>hh:mm</label>
-                </options>
-            </finalHour>
--->
+
             <order>
                 <type>radio</type>
                 <options>

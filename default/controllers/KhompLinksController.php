@@ -49,7 +49,7 @@ class KhompLinksController extends Zend_Controller_Action {
             "[ksigInactive]" => $this->view->translate('Deactivated'),
             "NoLinksAvailable" => $this->view->translate('No Link Available'),
             "ringing" => $this->view->translate('Ringing'),
-            "ongoing" => $this->view->translate('On going'),
+            "ongoing" => $this->view->translate('On Going'),
             "unused" => $this->view->translate('Unused'),
             "dialing" => $this->view->translate('Dialing'),
             "kcsFree" => $this->view->translate('Channel Free'),
@@ -155,7 +155,7 @@ class KhompLinksController extends Zend_Controller_Action {
             "[ksigInactive]" => $this->view->translate('Deactivated'),
             "NoLinksAvailable" => $this->view->translate('No Link Available'),
             "ringing" => $this->view->translate('Ringing'),
-            "ongoing" => $this->view->translate('On going'),
+            "ongoing" => $this->view->translate('On Going'),
             "unused" => $this->view->translate('Unused'),
             "dialing" => $this->view->translate('Dialing'),
             "kcsFree" => $this->view->translate('Channel Free'),
@@ -198,12 +198,12 @@ class KhompLinksController extends Zend_Controller_Action {
             "none" => $this->view->translate('None'),
             "down" => $this->view->translate('Hanging Up'));
 
-        $status_canais_khomp = array("Unused" => "#00A651",
-            "On Going" => "#ED1C24",
-            "Ringing" => "#ff9c00",
-            "Dialing" => "#ff9c00",
-            "Reserved" => "#ff9c00",
-            "Busy" => "#ED1C24");
+        $status_canais_khomp = array($this->view->translate('Unused') => "#00A651",
+            $this->view->translate('On Going') => "#ED1C24",
+           $this->view->translate('Ringing') => "#ff9c00",
+           $this->view->translate('Dialing') => "#ff9c00",
+           $this->view->translate('Reserved') => "#ff9c00",
+          $this->view->translate('Busy') => "#ED1C24");
 
         $linksKhomp = array("0" => "B00", "1" => "B01", "3" => "B02", "4" => "B03",
             "5" => "B04", "6" => "B05", "7" => "B06", "8" => "B07");
@@ -235,7 +235,6 @@ class KhompLinksController extends Zend_Controller_Action {
 
             throw new ErrorException($this->view->translate("Socket connection to the server is not available at the moment."));
         }
-
         $lines = explode("\n", $data);
         $links = array();
 
@@ -274,7 +273,7 @@ class KhompLinksController extends Zend_Controller_Action {
 
                 continue;
             }
-
+            
             $lines = explode("\n", $data);
 
             while (list($chave, $valor) = each($lines)) {
@@ -307,7 +306,6 @@ class KhompLinksController extends Zend_Controller_Action {
                         $st_opera = '';
                         $st_gsm = false;
                     }
-
                     $board = substr($l, 0, 3);
                     $channel = substr($l, 3, 3);
                     $status = explode(":", $l);
@@ -325,7 +323,6 @@ class KhompLinksController extends Zend_Controller_Action {
                 }
             }
         }
-
         $this->view->linksKhomp = $linksKhomp;
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
                     $this->view->translate("Status"),

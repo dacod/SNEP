@@ -215,11 +215,11 @@ class IpStatusController extends Zend_Controller_Action {
                 $stateIax = trim($tempIax2[3]);
                 $latIax = '';
                 if ($stateIax == "UNREACHABLE") {
-                    $stateIax = "Não Registrado";
+                    $stateIax = $this->view->translate("Not Registered");
                 } elseif ($stateIax == "Unmonitored") {
-                    $stateIax = "N/A";
+                    $stateIax =  $this->view->translate("N/A");
                 } elseif ($stateIax == 'OK') {
-                    $stateIax = "Registrado";
+                    $stateIax =$this->view->translate("Registered");
                     $latIaxTemp = explode('(', $tempIax2[4]);
                     $latIax = trim($latIaxTemp[1]);
                     if ($latIax != '') {
