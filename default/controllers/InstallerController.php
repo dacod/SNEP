@@ -102,12 +102,30 @@ class InstallerController extends Zend_Controller_Action {
         $this->view->breadcrumb = $this->view->translate("Instalador » Configuração");
         $form_config = new Zend_Config_Xml("./default/forms/installer.xml");
 
+        $original_config = Zend_Registry::get('config');
+
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . '/installer/configure');
 
         $asterisk_form = new Snep_Form_SubForm($this->view->translate("Configuração do Asterisk"), $form_config->asterisk);
         $database_form = new Snep_Form_SubForm($this->view->translate("Configuração do Banco de Dados"), $form_config->database);
         $snep_form = new Snep_Form_SubForm($this->view->translate("Senha do Administrador"), $form_config->snep);
+
+        $asterisk_user = $asterisk_form->getElement('username');
+        $asterisk_user->setValue( $original_config->ambiente->user_sock );
+        $asterisk_secret = $asterisk_form->getElement('secret');
+        $asterisk_secret->setValue( $original_config->ambiente->pass_sock );
+        $asterisk_server = $asterisk_form->getElement('server');
+        $asterisk_server->setValue( $original_config->ambiente->ip_sock );
+
+        $db_user = $database_form->getElement('username');
+        $db_user->setValue( $original_config->ambiente->db->username );
+        $db_secret = $database_form->getElement('password');
+        $db_secret->setValue( $original_config->ambiente->db->password );
+        $db_server = $database_form->getElement('hostname');
+        $db_server->setValue( $original_config->ambiente->db->host );
+        $db_name = $database_form->getElement('dbname');
+        $db_name->setValue( $original_config->ambiente->db->dbname );
 
         $form->addSubForm($database_form, "database");
         $form->addSubForm($asterisk_form, "asterisk");
