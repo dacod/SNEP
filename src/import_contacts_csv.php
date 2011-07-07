@@ -40,7 +40,16 @@ class ImportContactsController {
     public function processAction() {
         if(isset($_FILES['contacts_csv'])) {
             $file_info = $_FILES['contacts_csv'];
-            if($file_info['type'] !== "text/csv") {
+
+            $validFile = false;
+            
+            if( $file_info['type'] == 'text/csv' ) {
+                $validFile = true;
+            }elseif( $file_info['type'] == 'text/plain' ) {
+                $validFile = true;
+            }
+
+            if( ! $validFile ) {
                 display_error("O arquivo precisa ser do tipo CSV", true);
             }
             else {
