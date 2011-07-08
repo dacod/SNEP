@@ -1,3 +1,17 @@
+1.3.6:
+- Incluida biblioteca javascript dojo ao projeto.
+- Incluir na classe CSV tradução de cabeçalhos do arquivo.
+- Importação de contato requer formato text/csv, possibilitar que arquivos txt/plain também sejam aceitos.
+- Instalador, pegar dados do arquivo setup.conf
+- Ajuste necessário no arquivo install/etc/asterisk/extensions.conf.
+- Problema ao incluir ramais com 3 dígitos.
+- Erro sql exibido na interface ao criar ramal "duplicado".
+- Controle de Minutos.
+- Cadastro de Ramais - Não exibe corretamente o Grupo de captura.
+- Cadastro de Filas - nao mostra configurações salvas.
+
+
+
 1.3.5:
 - 0000176: [Feature Request] Adicionar monitoramento de status de troncos IAX (lucasseid) - resolved.
 - 0000175: [Bug] Problemas na compactação de audio no relatório de chamadas do período. (lucasseid) - resolved.
