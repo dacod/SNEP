@@ -10,8 +10,6 @@
 - Cadastro de Ramais - Não exibe corretamente o Grupo de captura.
 - Cadastro de Filas - nao mostra configurações salvas.
 
-
-
 1.3.5:
 - 0000176: [Feature Request] Adicionar monitoramento de status de troncos IAX (lucasseid) - resolved.
 - 0000175: [Bug] Problemas na compactação de audio no relatório de chamadas do período. (lucasseid) - resolved.
