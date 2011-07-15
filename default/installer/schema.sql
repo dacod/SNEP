@@ -483,7 +483,7 @@ CREATE TABLE IF NOT EXISTS ars_estado (
 
 CREATE TABLE IF NOT EXISTS ars_cidade (
     `id` integer primary key auto_increment,
-    `name` varchar(30) not null
+    `name` varchar(50) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS ars_ddd (
