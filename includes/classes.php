@@ -122,43 +122,80 @@ class Bar_Graph {
     *                                $flag = S/N - Se encontrou a cidade em CNL
     * Retorna: Nome da Cidade/Estado
     *--------------------------------------------------------------------------*/
-   function fmt_cidade($params,$smarty = "")  {
+   function fmt_cidade($params, $smarty = "")  {
+
       global $LANG, $db;
-      $flag = "N" ;
-      $tp_ret = ($smarty=="A") ? "A" : "" ;
-      $telefone=trim($params['a']);
-      if (strlen($telefone)==6)
-         $prefixo = $telefone ;
-      elseif (strlen($telefone) > 6) {
-         $prefixo = substr($telefone,0,strlen($telefone)-4) ;
-         if (strlen($prefixo) > 6)
-            $prefixo=substr($prefixo,-6) ;
-      } else
-         $prefixo = $telefone ;
-      if (!is_numeric($prefixo))
-         $cidade = $LANG['unknown'];
-      try {
-         $sqlcidade = "select ars_cidade.name as municipio, ars_ddd.estado as uf from ars_prefixo INNER JOIN ars_cidade on ars_cidade.id = ars_prefixo.cidade INNER JOIN ars_ddd on ars_ddd.cidade = ars_cidade.id where prefixo = '$prefixo'" ;
-         $rowcidade = $db->query($sqlcidade)->fetch();
-         $cidade = ucfirst(strtolower($rowcidade['municipio']))."-".$rowcidade['uf'] ;
-         //return array("cidade"=>$sqlcidade,"flag"=>"S") ;
-         if (strlen($cidade) <= 3) {
-            if (strlen($telefone) >= 8 && substr($prefixo,-4,1) > 6)
-                $cidade = $LANG['cell'];
-            else
-                if ( strlen($telefone) >= 14 )
-                   $cidade = $LANG['international'];
-                else
-                   $cidade = $LANG['local'];
-         } else
-            $flag = "S" ;  // Encontrou cidade na tabela CNL
-      } catch (Exception $e) {
-         $cidade = $LANG['error'];
+
+      $flag = "N";
+      $phone = trim( $params['a'] );
+      $phoneLenght = strlen($phone );
+      $mobile = false;
+      $mobileInit = array(6,7,8,9);
+
+      if( $phoneLenght <= 5 ) {
+          $tipo = "Interna";
+
+      }elseif( $phoneLenght >= 6 && $phoneLenght <= 8 ) {
+
+          $init = substr($phone, 0, 1);
+
+          if(in_array($init, $mobileInit)) {
+            $mobile = true;
+            $tipo = 'Celular';
+          }else{
+            $tipo = "Local";
+          }
+
+      }elseif( $phoneLenght >= 9 && $phoneLenght <= 13 ) {
+
+          if( $phoneLenght == 10) {              
+              $areaCode = substr($phone, 0, 2);
+              $prefix = substr($phone, 2, 4);
+              $init = substr($prefix, 0,1);
+              if(in_array($init, $mobileInit)) {
+                $mobile = true;
+                $tipo = 'Celular';
+              }
+          }
+          elseif( $phoneLenght == 11) {
+              $areaCode = substr($phone, 1, 2);
+              $prefix = substr($phone, 3, 4);
+              $init = substr($prefix, 0,1);
+              if(in_array($init, $mobileInit)) {
+                $mobile = true;
+                $tipo = 'Celular';
+              }
+
+          }
+          elseif( $phoneLenght == 13) {
+              $areaCode = substr($phone, 3, 2);
+              $prefix = substr($phone, 5, 4);
+              $init = substr($prefix, 0,1);
+              if(in_array($init, $mobileInit)) {
+                $mobile = true;
+                $tipo = 'Celular';
+              }
+
+          }
+
+          if(! $mobile ) {
+              $query = "SELECT ars_cidade.name as municipio, ars_ddd.estado as uf
+                        FROM ars_prefixo
+                        INNER JOIN ars_cidade on ars_cidade.id = ars_prefixo.cidade
+                        INNER JOIN ars_ddd on ars_ddd.cidade = ars_cidade.id
+                        WHERE prefixo = '$prefix'
+                        AND ars_ddd.cod='$areaCode'" ;
+
+              $result = $db->query( $query )->fetch();
+              $tipo = ucfirst( strtolower( $result['municipio'] ) )."-". $result['uf'];
+          }
+
+      }elseif( $phoneLenght > 13 ) {
+          $tipo = "Internacional";
       }
-      if ($tp_ret == "A")
-         return array("cidade"=>$cidade,"flag"=>$flag) ;
-      else
-         return $cidade ;
+      
+      return $tipo;
+      
    } // Fim da Funcao fmt_cidade
    /*-----------------------------------------------------------------------------
     * Funcao fmt_telefone - Formata Nuemro do telefone
