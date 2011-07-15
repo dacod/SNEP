@@ -18,7 +18,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("../includes/verifica.php");  
+require_once("../includes/verifica.php");
 require_once("../configs/config.php");
 
 ver_permissao(49);
@@ -335,56 +335,56 @@ HEAD;
         $LANG = Zend_Registry::get('lang');
         $parsed_conditions = "";
         foreach($conditions as $condition) {
-                switch($condition['type']) {
-                    case "X" :
-                        $parsed_conditions .= "{$LANG['any']}<br />";
-                        break;
-                    case "R" :
-                        $parsed_conditions .= $condition['value'] . "<br />";
-                        break;
-                    case "RX" :
-                        $parsed_conditions .= $condition['value'] . "<br />";
-                        break;
-                    case "T" :
-                        $trunk = PBX_Trunks::get($condition['value']);
-                        $parsed_conditions .= "{$LANG['trunk']} {$trunk->getName()}<br />";
-                        break;
-                    case "CG" :
-                        $db = Zend_Registry::get('db');
-                        $select = "SELECT id, name FROM contacts_group";
-                        $raw_groups = $db->query($select)->fetchAll();
+            switch($condition['type']) {
+                case "X" :
+                    $parsed_conditions .= "{$LANG['any']}<br />";
+                    break;
+                case "R" :
+                    $parsed_conditions .= $condition['value'] . "<br />";
+                    break;
+                case "RX" :
+                    $parsed_conditions .= $condition['value'] . "<br />";
+                    break;
+                case "T" :
+                    $trunk = PBX_Trunks::get($condition['value']);
+                    $parsed_conditions .= "{$LANG['trunk']} {$trunk->getName()}<br />";
+                    break;
+                case "CG" :
+                    $db = Zend_Registry::get('db');
+                    $select = "SELECT id, name FROM contacts_group";
+                    $raw_groups = $db->query($select)->fetchAll();
 
-                        $groups = array();
-                        foreach ($raw_groups as $row) {
-                            $groups[$row["id"]] = $row["name"];
-                        }
-                        $parsed_conditions .= "{$LANG['contacts_group']}: {$groups[$condition['value']]}<br />";
-                        break;
-                    case "AL":
-                        $aliases = PBX_ExpressionAliases::getInstance();
-                        $alias = $aliases->get((int)$condition['value']);
-                        $parsed_conditions .= "Alias {$alias['name']}<br />";
-                        break;
-                    case "G" :
-                        switch ($condition['value']) {
-                            case 'all':
-                                $groupname = $LANG['all'];
-                                break;
-                            case 'users':
-                                $groupname = $LANG['user'];
-                                break;
-                            case 'admin':
-                                $groupname = $LANG['admin'];
-                                break;
-                            default:
-                                $groupname = $condition['value'];
-                                break;
-                        }
-                        $parsed_conditions .= "{$LANG['group']} {$groupname}<br />";
-                        break;
-                }
+                    $groups = array();
+                    foreach ($raw_groups as $row) {
+                        $groups[$row["id"]] = $row["name"];
+                    }
+                    $parsed_conditions .= "{$LANG['contacts_group']}: {$groups[$condition['value']]}<br />";
+                    break;
+                case "AL":
+                    $aliases = PBX_ExpressionAliases::getInstance();
+                    $alias = $aliases->get((int)$condition['value']);
+                    $parsed_conditions .= "Alias {$alias['name']}<br />";
+                    break;
+                case "G" :
+                    switch ($condition['value']) {
+                        case 'all':
+                            $groupname = $LANG['all'];
+                            break;
+                        case 'users':
+                            $groupname = $LANG['user'];
+                            break;
+                        case 'admin':
+                            $groupname = $LANG['admin'];
+                            break;
+                        default:
+                            $groupname = $condition['value'];
+                            break;
+                    }
+                    $parsed_conditions .= "{$LANG['group']} {$groupname}<br />";
+                    break;
             }
-            return $parsed_conditions;
+        }
+        return $parsed_conditions;
     }
 
     public function indexAction() {
@@ -402,7 +402,7 @@ HEAD;
         );
 
         // Se aplicar Filtro ....
-        if (array_key_exists ('filtrar', $_POST)) {
+        if (array_key_exists ('filtrar', $_POST) && $_POST['field_filter'] == "desc") {
             $where = "`".$_POST['field_filter']."` like '%".$_POST['text_filter']."%'";
         }
         else {
@@ -417,16 +417,47 @@ HEAD;
 
             $list_src = $this->parseConditions($rule->getSrcList());
             $list_dst = $this->parseConditions($rule->getDstList());
-            
-            $dados[] = array(
-                    "codigo"    => $rule->getId(),
-                    "ativa"     => $rule->isActive(),
-                    "src"       => $list_src,
-                    "dst"       => $list_dst,
-                    "descricao" => $rule->getDesc(),
-                    "ordem"     => $rule->getPriority(),
-            );
-        }
+
+            if ($_POST['field_filter'] == "origem"){
+               if(stristr($list_src, $_POST['text_filter'])){
+                   $dados[] = array(
+                            "codigo"    => $rule->getId(),
+                            "ativa"     => $rule->isActive(),
+                            "src"       => $list_src,
+                            "dst"       => $list_dst,
+                            "descricao" => $rule->getDesc(),
+                            "ordem"     => $rule->getPriority(),
+                    );
+               }
+            }
+             else if ($_POST['field_filter'] == "destino"){
+               if(stristr($list_dst, $_POST['text_filter'])){
+                   $dados[] = array(
+                            "codigo"    => $rule->getId(),
+                            "ativa"     => $rule->isActive(),
+                            "src"       => $list_src,
+                            "dst"       => $list_dst,
+                            "descricao" => $rule->getDesc(),
+                            "ordem"     => $rule->getPriority(),
+                    );
+               }
+            }
+            else{
+                 $dados[] = array(
+                            "codigo"    => $rule->getId(),
+                            "ativa"     => $rule->isActive(),
+                            "src"       => $list_src,
+                            "dst"       => $list_dst,
+                            "descricao" => $rule->getDesc(),
+                            "ordem"     => $rule->getPriority(),
+                    );
+            }
+
+
+
+
+                }
+
 
 
         // Define variaveis do template
@@ -478,7 +509,7 @@ HEAD;
                 /*
                  * Removendo configurações das acoes para popular somente os
                  * campos especifico da regra.
-                 */
+                */
                 $post = $_POST;
                 unset($post['actions_order']);
 
@@ -565,7 +596,7 @@ HEAD;
     }
 
     public function duplicarAction() {
-        
+
         global $LANG, $grupos;
 
         $this->populateCommomFields();
