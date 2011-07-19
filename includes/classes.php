@@ -152,6 +152,8 @@ class Bar_Graph {
               $areaCode = substr($phone, 0, 2);
               $prefix = substr($phone, 2, 4);
               $init = substr($prefix, 0,1);
+              $vonoPrefix = substr($phone, 0, 6);
+
               if(in_array($init, $mobileInit)) {
                 $mobile = true;
                 $tipo = 'Celular';
@@ -161,6 +163,8 @@ class Bar_Graph {
               $areaCode = substr($phone, 1, 2);
               $prefix = substr($phone, 3, 4);
               $init = substr($prefix, 0,1);
+              $vonoPrefix = substr($phone, 1, 6);
+
               if(in_array($init, $mobileInit)) {
                 $mobile = true;
                 $tipo = 'Celular';
@@ -171,6 +175,8 @@ class Bar_Graph {
               $areaCode = substr($phone, 3, 2);
               $prefix = substr($phone, 5, 4);
               $init = substr($prefix, 0,1);
+              $vonoPrefix = substr($phone, 3, 6);
+
               if(in_array($init, $mobileInit)) {
                 $mobile = true;
                 $tipo = 'Celular';
@@ -183,10 +189,13 @@ class Bar_Graph {
                         FROM ars_prefixo
                         INNER JOIN ars_cidade on ars_cidade.id = ars_prefixo.cidade
                         INNER JOIN ars_ddd on ars_ddd.cidade = ars_cidade.id
-                        WHERE prefixo = '$prefix'
-                        AND ars_ddd.cod='$areaCode'" ;
+                        WHERE ( prefixo = '$prefix'
+                        AND ars_ddd.cod='$areaCode' )
+                        OR (prefixo='$vonoPrefix' ) " ;
 
               $result = $db->query( $query )->fetch();
+
+
               $tipo = ucfirst( strtolower( $result['municipio'] ) )."-". $result['uf'];
           }
 
@@ -194,7 +203,7 @@ class Bar_Graph {
           $tipo = "Internacional";
       }
       
-      return $tipo;
+      return print_r($result);
       
    } // Fim da Funcao fmt_cidade
    /*-----------------------------------------------------------------------------
