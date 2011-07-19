@@ -184,7 +184,7 @@ require_once "Asterisk/Exception/Auth.php";
     }
 
     /**
-     * Aguarda pro eventos e os entrega para o objeto tratar. Forma encontrada
+     * Aguarda por eventos e os entrega para o objeto tratar. Forma encontrada
      * para tratar eventos de forma linear como resposta de comandos.
      * **MUITO CUIDADO NO USO DESSE METODO**
      * @param $obj objeto que fará o controle dos eventos precisa ter o metodo

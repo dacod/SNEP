@@ -42,7 +42,7 @@ function Field(id) {
         this.type = type;
         this.value = "";
         this.render();
-    }
+    };
 
     this.getHtml = function(objReference) {
         this.lastReference = objReference;

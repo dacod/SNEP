@@ -53,21 +53,27 @@ class IndexController extends Zend_Controller_Action {
 
             $systemInfo['usage'] = round(($loadAvarege * 100) / ($cpuNumber - 1));
 
-            $systemInfo['memory']['ram'] = array('total' => $this->byte_convert(floatval($sysInfo->memory->Physical->total)), 
-                                                                       'free' =>  $this->byte_convert(floatval($sysInfo->memory->Physical->free)), 
-                                                                       'used' => $this->byte_convert(floatval($sysInfo->memory->Physical->used)), 
-                                                                       'percent' => round(floatval($sysInfo->memory->Physical->used) / floatval($sysInfo->memory->Physical->total)*100));
-            $systemInfo['memory']['swap'] = array('total' => $this->byte_convert(floatval($sysInfo->memory->swap->core->free)), 
-                                                                         'free' => $this->byte_convert(floatval($sysInfo->memory->swap->core->total)), 
-                                                                         'used' => $this->byte_convert(floatval($sysInfo->memory->swap->core->used)), 
-                                                                         'percent' => round(floatval($sysInfo->memory->swap->core->used) / floatval($sysInfo->memory->swap->core->total)*100));
+            $systemInfo['memory']['ram'] = array(
+                'total' => $this->byte_convert(floatval($sysInfo->memory->Physical->total)),
+                'free' =>  $this->byte_convert(floatval($sysInfo->memory->Physical->free)), 
+                'used' => $this->byte_convert(floatval($sysInfo->memory->Physical->used)), 
+                'percent' => floatval($sysInfo->memory->Physical->total) > 0 ? round(floatval($sysInfo->memory->Physical->used) / floatval($sysInfo->memory->Physical->total)*100) : 0
+            );
+            $systemInfo['memory']['swap'] = array(
+                'total' => $this->byte_convert(floatval($sysInfo->memory->swap->core->free)),
+                'free' => $this->byte_convert(floatval($sysInfo->memory->swap->core->total)), 
+                'used' => $this->byte_convert(floatval($sysInfo->memory->swap->core->used)), 
+                'percent' => floatval($sysInfo->memory->swap->core->total) > 0 ? round(floatval($sysInfo->memory->swap->core->used) / floatval($sysInfo->memory->swap->core->total)*100) : 0
+            );
             
             $deviceArray = $sysInfo->mounts->mount;
             foreach ($deviceArray as $mount) {
-                 $systemInfo['space'][] = array('mount_point' =>$mount["mountpoint"], 
-                                                          'size' => $this->byte_convert(floatval($mount["size"])), 
-                                                          'free' => $this->byte_convert(floatval($mount["free"])), 
-                                                          'percent' => round((floatval($mount["used"])/floatval($mount["size"]))*100));
+                 $systemInfo['space'][] = array(
+                     'mount_point' =>$mount["mountpoint"],
+                     'size' => $this->byte_convert(floatval($mount["size"])), 
+                     'free' => $this->byte_convert(floatval($mount["free"])), 
+                     'percent' => floatval($mount["size"]) > 0 ? round((floatval($mount["used"])/floatval($mount["size"]))*100) : 0
+                 );
             }    
             
             $netArray = $sysInfo->net->interface;
