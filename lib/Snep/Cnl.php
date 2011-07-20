@@ -233,7 +233,13 @@ class Snep_Cnl {
 
     public static function getCarrierByPrefix($prefix) {
         $db = Zend_Registry::get('db');
-        $sql = sprintf("select op.id, op.name from ars_prefixo p inner join ars_operadora op on p.operadora = op.id where p.prefixo = '%s'", $prefix);
+        $ddd = substr($prefix, 0, 2);
+        $prefixo = substr($prefix, 2, 4);
+        $sql = sprintf("select op.id, op.name from ars_prefixo p 
+                        inner join ars_operadora op on p.operadora = op.id 
+                        inner join ars_ddd ddd on p.cidade = ddd.cidade
+                        where p.prefixo = '%s'
+                        and ddd.cod = '%s'", $prefixo, $ddd);
         $stmt = $db->query($sql);
         $data = $stmt->fetch();
         $stmt->fetchAll();
