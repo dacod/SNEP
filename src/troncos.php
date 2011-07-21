@@ -547,6 +547,19 @@ function grava_alterar() {
         $time_total = "NULL";
     } else {
         $time_chargeby = $time_total != ""? $time_chargeby: "NULL";
+        
+        $sqlSelectTime = "SELECT time_total from trunks where name = '$name'";
+        $result = $db->query($sqlSelectTime);
+        $arrayR = $result->fetch();
+        
+        if ($arrayR['time_total'] != $time_total){
+            
+            $db->beginTransaction();
+            $delQuery = "DELETE from time_history WHERE owner = (select id from trunks where name = '$name')";
+            $db->exec($delQuery);
+            $db->commit();
+        }
+        
         $time_total = $time_total*60;
     }
 
