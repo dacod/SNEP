@@ -870,8 +870,9 @@ function grava_conf() {
                     if ($peer['port'] != "") {
                         $trunk .= ':' . $peer['port'] . "\n";
                     } else {
-                        if (!empty($trunk))
-                        $trunk .= "\n";
+                        if ($tronco->dialmethod != "NOAUTH" && !preg_match("/SNEP/", $tronco->type)){
+                             $trunk .= "\n";
+                        }                       
                     }
                     
                 } else {
