@@ -34,7 +34,6 @@ class PHPExtensions extends Snep_Inspector_Test {
      * @var Array
      */
     public $extensions = array('pdo_mysql',
-                               'gd',
                                'json'
         );
 
