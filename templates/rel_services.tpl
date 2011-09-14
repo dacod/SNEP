@@ -19,6 +19,22 @@
  {include file="cabecalho.tpl"}
  <table>
     <form method="post" name="filas">
+ <input type="hidden" name="vinculos" id="vinculos" value="{$VINCULOS}"/>
+    <tr style="background-color: #f1f1f1;">
+       <td class="esq" width="30%">
+               {$LANG.access_level} :
+       </td>
+       <td class="esq">
+           {if $NIVEL == ""}
+               {$LANG.stnone}
+           {elseif $NIVEL == 1}
+               {$LANG.vinculos_todos}
+           {else}
+               {$NIVEL}
+           {/if}
+       </td>
+    </tr>
+   <tr>
     <tr>
        <td class="esq" width="30%">
         {$LANG.periodo}

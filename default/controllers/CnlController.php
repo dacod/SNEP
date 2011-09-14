@@ -45,6 +45,7 @@ class CnlController extends Zend_Controller_Action {
                 $db->beginTransaction();
                 try {
                     $_state = array('cod' => $uf, 'name' => $state);
+                    $db->exec('SET NAMES UTF8');
                     $db->insert('ars_estado', $_state);
                     $db->commit();
 
@@ -102,20 +103,22 @@ class CnlController extends Zend_Controller_Action {
                     exec("tar xjvf {$fileName} -C /tmp");
 
                     $json = file_get_contents(substr($fileName,0,-8));
+                    Zend_Json::$useBuiltinEncoderDecoder = true;
                     $cnl = (Zend_Json_Decoder::decode($json, Zend_Json::TYPE_ARRAY));
+                    
 
                     $carriers = $cnl["operadoras"];
                     unset( $cnl["operadoras"] );
 
                     foreach ($carriers as $carrier => $idCarr) {
-                        Snep_Cnl::addOperadora($idCarr, $carrier );
+                        Snep_Cnl::addOperadora($idCarr, html_entity_decode($carrier) );
                     }
                     
                     foreach ($cnl as $data => $id ) {
                         foreach ($id as $estado => $es) {
                             foreach ($es as $ddd => $d) {
                                 foreach ($d as $cidade => $pre) {
-                                    $idCidade = Snep_Cnl::addCidade($cidade);
+                                    $idCidade = Snep_Cnl::addCidade(html_entity_decode($cidade));
                                     Snep_Cnl::addDDD($ddd,$estado,$idCidade);
                                     foreach ($pre as $prefixo => $op) {
                                         Snep_Cnl::addPrefixo($prefixo,$idCidade,$op);
