@@ -86,11 +86,12 @@ $dst_exceptions = $SETUP['ambiente']['dst_exceptions'];
                             "hora_fim"=> ( isset( $_SESSION['relservices']['hora_fim'] )  ? $_SESSION['relservices']['hora_fim'] : '23:59'),
                             "src" => ( isset( $_SESSION['relservices']['src'] ) ? $_SESSION['relservices']['src'] : '')
 ) ;
-
+$nivel = Snep_Vinculos::getNivelVinculos($_SESSION['name_user']);
 
 /* Monta  formulario de busca */        
 $titulo = $LANG['menu_reports']." » ".$LANG['services_report'] ;
 $smarty->assign ('VINCULOS', monta_vinculo($_SESSION['vinculos_user'],"L")) ;
+$smarty->assign('NIVEL', $nivel);
 $smarty->assign ('dt_relchamadas',$dados_iniciais) ;
 $smarty->assign ('groupsrc', (isset($_SESSION['relservices']['groupsrc']) ? '' : '') );
 $smarty->assign ('OPCOES_USERGROUPS',$g);
@@ -170,6 +171,19 @@ function monta_relatorio($acao) {
       $ramaissrc = " AND services_log.peer IN ('".substr($list, 0, -1)."') ";
       
   }
+  
+   /* Verificando existencia de vinculos no ramal */
+    $name = $_SESSION['name_user'];
+    $sql = "SELECT id_peer, id_vinculado FROM permissoes_vinculos WHERE id_peer ='$name'";
+    $result = $db->query($sql)->fetchObject();
+
+    $vinculo_table = "";
+    $vinculo_where = "";
+
+    if($result) {
+        $vinculo_table = " ,permissoes_vinculos ";
+        $vinculo_where = " AND ( permissoes_vinculos.id_peer='{$result->id_peer}' AND (peer = permissoes_vinculos.id_vinculado) ) ";
+    }
 
   /* Verifica estado do servi�o. */
   $state_cnt = count($state);
@@ -194,8 +208,8 @@ function monta_relatorio($acao) {
   $CONDICAO .= " $date_clause " ;
   $_SESSION['titulo_2'] = '<br />Periodo: '.$dia_ini.' ('.$hora_ini.') a '. $dia_fim .' ('.$hora_fim.') ';
 
-  $sql = " SELECT * FROM services_log WHERE ";
-  $sql.= $CONDICAO . $estado ;
+  $sql = " SELECT * FROM services_log $vinculo_table WHERE ";
+  $sql.= $CONDICAO .$vinculo_where. $estado ;
   $sql.= ($ramaissrc ? $ramaissrc : '');
   $sql.= ($srv ? $srv : '');
   $sql.= " ORDER BY services_log.peer ";

@@ -73,6 +73,7 @@ function cadastrar()  {
    $directory = SNEP_PATH_MOH.$directory ;
    // Cria diretorio se nao existir
    $comando = "mkdir -p $directory $directory/tmp $directory/backup" ;
+   
    $result = exec("$comando 2>&1",$out,$err) ;
    if ($err) {
       display_error($LANG['msg_err_mkdir'].$gsm_name,true);

@@ -38,6 +38,7 @@
             <tr>
                <td class="links_khomp">
                   {assign var="channels" value="no"}
+                  {assign var="count" value = 0}
                   {foreach name=links from=$DADOS[$board_key] key=link_key  item=link_item}
                      {$LANG.link} {$link_key}: {$link_item}
                      <br />
@@ -116,7 +117,7 @@
                          
 
                      </tr>
-                     
+                     {$count += 1}
                      {/foreach}
                   </table>
                     {/if}

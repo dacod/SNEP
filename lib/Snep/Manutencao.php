@@ -90,8 +90,12 @@ class Snep_Manutencao {
      * @param <string> $arquivos
      * @return <string> Caminho para o arquivo.
      */
-    public function arquivoExiste($calldate, $userfield) {
+    public function arquivoExiste($calldate, $userfield, $absolute = true) {
 
+        if($userfield == "" || $calldate == "") {
+            return false;
+        }
+        
         $data = substr($calldate, 0, 10);
 
         $config = Zend_Registry::get('config');
@@ -102,22 +106,48 @@ class Snep_Manutencao {
 
                 // Se existir pasta com data, já organizado pelo movefiles.
                 if( file_exists($arquivos ."/". $userfield .".wav") ) {
-                    return "../arquivos/". $userfield .".wav";
+                    if($absolute) {
+                        return $arquivos ."/". $userfield .".wav";
+                    }else{
+                        return "../arquivos/". $userfield .".wav";
+                    }
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".mp3") ) {
-                    return "../arquivos/". $userfield .".mp3";
+                    if($absolute){
+                        return $arquivos ."/". $userfield .".mp3";
+                    }else{
+                        return "../arquivos/". $userfield .".mp3";
+                    }
                 }
                 elseif( file_exists($arquivos ."/". $userfield .".WAV")) {
-                    return "../arquivos/". $userfield .".WAV";
+                    if($absolute){
+                        return $arquivos ."/". $userfield .".WAV";
+                    }else{
+                        return "../arquivos/". $userfield .".WAV";
+                    }
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".wav") ) {
-                    return "../arquivos/". $data ."/". $userfield .".wav";
+                    if($absolute){
+                        return $arquivos . "/". $data ."/". $userfield .".wav";
+                    }else{
+                        return "../arquivos/". $data ."/". $userfield .".wav";
+                    }
+                    
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".mp3") ) {
-                    return "../arquivos/". $data ."/". $userfield .".mp3";
+                    if($absolute){
+                        return $arquivos ."/". $data ."/". $userfield .".mp3";
+                    }else{
+                        return "../arquivos/". $data ."/". $userfield .".mp3";
+                    }
+                    
                 }
                 elseif( file_exists($arquivos ."/". $data ."/". $userfield .".WAV")) {
-                    return "../arquivos/". $data ."/". $userfield .".WAV";
+                    if($absolute){
+                        return $arquivos . "/". $data ."/". $userfield .".WAV";
+                    }else{
+                        return "../arquivos/". $data ."/". $userfield .".WAV";
+                    }
                     
                 }else{
 
@@ -126,13 +156,26 @@ class Snep_Manutencao {
                     foreach($storages as $storage) {
 
                         if( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".wav") ) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".wav";
+                            if($absolute){
+                                return $arquivos . "/". $storage ."/". $data ."/". $userfield .".wav";
+                            }else{
+                                return "../arquivos/". $storage ."/". $data ."/". $userfield .".wav";
+                            }
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".mp3") ) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".mp3";
+                            if($absolute){
+                                return $arquivos . "/". $storage ."/". $data ."/". $userfield .".mp3";
+                            }else{
+                                return "../arquivos/". $storage ."/". $data ."/". $userfield .".mp3";
+                            }
                         }
                         elseif( file_exists($arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV")) {
-                            return "../arquivos/". $storage ."/". $data ."/". $userfield .".WAV";
+                            if($absolute){
+                                return $arquivos ."/". $storage ."/". $data ."/". $userfield .".WAV";
+                            }else{
+                                return "../arquivos/". $storage ."/". $data ."/". $userfield .".WAV";
+                            }
+                            
                         }
                     }
 
@@ -148,11 +191,9 @@ class Snep_Manutencao {
      * @return <bool> 
      */
     public function removeBackup($arquivo) {
-
         if(file_exists($arquivo)) {
             return (unlink($arquivo));
         }       
-
     }
 }
 

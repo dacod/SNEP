@@ -16,13 +16,18 @@
  * @package    Zend_Json
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Decoder.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
 /**
  * @see Zend_Json
  */
 require_once 'Zend/Json.php';
+
+/**
+ * @see Zend_Json_Exception
+ */
+require_once 'Zend/Json/Exception.php';
+
 
 /**
  * Decode JSON encoded string to PHP variable constructs
@@ -144,10 +149,8 @@ class Zend_Json_Decoder
     public static function decode($source = null, $objectDecodeType = Zend_Json::TYPE_ARRAY)
     {
         if (null === $source) {
-            require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Must specify JSON encoded source for decoding');
         } elseif (!is_string($source)) {
-            require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Can only decode JSON encoded strings');
         }
 
@@ -186,7 +189,7 @@ class Zend_Json_Decoder
      * Decodes an object of the form:
      *  { "attribute: value, "attribute2" : value,...}
      *
-     * If Zend_Json_Encoder was used to encode the original object then
+     * If Zend_Json_Encoder was used to encode the original object then 
      * a special attribute called __className which specifies a class
      * name that should wrap the data contained within the encoded source.
      *
@@ -203,7 +206,6 @@ class Zend_Json_Decoder
 
         while ($tok && $tok != self::RBRACE) {
             if ($tok != self::DATUM || ! is_string($this->_tokenValue)) {
-                require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing key in object encoding: ' . $this->_source);
             }
 
@@ -211,7 +213,6 @@ class Zend_Json_Decoder
             $tok = $this->_getNextToken();
 
             if ($tok != self::COLON) {
-                require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing ":" in object encoding: ' . $this->_source);
             }
 
@@ -224,7 +225,6 @@ class Zend_Json_Decoder
             }
 
             if ($tok != self::COMMA) {
-                require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing "," in object encoding: ' . $this->_source);
             }
 
@@ -271,7 +271,6 @@ class Zend_Json_Decoder
             }
 
             if ($tok != self::COMMA) {
-                require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing "," in array encoding: ' . $this->_source);
             }
 
@@ -385,7 +384,6 @@ class Zend_Json_Decoder
                                 $result .= '\'';
                                 break;
                             default:
-                                require_once 'Zend/Json/Exception.php';
                                 throw new Zend_Json_Exception("Illegal escape "
                                     .  "sequence '" . $chr . "'");
                         }
@@ -437,7 +435,6 @@ class Zend_Json_Decoder
 
                 if (is_numeric($datum)) {
                     if (preg_match('/^0\d+$/', $datum)) {
-                        require_once 'Zend/Json/Exception.php';
                         throw new Zend_Json_Exception("Octal notation not supported by JSON (value: $datum)");
                     } else {
                         $val  = intval($datum);
@@ -445,7 +442,6 @@ class Zend_Json_Decoder
                         $this->_tokenValue = ($val == $fVal ? $val : $fVal);
                     }
                 } else {
-                    require_once 'Zend/Json/Exception.php';
                     throw new Zend_Json_Exception("Illegal number format: $datum");
                 }
 
@@ -453,7 +449,6 @@ class Zend_Json_Decoder
                 $this->_offset = $start + strlen($datum);
             }
         } else {
-            require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Illegal Token');
         }
 
