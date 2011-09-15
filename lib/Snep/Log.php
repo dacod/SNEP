@@ -107,26 +107,25 @@ class Snep_Log {
         $filtro = array();
         foreach($result as $filter) {
             
+            $addsrc = false;
+            $adddst = false;
             // src
-            $filtrosrc = trim( substr($filter,28, strpos($filter, "->") - 28) );
-            if($this->src == $filtrosrc) {
-                $filtro[] = $filter;
+            $filtrosrc = trim( substr($filter,28, strpos($filter, "- ->") - 28) );
+            
+            if($this->src == $filtrosrc || empty($this->src)) {
+                $addsrc = true;
             }
 
             // dst
-            $tmp = substr($filter, strpos($filter, "->") + 2);
+            $tmp = substr($filter, strpos($filter, "- ->") + 2);
             $tmp2 = explode(" ", $tmp);
             $filtrodst = trim( $tmp2[1] );
-            if($this->dst == $filtrodst) {
-                $filtro[]= $filter;
+            if($this->dst == $filtrodst || empty($this->dst)) {
+                $adddst = true;
             }
 
-            if($this->dst == '') {
+            if((empty($this->dst) && empty($this->src))|| ($addsrc && $adddst)) {
                 $filtro[] = $filter;
-            }else{
-                if($this->src == '') {
-                    $filtro[] = $filter;
-                }
             }
 
         }
