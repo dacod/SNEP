@@ -61,7 +61,7 @@ require_once("../configs/config.php");
     }
  }
  if( $ONLYGSM && count($kchannels) == 0) {
-    display_error($LANG['error'].$LANG['msg_noerrorreport'], false) ;
+    display_error($LANG['error'].'Nenhuma informação de Erro Khomp encontrada', false) ;
     exit;
  }
  if (!$data = ast_status("khomp links errors concise","",True )) {

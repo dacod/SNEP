@@ -14,7 +14,21 @@
         </a>
     </div>
     <?php if(!$this->hideMenu): ?>
+
+    <?php
+    $front = Zend_Controller_Front::getInstance();
+    $request = $front->getRequest();
+    $module = $request->getModuleName();
+    $controller = $request->getControllerName();
+    $action = $request->getActionName();
+    $url = $module . "_" . $controller . "_" . $action . ".php";
+    ?>
     <div id="menu">
+       <div id="ajuda">
+           <spam onclick="janelaSecundaria('<?php echo Zend_Registry::get('config')->system->path->web;?>/src/ajuda.php?script=<?php echo $url?>&tp=true','Ajuda','500','600')">
+               Ajuda
+           </spam>
+       </div>
         <?php echo $this->menu; ?>
     </div>
     <?php endif; ?>

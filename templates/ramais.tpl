@@ -104,7 +104,7 @@
             <tr>
                 <td class="formlabel">{$LANG.secret}:</td>
                 <td class="subtable">
-                    <input name="secret" type="password" class="campos" value="{$dt_ramais.secret}" >
+                    <input name="secret" type="password" maxlength="50" class="campos" value="{$dt_ramais.secret}" >
                 </td>
             </tr>
             <tr>

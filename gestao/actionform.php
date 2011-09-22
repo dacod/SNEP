@@ -66,7 +66,6 @@ if($_GET['mode'] == "new_action") {
     else {
         http_error(400, "$classname is not a registered action");
     }
-
     $config = new Snep_Rule_ActionConfig($action->getConfig());
     $config->setActionId($custom_id);
 

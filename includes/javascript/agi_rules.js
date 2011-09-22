@@ -153,7 +153,10 @@ function Field(id) {
 function SrcField(id) {
     this.Field(id);
 
-    this.typeList[this.typeList.push()] = new Array('T',str_trunk, true);
+    if(trunk_list.length != 0){
+        this.typeList[this.typeList.push()] = new Array('T',str_trunk, true);    
+    }
+    
 }
 // Definindo herança entre SrcField e Field;
 copyPrototype(SrcField, Field);
@@ -340,7 +343,7 @@ addAction = function(action_spec) {
     var config_container = document.createElement('div');
     config_container.setAttribute('id', 'action-config-' +id);
     newAction.config_container = config_container;
-    config_container.innerHTML = action_spec.form;
+    config_container.innerHTML = action_spec.html(form);
 
     config_container.style.display = "none";
     $('actions-config').appendChild(config_container);

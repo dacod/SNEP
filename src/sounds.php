@@ -257,14 +257,14 @@ function voltar_backup() {
          $comando = "umask 000; /usr/bin/sox \"$atual\" -r 8000 -c 1  ".$gsm_name ;
          $result = exec("$comando 2>&1",$out,$err) ;
          if ($err) {
-            display_error($LANG['msg_errconvertgsm'].$gsm_name,true);
+            display_error($LANG['msg_errconvertgsm'].$gsm_name,true, -2);
             exit ;
          }
          // Elimina arquivo que deu origem ao GSM
          $comando = "rm -f $atual" ;
          $result = exec("$comando 2>&1",$out,$err) ;
          if ($err) {
-            display_error($LANG['msg_errdelfile']."(".$arq_dst.")",true);
+            display_error($LANG['msg_errdelfile']."(".$arq_dst.")",true, -2);
             exit ;
          }         
       }

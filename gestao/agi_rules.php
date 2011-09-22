@@ -186,7 +186,7 @@ HEAD;
      */
     private function isValidPost( $post=null) {
         $post = $post === null ? $_POST : $post;
-
+        
         $assert = true;
         if(!isset($post['actions_order'])) {
             display_error("Campo 'actions_order' faltando na requisição.",true);
@@ -268,7 +268,7 @@ HEAD;
                     try {
                         PBX_Trunks::get( $info[1] );
                     }
-                    catch( PBX_Exception_NotFound $ex ) {
+                    catch(Exception $ex ) {
                         display_error("Tronco inválido para origem da regra", true);
                     }
                 }
@@ -292,7 +292,7 @@ HEAD;
                     try {
                         PBX_Trunks::get( $info[1] );
                     }
-                    catch( PBX_Exception_NotFound $ex ) {
+                    catch( Exception $ex ) {
                         display_error("Tronco inválido para destino da regra", true);
                     }
                 }
@@ -512,7 +512,7 @@ HEAD;
                 */
                 $post = $_POST;
                 unset($post['actions_order']);
-
+                
                 $rule = $this->parseRuleFromPost($post);
                 $this->populateFromRule($rule, false);
             }

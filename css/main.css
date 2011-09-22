@@ -772,3 +772,25 @@ ul#navmenu ul ul li.iehover ul {
 }
 
 /* ========================================================================== */
+
+#ajuda {
+   height: 24px ;
+   border-top: 1px solid #FFF;
+   /*background-color: #EEE;*/
+   width: 68px ;
+   float:left;
+   position: absolute;
+}
+
+#ajuda a:link, #ajuda a:visited, #ajuda a:hover, #ajuda spam {
+  font-weight: bolder ;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  text-align: left;
+  /*background: #EEE;*/
+  text-decoration: none;
+  padding: 0 10px;
+  color: #666;
+  cursor: pointer;
+  font: bold 10px/22px Verdana, Arial, Helvetica, sans-serif !important;
+
+}

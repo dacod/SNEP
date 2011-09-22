@@ -19,11 +19,10 @@
  {config_load file="../includes/setup.conf" section="cores"}
  <form name="view" method="post" id="view">
  <table align="center">
-   <tr>
-   {foreach name=boards from=$DADOS key=board_key item=board_item}
+   {foreach name=boards from=$DADOS key=board_key item=board_item}    
    {assign var="tit" value=$board_key|replace:'B':''}
-
-      <td width="{$COLS}%" valign="top">
+    <tr>
+      <td valign="top">
          <input type="hidden"  size="2" class="campos" id="status[{$board_key}]" name="{$board_key}" value="no" />
          <table>
             <tr>
@@ -57,7 +56,7 @@
                   
                </td>
                
-            </tr>
+            </tr>        
             <tr >
                <td colspan="2">
 <!--              <div id="channels[{$board_key}]" style="display: none;"> -->
@@ -126,10 +125,10 @@
             </tr>
          </table>
        </td>
-       
+       </tr>
    {/foreach}
    
-   </tr>
+   
    <tr>
       <td colspan="3" align="center">
          {$LANG.updating} {#tempo_refresh#}
