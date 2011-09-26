@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  This file is part of SNEP.
  *  Para território Brasileiro leia LICENCA_BR.txt
@@ -199,18 +200,18 @@ function principal() {
 function cadastrar() {
     global $LANG, $type, $password, $manual, $db, $trunk, $name, $group, $vinc, $callerid, $qualify, $secret, $cod1, $cod2, $cod3, $cod4, $cod5, $dtmfmode, $vinculo, $email, $call_limit, $calllimit, $usa_vc, $pickupgroup, $def_campos_ramais, $canal, $nat, $peer_type, $authenticate, $usa_auth, $filas_selec, $tempo, $time_total, $time_chargeby, $khomp_boards, $khomp_channels;
 
-    if($name == "") {
-        display_error("É necessário definir o ramal a ser criado." , true);
+    if ($name == "") {
+        display_error("É necessário definir o ramal a ser criado.", true);
     }
     $select = $db->select()
-                 ->from('peers', array('name'))
-                 ->where("name = ?", $name);
+            ->from('peers', array('name'))
+            ->where("name = ?", $name);
     $stmt = $db->query($select);
     $result =  $stmt->fetchAll();
     if(count($result) > 0) {
         display_error($LANG['error'] . 'Ramal Existente', true);
     }
-    
+
     $context = "default";
 
     // Campos com dados identicos ao outros
@@ -474,7 +475,7 @@ function grava_alterar() {
     $fullcontact = "";
     $call_limit = $calllimit;
     $callgroup = $pickupgroup;
-    
+
     $peer_type = 'R';
 
     if ($tempo == "n") {
@@ -557,7 +558,7 @@ function grava_alterar() {
         $db->rollBack();
         display_error($LANG['error'] . $ex->getMessage(), true);
     }
-    
+
     $pag = ($_SESSION['pagina'] ? $_SESSION['pagina'] : 1 );
     echo "<meta http-equiv='refresh' content='0;url=../index.php/extensions/'>\n";
 }

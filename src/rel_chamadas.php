@@ -769,7 +769,7 @@ function exibe_relatorio() {
          *------------------------------------------------------------------------------*/
         function rem_arq(arquivo,mensagem) {
             if (confirm(mensagem+': ' +arquivo+' ?')) {
-                endereco='../pbx/remover_arquivo.php?arquivo='+arquivo;
+                endereco='../gestao/remover_arquivo.php?arquivo='+arquivo;
                 parent.location.href=endereco;
                 //parent.location.href='../src/manutencao.php';
                 return true;
