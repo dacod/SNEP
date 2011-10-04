@@ -46,6 +46,14 @@ class CostCenterController extends Zend_Controller_Action {
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string( $this->_request->getPost('campo') );
             $query = mysql_escape_string( $this->_request->getPost('filtro') );
+
+            if($field == 'tipo') {
+                $types = array($this->view->translate('Incoming') => 'E',
+                               $this->view->translate('Outgoing') => 'S',
+                               $this->view->translate('Others') => 'O');
+                $query = $types[$query];
+            }
+
             $select->where("`$field` like '%$query%'");
         }
 

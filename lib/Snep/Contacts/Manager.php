@@ -152,4 +152,20 @@ class Snep_Contacts_Manager {
 
         return $return;
     }
+
+
+    public function removeByGroupId($groupId) {
+
+            $db = Zend_Registry::get('db');
+
+            $db->beginTransaction();
+            $db->delete('contacts_names', "contacts_names.group = '$groupId'");
+
+            try {
+                $db->commit();
+            } catch (Exception $e) {
+                $db->rollBack();
+            }
+
+    }
 }

@@ -63,11 +63,11 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array("name" => $this->view->translate("Name"),
-            "city" => $this->view->translate("City"),
-            "state" => $this->view->translate("State"),
-            "cep" => $this->view->translate("ZIP Code"),
-            "phone_1" => $this->view->translate("Phone"),
-            "cell_1" => $this->view->translate("Cellphone"));
+                        "city" => $this->view->translate("City"),
+                        "state" => $this->view->translate("State"),
+                        "cep" => $this->view->translate("ZIP Code"),
+                        "phone_1" => $this->view->translate("Phone"),
+                        "cell_1" => $this->view->translate("Cellphone"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -78,12 +78,17 @@ class ContactsController extends Zend_Controller_Action {
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
-                "display" => $this->view->translate("Add Contact"),
-                "css" => "include"),
-            array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/import/",
-                "display" => $this->view->translate("Import CSV"),
-                "css" => "includes")
-        );
+                                          "display" => $this->view->translate("Add Contact"),
+                                          "css" => "include"),
+                                    array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/multi-remove/",
+                                          "display" => $this->view->translate("Remove Multiple"),
+                                          "css" => "exclude"),
+                                    array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/import/",
+                                          "display" => $this->view->translate("Import CSV"),
+                                          "css" => "import"),
+                                    array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/export/",
+                                          "display" => $this->view->translate("Export CSV"),
+                                          "css" => "export") );
     }
 
     /**
@@ -212,6 +217,49 @@ class ContactsController extends Zend_Controller_Action {
     }
 
     /**
+     * Remove various contacts
+     */
+    public function multiRemoveAction() {
+
+            if($this->_request->getPost()) {
+
+                if( $_POST['group'] == 'all' ) {
+                    $groups = Snep_ContactGroups_Manager::getAll();
+
+                }else{
+                    $groups = Snep_ContactGroups_Manager::get($_POST['group']);
+                }
+                
+                foreach($groups as $group ) {
+                    Snep_Contacts_Manager::removeByGroupId($group['id']);                    
+                }
+
+                $this->_redirect($this->getRequest()->getControllerName());
+
+            }else{
+
+                $this->view->message = $this->view->translate('Select a contact group to remove your contacts.');
+                $_contactGroups = Snep_ContactGroups_Manager::getAll();
+                $contactGroups = array('all' => $this->view->translate('Todos Grupos'));
+                foreach($_contactGroups as $contactGroup) {
+                    $contactGroups[$contactGroup['id']] = $contactGroup['name'] ;
+                }
+
+                $form = new Snep_Form();
+
+                $select = new Zend_Form_Element_Select('group');
+                $select->addMultiOptions( $contactGroups );
+
+                $form->addElement( $select );
+                $this->view->form = $form;
+
+                $this->renderScript("contacts/select-multi-remove.phtml");
+
+            }
+
+    }
+
+    /**
      * Import contacts from CSV file
      */
     public function importAction() {
@@ -229,6 +277,72 @@ class ContactsController extends Zend_Controller_Action {
         $form->getSubForm('file')->addElement(new Zend_Form_Element_File('file'));
 
         $this->view->form = $form;
+    }
+
+    /**
+     * Export contacts for CSV file.
+     */
+    public function exportAction() {
+
+        if($this->_request->getPost()) {
+
+            $db = Zend_Registry::get('db');
+            $select = $db->select()
+                    ->from(array("n" => "contacts_names"), array("name as nome", "city", "state", "cep", "phone_1", "cell_1"))
+                    ->join(array("g" => "contacts_group"), 'n.group = g.id')
+                    ->order('g.id');
+
+            if($_POST['group'] != 'all') {
+                $select->where('g.id = ?',$_POST['group']);
+            }
+
+            $stmt = $db->query($select);
+            $contacts = $stmt->fetchAll();
+
+            $headers = array('nome' => $this->view->translate('Name'),
+                             'city' => $this->view->translate('City'),
+                             'state' => $this->view->translate('State'),
+                             'cep' => $this->view->translate('ZipCode'),
+                             'phone_1' => $this->view->translate('Phone'),
+                             'cell_1' => $this->view->translate('Mobile'),
+                             'name' => $this->view->translate('Grupo') );
+
+
+            $csv = new Snep_Csv();
+            $csv_data = $csv->generate($contacts, $headers);
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $dateNow = new Zend_Date();
+            $fileName = $this->view->translate('Contacts_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
+
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            
+            echo $csv_data;
+            
+
+        }else{
+
+            $this->view->message = $this->view->translate('Select a contact group to export.');
+            $_contactGroups = Snep_ContactGroups_Manager::getAll();
+            $contactGroups = array('all' => $this->view->translate('Todos Grupos'));
+            foreach($_contactGroups as $contactGroup) {
+                $contactGroups[$contactGroup['id']] = $contactGroup['name'] ;
+            }
+
+            $form = new Snep_Form();
+
+            $select = new Zend_Form_Element_Select('group');
+            $select->addMultiOptions( $contactGroups );
+
+            $form->addElement( $select );
+            $this->view->form = $form;
+            
+            $this->renderScript("contacts/export.phtml");
+        }
+
     }
 
     /**

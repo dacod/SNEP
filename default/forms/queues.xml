@@ -146,23 +146,24 @@
                       <label>Queue Priority</label>
                   </options>
             </weight>
-<!--
             <autofill>
-               <type>radio</type>
+               <type>checkbox</type>
                     <options>
+                      <label>Auto Fill</label>
+                      <description>Delivery calls when the waiting callers are connecting with available members in a parallel fashion until there are no more available members or no more waiting callers.</description>
                       <yes></yes>
                       <no></no>
                     </options>
             </autofill>
-
             <autopause>
-               <type>radio</type>
+               <type>checkbox</type>
                     <options>
+                      <label>Auto Pause</label>
+                      <description>Will pause a queue member if they fail to answer a call</description>
                       <yes></yes>
                       <no></no>
                     </options>
             </autopause>
--->
         </elements>
     </advanced>
     <alerts>

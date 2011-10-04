@@ -68,6 +68,15 @@ td, th {
 .links .includes {
     background: url("../imagens/include_all.png") no-repeat center left;
 }
+.links .import {
+    background: url("../imagens/import.png") no-repeat center left;
+}
+.links .export {
+    background: url("../imagens/export.png") no-repeat center left;
+}
+.links .exclude {
+    background: url("../imagens/delete.png") no-repeat center left;
+}
 
 .filtros {
     background-color: #F8F8F8;
