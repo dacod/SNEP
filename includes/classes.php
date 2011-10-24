@@ -195,15 +195,18 @@ class Bar_Graph {
 
               $result = $db->query( $query )->fetch();
 
-
-              $tipo = ucfirst( strtolower( $result['municipio'] ) )."-". $result['uf'];
+	      if (count($result) == 1) {
+	          $tipo = 'Desconhecido'; 
+              } else {
+	          $tipo = ucfirst( strtolower( $result['municipio'] ) )."-". $result['uf'];
+	      }
           }
 
       }elseif( $phoneLenght > 13 ) {
           $tipo = "Internacional";
       }
       
-      return print_r($result);
+      return $tipo;
       
    } // Fim da Funcao fmt_cidade
    /*-----------------------------------------------------------------------------
