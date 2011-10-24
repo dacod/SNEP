@@ -641,8 +641,10 @@ function monta_csv($arr_titulo, $arr_dados) {
                 $dados['disposition'] = "Ocupada";
             }
         }
-        if (isset($dados['dst'])) {
-            $dados['origem'] = $formatter->fmt_cidade(array("a" => $dados_ori['dst']));
+        if (strlen($dados['src']) > 7 && strlen($dados['dst']) < 5 ) {
+            $dados['origem'] = html_entity_decode($formatter->fmt_cidade(array("a"=>$dados_ori['src'])));
+        } else {
+            $dados['origem'] = html_entity_decode($formatter->fmt_cidade(array("a"=>$dados_ori['dst'])));
         }
 
         /* Tratamento das Estatísticas do Operador */
