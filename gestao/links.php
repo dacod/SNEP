@@ -56,7 +56,6 @@
 
  //ast_status("khomp links show concise","",True );
 
-
  $lines = explode("\n",$data);
  $links = array() ;
      
@@ -101,21 +100,27 @@
     {
        continue ;
     }
-
+           
     $lines = explode("\n",$data);
+    $all_chann = array();
 
     while (list($chave, $valor) = each($lines)) {
 
-       if (substr($valor,4,1) === "B" &&  substr($valor,7,1) === "C") {
+       if (substr($valor,0,1) === "B" &&  substr($valor,3,1) === "C") {
+       //if (substr($valor,4,1) === "B" &&  substr($valor,7,1) === "C") {
               /* Tradução dos status */
               $linha = explode(":", $valor) ;
-
               $st_ast = $khomp_signal[$linha[1]] ;
               $st_placa = $khomp_signal[$linha[2]] ;              
               $st_canal = $khomp_signal[$linha[3]] ;
 
-              /* Relatório Sintético */
-              $sintetic[substr($valor,4,3)][$linha[1]] += 1 ;
+	      if ($st_placa != "Canal Livre")
+	         array_push($all_chann, $st_placa);
+
+              /*  Relatório Sintético */
+              $sintetic[substr($valor,0,3)][$linha[1]] += 1 ;
+	      $sintetic[substr($valor,0,3)]['Total'] = sizeof($all_chann);
+              //$sintetic[substr($valor,4,3)][$linha[1]] += 1 ;
               $l = "$linha[0]:$st_ast:$st_placa:$st_canal";
 
               /* Pega status de sinal/operadora GSM */
@@ -126,9 +131,11 @@
               }else{
                     $st_gsm = false;
               }
-
-              $board = substr($l,4,3) ;
-              $channel = substr($l,7,3) ;
+                  
+              $board = substr($l,0,3) ;
+              //$board = substr($l,4,3) ;
+              $channel = substr($l,4,3) ;
+              //$channel = substr($l,7,3) ;
               $status = explode(":", $l);
 
            if ($status[3] != "kecs{Busy,Locked,LocalFail}") {
@@ -139,12 +146,9 @@
               $channels[$key][$channel]['k_opera']   =  $st_opera ;
               $channels[$key][$channel]['k_gsm']   =  $st_gsm ;
            }
-
-
        }
     }
  }
-
  $smarty->assign('GSM', $gsm);
  $smarty->assign('DADOS', $links);
  $smarty->assign('CANAIS', $channels);
