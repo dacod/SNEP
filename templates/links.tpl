@@ -19,10 +19,11 @@
  {config_load file="../includes/setup.conf" section="cores"}
  <form name="view" method="post" id="view">
  <table align="center">
-   {foreach name=boards from=$DADOS key=board_key item=board_item}    
+   <tr>
+   {foreach name=boards from=$DADOS key=board_key item=board_item}
    {assign var="tit" value=$board_key|replace:'B':''}
-    <tr>
-      <td valign="top">
+
+      <td width="{$COLS}%" valign="top">
          <input type="hidden"  size="2" class="campos" id="status[{$board_key}]" name="{$board_key}" value="no" />
          <table>
             <tr>
@@ -37,26 +38,29 @@
             <tr>
                <td class="links_khomp">
                   {assign var="channels" value="no"}
-                  {assign var="count" value = 0}
                   {foreach name=links from=$DADOS[$board_key] key=link_key  item=link_item}
                      {$LANG.link} {$link_key}: {$link_item}
                      <br />
                   {/foreach}
                </td>
                <td class="links_sint" width="50%">
-                  
+
                   {assign var="sintetic" value="no"}
                     
                   {assign var="cor_status" value=$canal_item.asterisk}
                   
                   {foreach name=sintetic from=$SINTETIC[$board_key] key=sint_key  item=sint_item}
-                     {$STATUS_SINTETIC.$sint_key}:<strong> {$sint_item}</strong>
+		     {if $sint_key=='Total'}
+			Total: {$sint_item}
+		     {else}
+                        {$STATUS_SINTETIC.$sint_key}:<strong> {$sint_item}</strong>
+		     {/if}
                      <br />
                   {/foreach}
                   
                </td>
                
-            </tr>        
+            </tr>
             <tr >
                <td colspan="2">
 <!--              <div id="channels[{$board_key}]" style="display: none;"> -->
@@ -116,7 +120,7 @@
                          
 
                      </tr>
-                     {$count += 1}
+                     
                      {/foreach}
                   </table>
                     {/if}
@@ -125,10 +129,10 @@
             </tr>
          </table>
        </td>
-       </tr>
+       
    {/foreach}
    
-   
+   </tr>
    <tr>
       <td colspan="3" align="center">
          {$LANG.updating} {#tempo_refresh#}
