@@ -27,7 +27,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         }
 
         $front = Zend_Controller_Front::getInstance();
-        require_once 'default/model/AclPlugin.php';
+        require_once 'modules/default/model/AclPlugin.php';
         $front->registerPlugin(new AclPlugin($acl, $role));
     }
 
