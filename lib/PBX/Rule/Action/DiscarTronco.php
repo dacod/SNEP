@@ -135,6 +135,7 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
         $dial_timeout    = (isset($this->config['dial_timeout']))?"<value>{$this->config['dial_timeout']}</value>":"";
         $dial_flags      = (isset($this->config['dial_flags']))?"<value>{$this->config['dial_flags']}</value>":"";
         $dial_limit      = (isset($this->config['dial_limit']))?"<value>{$this->config['dial_limit']}</value>":"";
+        $carrier_msg	 = (isset($this->config['carrier_msg']))?"<value>{$this->config['carrier_msg']}</value>":"";
         $omit_kgsm       = (isset($this->config['omit_kgsm']))?"<value>{$this->config['omit_kgsm']}</value>":"";
         $alertEmail      = (isset($this->config['alertEmail']))?"<value>{$this->config['alertEmail']}</value>":"";
 
@@ -170,6 +171,13 @@ class PBX_Rule_Action_DiscarTronco extends PBX_Rule_Action {
         <default>TWK</default>
         $dial_flags
     </string>
+
+    <boolean>
+        <id>carrier_msg</id>
+        <default>false</default>
+        <label>{$i18n->translate("Detectar Atendimento de Maquina e Caixa de Mensagem")}</label>
+        $carrier_msg
+    </boolean>
 
     <boolean>
         <id>omit_kgsm</id>
@@ -274,9 +282,24 @@ XML;
             $destiny = $tronco->getInterface()->getTech() . "/" . $dst_number . "@" . $tronco->getInterface()->getHost();
         }
         else {
-            $postfix = ( isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true" ) ? "/orig=restricted" : "";
-            $destiny = $tronco->getInterface()->getCanal() . "/" . $dst_number . $postfix;
-        }
+		$postfix = "/";
+		if (isset($this->config['omit_kgsm']) && $this->config['omit_kgsm'] == "true") {
+			$postfix .= "orig=restricted";
+
+			if ( isset($this->config['carrier_msg']) && $this->config['carrier_msg'] == "true") {
+				$postfix .= ":";
+			}
+		} 
+		if (isset($this->config['carrier_msg']) && $this->config['carrier_msg'] == "true") {
+			$ret_agi = $asterisk->get_variable("CHANNEL");
+			$postfix .= "parent=".$ret_agi['data'].":answer_info:drop_on=message_box+carrier_message";
+		}
+		if (strlen($postfix) == 1) {
+			$postfix = "";
+		}	
+			
+	}
+	$destiny = $tronco->getInterface()->getCanal() . "/" . $dst_number . $postfix;
 
         $log->info("Discando para $request->destino atraves do tronco {$tronco->getName()}($destiny)");
 
