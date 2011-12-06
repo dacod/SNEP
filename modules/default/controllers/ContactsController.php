@@ -102,7 +102,7 @@ class ContactsController extends Zend_Controller_Action {
                 ));
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
+        $form = new Snep_Form(new Zend_Config_Xml("modules/default/formscontacts.xml"));
 
         $form->getElement('id')->setValue(Snep_Contacts_Manager::getLastId());
 
@@ -162,7 +162,7 @@ class ContactsController extends Zend_Controller_Action {
         $contact = Snep_Contacts_Manager::get($id);
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form = new Snep_Form(new Zend_Config_Xml("default/forms/contacts.xml"));
+        $form = new Snep_Form(new Zend_Config_Xml("modules/default/formscontacts.xml"));
 
         $form->getElement('id')->setValue($contact['id'])->setAttrib('readonly', true);
         $form->getElement('name')->setValue($contact['name']);

@@ -104,7 +104,7 @@ class CostCenterController extends Zend_Controller_Action {
         ));
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/cost_center.xml" ) );
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms//cost_center.xml" ) );
         
         if($this->_request->getPost()) {
             
@@ -150,7 +150,7 @@ class CostCenterController extends Zend_Controller_Action {
         $costCenter = Snep_CostCenter_Manager::get($id);
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/cost_center.xml" ) );
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/cost_center.xml" ) );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
         $form->getElement('id')->setValue( $costCenter['codigo'] )->setAttrib('readonly', true);
         $form->getElement('name')->setValue( $costCenter['nome'] );

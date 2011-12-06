@@ -53,7 +53,7 @@ class InstallerController extends Zend_Controller_Action {
         $this->view->error = $inspect['Permissions'];
 
         $form = new Snep_Form();
-        $form_xml = new Zend_Config_Xml('./default/forms/setup.conf.xml');
+        $form_xml = new Zend_Config_Xml('./modules/default/formssetup.conf.xml');
 
         $locale_form = new Snep_Form_SubForm($this->view->translate("Locale Configuration"), $form_xml->locale);
         $locale = Snep_Locale::getInstance()->getZendLocale();
@@ -175,7 +175,7 @@ class InstallerController extends Zend_Controller_Action {
 
         $this->view->hideMenu = true;
         $this->view->breadcrumb = $this->view->translate("Installer » Configuration");
-        $form_config = new Zend_Config_Xml("./default/forms/installer.xml");
+        $form_config = new Zend_Config_Xml("./modules/default/formsinstaller.xml");
 
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . '/installer/configure');

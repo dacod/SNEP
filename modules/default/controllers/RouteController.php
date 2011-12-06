@@ -143,7 +143,7 @@ class RouteController extends Zend_Controller_Action {
      */
     protected function getForm() {
         if ($this->form === Null) {
-            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/route.xml");
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/formsroute.xml");
             $form = new Snep_Form($form_xml);
 
             $actions = PBX_Rule_Actions::getInstance();

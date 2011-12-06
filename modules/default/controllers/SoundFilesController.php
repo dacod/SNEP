@@ -106,7 +106,7 @@ class SoundFilesController extends Zend_Controller_Action {
             $this->view->translate("Add")
         ));
 
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/sound_files.xml" ) );
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formssound_files.xml" ) );
 
         $file = new Zend_Form_Element_File('file');
         $file->setLabel( $this->view->translate('Select the file'))
@@ -198,7 +198,7 @@ class SoundFilesController extends Zend_Controller_Action {
 
         $this->view->file = $data;
 
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/sound_files.xml" ) );
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formssound_files.xml" ) );
 
         $file = new Zend_Form_Element_File('file');
         $file->setLabel( $this->view->translate('Sound Files'))

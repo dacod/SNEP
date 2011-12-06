@@ -98,7 +98,7 @@ class BillingController extends Zend_Controller_Action {
             $this->view->translate("Add")
         ));
 
-        $form = new Snep_Form( new Zend_Config_Xml( "default/forms/queues.xml" ) );
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/queues.xml" ) );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
 
 
@@ -222,7 +222,7 @@ class BillingController extends Zend_Controller_Action {
         /* Snep_Form
          *
         $this->view->objSelectBox = "billing";
-        $xml = new Zend_Config_Xml( "default/forms/billing.xml" );
+        $xml = new Zend_Config_Xml( "modules/default/formsbilling.xml" );
         $objCarrier = Snep_Billing_Manager::get($id);        
         $form = new Snep_Form( $xml );
         $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit');

@@ -550,7 +550,7 @@ class ExtensionsController extends Zend_Controller_Action {
     protected function getForm() {
         if ($this->form === Null) {
             Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensions.xml");
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/formsextensions.xml");
             $form = new Snep_Form();
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
@@ -597,7 +597,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
     protected function getmultiaddForm() {
         if ($this->form === Null) {
-            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/default/forms/extensionsMulti.xml");
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/formsextensionsMulti.xml");
             $form = new Snep_Form();
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");

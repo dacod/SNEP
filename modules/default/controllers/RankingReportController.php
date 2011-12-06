@@ -81,7 +81,7 @@ class RankingReportController extends Zend_Controller_Action {
         // Set form action
         $form->setAction($this->getFrontController()->getBaseUrl() . '/ranking-report/index');
 
-        $form_xml = new Zend_Config_Xml('./default/forms/ranking_report.xml');
+        $form_xml = new Zend_Config_Xml('./modules/default/formsranking_report.xml');
         $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
 

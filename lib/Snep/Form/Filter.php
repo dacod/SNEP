@@ -6,7 +6,7 @@ class Snep_Form_Filter extends Zend_Form {
     protected $reset;
 
     public function __construct() {
-        $config_file = "./default/forms/filter.xml";
+        $config_file = "modules/default/forms/filter.xml";
         $config = new Zend_Config_Xml($config_file, null, true);
         parent::__construct($config);
 
