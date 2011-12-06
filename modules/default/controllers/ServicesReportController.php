@@ -83,7 +83,7 @@ class ServicesReportController extends Zend_Controller_Action {
         // Set form action
         $form->setAction($this->getFrontController()->getBaseUrl() . '/services-report/index');
 
-        $form_xml = new Zend_Config_Xml('./modules/default/formsservices_report.xml');
+        $form_xml = new Zend_Config_Xml('./modules/default/forms/services_report.xml');
         $config = Zend_Registry::get('config');
         $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);
         $validatorDate = new Zend_Validate_Date(Zend_Locale_Format::getDateFormat(Zend_Registry::get('Zend_Locale')));

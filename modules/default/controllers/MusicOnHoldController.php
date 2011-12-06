@@ -70,7 +70,7 @@ class MusicOnHoldController extends Zend_Controller_Action {
             $this->view->translate("Add")
         ));
 
-        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formsmusic_on_hold.xml" ) );       
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/music_on_hold.xml" ) );       
         $form->getElement('base')->setAttrib('readonly', true );
         
         if($this->_request->getPost()) {
@@ -136,7 +136,7 @@ class MusicOnHoldController extends Zend_Controller_Action {
         $file = $this->_request->getParam("file");
         $data = Snep_SoundFiles_Manager::getClasse($file);
         
-        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formsmusic_on_hold.xml" ) );        
+        $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/music_on_hold.xml" ) );        
         $form->getElement('name')->setValue( $data['name']);
         $form->getElement('mode')->setValue($data['mode']);
 
@@ -282,7 +282,7 @@ class MusicOnHoldController extends Zend_Controller_Action {
             $className
         ));
 
-       $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formssound_files.xml" ) );
+       $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/sound_files.xml" ) );
 
        $file = new Zend_Form_Element_File('file');
        $file->setLabel( $this->view->translate('Sound File'))
@@ -377,7 +377,7 @@ class MusicOnHoldController extends Zend_Controller_Action {
             $className
         ));
 
-       $form = new Snep_Form( new Zend_Config_Xml( "modules/default/formssound_files.xml" ) );
+       $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/sound_files.xml" ) );
        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . "/editfile/file/$fileName/class/$class");
 
        $file = new Zend_Form_Element_File('file');

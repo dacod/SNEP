@@ -90,7 +90,7 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
 
-        $form = new Snep_Form( new Zend_Config_Xml("modules/default/formscontact_groups.xml") );
+        $form = new Snep_Form( new Zend_Config_Xml("modules/default/forms/contact_groups.xml") );
         $db = Zend_Registry::get('db');
 
         try {
@@ -138,7 +138,7 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
 
-        $form = new Snep_Form( new Zend_Config_Xml("modules/default/formscontact_groups.xml") );
+        $form = new Snep_Form( new Zend_Config_Xml("modules/default/forms/contact_groups.xml") );
 
         $group = Snep_ContactGroups_Manager::get($id);
         $form->getElement('group')->setValue($group['name']);
@@ -238,7 +238,7 @@ class ContactGroupsController extends Zend_Controller_Action {
         }
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form = new Snep_Form( new Zend_Config_Xml("modules/default/formscontact_groups_migration.xml") );
+        $form = new Snep_Form( new Zend_Config_Xml("modules/default/forms/contact_groups_migration.xml") );
         $form->setAction( $this->getFrontController()->getBaseUrl() . '/contact-groups/migration/stage/2' );
 
         if (isset($allGroups)) {

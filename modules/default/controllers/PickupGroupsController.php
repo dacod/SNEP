@@ -91,7 +91,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         ));
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form_xml = new Zend_Config_Xml("modules/default/formspickupGroup.xml");
+        $form_xml = new Zend_Config_Xml("modules/default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName().'/add');
 
@@ -126,7 +126,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         $pickupgroup = Snep_PickupGroups_Manager::get($id);
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-        $form_xml = new Zend_Config_Xml("modules/default/formspickupGroup.xml");
+        $form_xml = new Zend_Config_Xml("modules/default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName()."/edit/group/$id");
 

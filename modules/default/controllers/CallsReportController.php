@@ -80,7 +80,7 @@ class CallsReportController extends Zend_Controller_Action {
         $form->setAction($this->getFrontController()->getBaseUrl() . '/calls-report/');
         $form->setName('create');
 
-        $form_xml = new Zend_Config_Xml('./modules/default/formscalls_report.xml');
+        $form_xml = new Zend_Config_Xml('./modules/default/forms/calls_report.xml');
 
         // --- Subsection - Periods
         $period = new Snep_Form_SubForm($this->view->translate("Period"), $form_xml->period);

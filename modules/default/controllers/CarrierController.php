@@ -92,7 +92,7 @@ class CarrierController extends Zend_Controller_Action {
 
         $this->view->objSelectBox = "carrier";
 
-        $xml = new Zend_Config_Xml( "modules/default/formscarrier.xml" );
+        $xml = new Zend_Config_Xml( "modules/default/forms/carrier.xml" );
         $form = new Snep_Form( $xml );
 
         $_idleCostCenter = Snep_Carrier_Manager::getIdleCostCenter();
@@ -135,7 +135,7 @@ class CarrierController extends Zend_Controller_Action {
         $this->view->objSelectBox = "carrier";
         $id = $this->_request->getParam("id");
 
-        $xml = new Zend_Config_Xml( "modules/default/formscarrier.xml" );
+        $xml = new Zend_Config_Xml( "modules/default/forms/carrier.xml" );
         $carrier = Snep_Carrier_Manager::get($id);
 
         $form = new Snep_Form( $xml );        

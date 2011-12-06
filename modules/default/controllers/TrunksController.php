@@ -141,7 +141,7 @@ class TrunksController extends Zend_Controller_Action {
 
         if ($this->form === Null) {
 
-            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/formstrunks.xml");
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/forms/trunks.xml");
 
             $form = new Snep_Form();
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Trunk"), $form_xml->trunks), "trunks");
