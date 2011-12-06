@@ -129,9 +129,9 @@ class InstallerController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $path = $config->system->path;
 
-        $schema = file_get_contents($path->base . "/default/installer/schema.sql");
-        $system_data = file_get_contents($path->base . "/default/installer/system_data.sql");
-        $cnl_data = file_get_contents($path->base . "/default/installer/cnl_data.sql");
+        $schema = file_get_contents($path->base . "/modules/default/installer/schema.sql");
+        $system_data = file_get_contents($path->base . "/modules/default/installer/system_data.sql");
+        $cnl_data = file_get_contents($path->base . "/modules/default/installer/cnl_data.sql");
 
         $db->beginTransaction();
         try {
