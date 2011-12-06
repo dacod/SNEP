@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : expression_alias.xml
+    Created on : 21 de Março de 2011, 14:26
+    Author     : Lucas Ivan Seidenfus
+    Description:
+        Document that specifies the expression alias form for Adding and Editing occurences
+-->
+
+<form>
+    <attribs>
+        <id>expressionAliasForm</id>
+    </attribs>
+    <elements>
+        <name>
+            <type>Text</type>
+            <options>
+                <required>true</required>
+                <label>Name</label>
+                <size>30</size>
+            </options>
+        </name>
+    </elements>
+</form>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <name>
+        <type>text</type>
+        <options>
+            <label>Name</label>
+            <required>true</required>           
+        </options>
+    </name>
+    <mode>
+        <type>select</type>
+        <options>
+            <label>Mode</label>
+            <multioptions>
+                <files>Directory</files>
+                <mp3>Mp3</mp3>
+                <quietmp3>Normal</quietmp3>
+                <mp3nb>Without buffer</mp3nb>
+                <quietmp3nb>Without buffer quiet</quietmp3nb>
+                <custom>Custom application</custom>
+            </multioptions>
+        </options>
+    </mode>
+    <base>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <label>Default path</label>
+            <value>/var/lib/asterisk/moh/</value>
+        </options>
+    </base>
+    <directory>
+        <type>text</type>
+        <options>
+            <required>true</required>
+            <label>Directory name</label>
+            <validators>
+                <alnum>
+                    <validator>Alnum</validator>
+                </alnum>                
+            </validators>
+        </options>               
+    </directory>
+</elements>
+</modelo>

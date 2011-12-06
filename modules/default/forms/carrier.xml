@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <elements>
+        <name>
+            <type>text</type>
+            <options>
+                <label>Name</label>
+                <required>true</required>
+                <validators>
+                    <alnum>
+                        <validator>Alnum</validator>
+                        <options>
+                            <allowWhiteSpace>true</allowWhiteSpace>
+                        </options>
+                    </alnum>
+                </validators>
+            </options>
+        </name>
+        <ta>
+            <type>text</type>
+            <options>
+                <label>Start charging Time</label>
+                <description>In seconds</description>
+            </options>
+        </ta>
+        <tf>
+            <type>text</type>
+            <options>
+                <label>Fragmentation Time</label>
+                <description>In seconds</description>
+            </options>
+        </tf>
+        <tbf>
+            <type>text</type>
+            <options>
+                <label>Minute Fee for Residencial</label>
+                <description>use dot for decimal</description>
+            </options>
+        </tbf>
+        <tbc>
+            <type>text</type>
+            <options>
+                <label>Minute Fee for Mobile</label>
+                <description>use dot for decimal</description>
+            </options>
+        </tbc>
+    </elements>
+</modelo>

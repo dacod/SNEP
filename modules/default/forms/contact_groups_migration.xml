@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : contact_groups_migration.xml
+    Created on : 27 de Abril de 2011, 13:35
+    Author     : Rafael Bozzetti
+    Description:
+        Snep Form specification for contactgroups controller
+-->
+<form>
+    <elements>
+        <option>
+            <type>radio</type>
+            <options>
+                <required>true</required>
+                <label>Group contacts</label>
+                <separator> </separator>
+            </options>
+        </option>
+        <group>
+            <type>Select</type>
+            <options>
+                <label>To group</label>
+            </options>
+        </group>
+        <id>
+            <type>hidden</type>
+        </id>
+    </elements>
+</form>

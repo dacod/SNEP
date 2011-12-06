@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <boards>
+        <type>MultiCheckbox</type>
+            <options>
+                <required>true</required>
+                <label>Boards</label>
+                <separator> </separator>
+            </options>
+    </boards>
+    <view>
+        <type>radio</type>
+            <options>
+                <label>Report Type</label>
+                <multioptions>
+                    <analitic>Analytic</analitic>
+                    <synthetic>Synthetic</synthetic>
+                </multioptions>
+                <value>analitic</value>
+                <separator> </separator>
+            </options>
+    </view>
+    <status>
+        <type>radio</type>
+            <options>
+                <label>View status of the channel?</label>
+                <multioptions>
+                    <yes>Yes</yes>
+                    <no>No</no>
+                </multioptions>
+                <value>no</value>
+                <separator> </separator>
+            </options>
+    </status>
+</elements>
+</modelo>

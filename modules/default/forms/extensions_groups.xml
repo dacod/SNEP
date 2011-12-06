@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <elements>
+        <name>
+            <type>text</type>
+            <options>
+                <required>true</required>
+                <validators>
+                    <alnum>
+                        <validator>Alnum</validator>
+                        <options>
+                            <allowWhiteSpace>true</allowWhiteSpace>
+                        </options>
+                    </alnum>
+                </validators>
+            </options>
+        </name>
+        <type>
+            <type>radio</type>
+        </type>
+        <id>
+            <type>hidden</type>
+        </id>
+    </elements>
+</modelo>

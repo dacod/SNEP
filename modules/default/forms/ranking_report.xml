@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : services_report.xml
+    Created on : 25 de Março de 2011, 11:20
+    Author     : Lucas Ivan Seidenfus
+    Description:
+       Zend  Form XML with parameters for the Services Report 
+-->
+
+<form>    
+    <period>
+        <elements>            
+            <init_day>
+                <type>text</type>
+                <options>
+                    <label>From:</label>
+                    <description>dd/mm/aaaa</description>
+                    <required>true</required>
+                </options>
+            </init_day>
+            <till_day>
+                <type>text</type>
+                <options>
+                    <label>To:</label>
+                    <description>dd/mm/aaaa</description>
+                    <required>true</required>
+                </options>
+            </till_day>
+        </elements>    
+    </period>    
+    <rank>
+        <elements>            
+            <type>
+                <type>radio</type>
+                <options>
+                    <label>Ranking Type</label>
+                    <value>num</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <num>Quantity</num>
+                        <time>Time</time>
+                    </multioptions>
+                </options>
+            </type>            
+            <origin>
+                <type>text</type>
+                <options>
+                    <label>Show 'n' source ranking</label>
+                    <value>10</value>
+                    <description>Just numbers</description>
+                    <required>true</required>
+                     <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                                <messages>
+                                    <regexNotMatch>This field shoud contain only numbers</regexNotMatch>
+                                </messages>                     
+                            </options>
+                        </regex>
+                        </validators>
+                </options>
+            </origin>            
+            <view>
+                <type>select</type>
+                <options>
+                    <label>Show TOP 'n' by source</label>
+                    <value>10</value>
+                </options>
+            </view>            
+             <out_type>
+                <type>radio</type>
+                <options>
+                    <label>Report Type</label>
+                    <value>lst</value>
+                    <separator> </separator>
+                    <multioptions>
+                        <lst>Analytic</lst>
+                        <csv>CSV</csv>
+                    </multioptions>
+                </options>
+            </out_type>            
+        </elements>    
+    </rank>
+</form>

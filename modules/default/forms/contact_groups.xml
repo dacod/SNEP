@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <elements>
+        <group>
+            <type>text</type>
+            <options>
+                <label>Name</label>
+                <required>true</required>
+                <validators>
+                    <alnum>
+                        <validator>Alnum</validator>
+                        <options>
+                            <allowWhiteSpace>true</allowWhiteSpace>
+                        </options>
+                    </alnum>
+                </validators>
+            </options>
+        </group>
+    </elements>
+</modelo>

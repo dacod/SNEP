@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installform>
+    <!-- Database Configuration Data -->
+    <database>
+        <elements>
+            <username>
+                <type>text</type>
+                <options>
+                    <label>User</label>
+                    <required>true</required>
+                    <description>
+                        The informed user must have permission to create tables
+                        on the Database informed.
+                    </description>
+                </options>
+            </username>
+            <password>
+                <type>password</type>
+                <options>
+                    <label>Password</label>
+                    <required>true</required>
+                    <renderpassword>true</renderpassword>
+                </options>
+            </password>
+            <dbname>
+                <type>text</type>
+                <options>
+                    <label>Database</label>
+                    <value>snep</value>
+                    <required>true</required>
+                </options>
+            </dbname>
+            <hostname>
+                <type>text</type>
+                <options>
+                    <label>Host</label>                    
+                    <required>true</required>
+                    <validators>
+                        <hostname>
+                            <validator>Hostname</validator>
+                            <options>
+                                <allow>7</allow>
+                            </options>
+                        </hostname>
+                    </validators>
+                </options>
+            </hostname>
+        </elements>
+    </database>
+    <!-- Asterisk Configuration Data -->
+    <asterisk>
+        <elements>
+            <username>
+                <type>text</type>
+                <options>
+                    <label>User</label>
+                    <required>true</required>
+                </options>
+            </username>
+            <secret>
+                <type>password</type>
+                <options>
+                    <label>Password</label>
+                    <required>true</required>
+                    <renderpassword>true</renderpassword>
+                </options>
+            </secret>
+            <server>
+                <type>text</type>
+                <options>
+                    <label>Host</label>                    
+                    <required>true</required>
+                    <validators>
+                        <hostname>
+                            <validator>Hostname</validator>
+                            <options>
+                                <allow>7</allow>
+                            </options>
+                        </hostname>
+                    </validators>
+                </options>
+            </server>
+        </elements>
+    </asterisk>
+    <!-- Snep Configuration Data -->
+    <snep>
+        <elements>
+            <password>
+                <type>password</type>
+                <options>
+                    <label>Password</label>
+                    <required>true</required>
+                    <renderpassword>true</renderpassword>
+                </options>
+            </password>
+            <confirmpassword>
+                <type>password</type>
+                <options>
+                    <label>Confirm Password</label>
+                    <required>true</required>
+                </options>
+            </confirmpassword>
+        </elements>
+    </snep>
+</installform>

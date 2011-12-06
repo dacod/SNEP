@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+    <general>
+        <elements>
+            <emp_nome>
+                <type>text</type>
+                <options>
+                    <label>Company Name</label>
+                    <required>true</required>
+                </options>
+            </emp_nome>
+
+            <debug>
+                <type>checkbox</type>
+                <options>
+                    <value>On / Off</value>
+                    <label>Snep Debug</label>                    
+                    <description>Show error message events if activated</description>
+                </options>
+            </debug>
+            
+            <ip_sock>
+                <type>text</type>
+                <options>
+                    <label>Hostname</label>                    
+                    <description>Asterisk Socket IP</description>
+                    <required>true</required>
+                </options>
+            </ip_sock>
+
+            <user_sock>
+                <type>text</type>
+                <options>
+                    <label>Username</label>
+                    <description>Asterisk Socket IP username</description>
+                    <required>true</required>
+                </options>
+            </user_sock>
+
+            <pass_sock>
+                <type>password</type>
+                <options>
+                    <label>Password</label>
+                    <description>Asterisk Socket IP password</description>
+                    <required>true</required>
+                    <renderpassword>true</renderpassword>
+                </options>
+            </pass_sock>
+
+            <mail>
+                <type>text</type>
+                <options>
+                    <label>Default E-mail</label>
+                    <description>Default e-mail where the alerts will be sent to</description>
+                    <required>true</required>
+                    <validators>
+                        <EmailAddress>EmailAddress</EmailAddress>
+                    </validators>
+                </options>
+            </mail>
+
+            <linelimit>
+                <type>text</type>
+                <options>
+                    <label>Number of Lines</label>
+                    <description>Defines how many lines you want per page of report</description>
+                    <required>true</required>
+                    <validators>
+                        <alnum>
+                            <validator>Alnum</validator>
+                        </alnum>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/[[:digit:]]/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>3</max>
+                            </options>
+                            
+                        </strlen>
+                    </validators>
+                </options>
+            </linelimit>
+
+            <dst_exceptions>
+                <type>text</type>
+                <options>
+                    <label>Destination Exceptions</label>
+                    <description> Defines what destinations will be excluded from reports (Sintax: nono ; nonono ; nono) </description>
+                    <required>true</required>
+                </options>
+            </dst_exceptions>
+
+            <conference_app>
+                <type>select</type>
+                <options>
+                    <label>Conference Application</label>
+                    <multiOptions>
+                        <C> Conference </C>
+                        <M> Meetme </M>
+                    </multiOptions>
+                    <descriptions>
+                     Application responsable of the conference rooms on Snep.
+                    </descriptions>
+                </options>
+            </conference_app>
+
+        </elements>
+    </general>
+
+    <locale>
+        <elements>
+            <timezone>
+                <type>Select</type>
+                <options>
+                    <label>Timezone</label>
+                </options>
+            </timezone>
+            <locale>
+                <type>Select</type>
+                <options>
+                    <label>System Locale</label>
+                </options>
+            </locale>
+            <language>
+                <type>Select</type>
+                <options>
+                    <label>System Language</label>
+                </options>
+            </language>
+        </elements>
+    </locale>
+
+    <recording>
+        <elements>
+            <application>
+             <type>select</type>
+                <options>
+                    <label>Recording Application</label>
+                    <multiOptions>
+                        <monitor> Monitor </monitor>
+                        <mixmonitor> MixMonitor </mixmonitor>
+                        <krecord> Krecord </krecord>
+                    </multiOptions>
+                    <descriptions>
+                     Application responsable of call recording 
+                    </descriptions>
+
+                </options>
+            </application>
+            <flag>
+                 <type>text</type>
+                 <options>
+                     <label>Recording Parameters</label>
+                 </options>
+                 <description>Options to the recording application</description>
+            </flag>
+             <record_mp3>
+                 <type>radio</type>
+                 <options>                     
+                     <label>Audio Files Format</label>
+                        <multiOptions>
+                            <true>mp3</true>
+                            <false>wav</false>
+                        </multiOptions>
+                        <description>Format witch the recorded files will be stored</description>
+                 </options>
+             </record_mp3>
+
+             <path_voz>
+                 <type>text</type>
+                 <options>
+                     <label>Recorded Files Path</label>
+                     <description>Path where to store the audio files</description>
+                     <required>true</required>
+                     
+                 </options>
+             </path_voz>
+
+             <path_voz_bkp>
+                 <type>text</type>
+                 <options>
+                     <label>Backup Files Path</label>
+                     <description>Path where to store the backup audio files</description>
+                 </options>
+             </path_voz_bkp>
+             
+        </elements>
+    </recording>
+    
+    <extensions>
+        <elements>
+            <peers_range>
+                <type>text</type>
+                <options>
+                    <label>Extensions Range</label>
+                    <description>
+                        Sintax:Init_Exten-Final_Exten ; Init_Exten-Final_Exten
+                        Example: 300-312 ; 333-335
+                    </description>
+                    <required>true</required>
+                    <validators>
+                        <regex>
+                            <validator>regex</validator>
+                            <options>
+                                <pattern>/(\d{4}-\d{4}[;]?)$/i</pattern>
+                            </options>
+                        </regex>
+                        <strlen>
+                            <validator>StringLength</validator>
+                            <options>
+                                <min>1</min>
+                                <max>100</max>
+                            </options>
+                        </strlen>
+                    </validators>
+                </options>
+            </peers_range>
+
+        </elements>
+    </extensions>
+
+    <trunks>
+        <elements>
+            <valor_controle_qualidade>
+                <type>text</type>
+                <options>
+                    <label>Qualify</label>
+                    <description>Default value for Qualify</description>
+                </options>
+            </valor_controle_qualidade>
+        </elements>
+    </trunks>
+
+    <painel>
+        <elements>
+            <menu_status_1>              
+                <type>text</type>
+                <options>
+                    <label>Panel 1 Tab</label>
+                    <description>(depends on: /op-panel/ index1.php)</description>
+                </options>
+            </menu_status_1>
+            
+            <menu_status_2>
+                <type>text</type>
+                <options>
+                    <label>Panel 2 Tab</label>
+                    <description>(depends on: /op-panel/ index2.php)</description>
+                </options>
+            </menu_status_2>
+
+            <menu_status_3>
+                <type>text</type>
+                <options>
+                    <label>Panel 3 Tab</label>
+                    <description>(depends on: /op-panel/ index3.php)</description>
+                </options>
+            </menu_status_3>
+        </elements>
+    </painel>
+
+</modelo>

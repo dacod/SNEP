@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : route.xml
+    Created on : February 22, 2011, 2:13 PM
+    Author     : Henrique Grolli Bassotto <henrique@opens.com.br>
+    Description:
+        Formulário de cadastro/edição de regras de negócio.
+-->
+
+<form>
+    <attribs>
+        <id>routeForm</id>
+    </attribs>
+    <elements>
+        <desc>
+            <type>Text</type>
+            <options>
+                <required>true</required>
+                <label>Description</label>
+                <size>60</size>
+            </options>
+        </desc>
+        <week>
+            <type>MultiCheckbox</type>
+            <options>
+                <label>Week Days</label>
+                <separator> </separator>
+                <multiOptions>
+                    <mon>Monday</mon>
+                    <tue>Tuesday</tue>
+                    <wed>Wednesday</wed>
+                    <thu>Thursday</thu>
+                    <fri>Friday</fri>
+                    <sat>Saturday</sat>
+                    <sun>Sunday</sun>
+                </multiOptions>
+            </options>
+        </week>
+        <record>
+            <type>MultiCheckbox</type>
+            <options>
+                <label>Recording</label>
+                <multiOptions>
+                    <enable>Enable recording</enable>
+                </multiOptions>
+            </options>
+        </record>
+        <prio>
+            <type>Select</type>
+            <options>
+                <label>Priority</label>
+                <multiOptions>
+                    <p0>0</p0>
+                    <p1>1</p1>
+                    <p2>2</p2>
+                    <p3>3</p3>
+                    <p4>4</p4>
+                    <p5>5</p5>
+                </multiOptions>
+            </options>
+        </prio>
+    </elements>
+</form>
