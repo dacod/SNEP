@@ -1,11 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet($this->baseUrl() . "/css/system_status.css");
 ?>
-<div class="snep_form">
-    <p style="text-align:center;">
-        <strong style="color: red;"><?php echo $this->translate("ATTENTION"); ?>:</strong>
-        <?php echo $this->translate("This software is in Alpha stage. Its unstable and may contain defects."); ?>
-    </p>
+<div class="snep_form" style="padding-top:10px;">
 
     <?php if ($this->error) : ?>
         <div class="error_box" >
