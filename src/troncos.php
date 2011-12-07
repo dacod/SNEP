@@ -615,7 +615,7 @@ function excluir() {
     }
     try {
         // Procurando por conflito com regras de negócio
-        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%T:$id,%' OR destino LIKE '%T:$id,%'";
+        $rules_query = "SELECT id, `desc` FROM regras_negocio WHERE origem LIKE '%T:$id%' OR destino LIKE '%T:$id%'";
         $regras = $db->query($rules_query)->fetchAll();
 
         $rules_query = "SELECT rule.id, rule.desc FROM regras_negocio as rule, regras_negocio_actions_config as rconf WHERE (rconf.regra_id = rule.id AND rconf.value = '$id' AND (rconf.key = 'tronco' OR rconf.key = 'trunk'))";
