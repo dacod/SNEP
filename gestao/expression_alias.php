@@ -69,6 +69,12 @@ HEAD;
                 "expressions" => explode(",",$_POST['exprValue'])
             );
             $aliasesPersistency = PBX_ExpressionAliases::getInstance();
+
+ 		if ($_POST['name']== "" || $_POST['exprValue']== "") { 
+			display_error('Voce deve preencher todos os campos.', true); 
+			exit; 
+		}
+
             try {
                 $aliasesPersistency->register($expression);
             }
