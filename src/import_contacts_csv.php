@@ -138,13 +138,12 @@ class ImportContactsController {
             $db = Zend_Registry::get("db");
             $db->beginTransaction();
 
-            $select = "SELECT id FROM contacts_names ORDER BY id DESC LIMIT 1";
-            $contact_id = $db->query($select)->fetchObject();
-            $id = $contact_id->id + 1;
+         //   $select = "SELECT id FROM contacts_names ORDER BY id DESC LIMIT 1";
+         //   $contact_id = $db->query($select)->fetchObject();
+         //   $id = $contact_id->id + 1;
 
             foreach ($csv as $key => $row) {
                 $new_row = array(
-                    "id" => $id,
                     "group" => $group
                 );
 
@@ -154,7 +153,6 @@ class ImportContactsController {
                     }
                 }
                 $db->insert("contacts_names", $new_row);
-                $id++;
             }
 
             try {

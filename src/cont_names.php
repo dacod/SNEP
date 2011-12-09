@@ -86,9 +86,9 @@ function cadastrar() {
    {
       $db->beginTransaction();
       // Atualiza tabela operadoras
-      $sql  = "INSERT INTO contacts_names (id, name, `group`, address, city, state, cep, ";
+      $sql  = "INSERT INTO contacts_names ( name, `group`, address, city, state, cep, ";
       $sql .= "phone_1, cell_1)";
-      $sql .= " VALUES ('$lastid', '$name', '$group', '$address', '$city', '$state', '$cep', ";
+      $sql .= " VALUES ('$name', '$group', '$address', '$city', '$state', '$cep', ";
       $sql .= " '$phone_1', '$cell_1') ";
       $stmt = $db->prepare($sql);
       $stmt->execute();

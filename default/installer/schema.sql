@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `contacts_group` (
 -- Estrutura da tabela `contacts_names`
 --
 CREATE TABLE IF NOT EXISTS `contacts_names` (
-  `id` char(11) NOT NULL,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
   `address` varchar(100) NOT NULL,
   `city` varchar(50) NOT NULL,
