@@ -1,0 +1,152 @@
+/* 
+    Document   : system_status
+    Created on : 17/04/2011, 11:23:44
+    Author     : Henrique Grolli Bassotto <henrique@opens.com.br>
+    Description:
+        System status screen stylesheet.
+*/
+
+#content {
+    padding: 0px;
+}
+
+#columns {
+    width: 100%;
+}
+
+#columns td {
+    vertical-align: top;
+}
+
+.status_block {
+    color: #333;
+    margin-top: 20px;
+}
+
+.status_block p {
+    text-align: center;
+}
+
+.status_block table {
+    width: 100%;
+}
+
+.status_block  th, .status_block td {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.status_block th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.status_block td {
+    text-align: right;
+    color: #444;
+    padding-right: 10px;
+}
+
+.status_block h2 {
+    background-image: url(../img/index/status_block_title_bg.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 12px;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.status_block img {
+    float:left;
+    margin-top: -14px;
+    padding-right: 10px;
+    padding-left: 5px;
+}
+
+.status_hard_block {
+    color: #333;
+    margin-top: 20px;
+}
+
+.status_hard_block p {
+    text-align: center;
+}
+
+.status_hard_block table {
+    width: 100%;
+}
+
+.status_hard_block  th, .status_hard_block td {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.status_hard_block th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.status_hard_block td {
+    text-align: left;
+    color: #444;
+    padding-left: 10px;
+
+}
+
+.status_hard_block h2 {
+    background-image: url(../img/index/status_block_title_bg.png);
+    background-repeat: repeat-x;
+    background-position: bottom;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 12px;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.status_hard_block img {
+    float:left;
+    margin-top: -14px;
+    padding-right: 10px;
+    padding-left: 5px;
+}
+
+.bar_chart {
+    position: relative; 
+    margin: auto;
+    background-color: #BBBBBB; 
+    border-radius: 3px;
+    border-width: 2px;
+}
+.bar_inner {
+    border-radius: 3px;
+    -moz-border-radius: 2px;
+    height: 18px;
+}
+.bar_text { 
+    position: absolute;
+    line-height: 18px;
+    font-size: 12px;
+    text-indent: 2px; 
+    font-weight: bold;
+    text-align: center;
+    width: 100%; 
+    color: white;
+}
+
+.bar_color_red { 
+    background-color: #CE0000;
+}
+
+.bar_color_green { 
+    background-color: #9EB326; 
+}
+
+.bar_color_yellow { 
+    background-color: #DC8A0D ; 
+
+}

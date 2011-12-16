@@ -1,0 +1,108 @@
+.error {
+  background-color: #ffeded;
+  border: 1px solid red;
+  padding: 5px;
+}
+
+form {
+    text-align: center;
+    padding: 5px;
+}
+
+label {
+    margin: 0px 5px;
+}
+
+/**
+ * Estilos para a lista de regras
+ */
+
+#input {
+  list-style: none;
+  padding: 0px;
+  margin: 5px;
+  text-align: center;
+}
+
+#input li {
+  display: inline;
+  margin: 0px 10px;
+}
+
+#results {
+  margin: 0px !important;
+}
+
+#results, #results ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.rule {
+   padding: 20px 10px;
+}
+
+/**
+ * Tipos de regra
+ */
+
+.ignored {
+  color: #b3b3b3;
+  background-color: #f2f2f2;
+  border-left: 10px solid #CCBABB;
+}
+
+.torun {
+  background-color: #CBFFCB;
+  border-left: 10px solid #8BE98A;
+}
+
+.outdated {
+  color: #b3b3b3;
+  background-color: #ffeded;
+  border-left: 10px solid #F46770;
+}
+
+.outdated .valid {
+  font-weight: bold;
+  color: red;
+}
+
+.desc {
+  font-weight: bold;
+}
+
+.execute {
+  margin-top: -5px !important;
+  padding-top: 0px !important;
+  float: right;
+  width: 400px;
+}
+
+.execute ul {
+  margin-left: 15px !important;
+}
+
+.deny {
+    font-weight: bold;
+    color: red;
+}
+
+/**
+ * Regras para a lista de legendas
+ */
+
+#legenda {
+    list-style: none;
+    text-align: center;
+    margin: 0px;
+    padding: 10px;
+}
+
+#legenda li {
+    color: #000 !important;
+    display: inline;
+    padding: 5px;
+}
+

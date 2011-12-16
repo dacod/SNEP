@@ -1,0 +1,179 @@
+/* 
+    Document   : add.css
+    Created on : Dec 2, 2010, 2:54:10 PM
+    Author     : Henrique Grolil Bassotto
+    Description:
+        Folha de estilos que descreve a aparência específica das telas de indíce
+*/
+.txt_alterar,txt_incluir {
+
+    font-size:10px;
+}
+
+.include {
+    background: url("../img/include.png") no-repeat center left;
+    display: inline-block;
+    margin: 0;
+    padding-left: 18px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: underline;
+    color: dimGray;
+}
+#selects {
+    display:inline;
+    clear:both;
+    display:block;
+}
+#selects .form_element {
+    /*width: 400px; */
+    float:left;
+    clear:none;
+}
+#selects select {
+    width: 250px;
+    height: 200px;
+}
+#selectActions {
+    width: 100px;
+    height: 100px;
+    padding: 50px 0px 2px 5px;
+    float:left;
+}
+#extensions {
+    width: 250px;
+    margin-right: 10px;
+}
+#group_extensions {
+    width: 250px;
+}
+#contacts {
+    width: 250px;
+}
+#add_contacts {
+    width: 250px;
+}
+#leftForm {
+    width: 410px;
+    height: 400px;
+    float:left;    
+}
+#leftForm dd {
+    width: 200px;
+}
+#leftForm #state {
+    width: 200px;
+}
+#leftForm #city {
+    width: 200px;
+}
+#rightForm {
+    width: 500px;
+    height: 400px;
+    padding-left:10px;
+    float:left;
+}
+#rightForm dd {
+    width: 130px;
+}
+#rightForm .billingTitle {
+    float:left;
+    width: 130px;
+    padding: 4px;
+    background-color: #FFE400;
+}
+
+#billList {
+    border: 1px solid #A4A7AB !important;
+
+}
+#billList td {
+    padding: 2px !important;
+}
+.snep_form table {
+    border-collapse: collapse;
+}
+
+/*
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table .numeric, table .action {
+    text-align: center;
+}
+
+th {
+    padding-top: 5px !important;
+    padding-bottom: 5px  !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+td, th {
+    border: 1px solid #A4A7AB;
+    font-size: 11px;
+    text-align: left;
+}
+
+#content {
+    padding: 0px;
+    border: none;
+    border-bottom: 1px solid #A4A7AB;
+}
+
+.links {
+    float:right;
+    padding-top: 10px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+.links a {
+    display: inline-block;
+    margin: 0;
+    padding-left: 18px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #696969;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.links .include {
+    background: url("../img/include.png") no-repeat center left;
+
+}
+
+.links .includes {
+    background: url("../img/include_all.png") no-repeat center left;
+}
+
+.filtros {
+    background-image: url(../img/bg_filtro.png);
+    background-repeat: repeat-x;
+    background-color: #fff;
+    border: 1px solid #A4A7AB;
+    padding: 0px 4px 0px 4px;
+    margin-bottom: 0px;
+    height:37px;
+}
+
+.filtros .zend_form {
+    margin: 0px;
+    padding: 5px 5px 0px 5px;
+    height: 37px;
+}
+*/
