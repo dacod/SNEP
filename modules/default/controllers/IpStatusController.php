@@ -27,6 +27,7 @@ class IpStatusController extends Zend_Controller_Action {
         require_once "includes/AsteriskInfo.php";
         $astinfo = new AsteriskInfo();
 
+
         $data = $astinfo->status_asterisk("database show", "", True);
         $lines = explode("\n", $data);
         $arr = array();

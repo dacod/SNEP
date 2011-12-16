@@ -1,5 +1,5 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl() . "/css/agi_rules.css");
+$this->headLink()->appendStylesheet($this->baseUrl() . "/modules/default/css/agi_rules.css");
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/scriptaculous/src/scriptaculous.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/snep.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/agi_rules.js", 'text/javascript');
@@ -14,7 +14,7 @@ $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/agi_rul
     </select>
     <button type="button" id="addActionButton"><?php echo $this->translate("Add Action"); ?></button>
     <button type="button" id="cleanActionsButton"><?php echo $this->translate("Remove All"); ?></button>
-    <img src="<?php echo $this->baseUrl(); ?>/imagens/ajax-loader1.gif" id="loader_icon" alt="<?php echo $this->translate("Loading"); ?>..." />
+    <img src="<?php echo $this->baseUrl(); ?>/modules/default/img/ajax-loader1.gif" id="loader_icon" alt="<?php echo $this->translate("Loading"); ?>..." />
 </p>
 
 <table id="actions">

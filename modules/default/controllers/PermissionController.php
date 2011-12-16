@@ -23,6 +23,7 @@ class PermissionController extends Zend_Controller_Action {
                 ));
 
         $resources = array();
+        
         foreach (Snep_Acl::getInstance()->getResources() as $resource) {
             $res_tree = explode("_", $resource);
             $resource = array();

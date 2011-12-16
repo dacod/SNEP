@@ -2,7 +2,7 @@
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/enableField.js');
-$this->headLink()->appendStylesheet($this->baseUrl() . "/css/datepicker.css");
+$this->headLink()->appendStylesheet($this->baseUrl() . "/modules/default/css/datepicker.css");
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/datepicker.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/prototype-date-extensions.js", 'text/javascript');
 $locale = str_replace("_", "-", Snep_Locale::getInstance()->getLocale());
@@ -19,8 +19,8 @@ enableField('exten-group_select', 'exten-exten_select')
 }
 </script>
 <script type="text/javascript"> 
-  new Control.DatePicker('period-init_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
-  new Control.DatePicker('period-till_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-init_day', {icon: '<?php echo $this->baseUrl(); ?>/modules/default/img/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-till_day', {icon: '<?php echo $this->baseUrl(); ?>/modules/default/img/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
 </script>
  
 

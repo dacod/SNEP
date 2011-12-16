@@ -1,5 +1,5 @@
 <?php
-$this->headLink()->appendStylesheet($this->baseUrl() . "/css/datepicker.css");
+$this->headLink()->appendStylesheet($this->baseUrl() . "/modules/default/css/datepicker.css");
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/prototype-date-extensions.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . "/includes/javascript/datepicker.js", 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl() . '/includes/javascript/enableField.js');
@@ -17,7 +17,7 @@ if( isset( $this->error ) ): ?>
 echo $this->form;
 ?>
 <script type="text/javascript">
-  new Control.DatePicker('period-init_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
-  new Control.DatePicker('period-till_day', {icon: '<?php echo $this->baseUrl(); ?>/imagens/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-init_day', {icon: '<?php echo $this->baseUrl(); ?>/modules/default/img/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
+  new Control.DatePicker('period-till_day', {icon: '<?php echo $this->baseUrl(); ?>/modules/default/img/calendar.png', timePicker: true, timePickerAdjacent: true, locale: '<?php echo $locale; ?>'});
 </script>
 

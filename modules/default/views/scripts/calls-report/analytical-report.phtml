@@ -1,5 +1,5 @@
 <?php
-$this->headLink()->appendStylesheet( $this->baseUrl() . "/css/index.css" );
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/modules/default/css/index.css" );
 $this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/src/scriptaculous.js');
 $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 ?>
@@ -88,10 +88,10 @@ $this->headScript()->appendFile('/snep/includes/javascript/registrations.js');
 
 								  <input type="checkbox"  value="<?echo $callsList['file_name']; ?>">
 							      <a href="<?php echo $callsList['file_path']; ?>" class="link_esp_1">
-								    <img src="/snep/imagens/ouvir.png" />
+								    <img src="<?php echo $this->baseUrl(); ?>/modules/img/ouvir.png" />
 								  </a>
 							<?php else: ?>
-							   <img src="/snep/imagens/semaudio.png" />
+							   <img src="<?php echo $this->baseUrl(); ?>/modules/img/semaudio.png" />
 							<?php endif ?>
 						<?php else: ?>
 							---

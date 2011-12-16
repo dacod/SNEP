@@ -11,6 +11,8 @@ class IndexController extends Zend_Controller_Action {
         $config = Zend_Registry::get('config');
         $db = Zend_Registry::get('db');
 
+        
+        // GOD!
         $linfoData = new Zend_Http_Client('http://localhost/snep/lib/linfo/index.php?out=xml');
         try {
             $linfoData->request();
@@ -28,6 +30,7 @@ class IndexController extends Zend_Controller_Action {
             $uptimeRaw = explode(';', $sysInfo->core->uptime);
             $systemInfo['uptime'] = $uptimeRaw[0];
 
+            /*
             require_once "includes/AsteriskInfo.php";
             $astinfo = new AsteriskInfo();
 
@@ -35,6 +38,8 @@ class IndexController extends Zend_Controller_Action {
 
             preg_match('/Asterisk (.*) built/', $astVersionRaw[0], $astVersion);
 
+            */
+            
             $systemInfo['asterisk'] = $astVersion[1];
 
             $systemInfo['mysql'] = trim(exec("mysql -V | awk -F, '{ print $1 }' | awk -F'mysql' '{ print $2 }'"));
