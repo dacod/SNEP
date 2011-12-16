@@ -71,7 +71,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->headTitle()->setSeparator(' - ');
         $view->headTitle('SNEP');
 
-        $view->headLink()->setStylesheet($view->baseUrl() . "/css/main.css");
+        $view->headLink()->setStylesheet($view->baseUrl() . "/modules/default/css/main.css");
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/snep-env.js.php", 'text/javascript');
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/prototype.js", 'text/javascript');
         $view->headScript()->appendFile($view->baseUrl() . "/includes/javascript/functions.js", 'text/javascript');
