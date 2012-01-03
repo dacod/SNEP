@@ -65,9 +65,9 @@ class AuthController extends Zend_Controller_Action {
                 $authAdapter = new Zend_Auth_Adapter_DbTable($db);
 
                 // informações das tabelas
-                $authAdapter->setTableName('peers');
-                $authAdapter->setIdentityColumn('name');
-                $authAdapter->setCredentialColumn('password');
+                $authAdapter->setTableName('user');
+                $authAdapter->setIdentityColumn('ds_login');
+                $authAdapter->setCredentialColumn('cd_password');
 
                 // Valores vindos do usuário como credencial
                 $authAdapter->setIdentity($username);
@@ -89,10 +89,17 @@ class AuthController extends Zend_Controller_Action {
 
                         $extension = $db->query("SELECT id, callerid FROM peers WHERE name='$username'")->fetchObject();
                         
+                        $select = $db->select();
+                        
+                        $select->from('user', array('id_user', 'ds_login'))
+                                ->where("ds_login = '$username'");
+                        
+                        $extension = $db->query($select)->fetchObject();
+          
                         /* Mantendo antigo verifica.php no ar */
-                        $_SESSION['id_user'] = $extension->id;
+                        $_SESSION['id_user'] = $extension->id_user;
                         $_SESSION['name_user'] = $username;
-                        $_SESSION['active_user'] = $extension->callerid;
+                        $_SESSION['active_user'] = $extension->ds_login;
                         $_SESSION['vinculos_user'] = "";
 
                         $this->_redirect('/');
