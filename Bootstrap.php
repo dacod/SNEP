@@ -81,6 +81,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     protected function _initCCustos() {
+
+/*
         $db = Snep_Db::getInstance();
         $ccustos = Snep_CentroCustos::getInstance();
 
@@ -94,9 +96,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         foreach($result as $ccusto) {
             $ccustos->register(array("codigo" => $ccusto['codigo'], "nome" => $ccusto['nome']));
         }
+*/
     }
 
     protected function _initQueues() {
+/*
         $db = Snep_Db::getInstance();
         $queues = Snep_Queues::getInstance();
 
@@ -108,6 +112,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         foreach($result as $queue) {
             $queues->register($queue['name']);
         }
+*/
     }
     
     protected function _initLogger() {

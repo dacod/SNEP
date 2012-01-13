@@ -27,86 +27,50 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  * 
  */
-class Snep_Carrier_Manager {
-
-    public function __construct() {}
-
+class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
+    protected $_name = "carrier";
+    
     /**
-     * Get all carrier
+     * 
+     * Atualiza lista de operadoras e centros de custos relacionados
+     * @param int $carrierId
+     * @param Array $costCentersId
      */
-    public function getAll() {
+    public function save($carrierId, $dados) {
+        $selected = $this->fetchRow($this->select()
+                                   ->where('id_carrier = ?', $carrierId));
 
-        $db = Zend_registry::get('db');
+        $selected->vl_start         = $dados['ta'];
+        $selected->vl_fractionation = $dados['tf'];
+        $selected->fg_active        = $dados['active'];
+                    
+        $selected->save();
 
-        $select = $db->select()
-            ->from("operadoras");
-            
-        $stmt = $db->query($select);
-        $carrier = $stmt->fetchAll();
-
-        return $carrier;        
+        
+        // Busca e limpa centros de custos relacionados
+        $costcenters = $selected->findSnep_CostCenter_Manager();
+        Zend_Debug::dump(count($costcenters));
+        exit(1);
+        foreach ($costcenters as $cc) {
+        	$cc->id_carrier = null;
+        	$cc->save();
+        }
+        
+        /*
+        $cs->delete('id_carrier = ?', $carrierId);
+        
+        // Recadastra
+        foreach($dados['box_add'] as $costcenterId) {   
+            $csRow = $cs->fetchRow($cs
+                        ->select()
+                        ->where('id_costcenter = ?', $costcenterId));
+                                                    
+            $csRow->id_carrier = $carrierId;
+            $csRow->save();
+        }
+        */
     }
-
-    /**
-     * Get a carrier by id
-     * @param int $id
-     * @return Array
-     */
-    public function get($id) {
-
-        $db = Zend_Registry::get('db');
-
-        $select = $db->select()
-            ->from('operadoras')
-            ->where("operadoras.codigo = ?", $id);
-
-        $stmt = $db->query($select);
-        $carrier = $stmt->fetch();
-
-        return $carrier;
-    }
-
-    /**
-     * Add a carrier.
-     * @param array $contact
-     * @return int
-     */
-    public function add($carrier) {
-
-        $db = Zend_Registry::get('db');
-
-        $insert_data = array('nome'     => $carrier['name'],
-                             'tpm'      => $carrier['ta'],
-                             'tdm'      => $carrier['tf'],
-                             'tbf'      => $carrier['tbf'],
-                             'tbc'      => $carrier['tbc'] );
-
-        $db->insert('operadoras', $insert_data);
-
-        return $db->lastInsertId();   
-    }
-
-    /**
-     * Remove a carrier.
-     * @param int $id
-     */
-    public function remove($id) {
-
-            $db = Zend_Registry::get('db');
-
-            $db->beginTransaction();
-            $db->delete('operadoras', "codigo = '$id'");
-            $db->delete('oper_ccustos', "operadora = '$id'");
-
-            try {
-                $db->commit();
-
-            } catch (Exception $e) {
-                $db->rollBack();
-                
-            }
-    }
-
+    
     /**
      * Update a carrier data
      * @param Array $data
@@ -123,42 +87,6 @@ class Snep_Carrier_Manager {
 
 
         $db->update("operadoras", $update_data, "codigo = '{$carrier['id']}'");
-
-    }
-
-    /**
-     * Set CostCenter to Carrier
-     * @param int $idCarrier
-     * @param int $costCenter
-     */
-    public function setCostCenter($idCarrier, $costCenter) {
-
-        $db = Zend_Registry::get('db');
-
-        $db->insert('oper_ccustos', array('operadora' => $idCarrier,
-                                          'ccustos'   => $costCenter));
-
-    }
-
-    /**
-     * Clear all CostCenter associate with a Carrier
-     * @param int $idCarrier
-     */
-    public function clearCostCenter($idCarrier) {
-
-            $db = Zend_Registry::get('db');
-
-            $db->beginTransaction();
-
-            $db->delete('oper_ccustos', "operadora = '$idCarrier'");
-
-            try {
-                $db->commit();
-
-            } catch (Exception $e) {
-                $db->rollBack();
-
-            }
 
     }
 
@@ -190,6 +118,7 @@ class Snep_Carrier_Manager {
     }
 
     /**
+     * 
      * Return all idle Cost Centers
      * @return Array
      */
@@ -198,27 +127,13 @@ class Snep_Carrier_Manager {
         $db = Zend_Registry::get('db');
 
         $select = $db->select()
-            ->from('oper_ccustos', array('ccustos'));
+                     ->from('cost_center')
+                     ->where('id_carrier is null');
 
         $stmt = $db->query($select);
         $_used = $stmt->fetchAll();
-
-        $usedCostCenter = array();
-        foreach($_used as $used) {
-            $usedCostCenter[] = $used['ccustos'];
-        }
         
-        $select = $db->select()
-            ->from('ccustos', array('codigo', 'tipo', 'nome'));
-
-        if($usedCostCenter) {
-            $select->where('ccustos.codigo NOT IN (?)', $usedCostCenter);
-        }
-
-        $stmt = $db->query($select);
-        $idleCostCenter = $stmt->fetchAll();
-
-        return $idleCostCenter;
+        return $_used;
 
     }
 }

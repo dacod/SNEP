@@ -16,6 +16,7 @@
  *  along with SNEP.  If not, see <http://www.gnu.org/licenses/>.
  */
 // Tratamento de sinais vindos do asterisk
+
 declare(ticks = 1);
 if (function_exists('pcntl_signal')) {
         pcntl_signal(SIGHUP,  SIG_IGN);
@@ -26,7 +27,7 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 
-$config_file = "/var/www/snep/includes/setup.conf";
+$config_file =  dirname(__FILE__) . "../includes/setup.conf";
 
 //encontrado diretórios do sistema
 if(!file_exists($config_file)) {

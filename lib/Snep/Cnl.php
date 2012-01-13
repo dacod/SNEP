@@ -27,115 +27,45 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  * 
  */
-class Snep_Cnl {
+class Snep_Cnl extends Zend_Db_Table_Abstract {
 
     public function __construct() {}
     public function __destruct() {}
     public function __clone() {}
 
-    public static function delPrefixo() {
-
+    public static function fetchStateId($state) {
         $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
+        
         try {
-
-            $db->delete('ars_prefixo');
-            $db->commit();
-
-        } catch (Exception $ex) {
-
-            $db->rollBack();
-                throw $ex;
-        }
-        return;
-    }
-
-    public static function delCidade() {
-
-        $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
-        try {
-
-            $db->delete('ars_cidade');
-            $db->commit();
-
-        } catch (Exception $ex) {
-
-            $db->rollBack();
-                throw $ex;
-        }
-        return;
-    }
-
-    public static function delDDD() {
-
-        $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
-        try {
-
-            $db->delete('ars_ddd');
-            $db->commit();
-
-        } catch (Exception $ex) {
-
-            $db->rollBack();
-                throw $ex;
-        }
-        return;
-    }
-
-    public static function delOperadora() {
-
-        $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
-        try {
-
-            $db->delete('ars_operadora');
-            $db->commit();
-
-        } catch (Exception $ex) {
-
-            $db->rollBack();
-                throw $ex;
-        }
-        return;
-    }
-    
-    public static function addOperadora($id,$data) {
-
-        $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
-        try {
-
-            $operadora = array('id' => $id , 'name' => $data);
-            $db->insert('ars_operadora', $operadora);
-            $db->commit();
-
+            $stmt = $db->select()
+               ->from('state')
+               ->where('ds_code = ?', $state)
+               ->query();
+            $stateId = $stmt->fetch();
+            
         } catch (Exception $ex) {
 
             $db->rollBack();
             throw $ex;
         }
+        return $stateId['id_state'];
+        
     }
-
-    public static function addDDD($cod,$estado,$cidade) {
-
+    
+    public static function addOperadora($id, $name) {    	
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
 
         try {
-
-            $ddd = array('cod' => $cod,'estado' => $estado,'cidade' => $cidade);
-            $db->insert('ars_ddd', $ddd);
-
+            $carrier = array('id_carrier' => $id, 
+                             'ds_name' => $name,
+                             'vl_start' => 0,
+                             'vl_fractionation' => 0,
+                             'fg_active' => 'false');
+            $db->insert('carrier', $carrier);
             $db->commit();
-
         } catch (Exception $ex) {
+
             $db->rollBack();
             throw $ex;
         }
@@ -148,10 +78,9 @@ class Snep_Cnl {
 
         try {
 
-            $cidade = array('name' => $name);
-            $db->insert('ars_cidade', $cidade);
-            $id = $db->lastInsertId();
-
+            $cidade = array('ds_name' => $name);
+            $db->insert('city', $cidade);
+            $id = $db->lastInsertId('city_id_city');
             $db->commit();
 
         } catch (Exception $ex) {
@@ -159,6 +88,27 @@ class Snep_Cnl {
             throw $ex;
         }
         return $id;
+    }
+    
+    
+    public static function addDDD($code, $estado, $cidade) {
+
+        $db = Zend_Registry::get('db');
+        $db->beginTransaction();
+
+        try {
+
+            $ddd = array('vl_code' => $code,
+                         'id_state' => $estado,
+                         'id_city' => $cidade);
+            $db->insert('city_code', $ddd);
+
+            $db->commit();
+
+        } catch (Exception $ex) {
+            $db->rollBack();
+            throw $ex;
+        }
     }
 
     public static function addPrefixo($prefixo,$cidade,$operadora) {//600, '23', 4
@@ -168,8 +118,10 @@ class Snep_Cnl {
 
         try {
 
-            $addPrefixo = array('prefixo' => $prefixo,'cidade' => $cidade,'operadora' => $operadora);
-            $db->insert('ars_prefixo', $addPrefixo);
+            $addPrefixo = array('vl_prefix' => $prefixo,
+                                'id_city' => $cidade,
+                                'id_carrier' => $operadora);
+            $db->insert('carrier_prefix', $addPrefixo);
 
             $db->commit();
 

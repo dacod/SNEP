@@ -17,6 +17,27 @@
  */
 
 /**
+ * Tabela de Abstração das Expressões Regulares
+ *
+ * @category  lib
+ * @package   Snep
+ * @copyright Copyright (c) 2011 TheSource
+ * @author Amim Knabben
+ */
+class PBX_Expression extends Zend_Db_Table_Abstract {
+    protected $_name = "expression";
+    protected $_primary = "id_expression";
+    
+    protected $_referenceMap = array(
+        'PBX_ExpressionAliases' =>  array(
+            'columns' => 'id_alias_expression',
+            'refTableClass' => 'PBX_ExpressionAliases',
+            'refColumns' => 'id_alias_expression'
+        )
+    );
+}
+
+/**
  * Faz o controle em banco dos Alias para expressões regulares.
  *
  * @category  Snep
@@ -24,8 +45,9 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-class PBX_ExpressionAliases {
-
+class PBX_ExpressionAliases extends Zend_Db_Table_Abstract {
+    protected $_name = "alias_expression";
+    protected $_primary = "id_alias_expression";
     private static $instance;
 
     protected function __construct() {}
@@ -43,49 +65,51 @@ class PBX_ExpressionAliases {
         return self::$instance;
     }
 
+    /**
+     * 
+     * Retorna a lista das Expressões Regulares cadastradas 
+     * @return Array $aliases
+     */
     public function getAll() {
-        $db = Zend_Registry::get('db');
-        $select = "SELECT aliasid, name FROM expr_alias";
-
-        $stmt = $db->query($select);
-        $raw_aliases = $stmt->fetchAll();
-
+        $rawAliases = $this->fetchAll();
+        
         $aliases = array();
-        foreach ($raw_aliases as $alias) {
-            $aliases[$alias['aliasid']] = array(
-                "id" => $alias['aliasid'],
-                "name" => $alias['name'],
-                "expressions" => array()
-            );
+        foreach ($rawAliases as $alias) {
+        	$aliasId = $alias->id_alias_expression;
+        	
+        	$aliases[$aliasId] = array(
+        	   'id' => $aliasId,
+        	   'name' => $alias->ds_name,
+        	   'expressions' => array()
+        	);
+        	
+        	if (($exprs = $alias->findPBX_Expression()) != NULL) {
+	            foreach ($exprs as $expr) {
+	                array_push($aliases[$aliasId]['expressions'], 
+	                           $expr->ds_expression);
+	            }	
+        	}
         }
-
-        $db = Zend_Registry::get('db');
-        $select = "SELECT aliasid, expression FROM expr_alias_expression";
-
-        $stmt = $db->query($select);
-        $raw_expressions = $stmt->fetchAll();
-
-        foreach ($raw_expressions as $expr) {
-            $aliases[$expr["aliasid"]]["expressions"][] = $expr['expression'];
-        }
-
+        
         return $aliases;
     }
-
-    public function get( $id ) {
+    
+    /**
+     * 
+     * Retorna apenas a expressão com o id referenciado
+     * @param int $id 
+     * @return Array $alias
+     */
+    public function get($id) {
         if(!is_integer($id)) {
             throw new PBX_Exception_BadArg("Id must be numerical");
         }
         
-        $db = Zend_Registry::get('db');
-        $select = "SELECT name FROM expr_alias WHERE aliasid='$id'";
-
-        $stmt = $db->query($select);
-        $raw_alias = $stmt->fetchObject();
+        $rawAlias = $this->fetchRow("id_alias_expression = '$id'");
         $alias = array(
-            "id" => $id,
-            "name" => $raw_alias->name,
-            "expressions" => array()
+            'id' => $id,
+            'name' => $rawAlias->ds_name,
+            'expressions' => array()
         );
 
         $db = Zend_Registry::get('db');
@@ -94,23 +118,30 @@ class PBX_ExpressionAliases {
         $stmt = $db->query($select);
         $raw_expression = $stmt->fetchAll();
         
-        foreach ($raw_expression as $expr) {
-            $alias["expressions"][] = $expr['expression'];
+        if (($exprs = $rawAlias->findPBX_Expression()) != NULL) {
+            foreach ($exprs as $expr) {
+                array_push($alias['expressions'], 
+                           $expr->ds_expression);
+            }   
         }
 
         return $alias;
     }
 
+    /**
+     * 
+     * Método para cadastro de expressão regular
+     * @param Array $expression
+     */
     public function register($expression) {
         $db = Zend_Registry::get('db');
 
         $db->beginTransaction();
-        $db->insert("expr_alias", array("name"=>$expression['name']));
-        $id = $db->lastInsertId();
-
+        $id = $this->insert(array("ds_name"=>$expression['name']));
+        
         foreach ($expression['expressions'] as $expr) {
-            $data = array("aliasid" => $id, "expression" => $expr);
-            $db->insert("expr_alias_expression", $data);
+            $data = array("id_alias_expression" => $id, "ds_expression" => $expr);
+            $db->insert("expression", $data);
         }
 
         try {
@@ -121,18 +152,24 @@ class PBX_ExpressionAliases {
             throw $ex;
         }
     }
-
+    
+    /**
+     * 
+     * Atualiza uma expressão cadastrada
+     * @param Array $expression
+     */
     public function update($expression) {
         $id = $expression['id'];
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
-        $db->update("expr_alias", array("name"=>$expression['name']), "aliasid='$id'");
-        $db->delete("expr_alias_expression","aliasid='$id'");
-
+        $db->update("alias_expression", array("ds_name"=>$expression['name']), 
+                    "id_alias_expression='$id'");
+        $db->delete("expression", "id_alias_expression='$id'");
+        
         foreach ($expression['expressions'] as $expr) {
-            $data = array("aliasid" => $id, "expression" => $expr);
-            $db->insert("expr_alias_expression", $data);
+            $data = array("id_alias_expression" => $id, "ds_expression" => $expr);
+            $db->insert("expression", $data);
         }
 
         try {
@@ -143,10 +180,15 @@ class PBX_ExpressionAliases {
             throw $ex;
         }
     }
-
+    
+    /**
+     * 
+     * Remove uma expressão cadastrada
+     * @param int $id
+     */
     public function delete($id) {
         $db = Zend_Registry::get('db');
-
-        $db->delete("expr_alias", "aliasid='$id'");
+        
+        $db->delete("alias_expression", "id_alias_expression='$id'");
     }
 }

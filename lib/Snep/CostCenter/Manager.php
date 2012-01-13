@@ -27,96 +27,16 @@
  * @author    Rafael Pereira Bozzetti <rafael@opens.com.br>
  * 
  */
-class Snep_CostCenter_Manager {
+class Snep_CostCenter_Manager extends Zend_Db_Table_Abstract {
 
-    public function __construct() {}
-
-    /**
-     * Method to get all cost centers
-     */
-    public function getAll() {
-
-        $db = Zend_registry::get('db');
-
-        $select = $db->select()
-                        ->from("ccustos", array("codigo", "tipo", "nome", "descricao"));
-
-        $stmt = $db->query($select);
-        $allCostCenters = $stmt->fetchAll();
-
-        return $allCostCenters;        
-    }
-
-    /**
-     * Method to get Cost Center by id
-     * @param int $id
-     * @return Array
-     */
-    public function get($id) {
-
-        $db = Zend_Registry::get('db');
-
-        $select = $db->select()
-                     ->from("ccustos", array("codigo", "tipo", "nome", "descricao"))
-                     ->where("ccustos.codigo = ?", $id);
-
-        $stmt = $db->query($select);
-        $contactGroup = $stmt->fetch();
-
-        return $contactGroup;
-    }
-
-    /**
-     * Method to add a cost center.
-     * @param array $costcenter
-     * @return int
-     */
-    public function add($costcenter) {
-
-        $db = Zend_Registry::get('db');
-
-        $insert_data = array('codigo' => $costcenter['id'],
-                             'tipo'   => $costcenter['type'],
-                             'nome'   => $costcenter['name'],
-                             'descricao' => $costcenter['description']);
-        
-        $db->insert('ccustos', $insert_data);
-
-        return $db->lastInsertId();        
-    }
-
-    /**
-     * Method to remove a cost center
-     * @param int $id
-     */
-    public function remove($id) {
-
-            $db = Zend_Registry::get('db');
-
-            $db->beginTransaction();
-            $db->delete('ccustos', "codigo = '$id'");
-
-            try {
-                $db->commit();
-            } catch (Exception $e) {
-                $db->rollBack();
-            }        
-    }
-
-    /**
-     * Method to update a cost center data
-     * @param int $id
-     */
-    public function edit($costcenter) {
-
-            $db = Zend_Registry::get('db');
-            
-            $update_data = array('codigo' => $costcenter['id'],
-                                 'tipo'   => $costcenter['type'],
-                                 'nome'   => $costcenter['name'],
-                                 'descricao' => $costcenter['description']);
-            
-            $db->update("ccustos", $update_data, "codigo = '{$costcenter['id']}'");        
-    }
-
+    protected $_name = 'cost_center';
+    protected $_primary = array('id_costcenter');
+    
+    protected $_referenceMap = array(
+        'Snep_Carrier_Manager' =>  array(
+            'columns' => 'id_carrier',
+            'refTableClass' => 'Snep_Carrier_Manager',
+            'refColumns' => 'id_carrier'
+        )
+    );
 }
