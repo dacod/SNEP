@@ -38,7 +38,7 @@ class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
      */
     public function save($carrierId, $dados) {
         $selected = $this->fetchRow($this->select()
-                                   ->where('id_carrier = ?', $carrierId));
+                                         ->where('id_carrier = ?', $carrierId));
 
         $selected->vl_start         = $dados['ta'];
         $selected->vl_fractionation = $dados['tf'];
@@ -48,6 +48,7 @@ class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
         
         // Busca e limpa centros de custos relacionados
         $costcenters = $selected->findSnep_CostCenter_Manager();
+
         if (count($costcenters) > 0) {
             foreach ($costcenters as $cc) {
         	   $cc->id_carrier = null;
@@ -65,6 +66,7 @@ class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
             $csRow->id_carrier = $carrierId;
             $csRow->save();
         }
+
     }
 
 
