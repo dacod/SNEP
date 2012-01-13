@@ -2,7 +2,7 @@ var maskCostCenter = Class.create({
 
     initialize: function(obj) {
         this.obj = obj;
-        $(this.obj).observe('keyup', this.format.bind(this));
+        $(this.obj).observe('keydown', this.format.bind(this));
         $(this.obj).observe('blur', this.finish.bind(this));
     },
     format: function() {
