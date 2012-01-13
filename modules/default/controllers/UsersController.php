@@ -95,6 +95,7 @@ class UsersController extends Zend_Controller_Action {
 
             $form = new Snep_Form( new Zend_Config_Xml('./modules/default/forms/user.xml') );
             $form->getElement('fg_active')->setValue(1);
+            $form->getElement('cd_password')->setRequired(true);
 
             if ($this->_request->getPost()) {
 
@@ -103,6 +104,7 @@ class UsersController extends Zend_Controller_Action {
                 $user = new Snep_User_Manager();
                 $select = $user->select()->where('ds_login = ?', $_POST['ds_login']);
                 $db_user = $user->fetchRow($select);
+                
 
                 if( $db_user) {
                     $form_isValid = false;
