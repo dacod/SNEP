@@ -91,8 +91,10 @@ class IndexController extends Zend_Controller_Action {
                                                           'up' => $board["state"]);
                  $count++;
                 }
-            }           
+            }
 
+            /// @todo tratar isso depois
+/*
             $sqlN = "select count(*) from";
             $select = $db->query($sqlN . ' peers');
             $result = $select->fetch();
@@ -106,6 +108,8 @@ class IndexController extends Zend_Controller_Action {
 
             $select = $db->query($sqlN . ' regras_negocio');
             $result = $select->fetch();
+ * 
+ */
 
             $systemInfo['num_routes'] = $result['count(*)'];
 
