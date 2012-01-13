@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelo>
+<elements>
+    <id>
+        <type>hidden</type>
+    </id>
+    <ds_login>
+        <type>text</type>
+        <options>
+            <label>Name</label>
+            <required>true</required>
+        </options>
+    </ds_login>
+    <cd_password>
+        <type>password</type>
+        <options>
+            <label>Password</label>
+        </options>
+    </cd_password>
+    <ds_mail>
+        <type>text</type>
+        <options>
+            <label>E-mail Address</label>
+        </options>
+    </ds_mail>
+    <fg_active>
+        <type>checkbox</type>
+        <options>
+            <label>Active</label>
+            <description>Yes</description>
+        </options>
+    </fg_active>    
+</elements>
+</modelo>

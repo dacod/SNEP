@@ -1,0 +1,46 @@
+<?php
+$this->headLink()->appendStylesheet( $this->baseUrl() . "/modules/default/css/index.css" );
+//$this->headScript()->appendFile('/snep/includes/javascript/scriptaculous/lib/prototype.js');
+$this->headScript()->appendFile( $this->baseUrl() . '/includes/javascript/removeItem.js');
+echo $this->render('filter.phtml');
+?>
+
+<table>
+   <thead>
+      <tr>
+         <th> <?php echo $this->translate('Name') ?> </th>
+         <th> <?php echo $this->translate('E-mail') ?> </th>
+         <th> <?php echo $this->translate('Last Login') ?> </th>
+         <th> <?php echo $this->translate('Active') ?> </th>
+         <th colspan="3" class="action"> <?php echo $this->translate('Actions') ?> </th>
+      </tr>
+   </thead>
+   <tbody>
+    <?php
+    $c = 0;
+    if($this->users) :
+        foreach($this->users as $n => $user ) : ?>
+            <?php ($c ? $c = 0 : $c = 1 ); ?>
+
+            <tr class="c<?php echo $c ?>">
+                <td> <b> <?php echo $user['ds_login']; ?> </b> </td>
+                <td> <?php echo $user['ds_mail']; ?> </td>
+                <td> <?php echo $user['dt_lastlogin']; ?> </td>
+                <td> <?php echo $this->active[$user['fg_active']]; ?> </td>
+                <td class="action">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $user['id_user'] ?>">
+                        <?php echo $this->translate('Edit')?>
+                    </a>
+                </td>
+                <td class="action">
+                    <?php $this->remove_msg = $this->translate("Are you sure you want to delete this record?");?>
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $user['id_user'] ?>','<?php echo $this->remove_msg ?>')">
+                        <?php echo $this->translate('Delete')?>
+                    </span>                    
+                </td>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
+</table>
+
+<?php echo $this->render('pagination.phtml') ?>
