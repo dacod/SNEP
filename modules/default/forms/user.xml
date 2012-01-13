@@ -9,25 +9,49 @@
         <options>
             <label>Name</label>
             <required>true</required>
+            <validators>
+                <strlen>
+                <validator>StringLength</validator>
+                <options>
+                    <max>32</max>
+                </options>
+                </strlen>
+            </validators>
         </options>
     </ds_login>
     <cd_password>
         <type>password</type>
         <options>
             <label>Password</label>
+            <validators>
+                <strlen>
+                <validator>StringLength</validator>
+                <options>
+                    <max>64</max>
+                </options>
+                </strlen>
+            </validators>
         </options>
     </cd_password>
     <ds_mail>
         <type>text</type>
         <options>
             <label>E-mail Address</label>
+            <validators>
+                <strlen>
+                <validator>StringLength</validator>
+                <options>
+                    <max>64</max>
+                </options>
+                </strlen>
+            </validators>
         </options>
     </ds_mail>
     <fg_active>
         <type>checkbox</type>
         <options>
             <label>Active</label>
-            <description>Yes</description>
+            <description>Yes</description>            
         </options>
     </fg_active>    
 </elements>

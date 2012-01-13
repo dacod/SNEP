@@ -32,7 +32,6 @@ class UsersController extends Zend_Controller_Action {
     {
 
         // @todo localização das datas na listagem da view
-       
 
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
@@ -66,12 +65,10 @@ class UsersController extends Zend_Controller_Action {
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array('ds_login'     => $this->view->translate('Name'),
-                        'ds_mail'      => $this->view->translate('E-mail'),
-                        'dt_lastlogin' => $this->view->translate("Last Login"),
-                        'fg_active'    => $this->view->translate("Active") );
+                        'ds_mail'      => $this->view->translate('E-mail') );
 
         $this->view->active = array(1 => $this->view->translate('Yes'),
-                                    0 => $this->view->translate('Yes'));
+                                    0 => $this->view->translate('No'));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -90,7 +87,6 @@ class UsersController extends Zend_Controller_Action {
 
     public function addAction()
     {
-        // @todo Username deve ser unico, verificação no form e estrutura de banco.
 
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
@@ -104,21 +100,27 @@ class UsersController extends Zend_Controller_Action {
 
                 $form_isValid = $form->isValid($_POST);
 
+                $user = new Snep_User_Manager();
+                $select = $user->select()->where('ds_login = ?', $_POST['ds_login']);
+                $db_user = $user->fetchRow($select);
+
+                if( $db_user) {
+                    $form_isValid = false;
+                    $form->getElement('ds_login')->addError( $this->view->translate('Nome de usuário já existe.') );
+                }
+
                 if ($form_isValid) {
-                    $username = md5($_POST['cd_password']);
-                    
+                    $pass = md5($_POST['cd_password']);
                     $dados = array('ds_login' => $_POST['ds_login'],
-                                   'cd_password' => $username,
+                                   'cd_password' => $pass,
                                    'dt_lastlogin' => null,
                                    'ds_mail' => $_POST['ds_mail'],
                                    'fg_active' => $_POST['fg_active'],
                                    'id_profile' => null );
-
-                    $queue = new Snep_User_Manager();
-                    $queue->insert($dados);
+                    $user->insert($dados);
                     $this->_redirect($this->getRequest()->getControllerName());
                 }
-            }
+            }         
             
             $this->view->form = $form;
     }
@@ -148,20 +150,22 @@ class UsersController extends Zend_Controller_Action {
                 $form_isValid = $form->isValid($_POST);
 
                 if ($form_isValid) {
-                    
+
                     $dados = array('ds_login' => $_POST['ds_login'],
-                                   'cd_password' => $password,
                                    'dt_lastlogin' => $user['dt_lastlogin'],
                                    'ds_mail' => $_POST['ds_mail'],
                                    'fg_active' => $_POST['fg_active'],
                                    'id_profile' => null );
 
-                    if($_POST['cd_password'] != "") {
-                        $dados['cd_password'] = md5($_POST['cd_password']);
-                    }
+                    if($_POST['cd_password'] != '') {
+                        $new_pass = md5($_POST['cd_password']);
 
-                    $queue = new Snep_User_Manager();
-                    $queue->update($dados, "id_user = '{$_POST['id']}'");
+                        if($user['cd_password'] != $new_pass) {
+                            $dados['cd_password'] = md5($_POST['cd_password']);
+                        }
+                    }
+                    
+                    $obj->update($dados, "id_user = '{$id}'");
                     $this->_redirect($this->getRequest()->getControllerName());
                 }
             }
