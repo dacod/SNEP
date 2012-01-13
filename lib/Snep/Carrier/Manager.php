@@ -45,22 +45,19 @@ class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
         $selected->fg_active        = $dados['active'];
                     
         $selected->save();
-
         
         // Busca e limpa centros de custos relacionados
         $costcenters = $selected->findSnep_CostCenter_Manager();
-        Zend_Debug::dump(count($costcenters));
-        exit(1);
-        foreach ($costcenters as $cc) {
-        	$cc->id_carrier = null;
-        	$cc->save();
+        if (count($costcenters) > 0) {
+            foreach ($costcenters as $cc) {
+        	   $cc->id_carrier = null;
+        	   $cc->save();
+            }
         }
         
-        /*
-        $cs->delete('id_carrier = ?', $carrierId);
-        
-        // Recadastra
-        foreach($dados['box_add'] as $costcenterId) {   
+        // Cadastra os Centro de Custos selecionados
+        foreach($dados['box_add'] as $costcenterId) {
+        	$cs = new Snep_CostCenter_Manager();   
             $csRow = $cs->fetchRow($cs
                         ->select()
                         ->where('id_costcenter = ?', $costcenterId));
@@ -68,27 +65,8 @@ class Snep_Carrier_Manager extends Zend_Db_Table_Abstract {
             $csRow->id_carrier = $carrierId;
             $csRow->save();
         }
-        */
     }
-    
-    /**
-     * Update a carrier data
-     * @param Array $data
-     */
-    public function edit($carrier) {
 
-        $db = Zend_Registry::get('db');
-
-        $update_data = array('nome'     => $carrier['name'],
-                             'tpm'      => $carrier['ta'],
-                             'tdm'      => $carrier['tf'],
-                             'tbf'      => $carrier['tbf'],
-                             'tbc'      => $carrier['tbc'] );
-
-
-        $db->update("operadoras", $update_data, "codigo = '{$carrier['id']}'");
-
-    }
 
     /**
      * Return Carrier Cost Center's

@@ -40,9 +40,11 @@ require_once "Snep/Trunk.php";
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-class PBX_Trunks {
-    private function __construct() { /* Protegendo métodos dinâmicos */ }
-    private function __destruct() { /* Protegendo métodos dinâmicos */ }
+
+class PBX_Trunks extends Zend_Db_Table_Abstract {
+    protected $_name = "trunk";
+    protected $_primary = "id_trunk";
+        
     private function __clone() { /* Protegendo métodos dinâmicos */ }
 
     /**
@@ -53,16 +55,16 @@ class PBX_Trunks {
     public static function getAll() {
         $db = Zend_Registry::get('db');
 
-        $select = $db->select('id')
-        ->from('trunks')
-        ->order('id');
+        $select = $db->select(array('id'=>'id_trunk'))
+        ->from('trunk')
+        ->order('id_trunk');
 
         $stmt = $db->query($select);
         $result = $stmt->fetchAll();
-
+        
         $objetos = array();
         foreach($result as $tronco) {
-            $objetos[] = self::get($tronco['id']);
+            $objetos[] = self::get($tronco['id_trunk']);
         }
 
         return $objetos;
@@ -77,14 +79,15 @@ class PBX_Trunks {
     public static function get($id) {
         $db = Zend_Registry::get('db');
 
-        $select = $db->select()->from('trunks')->where("id = $id");
+        $select = $db->select()->from('trunk')->where("id_trunk = $id");
         $stmt = $db->query($select);
         $rawTrunk = $stmt->fetchObject();
+        Zend_Debug::dump($rawTrunk);
         if(!$rawTrunk) {
             throw new PBX_Exception_NotFound("Tronco $id nao encontrado");
         }
 
-        $tech = $rawTrunk->type;
+        $tech = $rawTrunk->ds_trunktype;
 
         if( ($tech == "SIP" || $tech == "IAX2") && $rawTrunk->dialmethod == "NOAUTH" ) {
             $config = array('host' => $rawTrunk->host);

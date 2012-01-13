@@ -46,11 +46,14 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
             "users" => $this->view->translate("Users"),
             "all" => $this->view->translate("All"));
         
-
-        $select = $db->select()
+        $extensionGroup = new Snep_ExtensionsGroups_Manager();
+        
+        $select = $extensionGroup->select()
+                                 ->where("ds_name not in ('all', 'users', 'administrator')");
+        /*$select = $db->select()
                         ->from("groups", array("name", "inherit"))
                         ->where("name not in ('all','users','administrator') ");
-        
+        */        
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
@@ -117,15 +120,20 @@ class ExtensionsGroupsController extends Zend_Controller_Action {
                                      'users' => $this->view->translate('User')) );
         
         try {
-            $extensionsAllGroup = Snep_ExtensionsGroups_Manager::getExtensionsAll();
-
-        }catch(Exception $e) {
-
-            display_error($LANG['error'].$e->getMessage(),true);
+            
+        	$ext = new Snep_Extensions();
+            $extensionsGroup = $ext->fetchAll();
+                        
+            //$extensionsAllGroup = Snep_ExtensionsGroups_Manager::getExtensionsAll();
+            
+        } catch(Exception $e) {
+        	throw new $e;
+            //echo $LANG['error'].$e->getMessage();
+            //display_error($LANG['error'].$e->getMessage(),true);
         }
 
         $extensions = array();
-        foreach($extensionsAllGroup as $key => $val) {
+        foreach($extensionsGroup as $key => $val) {
 
             $extensions[$val['id']] = $val['name'] ;
         }

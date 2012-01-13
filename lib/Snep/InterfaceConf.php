@@ -32,6 +32,8 @@ class Snep_InterfaceConf {
         $view = new Zend_View();
         $db = Snep_Db::getInstance();
         
+        // TODO - buscar informações da tabela extensions 
+        
         foreach (array("sip", "iax2") as $tech) {
             $config = Zend_Registry::get('config');
             $asteriskDirectory = $config->system->path->asterisk->conf;

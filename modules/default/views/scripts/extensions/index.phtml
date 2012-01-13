@@ -32,24 +32,24 @@ echo $this->render('filter.phtml');
     foreach($this->extensions as $cha => $val ): ?>
         <?php ($c ? $c = 0 : $c = 1 ); ?>
         <tr class="c<?php echo $c ?>">
-            <td> <b> <?php echo $val['exten'] ?> </b> </td>
-            <td> <?php echo $val['name'] ?> </td>
-            <td> <?php echo $val['channel'] ?> </td>
-            <td> <?php echo $val['group'] ?> </td>
+            <td> <b> <?php echo $val['id_extension'] ?> </b> </td>
+            <td> <?php echo $val['ds_callerid'] ?> </td>
+            <td> <?php echo $val['ds_channel'] ?> </td>
+            <td> <?php echo $val['ds_group'] ?> </td>
             <td class="action">
-                <a class="alterar"  href='<?php echo $this->url ?>/edit/id/<?php echo $val['exten'] ?>'>
+                <a class="alterar"  href='<?php echo $this->url ?>/edit/id/<?php echo $val['id_extension'] ?>'>
                     <?php echo $this->translate('Edit')?>
                 </a>
             </td>
             <td class="action">
-                <?php if($val['exten'] != "admin"): ?>
-                <span class="excluir" onclick="remove_item('<?php echo $this->url ?>/delete/id/<?php echo $val['exten'] ?>', '<?php echo $this->translate('Are you sure you want to delete this extension?')?>' );">
+                <?php if($val['id_extension'] != "admin"): ?>
+                <span class="excluir" onclick="remove_item('<?php echo $this->url ?>/delete/id/<?php echo $val['id_extension'] ?>', '<?php echo $this->translate('Are you sure you want to delete this extension?')?>' );">
                     <?php echo $this->translate('Delete')?>
                 </span>
                 <?php endif; ?>
             </td>
             <td class="action">
-                <a class="membros"  href='<?php echo $this->baseUrl(); ?>/index.php/permission/<?php echo $val['exten']?>' >
+                <a class="membros"  href='<?php echo $this->baseUrl(); ?>/index.php/permission/<?php echo $val['id_extension']?>' >
                     <?php echo $this->translate('Permissions')?>
                 </a>
             </td>

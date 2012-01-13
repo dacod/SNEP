@@ -57,16 +57,20 @@ class ExtensionsController extends Zend_Controller_Action {
                 ));
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
-        $db = Zend_Registry::get('db');
-        $select = $db->select()->from("peers", array(
-                    "id" => "id",
-                    "exten" => "name",
-                    "name" => "callerid",
-                    "channel" => "canal",
-                    "group"
-                ));
-        $select->where("peer_type='R'");
-
+        $extension = new Snep_Extensions();
+               
+        $extensions = array();
+        foreach ($extension->fetchAll() as $ext) {
+            $peer = $ext->findParentRow('Snep_Peer_Manager');
+            $group = $ext->findParentRow('Snep_ExtensionsGroups_Manager');
+            
+            array_push($extensions, array(
+                'id_extension' => $ext->id_extension,
+                'ds_channel' => $peer->ds_channel,
+                'ds_callerid' => $peer->ds_callerid,
+                'ds_group' => $group->ds_name));
+        }
+        
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
@@ -78,13 +82,14 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $this->view->filtro = $this->_request->getParam('filtro');
 
-        $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
+        $paginatorAdapter = new Zend_Paginator_Adapter_Array($extensions);
         $paginator = new Zend_Paginator($paginatorAdapter);
 
         $paginator->setCurrentPageNumber($this->view->page);
         $paginator->setItemCountPerPage(Zend_Registry::get('config')->ambiente->linelimit);
 
         $this->view->extensions = $paginator;
+        
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "/snep/index.php/extensions/index/";
 
@@ -101,7 +106,8 @@ class ExtensionsController extends Zend_Controller_Action {
         $filter->setValue($this->_request->getPost('campo'));
         $filter->setFieldOptions($options);
         $filter->setFieldValue($this->_request->getParam('filtro'));
-        $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page");
+        $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/".
+                             "{$this->getRequest()->getControllerName()}/index/page/$page");
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(
@@ -176,9 +182,6 @@ class ExtensionsController extends Zend_Controller_Action {
                 $this->view->form->valid(false);
             } else {
             if ($this->view->form->isValid($_POST)) {
-               
-                
-                
                 $postData["extension"]["exten"] = $this->_request->getParam("id");
 
                 $ret = $this->execAdd($postData, true);
@@ -345,19 +348,22 @@ class ExtensionsController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         $exten = $formData["extension"]["exten"];
-        $sqlValidName = "SELECT * from peers where name = '$exten'";
-        $selectValidName = $db->query($sqlValidName);
-        $resultGetId = $selectValidName->fetch();
-
-        if ($resultGetId && !$update) {
-            return $this->view->translate('Extension already taken. Please, choose another denomination.');
-        } else if ($update) {
-            $idExt = $resultGetId['id'];
+        
+        $extensions = new Snep_Extensions();
+        foreach ($extensions->fetchAll() as $ext) {
+            $extension = $ext->findParentRow('Snep_Peer_Manager')->ds_name;
+        	
+	        if ($extension == $exten && !$update) {
+	            return $this->view->translate('Extension already taken. Please, choose another denomination.');
+	        } else if ($update) {
+	            $idExt = $ext->findParentRow('Snep_Peer_Manager')->id_peer;
+	            break;
+	        }
         }
-
+        
         $context = 'default';
-        $extenPass = $formData["extension"]["password"];
-        $extenName = $formData["extension"]["name"];
+        //$extenPass = $formData["extension"]["password"];
+        $extenCallerId = $formData["extension"]["name"];
         $extenGroup = $formData["extension"]["exten_group"];
         $extenPickGrp = $formData["extension"]["pickup_group"] == '' ? "NULL" : $formData["extension"]["pickup_group"];
         $peerType = "R";
@@ -443,10 +449,10 @@ class ExtensionsController extends Zend_Controller_Action {
         } else {
             $allow = "ulaw";
         }
-
+        
         if ($update) {
             $sql = "UPDATE peers ";
-            $sql.=" SET name='$exten',password='$extenPass' , callerid='$extenName', ";
+            $sql.=" SET name='$exten',password='$extenPass' , callerid='$extenCallerId', ";
             $sql.= "context='$context',mailbox='$exten',qualify='$qualify',";
             $sql.= "secret='$secret',type='$type', allow='$allow', fromuser='$exten',";
             $sql.= "username='$exten',fullcontact='',dtmfmode='$dtmfmode',";
@@ -465,15 +471,42 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "trunk, `group`, callgroup, time_total, ";
             $sql.= "time_chargeby " . $sqlFieldsExten;
             $sql.= ") values (";
-            $sql.= "'$exten','$extenPass','$extenName','$context','$exten','$qualify',";
+            $sql.= "'$exten','$extenPass','$extenCallerId','$context','$exten','$qualify',";
             $sql.= "'$secret','$type','$allow','$exten','$exten','$fullcontact',";
             $sql.= "'$dtmfmode','$advEmail','$callLimit','1',";
             $sql.= "'1', '$advVoiceMail', $extenPickGrp ,'$channel','$nat', '$peerType',";
             $sql.= "$advPadLock,'no','$extenGroup',";
             $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
             $sql.= ")";
+            
         }
 
+        $peers = Snep_Peer_Manager();
+        $peers->ds_name = $exten;
+        $peers->ds_callerid = $extenCallerId;
+        $peers->ds_context = $context;
+        // mailbox
+        $peers->fg_qualify = $qualify;
+        $peers->cd_secret = $secret;
+        $peers->cd_type = $type;
+        $peers->ds_codec_allow = $allow;
+        // fromuser
+        $peers->ds_username = $exten;
+        // fullcontact
+        $peers->ds_dtmfmode = $dtmfmode;
+        
+        //$peers->email = $advEmail;
+        $peers->vl_call_limit = $callLimit;
+        // incominglimit
+        // outgoinglimit
+        //$peers->id_pickupgroup = $extenPickGrp;
+        $peers->ds_channel = $channel;
+        $peers->fg_nat = $nat;
+        $peers->cd_peer_type = $peer_type;
+        //$extension->id_extensiongroup = $extenGroup
+        $peers->vl_time_total = $advTimeTotal;
+        $peers->vl_time_chargeby = $advCtrlType;
+        
         $stmt = $db->query($sql);
 
         $idExten = $db->lastInsertId();
@@ -544,13 +577,17 @@ class ExtensionsController extends Zend_Controller_Action {
         $this->_redirect("default/extensions");
     }
 
+    // Adição de ramal único
     /**
      * @return Snep_Form
      */
     protected function getForm() {
         if ($this->form === Null) {
-            Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
-            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . "/modules/default/forms/extensions.xml");
+            Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . 
+                               '/' . $this->getRequest()->getControllerName() . '/index');
+            
+            $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . 
+                                            "/modules/default/forms/extensions.xml");
             $form = new Snep_Form();
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
             $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
@@ -558,7 +595,9 @@ class ExtensionsController extends Zend_Controller_Action {
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
             $subFormVirtual = new Snep_Form_SubForm(null, $form_xml->virtual, "virtual");
-            if (PBX_Trunks::getAll() == null) {
+            
+            $trunks = new PBX_Trunks();
+            if ($trunks->fetchAll() == null) {
                 $subFormVirtual->removeElement('virtual');
                 $subFormVirtual->addElement(new Snep_Form_Element_Html("extensions/trunk_error.phtml", "err", false, null, "virtual"));
             }
@@ -572,8 +611,9 @@ class ExtensionsController extends Zend_Controller_Action {
             $khompInfo = new PBX_Khomp_Info();
 
             if ($khompInfo->hasWorkingBoards()) {
+            	
                 foreach ($khompInfo->boardInfo() as $board) {
-                    if (preg_match("/KFXS/", $board['model'])) {
+                    if (preg_match("/FXS/", $board['model'])) {
                         $channels = range(0, $board['channels']);
                         $selectFill->addMultiOption($board['id'], $board['id']);
                         $boardList[$board['id']] = $channels;
@@ -615,7 +655,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
             if ($khompInfo->hasWorkingBoards()) {
                 foreach ($khompInfo->boardInfo() as $board) {
-                    if (preg_match("/KFXS/", $board['model'])) {
+                    if (preg_match("/FXS/", $board['model'])) {
                         $channels = range(0, $board['channels']);
                         $selectFill->addMultiOption($board['id'], $board['id']);
                         $boardList[$board['id']] = $channels;
@@ -753,8 +793,6 @@ class ExtensionsController extends Zend_Controller_Action {
                             else{
                                 
                             }
-
-                            
                         }
                     }
                 }

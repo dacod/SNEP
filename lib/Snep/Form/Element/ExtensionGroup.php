@@ -2,12 +2,13 @@
 
 class Snep_Form_Element_ExtensionGroup extends Zend_Form_Element_Select {
     public function __construct($spec, $options = null) {
+    	$this->addMultiOption("", "");
         $groups = new Snep_GruposRamais();
-        $data = array();
+        $extengroups = array();
         foreach ($groups->getAll() as $group) {
-            $data[$group['name']] = $group['name'];
+            $extengroups[$group['id_extensiongroup']] = $group['ds_name'];
         }
-        $this->addMultiOptions($data);
+        $this->addMultiOptions($extengroups);
         parent::__construct($spec, $options);
     }
 }

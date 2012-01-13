@@ -117,7 +117,6 @@ class CarrierController extends Zend_Controller_Action {
         }
         
         // Popula lista de operadoras
-        
         $carrierList = array();
         foreach ($carrier->fetchAll() as $carrierRow) {        
         	$carrierList[$carrierRow->id_carrier] = $carrierRow->ds_name;

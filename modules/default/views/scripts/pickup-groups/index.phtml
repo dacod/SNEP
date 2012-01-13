@@ -20,15 +20,15 @@ echo $this->render('filter.phtml');
         foreach($this->pickupgroups as $id => $pickupGroups ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td class="numeric"> <b> <?php echo $pickupGroups['cod_grupo'] ?> </b> </td>
-                <td> <?php echo $pickupGroups['nome'] ?> </td>
+                <td class="numeric"> <b> <?php echo $pickupGroups['id_pickupgroup'] ?> </b> </td>
+                <td> <?php echo $pickupGroups['ds_name'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href='<?php echo $this->URL; ?>edit/group/<?php echo $pickupGroups['cod_grupo'] ?>'>
+                    <a class="alterar" href='<?php echo $this->URL; ?>edit/group/<?php echo $pickupGroups['id_pickupgroup'] ?>'>
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
-                    <a class="excluir" href='<?php echo $this->URL; ?>delete/id/<?php echo $pickupGroups['cod_grupo'] ?>'>
+                    <a class="excluir" href='<?php echo $this->URL; ?>delete/id/<?php echo $pickupGroups['id_pickupgroup'] ?>'>
                         <?php echo $this->translate('Delete')?>
                     </a>
                 </td>

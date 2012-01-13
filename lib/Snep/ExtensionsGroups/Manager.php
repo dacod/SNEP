@@ -33,10 +33,10 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-class Snep_ExtensionsGroups_Manager {
-
-    private function __construct() { /* Protegendo métodos dinâmicos */ }
-    private function __destruct() { /* Protegendo métodos dinâmicos */ }
+class Snep_ExtensionsGroups_Manager extends Zend_Db_Table_Abstract {
+	protected $_name = "extension_group";
+	protected $_primary = "id_extensiongroup";
+	
     private function __clone() { /* Protegendo métodos dinâmicos */ }
 
 
@@ -125,10 +125,8 @@ class Snep_ExtensionsGroups_Manager {
 
         $db = Zend_Registry::get('db');
 
-        $select = $db->select()
-                     ->from('peers',array('id','name','group'))
-                     ->from('groups',array('name','inherit'))
-                     ->where('peers.group = groups.name');
+        $select = $this->select()
+                       ->from('extension');
 
         $stmt = $db->query($select);
         $extensionsGroup = $stmt->fetchAll();
@@ -235,7 +233,7 @@ class Snep_ExtensionsGroups_Manager {
      * @param int $id
      */
 
-    public static function delete($id) {
+    public function delete($id) {
 
         $db = Zend_Registry::get('db');
 

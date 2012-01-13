@@ -24,8 +24,34 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author    Henrique Grolli Bassotto
  */
-class Snep_Extensions {
+class Snep_Extensions extends Zend_Db_Table_Abstract {
 
+	protected $_name = "extension";
+	protected $_primary = "id_extension";
+
+    protected $_referenceMap = array(
+        'Snep_Peer_Manager' =>  array(
+            'columns' => 'id_peer',
+            'refTableClass' => 'Snep_Peer_Manager',
+            'refColumns' => 'id_peer'
+        ),
+        'Snep_ExtensionsGroups_Manager' =>  array(
+            'columns' => 'id_extensiongroup',
+            'refTableClass' => 'Snep_ExtensionsGroups_Manager',
+            'refColumns' => 'id_extensiongroup'
+        ),
+        'Snep_PickupGroups_Manager' =>  array(
+            'columns' => 'id_pickupgroup',
+            'refTableClass' => 'Snep_PickupGroups_Manager',
+            'refColumns' => 'id_pickupgroup'
+        ),
+        'Snep_User_Manager' =>  array(
+            'columns' => 'id_user',
+            'refTableClass' => 'Snep_User_Manager',
+            'refColumns' => 'id_user'
+        ),
+    );
+    
     private $commitPending = false;
 
     private $commitList = array();

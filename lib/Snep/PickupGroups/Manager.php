@@ -24,10 +24,11 @@
  * @copyright Copyright (c) 2010 OpenS Tecnologia
  * @author Henrique Grolli Bassotto
  */
-class Snep_PickupGroups_Manager {
+class Snep_PickupGroups_Manager extends Zend_Db_Table_Abstract {
 
-    private function __construct() { /* Protegendo métodos dinâmicos */ }
-    private function __destruct() { /* Protegendo métodos dinâmicos */ }
+	protected $_name = "pickup_group";
+	protected $_primary = "id_pickupgroup";
+	
     private function __clone() { /* Protegendo métodos dinâmicos */ }
 
     /**
@@ -35,7 +36,7 @@ class Snep_PickupGroups_Manager {
      *
      * @param int $id
      */
-    public static function delete($id) {
+    public function delete($id) {
 
         $db = Zend_Registry::get('db');
         $db->delete("grupos","cod_grupo='{$id}'");
@@ -46,7 +47,7 @@ class Snep_PickupGroups_Manager {
      *
      * @param int $id
      */
-    public static function get ($id) {
+    public function get($id) {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
@@ -59,7 +60,7 @@ class Snep_PickupGroups_Manager {
         return $registros;
     }
 
-    public static function getAll() {
+    public function getAll() {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
@@ -75,7 +76,7 @@ class Snep_PickupGroups_Manager {
         return $pickupGroups;
     }
 
-    public static function getFilter ($field, $query) {
+    public function getFilter ($field, $query) {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
@@ -88,7 +89,7 @@ class Snep_PickupGroups_Manager {
         return $select;
     }
 
-    public static function add($pickupGroup) {
+    public function add($pickupGroup) {
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();
@@ -104,7 +105,7 @@ class Snep_PickupGroups_Manager {
         }
     }
 
-    public static function  edit($pickupGroup) {
+    public function  edit($pickupGroup) {
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();

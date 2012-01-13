@@ -38,16 +38,9 @@ class Snep_GruposRamais {
     }
 
     public function getAll() {
+    	$groups = new Snep_ExtensionsGroups_Manager();
 
-        $db = Zend_Registry::get('db');
-
-        $select = $db->select()
-                     ->from('groups');
-        
-        $stmt = $db->query($select);
-        $grupos = $stmt->fetchAll();
-
-        return $grupos;
+        return $groups->fetchAll();
     }
 
     public function getRamalGrupos() {
