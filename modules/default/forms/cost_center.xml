@@ -42,7 +42,7 @@
                     <strlen>
                         <validator>StringLength</validator>
                         <options>
-                            <max>32</max>
+                            <max>40</max>
                         </options>
                     </strlen>
                 </validators>

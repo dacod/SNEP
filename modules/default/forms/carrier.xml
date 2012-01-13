@@ -12,6 +12,7 @@
             <options>
                 <label>Start charging Time</label>
                 <description>In seconds</description>
+                <required>true</required>
             </options>
         </ta>
         <tf>
@@ -19,6 +20,8 @@
             <options>
                 <label>Fragmentation Time</label>
                 <description>In seconds</description>
+                <required>true</required>
+                
             </options>
         </tf>
         <tbf>
@@ -26,6 +29,7 @@
             <options>
                 <label>Minute Fee for Residencial</label>
                 <description>use dot for decimal</description>
+                <required>true</required>
             </options>
         </tbf>
         <tbc>
@@ -33,6 +37,7 @@
             <options>
                 <label>Minute Fee for Mobile</label>
                 <description>use dot for decimal</description>
+                <required>true</required>
             </options>
         </tbc>
     </elements>
