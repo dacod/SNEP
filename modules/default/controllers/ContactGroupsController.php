@@ -23,7 +23,7 @@
  * @category  Snep
  * @package   Snep
  * @copyright Copyright (c) 2010 OpenS Tecnologia
- * @author    Rafael Pereira Bozzetti
+ * @author    Andrey Abreu
  */
 class ContactGroupsController extends Zend_Controller_Action {
 
@@ -39,18 +39,23 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                        ->from("contacts_group");
-
-        if ($this->_request->getPost('filtro')) {
-            $field = mysql_escape_string($this->_request->getPost('campo'));
-            $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("`$field` like '%$query%'");
+                        ->from("contact_group");
+        if ($this->_request->getPost('campo') == 'id_contact_group') {
+            $field = pg_escape_string($this->_request->getPost('campo'));
+            $query = pg_escape_string($this->_request->getPost('filtro'));
+            
+            if (preg_match('/^[0-9]+$/', $query)){
+                $select->where("$field = '$query'");
+            }
+        }else if($this->_request->getPost('campo') == 'ds_name'){
+            $field = pg_escape_string($this->_request->getPost('campo'));
+            $query = pg_escape_string($this->_request->getPost('filtro'));
+            $select->where("$field like '%$query%'");          
         }
-
 
         $page = $this->_request->getParam('page');
         $this->view->page = ( isset($page) && is_numeric($page) ? $page : 1 );
-        $this->view->filtro = $this->_request->getParam('filtro');
+        $this->view->filtro = pg_escape_string($this->_request->getParam('filtro'));
 
         $paginatorAdapter = new Zend_Paginator_Adapter_DbSelect($select);
         $paginator = new Zend_Paginator($paginatorAdapter);
@@ -61,8 +66,8 @@ class ContactGroupsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("id" => $this->view->translate("Code"),
-            "name" => $this->view->translate("Name"));
+        $opcoes = array("id_contact_group" => $this->view->translate("Code"),
+            "ds_name" => $this->view->translate("Name"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -94,7 +99,7 @@ class ContactGroupsController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
         try {
-            $sql = "SELECT c.id as id, c.name as name, g.name as `group` FROM contacts_names as c, contacts_group as g  WHERE (c.group = g.id) ";
+            $sql = "SELECT c.id_contact as id, c.ds_name as name, g.ds_name as group FROM contact as c, contact_group as g  WHERE (c.id_contact_group = g.id_contact_group) ";
             $contacts_result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
         }
@@ -105,22 +110,24 @@ class ContactGroupsController extends Zend_Controller_Action {
             $this->view->objSelectBox = "contacts";
             $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $contact, false);
 
+			$group = new Snep_ContactGroups_Manager ();
+                            
         if ($this->_request->getPost()) {
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
-             if($form_isValid){
-                    $groupId = Snep_ContactGroups_Manager::add(array('group' => $dados['group']));
-
-            if ($dados['box_add']) {
-                foreach ($dados['box_add'] as $id => $idContact) {
-                    Snep_ContactGroups_Manager::insertContactOnGroup($groupId, $idContact);
-                }
-            }
-            $this->_redirect($this->getRequest()->getControllerName());
+            $dadosGroup = array('ds_name'=> $_POST['group']);
+            if($form_isValid){
+            	$groupId = $group->insert($dadosGroup);
+	            $dadosUpdate = array('id_contact_group' => $groupId);
+	            if ($dados['box_add']) {
+    	            foreach ($dados['box_add'] as $id => $idContact) {
+    		            $contact = new Snep_Contacts_Manager();
+	                	$contact->update($dadosUpdate, "id_contact = $idContact");
+                	}
+            	}
+            	$this->_redirect($this->getRequest()->getControllerName());
              }
-         
         }
-
         $this->view->form = $form;
     }
 
@@ -140,46 +147,61 @@ class ContactGroupsController extends Zend_Controller_Action {
 
         $form = new Snep_Form( new Zend_Config_Xml("modules/default/forms/contact_groups.xml") );
 
-        $group = Snep_ContactGroups_Manager::get($id);
-        $form->getElement('group')->setValue($group['name']);
-
+        $id = $this->_request->getParam('id');
+        $obj = new Snep_Contacts_Manager();
+        $select = $obj->select()->where('id_contact_group = ?', $id);
+        $group = $obj->fetchAll($select)->toArray();
+        
         $groupContacts = array();
-        foreach (Snep_ContactGroups_Manager::getGroupContacts($id) as $contact) {
-            $groupContacts[$contact['id']] = "{$contact['name']} ({$contact['group']})";
+
+        foreach ($group as $contact) {
+            $groupContacts[$contact['id_contact']] = "{$contact['ds_name']}";
         }
+        
+        $objGroup = new Snep_ContactGroups_Manager();
+        $selectGroup = $objGroup->select()->where('id_contact_group = ?', $id);
+        $groups = $objGroup->fetchrow($selectGroup)->toArray();
+        
+		$form->getElement('group')->setValue(trim($groups['ds_name']));
+		
+        $selectno = $obj->select()->where('id_contact_group <> ?', $id);
+        $groupno = $obj->fetchAll($selectno)->toArray();
+        
+        $groupContactsno = array();
 
-
-            $noGroupContacts = array();
-            foreach (Snep_Contacts_Manager::getAll() as $contact) {
-                if (!isset($groupContacts[$contact['id']])) {
-                    $noGroupContacts[$contact['id']] = "{$contact['name']} ({$contact['groupName']})";
-                }
-            }
-            $this->view->objSelectBox = "contacts";
-            $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $noGroupContacts, $groupContacts);
+        foreach ($groupno as $contactsno) {
+      	   $selectGroup = $objGroup->select()->where('id_contact_group =  ?', $contactsno['id_contact_group']);
+           $groups = $objGroup->fetchRow($selectGroup)->toArray();
+           $groupContactsno[$contactsno['id_contact']] = "{$contactsno['ds_name']} ({$groups['ds_name']})";
+        }
+        
+        $this->view->objSelectBox = "contacts";
+        $form->setSelectBox($this->view->objSelectBox, $this->view->translate('Contacts'), $groupContactsno, $groupContacts);
 
         $hiddenId = new Zend_Form_Element_Hidden('id');
         $hiddenId->setValue($id);
         $form->addElement($hiddenId);
-
+        
         if ($this->_request->getPost()) {
-
             $form_isValid = $form->isValid($_POST);
             $dados = $this->_request->getParams();
             
+            $dadosUpdate = array('ds_name'=> $_POST['group']); 
+                            
             if ($form_isValid){
-                $groupId = Snep_ContactGroups_Manager::edit(array('group' => $dados['group'], 'id' => $dados['id']));
-            if ($dados['box_add']) {
-                foreach ($dados['box_add'] as $id => $idContact) {
-                    Snep_ContactGroups_Manager::insertContactOnGroup($dados['id'], $idContact);
-                }
+            	$contact = new Snep_ContactGroups_Manager();
+	            $contact->update($dadosUpdate, "id_contact_group = $id");
+	                	
+           		if ($dados['box_add']) {
+            	 	$dadosUpdate = array('id_contact_group' => $id);
+                	foreach ($dados['box_add'] as $id => $idContact) {
+                    	$contact = new Snep_Contacts_Manager();
+	                	$contact->update($dadosUpdate, "id_contact = $idContact");
+                	}
+            	}
+            	$this->_redirect($this->getRequest()->getControllerName());
             }
-            $this->_redirect($this->getRequest()->getControllerName());
-            }
-
-            
         }
-
         $this->view->form = $form;
     }
 
@@ -187,33 +209,32 @@ class ContactGroupsController extends Zend_Controller_Action {
      * Remove a Contact Group
      */
     public function removeAction() {
-        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+    	
+       $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
                     $this->view->translate("Manage"),
                     $this->view->translate("Contact Group"),
                     $this->view->translate("Delete")
                 ));
 
-        $id = $this->_request->getParam('id');
-
+    	$id = $this->_request->getParam('id');
+        $contactGroup = new Snep_ContactGroups_Manager();
         $confirm = $this->_request->getParam('confirm');
 
         if ($confirm == 1) {
-            Snep_ContactGroups_Manager::remove($id);
-            $this->_redirect('default/contact-groups/');
+             $contactGroup->delete("id_contact_group = $id");
+     		 $this->_redirect('default/contact-groups/');
         }
 
-        $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
-
+       $obj = new Snep_Contacts_Manager();
+	   $select = $obj->select()->where('id_contact_group = ?', $id);
+       $contacts = $obj->fetchAll($select)->toarray();
+       
         if (count($contacts) > 0) {
-
             $this->_redirect('default/contact-groups/migration/id/' . $id);
-
         } else {
-
             $this->view->message = $this->view->translate("The group will be removed. After that you can't go back.");
             $form = new Snep_Form();
             $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/remove/id/' . $id . '/confirm/1');
-
             $this->view->form = $form;
         }
     }
@@ -229,11 +250,12 @@ class ContactGroupsController extends Zend_Controller_Action {
                 ));
 
         $id = $this->_request->getParam('id');
-
-        $_allGroups = Snep_ContactGroups_Manager::getAll();
+        $groupAll = new Snep_ContactGroups_Manager();
+        $_allGroups = $groupAll->fetchAll();
+        
         foreach ($_allGroups as $group) {
-            if ($group['id'] != $id) {
-                $allGroups[$group['id']] = $group['name'];
+        	if ($group['id_contact_group'] != $id){
+            	$allGroups[$group['id_contact_group']] = $group['ds_name'];
             }
         }
 
@@ -248,40 +270,41 @@ class ContactGroupsController extends Zend_Controller_Action {
         } else {
             $form->removeElement('group');
             $form->getElement('option')->setMultiOptions( array('remove'  => 'remove all' ) );
-          
         }
 
         $this->view->message = $this->view->translate("The excluded group has associated contacts.");
-
         $form->getElement('id')->setValue($id);
 
         $stage = $this->_request->getParam('stage');
 
         if (isset($stage['stage']) && $id) {
-
-            if($_POST['option'] == 'migrate') {
-
-                $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
-                foreach ($contacts as $contact) {
-                    Snep_ContactGroups_Manager::insertContactOnGroup($_POST['group'], $contact['id']);
+        	if($_POST['option'] == 'migrate') {
+		        $obj = new Snep_Contacts_Manager();
+		        $select = $obj->select()->where('id_contact_group = ?', $id);
+		        $contacts = $obj->fetchAll($select)->toarray();
+                
+                $idGroup = $_POST['group'];
+                $dadosUpdate = array('id_contact_group' => $idGroup);
+                	
+                foreach ($contacts as $contactselect) {
+                	$idContact = $contactselect['id_contact'];
+	                $obj->update($dadosUpdate, "id_contact = $idContact");
                 }
-
-                Snep_ContactGroups_Manager::remove($_POST['id']);
-
+                $groupAll->delete ("id_contact_group =$id");
             }
             elseif($_POST['option'] == 'remove') {
-                $contacts = Snep_ContactGroups_Manager::getGroupContacts($id);
-                foreach ($contacts as $contact) {
-                    Snep_Contacts_Manager::remove($contact['id']);
-                }
-
-                Snep_ContactGroups_Manager::remove($_POST['id']);                
+            	$obj = new Snep_Contacts_Manager();
+		    	$select = $obj->select()->where('id_contact_group = ?', $id);
+		        $contacts = $obj->fetchAll($select)->toArray();
+            
+            	foreach ($contacts as $contact) {
+            		$idContact = $contact['id_contact'];
+              		$obj->delete("id_contact = $idContact");
+            	}
+				$groupAll->delete ("id_contact_group =$id");
             }
-
             $this->_redirect($this->getRequest()->getControllerName());
         }
-
         $this->view->form = $form;
     }
-
 }

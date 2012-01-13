@@ -29,18 +29,18 @@ echo $this->render('filter.phtml');
                 <td> <?php echo $queue['servicelevel'] ?> </td>
                 <td> <?php echo $queue['timeout'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $queue['name'] ?>">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $queue['id_queue'] ?>">
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
                     <?php $this->remove_msg = $this->translate("Are you sure you want to delete this record?");?>
-                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $queue['name'] ?>','<?php echo $this->remove_msg ?>')">
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $queue['id_queue'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>                    
                 </td>
                 <td class="action">
-                    <a class="membros" href="<?php echo $this->url ?>/members/id/<?php echo $queue['name'] ?>">
+                    <a class="membros" href="<?php echo $this->url ?>/members/id/<?php echo $queue['id_queue'] ?>">
                         <?php echo $this->translate('Members')?>
                     </a>
                 </td>

@@ -40,21 +40,22 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
+
         $select = $db->select()
-                        ->from("ccustos", array("codigo", "tipo", "nome", "descricao"));
+                        ->from("cost_center", array("id_costcenter", "cd_code", "cd_type", "ds_name", "ds_description"));
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string( $this->_request->getPost('campo') );
             $query = mysql_escape_string( $this->_request->getPost('filtro') );
 
-            if($field == 'tipo') {
+            if($field == 'cd_type') {
                 $types = array($this->view->translate('Incoming') => 'E',
                                $this->view->translate('Outgoing') => 'S',
                                $this->view->translate('Others') => 'O');
                 $query = $types[$query];
             }
 
-            $select->where("`$field` like '%$query%'");
+            $select->where("$field LIKE '%$query%'");
         }
 
         $this->view->types = array('E' => $this->view->translate('Incoming'),
@@ -74,13 +75,15 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("codigo" => $this->view->translate("Code"),
-                        "tipo" => $this->view->translate("Type"),
-                        "nome" => $this->view->translate("Name"),
-                        "descricao" => $this->view->translate("Description") );
+        $opcoes = array("cd_code" => $this->view->translate("Code"),
+                        "cd_type" => $this->view->translate("Type"),
+                        "ds_name" => $this->view->translate("Name"),
+                        "ds_description" => $this->view->translate("Description") );
         
         $filter = new Snep_Form_Filter();
-        $filter->setAction( $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        $filter->setAction( $this->getFrontController()->getBaseUrl() .'/'. 
+                            $this->getRequest()->getControllerName() .'/index');
+
         $filter->setValue( $this->_request->getPost('campo'));
         $filter->setFieldOptions($opcoes);
         $filter->setFieldValue($this->_request->getPost('filtro'));
@@ -109,18 +112,24 @@ class CostCenterController extends Zend_Controller_Action {
         if($this->_request->getPost()) {
             
                 $form_isValid = $form->isValid($_POST);
-                $dados = $this->_request->getParams();
+                
+                $newId = new Snep_CostCenter_Manager();
+                $select = $newId->select()->where('cd_code = ?', $_POST['id']);
+                $cost_center = $newId->fetchRow($select);
 
-                $newId = Snep_CostCenter_Manager::get($dados['id']);
-
-                if( count( $newId ) > 1) {
+                if( count( $cost_center ) > 1) {
                     $form_isValid = false;
                     $form->getElement('id')->addError( $this->view->translate('Code already exists.') );
                 }
 
-                if( $form_isValid ){
-                    $dados = $this->_request->getParams();
-                    Snep_CostCenter_Manager::add($dados);                    
+                if( $form_isValid ) {
+                    $data = array('cd_code' => $_POST['id'],
+                                  'ds_name' => $_POST['name'],
+                                  'cd_type' => $_POST['type'],
+                                  'ds_description' => $_POST['description'],
+                                  'id_carrier' => null);
+
+                    $newId->insert($data);
                     $this->_redirect( $this->getRequest()->getControllerName() );
                 }
         }
@@ -132,38 +141,66 @@ class CostCenterController extends Zend_Controller_Action {
      * Remove Cost Center's
      */
     public function removeAction() {
+        
         $id = $this->_request->getParam('id');
-        Snep_CostCenter_Manager::remove($id);
+        $cost_center = new Snep_CostCenter_Manager();
+        $cost_center->delete("id_costcenter = $id");
     }
 
     /**
     * Edit Cost Center's
     */
     public function editAction() {
+
         $id = $this->_request->getParam('id');
+        
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
             $this->view->translate("Cost Center"),
             $this->view->translate("Edit")
         ));
 
-        $costCenter = Snep_CostCenter_Manager::get($id);
+        $obj = new Snep_CostCenter_Manager();
+        $select = $obj->select()->where('id_costcenter = ?', $id);
+        $cost_center = $obj->fetchRow($select)->toArray();
 
-        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        Zend_Registry::set('cancel_url', 
+                           $this->getFrontController()->getBaseUrl() . '/' .
+                           $this->getRequest()->getControllerName() . '/index');
+
         $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/cost_center.xml" ) );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/edit/id/'.$id);
-        $form->getElement('id')->setValue( $costCenter['codigo'] )->setAttrib('readonly', true);
-        $form->getElement('name')->setValue( $costCenter['nome'] );
-        $form->getElement('description')->setValue( $costCenter['descricao'] );
-        $form->getElement('type')->setValue( $costCenter['tipo'] );
+        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. 
+                          $this->getRequest()->getControllerName() . '/edit/id/'.$id );
+
+        $idcc = new Zend_Form_Element_Hidden('id_costcenter');
+        $idcc->setValue($cost_center['id_costcenter']);
+
+        $form->getElement('id')->setValue( $cost_center['cd_code'] )->setAttrib('readonly', true);
+        
+        $form->getElement('name')->setValue( $cost_center['ds_name'] );
+        $form->getElement('description')->setValue( $cost_center['ds_description'] );
+        $form->getElement('type')->setValue( $cost_center['cd_type'] );
+
+        
+        $form->addElement($idcc);
 
         if($this->_request->getPost()) {
+
+                $_POST['id'] = trim($_POST['id']);
             
                 $form_isValid = $form->isValid($_POST);
-                $dados = $this->_request->getParams();
+
+                $data = array('cd_code' => trim($_POST['id']),
+                              'ds_name' => $_POST['name'],
+                              'cd_type' => $_POST['type'],
+                              'ds_description' => $_POST['description'],
+                              'id_carrier' => null);
 
                 if($form_isValid) {
-                    Snep_CostCenter_Manager::edit($dados);
+
+                    $costCenter = new Snep_CostCenter_Manager();
+                    $costCenter->update($data, "id_costcenter = {$_POST['id_costcenter']}");
+                    
                     $this->_redirect( $this->getRequest()->getControllerName() );
                     
                 }

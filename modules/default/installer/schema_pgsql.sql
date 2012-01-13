@@ -4,23 +4,10 @@
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
+SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
+SET escape_string_warning = off;
 
 SET search_path = public, pg_catalog;
 
@@ -31,8 +18,8 @@ SET search_path = public, pg_catalog;
 CREATE SEQUENCE alias_expression_id_alias_expression_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -97,8 +84,8 @@ COMMENT ON TABLE audit IS 'Utilizado para auditoria do sistema';
 CREATE SEQUENCE billing_id_billing_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -141,8 +128,8 @@ COMMENT ON TABLE billing IS 'tarifas';
 CREATE SEQUENCE business_expression_id_bussiness_expression_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -182,8 +169,8 @@ COMMENT ON TABLE business_expression IS 'Expressões da regra';
 CREATE SEQUENCE business_rule_id_business_role_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -229,8 +216,8 @@ COMMENT ON TABLE business_rule IS 'Regras de negocio';
 CREATE SEQUENCE business_rule_actions_id_business_rule_actions_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -271,8 +258,8 @@ COMMENT ON TABLE business_rule_actions IS 'Ações de regra de negócio';
 CREATE SEQUENCE call_center_queues_id_call_center_queues_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -339,8 +326,8 @@ COMMENT ON TABLE carrier IS 'Operadoras';
 CREATE SEQUENCE carrier_id_carrier_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -380,8 +367,8 @@ COMMENT ON TABLE carrier_prefix IS 'Prefixo da operadora';
 CREATE SEQUENCE cdr_id_cdr_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -447,8 +434,8 @@ COMMENT ON TABLE city IS 'Cidade do ARS';
 CREATE SEQUENCE city_code_id_city_code_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -489,8 +476,8 @@ COMMENT ON TABLE city_code IS 'DDD';
 CREATE SEQUENCE contact_id_contact_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -536,8 +523,8 @@ COMMENT ON TABLE contact IS 'tabela de contatos';
 CREATE SEQUENCE contact_group_id_contact_group_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -578,11 +565,33 @@ CREATE TABLE cost_center (
     ds_description character(255),
     cd_type character(1),
     ds_name character(32),
+    cd_code character(8) NOT NULL,
     CONSTRAINT "COST_CENTER_type" CHECK ((cd_type = ANY (ARRAY['E'::bpchar, 'S'::bpchar, 'O'::bpchar])))
 );
 
 
 ALTER TABLE public.cost_center OWNER TO postgres;
+
+--
+-- Name: cost_center_id_costcenter_seq; Type: SEQUENCE; Schema: public; Owner: snep
+--
+
+CREATE SEQUENCE cost_center_id_costcenter_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cost_center_id_costcenter_seq OWNER TO snep;
+
+--
+-- Name: cost_center_id_costcenter_seq; Type: SEQUENCE SET; Schema: public; Owner: snep
+--
+
+SELECT pg_catalog.setval('cost_center_id_costcenter_seq', 14, true);
+
 
 --
 -- Name: expression_id_expression_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -591,8 +600,8 @@ ALTER TABLE public.cost_center OWNER TO postgres;
 CREATE SEQUENCE expression_id_expression_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -640,13 +649,6 @@ CREATE TABLE extension (
     id_user bigint,
     id_peer bigint NOT NULL
 );
-
-CREATE SEQUENCE pickup_group_id_pickupgroup_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 
 ALTER TABLE public.extension OWNER TO postgres;
@@ -859,6 +861,27 @@ CREATE TABLE pickup_group (
 ALTER TABLE public.pickup_group OWNER TO postgres;
 
 --
+-- Name: pickup_group_id_pickupgroup_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pickup_group_id_pickupgroup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pickup_group_id_pickupgroup_seq OWNER TO postgres;
+
+--
+-- Name: pickup_group_id_pickupgroup_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('pickup_group_id_pickupgroup_seq', 1, true);
+
+
+--
 -- Name: profile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -897,7 +920,7 @@ COMMENT ON TABLE profile_resource IS 'Relacionamento perfil/recursos.';
 
 
 --
--- Name: queue; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: queue; Type: TABLE; Schema: public; Owner: snep; Tablespace: 
 --
 
 CREATE TABLE queue (
@@ -935,11 +958,34 @@ CREATE TABLE queue (
     timeoutrestart boolean,
     queue_name character varying(128),
     interface character varying(128),
-    id_queue bigint NOT NULL
+    id_queue bigint NOT NULL,
+    autopause boolean,
+    autofill boolean
 );
 
 
-ALTER TABLE public.queue OWNER TO postgres;
+ALTER TABLE public.queue OWNER TO snep;
+
+--
+-- Name: queue_id_queue_seq; Type: SEQUENCE; Schema: public; Owner: snep
+--
+
+CREATE SEQUENCE queue_id_queue_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.queue_id_queue_seq OWNER TO snep;
+
+--
+-- Name: queue_id_queue_seq; Type: SEQUENCE SET; Schema: public; Owner: snep
+--
+
+SELECT pg_catalog.setval('queue_id_queue_seq', 20, true);
+
 
 --
 -- Name: queue_member_table; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -964,8 +1010,8 @@ ALTER TABLE public.queue_member_table OWNER TO postgres;
 CREATE SEQUENCE registry_id_registry_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -1021,8 +1067,8 @@ COMMENT ON TABLE resource IS 'ACL dos recursos disponíveis';
 CREATE SEQUENCE state_id_state_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -1061,8 +1107,8 @@ COMMENT ON TABLE state IS 'Estado do ARS';
 CREATE SEQUENCE time_history_id_time_history_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -1164,8 +1210,8 @@ COMMENT ON TABLE user_group IS 'Relacionamento usuário/grupo';
 CREATE SEQUENCE voicemail_messages_id_voicemail_message_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -1225,8 +1271,8 @@ ALTER TABLE public.voicemail_users OWNER TO postgres;
 CREATE SEQUENCE voicemail_users_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
     NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 
 
@@ -1369,7 +1415,9 @@ COPY contact_group (id_contact_group, ds_name) FROM stdin;
 -- Data for Name: cost_center; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY cost_center (id_costcenter, ds_description, cd_type, ds_name) FROM stdin;
+COPY cost_center (id_costcenter, ds_description, cd_type, ds_name, cd_code) FROM stdin;
+11	BOZZETTI                                                                                                                                                                                                                                                       	E	RAFAEL                          	1.12.31 
+12	123123123123123                                                                                                                                                                                                                                                	E	2312123123123123                	1.24.63 
 \.
 
 
@@ -1418,6 +1466,7 @@ COPY peer (id_peer, ds_name, ds_callerid, ds_context, ds_dtmfmode, ds_host, ds_i
 --
 
 COPY pickup_group (id_pickupgroup, ds_name) FROM stdin;
+1	teste                              
 \.
 
 
@@ -1438,10 +1487,11 @@ COPY profile_resource (id_profile, id_resource) FROM stdin;
 
 
 --
--- Data for Name: queue; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: queue; Type: TABLE DATA; Schema: public; Owner: snep
 --
 
-COPY queue (name, musiconhold, announce, context, timeout, monitor_join, monitor_format, queue_youarenext, queue_thereare, queue_callswaiting, queue_holdtime, queue_minutes, queue_seconds, queue_lessthan, queue_thankyou, queue_reporthold, announce_frequency, announce_round_seconds, announce_holdtime, retry, wrapuptime, maxlen, servicelevel, strategy, joinempty, leavewhenempty, eventmemberstatus, eventwhencalled, reportholdtime, memberdelay, weight, timeoutrestart, queue_name, interface, id_queue) FROM stdin;
+COPY queue (name, musiconhold, announce, context, timeout, monitor_join, monitor_format, queue_youarenext, queue_thereare, queue_callswaiting, queue_holdtime, queue_minutes, queue_seconds, queue_lessthan, queue_thankyou, queue_reporthold, announce_frequency, announce_round_seconds, announce_holdtime, retry, wrapuptime, maxlen, servicelevel, strategy, joinempty, leavewhenempty, eventmemberstatus, eventwhencalled, reportholdtime, memberdelay, weight, timeoutrestart, queue_name, interface, id_queue, autopause, autofill) FROM stdin;
+12123	default	agent-alreadyon.gsm	123	123	\N	\N	agent-loginok.gsm	ascending-2tone.gsm	conf-extended.gsm	\N	\N	\N	\N	ascending-2tone.gsm	\N	123	0	\N	12	12	12	1230	ringall	no	0	\N	\N	f	0	123	\N	\N	\N	7	t	t
 \.
 
 
@@ -1719,7 +1769,7 @@ ALTER TABLE ONLY expression
 
 
 --
--- Name: pkqueue; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pkqueue; Type: CONSTRAINT; Schema: public; Owner: snep; Tablespace: 
 --
 
 ALTER TABLE ONLY queue

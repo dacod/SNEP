@@ -20,6 +20,8 @@
                 <options>
                     <label>Ring time per agent</label>
                     <description>in seconds</description>
+                    <required>true</required>
+                    <value>0</value>
                 </options>
             </timeout>
             <announce_frequency>
@@ -27,6 +29,8 @@
                   <options>
                       <label>Music on hold loop timer</label>
                       <description>in seconds</description>
+                      <required>true</required>
+                      <value>0</value>
                   </options>
             </announce_frequency>
             <retry>
@@ -34,6 +38,8 @@
                   <options>
                       <label>Wait time until ringing all agents again</label>
                       <description>in seconds</description>
+                      <required>true</required>
+                      <value>0</value>
                   </options>
             </retry>
             <wrapuptime>
@@ -41,12 +47,15 @@
                   <options>
                       <label>Rest time for agent in between calls</label>
                       <description>in seconds</description>
+                      <required>true</required>
+                      <value>0</value>
                   </options>
             </wrapuptime>
             <maxlen>
                   <type>text</type>
                   <options>
                       <label>Maximum number of calls waiting in the queue</label>
+                      <required>true</required>
                   </options>
             </maxlen>
             <servicelevel>
@@ -54,6 +63,8 @@
                   <options>
                       <label>Queue Service Level Agreement (Used for statistics and monitoring)</label>
                       <description>in seconds</description>
+                      <required>true</required>
+                      <value>0</value>
                   </options>
             </servicelevel>
             <strategy>
@@ -117,18 +128,21 @@
                       </label>
                   </options>
             </joinempty>
-
             <leavewhenempty>
                   <type>radio</type>
                   <options>
-                      <label>Should calls be ejected from queue if all agents logout?</label>
+                      <label>Should calls be ejected from queue if all agents logout?</label>                      
                   </options>
             </leavewhenempty>
-
             <reportholdtime>
                   <type>radio</type>
                   <options>
                       <label>Warn agent the time that call waited in queue</label>
+                      <multioptions>
+                          <yes>Yes</yes>
+                          <no>No</no>
+                      </multioptions>
+                      <value>no</value>
                   </options>
             </reportholdtime>
 
@@ -137,14 +151,17 @@
                   <options>
                       <label>Silent time before connecting the agent to a caller</label>
                       <description>in seconds</description>
+                      <required>true</required>
+                      <value>0</value>
                   </options>
             </memberdelay>
-
             <weight>
                   <type>text</type>
                   <options>
-                      <label>Queue Priority</label>
-                  </options>
+                       <label>Queue Priority</label>
+                       <required>true</required>
+                       <value>0</value>
+                 </options>
             </weight>
             <autofill>
                <type>checkbox</type>
@@ -166,143 +183,4 @@
             </autopause>
         </elements>
     </advanced>
-    <alerts>
-        <elements>
-            <checkMail>
-                <type>checkbox</type>
-                <options>
-                    <label>E-mail Alert</label>
-                    <description>Enable</description>
-                </options>
-            </checkMail>            
-            <valueMail>
-                <type>text</type>
-                <options>
-                    <label>E-mail</label>
-                </options>
-            </valueMail>
-            <tmeMail>
-                <type>text</type>
-                <options>
-                    <label>Maximum wait time</label>
-                     <value>1</value>
-                    <description>in seconds</description>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </tmeMail>
-            <nmlMail>
-                <type>text</type>
-                <options>
-                    <label>Maximum number waiting</label>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </nmlMail>
-            <checkSound>
-                <type>checkbox</type>
-                <options>
-                    <label>Sound Alert</label>
-                    <description>Enable</description>
-                </options>
-            </checkSound>
-            <tmeSound>
-                <type>text</type>
-                <options>
-                    <label>Maximum wait time</label>
-                    <value>1</value>
-                    <description>in seconds</description>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </tmeSound>
-            <nmlSound>
-                <type>text</type>
-                <options>
-                    <label>Maximum number waiting</label>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </nmlSound>
-            <checkVisual>
-                <type>checkbox</type>
-                <options>
-                    <label>Visual Alert</label>
-                    <description>Enable</description>
-                </options>
-            </checkVisual>
-            <tmeVisual>
-                <type>text</type>
-                <options>
-                    <label>Maximum wait time</label>
-                     <value>1</value>
-                    <description>in seconds</description>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </tmeVisual>
-            <nmlVisual>
-                <type>text</type>
-                <options>
-                    <label>Maximum number waiting</label>
-                    <validators>
-                        <regex>
-                            <validator>regex</validator>
-                            <options>
-                                <pattern>/[[:digit:]]/i</pattern>
-                                <messages>
-                                    <regexNotMatch>This field should contain numbers only</regexNotMatch>
-                                </messages>
-                            </options>
-                        </regex>
-                    </validators>
-                </options>
-            </nmlVisual>
-        </elements>
-    </alerts>
 </modelo>

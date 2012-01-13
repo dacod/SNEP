@@ -38,16 +38,23 @@ class BillingController extends Zend_Controller_Action {
             $this->view->translate("Billing")
         ));
 
-        $this->view->url = $this->getFrontController()->getBaseUrl() ."/". $this->getRequest()->getControllerName();
+        $this->view->url = $this->getFrontController()->getBaseUrl().
+                           "/". $this->getRequest()->getControllerName();
 
-        $db = Zend_Registry::get('db');
+        
 
-        $select = $db->select()
+        /*$select = $db->select()
                         ->from("tarifas_valores", array('DATE_FORMAT(data,\'%d/%m/%Y %T\') as data', 'vcel', 'vfix'))
-                        ->from("tarifas")
-                        ->from("operadoras", array('nome'))                        
+                        ->from("billing")
+                        ->from("carrier", array('nome'))                        
                         ->where("operadoras.codigo = tarifas.operadora")
                         ->where("tarifas_valores.codigo = tarifas.codigo");
+                        */
+        $billing = new Snep_Billing_Manager();
+        Zend_Debug::dump($billing->select()
+                                 ->from('billing'));
+        
+        exit(1);
       
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
@@ -99,19 +106,23 @@ class BillingController extends Zend_Controller_Action {
         ));
 
         $form = new Snep_Form( new Zend_Config_Xml( "modules/default/forms/queues.xml" ) );
-        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName() . '/add');
+        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. 
+                          $this->getRequest()->getControllerName() . '/add');
 
-
-        $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. $this->getRequest()->getControllerName();
+        $this->view->url = $this->getFrontController()->getBaseUrl() .'/'. 
+                           $this->getRequest()->getControllerName();
+        $carrier = new Snep_Carrier_Manager();
         
-        foreach(Snep_Carrier_Manager::getAll() as $_carrier) {
-                $carriers[$_carrier['codigo']] = $_carrier['nome'];
+        foreach($carrier->fetchAll() as $_carrier) {
+                $carriers[$_carrier['id_carrier']] = $_carrier['ds_name'];
         }
         $this->view->carriers = $carriers;
 
         $states['--'] = '--';
-        foreach(Snep_Billing_Manager::getStates() as $state) {
-            $states[$state['cod']] = $state['name'];
+        
+        $statesList = new Snep_State_Manager();
+        foreach($statesList->fetchAll() as $state) {
+            $states[$state['id_state']] = $state['ds_name'];
         }
         $this->view->states = $states;
 

@@ -22,18 +22,18 @@ echo $this->render('filter.phtml')
         foreach($this->costcenter as $id => $costcenter ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td> <b> <?php echo $costcenter['codigo'] ?> </b> </td>
-                <td> <?php echo $costcenter['nome'] ?> </td>
-                <td> <?php echo $this->types[$costcenter['tipo']] ?> </td>
-                <td> <?php echo $costcenter['descricao'] ?> </td>
+                <td> <b> <?php echo $costcenter['cd_code'] ?> </b> </td>
+                <td> <?php echo $costcenter['ds_name'] ?> </td>
+                <td> <?php echo $this->types[$costcenter['cd_type']] ?> </td>
+                <td> <?php echo $costcenter['ds_description'] ?> </td>
                 <td class="action">
-                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $costcenter['codigo'] ?>">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $costcenter['id_costcenter'] ?>">
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action" class="display:inline;">
                     <?php $this->remove_msg = $this->translate("Do you really wish to remove this item?");?>
-                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $costcenter['codigo'] ?>','<?php echo $this->remove_msg ?>')">
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $costcenter['id_costcenter'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>
                 </td>

@@ -2,19 +2,10 @@
 <modelo>
     <elements>
         <name>
-            <type>text</type>
+            <type>Select</type>
             <options>
-                <label>Name</label>
-                <required>true</required>
-                <validators>
-                    <alnum>
-                        <validator>Alnum</validator>
-                        <options>
-                            <allowWhiteSpace>true</allowWhiteSpace>
-                        </options>
-                    </alnum>
-                </validators>
-            </options>
+                <label>Operadoras</label>
+            </options> 
         </name>
         <ta>
             <type>text</type>

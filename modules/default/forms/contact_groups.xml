@@ -13,6 +13,13 @@
                             <allowWhiteSpace>true</allowWhiteSpace>
                         </options>
                     </alnum>
+                      <strlen>
+                    	<validator>StringLength</validator>
+                    	<options>
+                        	<min>1</min>
+                        	<max>20</max>
+                    	</options>
+                    </strlen>
                 </validators>
             </options>
         </group>

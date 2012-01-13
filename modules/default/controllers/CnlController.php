@@ -33,14 +33,15 @@ class CnlController extends Zend_Controller_Action {
 
         // verification procedure
         $db = Zend_Registry::get('db');
+        
         $select = $db->select()
-                ->from('ars_estado');
+                     ->from('state');
+                
         $stmt = $select->query();
         $result = $stmt->fetchAll();
-
+        
         // insert state data
         if( count($result ) < 26 ) {
-
             $brStates = array( 'AC'=>'Acre', 'AL'=>'Alagoas','AM'=>'Amazonas','AP'=>'Amapá',
                     'BA'=>'Bahia','CE'=>'Ceará','DF'=>'Distrito Federal',
                     'ES'=>'Espírito Santo','GO'=>'Goiás','MA'=>'Maranhão',
@@ -55,8 +56,9 @@ class CnlController extends Zend_Controller_Action {
 
                 $db->beginTransaction();
                 try {
-                    $_state = array('cod' => $uf, 'name' => $state);
-                    $db->insert('ars_estado', $_state);
+                    $_state = array('ds_code' => $uf, 
+                                    'ds_name' => $state);
+                    $db->insert('state', $_state);
                     $db->commit();
 
                 } catch (Exception $ex) {
@@ -65,7 +67,7 @@ class CnlController extends Zend_Controller_Action {
                 }
             }
         }
-
+        
         $form = new Snep_Form();
         $form->setAction($this->getFrontController()->getBaseUrl() . "/default/cnl/index");
         $this->view->formAction = $this->getFrontController()->getBaseUrl() . "/default/cnl/index";
@@ -89,47 +91,48 @@ class CnlController extends Zend_Controller_Action {
 
             $form_isValid = $form->isValid($_POST);
             $this->view->valid = $form_isValid;
-
+            
             if ($form_isValid) {
                 $data = $_POST;
 
                 $adapter = new Zend_File_Transfer_Adapter_Http();
 
                 if ($adapter->isValid()) {
-
                     $adapter->receive();
-
+                    
+                    // TODO: Melhorar a forma de descompactação
                     $fileName = $adapter->getFileName();
                     exec("tar xjvf {$fileName} -C /tmp");
 
                     $json = file_get_contents(substr($fileName, 0, -8));
                     $cnl = (Zend_Json_Decoder::decode($json, Zend_Json::TYPE_ARRAY));
-
+                    
                     $data = $cnl["operadoras"];
                     unset($cnl["operadoras"]);
-
-                    Snep_Cnl::delPrefixo();
-                    Snep_Cnl::delDDD();
-                    Snep_Cnl::delCidade();
-                    Snep_Cnl::delOperadora();
+                    
+                    // Limpa todas as tabelas
+                    $db->delete('carrier');         // ars_operadora
+                    $db->delete('city_code');       // ars_ddd
+                    $db->delete('carrier_prefix');  // ars_prefixo
+                    $db->delete('city');            // ars_cidade
 
                     foreach ($data as $carrier => $id) {
-
-                            Snep_Cnl::addOperadora($id, $carrier);
+                        Snep_Cnl::addOperadora($id, $carrier);
                     }
-
+                    
                     foreach ($cnl as $data => $id) {
-
                         foreach ($id as $state => $es) {
-
                             foreach ($es as $ddd => $d) {
-
                                 foreach ($d as $city => $pre) {
-
-                                    $cityId = Snep_Cnl::addCidade($city);
-                                    Snep_Cnl::addDDD($ddd, $state, $cityId);
+                                    $stateId = Snep_Cnl::fetchStateId($state);
+                                    $cityId  = Snep_Cnl::addCidade($city);
+                                    
+                                    Snep_Cnl::addDDD($ddd, $stateId, $cityId);
 
                                     foreach ($pre as $prefix => $op) {
+                                    	Zend_Debug::dump($prefix);
+                                    	Zend_Debug::dump($op);
+                                    	
                                         Snep_Cnl::addPrefixo($prefix, $cityId, $op);
                                     }
                                 }
@@ -137,7 +140,6 @@ class CnlController extends Zend_Controller_Action {
                         }
                     }
                 } else {
-
                     throw new ErrorException( $this->view->translate("File format is not valid") );
                 }
                 $this->_redirect ($this->getRequest()->getControllerName());
@@ -145,5 +147,4 @@ class CnlController extends Zend_Controller_Action {
         }
         $this->view->form = $form;
     }
-
 }

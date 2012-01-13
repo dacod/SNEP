@@ -68,43 +68,50 @@ class ExpressionAliasController extends Zend_Controller_Action {
             $this->view->translate("Expression Alias"),
             $this->view->translate("Add Expression Alias"),
         ));
-
+        
         $form = $this->getForm();
-        $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
-            $expression = array(
-                "name" => $_POST['name'],
-                "expressions" => explode(",", $_POST['exprValue'])
-            );
-            $aliasesPersistency = PBX_ExpressionAliases::getInstance();
-            try {
 
-                $aliasesPersistency->register($expression);
-                $exprList = $expression['expressions'];
-                $expr = "exprObj.addItem(" . count($exprList) . ");\n";
+            $isValid = $form->isValid($_POST);
 
-                foreach ($exprList as $index => $value) {
-                    $expr .= "exprObj.widgets[$index].value='{$value}';\n";
+            if($isValid) {
+                $expression = array(
+                    "name" => $_POST['name'],
+                    "expressions" => explode(",", $_POST['exprValue'])
+                );
+                $aliasesPersistency = PBX_ExpressionAliases::getInstance();
+                try {
+
+                    $aliasesPersistency->register($expression);
+                    $exprList = $expression['expressions'];
+                    $expr = "exprObj.addItem(" . count($exprList) . ");\n";
+
+                    foreach ($exprList as $index => $value) {
+                        $expr .= "exprObj.widgets[$index].value='{$value}';\n";
+                    }
+
+                    $this->view->dataExprAlias = $expr;
+                    $form = $this->getForm();
+                    $form->getElement('name')->setValue($_POST['name']);
+
+                    $this->_redirect ($this->getRequest()->getControllerName());
+
+                } catch (Exception $ex) {
+                    throw new PBX_Exception_BadArg("Invalid Argument");
                 }
-                
-                $this->view->dataExprAlias = $expr;
-                $form = $this->getForm();
-                $form->getElement('name')->setValue($_POST['name']);
-                
-            } catch (Exception $ex) {
-                throw new PBX_Exception_BadArg("Invalid Argument");
             }
-        } else {
-            $this->view->dataExprAlias = "exprObj.addItem();\n";
         }
-
-        $this->renderScript('expression-alias/add_edit.phtml');
         
+        $this->view->dataExprAlias = "exprObj.addItem();\n";
+        $this->view->form = $form;
+        $this->renderScript('expression-alias/add_edit.phtml');
+
     }
 
     public function editAction() {
         $id = (int) $this->getRequest()->getParam('id');
+        
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Routing"),
             $this->view->translate("Expression Alias"),
@@ -116,33 +123,40 @@ class ExpressionAliasController extends Zend_Controller_Action {
         $aliasesPersistency = PBX_ExpressionAliases::getInstance();
 
         if ($this->getRequest()->isPost()) {
-            $expression = array(
-                "id" => $id,
-                "name" => $_POST['name'],
-                "expressions" => explode(",", $_POST['exprValue'])
-            );
 
-            try {
-                $aliasesPersistency->update($expression);
-            } catch (Exception $ex) {
-                display_error($ex->getMessage(), true);
+            $isValid = $form->isValid($_POST);
+
+            if($isValid) {
+                $expression = array(
+                    "id" => $id,
+                    "name" => $_POST['name'],
+                    "expressions" => explode(",", $_POST['exprValue'])
+                );
+
+                try {
+                    $aliasesPersistency->update($expression);
+                } catch (Exception $ex) {
+                    throw $ex;
+                }
+
+                $this->_redirect ($this->getRequest()->getControllerName());
             }
-            $this->_forward('index', 'expression-alias');
-        } else {
-            
-            $alias = $aliasesPersistency->get($id);
-            $exprList = $alias['expressions'];
-            $expr = "exprObj.addItem(" . count($exprList) . ");\n";
-
-            foreach ($exprList as $index => $value) {
-                $expr .= "exprObj.widgets[$index].value='{$value}';\n";
-            }
-            $this->view->dataExprAlias = $expr;
-            $form = $this->getForm();
-            $form->getElement('name')->setValue($alias['name']);
-
-            $this->renderScript('expression-alias/add_edit.phtml');
         }
+            
+        $alias = $aliasesPersistency->get($id);
+        $exprList = $alias['expressions'];
+
+        $expr = "exprObj.addItem(" . count($exprList) . ");\n";
+
+        foreach ($exprList as $index => $value) {
+            $expr .= "exprObj.widgets[$index].value='{$value}';\n";
+        }
+        $this->view->dataExprAlias = $expr;
+        $form = $this->getForm();
+        $form->getElement('name')->setValue($alias['name']);
+
+        $this->renderScript('expression-alias/add_edit.phtml');
+
     }
 
     public function deleteAction() {
@@ -151,11 +165,10 @@ class ExpressionAliasController extends Zend_Controller_Action {
             $id = (int) $this->getRequest()->getParam('id');
 
             $aliasesPersistency = PBX_ExpressionAliases::getInstance();
-            $alias = $aliasesPersistency->get($id);
-            if ($alias !== null) {
+            if (($alias = $aliasesPersistency->get($id)) !== null) {
                 $aliasesPersistency->delete($id);
             }
-            $this->_forward('index', 'expression-alias');
+            $this->_redirect ($this->getRequest()->getControllerName());
         }
     }
 

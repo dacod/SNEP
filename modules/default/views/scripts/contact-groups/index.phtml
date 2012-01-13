@@ -31,18 +31,18 @@ echo $this->render('filter.phtml')
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
                 <td class="numeric">
-                    <b> <?php echo $group['id'] ?> </b>
+                    <b> <?php echo $group['id_contact_group'] ?> </b>
                 </td>
                 <td> 
-                    <?php echo $group['name'] ?>
+                    <?php echo $group['ds_name'] ?>
                 </td>
                 <td class="action">
-                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $group['id'] ?>">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $group['id_contact_group'] ?>">
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
-                    <a class="excluir" href="<?php echo $this->url ?>/remove/id/<?php echo $group['id'] ?>">
+                    <a class="excluir" href="<?php echo $this->url ?>/remove/id/<?php echo $group['id_contact_group'] ?>">
                         <?php echo $this->translate('Delete')?>
                     </a>
                 </td>

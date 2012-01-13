@@ -26,29 +26,32 @@ echo $this->render('filter.phtml');
         foreach($this->contacts as $contact ): ?>
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
-                <td class="numeric"> <b> <?php echo $contact['ide'] ?> </b> </td>
-                <td> <?php echo $contact['nome'] ?> </td>
+                <td class="numeric"> <b> <?php echo $contact['id'] ?> </b> </td>
+                
                 <td> <?php echo $contact['name'] ?> </td>
+                <td> <?php echo $contact['group'] ?> </td>
                 <td> <?php echo $contact['city'] ?> </td>
                 <td> <?php echo $contact['state'] ?> </td>
                 <td> <?php echo $contact['cep'] ?> </td>
                 <td class="numeric"> 
-                    <?php echo $contact['phone_1'] ?>
+                    <?php echo $contact['phone'] ?>
                 </td>
                 <td class="numeric"> 
-                    <?php echo $contact['cell_1'] ?>
+                    <?php echo $contact['cellphone'] ?>
                 </td>
                 <td class="action">
-                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $contact['ide'] ?>">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $contact['id'] ?>">
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
-                <td class="action">
+                
+                <td class="action" class="display:inline;">
                     <?php $this->remove_msg = $this->translate("Do you really wish to remove this item?");?>
-                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $contact['ide'] ?>','<?php echo $this->remove_msg ?>')">
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $contact['id'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>
                 </td>
+                
             </tr>
         <?php endforeach ?>
     <?php endif ?>

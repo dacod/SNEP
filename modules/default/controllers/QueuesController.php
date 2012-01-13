@@ -37,17 +37,17 @@ class QueuesController extends Zend_Controller_Action {
             $this->view->translate("Queues")
         ));
 
-        $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
+        $this->view->url = $this->getFrontController()->getBaseUrl() .'/'.
+                           $this->getRequest()->getControllerName();
 
         $db = Zend_Registry::get('db');
-
         $select = $db->select()
-                ->from("queues");
+                ->from("queue");
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
             $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("`$field` like '%$query%'");
+            $select->where("$field LIKE '%$query%'");
         }
 
         $page = $this->_request->getParam('page');
@@ -121,24 +121,22 @@ class QueuesController extends Zend_Controller_Action {
         }
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+
         $form = new Snep_Form();
         $this->view->url = $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName();
 
-        $essentialData = new Zend_Config_Xml('./modules/default/forms/queues.xml', 'essential', true);
-        $essential = new Snep_Form_SubForm($this->view->translate("General Configuration"), $essentialData);
+        $essential = new Snep_Form_SubForm($this->view->translate("General Configuration"),
+                                new Zend_Config_Xml('./modules/default/forms/queues.xml', 'essential', true));
 
         $essential->getElement('musiconhold')->setMultiOptions($section);
-        $essential->getElement('timeout')->setValue(0);
-        $essential->getElement('announce_frequency')->setValue(0);
-        $essential->getElement('retry')->setValue(0);
-        $essential->getElement('wrapuptime')->setValue(0);
-        $essential->getElement('servicelevel')->setValue(0);
-        $essential->getElement('strategy')->setMultiOptions(array('ringall' => $this->view->translate('For all agents available (ringall)'),
-            'roundrobin' => $this->view->translate('Search for a available agent (roundrobin)'),
-            'leastrecent' => $this->view->translate('For the agent idle for the most time (leastrecent)'),
-            'random' => $this->view->translate('Randomly (random)'),
-            'fewestcalls' => $this->view->translate('For the agent that answered less calls (fewestcalls)'),
-            'rrmemory' => $this->view->translate('Equally (rrmemory)')));
+        
+        $essential->getElement('strategy')->setMultiOptions(
+                array('ringall' => $this->view->translate('For all agents available (ringall)'),
+                      'roundrobin' => $this->view->translate('Search for a available agent (roundrobin)'),
+                      'leastrecent' => $this->view->translate('For the agent idle for the most time (leastrecent)'),
+                      'random' => $this->view->translate('Randomly (random)'),
+                      'fewestcalls' => $this->view->translate('For the agent that answered less calls (fewestcalls)'),
+                      'rrmemory' => $this->view->translate('Equally (rrmemory)')) );
 
         $form->addSubForm($essential, "essential");
 
@@ -146,7 +144,7 @@ class QueuesController extends Zend_Controller_Action {
         $advanced = new Snep_Form_SubForm($this->view->translate("Advanced Configuration"), $advancedData);
 
         $boolOptions = array(1 => $this->view->translate('Yes'),
-            0 => $this->view->translate('No'));
+                             0 => $this->view->translate('No'));
 
         $advanced->getElement('announce')->setMultiOptions($sounds);
         $advanced->getElement('queue_youarenext')->setMultiOptions($sounds);
@@ -155,106 +153,64 @@ class QueuesController extends Zend_Controller_Action {
         $advanced->getElement('queue_thankyou')->setMultiOptions($sounds);
         $advanced->getElement('leavewhenempty')->setMultiOptions($boolOptions)->setValue(0);
         $advanced->getElement('reportholdtime')->setMultiOptions($boolOptions)->setValue(0);
-        $advanced->getElement('memberdelay')->setValue(0);
+        
+
         $advanced->getElement('joinempty')
                 ->setMultiOptions(array('yes' => $this->view->translate('Yes'),
-                    'no' => $this->view->translate('No'),
-                    'strict' => $this->view->translate('Restrict')))
+                                        'no' => $this->view->translate('No'),
+                                        'strict' => $this->view->translate('Restrict')))
                 ->setValue('no');
+
         $form->addSubForm($advanced, "advanced");
-
-        $alertsData = new Zend_Config_Xml('./modules/default/forms/queues.xml', 'alerts', true);
-        $alerts = new Snep_Form_SubForm($this->view->translate("Alert Configuration"), $alertsData);
-
-        $alerts->getElement('valueMail')
-                ->addValidator('NotEmpty')
-                ->addValidator('EmailAddress')
-                ->addFilter('StringToLower');
-
-        $alerts->setElementDecorators(array(
-            'ViewHelper',
-            'Description',
-            'Errors',
-            array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
-            array('Label', array('tag' => 'th')),
-            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class' => "snep_form_element" /* . " $name " */))
-        ));
-
-        $form->addSubForm($alerts, "alerts");
 
         if ($this->_request->getPost()) {
 
-            $dados = array('name' => $_POST['essential']['name'],
-                'musiconhold' => $_POST['essential']['musiconhold'],
-                'announce' => $_POST['advanced']['announce'],
-                'context' => $_POST['advanced']['context'],
-                'timeout' => $_POST['essential']['timeout'],
-                'queue_youarenext' => $_POST['advanced']['queue_youarenext'],
-                'queue_thereare' => $_POST['advanced']['queue_thereare'],
-                'queue_callswaiting' => $_POST['advanced']['queue_callswaiting'],
-                'queue_thankyou' => $_POST['advanced']['queue_thankyou'],
-                'announce_frequency' => $_POST['essential']['announce_frequency'],
-                'retry' => $_POST['essential']['retry'],
-                'wrapuptime' => $_POST['essential']['wrapuptime'],
-                'maxlen' => $_POST['essential']['maxlen'],
-                'servicelevel' => $_POST['essential']['servicelevel'],
-                'strategy' => $_POST['essential']['strategy'],
-                'joinempty' => $_POST['advanced']['joinempty'],
-                'leavewhenempty' => $_POST['advanced']['leavewhenempty'],
-                'reportholdtime' => $_POST['advanced']['reportholdtime'],
-                'memberdelay' => $_POST['advanced']['memberdelay'],
-                'weight' => $_POST['advanced']['weight'],
-            );
+            $dados = array('name' =>        $_POST['essential']['name'],
+                           'musiconhold' => $_POST['essential']['musiconhold'],
+                           'announce' =>    $_POST['advanced']['announce'],
+                           'context' =>     $_POST['advanced']['context'],
+                           'timeout' =>     $_POST['essential']['timeout'],
+                           'queue_youarenext' =>    $_POST['advanced']['queue_youarenext'],
+                           'queue_thereare' =>      $_POST['advanced']['queue_thereare'],
+                           'queue_callswaiting' =>  $_POST['advanced']['queue_callswaiting'],
+                           'queue_thankyou' =>      $_POST['advanced']['queue_thankyou'],
+                           'announce_frequency' =>  $_POST['essential']['announce_frequency'],
+                           'announce_round_seconds' => 0,
+                           'retry' =>        $_POST['essential']['retry'],
+                           'wrapuptime' =>   $_POST['essential']['wrapuptime'],
+                           'maxlen' =>       $_POST['essential']['maxlen'],
+                           'servicelevel' => $_POST['essential']['servicelevel'],
+                           'strategy' =>     $_POST['essential']['strategy'],
+                           'joinempty' =>    $_POST['advanced']['joinempty'],
+                           'leavewhenempty' => $_POST['advanced']['leavewhenempty'],
+                           'reportholdtime' => $_POST['advanced']['reportholdtime'],
+                           'memberdelay' =>    $_POST['advanced']['memberdelay'],
+                           'weight' =>         $_POST['advanced']['weight'],
+                           'autopause' =>      $_POST['advanced']['autopause'],
+                           'autofill' =>       $_POST['advanced']['autofill'],
+                           'monitor_join' => NULL,
+                           'monitor_format' => NULL,
+                           'queue_holdtime' => NULL,
+                           'queue_minutes' => NULL,
+                           'queue_seconds' => NULL,
+                           'queue_lessthan' => NULL,
+                           'queue_reporthold' => NULL,
+                           'announce_holdtime' => NULL,
+                           'eventmemberstatus' => NULL,
+                           'eventwhencalled' => NULL,
+                           'timeoutrestart' => NULL,
+                           'queue_name' => NULL,
+                           'interface' => NULL);
 
-            $form_isValid = $form->isValid($_POST);
+            $form_isValid = $form->isValid($dados);
 
             if ($form_isValid) {
 
-                Snep_Queues_Manager::add($dados);
-
-                if ($_POST['alerts']) {
-
-                    $addAlerts = $_POST['alerts'];
-                    $queue = $_POST['essential']['name'];
-
-                    if ($addAlerts['checkMail'] != 0) {
-                        if ($addAlerts['tmeMail'] <= 0) {
-                            $addAlerts['tmeMail'] = 1;
-                        }
-
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'mail',
-                            'tme' => $addAlerts['tmeMail'],
-                            'sla' => $addAlerts['nmlMail'],
-                            'destino' => $addAlerts['valueMail'],
-                            'check' => 1));
-                    }
-                    if ($addAlerts['checkSound'] != 0) {
-                        if ($addAlerts['tmeSound'] <= 0) {
-                            $addAlerts['tmeSound'] = 1;
-                        }
-
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'sound',
-                            'tme' => $addAlerts['tmeSound'],
-                            'sla' => $addAlerts['nmlSound'],
-                            'destino' => 'sound',
-                            'check' => 1));
-                    }
-                    if ($addAlerts['checkVisual'] != 0) {
-                        if ($addAlerts['tmeVisual'] <= 0) {
-                            $addAlerts['tmeVisual'] = 1;
-                        }
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'visual',
-                            'tme' => $addAlerts['tmeVisual'],
-                            'sla' => $addAlerts['nmlVisual'],
-                            'destino' => 'visual',
-                            'check' => 1));
-                    }
-                }
+                $queue = new Snep_Queues_Manager();
+                $queue->insert($dados);                
                 $this->_redirect($this->getRequest()->getControllerName());
             }
+
         }
         $this->view->form = $form;
     }
@@ -275,8 +231,11 @@ class QueuesController extends Zend_Controller_Action {
             $this->view->translate("Queues"),
             $this->view->translate("Edit $id")
         ));
+        
+        $obj = new Snep_Queues_Manager();
+        $select = $obj->select()->where("id_queue = ?", $id);
+        $queue = $obj->fetchRow($select)->toArray();
 
-        $queue = Snep_Queues_Manager::get($id);
 
         $sections = new Zend_Config_Ini('/etc/asterisk/snep/snep-musiconhold.conf');
         $_section = array_keys($sections->toArray());
@@ -284,7 +243,6 @@ class QueuesController extends Zend_Controller_Action {
         foreach ($_section as $value) {
             $section[$value] = $value;
         }
-
 
         $files = '/var/lib/asterisk/sounds/';
         if (file_exists($files)) {
@@ -306,8 +264,10 @@ class QueuesController extends Zend_Controller_Action {
         }
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+
         $form = new Snep_Form();
-        $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/edit/id/' . $id);
+        $form->setAction($this->getFrontController()->getBaseUrl() .'/'.
+                         $this->getRequest()->getControllerName() . '/edit/id/'.$id);
 
         $essentialData = new Zend_Config_Xml('./modules/default/forms/queues.xml', 'essential', true);
         $essential = new Snep_Form_SubForm($this->view->translate("General Configuration"), $essentialData);
@@ -336,7 +296,7 @@ class QueuesController extends Zend_Controller_Action {
         $advanced = new Snep_Form_SubForm($this->view->translate("Advanced Configuration"), $advancedData);
 
         $boolOptions = array(1 => $this->view->translate('Yes'),
-            0 => $this->view->translate('No'));
+                             0 => $this->view->translate('No'));
 
         $advanced->getElement('announce')->setMultiOptions($sounds)->setValue($queue['announce']);
         $advanced->getElement('context')->setValue($queue['context']);
@@ -353,138 +313,64 @@ class QueuesController extends Zend_Controller_Action {
         $advanced->getElement('reportholdtime')->setMultiOptions($boolOptions)->setValue($queue['reportholdtime']);
         $advanced->getElement('memberdelay')->setValue($queue['memberdelay']);
         $advanced->getElement('weight')->setValue($queue['weight']);
-        /*
-          $autofill  = $advanced->getElement('autofill');
-          $autofill->setLabel($this->view->translate("Distribuir chamadas simultaneamente na fila até que não existam mais agentes disponíveis ou chamadas na fila") )
-          ->setMultiOptions( $boolOptions )
-          ->setValue('no');
 
-          $autopause  = $advanced->getElement('autopause');
-          $autopause->setLabel($this->view->translate("Pausar automaticamente um agente quando ele não atender uma chamada") )
-          ->setMultiOptions( $boolOptions )
-          ->setValue('no');
-         */
+
+        $advanced->getElement('autopause')->setValue($queue['autopause']);
+        $advanced->getElement('autofill')->setValue($queue['autofill']);
+
+        $id_queue = new Zend_Form_Element_Hidden('id_queue');
+        $id_queue->setValue($queue['id_queue']);
+        $advanced->addElement($id_queue);
 
         $form->addSubForm($advanced, "advanced");
 
-        $alertsData = new Zend_Config_Xml('./modules/default/forms/queues.xml', 'alerts', true);
-        $alerts = new Snep_Form_SubForm($this->view->translate("Alert Configuration"), $alertsData);
-        $queueAlerts = Snep_Alerts::getAlert($id);
-
-        foreach ($queueAlerts as $queueAlert) {
-
-            switch ($queueAlert['tipo']) {
-                case 'mail':
-                    $alerts->getElement('checkMail')->setValue($queueAlert['ativo']);
-                    $alerts->getElement('valueMail')->addValidator('NotEmpty')
-                            ->addValidator('EmailAddress')
-                            ->addFilter('StringToLower')
-                            ->setValue($queueAlert['destino']);
-                    $alerts->getElement('tmeMail')->setValue($queueAlert['tme']);
-                    $alerts->getElement('nmlMail')->setValue($queueAlert['sla']);
-                    break;
-                case 'sound';
-                    $alerts->getElement('checkSound')->setValue($queueAlert['ativo']);
-                    $alerts->getElement('tmeSound')->setValue($queueAlert['tme']);
-                    $alerts->getElement('nmlSound')->setValue($queueAlert['sla']);
-                    break;
-                case 'visual';
-                    $alerts->getElement('checkVisual')->setValue($queueAlert['ativo']);
-                    $alerts->getElement('tmeVisual')->setValue($queueAlert['tme']);
-                    $alerts->getElement('nmlVisual')->setValue($queueAlert['sla']);
-                    break;
-            }
-        }
-
-        $alerts->setElementDecorators(array(
-            'ViewHelper',
-            'Description',
-            'Errors',
-            array(array('elementTd' => 'HtmlTag'), array('tag' => 'td')),
-            array('Label', array('tag' => 'th')),
-            array(array('elementTr' => 'HtmlTag'), array('tag' => 'tr', 'class' => "snep_form_element" /* . " $name" */))
-        ));
-
-        $form->addSubForm($alerts, "alerts");
 
         if ($this->_request->getPost()) {
 
-            $dados = array('name' => $_POST['essential']['name'],
-                'musiconhold' => $_POST['essential']['musiconhold'],
-                'announce' => $_POST['advanced']['announce'],
-                'context' => $_POST['advanced']['context'],
-                'timeout' => $_POST['essential']['timeout'],
-                'queue_youarenext' => $_POST['advanced']['queue_youarenext'],
-                'queue_thereare' => $_POST['advanced']['queue_thereare'],
-                'queue_callswaiting' => $_POST['advanced']['queue_callswaiting'],
-                'queue_thankyou' => $_POST['advanced']['queue_thankyou'],
-                'announce_frequency' => $_POST['essential']['announce_frequency'],
-                'retry' => $_POST['essential']['retry'],
-                'wrapuptime' => $_POST['essential']['wrapuptime'],
-                'maxlen' => $_POST['essential']['maxlen'],
-                'servicelevel' => $_POST['essential']['servicelevel'],
-                'strategy' => $_POST['essential']['strategy'],
-                'joinempty' => $_POST['advanced']['joinempty'],
-                'leavewhenempty' => $_POST['advanced']['leavewhenempty'],
-                'reportholdtime' => $_POST['advanced']['reportholdtime'],
-                'memberdelay' => $_POST['advanced']['memberdelay'],
-                'weight' => $_POST['advanced']['weight'],
-                    /*
-                      'autofill'          => $_POST['advanced']['autofill'],
-                      'autopause'         => $_POST['advanced']['autopause']
-                     */
-            );
+            $dados = array('name' =>        $_POST['essential']['name'],
+                           'musiconhold' => $_POST['essential']['musiconhold'],
+                           'announce' =>    $_POST['advanced']['announce'],
+                           'context' =>     $_POST['advanced']['context'],
+                           'timeout' =>     $_POST['essential']['timeout'],
+                           'queue_youarenext' =>    $_POST['advanced']['queue_youarenext'],
+                           'queue_thereare' =>      $_POST['advanced']['queue_thereare'],
+                           'queue_callswaiting' =>  $_POST['advanced']['queue_callswaiting'],
+                           'queue_thankyou' =>      $_POST['advanced']['queue_thankyou'],
+                           'announce_frequency' =>  $_POST['essential']['announce_frequency'],
+                           'announce_round_seconds' => 0,
+                           'retry' =>        $_POST['essential']['retry'],
+                           'wrapuptime' =>   $_POST['essential']['wrapuptime'],
+                           'maxlen' =>       $_POST['essential']['maxlen'],
+                           'servicelevel' => $_POST['essential']['servicelevel'],
+                           'strategy' =>     $_POST['essential']['strategy'],
+                           'joinempty' =>    $_POST['advanced']['joinempty'],
+                           'leavewhenempty' => $_POST['advanced']['leavewhenempty'],
+                           'reportholdtime' => $_POST['advanced']['reportholdtime'],
+                           'memberdelay' =>    $_POST['advanced']['memberdelay'],
+                           'weight' =>         $_POST['advanced']['weight'],
+                           'autopause' =>      $_POST['advanced']['autopause'],
+                           'autofill' =>       $_POST['advanced']['autofill'],
+                           'monitor_join' => NULL,
+                           'monitor_format' => NULL,
+                           'queue_holdtime' => NULL,
+                           'queue_minutes' => NULL,
+                           'queue_seconds' => NULL,
+                           'queue_lessthan' => NULL,
+                           'queue_reporthold' => NULL,
+                           'announce_holdtime' => NULL,
+                           'eventmemberstatus' => NULL,
+                           'eventwhencalled' => NULL,
+                           'timeoutrestart' => NULL,
+                           'queue_name' => NULL,
+                           'interface' => NULL);
 
 
             $form_isValid = $form->isValid($_POST);
 
             if ($form_isValid) {
 
-                Snep_Queues_Manager::edit($dados);
-
-                if ($_POST['alerts']) {
-
-                    $addAlerts = $_POST['alerts'];
-                    $queue = $_POST['essential']['name'];
-
-                    Snep_Alerts::resetAlert($queue);
-
-                    if ($addAlerts['checkMail'] != 0) {
-                        if ($addAlerts['tmeMail'] <= 0) {
-                            $addAlerts['tmeMail'] = 1;
-                        }
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'mail',
-                            'tme' => $addAlerts['tmeMail'],
-                            'sla' => $addAlerts['nmlMail'],
-                            'destino' => $addAlerts['valueMail'],
-                            'check' => 1));
-                    }
-                    if ($addAlerts['checkSound'] != 0) {
-                        if ($addAlerts['tmeSound'] <= 0) {
-                            $addAlerts['tmeSound'] = 1;
-                        }
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'sound',
-                            'tme' => $addAlerts['tmeSound'],
-                            'sla' => $addAlerts['nmlSound'],
-                            'destino' => 'sound',
-                            'check' => 1));
-                    }
-                    if ($addAlerts['checkVisual'] != 0) {
-                        if ($addAlerts['tmeVisual'] <= 0) {
-                            $addAlerts['tmeVisual'] = 1;
-                        }
-                        Snep_Alerts::setAlert(array('queue' => $queue,
-                            'type' => 'visual',
-                            'tme' => $addAlerts['tmeVisual'],
-                            'sla' => $addAlerts['nmlVisual'],
-                            'destino' => 'visual',
-                            'check' => 1));
-                    }
-                }
-
-
+                $obj = new Snep_Queues_Manager();
+                $obj->update($dados, "id_queue = {$_POST['advanced']['id_queue']}");
                 $this->_redirect($this->getRequest()->getControllerName());
             }
         }
@@ -504,9 +390,10 @@ class QueuesController extends Zend_Controller_Action {
 
         $id = $this->_request->getParam('id');
 
-        Snep_Queues_Manager::remove($id);
-        Snep_Queues_Manager::resetAlert($id);
-
+        $obj = new Snep_Queues_Manager();
+        $obj->delete("id_queue = $id");
+        
+        
         $this->_redirect($this->getRequest()->getControllerName());
     }
 

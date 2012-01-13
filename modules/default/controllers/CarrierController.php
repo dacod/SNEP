@@ -42,8 +42,9 @@ class CarrierController extends Zend_Controller_Action {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                        ->from("operadoras")
-                        ->order('nome');
+                        ->from('carrier')
+                        ->where('fg_active = true')
+                        ->order('ds_name');
                  
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
@@ -62,17 +63,20 @@ class CarrierController extends Zend_Controller_Action {
 
         $this->view->carrier = $paginator;
         $this->view->pages = $paginator->getPages();
-        $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
+        $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/"+
+                                "{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("codigo"      => $this->view->translate("Code"),
-                        "nome"        => $this->view->translate("Name"));
+        $opcoes = array("id_carrier"      => $this->view->translate("Code"),
+                        "ds_name"         => $this->view->translate("Name"));
 
         $filter = new Snep_Form_Filter();
-        $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . 
+                           $this->getRequest()->getControllerName() . '/index');
         $filter->setValue($this->_request->getPost('campo'));
         $filter->setFieldOptions($opcoes);
         $filter->setFieldValue($this->_request->getPost('filtro'));
-        $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/page/$page");
+        $filter->setResetUrl("{$this->getFrontController()->getBaseUrl()}/"+
+                              "{$this->getRequest()->getControllerName()}/index/page/$page");
 
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url"     => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add/",
@@ -93,33 +97,52 @@ class CarrierController extends Zend_Controller_Action {
         $this->view->objSelectBox = "carrier";
 
         $xml = new Zend_Config_Xml( "modules/default/forms/carrier.xml" );
-        $form = new Snep_Form( $xml );
-
+        $form = new Snep_Form($xml);
+        
+        $carrier = new Snep_Carrier_Manager();
+        
+        // Popula Centro de Custo
         $_idleCostCenter = Snep_Carrier_Manager::getIdleCostCenter();
+                
         $idleCostCenter = array();
         foreach($_idleCostCenter as $idle) {
-            $idleCostCenter[$idle['codigo']] = $idle['codigo'] ." : ". $idle['tipo'] ." - ". $idle['nome'];
+            $idleCostCenter[$idle['id_costcenter']] = $idle['id_costcenter'] .
+                            " : ". $idle['cd_type'] ." - ". $idle['ds_name'];
         }
+        
         if($idleCostCenter) {
-            $form->setSelectBox( $this->view->objSelectBox, $this->view->translate('Cost Center'), $idleCostCenter);
+            $form->setSelectBox($this->view->objSelectBox, 
+                                $this->view->translate('Cost Center'), 
+                                $idleCostCenter);
         }
-
+        
+        // Popula lista de operadoras
+        
+        $carrierList = array();
+        foreach ($carrier->fetchAll() as $carrierRow) {        
+        	$carrierList[$carrierRow->id_carrier] = $carrierRow->ds_name;
+        }
+        
+        $carrierElement = $form->getElement('name');
+        
+        $carrierElement->setMultiOptions($carrierList)
+                       ->removeDecorator('DtDdWrapper')
+                       ->setRegisterInArrayValidator(false);
+                              
         if($this->_request->getPost()) {
-
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
-
+                $carrierId = $dados['name'];
+                
                 if( $form_isValid ) {
-                    $idCarrier = Snep_Carrier_Manager::add( $dados );
-
-                    foreach($dados['box_add'] as $costCenter) {
-                        Snep_Carrier_Manager::setCostCenter( $idCarrier, $costCenter );
-                    }                    
+                	// Atualiza operadora
+                    $dados['active'] = 1;
+                    $carrier->save($carrierId, $dados);
+       
                     $this->_redirect( $this->getRequest()->getControllerName() );
                 }
         }
         $this->view->form = $form;
-
     }
 
     /**
@@ -200,11 +223,17 @@ class CarrierController extends Zend_Controller_Action {
        ));
 
        $id = $this->_request->getParam('id');
-
-       Snep_Carrier_Manager::remove($id);
+       
+       // Reset all values
+       $data = array( 'ta' => 0, 
+                       'tf' => 0, 
+                       'active' => 0 );
+       
+       $manager = new Snep_Carrier_Manager();
+       $manager->save($id, $data);
        
        $this->_redirect( $this->getRequest()->getControllerName() );
 
     }
-    
+       
 }

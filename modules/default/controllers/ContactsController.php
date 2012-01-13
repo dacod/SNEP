@@ -23,7 +23,8 @@
  * @category  Snep
  * @package   Snep
  * @copyright Copyright (c) 2010 OpenS Tecnologia
- * @author    Rafael Pereira Bozzetti
+ * @author    Andrey Abreu
+ * 
  */
 class ContactsController extends Zend_Controller_Action {
 
@@ -39,14 +40,14 @@ class ContactsController extends Zend_Controller_Action {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                ->from(array("n" => "contacts_names"), array("id as ide", "name as nome", "city", "state", "cep", "phone_1", "cell_1"))
-                ->join(array("g" => "contacts_group"), 'n.group = g.id')
-                ->order('nome');
-
+                ->from(array("n" => "contact"), array("n.id_contact as id", "n.ds_name as name", "n.ds_city as city", "n.ds_state as state", "n.ds_cep as cep", "n.ds_phone as phone", "n.ds_cell_phone as cellphone", "g.ds_name as group"))
+                ->join(array("g" => "contact_group"), 'n.id_contact_group = g.id_contact_group', array())
+                ->order('n.id_contact');
+        
         if ($this->_request->getPost('filtro')) {
-            $field = mysql_escape_string($this->_request->getPost('campo'));
-            $query = mysql_escape_string($this->_request->getPost('filtro'));
-            $select->where("n.`$field` like '%$query%'");
+            $field = pg_escape_string($this->_request->getPost('campo'));
+            $query = pg_escape_string($this->_request->getPost('filtro'));
+            $select->where("$field like '%$query%'");
         }
 
         $page = $this->_request->getParam('page');
@@ -62,12 +63,13 @@ class ContactsController extends Zend_Controller_Action {
         $this->view->pages = $paginator->getPages();
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("name" => $this->view->translate("Name"),
-                        "city" => $this->view->translate("City"),
-                        "state" => $this->view->translate("State"),
-                        "cep" => $this->view->translate("ZIP Code"),
-                        "phone_1" => $this->view->translate("Phone"),
-                        "cell_1" => $this->view->translate("Cellphone"));
+        /*Opcoes do Filtro*/
+        $opcoes = array("n.ds_name" => $this->view->translate("Name"),
+                        "n.ds_city" => $this->view->translate("City"),
+                        "n.ds_state" => $this->view->translate("State"),
+                        "n.ds_cep" => $this->view->translate("ZIP Code"),
+                        "n.ds_phone" => $this->view->translate("Phone"),
+                        "n.ds_cell_phone" => $this->view->translate("Cellphone"));
 
         $filter = new Snep_Form_Filter();
         $filter->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
@@ -103,18 +105,51 @@ class ContactsController extends Zend_Controller_Action {
 
         Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
         $form = new Snep_Form(new Zend_Config_Xml("modules/default/forms/contacts.xml"));
-
-        $form->getElement('id')->setValue(Snep_Contacts_Manager::getLastId());
-
-        $_allGroups = Snep_ContactGroups_Manager::getAll();
+        
+        $contact = new Snep_Contacts_Manager();
+        
+        /*
+         * Combo de Grupos
+         */
+        $group = new Snep_ContactGroups_Manager();
+        $_allGroups = $group->fetchAll();
+        
         foreach ($_allGroups as $group) {
-            $allGroups[$group['id']] = $group['name'];
+            $allGroups[$group['id_contact_group']] = $group['ds_name'];
         }
 
         if (count($_allGroups)) {
             $form->getElement('group')->setMultiOptions($allGroups);
         }
 
+        /*
+         * Combo de Cidades
+         */
+        $city = new Snep_City_Manager();
+        $_allCities = $city->fetchAll();
+       
+        foreach ($_allCities as $city) {
+            $allCities[$city['ds_name']] = $city['ds_name'];
+        }
+
+        if (count($_allCities)) {
+            $form->getElement('city')->setMultiOptions($allCities);
+        }
+        
+         /*
+         * Combo de Estados
+         */
+        $state = new Snep_State_Manager();
+        $_allStates = $state->fetchAll();
+       
+        foreach ($_allStates as $state) {
+            $allStates[$state['ds_name']] = $state['ds_name'];
+        }
+
+        if (count($_allStates)) {
+            $form->getElement('state')->setMultiOptions($allStates);
+        }
+      
         if ($this->_request->getPost()) {
 
             if (empty($_POST['cell'])) {
@@ -130,20 +165,21 @@ class ContactsController extends Zend_Controller_Action {
                 $form->getElement('group')->addError($this->view->translate('No group selected'));
                 $form_isValid = false;
             }
-            if (Snep_Contacts_Manager::get($_POST['id'])) {
-                $form->getElement('id')->addError($this->view->translate('Code already exists'));
-                $form_isValid = false;
-            }
-
-            $dados = $this->_request->getParams();
-
+           
+            $dados = array('ds_name'=> $_POST['name'], 
+                           'id_contact_group' => $_POST['group'],
+                            'ds_address' => $_POST['address'], 
+                            'ds_city'=>$_POST['city'],
+                            'ds_state'=>$_POST['state'], 
+                            'ds_cep'=>$_POST['zipcode'], 
+                            'ds_phone'=>$_POST['phone'], 'ds_cell_phone'=>$_POST['cell']);
+                    
 
             if ($form_isValid) {
-                Snep_Contacts_Manager::add($dados);
+                $contact->insert($dados);
                 $this->_redirect($this->getRequest()->getControllerName());
             }
         }
-
         $this->view->form = $form;
     }
 
@@ -151,6 +187,8 @@ class ContactsController extends Zend_Controller_Action {
      * Edit Contact
      */
     public function editAction() {
+  
+        
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
                     $this->view->translate("Manage"),
                     $this->view->translate("Contacts"),
@@ -158,48 +196,99 @@ class ContactsController extends Zend_Controller_Action {
                 ));
 
         $id = $this->_request->getParam('id');
-
-        $contact = Snep_Contacts_Manager::get($id);
-
-        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        $obj = new Snep_Contacts_Manager();
+        $select = $obj->select()->where('id_contact = ?', $id);
+        $contact = $obj->fetchRow($select)->toArray();
+       
+        Zend_Registry::set('cancel_url', 
+                           $this->getFrontController()->getBaseUrl() . '/' . 
+                           $this->getRequest()->getControllerName() . '/index');
+        
         $form = new Snep_Form(new Zend_Config_Xml("modules/default/forms/contacts.xml"));
 
-        $form->getElement('id')->setValue($contact['id'])->setAttrib('readonly', true);
-        $form->getElement('name')->setValue($contact['name']);
+        $form->setAction( $this->getFrontController()->getBaseUrl() .'/'. 
+                          $this->getRequest()->getControllerName() . '/edit/id/'.$id );
 
-        $_allGroups = Snep_ContactGroups_Manager::getAll();
+        $idco = new Zend_Form_Element_Hidden('id_contact');
+        $idco->setValue($contact['id_contact']);
+        
+        $form->getElement('id')->setValue($contact['id_contact'])->setAttrib('readonly', true);
+        $form->getElement('name')->setValue($contact['ds_name']);
+        $form->getElement('address')->setValue($contact['ds_address']);
+        
+        /*
+         * Combo de Grupos
+         */
+        $group = new Snep_ContactGroups_Manager();
+        $_allGroups = $group->fetchAll();
+        
         foreach ($_allGroups as $group) {
-            $allGroups[$group['id']] = $group['name'];
+            $allGroups[$group['id_contact_group']] = $group['ds_name'];
         }
 
-        $group = $form->getElement('group')->setMultiOptions($allGroups);
-        ( isset($contact['group']) ? $group->setValue($contact['group']) : null );
+        if (count($_allGroups)) {
+            $form->getElement('group')->setMultiOptions($allGroups);
+            $form->getElement('group')->setValue($contact['id_contact_group']); 
+        }
+        
+        isset($contact['group']) ? $group
+            ->setValue($contact['id_contact_group']) : null;
+        
+		/*
+		 * Combo de Cidades
+		 * */
+        $city = new Snep_City_Manager();
+        $_allCities = $city->fetchAll();
+       
+        foreach ($_allCities as $city) {
+            $allCities[$city['ds_name']] = $city['ds_name'];
+        }
 
-        $address = $form->getElement('address');
-        ( isset($contact['address']) ? $address->setValue($contact['address']) : null );
+        if (count($_allCities)) {
+            $form->getElement('city')
+            		  ->setMultiOptions($allCities)
+	                  ->addMultiOption($contact['ds_city'],$contact['ds_city'])
+            		  ->setValue($contact['ds_city']); 
+        }
+        
+        /*
+         * Combo de Estado
+         * */
+        $state = new Snep_State_Manager();
+        $_allStates = $state->fetchAll();
+       
+        foreach ($_allStates as $state) {
+            $allStates[$state['ds_name']] = $state['ds_name'];
+        }
 
-        $city = $form->getElement('city');
-        ( isset($contact['city']) ? $city->setValue($contact['city']) : null );
-
-        $state = $form->getElement('state');
-        ( isset($contact['state']) ? $state->setValue($contact['state']) : null );
-
-        $zipcode = $form->getElement('zipcode');
-        ( isset($contact['cep']) ? $zipcode->setValue($contact['cep']) : null );
-
-        $phone = $form->getElement('phone');
-        ( isset($contact['phone_1']) ? $phone->setValue($contact['phone_1']) : null );
-
-        $cell = $form->getElement('cell');
-        ( isset($contact['cell_1']) ? $cell->setValue($contact['cell_1']) : null );
+        if (count($_allStates)) {
+            $form->getElement('state')
+            		->setMultiOptions($allStates)
+           		    ->addMultiOption($contact['ds_state'],$contact['ds_state'])
+            		->setValue($contact['ds_state']); 
+        }
+      
+        $form->getElement('zipcode')->setValue($contact['ds_cep']);
+        $form->getElement('phone')->setValue($contact['ds_phone']);
+        $form->getElement('cell')->setValue($contact['ds_cell_phone']);
 
         if ($this->_request->getPost()) {
+            $_POST['id'] = trim($_POST['id']);            
             $form_isValid = $form->isValid($_POST);
-            $dados = $this->_request->getParams();
-
+            
+            $dados = array('ds_name'=> $_POST['name'], 
+                           'id_contact_group' => $_POST['group'],
+                            'ds_address' => $_POST['address'], 
+                            'ds_city'=>$_POST['city'],
+                            'ds_state'=>$_POST['state'], 
+                            'ds_cep'=>$_POST['zipcode'], 
+                            'ds_phone'=>$_POST['phone'], 'ds_cell_phone'=>$_POST['cell']);
+              
             if ($form_isValid) {
 
-                Snep_Contacts_Manager::edit($dados);
+                $contact = new Snep_Contacts_Manager();
+                $contact->update($dados, "id_contact = {$_POST['id']}");
+          
                 $this->_redirect($this->getRequest()->getControllerName());
             }
         }
@@ -211,52 +300,52 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function removeAction() {
         $id = $this->_request->getParam('id');
-
-        Snep_Contacts_Manager::remove($id);
-        $this->_redirect($this->getRequest()->getControllerName());
+        $contact = new Snep_Contacts_Manager();
+        $contact->delete("id_contact = $id");
     }
 
     /**
      * Remove various contacts
      */
     public function multiRemoveAction() {
-
-            if($this->_request->getPost()) {
-
-                if( $_POST['group'] == 'all' ) {
-                    $groups = Snep_ContactGroups_Manager::getAll();
-
-                }else{
-                    $groups = Snep_ContactGroups_Manager::get($_POST['group']);
-                }
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Remove Multiple")
+                ));
                 
-                foreach($groups as $group ) {
-                    Snep_Contacts_Manager::removeByGroupId($group['id']);                    
-                }
-
-                $this->_redirect($this->getRequest()->getControllerName());
-
+         $contact = new Snep_Contacts_Manager();
+        
+         if($this->_request->getPost()) {
+			if($_POST['group'] != '0') {
+				$idGroup = $_POST['group'];
+    	 		$contact->delete("id_contact_group = $idGroup");
             }else{
-
-                $this->view->message = $this->view->translate('Select a contact group to remove your contacts.');
-                $_contactGroups = Snep_ContactGroups_Manager::getAll();
-                $contactGroups = array('all' => $this->view->translate('Todos Grupos'));
-                foreach($_contactGroups as $contactGroup) {
-                    $contactGroups[$contactGroup['id']] = $contactGroup['name'] ;
-                }
-
-                $form = new Snep_Form();
-
-                $select = new Zend_Form_Element_Select('group');
-                $select->addMultiOptions( $contactGroups );
-
-                $form->addElement( $select );
-                $this->view->form = $form;
-
-                $this->renderScript("contacts/select-multi-remove.phtml");
-
+				$contact->delete();
             }
+                
+            $this->_redirect($this->getRequest()->getControllerName());
+		 }else{
+			$this->view->message = $this->view->translate('Select a contact group to remove your contacts.');
 
+		    $group = new Snep_ContactGroups_Manager();
+		    $_allGroups = $group->fetchAll();
+		        
+			foreach ($_allGroups as $group) {
+		    	$allGroups[$group['id_contact_group']] = $group['ds_name'];
+		    }
+		
+		    $form = new Snep_Form();
+            $select = new Zend_Form_Element_Select('group');
+		   	$select ->addMultiOption("0","All");
+	         
+		    if (count($_allGroups)) {
+		    	$select->addMultiOptions($allGroups);
+		    }
+			$form->addElement($select);		        
+        	$this->view->form = $form;
+            $this->renderScript("contacts/select-multi-remove.phtml");
+         }
     }
 
     /**
@@ -284,65 +373,83 @@ class ContactsController extends Zend_Controller_Action {
      */
     public function exportAction() {
 
+        $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
+                    $this->view->translate("Manage"),
+                    $this->view->translate("Contacts"),
+                    $this->view->translate("Export CSV")
+                ));
+        
+        
         if($this->_request->getPost()) {
 
             $db = Zend_Registry::get('db');
             $select = $db->select()
-                    ->from(array("n" => "contacts_names"), array("name as nome", "city", "state", "cep", "phone_1", "cell_1"))
-                    ->join(array("g" => "contacts_group"), 'n.group = g.id')
-                    ->order('g.id');
-
-            if($_POST['group'] != 'all') {
-                $select->where('g.id = ?',$_POST['group']);
+                ->from(array("n" => "contact"), array("n.id_contact as id", "n.ds_name as name", "n.ds_city as city", "n.ds_state as state", "n.ds_cep as cep", "n.ds_phone as phone", "n.ds_cell_phone as cellphone", "g.ds_name as group"))
+                ->join(array("g" => "contact_group"), 'n.id_contact_group = g.id_contact_group', array())
+                ->order('n.id_contact');
+        
+            if($_POST['group'] != '0') {
+                $select->where('g.id_contact_group = ?',$_POST['group']);
             }
-
+            
             $stmt = $db->query($select);
             $contacts = $stmt->fetchAll();
 
-            $headers = array('nome' => $this->view->translate('Name'),
-                             'city' => $this->view->translate('City'),
-                             'state' => $this->view->translate('State'),
-                             'cep' => $this->view->translate('ZipCode'),
-                             'phone_1' => $this->view->translate('Phone'),
-                             'cell_1' => $this->view->translate('Mobile'),
-                             'name' => $this->view->translate('Grupo') );
+            $headers = array('id_contact' => $this->view->translate('Code'),
+                             'ds_nome' => $this->view->translate('Name'),
+                             'ds_city' => $this->view->translate('City'),
+                             'ds_state' => $this->view->translate('State'),
+                             'ds_cep' => $this->view->translate('ZipCode'),
+                             'ds_phone' => $this->view->translate('Phone'),
+                             'ds_cell_phone' => $this->view->translate('Mobile'),
+                             'id_contact_group' => $this->view->translate('Grupo') );
 
-
-            $csv = new Snep_Csv();
-            $csv_data = $csv->generate($contacts, $headers);
-
-            $this->_helper->layout->disableLayout();
-            $this->_helper->viewRenderer->setNoRender();
-
-            $dateNow = new Zend_Date();
-            $fileName = $this->view->translate('Contacts_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
-
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="' . $fileName . '"');
             
-            echo $csv_data;
             
+            if (count($contacts) > 0){
+                
+                $csv = new Snep_Csv();
 
+                $csv_data = $csv->generate($contacts, $headers);
+
+                $this->_helper->layout->disableLayout();
+                $this->_helper->viewRenderer->setNoRender();
+
+                $dateNow = new Zend_Date();
+                $fileName = $this->view->translate('Contacts_csv_') . $dateNow->toString($this->view->translate(" dd-MM-yyyy_hh'h'mm'm' ")) . '.csv';
+
+                header('Content-type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+                echo $csv_data;
+            
+            }
+            else {
+                 $this->view->message = $this->view->translate('A Selecao nao retornou resultados');
+            }
         }else{
 
             $this->view->message = $this->view->translate('Select a contact group to export.');
-            $_contactGroups = Snep_ContactGroups_Manager::getAll();
-            $contactGroups = array('all' => $this->view->translate('Todos Grupos'));
-            foreach($_contactGroups as $contactGroup) {
-                $contactGroups[$contactGroup['id']] = $contactGroup['name'] ;
+            
+            $group = new Snep_ContactGroups_Manager();
+            $_allGroups = $group->fetchAll();
+
+            foreach ($_allGroups as $group) {
+                $allGroups[$group['id_contact_group']] = $group['ds_name'];
             }
 
             $form = new Snep_Form();
-
             $select = new Zend_Form_Element_Select('group');
-            $select->addMultiOptions( $contactGroups );
-
-            $form->addElement( $select );
-            $this->view->form = $form;
-            
-            $this->renderScript("contacts/export.phtml");
+	        $select ->addMultiOption("0","All");
+	            
+	        if (count($allGroups >0)){
+	           	$select	->addMultiOptions( $allGroups );
+	        }
+     				
+    		$form->addElement( $select );
+         	$this->view->form = $form;
+          	$this->renderScript("contacts/export.phtml");
         }
-
     }
 
     /**
@@ -379,8 +486,7 @@ class ContactsController extends Zend_Controller_Action {
             while (!feof($handle)) {
                 $line = fgets($handle, 4096);
                 if (strpos($line, ",")) {
-                    $row = explode(",", preg_replace("/[^a-zA-Z0-9,\._\*#]/", "", $line));
-
+                $row = explode(",", $line);
 
                     if (count($row) != $column_count) {
                         throw new ErrorException($this->view->translate("Invalid column count on line %d", $row_number));
@@ -392,29 +498,30 @@ class ContactsController extends Zend_Controller_Action {
             fclose($handle);
 
             $standard_fields = array("discard" => $this->view->translate("Discard"),
-                "name" => $this->view->translate("Name"),
-                "address" => $this->view->translate("Address"),
-                "city" => $this->view->translate("City"),
-                "state" => $this->view->translate("State"),
-                "zipcode" => $this->view->translate("Zip Code"),
-                "phone" => $this->view->translate("Phone"),
-                "cell" => $this->view->translate("Cellphone"));
+                "ds_name" => $this->view->translate("Name"),
+                "ds_address" => $this->view->translate("Address"),
+                "ds_city" => $this->view->translate("City"),
+                "ds_state" => $this->view->translate("State"),
+                "ds_cep" => $this->view->translate("Zip Code"),
+                "ds_phone" => $this->view->translate("Phone"),
+                "ds_cell_phone" => $this->view->translate("Cellphone"),);
 
             $session = new Zend_Session_Namespace('csv');
             $session->data = $csv;
 
-            $_groups = Snep_ContactGroups_Manager::getAll();
-            foreach ($_groups as $group) {
-                $groups[$group['id']] = $group['name'];
-            }
+            $group = new Snep_ContactGroups_Manager();
+            $_allGroups = $group->fetchAll();
 
-            if (!count($_groups) > 0) {
+            foreach ($_allGroups as $group) {
+                $allGroups[$group['id_contact_group']] = $group['ds_name'];
+            }
+        
+            if (!count($_allGroups) > 0) {
                 $this->view->error = $this->view->translate('There is no contacts group registered.');
             }
-
             $this->view->csvprocess = array_slice($csv, 0, 10);
             $this->view->fields = $standard_fields;
-            ( isset($groups) ? $this->view->group = $groups : $this->view->group = false);
+            ( isset($allGroups) ? $this->view->group = $allGroups : $this->view->group = false);
         }
     }
 
@@ -436,14 +543,16 @@ class ContactsController extends Zend_Controller_Action {
                     $skipped = true;
                     continue;
                 }
-                $contactData = array("discard" => "",
-                    "name" => "",
-                    "address" => "",
-                    "city" => "",
-                    "state" => "",
-                    "zipcode" => "",
-                    "phone" => "",
-                    "cell" => "");
+                
+                $contactData = array(
+                    "ds_name" => "",
+                    "ds_address" => "",
+                    "ds_city" => "",
+                    "ds_state" => "",
+                    "ds_cep" => "",
+                    "ds_phone" => "",
+                    "ds_cell_phone" => "",
+                    "id_contact_group" => "",);
                
                 $addEntry = true;
                 foreach ($contact as $column => $data) {
@@ -451,22 +560,22 @@ class ContactsController extends Zend_Controller_Action {
                         $contactData[$fields[$column]] = $data;
                     }
                 }
-
-                $contactData['group'] = $_POST['group'];
-                $contactData['id'] = Snep_Contacts_Manager::getLastId();
                 
-                if (!array_key_exists('name', $contactData) || !$validateEmpty->isValid($contactData['name'])){
+                $contactData['id_contact_group'] = $_POST['group'];
+                
+                if (!array_key_exists('ds_name', $contactData) || !$validateEmpty->isValid($contactData['ds_name'])){
                     $addEntry = false;
                     $error[] = $contactData;
                 }
-                else if ((!array_key_exists('phone', $contactData) || !$validateEmpty->isValid($contactData['phone']))&&
-                        (!array_key_exists('cell', $contactData) || !$validateEmpty->isValid($contactData['cell']))){
+                else if ((!array_key_exists('ds_phone', $contactData) || !$validateEmpty->isValid($contactData['ds_phone']))&&
+                        (!array_key_exists('ds_cell_phone', $contactData) || !$validateEmpty->isValid($contactData['ds_cell_phone']))){
                      $addEntry = false;
                     $error[] = $contactData;
                 }
                 
                 if ($addEntry){
-                     Snep_Contacts_Manager::add($contactData);
+                     $contact = new Snep_Contacts_Manager();
+                     $contact->insert($contactData);
                 }      
             }
             if (count($error)>0){
@@ -479,5 +588,4 @@ class ContactsController extends Zend_Controller_Action {
         }
         $this->_redirect($this->getRequest()->getControllerName());
     }
-
 }

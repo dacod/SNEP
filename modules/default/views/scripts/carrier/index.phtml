@@ -23,25 +23,25 @@ echo $this->render('filter.phtml');
             <?php ($c ? $c = 0 : $c = 1 ); ?>
             <tr class="c<?php echo $c ?>">
                 <td> 
-                    <b> <?php echo $carrier['codigo'] ?> </b>
+                    <b> <?php echo $carrier['id_carrier'] ?> </b>
                 </td>
                 <td>
-                    <b> <?php echo $carrier['nome'] ?> </b>
+                    <b> <?php echo $carrier['ds_name'] ?> </b>
                 </td>
                 <td>
-                    <b> <?php echo $carrier['tpm'] ?> </b>
+                    <b> <?php echo $carrier['vl_start'] ?> </b>
                 </td>
                 <td> 
-                    <?php echo $carrier['tdm'] ?>
+                    <?php echo $carrier['vl_fractionation'] ?>
                 </td>
                 <td class="action">
-                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $carrier['codigo'] ?>">
+                    <a class="alterar" href="<?php echo $this->url ?>/edit/id/<?php echo $carrier['id_carrier'] ?>">
                         <?php echo $this->translate('Edit')?>
                     </a>
                 </td>
                 <td class="action">
                     <?php $this->remove_msg = $this->translate("Do you wish to remove this record?");?>
-                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $carrier['codigo'] ?>','<?php echo $this->remove_msg ?>')">
+                    <span class="excluir" onclick="remove_item('<?php echo $this->url ?>','<?php echo $carrier['id_carrier'] ?>','<?php echo $this->remove_msg ?>')">
                         <?php echo $this->translate('Delete')?>
                     </span>
                 </td>

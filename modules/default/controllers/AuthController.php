@@ -52,7 +52,7 @@ class AuthController extends Zend_Controller_Action {
             // Filtrando informações do usuário
             $f = new Zend_Filter_StripTags();
             $username = $f->filter($this->_request->getPost('exten'));
-            $password = $this->_request->getPost('password');
+            $password = md5($this->_request->getPost('password'));
 
             if (empty($username)) {
                 $this->view->message = $this->view->translate("Please insert a username");
@@ -85,22 +85,20 @@ class AuthController extends Zend_Controller_Action {
                         $this->view->msgclass = 'failure';
                         break;
                     case Zend_Auth_Result::SUCCESS:
-                        $auth->getStorage()->write($result->getIdentity());
-
-                        $extension = $db->query("SELECT id, callerid FROM peers WHERE name='$username'")->fetchObject();
+                        //$extension = $db->query("SELECT id, callerid FROM peers WHERE name='$username'")->fetchObject();
                         
-                        $select = $db->select();
-                        
-                        $select->from('user', array('id_user', 'ds_login'))
+                        $select = $db->select();                        
+                        $select->from('user', array('id_user', 'ds_login', 'fg_active', 'cd_password'))
                                 ->where("ds_login = '$username'");
-                        
+
+                        $user = $db->query($select)->fetchAll();
                         $extension = $db->query($select)->fetchObject();
+
+                        // @todo - fazer verificação se o usuario esta ativo.
+                        $auth->getStorage()->write($result->getIdentity());
           
-                        /* Mantendo antigo verifica.php no ar */
-                        $_SESSION['id_user'] = $extension->id_user;
-                        $_SESSION['name_user'] = $username;
-                        $_SESSION['active_user'] = $extension->ds_login;
-                        $_SESSION['vinculos_user'] = "";
+                        $update_data = array('dt_lastlogin' => Zend_Date::now());
+                        $db->update("user", $update_data, "ds_login = '{$username}'");
 
                         $this->_redirect('/');
                         break;

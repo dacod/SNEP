@@ -21,7 +21,7 @@
                     <validator>StringLength</validator>
                     <options>
                         <min>1</min>
-                        <max>7</max>
+                        <max>8</max>
                     </options>
                 </strlen>
             </validators>

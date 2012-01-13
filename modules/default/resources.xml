@@ -14,9 +14,7 @@
 
     <group id="status" label="Status">
         <resource id="index" label="System"></resource>
-<!--        <resource id="khomp-links" label="Khomp Links"></resource> -->
         <resource id="ip-status" label="IP Status"></resource>
-<!--        <resource id="errors-khomp" label="Errors Khomp Links"></resource> -->
         <resource id="logs" label="Logs"></resource>
     </group>
 
@@ -38,6 +36,7 @@
         </resource>
         <resource id="conference-rooms" label="Conference Rooms"></resource>
         <resource id="trunks" label="Trunks"></resource>
+        <resource id="users" label="Users"></resource>
     </group>
 
     <group id="carrier" label="Carrier">

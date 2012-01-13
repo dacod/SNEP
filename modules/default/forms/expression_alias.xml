@@ -19,6 +19,14 @@
                 <required>true</required>
                 <label>Name</label>
                 <size>30</size>
+                <validators>
+                    <strlen>
+                        <validator>StringLength</validator>
+                        <options>
+                            <max>200</max>
+                        </options>
+                    </strlen>
+                </validators>
             </options>
         </name>
     </elements>
