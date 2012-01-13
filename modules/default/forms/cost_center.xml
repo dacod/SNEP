@@ -39,6 +39,12 @@
                             <allowWhiteSpace>true</allowWhiteSpace>
                         </options>
                     </alnum>
+                    <strlen>
+                        <validator>StringLength</validator>
+                        <options>
+                            <max>32</max>
+                        </options>
+                    </strlen>
                 </validators>
         </options>
     </name>
@@ -46,6 +52,14 @@
         <type>text</type>
         <options>
             <label>Description</label>
+            <validators>
+                    <strlen>
+                        <validator>StringLength</validator>
+                        <options>
+                            <max>255</max>
+                        </options>
+                    </strlen>
+            </validators>
         </options>
     </description>
     <type>

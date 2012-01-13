@@ -76,7 +76,6 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
         $opcoes = array("cd_code" => $this->view->translate("Code"),
-                        "cd_type" => $this->view->translate("Type"),
                         "ds_name" => $this->view->translate("Name"),
                         "ds_description" => $this->view->translate("Description") );
         
