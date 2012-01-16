@@ -56,15 +56,11 @@ class Snep_Cnl extends Zend_Db_Table_Abstract {
         $db = Zend_Registry::get('db');        
         $select = $db->select()->from('carrier')->where("ds_name = ? ", $name);
         $carrier = $db->query($select)->fetch();
-
         if( ! $carrier) {
             $db->beginTransaction();
             try {
-                $carrier = array('id_carrier' => $id,
-                                 'ds_name' => $name,
-                                 'vl_start' => 0,
-                                 'vl_fractionation' => 0,
-                                 'fg_active' => 'false');
+                $carrier = array('id_carrier' => $id, 'ds_name' => $name,
+                                 'vl_start' => 0, 'vl_fractionation' => 0, 'fg_active' => 'false');
                 $db->insert('carrier', $carrier);
                 $db->commit();
             } catch (Exception $ex) {

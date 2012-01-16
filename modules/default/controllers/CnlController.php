@@ -126,9 +126,6 @@ class CnlController extends Zend_Controller_Action {
                                     Snep_Cnl::addDDD($ddd, $stateId, $cityId);
 
                                     foreach ($pre as $prefix => $op) {
-                                    	Zend_Debug::dump($prefix);
-                                    	Zend_Debug::dump($op);
-                                    	
                                         Snep_Cnl::addPrefixo($prefix, $cityId, $op);
                                     }
                                 }
@@ -138,6 +135,7 @@ class CnlController extends Zend_Controller_Action {
                 } else {
                     throw new ErrorException( $this->view->translate("File format is not valid") );
                 }
+
                 $this->_redirect ($this->getRequest()->getControllerName());
             }
         }
