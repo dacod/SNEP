@@ -157,27 +157,48 @@ class CarrierController extends Zend_Controller_Action {
         $this->view->objSelectBox = "carrier";
         $id = $this->_request->getParam("id");
 
-        $xml = new Zend_Config_Xml( "modules/default/forms/carrier.xml" );
-        $carrier = Snep_Carrier_Manager::get($id);
-
-        $form = new Snep_Form( $xml );        
-        $form->getElement('name')->setValue($carrier['nome']);
-        $form->getElement('ta')->setValue($carrier['tpm']);
-        $form->getElement('tf')->setValue($carrier['tdm']);
-        $form->getElement('tbf')->setValue($carrier['tbf']);
-        $form->getElement('tbc')->setValue($carrier['tbc']);
+        $xml = new Zend_Config_Xml("modules/default/forms/carrier.xml");
+        
+        $form = new Snep_Form($xml);        
+        
+        $carriers = new Snep_Carrier_Manager();
+        $carrier = $carriers->find($id)->current();
+        
+        // Popula lista de operadoras
+        $carrierList = array();
+        foreach ($carriers->fetchAll() as $carrierRow) {        
+            $carrierList[$carrierRow->id_carrier] = $carrierRow->ds_name;
+        }
+        
+        $carrierElement = $form->getElement('name');
+        
+        $carrierElement->setMultiOptions($carrierList)
+                       ->removeDecorator('DtDdWrapper')
+                       ->setRegisterInArrayValidator(false);
+        
+        $name = $form->getElement('name');
+        
+        $name->setValue($carrier['id_carrier'])
+             ->setAttrib('disabled', 'disabled');
+             
+        $form->getElement('ta')->setValue($carrier['vl_start']);
+        $form->getElement('tf')->setValue($carrier['vl_fractionation']);        
 
         $_idleCostCenter = Snep_Carrier_Manager::getIdleCostCenter();
+
         $idleCostCenter = array();
         foreach($_idleCostCenter as $idle) {
-            $idleCostCenter[$idle['codigo']] = $idle['codigo'] ." : ". $idle['tipo'] ." - ". $idle['nome'];
+            $idleCostCenter[$idle['id_costcenter']] = $idle['id_costcenter'] .
+                            " : ". $idle['cd_type'] ." - ". $idle['ds_name'];
         }
 
-        if( isset( $id )) {
-            $_selectedCostCenter = Snep_Carrier_Manager::getCarrierCostCenter( $id );
+        if (isset($id)) {
+            $_selectedCostCenter = $carrier->findSnep_CostCenter_Manager();
+
             $selectedCostCenter = array();
             foreach($_selectedCostCenter as $selected) {
-                $selectedCostCenter[$selected['codigo']] = $selected['codigo'] ." : ". $selected['tipo'] ." - ". $selected['nome'];
+                $selectedCostCenter[$selected['id_costcenter']] = $selected['id_costcenter'] .
+                            " : ". $selected['cd_type'] ." - ". $selected['ds_name'];
             }            
         }
 
@@ -191,21 +212,17 @@ class CarrierController extends Zend_Controller_Action {
         
         $form->addElement($formId);
 
-        if($this->_request->getPost()) {
+        if ($this->_request->getPost()) {
                 $form_isValid = $form->isValid($_POST);
                 $dados = $this->_request->getParams();
-
+                
                 if($form_isValid) {
-
-                    Snep_Carrier_Manager::edit($dados);
-                    if($dados['box_add']) {                        
-                        Snep_Carrier_Manager::clearCostCenter($dados['id']);
-                        foreach($dados['box_add'] as $costCenter) {
-                            Snep_Carrier_Manager::setCostCenter( $dados['id'], $costCenter );
-                        }
-                    }
+                    $dados['active'] = 1;
                     
-                    $this->_redirect( $this->getRequest()->getControllerName() );
+                	$manager = new Snep_Carrier_Manager();
+                    $manager->save($id, $dados);
+                    
+                    $this->_redirect($this->getRequest()->getControllerName());
                 }
         }
         $this->view->form = $form;
