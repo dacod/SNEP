@@ -91,13 +91,15 @@ class CostCenterController extends Zend_Controller_Action {
         $this->view->form_filter = $filter;
         $this->view->filter = array(array("url" => "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/add",
                                           "display" => $this->view->translate("Add Cost Center"),
-                                          "css" => "include"),
-        );
+                                          "css" => "include") );
     }
 
     /**
      * Add new Cost Center's
      */
+
+    // @todo validação javascript do campo
+    
     public function addAction() {
         $this->view->breadcrumb = Snep_Breadcrumb::renderPath(array(
             $this->view->translate("Manage"),
@@ -110,27 +112,27 @@ class CostCenterController extends Zend_Controller_Action {
         
         if($this->_request->getPost()) {
             
-                $form_isValid = $form->isValid($_POST);
-                
-                $newId = new Snep_CostCenter_Manager();
-                $select = $newId->select()->where('cd_code = ?', $_POST['id']);
-                $cost_center = $newId->fetchRow($select);
+            $form_isValid = $form->isValid($_POST);
 
-                if( count( $cost_center ) > 1) {
-                    $form_isValid = false;
-                    $form->getElement('id')->addError( $this->view->translate('Code already exists.') );
-                }
+            $newId = new Snep_CostCenter_Manager();
+            $select = $newId->select()->where('cd_code = ?', $_POST['id']);
+            $cost_center = $newId->fetchRow($select);
 
-                if( $form_isValid ) {
-                    $data = array('cd_code' => $_POST['id'],
-                                  'ds_name' => $_POST['name'],
-                                  'cd_type' => $_POST['type'],
-                                  'ds_description' => $_POST['description'],
-                                  'id_carrier' => null);
+            if( count( $cost_center ) > 1) {
+                $form_isValid = false;
+                $form->getElement('id')->addError( $this->view->translate('Code already exists.') );
+            }
 
-                    $newId->insert($data);
-                    $this->_redirect( $this->getRequest()->getControllerName() );
-                }
+            if( $form_isValid ) {
+                $data = array('cd_code' => $_POST['id'],
+                              'ds_name' => $_POST['name'],
+                              'cd_type' => $_POST['type'],
+                              'ds_description' => $_POST['description'],
+                              'id_carrier' => null);
+
+                $newId->insert($data);
+                $this->_redirect( $this->getRequest()->getControllerName() );
+            }
         }
 
         $this->view->form = $form;
@@ -179,7 +181,6 @@ class CostCenterController extends Zend_Controller_Action {
         $form->getElement('name')->setValue( $cost_center['ds_name'] );
         $form->getElement('description')->setValue( $cost_center['ds_description'] );
         $form->getElement('type')->setValue( $cost_center['cd_type'] );
-
         
         $form->addElement($idcc);
 
@@ -207,5 +208,4 @@ class CostCenterController extends Zend_Controller_Action {
 
         $this->view->form = $form;
     }
-
 }
