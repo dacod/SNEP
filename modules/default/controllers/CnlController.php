@@ -77,7 +77,7 @@ class CnlController extends Zend_Controller_Action {
                 ->setDestination('/tmp/')
                 ->setRequired(true) ;
 
-        $element->addValidator('Extension', false, array('bz2','tar.bz2'));
+        $element->addValidator('Extension', false, array('bz2','json'));
         $element->removeDecorator('DtDdWrapper');
         $form->addElement($element, 'cnl');
 
@@ -100,21 +100,17 @@ class CnlController extends Zend_Controller_Action {
                 if ($adapter->isValid()) {
                     $adapter->receive();
                     
-                    // TODO: Melhorar a forma de descompactação
-                    $fileName = $adapter->getFileName();
-                    exec("tar xjvf {$fileName} -C /tmp");
+                    $fileName = $adapter->getFileName();                   
 
-                    $json = file_get_contents(substr($fileName, 0, -8));
+                    $json = file_get_contents($fileName);
                     $cnl = (Zend_Json_Decoder::decode($json, Zend_Json::TYPE_ARRAY));
                     
                     $data = $cnl["operadoras"];
-                    unset($cnl["operadoras"]);
+                    unset( $cnl["operadoras"] );
                     
-                    // Limpa todas as tabelas
-                    $db->delete('carrier');         // ars_operadora
-                    $db->delete('city_code');       // ars_ddd
-                    $db->delete('carrier_prefix');  // ars_prefixo
-                    $db->delete('city');            // ars_cidade
+                    $db->delete('city_code');
+                    $db->delete('carrier_prefix');
+                    $db->delete('city');
 
                     foreach ($data as $carrier => $id) {
                         Snep_Cnl::addOperadora($id, $carrier);
