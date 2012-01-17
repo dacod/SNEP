@@ -42,7 +42,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         $db = Zend_Registry::get('db');
 
 
-        $select = $db->select()->from("grupos");
+        $select = $db->select()->from("pickup_group");
 
         if ($this->_request->getPost('filtro')) {
             $field = mysql_escape_string($this->_request->getPost('campo'));
@@ -64,8 +64,8 @@ class PickupGroupsController extends Zend_Controller_Action {
         $this->view->URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/";
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("cod_grupo" => $this->view->translate("Code"),
-            "nome" => $this->view->translate("Name"));
+        $opcoes = array("id_pickupgroup" => $this->view->translate("Code"),
+            "ds_name" => $this->view->translate("Name"));
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
@@ -103,10 +103,11 @@ class PickupGroupsController extends Zend_Controller_Action {
             $dados = $this->_request->getParams();
 
             if ($form_isValid) {
-                $pickupGroup = array('nome' => $dados['name']);
-
-                $this->view->group = Snep_PickupGroups_Manager::add($pickupGroup);
-
+                $pickupgroup = new Snep_PickupGroups_Manager();
+                
+                $data = array('ds_name' => $dados['name']);
+                $pickupgroup->insert($data);
+            	
                 $this->_redirect("/".$this->getRequest()->getControllerName()."/");
             }
         }
@@ -123,14 +124,17 @@ class PickupGroupsController extends Zend_Controller_Action {
         ));
 
         $id = $this->_request->getParam('group');
-        $pickupgroup = Snep_PickupGroups_Manager::get($id);
-
-        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName() . '/index');
+        $pickupgroupObj = new Snep_PickupGroups_Manager();
+        
+        Zend_Registry::set('cancel_url', $this->getFrontController()->getBaseUrl() . 
+                           '/' . $this->getRequest()->getControllerName() . '/index');
         $form_xml = new Zend_Config_Xml("modules/default/forms/pickupGroup.xml");
         $form = new Snep_Form($form_xml->general);
         $form->setAction($this->getFrontController()->getBaseUrl() . '/' . $this->getRequest()->getControllerName()."/edit/group/$id");
-
-        $name = $form->getElement('name')->setValue($pickupgroup['nome']);
+        
+        $pickupgroup = $pickupgroupObj->fetchRow('id_pickupgroup = '.$id);
+        
+        $name = $form->getElement('name')->setValue($pickupgroup->ds_name);
         $name = $form->getElement('name')->setLabel($this->view->translate("Name"));
 
         if ($this->_request->getPost()) {
@@ -138,9 +142,8 @@ class PickupGroupsController extends Zend_Controller_Action {
             $dados = $this->_request->getParams();
 
             if ($form_isValid) {
-                $pickupgroup = array('id' => $id, 'name' => $dados['name']);
-
-                $this->view->Group = Snep_PickupGroups_Manager::edit($pickupgroup);
+                $pickupgroup->ds_name = $dados['name'];
+                $pickupgroup->save();
                 $this->_redirect($this->getRequest()->getControllerName());
             }
         }
@@ -151,14 +154,11 @@ class PickupGroupsController extends Zend_Controller_Action {
     public function deleteAction() {
         $id = mysql_escape_string($this->getRequest()->getParam('id'));
 
-        try {
-            $pickugroups = Snep_PickupGroups_Manager::get($id);
+        $pickupgroup = new Snep_PickupGroups_Manager();
+        
+        if ($pickupgroup->fetchRow('id_pickupgroup = '.$id) !== NULL) {
+        	$pickupgroup->delete('id_pickupgroup = '.$id);
         }
-        catch(PBX_Exception_NotFound $ex) {
-            throw new Zend_Controller_Action_Exception('Page not found.', 404);
-        }
-
-        Snep_PickupGroups_Manager::delete($id);
 
         $this->_redirect($this->getRequest()->getControllerName());
     }
