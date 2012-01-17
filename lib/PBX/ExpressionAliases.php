@@ -50,9 +50,6 @@ class PBX_ExpressionAliases extends Zend_Db_Table_Abstract {
     protected $_primary = "id_alias_expression";
     private static $instance;
 
-    protected function __construct() {}
-    protected function __clone() {}
-
     /**
      * Retorna instancia dessa classe
      *

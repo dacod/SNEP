@@ -31,40 +31,11 @@ class Snep_PickupGroups_Manager extends Zend_Db_Table_Abstract {
 	
     private function __clone() { /* Protegendo métodos dinâmicos */ }
 
-    /**
-     * Remove a pickup group from the database based on his  ID.
-     *
-     * @param int $id
-     */
-    public function delete($id) {
-
-        $db = Zend_Registry::get('db');
-        $db->delete("grupos","cod_grupo='{$id}'");
-    }
-
-    /**
-     * Return a pickup group from the database based on his  ID.
-     *
-     * @param int $id
-     */
-    public function get($id) {
-
-        $db = Zend_Registry::get('db');
-        $select = $db->select()
-                ->from ('grupos')
-                ->where ("cod_grupo = '$id'");
-
-        $stmt = $db->query($select);
-        $registros = $stmt->fetch();
-
-        return $registros;
-    }
-
     public function getAll() {
 
         $db = Zend_Registry::get('db');
         $select = $db->select()
-                ->from ('grupos');
+                ->from ('pickup_group');
 
         $stmt = $db->query ($select);
         $row = $stmt->fetchAll();
@@ -89,23 +60,7 @@ class Snep_PickupGroups_Manager extends Zend_Db_Table_Abstract {
         return $select;
     }
 
-    public function add($pickupGroup) {
-
-        $db = Zend_Registry::get('db');
-        $db->beginTransaction();
-
-        try {
-            $db->insert('grupos', $pickupGroup);
-            $db->commit();
-            return true;
-        }
-        catch(Exception $e) {
-            $db->rollBack();
-            return $e;
-        }
-    }
-
-    public function  edit($pickupGroup) {
+    public function edit($pickupGroup) {
 
         $db = Zend_Registry::get('db');
         $db->beginTransaction();

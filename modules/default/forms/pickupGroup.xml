@@ -4,6 +4,19 @@
         <elements>
             <name>
                 <type>text</type>
+                <options>
+                <required>true</required>
+                <label>Name</label>
+                <size>35</size>
+                <validators>
+                    <strlen>
+                        <validator>StringLength</validator>
+                        <options>
+                            <max>35</max>
+                        </options>
+                    </strlen>
+                </validators>
+            </options>
             </name>
         </elements>
     </general>
