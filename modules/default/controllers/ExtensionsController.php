@@ -135,7 +135,8 @@ class ExtensionsController extends Zend_Controller_Action {
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->_request->getParams();
-
+            Zend_Debug::dump($postData);
+            
             if ($postData["technology"]['type'] == "virtual" && !key_exists('virtual', $postData)) {
                 $this->view->error = $this->view->translate("There's no trunks available in the system. Try a different technology");
                 $this->view->form->valid(false);
@@ -388,6 +389,7 @@ class ExtensionsController extends Zend_Controller_Action {
             }
         }
 
+        // Cadastro do channel 
         $channel = strtoupper($techType);
         if ($channel == "KHOMP") {
             $khompBoard = $formData[$techType]['board'];
@@ -402,10 +404,13 @@ class ExtensionsController extends Zend_Controller_Action {
         } else if ($channel == "VIRTUAL") {
             $virtualInfo = $formData[$techType]['virtual'];
             $channel .= "/" . $virtualInfo;
+            Zend_Debug::dump($channel);
+            exit(1);
         } else if ($channel == "MANUAL") {
             $manualManual = $formData[$techType]['manual'];
             $channel .= "/" . $manualManual;
-        } else {
+            
+        } else { // SIP & IAX2
             $channel .= "/" . $exten;
         }
 
@@ -481,14 +486,22 @@ class ExtensionsController extends Zend_Controller_Action {
             
         }
 
-        $peers = Snep_Peer_Manager();
-        $peers->ds_name = $exten;
-        $peers->ds_callerid = $extenCallerId;
+        $peers = new Snep_Peer_Manager();
+        
+        $peers->ds_name = $exten;             // ramal
+        $peers->ds_callerid = $extenCallerId; //name
         $peers->ds_context = $context;
+        
+        $extension->id_extensiongroup = $extenGroup;
+        $peers->id_pickupgroup = $extenPickGrp;
+
+        $peers->cd_type = $type; // tipo tecnologia
+        $peers->cd_secret = $secret;
+                
         // mailbox
         $peers->fg_qualify = $qualify;
-        $peers->cd_secret = $secret;
-        $peers->cd_type = $type;
+        
+
         $peers->ds_codec_allow = $allow;
         // fromuser
         $peers->ds_username = $exten;
@@ -499,16 +512,16 @@ class ExtensionsController extends Zend_Controller_Action {
         $peers->vl_call_limit = $callLimit;
         // incominglimit
         // outgoinglimit
-        //$peers->id_pickupgroup = $extenPickGrp;
         $peers->ds_channel = $channel;
         $peers->fg_nat = $nat;
         $peers->cd_peer_type = $peer_type;
-        //$extension->id_extensiongroup = $extenGroup
+        
         $peers->vl_time_total = $advTimeTotal;
         $peers->vl_time_chargeby = $advCtrlType;
-        
+        Zend_Debug::dump($sql);
+        exit(1);
         $stmt = $db->query($sql);
-
+        
         $idExten = $db->lastInsertId();
 
 

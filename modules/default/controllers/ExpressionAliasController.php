@@ -80,7 +80,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
                     "name" => $_POST['name'],
                     "expressions" => explode(",", $_POST['exprValue'])
                 );
-                $aliasesPersistency = PBX_ExpressionAliases::getInstance();
+                $aliasesPersistency = new PBX_ExpressionAliases();
                 try {
 
                     $aliasesPersistency->register($expression);
@@ -120,7 +120,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
 
         $form = $this->getForm();
         $this->view->form = $form;
-        $aliasesPersistency = PBX_ExpressionAliases::getInstance();
+        $aliasesPersistency = new PBX_ExpressionAliases();
 
         if ($this->getRequest()->isPost()) {
 
@@ -143,8 +143,14 @@ class ExpressionAliasController extends Zend_Controller_Action {
             }
         }
             
-        $alias = $aliasesPersistency->get($id);
-        $exprList = $alias['expressions'];
+        $alias = $aliasesPersistency->fetchRow('id_alias_expression = '.$id);
+        
+        $aliasList = array();
+        foreach ($alias->findPBX_Expression() as $row) {
+            array_push($aliasList, $row->ds_expression);    
+        }
+        
+        $exprList = $aliasList;
 
         $expr = "exprObj.addItem(" . count($exprList) . ");\n";
 
@@ -153,7 +159,7 @@ class ExpressionAliasController extends Zend_Controller_Action {
         }
         $this->view->dataExprAlias = $expr;
         $form = $this->getForm();
-        $form->getElement('name')->setValue($alias['name']);
+        $form->getElement('name')->setValue($alias['ds_name']);
 
         $this->renderScript('expression-alias/add_edit.phtml');
 
@@ -164,8 +170,9 @@ class ExpressionAliasController extends Zend_Controller_Action {
         if ($this->getRequest()->isGet()) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $aliasesPersistency = PBX_ExpressionAliases::getInstance();
-            if (($alias = $aliasesPersistency->get($id)) !== null) {
+            $aliasesPersistency = new PBX_ExpressionAliases();
+            
+            if ($aliasesPersistency->fetchRow('id_alias_expression = '.$id) !== null) {
                 $aliasesPersistency->delete($id);
             }
             $this->_redirect ($this->getRequest()->getControllerName());
