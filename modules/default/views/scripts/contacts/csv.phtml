@@ -22,8 +22,7 @@ $this->headLink()->appendStylesheet( $this->baseUrl() . "/modules/default/css/in
             <tr>
                 <?php
                 $csvarq = $this->csvprocess;
-                foreach ( $csvarq[0] as $ind => $linha ) :
-                ?>
+                foreach ( $csvarq[0] as $ind => $linha ) : ?>
                     <th>
                         <select name="field[<?php echo $ind ?>]">
                         <?php foreach ($this->fields as $field => $name) : ?>

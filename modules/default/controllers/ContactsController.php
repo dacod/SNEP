@@ -557,7 +557,26 @@ class ContactsController extends Zend_Controller_Action {
                 $addEntry = true;
                 foreach ($contact as $column => $data) {
                     if ($fields[$column] != "discard") {
-                        $contactData[$fields[$column]] = $data;
+
+                        if($fields[$column] == "ds_name" ||
+                           $fields[$column] == "ds_state" ||
+                           $fields[$column] == "ds_city")
+                        {
+                            $contactData[$fields[$column]] = substr($data, 0, 80);
+                        }
+                        elseif($fields[$column] == "ds_phone" ||
+                               $fields[$column] == "ds_cell_phone" )
+                        {
+                            $contactData[$fields[$column]] = substr($data, 0, 15);
+                        }
+                        elseif($fields[$column] == "ds_address")
+                        {
+                            $contactData[$fields[$column]] = substr($data, 0, 100);
+                        }
+                        elseif($fields[$column] == "ds_cep")
+                        {
+                            $contactData[$fields[$column]] = substr($data, 0, 8);
+                        }
                     }
                 }
                 
@@ -578,6 +597,7 @@ class ContactsController extends Zend_Controller_Action {
                      $contact->insert($contactData);
                 }      
             }
+
             if (count($error)>0){
                 $errorString = $this->view->translate('The following entries of the CSV file have null data:<br/>');
                 foreach ($error as $value) {
