@@ -132,11 +132,12 @@ class CnlController extends Zend_Controller_Action {
                             }
                         }
                     }
+                    
+                    $this->view->message = $this->view->translate('A lista de informações CNL foi atualizada com sucesso.');
+
                 } else {
                     throw new ErrorException( $this->view->translate("File format is not valid") );
-                }
-
-                $this->_redirect ($this->getRequest()->getControllerName());
+                }                
             }
         }
         $this->view->form = $form;

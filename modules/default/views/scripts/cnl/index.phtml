@@ -1,3 +1,9 @@
+<?php if( $this->message ) :  ?>
+<div class="info_box">
+    <?php echo $this->message ?>
+</div>
+<?php endif ?>
+
 <form enctype="multipart/form-data" action="<?php echo $this->formAction; ?>" method="post">
     <div class="zend_form" style="text-align:center; padding-top: 20px;">
         <label for="cnl" class="optional"><?php echo $this->translate("CNL File"); ?></label>
