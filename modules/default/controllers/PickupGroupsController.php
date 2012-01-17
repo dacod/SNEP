@@ -64,8 +64,7 @@ class PickupGroupsController extends Zend_Controller_Action {
         $this->view->URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/";
         $this->view->PAGE_URL = "{$this->getFrontController()->getBaseUrl()}/{$this->getRequest()->getControllerName()}/index/";
 
-        $opcoes = array("id_pickupgroup" => $this->view->translate("Code"),
-            "ds_name" => $this->view->translate("Name"));
+        $opcoes = array("ds_name" => $this->view->translate("Name"));
 
         // Formulário de filtro.
         $filter = new Snep_Form_Filter();
