@@ -82,7 +82,6 @@ class PBX_Trunks extends Zend_Db_Table_Abstract {
         $select = $db->select()->from('trunk')->where("id_trunk = $id");
         $stmt = $db->query($select);
         $rawTrunk = $stmt->fetchObject();
-        Zend_Debug::dump($rawTrunk);
         if(!$rawTrunk) {
             throw new PBX_Exception_NotFound("Tronco $id nao encontrado");
         }

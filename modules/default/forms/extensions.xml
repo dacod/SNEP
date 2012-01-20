@@ -17,12 +17,12 @@
                     <label>Extension</label>
                 </options>
             </exten>
-            <password>
-                <type>Password</type>
+            <user>
+                <type>User</type>
                 <options>
-                    <label>Password</label>
+                    <label>User</label>
                 </options>
-            </password>
+            </user>
             <name>
                 <type>Text</type>
                 <options>

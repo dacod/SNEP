@@ -25,6 +25,9 @@ class ExtensionsController extends Zend_Controller_Action {
     protected $form;
     protected $boardData;
 
+    /**
+     * Verifica se os arquivos do Asterisk possuem permissão de escrita
+     */
     public function preDispatch() {
         $all_writable = true;
         $files = array(
@@ -135,7 +138,6 @@ class ExtensionsController extends Zend_Controller_Action {
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->_request->getParams();
-            Zend_Debug::dump($postData);
             
             if ($postData["technology"]['type'] == "virtual" && !key_exists('virtual', $postData)) {
                 $this->view->error = $this->view->translate("There's no trunks available in the system. Try a different technology");
@@ -350,6 +352,7 @@ class ExtensionsController extends Zend_Controller_Action {
 
         $exten = $formData["extension"]["exten"];
         
+        // Verifica se já existe um ramal com esse nome
         $extensions = new Snep_Extensions();
         foreach ($extensions->fetchAll() as $ext) {
             $extension = $ext->findParentRow('Snep_Peer_Manager')->ds_name;
@@ -362,18 +365,20 @@ class ExtensionsController extends Zend_Controller_Action {
 	        }
         }
         
-        $context = 'default';
-        //$extenPass = $formData["extension"]["password"];
-        $extenCallerId = $formData["extension"]["name"];
-        $extenGroup = $formData["extension"]["exten_group"];
-        $extenPickGrp = $formData["extension"]["pickup_group"] == '' ? "NULL" : $formData["extension"]["pickup_group"];
-        $peerType = "R";
-
-        $techType = $formData["technology"]["type"];
-        $secret = $formData[$techType]["password"];
-        $type = $formData[$techType]["type"];
-        $dtmfmode = $formData[$techType]["dtmf"];
-        $callLimit = $formData[$techType]["calllimit"];
+        $extenObj = $extensions->createRow();
+        
+        // Subseção Ramais 
+        $context            = 'default';
+        $extenUser          = $formData["extension"]["user"];
+        $extenCallerId      = $formData["extension"]["name"];
+        $extenGroup         = $formData["extension"]["exten_group"]  == '' ? "NULL" : $formData["extension"]["exten_group"];
+        $extenPickGrp       = $formData["extension"]["pickup_group"] == '' ? "NULL" : $formData["extension"]["pickup_group"];
+        $peerType           = "R";
+        
+        // Subseção Tecnologia da Interface
+        $techType           = $formData["technology"]["type"];
+        $secret             = $formData[$techType]["password"];
+        $callLimit          = $formData[$techType]["calllimit"];
 
         $nat = 'no';
         if ($techType == 'sip' || $techType == 'iax2') {
@@ -381,14 +386,22 @@ class ExtensionsController extends Zend_Controller_Action {
                 $nat = 'yes';
             }
         }
-
         $qualify = 'no';
         if ($techType == 'sip' || $techType == 'iax2') {
             if (key_exists('qualify', $formData[$techType])) {
                 $qualify = 'yes';
             }
         }
-
+        $type               = $formData[$techType]["type"];
+        $dtmfmode           = $formData[$techType]["dtmf"];
+        
+        // Codec
+        if ($techType == "sip" || $techType == "iax2") {
+            $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
+        } else {
+            $allow = "ulaw";
+        }
+        
         // Cadastro do channel 
         $channel = strtoupper($techType);
         if ($channel == "KHOMP") {
@@ -404,16 +417,14 @@ class ExtensionsController extends Zend_Controller_Action {
         } else if ($channel == "VIRTUAL") {
             $virtualInfo = $formData[$techType]['virtual'];
             $channel .= "/" . $virtualInfo;
-            Zend_Debug::dump($channel);
-            exit(1);
         } else if ($channel == "MANUAL") {
             $manualManual = $formData[$techType]['manual'];
             $channel .= "/" . $manualManual;
-            
         } else { // SIP & IAX2
             $channel .= "/" . $exten;
         }
-
+        
+        // Subseção Avançado
         $advVoiceMail = 'no';
         if (key_exists("voicemail", $formData["advanced"])) {
             $advVoiceMail = 'yes';
@@ -421,21 +432,25 @@ class ExtensionsController extends Zend_Controller_Action {
             $advVoiceMail = 'no';
         }
 
+        $advEmail = $formData["advanced"]["email"];
+        
+        // bloqueio
         $advPadLock = '0';
         if (key_exists("padlock", $formData["advanced"])) {
             $advPadLock = '1';
         } else {
             $advPadLock = '0';
         }
-
+        
+        // controle de minuto
         if (key_exists("minute_control", $formData["advanced"])) {
             $advMinCtrl = true;
-            $advTimeTotal = $formData["advanced"]["timetotal"] * 60;
+            $advTimeTotal = $formData["advanced"]["timetotal"] * 60; // tempo total
             $advTimeTotal = $advTimeTotal == 0 ? "NULL" : "'$advTimeTotal'";
-            $advCtrlType = $advTimeTotal > 0 ? "{$formData['advanced']['controltype']}" : "NULL";
+            $advCtrlType = $advTimeTotal > 0 ? "{$formData['advanced']['controltype']}" : "NULL"; // tipo de controle
         } else {
             $advMinCtrl = false;
-            $advTimeTotal = 'NULL';
+            $advTimeTotal = null;
             $advCtrlType = 'N';
         }
 
@@ -445,14 +460,6 @@ class ExtensionsController extends Zend_Controller_Action {
         foreach ($defFielsExten as $key => $value) {
             $sqlFieldsExten .= ",$key";
             $sqlDefaultValues .= ",$value";
-        }
-
-        $advEmail = $formData["advanced"]["email"];
-
-        if ($techType == "sip" || $techType == "iax2") {
-            $allow = sprintf("%s;%s;%s", $formData[$techType]['codec'], $formData[$techType]['codec1'], $formData[$techType]['codec2']);
-        } else {
-            $allow = "ulaw";
         }
         
         if ($update) {
@@ -467,7 +474,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "nat='$nat',canal='$channel', authenticate=$advPadLock, ";
             $sql.= "`group`='$extenGroup', ";
             $sql.= "time_total=$advTimeTotal, time_chargeby='$advCtrlType'  WHERE id=$idExt";
-        } else {
+        } /*else {
             $sql = "INSERT INTO peers (";
             $sql.= "name, password,callerid,context,mailbox,qualify,";
             $sql.= "secret,type,allow,fromuser,username,fullcontact,";
@@ -484,46 +491,53 @@ class ExtensionsController extends Zend_Controller_Action {
             $sql.= "'$extenPickGrp', $advTimeTotal, '$advCtrlType' " . $sqlDefaultValues;
             $sql.= ")";
             
-        }
+        }*/
 
-        $peers = new Snep_Peer_Manager();
-        
-        $peers->ds_name = $exten;             // ramal
-        $peers->ds_callerid = $extenCallerId; //name
-        $peers->ds_context = $context;
-        
-        $extension->id_extensiongroup = $extenGroup;
-        $peers->id_pickupgroup = $extenPickGrp;
+        $extenObj->fg_canreinvite   = 0;
+        $extenObj->fg_usevoicemail  = 0;
+        $extenObj->fg_dontdisturb   = 0;
+        $extenObj->fg_followme      = 0;
 
-        $peers->cd_type = $type; // tipo tecnologia
-        $peers->cd_secret = $secret;
+        $peers = new Snep_Peer_Manager(); 
+        
+        $newPeer = $peers->createRow();
+        
+        $newPeer->ds_name       = $exten;
+        $newPeer->ds_callerid   = $extenCallerId;
+        $newPeer->ds_context    = $context;
+        $newPeer->cd_peer_type  = $peerType; 
+        $newPeer->ds_host       = 'dynamic';
+        
+        $extenObj->id_user              = $formData["extension"]["user"];
+        $extenObj->id_extensiongroup    = $extenGroup;
+        $extenObj->id_pickupgroup       = $extenPickGrp;
+        
+        $newPeer->cd_secret             = $secret;
+        $newPeer->cd_type               = $type;
                 
-        // mailbox
-        $peers->fg_qualify = $qualify;
         
+        $newPeer->fg_qualify            = $qualify;
+        $newPeer->fg_nat                = $nat;
 
-        $peers->ds_codec_allow = $allow;
-        // fromuser
-        $peers->ds_username = $exten;
-        // fullcontact
-        $peers->ds_dtmfmode = $dtmfmode;
+        $newPeer->ds_codec_allow        = $allow;
+        $newPeer->ds_username           = $exten;
+        $newPeer->ds_dtmfmode           = $dtmfmode;
         
-        //$peers->email = $advEmail;
-        $peers->vl_call_limit = $callLimit;
-        // incominglimit
-        // outgoinglimit
-        $peers->ds_channel = $channel;
-        $peers->fg_nat = $nat;
-        $peers->cd_peer_type = $peer_type;
+        $newPeer->vl_call_limit         = $callLimit;
+        $newPeer->ds_channel            = $channel;
         
-        $peers->vl_time_total = $advTimeTotal;
-        $peers->vl_time_chargeby = $advCtrlType;
-        Zend_Debug::dump($sql);
-        exit(1);
-        $stmt = $db->query($sql);
+        $newPeer->cd_peer_type          = $peerType;
         
+        $newPeer->vl_time_total         = $advTimeTotal;
+        $newPeer->vl_time_chargeby      = $advCtrlType;
+        $newPeer->save();
+        
+        $extenObj->id_peer = $newPeer->id_peer;
+        $extenObj->save();
+        
+        /*
         $idExten = $db->lastInsertId();
-
+        */
 
         if ($advVoiceMail == 'yes') {
             if ($update) {
@@ -536,7 +550,9 @@ class ExtensionsController extends Zend_Controller_Action {
             $stmt->execute();
         }
 
+        /*
         Snep_InterfaceConf::loadConfFromDb();
+        */
     }
 
     public function deleteAction() {
@@ -602,10 +618,15 @@ class ExtensionsController extends Zend_Controller_Action {
             $form_xml = new Zend_Config_Xml(Zend_Registry::get("config")->system->path->base . 
                                             "/modules/default/forms/extensions.xml");
             $form = new Snep_Form();
-            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), $form_xml->extension), "extension");
-            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), $form_xml->technology), "technology");
+            
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Extension"), 
+                                                    $form_xml->extension), "extension");
+            $form->addSubForm(new Snep_Form_SubForm($this->view->translate("Interface Technology"), 
+                                                    $form_xml->technology), "technology");
+                                                    
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "sip"), "sip");
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->ip, "iax2"), "iax2");
+            
             $form->addSubForm(new Snep_Form_SubForm(null, $form_xml->manual, "manual"), "manual");
             $subFormVirtual = new Snep_Form_SubForm(null, $form_xml->virtual, "virtual");
             
@@ -618,6 +639,7 @@ class ExtensionsController extends Zend_Controller_Action {
             $subFormKhomp = new Snep_Form_SubForm(null, $form_xml->khomp, "khomp");
             $selectFill = $subFormKhomp->getElement('board');
             $selectFill->addMultiOption(null, ' ');
+            
             // Monta informações para placas khomp
             $boardList = array();
 
